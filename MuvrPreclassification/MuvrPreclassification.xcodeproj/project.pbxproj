@@ -1,0 +1,378 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		548226B01AC57C9100EEEFCB /* device_data_decoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5482269A1AC57C9100EEEFCB /* device_data_decoder.cc */; };
+		548226B11AC57C9100EEEFCB /* exercise_decider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5482269B1AC57C9100EEEFCB /* exercise_decider.cc */; };
+		548226B21AC57C9100EEEFCB /* kalman_smooth.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5482269C1AC57C9100EEEFCB /* kalman_smooth.cc */; };
+		548226B31AC57C9100EEEFCB /* nomovement_decider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5482269D1AC57C9100EEEFCB /* nomovement_decider.cc */; };
+		548226B41AC57C9100EEEFCB /* raw_sensor_data.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5482269E1AC57C9100EEEFCB /* raw_sensor_data.cc */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		548225611AC57B7F00EEEFCB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		548225631AC57B7F00EEEFCB /* libMuvrPreclassification.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMuvrPreclassification.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		548226881AC57C9100EEEFCB /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		5482268A1AC57C9100EEEFCB /* device_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data.h; sourceTree = "<group>"; };
+		5482268B1AC57C9100EEEFCB /* device_data_decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data_decoder.h; sourceTree = "<group>"; };
+		5482268C1AC57C9100EEEFCB /* raw_sensor_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = raw_sensor_data.h; sourceTree = "<group>"; };
+		5482268D1AC57C9100EEEFCB /* sensor_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sensor_data.h; sourceTree = "<group>"; };
+		5482268E1AC57C9100EEEFCB /* sensor_symbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sensor_symbol.h; sourceTree = "<group>"; };
+		548226901AC57C9100EEEFCB /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		548226921AC57C9100EEEFCB /* all_1.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all_1.csv; sourceTree = "<group>"; };
+		548226931AC57C9100EEEFCB /* all_2.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all_2.csv; sourceTree = "<group>"; };
+		548226941AC57C9100EEEFCB /* all_4.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all_4.csv; sourceTree = "<group>"; };
+		548226951AC57C9100EEEFCB /* exerciseset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = exerciseset.m; sourceTree = "<group>"; };
+		548226961AC57C9100EEEFCB /* matlab_workspace.mat */ = {isa = PBXFileReference; lastKnownFileType = file; path = matlab_workspace.mat; sourceTree = "<group>"; };
+		548226971AC57C9100EEEFCB /* nomovement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = nomovement.m; sourceTree = "<group>"; };
+		548226981AC57C9100EEEFCB /* sigfft.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sigfft.m; sourceTree = "<group>"; };
+		5482269A1AC57C9100EEEFCB /* device_data_decoder.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device_data_decoder.cc; sourceTree = "<group>"; };
+		5482269B1AC57C9100EEEFCB /* exercise_decider.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = exercise_decider.cc; sourceTree = "<group>"; };
+		5482269C1AC57C9100EEEFCB /* kalman_smooth.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kalman_smooth.cc; sourceTree = "<group>"; };
+		5482269D1AC57C9100EEEFCB /* nomovement_decider.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nomovement_decider.cc; sourceTree = "<group>"; };
+		5482269E1AC57C9100EEEFCB /* raw_sensor_data.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = raw_sensor_data.cc; sourceTree = "<group>"; };
+		548226A01AC57C9100EEEFCB /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		548226A21AC57C9100EEEFCB /* device_data_decoder_test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device_data_decoder_test.cc; sourceTree = "<group>"; };
+		548226A31AC57C9100EEEFCB /* device_data_generator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device_data_generator.cc; sourceTree = "<group>"; };
+		548226A41AC57C9100EEEFCB /* exercise_decider_perf_test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = exercise_decider_perf_test.cc; sourceTree = "<group>"; };
+		548226A51AC57C9100EEEFCB /* exercise_decider_test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = exercise_decider_test.cc; sourceTree = "<group>"; };
+		548226A61AC57C9100EEEFCB /* movement_decider_test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = movement_decider_test.cc; sourceTree = "<group>"; };
+		548226A71AC57C9100EEEFCB /* raw_sensor_data_generator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = raw_sensor_data_generator.cc; sourceTree = "<group>"; };
+		548226A81AC57C9100EEEFCB /* raw_sensor_data_loader.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = raw_sensor_data_loader.cc; sourceTree = "<group>"; };
+		548226A91AC57C9100EEEFCB /* sigfft_test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sigfft_test.cc; sourceTree = "<group>"; };
+		548226AA1AC57C9100EEEFCB /* test_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test_data.h; sourceTree = "<group>"; };
+		548226AC1AC57C9100EEEFCB /* all_4.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all_4.csv; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		548225601AC57B7F00EEEFCB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5482255A1AC57B7F00EEEFCB = {
+			isa = PBXGroup;
+			children = (
+				548226871AC57C9100EEEFCB /* MuvrPreclassification */,
+				548225641AC57B7F00EEEFCB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		548225641AC57B7F00EEEFCB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				548225631AC57B7F00EEEFCB /* libMuvrPreclassification.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		548226871AC57C9100EEEFCB /* MuvrPreclassification */ = {
+			isa = PBXGroup;
+			children = (
+				548226881AC57C9100EEEFCB /* CMakeLists.txt */,
+				548226891AC57C9100EEEFCB /* include */,
+				5482268F1AC57C9100EEEFCB /* main */,
+				5482269F1AC57C9100EEEFCB /* test */,
+			);
+			path = MuvrPreclassification;
+			sourceTree = "<group>";
+		};
+		548226891AC57C9100EEEFCB /* include */ = {
+			isa = PBXGroup;
+			children = (
+				5482268A1AC57C9100EEEFCB /* device_data.h */,
+				5482268B1AC57C9100EEEFCB /* device_data_decoder.h */,
+				5482268C1AC57C9100EEEFCB /* raw_sensor_data.h */,
+				5482268D1AC57C9100EEEFCB /* sensor_data.h */,
+				5482268E1AC57C9100EEEFCB /* sensor_symbol.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		5482268F1AC57C9100EEEFCB /* main */ = {
+			isa = PBXGroup;
+			children = (
+				548226901AC57C9100EEEFCB /* CMakeLists.txt */,
+				548226911AC57C9100EEEFCB /* M */,
+				548226991AC57C9100EEEFCB /* cc */,
+			);
+			path = main;
+			sourceTree = "<group>";
+		};
+		548226911AC57C9100EEEFCB /* M */ = {
+			isa = PBXGroup;
+			children = (
+				548226921AC57C9100EEEFCB /* all_1.csv */,
+				548226931AC57C9100EEEFCB /* all_2.csv */,
+				548226941AC57C9100EEEFCB /* all_4.csv */,
+				548226951AC57C9100EEEFCB /* exerciseset.m */,
+				548226961AC57C9100EEEFCB /* matlab_workspace.mat */,
+				548226971AC57C9100EEEFCB /* nomovement.m */,
+				548226981AC57C9100EEEFCB /* sigfft.m */,
+			);
+			path = M;
+			sourceTree = "<group>";
+		};
+		548226991AC57C9100EEEFCB /* cc */ = {
+			isa = PBXGroup;
+			children = (
+				5482269A1AC57C9100EEEFCB /* device_data_decoder.cc */,
+				5482269B1AC57C9100EEEFCB /* exercise_decider.cc */,
+				5482269C1AC57C9100EEEFCB /* kalman_smooth.cc */,
+				5482269D1AC57C9100EEEFCB /* nomovement_decider.cc */,
+				5482269E1AC57C9100EEEFCB /* raw_sensor_data.cc */,
+			);
+			path = cc;
+			sourceTree = "<group>";
+		};
+		5482269F1AC57C9100EEEFCB /* test */ = {
+			isa = PBXGroup;
+			children = (
+				548226A01AC57C9100EEEFCB /* CMakeLists.txt */,
+				548226A11AC57C9100EEEFCB /* cc */,
+				548226AB1AC57C9100EEEFCB /* resources */,
+			);
+			path = test;
+			sourceTree = "<group>";
+		};
+		548226A11AC57C9100EEEFCB /* cc */ = {
+			isa = PBXGroup;
+			children = (
+				548226A21AC57C9100EEEFCB /* device_data_decoder_test.cc */,
+				548226A31AC57C9100EEEFCB /* device_data_generator.cc */,
+				548226A41AC57C9100EEEFCB /* exercise_decider_perf_test.cc */,
+				548226A51AC57C9100EEEFCB /* exercise_decider_test.cc */,
+				548226A61AC57C9100EEEFCB /* movement_decider_test.cc */,
+				548226A71AC57C9100EEEFCB /* raw_sensor_data_generator.cc */,
+				548226A81AC57C9100EEEFCB /* raw_sensor_data_loader.cc */,
+				548226A91AC57C9100EEEFCB /* sigfft_test.cc */,
+				548226AA1AC57C9100EEEFCB /* test_data.h */,
+			);
+			path = cc;
+			sourceTree = "<group>";
+		};
+		548226AB1AC57C9100EEEFCB /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				548226AC1AC57C9100EEEFCB /* all_4.csv */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		548225621AC57B7F00EEEFCB /* MuvrPreclassification */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 548225771AC57B7F00EEEFCB /* Build configuration list for PBXNativeTarget "MuvrPreclassification" */;
+			buildPhases = (
+				5482255F1AC57B7F00EEEFCB /* Sources */,
+				548225601AC57B7F00EEEFCB /* Frameworks */,
+				548225611AC57B7F00EEEFCB /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MuvrPreclassification;
+			productName = MuvrPreclassification;
+			productReference = 548225631AC57B7F00EEEFCB /* libMuvrPreclassification.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5482255B1AC57B7F00EEEFCB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = Muvr;
+				TargetAttributes = {
+					548225621AC57B7F00EEEFCB = {
+						CreatedOnToolsVersion = 6.2;
+					};
+				};
+			};
+			buildConfigurationList = 5482255E1AC57B7F00EEEFCB /* Build configuration list for PBXProject "MuvrPreclassification" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 5482255A1AC57B7F00EEEFCB;
+			productRefGroup = 548225641AC57B7F00EEEFCB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				548225621AC57B7F00EEEFCB /* MuvrPreclassification */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5482255F1AC57B7F00EEEFCB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				548226B11AC57C9100EEEFCB /* exercise_decider.cc in Sources */,
+				548226B01AC57C9100EEEFCB /* device_data_decoder.cc in Sources */,
+				548226B41AC57C9100EEEFCB /* raw_sensor_data.cc in Sources */,
+				548226B31AC57C9100EEEFCB /* nomovement_decider.cc in Sources */,
+				548226B21AC57C9100EEEFCB /* kalman_smooth.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		548225751AC57B7F00EEEFCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		548225761AC57B7F00EEEFCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		548225781AC57B7F00EEEFCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MuvrPreclassification/build/core/main",
+					"$(PROJECT_DIR)/MuvrPreclassification/build/gtest",
+					"/Users/janmachacek/Muvr/muvr-ios/Pods/build/Debug-iphoneos",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		548225791AC57B7F00EEEFCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MuvrPreclassification/build/core/main",
+					"$(PROJECT_DIR)/MuvrPreclassification/build/gtest",
+					"/Users/janmachacek/Muvr/muvr-ios/Pods/build/Debug-iphoneos",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5482255E1AC57B7F00EEEFCB /* Build configuration list for PBXProject "MuvrPreclassification" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				548225751AC57B7F00EEEFCB /* Debug */,
+				548225761AC57B7F00EEEFCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		548225771AC57B7F00EEEFCB /* Build configuration list for PBXNativeTarget "MuvrPreclassification" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				548225781AC57B7F00EEEFCB /* Debug */,
+				548225791AC57B7F00EEEFCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5482255B1AC57B7F00EEEFCB /* Project object */;
+}
