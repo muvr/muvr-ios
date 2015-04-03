@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		541ABBA41AC577E00056A81B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA31AC577E00056A81B /* AppDelegate.swift */; };
-		541ABBA61AC577E00056A81B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA51AC577E00056A81B /* ViewController.swift */; };
+		541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA31AC577E00056A81B /* MRAppDelegate.swift */; };
+		541ABBA61AC577E00056A81B /* MRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA51AC577E00056A81B /* MRViewController.swift */; };
 		541ABBA91AC577E00056A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBA71AC577E00056A81B /* Main.storyboard */; };
 		541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBAA1AC577E00056A81B /* Images.xcassets */; };
 		541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBAC1AC577E00056A81B /* LaunchScreen.xib */; };
@@ -20,7 +20,7 @@
 		542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */; };
 		542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */; };
 		542AB2191ACC4FD100F20299 /* symbolic_aggregate_approximation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */; };
-		548225541AC57A3500EEEFCB /* Preclassification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 548225531AC57A3500EEEFCB /* Preclassification.mm */; };
+		548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 548225531AC57A3500EEEFCB /* MRPreclassification.mm */; };
 		54F0DC481AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */; };
 		54F0DC491AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC2B1AC57E8D0061EC5D /* CMakeLists.txt */; };
 		54F0DC4A1AC57E8D0061EC5D /* all_1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC2D1AC57E8D0061EC5D /* all_1.csv */; };
@@ -50,8 +50,8 @@
 /* Begin PBXFileReference section */
 		541ABB9E1AC577E00056A81B /* Muvr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Muvr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		541ABBA21AC577E00056A81B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		541ABBA31AC577E00056A81B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		541ABBA51AC577E00056A81B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		541ABBA31AC577E00056A81B /* MRAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAppDelegate.swift; sourceTree = "<group>"; };
+		541ABBA51AC577E00056A81B /* MRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRViewController.swift; sourceTree = "<group>"; };
 		541ABBA81AC577E00056A81B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		541ABBAA1AC577E00056A81B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		541ABBAD1AC577E00056A81B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -70,8 +70,8 @@
 		542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = symbol_alphabet.cc; path = "../../../../../muvr-preclassification/core/main/cc/symbol_alphabet.cc"; sourceTree = "<group>"; };
 		542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = symbolic_aggregate_approximation.cc; path = "../../../../../muvr-preclassification/core/main/cc/symbolic_aggregate_approximation.cc"; sourceTree = "<group>"; };
 		548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Muvr-Bridging-Header.h"; sourceTree = "<group>"; };
-		548225521AC57A3500EEEFCB /* Preclassification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Preclassification.h; sourceTree = "<group>"; };
-		548225531AC57A3500EEEFCB /* Preclassification.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Preclassification.mm; sourceTree = "<group>"; };
+		548225521AC57A3500EEEFCB /* MRPreclassification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPreclassification.h; sourceTree = "<group>"; };
+		548225531AC57A3500EEEFCB /* MRPreclassification.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRPreclassification.mm; sourceTree = "<group>"; };
 		548226BD1AC57CD300EEEFCB /* libMuvrPreclassification.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMuvrPreclassification.a; path = "MuvrPreclassification/build/Debug-iphoneos/libMuvrPreclassification.a"; sourceTree = "<group>"; };
 		54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		54F0DC251AC57E8D0061EC5D /* device_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data.h; sourceTree = "<group>"; };
@@ -160,14 +160,14 @@
 			isa = PBXGroup;
 			children = (
 				54F0DC221AC57E8D0061EC5D /* MuvrPreclassification */,
-				541ABBA31AC577E00056A81B /* AppDelegate.swift */,
-				541ABBA51AC577E00056A81B /* ViewController.swift */,
+				541ABBA31AC577E00056A81B /* MRAppDelegate.swift */,
+				541ABBA51AC577E00056A81B /* MRViewController.swift */,
 				541ABBA71AC577E00056A81B /* Main.storyboard */,
 				541ABBAA1AC577E00056A81B /* Images.xcassets */,
 				541ABBAC1AC577E00056A81B /* LaunchScreen.xib */,
 				541ABBA11AC577E00056A81B /* Supporting Files */,
-				548225521AC57A3500EEEFCB /* Preclassification.h */,
-				548225531AC57A3500EEEFCB /* Preclassification.mm */,
+				548225521AC57A3500EEEFCB /* MRPreclassification.h */,
+				548225531AC57A3500EEEFCB /* MRPreclassification.mm */,
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
 			);
 			path = Muvr;
@@ -357,6 +357,7 @@
 		541ABB961AC577E00056A81B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = MR;
 				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = Muvr;
 				TargetAttributes = {
@@ -454,10 +455,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				548225541AC57A3500EEEFCB /* Preclassification.mm in Sources */,
+				548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */,
 				542AB2141ACC4FD100F20299 /* sax_classifier.cc in Sources */,
-				541ABBA61AC577E00056A81B /* ViewController.swift in Sources */,
-				541ABBA41AC577E00056A81B /* AppDelegate.swift in Sources */,
+				541ABBA61AC577E00056A81B /* MRViewController.swift in Sources */,
+				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
 				542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */,
 				542AB2161ACC4FD100F20299 /* sensor_data_fuser_table.cc in Sources */,
 				542AB2151ACC4FD100F20299 /* sensor_data_fuser_entry.cc in Sources */,

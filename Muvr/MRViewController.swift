@@ -1,14 +1,6 @@
-//
-//  ViewController.swift
-//  Muvr
-//
-//  Created by Jan Machacek on 3/27/15.
-//  Copyright (c) 2015 Muvr. All rights reserved.
-//
-
 import UIKit
 
-class ViewController: UIViewController {
+class MRViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
