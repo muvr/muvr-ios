@@ -1,17 +1,33 @@
 import UIKit
 
-class MRViewController: UIViewController {
+class MRViewController: UIViewController, MRExerciseBlockDelegate {
+    let preclassification: MRPreclassification = MRPreclassification()
+    @IBOutlet var exercisingView: UIImageView!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        exercisingView.hidden = true
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    @IBAction
+    func start() {
+        
     }
-
+    
+    @IBAction
+    func stop() {
+        
+    }
+    
+    // MARK: MRExerciseBlockDelegate implementation
+    
+    func exerciseBlockEnded() {
+        exercisingView.hidden = true
+    }
+    
+    func exerciseBlockStarted() {
+        exercisingView.hidden = false
+    }
 
 }
 
