@@ -1,10 +1,14 @@
 import Foundation
 
-class RawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDelegate {
+class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDelegate {
     private let central = PBPebbleCentral.defaultCentral()
+    private var currentSession: MRPebbleDeviceSession?
     
-    private class PebbleDeviceSession {
-        private let delegate: DeviceSessionDelegate!
+    ///
+    /// Pebble device session
+    ///
+    private class MRPebbleDeviceSession {
+        private let delegate: MRDeviceSessionDelegate!
         private let updateHandler: AnyObject?
         private let watch: PBWatch!
         private let sessionId = DeviceSession()
@@ -12,7 +16,7 @@ class RawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDeleg
         private let deadKey = NSNumber(uint32: 0x0000dead)
         private let adKey = NSNumber(uint32: 0xface0fb0)
 
-        init(watch: PBWatch, delegate: DeviceSessionDelegate) {
+        init(watch: PBWatch, delegate: MRDeviceSessionDelegate) {
             self.watch = watch
             self.delegate = delegate
             self.updateHandler = watch.appMessagesAddReceiveUpdateHandler(appMessagesReceiveUpdateHandler)
@@ -44,50 +48,44 @@ class RawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDeleg
         central.delegate = self
     }
     
-    func findWatch() -> Either<NSError, PBWatch> {
-        if central.connectedWatches.count > 1 {
-            return Either.left(NSError.errorWithMessage("Device.Pebble.tooManyWatches".localized(), code: 1))
-        } else if central.connectedWatches.count == 0 {
-            return Either.left(NSError.errorWithMessage("Device.Pebble.noWatches".localized(), code: 2))
-        } else {
-            let watch = central.connectedWatches[0] as PBWatch
-            return Either.right(watch)
-        }
-    }
-
     ///
     /// App launched callback from the watch
     ///
-    private func appLaunched(deviceSessionDelegate: DeviceSessionDelegate, watch: PBWatch!, error: NSError!) {
+    private func appLaunched(deviceSessionDelegate: MRDeviceSessionDelegate, watch: PBWatch!, error: NSError!) {
         let deviceId = watch.serialNumber.md5UUID()
         if error != nil {
             // TODO: DeviceSessionDelegate.deviceSession:didNotStart;
             // deviceDelegate.deviceAppLaunchFailed(deviceId, error: error!)
         } else {
-            PebbleDeviceSession(watch: watch, delegate: deviceSessionDelegate)
+            MRPebbleDeviceSession(watch: watch, delegate: deviceSessionDelegate)
         }
     }
     
-    private func appKilled(watch: PBWatch!, error: NSError!) {
-    }
-
     // MARK: Device implementation
 
-    func start(deviceSessionDelegate: DeviceSessionDelegate) {
-        if central.connectedWatches.count > 1 {
-            // TODO: DeviceSessionDelegate.deviceSession:didNotStart
-            //return Either.left(NSError.errorWithMessage("Device.Pebble.tooManyWatches".localized(), code: 1))
-        } else if central.connectedWatches.count == 0 {
-            // TODO: DeviceSessionDelegate.deviceSession:didNotStart
-            //return Either.left(NSError.errorWithMessage("Device.Pebble.noWatches".localized(), code: 2))
-        } else {
-            let watch = central.connectedWatches[0] as PBWatch
-            watch.appMessagesLaunch { (watch, error) in
-                PebbleDeviceSession(watch: watch, delegate: deviceSessionDelegate)
-                return
+    func start(deviceSessionDelegate: MRDeviceSessionDelegate) {
+        if currentSession == nil {
+            if central.connectedWatches.count > 1 {
+                // TODO: DeviceSessionDelegate.deviceSession:didNotStart
+                //return Either.left(NSError.errorWithMessage("Device.Pebble.tooManyWatches".localized(), code: 1))
+            } else if central.connectedWatches.count == 0 {
+                // TODO: DeviceSessionDelegate.deviceSession:didNotStart
+                //return Either.left(NSError.errorWithMessage("Device.Pebble.noWatches".localized(), code: 2))
+            } else {
+                let watch = central.connectedWatches[0] as PBWatch
+                watch.appMessagesLaunch { (watch, error) in
+                    self.currentSession = MRPebbleDeviceSession(watch: watch, delegate: deviceSessionDelegate)
+                }
             }
         }
     }
+    
+    func stop() {
+        currentSession?.stop()
+        currentSession = nil
+    }
+    
+    // MARK: PBPebbleCentral implementation
     
     func pebbleCentral(central: PBPebbleCentral!, watchDidConnect watch: PBWatch!, isNew: Bool) {
         NSLog("Connected %@", watch)

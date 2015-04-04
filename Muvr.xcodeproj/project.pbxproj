@@ -20,7 +20,7 @@
 		542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */; };
 		542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */; };
 		542AB2191ACC4FD100F20299 /* symbolic_aggregate_approximation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */; };
-		543374131AD01060005864D7 /* RawPebbleDeviceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374121AD01060005864D7 /* RawPebbleDeviceSession.swift */; };
+		543374131AD01060005864D7 /* MRRawPebbleDeviceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374121AD01060005864D7 /* MRRawPebbleDeviceSession.swift */; };
 		5433741C1AD010B1005864D7 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374151AD010B1005864D7 /* Array.swift */; };
 		5433741D1AD010B1005864D7 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374161AD010B1005864D7 /* Box.swift */; };
 		5433741E1AD010B1005864D7 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374171AD010B1005864D7 /* Dictionary.swift */; };
@@ -30,7 +30,7 @@
 		543374221AD010B1005864D7 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5433741B1AD010B1005864D7 /* Result.swift */; };
 		543374251AD01104005864D7 /* NSError+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374241AD01104005864D7 /* NSError+Convenience.swift */; };
 		543374271AD0111B005864D7 /* String+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374261AD0111B005864D7 /* String+Localisation.swift */; };
-		543374291AD011A3005864D7 /* DeviceSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374281AD011A3005864D7 /* DeviceSessionDelegate.swift */; };
+		543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374281AD011A3005864D7 /* MRDeviceSessionDelegate.swift */; };
 		5433742F1AD01345005864D7 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5433742E1AD01345005864D7 /* String+MD5.swift */; };
 		548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 548225531AC57A3500EEEFCB /* MRPreclassification.mm */; };
 		54F0DC481AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */; };
@@ -81,7 +81,7 @@
 		542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser.cc"; sourceTree = "<group>"; };
 		542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = symbol_alphabet.cc; path = "../../../../../muvr-preclassification/core/main/cc/symbol_alphabet.cc"; sourceTree = "<group>"; };
 		542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = symbolic_aggregate_approximation.cc; path = "../../../../../muvr-preclassification/core/main/cc/symbolic_aggregate_approximation.cc"; sourceTree = "<group>"; };
-		543374121AD01060005864D7 /* RawPebbleDeviceSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawPebbleDeviceSession.swift; sourceTree = "<group>"; };
+		543374121AD01060005864D7 /* MRRawPebbleDeviceSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRRawPebbleDeviceSession.swift; sourceTree = "<group>"; };
 		543374151AD010B1005864D7 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		543374161AD010B1005864D7 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		543374171AD010B1005864D7 /* Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
@@ -91,7 +91,7 @@
 		5433741B1AD010B1005864D7 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		543374241AD01104005864D7 /* NSError+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Convenience.swift"; sourceTree = "<group>"; };
 		543374261AD0111B005864D7 /* String+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localisation.swift"; sourceTree = "<group>"; };
-		543374281AD011A3005864D7 /* DeviceSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceSessionDelegate.swift; sourceTree = "<group>"; };
+		543374281AD011A3005864D7 /* MRDeviceSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDeviceSessionDelegate.swift; sourceTree = "<group>"; };
 		5433742E1AD01345005864D7 /* String+MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
 		548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Muvr-Bridging-Header.h"; sourceTree = "<group>"; };
 		548225521AC57A3500EEEFCB /* MRPreclassification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPreclassification.h; sourceTree = "<group>"; };
@@ -228,7 +228,7 @@
 		543374101AD01060005864D7 /* Device */ = {
 			isa = PBXGroup;
 			children = (
-				543374281AD011A3005864D7 /* DeviceSessionDelegate.swift */,
+				543374281AD011A3005864D7 /* MRDeviceSessionDelegate.swift */,
 				543374111AD01060005864D7 /* Pebble */,
 			);
 			path = Device;
@@ -237,7 +237,7 @@
 		543374111AD01060005864D7 /* Pebble */ = {
 			isa = PBXGroup;
 			children = (
-				543374121AD01060005864D7 /* RawPebbleDeviceSession.swift */,
+				543374121AD01060005864D7 /* MRRawPebbleDeviceSession.swift */,
 			);
 			path = Pebble;
 			sourceTree = "<group>";
@@ -533,9 +533,9 @@
 				5433741C1AD010B1005864D7 /* Array.swift in Sources */,
 				543374251AD01104005864D7 /* NSError+Convenience.swift in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
-				543374131AD01060005864D7 /* RawPebbleDeviceSession.swift in Sources */,
+				543374131AD01060005864D7 /* MRRawPebbleDeviceSession.swift in Sources */,
 				542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */,
-				543374291AD011A3005864D7 /* DeviceSessionDelegate.swift in Sources */,
+				543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */,
 				542AB2161ACC4FD100F20299 /* sensor_data_fuser_table.cc in Sources */,
 				542AB2151ACC4FD100F20299 /* sensor_data_fuser_entry.cc in Sources */,
 				5433741D1AD010B1005864D7 /* Box.swift in Sources */,

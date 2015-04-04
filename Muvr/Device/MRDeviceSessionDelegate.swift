@@ -6,7 +6,7 @@ typealias DeviceId = NSUUID
 ///
 /// Implement to receive data and session identities
 ///
-protocol DeviceSessionDelegate {
+protocol MRDeviceSessionDelegate {
     
     ///
     /// Called when a sensor data (in the Lift format) is received from the device. The data is complete
