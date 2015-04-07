@@ -15,6 +15,8 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         private let deviceId = DeviceId()   // TODO: Actual deviceId
         private let deadKey = NSNumber(uint32: 0x0000dead)
         private let adKey = NSNumber(uint32: 0xface0fb0)
+        private let warmupSamples = 5
+        private var sampleCount = 0
 
         init(watch: PBWatch, delegate: MRDeviceSessionDelegate) {
             self.watch = watch
@@ -24,8 +26,10 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         
         private func appMessagesReceiveUpdateHandler(watch: PBWatch!, data: [NSObject : AnyObject]!) -> Bool {
             if let x = data[adKey] as? NSData {
-                delegate.deviceSession(sessionId, sensorDataReceivedFrom: DeviceId(),
-                    atDeviceTime: CFAbsoluteTimeGetCurrent(), data: x)
+                sampleCount += 1
+                if sampleCount > warmupSamples {
+                    delegate.deviceSession(sessionId, sensorDataReceivedFrom: deviceId, atDeviceTime: CACurrentMediaTime(), data: x)
+                }
             } else if data[deadKey] != nil {
                 delegate.deviceSession(sessionId, endedFrom: deviceId)
             }

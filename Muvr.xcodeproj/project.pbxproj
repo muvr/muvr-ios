@@ -431,6 +431,11 @@
 				TargetAttributes = {
 					541ABB9D1AC577E00056A81B = {
 						CreatedOnToolsVersion = 6.2;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					541ABBB21AC577E00056A81B = {
 						CreatedOnToolsVersion = 6.2;
@@ -617,6 +622,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					EYEBALL_DEBUG,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
