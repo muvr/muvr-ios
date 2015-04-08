@@ -36,7 +36,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceSessi
     
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
         NSLog("%@", data)
-        preclassification.pushBack(data, from: 0, at: time)
+        //preclassification.pushBack(data, from: 0, at: time)
     }
     
     // MARK: MRExerciseBlockDelegate implementation
