@@ -9,7 +9,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     ///
     private class MRPebbleDeviceSession {
         private let delegate: MRDeviceSessionDelegate!
-        private let updateHandler: AnyObject?
+        private var updateHandler: AnyObject?
         private let watch: PBWatch!
         private let sessionId = DeviceSession()
         private let deviceId = DeviceId()   // TODO: Actual deviceId
@@ -76,7 +76,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
                 // TODO: DeviceSessionDelegate.deviceSession:didNotStart
                 //return Either.left(NSError.errorWithMessage("Device.Pebble.noWatches".localized(), code: 2))
             } else {
-                let watch = central.connectedWatches[0] as PBWatch
+                let watch = central.connectedWatches[0] as! PBWatch
                 watch.appMessagesLaunch { (watch, error) in
                     self.currentSession = MRPebbleDeviceSession(watch: watch, delegate: deviceSessionDelegate)
                 }
