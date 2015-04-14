@@ -1,6 +1,6 @@
 import UIKit
 
-class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceSessionDelegate {
+class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificationDelegate, MRDeviceSessionDelegate {
     private let preclassification: MRPreclassification = MRPreclassification()
     private let pcd = MRRawPebbleConnectedDevice()
     
@@ -47,6 +47,20 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceSessi
     
     func exerciseBlockStarted() {
         exercisingView.hidden = false
+    }
+    
+    // MARK: MRClassificationDelegate
+    func classificationSucceeded(exercise: String!, fromData data: NSData!) {
+        // Positive sample: MuvrServer.sharedInstance...
+    }
+    
+    func classificationAmbiguous(exercises: [AnyObject]!, fromData data: NSData!) {
+        // BT message to the watch -> decide
+        // Positive sample: MuvrServer.sharedInstance...
+    }
+    
+    func classificationFailed(data: NSData!) {
+        // Failning sample: MuvrServer.sharedInstance...
     }
 
 }

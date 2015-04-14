@@ -40,6 +40,7 @@ void delegating_sensor_data_fuser::exercise_block_started() {
 
 @implementation MRPreclassification {
     std::unique_ptr<sensor_data_fuser> m_fuser;
+    //std::unique_ptr<sax_xxx> m_sax;
 }
 
 - (instancetype)init {
@@ -49,6 +50,12 @@ void delegating_sensor_data_fuser::exercise_block_started() {
     };
     auto ended = [self](const std::vector<fused_sensor_data> &data, const fusion_stats &fusion_stats) {
         if (self.exerciseBlockDelegate != nil) [self.exerciseBlockDelegate exerciseBlockEnded];
+        // ***
+        // step 1
+        // step 2
+        // ...
+        // step n
+        // ultimately classificationSucceeded, classificationAmbiguous, classificationFailed,
     };
     m_fuser = std::unique_ptr<sensor_data_fuser>(new delegating_sensor_data_fuser(started, ended));
     return self;
