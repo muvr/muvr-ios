@@ -54,7 +54,6 @@
 		FC5593B91ADBEC3D00F235ED /* MuvrServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B81ADBEC3D00F235ED /* MuvrServer.swift */; };
 		FC5593BB1ADBEF6F00F235ED /* MuvrUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593BA1ADBEF6F00F235ED /* MuvrUserDefaults.swift */; };
 		FC5593BD1ADBFF1C00F235ED /* ExerciseSessionPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593BC1ADBFF1C00F235ED /* ExerciseSessionPayload.swift */; };
-		FC5593BF1ADC0B6200F235ED /* PrintDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593BE1ADC0B6200F235ED /* PrintDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -148,7 +147,6 @@
 		FC5593B81ADBEC3D00F235ED /* MuvrServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MuvrServer.swift; sourceTree = "<group>"; };
 		FC5593BA1ADBEF6F00F235ED /* MuvrUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MuvrUserDefaults.swift; sourceTree = "<group>"; };
 		FC5593BC1ADBFF1C00F235ED /* ExerciseSessionPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseSessionPayload.swift; sourceTree = "<group>"; };
-		FC5593BE1ADC0B6200F235ED /* PrintDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrintDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,7 +217,6 @@
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
 				FC5593BA1ADBEF6F00F235ED /* MuvrUserDefaults.swift */,
 				FC5593BC1ADBFF1C00F235ED /* ExerciseSessionPayload.swift */,
-				FC5593BE1ADC0B6200F235ED /* PrintDelegate.swift */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -602,7 +599,6 @@
 				542AB2191ACC4FD100F20299 /* symbolic_aggregate_approximation.cc in Sources */,
 				54F0DC541AC57E8D0061EC5D /* nomovement_decider.cc in Sources */,
 				543374211AD010B1005864D7 /* Predef.swift in Sources */,
-				FC5593BF1ADC0B6200F235ED /* PrintDelegate.swift in Sources */,
 				542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */,
 				54F0DC551AC57E8D0061EC5D /* raw_sensor_data.cc in Sources */,
 				542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */,

@@ -4,8 +4,6 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceSessi
     private let preclassification: MRPreclassification = MRPreclassification()
     private let pcd = MRRawPebbleConnectedDevice()
     
-    private var payload: String = ""
-    
     @IBOutlet var exercisingView: UIImageView!
 
     override func viewDidLoad() {
@@ -32,23 +30,12 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceSessi
         exerciseSessionPayload()
     }
     
+    // TODO: Send correct fused / preprocessed sensor data
     func exerciseSessionPayload() {
-        
-        let a = MRPreclassification()
-        a.exerciseBlockDelegate = PrintDelegate()
-        
-        a.pushBack(("hi" as NSString).dataUsingEncoding(NSUTF8StringEncoding), from: 1, at: CFAbsoluteTime())
-        
         MuvrServer.sharedInstance.exerciseSessionPayload(ExerciseSessionPayload(data: "payloadz")) {
             $0.cata(
-                {y in
-                    self.payload = "boom"
-                    println(self.payload)
-                },
-                { x in
-                    self.payload = x
-                    println(self.payload)
-                })
+                { e in println("Server request failed: " + e.localizedDescription) },
+                { s in println("Server request success: " + s) })
         }
     }
     
