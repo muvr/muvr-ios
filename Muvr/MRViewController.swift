@@ -1,6 +1,6 @@
 import UIKit
 
-class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificationDelegate, MRDeviceSessionDelegate {
+class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificationPipelineDelegate, MRDeviceSessionDelegate {
     private let preclassification: MRPreclassification = MRPreclassification()
     private let pcd = MRRawPebbleConnectedDevice()
     

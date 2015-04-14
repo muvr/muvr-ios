@@ -47,6 +47,7 @@
 		54F0DC561AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC3B1AC57E8D0061EC5D /* CMakeLists.txt */; };
 		54F0DC5F1AC57E8D0061EC5D /* all_4.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC471AC57E8D0061EC5D /* all_4.csv */; };
 		7A396B51700FA44FAA4A9191 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC2471B68CBF873BD8426BA /* libPods.a */; };
+		FC5593C31ADD141D00F235ED /* MRClassificationPipeline.mm in Sources */ = {isa = PBXBuildFile; fileRef = FC5593C21ADD141D00F235ED /* MRClassificationPipeline.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +131,8 @@
 		6EC2471B68CBF873BD8426BA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A04E9B04EE1C27607A68F65A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		FC5593C11ADD0BC300F235ED /* MRClassificationPipeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRClassificationPipeline.h; sourceTree = "<group>"; };
+		FC5593C21ADD141D00F235ED /* MRClassificationPipeline.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRClassificationPipeline.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +199,8 @@
 				548225521AC57A3500EEEFCB /* MRPreclassification.h */,
 				548225531AC57A3500EEEFCB /* MRPreclassification.mm */,
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
+				FC5593C11ADD0BC300F235ED /* MRClassificationPipeline.h */,
+				FC5593C21ADD141D00F235ED /* MRClassificationPipeline.mm */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -542,6 +547,7 @@
 				542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */,
 				543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */,
 				542AB2161ACC4FD100F20299 /* sensor_data_fuser_table.cc in Sources */,
+				FC5593C31ADD141D00F235ED /* MRClassificationPipeline.mm in Sources */,
 				542AB2151ACC4FD100F20299 /* sensor_data_fuser_entry.cc in Sources */,
 				5433741D1AD010B1005864D7 /* Box.swift in Sources */,
 				543374221AD010B1005864D7 /* Result.swift in Sources */,

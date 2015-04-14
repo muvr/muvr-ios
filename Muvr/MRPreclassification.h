@@ -17,18 +17,6 @@
 - (void)exerciseBlockEnded;
 @end
 
-typedef NSString MRExercise;
-
-@protocol MRClassificationDelegate
-
-- (void)classificationSucceeded:(MRExercise *)exercise fromData:(NSData *)data;
-
-- (void)classificationAmbiguous:(NSArray *)exercises fromData:(NSData *)data;
-
-- (void)classificationFailed:(NSData *)data;
-
-@end
-
 ///
 /// Interface to the C++ codebase implementing the preclassification code
 ///
