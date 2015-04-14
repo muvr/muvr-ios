@@ -72,7 +72,6 @@
 		541ABBB81AC577E00056A81B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		541ABBB91AC577E00056A81B /* MuvrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuvrTests.swift; sourceTree = "<group>"; };
 		542AB2081ACC4FC400F20299 /* piecewise_aggregate_approximation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = piecewise_aggregate_approximation.h; path = "../../../../muvr-preclassification/core/include/piecewise_aggregate_approximation.h"; sourceTree = "<group>"; };
-		542AB2091ACC4FC400F20299 /* sax_classifier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = sax_classifier.h; path = "../../../../muvr-preclassification/core/include/sax_classifier.h"; sourceTree = "<group>"; };
 		542AB20A1ACC4FC400F20299 /* symbol_alphabet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = symbol_alphabet.h; path = "../../../../muvr-preclassification/core/include/symbol_alphabet.h"; sourceTree = "<group>"; };
 		542AB20B1ACC4FC400F20299 /* symbolic_aggregate_approximation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = symbolic_aggregate_approximation.h; path = "../../../../muvr-preclassification/core/include/symbolic_aggregate_approximation.h"; sourceTree = "<group>"; };
 		542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = piecewise_aggregate_approximation.cc; path = "../../../../../muvr-preclassification/core/main/cc/piecewise_aggregate_approximation.cc"; sourceTree = "<group>"; };
@@ -133,6 +132,7 @@
 		F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FC5593C11ADD0BC300F235ED /* MRClassificationPipeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRClassificationPipeline.h; sourceTree = "<group>"; };
 		FC5593C21ADD141D00F235ED /* MRClassificationPipeline.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRClassificationPipeline.mm; sourceTree = "<group>"; };
+		FC5593C71ADD7E5400F235ED /* classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier.h; path = "../../../../muvr-preclassification/core/include/classifier.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,15 +189,15 @@
 				543374231AD01104005864D7 /* Ext */,
 				543374141AD010B1005864D7 /* Predef */,
 				543374101AD01060005864D7 /* Device */,
-				54F0DC221AC57E8D0061EC5D /* MuvrPreclassification */,
 				541ABBA31AC577E00056A81B /* MRAppDelegate.swift */,
 				541ABBA51AC577E00056A81B /* MRViewController.swift */,
 				541ABBA71AC577E00056A81B /* Main.storyboard */,
 				541ABBAA1AC577E00056A81B /* Images.xcassets */,
 				541ABBAC1AC577E00056A81B /* LaunchScreen.xib */,
 				541ABBA11AC577E00056A81B /* Supporting Files */,
-				548225521AC57A3500EEEFCB /* MRPreclassification.h */,
+				54F0DC221AC57E8D0061EC5D /* MuvrPreclassification */,
 				548225531AC57A3500EEEFCB /* MRPreclassification.mm */,
+				548225521AC57A3500EEEFCB /* MRPreclassification.h */,
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
 				FC5593C11ADD0BC300F235ED /* MRClassificationPipeline.h */,
 				FC5593C21ADD141D00F235ED /* MRClassificationPipeline.mm */,
@@ -286,7 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				542AB2081ACC4FC400F20299 /* piecewise_aggregate_approximation.h */,
-				542AB2091ACC4FC400F20299 /* sax_classifier.h */,
+				FC5593C71ADD7E5400F235ED /* classifier.h */,
 				542AB20A1ACC4FC400F20299 /* symbol_alphabet.h */,
 				542AB20B1ACC4FC400F20299 /* symbolic_aggregate_approximation.h */,
 				54F0DC251AC57E8D0061EC5D /* device_data.h */,

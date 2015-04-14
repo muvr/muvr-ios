@@ -21,7 +21,6 @@ typedef NSString MRExercise;
 /// Classification failed
 ///
 - (void)classificationFailed:(NSData *)data;
-
 @end
 
 ///
