@@ -1,5 +1,6 @@
 #import "MRClassificationPipeline.h"
 #import "MuvrPreclassification/include/sensor_data.h"
+#import "MuvrPreclassification/include/classifier.h"
 
 using namespace muvr;
 
