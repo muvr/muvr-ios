@@ -20,11 +20,11 @@ public:
                           classification_ambiguous_t classification_ambiguous,
                           classification_failed_t classification_failed);
     
-    virtual void classification_succeeded(const std::string &exercise, const fused_sensor_data &fromData) = 0;
+    virtual void classification_succeeded(const std::string &exercise, const fused_sensor_data &fromData);
     
-    virtual void classification_ambiguous(const std::vector<std::string> &exercises, const fused_sensor_data &fromData) = 0;
+    virtual void classification_ambiguous(const std::vector<std::string> &exercises, const fused_sensor_data &fromData);
     
-    virtual void classification_failed(const fused_sensor_data &fromData) = 0;
+    virtual void classification_failed(const fused_sensor_data &fromData);
 };
 
 delegating_classifier::delegating_classifier(classification_succeeded_t classification_succeeded,
@@ -72,7 +72,7 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
 }
 
 - (int)classify:(const fused_sensor_data &)data {
-    m_classifier->classify(data);
+    return m_classifier->classify(data);
 }
 
 @end
