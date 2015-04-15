@@ -25,6 +25,20 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
         pcd.stop()
     }
     
+    @IBAction
+    func send() {
+        exerciseSessionPayload()
+    }
+    
+    // TODO: Send correct fused / preprocessed sensor data
+    func exerciseSessionPayload() {
+        MuvrServer.sharedInstance.exerciseSessionPayload(ExerciseSessionPayload(data: "payloadz")) {
+            $0.cata(
+                { e in println("Server request failed: " + e.localizedDescription) },
+                { s in println("Server request success: " + s) })
+        }
+    }
+    
     // MARK: MRDeviceSessionDelegate implementation
     func deviceSession(session: DeviceSession, endedFrom deviceId: DeviceId) {
         //
