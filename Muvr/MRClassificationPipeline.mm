@@ -1,5 +1,4 @@
 #import "MRClassificationPipeline.h"
-#import "MuvrPreclassification/include/sensor_data.h"
 #import "MuvrPreclassification/include/classifier.h"
 
 using namespace muvr;
@@ -71,8 +70,9 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
     return self;
 }
 
-- (int)classify:(const fused_sensor_data &)data {
-    return m_classifier->classify(data);
+- (int)classify:(const NSData *)data {
+    //TODO: Real classification
+    return 5;
 }
 
 @end

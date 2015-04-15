@@ -1,6 +1,4 @@
 #import <Foundation/Foundation.h>
-#import "MuvrPreclassification/include/sensor_data.h"
-#import "MuvrPreclassification/include/classifier.h"
 
 typedef NSString MRExercise;
 
@@ -38,7 +36,7 @@ typedef NSString MRExercise;
 ///
 /// Classify the session data
 ///
-- (int)classify:(const muvr::fused_sensor_data &)data;
+- (int)classify:(const NSData *)data;
 
 ///
 /// Sets the exercise block delegate, whose methods get called when entire exercise

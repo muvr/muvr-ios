@@ -35,7 +35,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
         MuvrServer.sharedInstance.exerciseSessionPayload(ExerciseSessionPayload(data: "payloadz")) {
             $0.cata(
                 { e in println("Server request failed: " + e.localizedDescription) },
-                { s in println("Server request success: " + s) })
+                r: { s in println("Server request success: " + s) })
         }
     }
     
@@ -64,16 +64,16 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
     }
     
     // MARK: MRClassificationDelegate
-    func classificationSucceeded(exercise: String!, fromData data: NSData!) {
+    func classificationSucceeded() {//(exercise: String!, fromData data: NSData!) {
         // Positive sample: MuvrServer.sharedInstance...
     }
     
-    func classificationAmbiguous(exercises: [AnyObject]!, fromData data: NSData!) {
+    func classificationAmbiguous() { //(exercises: [AnyObject]!, fromData data: NSData!) {
         // BT message to the watch -> decide
         // Positive sample: MuvrServer.sharedInstance...
     }
     
-    func classificationFailed(data: NSData!) {
+    func classificationFailed() { //(data: NSData!) {
         // Failning sample: MuvrServer.sharedInstance...
     }
 
