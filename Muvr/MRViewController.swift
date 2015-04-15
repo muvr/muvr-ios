@@ -66,15 +66,18 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
     
     // MARK: MRClassificationDelegate
     func classificationSucceeded() {//(exercise: String!, fromData data: NSData!) {
+        println("Successfully classified exercise")
         // Positive sample: MuvrServer.sharedInstance...
     }
     
     func classificationAmbiguous() { //(exercises: [AnyObject]!, fromData data: NSData!) {
+        println("Ambiguously classified exercise")
         // BT message to the watch -> decide
         // Positive sample: MuvrServer.sharedInstance...
     }
     
     func classificationFailed() { //(data: NSData!) {
+        println("Failed to classify exercise")
         // Failning sample: MuvrServer.sharedInstance...
     }
 
