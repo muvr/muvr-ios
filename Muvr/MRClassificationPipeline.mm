@@ -50,7 +50,29 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
 #pragma MARK - MRClassificationPipeline implementation
 
 @implementation MRClassificationPipeline {
+    std::unique_ptr<classifier> m_classifier;
+}
+
+- (instancetype)init {
+    self = [super init];
+    auto success = [self](const std::string &exercise, const fused_sensor_data &fromData) {
+        if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationSucceeded];
+    };
     
+    auto ambiguous = [self](const std::vector<std::string> &exercises, const fused_sensor_data &fromData) {
+        if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationAmbiguous];
+    };
+    
+    auto failed = [self](const fused_sensor_data &fromData) {
+        if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationFailed];
+    };
+    
+    m_classifier = std::unique_ptr<classifier>(new delegating_classifier(success, ambiguous, failed));
+    return self;
+}
+
+- (int)classify:(const fused_sensor_data &)data {
+    m_classifier->classify(data);
 }
 
 @end
