@@ -17,6 +17,29 @@
 - (void)exerciseBlockEnded;
 @end
 
+typedef NSString MRExercise;
+
+///
+/// Actions executed as results of exercise
+///
+@protocol MRClassificationPipelineDelegate
+
+///
+/// Classification successful
+///
+- (void)classificationSucceeded;
+
+///
+/// Classification ambiguous
+///
+- (void)classificationAmbiguous;
+
+///
+/// Classification failed
+///
+- (void)classificationFailed;
+@end
+
 ///
 /// Interface to the C++ codebase implementing the preclassification code
 ///
@@ -37,4 +60,5 @@
 /// block is detected.
 ///
 @property id<MRExerciseBlockDelegate> exerciseBlockDelegate;
+@property id<MRClassificationPipelineDelegate> classificationPipelineDelegate;
 @end

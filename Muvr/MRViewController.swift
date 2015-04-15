@@ -8,6 +8,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
 
     override func viewDidLoad() {
         preclassification.exerciseBlockDelegate = self
+        preclassification.classificationPipelineDelegate = self
     }
     
     override func viewDidAppear(animated: Bool) {

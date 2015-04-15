@@ -14,7 +14,6 @@
 		541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBAC1AC577E00056A81B /* LaunchScreen.xib */; };
 		541ABBBA1AC577E00056A81B /* MuvrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBB91AC577E00056A81B /* MuvrTests.swift */; };
 		542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */; };
-		542AB2141ACC4FD100F20299 /* sax_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB20D1ACC4FD100F20299 /* sax_classifier.cc */; };
 		542AB2151ACC4FD100F20299 /* sensor_data_fuser_entry.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB20E1ACC4FD100F20299 /* sensor_data_fuser_entry.cc */; };
 		542AB2161ACC4FD100F20299 /* sensor_data_fuser_table.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB20F1ACC4FD100F20299 /* sensor_data_fuser_table.cc */; };
 		542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */; };
@@ -47,7 +46,7 @@
 		54F0DC561AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC3B1AC57E8D0061EC5D /* CMakeLists.txt */; };
 		54F0DC5F1AC57E8D0061EC5D /* all_4.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC471AC57E8D0061EC5D /* all_4.csv */; };
 		7A396B51700FA44FAA4A9191 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC2471B68CBF873BD8426BA /* libPods.a */; };
-		FC5593C31ADD141D00F235ED /* MRClassificationPipeline.mm in Sources */ = {isa = PBXBuildFile; fileRef = FC5593C21ADD141D00F235ED /* MRClassificationPipeline.mm */; };
+		FC1AC7591ADE8CEA00832DE7 /* classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC7581ADE8CEA00832DE7 /* classifier.cc */; };
 		FC5593AD1ADBE08200F235ED /* MuvrServerURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593AC1ADBE08200F235ED /* MuvrServerURLs.swift */; };
 		FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */; };
 		FC5593B61ADBE56400F235ED /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B21ADBE56400F235ED /* Alamofire.swift */; };
@@ -82,7 +81,6 @@
 		542AB20A1ACC4FC400F20299 /* symbol_alphabet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = symbol_alphabet.h; path = "../../../../muvr-preclassification/core/include/symbol_alphabet.h"; sourceTree = "<group>"; };
 		542AB20B1ACC4FC400F20299 /* symbolic_aggregate_approximation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = symbolic_aggregate_approximation.h; path = "../../../../muvr-preclassification/core/include/symbolic_aggregate_approximation.h"; sourceTree = "<group>"; };
 		542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = piecewise_aggregate_approximation.cc; path = "../../../../../muvr-preclassification/core/main/cc/piecewise_aggregate_approximation.cc"; sourceTree = "<group>"; };
-		542AB20D1ACC4FD100F20299 /* sax_classifier.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sax_classifier.cc; path = "../../../../../muvr-preclassification/core/main/cc/sax_classifier.cc"; sourceTree = "<group>"; };
 		542AB20E1ACC4FD100F20299 /* sensor_data_fuser_entry.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_entry.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_entry.cc"; sourceTree = "<group>"; };
 		542AB20F1ACC4FD100F20299 /* sensor_data_fuser_table.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_table.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_table.cc"; sourceTree = "<group>"; };
 		542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser.cc"; sourceTree = "<group>"; };
@@ -137,9 +135,7 @@
 		6EC2471B68CBF873BD8426BA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A04E9B04EE1C27607A68F65A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		FC5593C11ADD0BC300F235ED /* MRClassificationPipeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRClassificationPipeline.h; sourceTree = "<group>"; };
-		FC5593C21ADD141D00F235ED /* MRClassificationPipeline.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRClassificationPipeline.mm; sourceTree = "<group>"; };
-		FC5593C71ADD7E5400F235ED /* classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier.h; path = "../../../../muvr-preclassification/core/include/classifier.h"; sourceTree = "<group>"; };
+		FC1AC7581ADE8CEA00832DE7 /* classifier.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = classifier.cc; path = "../../../../../muvr-preclassification/core/main/cc/classifier.cc"; sourceTree = "<group>"; };
 		FC5593AC1ADBE08200F235ED /* MuvrServerURLs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MuvrServerURLs.swift; sourceTree = "<group>"; };
 		FC5593AF1ADBE56400F235ED /* Alamofire+SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Alamofire+SwiftyJSON.h"; sourceTree = "<group>"; };
 		FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alamofire+SwiftyJSON.swift"; sourceTree = "<group>"; };
@@ -150,6 +146,7 @@
 		FC5593B81ADBEC3D00F235ED /* MuvrServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MuvrServer.swift; sourceTree = "<group>"; };
 		FC5593BA1ADBEF6F00F235ED /* MuvrUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MuvrUserDefaults.swift; sourceTree = "<group>"; };
 		FC5593BC1ADBFF1C00F235ED /* ExerciseSessionPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseSessionPayload.swift; sourceTree = "<group>"; };
+		FC5593C71ADD7E5400F235ED /* classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier.h; path = "../../../../muvr-preclassification/core/include/classifier.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,11 +212,9 @@
 				541ABBAC1AC577E00056A81B /* LaunchScreen.xib */,
 				541ABBA11AC577E00056A81B /* Supporting Files */,
 				54F0DC221AC57E8D0061EC5D /* MuvrPreclassification */,
-				548225531AC57A3500EEEFCB /* MRPreclassification.mm */,
 				548225521AC57A3500EEEFCB /* MRPreclassification.h */,
+				548225531AC57A3500EEEFCB /* MRPreclassification.mm */,
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
-				FC5593C11ADD0BC300F235ED /* MRClassificationPipeline.h */,
-				FC5593C21ADD141D00F235ED /* MRClassificationPipeline.mm */,
 				FC5593BA1ADBEF6F00F235ED /* MuvrUserDefaults.swift */,
 				FC5593BC1ADBFF1C00F235ED /* ExerciseSessionPayload.swift */,
 			);
@@ -346,8 +341,8 @@
 		54F0DC341AC57E8D0061EC5D /* cc */ = {
 			isa = PBXGroup;
 			children = (
+				FC1AC7581ADE8CEA00832DE7 /* classifier.cc */,
 				542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */,
-				542AB20D1ACC4FD100F20299 /* sax_classifier.cc */,
 				542AB20E1ACC4FD100F20299 /* sensor_data_fuser_entry.cc */,
 				542AB20F1ACC4FD100F20299 /* sensor_data_fuser_table.cc */,
 				542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */,
@@ -576,8 +571,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC1AC7591ADE8CEA00832DE7 /* classifier.cc in Sources */,
 				548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */,
-				542AB2141ACC4FD100F20299 /* sax_classifier.cc in Sources */,
 				543374201AD010B1005864D7 /* Operators.swift in Sources */,
 				5433742F1AD01345005864D7 /* String+MD5.swift in Sources */,
 				5433741E1AD010B1005864D7 /* Dictionary.swift in Sources */,
@@ -594,7 +589,6 @@
 				542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */,
 				543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */,
 				542AB2161ACC4FD100F20299 /* sensor_data_fuser_table.cc in Sources */,
-				FC5593C31ADD141D00F235ED /* MRClassificationPipeline.mm in Sources */,
 				542AB2151ACC4FD100F20299 /* sensor_data_fuser_entry.cc in Sources */,
 				5433741D1AD010B1005864D7 /* Box.swift in Sources */,
 				FC5593B71ADBE56400F235ED /* SwiftyJSON.swift in Sources */,
