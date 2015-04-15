@@ -33,7 +33,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
     
     // TODO: Send correct fused / preprocessed sensor data
     func exerciseSessionPayload() {
-        MuvrServer.sharedInstance.exerciseSessionPayload(ExerciseSessionPayload(data: "payloadz")) {
+        MRMuvrServer.sharedInstance.exerciseSessionPayload(MRExerciseSessionPayload(data: "payloadz")) {
             $0.cata(
                 { e in println("Server request failed: " + e.localizedDescription) },
                 r: { s in println("Server request success: " + s) })

@@ -1,4 +1,5 @@
 import Foundation
+import Alamofire
 
 ///
 /// Adds the response negotiation
@@ -72,15 +73,15 @@ extension Request {
 ///
 /// Lift server connection
 ///
-public class MuvrServer {
+public class MRMuvrServer {
     
     ///
     /// Singleton instance of the LiftServer. The instances are stateless, so it is generally a
     /// good idea to take advantage of the singleton
     ///
-    public class var sharedInstance: MuvrServer {
+    public class var sharedInstance: MRMuvrServer {
         struct Singleton {
-            static let instance = MuvrServer()
+            static let instance = MRMuvrServer()
         }
         
         return Singleton.instance
@@ -130,7 +131,7 @@ public class MuvrServer {
         return dateFormatter
         }()
     
-    private var baseUrlString: String = MuvrUserDefaults.muvrServerUrl
+    private var baseUrlString: String = MRUserDefaults.muvrServerUrl
     
     func setBaseUrlString(baseUrlString: String) -> Bool {
         if self.baseUrlString == baseUrlString { return false }
@@ -150,19 +151,29 @@ public class MuvrServer {
     ///
     /// Make a request to the Lift server
     ///
-    private func request(req: MuvrServerRequestConvertible, body: Body? = nil) -> Request {
+    private func request(req: MRMuvrServerRequestConvertible, body: Body? = nil) -> Request {
         let lsr = req.Request
         switch body {
         case let .Some(Body.Json(params)):
             let encoding = lsr.method == .GET ? ParameterEncoding.URL : ParameterEncoding.JSON
             return manager.request(lsr.method, baseUrlString + lsr.path, parameters: params, encoding: encoding)
-        case let .Some(Body.Data(data)): return manager.upload(URLRequest(lsr.method, baseUrlString + lsr.path), data: data)
+        case let .Some(Body.Data(data)): return manager.upload(URLRequest(lsr.method, URL: baseUrlString + lsr.path), data: data)
         case .None: return manager.request(lsr.method, baseUrlString + lsr.path, parameters: nil, encoding: ParameterEncoding.URL)
         }
     }
     
-    func exerciseSessionPayload(payload: ExerciseSessionPayload, f: Result<String> -> Void) -> Void {
-        request(MuvrServerURLs.exerciseSessionPayload(), body: .Json(params: payload.marshal()))
+    ///
+    /// This method has been made private in Alamofire. Copied over here for convenience.
+    ///
+    private func URLRequest(method: Alamofire.Method, URL: URLStringConvertible) -> NSURLRequest {
+        let mutableURLRequest = NSMutableURLRequest(URL: NSURL(string: URL.URLString)!)
+        mutableURLRequest.HTTPMethod = method.rawValue
+        
+        return mutableURLRequest
+    }
+    
+    func exerciseSessionPayload(payload: MRExerciseSessionPayload, f: Result<String> -> Void) -> Void {
+        request(MRMuvrServerURLs.exerciseSessionPayload(), body: .Json(params: payload.marshal()))
             .responseAsResult(f) { json in return json.stringValue }
     }
 }

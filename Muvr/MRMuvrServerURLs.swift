@@ -1,13 +1,14 @@
 import Foundation
+import Alamofire
 
 ///
 /// The request to the Lift server-side code
 ///
-struct MuvrServerRequest {
+struct MRMuvrServerRequest {
     var path: String
-    var method: Method
+    var method: Alamofire.Method
     
-    init(path: String, method: Method) {
+    init(path: String, method: Alamofire.Method) {
         self.path = path
         self.method = method
     }
@@ -17,14 +18,14 @@ struct MuvrServerRequest {
 ///
 /// Defines mechanism to convert a request to LiftServerRequest
 ///
-protocol MuvrServerRequestConvertible {
-    var Request: MuvrServerRequest { get }
+protocol MRMuvrServerRequestConvertible {
+    var Request: MRMuvrServerRequest { get }
 }
 
 ///
 /// The Lift server URLs and request data mappers
 ///
-enum MuvrServerURLs : MuvrServerRequestConvertible {
+enum MRMuvrServerURLs : MRMuvrServerRequestConvertible {
     
     ///
     /// Register the user
@@ -45,11 +46,11 @@ enum MuvrServerURLs : MuvrServerRequestConvertible {
     }
     
     // MARK: URLStringConvertible
-    var Request: MuvrServerRequest {
+    var Request: MRMuvrServerRequest {
         get {
-            let r: MuvrServerRequest = {
+            let r: MRMuvrServerRequest = {
                 switch self {
-                case let .exerciseSessionPayload: return MuvrServerRequest(path: "/exerciseSession/payload", method: Method.POST)
+                case let .exerciseSessionPayload: return MRMuvrServerRequest(path: "/exerciseSession/payload", method: Method.POST)
                 }
                 }()
             
