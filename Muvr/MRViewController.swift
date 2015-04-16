@@ -1,6 +1,6 @@
 import UIKit
 
-class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificationDelegate, MRDeviceSessionDelegate {
+class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificationPipelineDelegate, MRDeviceSessionDelegate {
     private let preclassification: MRPreclassification = MRPreclassification()
     private let pcd = MRRawPebbleConnectedDevice()
     
@@ -8,6 +8,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
 
     override func viewDidLoad() {
         preclassification.exerciseBlockDelegate = self
+        preclassification.classificationPipelineDelegate = self
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -32,10 +33,10 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
     
     // TODO: Send correct fused / preprocessed sensor data
     func exerciseSessionPayload() {
-        MuvrServer.sharedInstance.exerciseSessionPayload(ExerciseSessionPayload(data: "payloadz")) {
+        MRMuvrServer.sharedInstance.exerciseSessionPayload(MRExerciseSessionPayload(data: "payloadz")) {
             $0.cata(
                 { e in println("Server request failed: " + e.localizedDescription) },
-                { s in println("Server request success: " + s) })
+                r: { s in println("Server request success: " + s) })
         }
     }
     
@@ -64,16 +65,19 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
     }
     
     // MARK: MRClassificationDelegate
-    func classificationSucceeded(exercise: String!, fromData data: NSData!) {
+    func classificationSucceeded() {//(exercise: String!, fromData data: NSData!) {
+        println("Successfully classified exercise")
         // Positive sample: MuvrServer.sharedInstance...
     }
     
-    func classificationAmbiguous(exercises: [AnyObject]!, fromData data: NSData!) {
+    func classificationAmbiguous() { //(exercises: [AnyObject]!, fromData data: NSData!) {
+        println("Ambiguously classified exercise")
         // BT message to the watch -> decide
         // Positive sample: MuvrServer.sharedInstance...
     }
     
-    func classificationFailed(data: NSData!) {
+    func classificationFailed() { //(data: NSData!) {
+        println("Failed to classify exercise")
         // Failning sample: MuvrServer.sharedInstance...
     }
 

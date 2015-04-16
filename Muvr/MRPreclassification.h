@@ -19,14 +19,25 @@
 
 typedef NSString MRExercise;
 
-@protocol MRClassificationDelegate
+///
+/// Actions executed as results of exercise
+///
+@protocol MRClassificationPipelineDelegate
 
-- (void)classificationSucceeded:(MRExercise *)exercise fromData:(NSData *)data;
+///
+/// Classification successful
+///
+- (void)classificationSucceeded;
 
-- (void)classificationAmbiguous:(NSArray *)exercises fromData:(NSData *)data;
+///
+/// Classification ambiguous
+///
+- (void)classificationAmbiguous;
 
-- (void)classificationFailed:(NSData *)data;
-
+///
+/// Classification failed
+///
+- (void)classificationFailed;
 @end
 
 ///
@@ -49,4 +60,5 @@ typedef NSString MRExercise;
 /// block is detected.
 ///
 @property id<MRExerciseBlockDelegate> exerciseBlockDelegate;
+@property id<MRClassificationPipelineDelegate> classificationPipelineDelegate;
 @end
