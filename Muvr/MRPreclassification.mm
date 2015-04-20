@@ -118,7 +118,7 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
 
 - (void)pushBack:(NSData *)data from:(int)location at:(CFAbsoluteTime)time {
     const uint8_t *buf = reinterpret_cast<const uint8_t*>(data.bytes);
-    m_fuser->push_back(buf, sensor_location::wrist, (sensor_time_t)time * 1000);
+    m_fuser->push_back(buf, sensor_location::wrist);
 }
 
 @end
