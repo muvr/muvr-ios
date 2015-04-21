@@ -1,8 +1,11 @@
 #import "MRPreclassification.h"
+#import "MuvrPreclassification/include/easylogging++.h"
 #import "MuvrPreclassification/include/sensor_data.h"
 #import "MuvrPreclassification/include/classifier.h"
 
 using namespace muvr;
+
+INITIALIZE_EASYLOGGINGPP;
 
 #pragma MARK - Temporary implementation of sensor_data_fuser
 
@@ -118,7 +121,7 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
 
 - (void)pushBack:(NSData *)data from:(int)location at:(CFAbsoluteTime)time {
     const uint8_t *buf = reinterpret_cast<const uint8_t*>(data.bytes);
-    m_fuser->push_back(buf, sensor_location::wrist);
+    m_fuser->push_back(buf, sensor_location::wrist, 0);
 }
 
 @end

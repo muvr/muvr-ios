@@ -14,8 +14,6 @@
 		541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBAC1AC577E00056A81B /* LaunchScreen.xib */; };
 		541ABBBA1AC577E00056A81B /* MuvrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBB91AC577E00056A81B /* MuvrTests.swift */; };
 		542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */; };
-		542AB2151ACC4FD100F20299 /* sensor_data_fuser_entry.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB20E1ACC4FD100F20299 /* sensor_data_fuser_entry.cc */; };
-		542AB2161ACC4FD100F20299 /* sensor_data_fuser_table.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB20F1ACC4FD100F20299 /* sensor_data_fuser_table.cc */; };
 		542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */; };
 		542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */; };
 		542AB2191ACC4FD100F20299 /* symbolic_aggregate_approximation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */; };
@@ -31,6 +29,10 @@
 		543374271AD0111B005864D7 /* String+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374261AD0111B005864D7 /* String+Localisation.swift */; };
 		543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374281AD011A3005864D7 /* MRDeviceSessionDelegate.swift */; };
 		5433742F1AD01345005864D7 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5433742E1AD01345005864D7 /* String+MD5.swift */; };
+		5443FA791AE69E1400CC229D /* sensor_data_fuser_rsde.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA751AE69E1400CC229D /* sensor_data_fuser_rsde.cc */; };
+		5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */; };
+		5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */; };
+		5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */; };
 		548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 548225531AC57A3500EEEFCB /* MRPreclassification.mm */; };
 		54F0DC481AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */; };
 		54F0DC491AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC2B1AC57E8D0061EC5D /* CMakeLists.txt */; };
@@ -81,8 +83,6 @@
 		542AB20A1ACC4FC400F20299 /* symbol_alphabet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = symbol_alphabet.h; path = "../../../../muvr-preclassification/core/include/symbol_alphabet.h"; sourceTree = "<group>"; };
 		542AB20B1ACC4FC400F20299 /* symbolic_aggregate_approximation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = symbolic_aggregate_approximation.h; path = "../../../../muvr-preclassification/core/include/symbolic_aggregate_approximation.h"; sourceTree = "<group>"; };
 		542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = piecewise_aggregate_approximation.cc; path = "../../../../../muvr-preclassification/core/main/cc/piecewise_aggregate_approximation.cc"; sourceTree = "<group>"; };
-		542AB20E1ACC4FD100F20299 /* sensor_data_fuser_entry.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_entry.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_entry.cc"; sourceTree = "<group>"; };
-		542AB20F1ACC4FD100F20299 /* sensor_data_fuser_table.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_table.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_table.cc"; sourceTree = "<group>"; };
 		542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser.cc"; sourceTree = "<group>"; };
 		542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = symbol_alphabet.cc; path = "../../../../../muvr-preclassification/core/main/cc/symbol_alphabet.cc"; sourceTree = "<group>"; };
 		542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = symbolic_aggregate_approximation.cc; path = "../../../../../muvr-preclassification/core/main/cc/symbolic_aggregate_approximation.cc"; sourceTree = "<group>"; };
@@ -98,6 +98,11 @@
 		543374261AD0111B005864D7 /* String+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localisation.swift"; sourceTree = "<group>"; };
 		543374281AD011A3005864D7 /* MRDeviceSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDeviceSessionDelegate.swift; sourceTree = "<group>"; };
 		5433742E1AD01345005864D7 /* String+MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
+		5443FA741AE69DC900CC229D /* easylogging++.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "easylogging++.h"; path = "../../../../muvr-preclassification/core/include/easylogging++.h"; sourceTree = "<group>"; };
+		5443FA751AE69E1400CC229D /* sensor_data_fuser_rsde.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_rsde.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_rsde.cc"; sourceTree = "<group>"; };
+		5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_rsdt.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_rsdt.cc"; sourceTree = "<group>"; };
+		5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_sce.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_sce.cc"; sourceTree = "<group>"; };
+		5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_sct.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_sct.cc"; sourceTree = "<group>"; };
 		548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Muvr-Bridging-Header.h"; sourceTree = "<group>"; };
 		548225521AC57A3500EEEFCB /* MRPreclassification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPreclassification.h; sourceTree = "<group>"; };
 		548225531AC57A3500EEEFCB /* MRPreclassification.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRPreclassification.mm; sourceTree = "<group>"; };
@@ -298,6 +303,7 @@
 		54F0DC241AC57E8D0061EC5D /* include */ = {
 			isa = PBXGroup;
 			children = (
+				5443FA741AE69DC900CC229D /* easylogging++.h */,
 				542AB2081ACC4FC400F20299 /* piecewise_aggregate_approximation.h */,
 				FC5593C71ADD7E5400F235ED /* classifier.h */,
 				542AB20A1ACC4FC400F20299 /* symbol_alphabet.h */,
@@ -340,9 +346,11 @@
 			children = (
 				FC1AC7581ADE8CEA00832DE7 /* classifier.cc */,
 				542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */,
-				542AB20E1ACC4FD100F20299 /* sensor_data_fuser_entry.cc */,
-				542AB20F1ACC4FD100F20299 /* sensor_data_fuser_table.cc */,
 				542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */,
+				5443FA751AE69E1400CC229D /* sensor_data_fuser_rsde.cc */,
+				5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */,
+				5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */,
+				5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */,
 				542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */,
 				542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */,
 				54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */,
@@ -589,6 +597,7 @@
 				5433741E1AD010B1005864D7 /* Dictionary.swift in Sources */,
 				541ABBA61AC577E00056A81B /* MRViewController.swift in Sources */,
 				FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */,
+				5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */,
 				5433741F1AD010B1005864D7 /* Either.swift in Sources */,
 				5433741C1AD010B1005864D7 /* Array.swift in Sources */,
 				543374251AD01104005864D7 /* NSError+Convenience.swift in Sources */,
@@ -597,10 +606,10 @@
 				543374131AD01060005864D7 /* MRRawPebbleDeviceSession.swift in Sources */,
 				542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */,
 				543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */,
-				542AB2161ACC4FD100F20299 /* sensor_data_fuser_table.cc in Sources */,
-				542AB2151ACC4FD100F20299 /* sensor_data_fuser_entry.cc in Sources */,
 				5433741D1AD010B1005864D7 /* Box.swift in Sources */,
+				5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */,
 				FC5593B71ADBE56400F235ED /* SwiftyJSON.swift in Sources */,
+				5443FA791AE69E1400CC229D /* sensor_data_fuser_rsde.cc in Sources */,
 				543374221AD010B1005864D7 /* Result.swift in Sources */,
 				54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */,
 				54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */,
@@ -611,6 +620,7 @@
 				543374211AD010B1005864D7 /* Predef.swift in Sources */,
 				542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */,
 				54F0DC551AC57E8D0061EC5D /* raw_sensor_data.cc in Sources */,
+				5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */,
 				542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */,
 				543374271AD0111B005864D7 /* String+Localisation.swift in Sources */,
 				54F0DC531AC57E8D0061EC5D /* kalman_smooth.cc in Sources */,
