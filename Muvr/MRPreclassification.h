@@ -8,13 +8,18 @@
 ///
 /// Movement detected consistent with some specific exercise.
 ///
-- (void)exerciseBlockStarted;
+- (void)exercising;
 
 ///
 /// The exercise block has ended: either because there is no movement, or the exercise
 /// movement became too divergent.
 ///
-- (void)exerciseBlockEnded;
+- (void)exerciseEnded;
+
+- (void)moving;
+
+- (void)notMoving;
+
 @end
 
 typedef NSString MRExercise;

@@ -4,7 +4,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
     private let preclassification: MRPreclassification = MRPreclassification()
     private let pcd = MRRawPebbleConnectedDevice()
     
-    @IBOutlet var exercisingView: UIImageView!
+    @IBOutlet var statusLabel: UILabel!
 
     override func viewDidLoad() {
         preclassification.exerciseBlockDelegate = self
@@ -13,7 +13,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        exercisingView.hidden = true
+        statusLabel.text = "---";
     }
     
     @IBAction
@@ -50,18 +50,25 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
     }
     
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
-        NSLog("%@", data)
-        //preclassification.pushBack(data, from: 0, at: time)
+        preclassification.pushBack(data, from: 0, at: time)
     }
     
     // MARK: MRExerciseBlockDelegate implementation
     
-    func exerciseBlockEnded() {
-        exercisingView.hidden = true
+    func exerciseEnded() {
+        statusLabel.text = "Exercise ended";
     }
     
-    func exerciseBlockStarted() {
-        exercisingView.hidden = false
+    func exercising() {
+        statusLabel.text = "Exercising";
+    }
+    
+    func moving() {
+        statusLabel.text = "Moving";
+    }
+    
+    func notMoving() {
+        statusLabel.text = "Not moving";
     }
     
     // MARK: MRClassificationDelegate
