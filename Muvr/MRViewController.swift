@@ -4,9 +4,11 @@ import Charts
 class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataDelegate, MRClassificationPipelineDelegate, MRDeviceSessionDelegate {
     private let preclassification: MRPreclassification = MRPreclassification()
     private let pcd = MRRawPebbleConnectedDevice()
+    private var data: [[NSNumber]] = []
     
     @IBOutlet var statusLabel: UILabel!
-    @IBOutlet var lineChartView: LineChartView!
+    @IBOutlet var lineChartView: FixedLineChartView!
+    
 
     override func viewDidLoad() {
         preclassification.exerciseBlockDelegate = self
@@ -78,34 +80,42 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
     
     // MARK: MRDeviceDataDelegate
     func deviceDataDecoded(rows: [AnyObject]!) {
-        let numberRows = rows as! [[NSNumber]]
+        
+        func mkLineChartDataSet(values: [[NSNumber]], index: Int, label: String, color: UIColor) -> LineChartDataSet {
+            var cdes: [ChartDataEntry] = []
+            for (index, val) in enumerate(values) {
+                cdes += [ChartDataEntry(value: val[index] as Float, xIndex: index)]
+            }
+            let ds = LineChartDataSet(yVals: cdes, label: label)
+            ds.circleRadius = 0
+            ds.colors = [color]
+            return ds
+        }
+        
+        self.data += rows as! [[NSNumber]]
+        
+        if (self.data.count > 1000) {
+            self.data = Array(self.data[rows.count..<self.data.count])
+        }
+        
         var xVals: [String] = []
-        for i in 0..<numberRows[0].count {
+        for i in 0..<self.data.count {
             xVals += [String(i)]
         }
         
-        lineChartView.setScaleEnabled(false)
-        lineChartView.setVisibleXRange(CGFloat(xVals.count))
-        lineChartView.setVisibleYRange(1500, axis: ChartYAxis.AxisDependency.Left)
+        lineChartView.setScaleMinima(1, scaleY: 1)
+        lineChartView.leftAxis.startAtZeroEnabled = false
+        lineChartView.rightAxis.startAtZeroEnabled = false
+        lineChartView.setVisibleXRange(CGFloat(100))
+        lineChartView.setVisibleYRange(3000, axis: ChartYAxis.AxisDependency.Left)
+        lineChartView.setVisibleYRange(3000, axis: ChartYAxis.AxisDependency.Right)
         
-        let dataSets = (rows as! [[NSNumber]]).map { (vals: [NSNumber]) -> LineChartDataSet in
-            var cdes: [ChartDataEntry] = []
-            for (index, val) in enumerate(vals) {
-                cdes += [ChartDataEntry(value: val as Float, xIndex: index)]
-            }
-            let ds = LineChartDataSet(yVals: cdes)
-            ds.circleRadius = 0
-            ds.colors = [UIColor.redColor()]
-            return ds
-        }
-        let data = LineChartData(xVals: xVals, dataSets: dataSets)
+        let data = LineChartData(xVals: xVals, dataSets: [
+            mkLineChartDataSet(self.data, 0, "X", UIColor.redColor()),
+            mkLineChartDataSet(self.data, 1, "Y", UIColor.greenColor()),
+            mkLineChartDataSet(self.data, 2, "Z", UIColor.blueColor()),
+        ])
         lineChartView.data = data;
-//        let xds = LineChartDataSet(
-//        for row in rows as! [[NSNumber]] {
-//            for v in row {
-//                NSLog("%@", v)
-//            }
-//        }
     }
     
     // MARK: MRClassificationDelegate

@@ -92,10 +92,10 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
         //[self.deviceDataDelegate deviceDataDecoded:memory rows:data.rows cols:data.cols];
 
         NSMutableArray *values = [[NSMutableArray alloc] init];
-        for (int i = 0; i < data.cols; ++i) {
+        for (int i = 0; i < data.rows; ++i) {
             NSMutableArray *value = [[NSMutableArray alloc] init];
-            for (int j = 0; j < data.rows; ++j) {
-                NSNumber *n = [NSNumber numberWithInt:data.at<int16_t>(j, i)];
+            for (int j = 0; j < data.cols; ++j) {
+                NSNumber *n = [NSNumber numberWithInt:data.at<int16_t>(i, j)];
                 [value addObject:n];
             }
             [values addObject:value];
