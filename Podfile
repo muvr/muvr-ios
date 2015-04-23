@@ -5,3 +5,4 @@ use_frameworks!
 pod 'OpenCV', '~> 2.4.9.1'
 pod 'PebbleKit'
 pod 'Alamofire', '~> 1.2'
+pod 'Charts', '~>2.0.9'

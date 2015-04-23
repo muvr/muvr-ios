@@ -86,7 +86,21 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
     const uint8_t *buf = reinterpret_cast<const uint8_t*>(data.bytes);
     raw_sensor_data decoded = decode_single_packet(buf);
     if (self.deviceDataDelegate != nil) {
-        [self.deviceDataDelegate deviceDataDecoded];
+        Mat data = decoded.data();
+        
+        //uint16_t **memory = data.ptr<uint16_t*>();
+        //[self.deviceDataDelegate deviceDataDecoded:memory rows:data.rows cols:data.cols];
+
+        NSMutableArray *values = [[NSMutableArray alloc] init];
+        for (int i = 0; i < data.cols; ++i) {
+            NSMutableArray *value = [[NSMutableArray alloc] init];
+            for (int j = 0; j < data.rows; ++j) {
+                NSNumber *n = [NSNumber numberWithInt:data.at<int16_t>(j, i)];
+                [value addObject:n];
+            }
+            [values addObject:value];
+        }
+        [self.deviceDataDelegate deviceDataDecoded:values];
     }
     sensor_data_fuser::fusion_result result = m_fuser->push_back(decoded, sensor_location_t::wrist, 0);
     switch (result.type()) {

@@ -2,7 +2,8 @@
 
 @protocol MRDeviceDataDelegate
 
-- (void)deviceDataDecoded;
+//- (void)deviceDataDecoded:(uint16_t **)memory rows:(int)rows cols:(int)cols;
+- (void)deviceDataDecoded:(NSArray *)rows;
 
 @end
 
