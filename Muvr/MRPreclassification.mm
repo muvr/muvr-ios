@@ -1,11 +1,19 @@
 #import "MRPreclassification.h"
 #import "MuvrPreclassification/include/easylogging++.h"
 #import "MuvrPreclassification/include/sensor_data.h"
+#import "MuvrPreclassification/include/device_data_decoder.h"
 #import "MuvrPreclassification/include/classifier.h"
 
 using namespace muvr;
 
 INITIALIZE_EASYLOGGINGPP;
+
+class const_exercise_decider : public exercise_decider {
+public:
+    virtual exercise_result has_exercise(const raw_sensor_data& source, exercise_context &context) const {
+        return yes;
+    }
+};
 
 typedef std::function<void(const std::string&, const fused_sensor_data&)> classification_succeeded_t;
 typedef std::function<void(const std::vector<std::string>&, const fused_sensor_data&)> classification_ambiguous_t;
@@ -67,7 +75,8 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
         if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationFailed];
     };
     
-    m_fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser());
+    m_fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(std::shared_ptr<movement_decider>(new movement_decider()),
+                                                                       std::shared_ptr<exercise_decider>(new const_exercise_decider())));
     m_classifier = std::unique_ptr<classifier>(new delegating_classifier(success, ambiguous, failed));
     
     return self;
@@ -75,7 +84,11 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
 
 - (void)pushBack:(NSData *)data from:(int)location at:(CFAbsoluteTime)time {
     const uint8_t *buf = reinterpret_cast<const uint8_t*>(data.bytes);
-    sensor_data_fuser::fusion_result result = m_fuser->push_back(buf, sensor_location_t::wrist, 0);
+    raw_sensor_data decoded = decode_single_packet(buf);
+    if (self.deviceDataDelegate != nil) {
+        [self.deviceDataDelegate deviceDataDecoded];
+    }
+    sensor_data_fuser::fusion_result result = m_fuser->push_back(decoded, sensor_location_t::wrist, 0);
     switch (result.type()) {
         case sensor_data_fuser::fusion_result::not_moving:
             if (self.exerciseBlockDelegate != nil) [self.exerciseBlockDelegate notMoving];

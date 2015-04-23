@@ -1,5 +1,11 @@
 #import <Foundation/Foundation.h>
 
+@protocol MRDeviceDataDelegate
+
+- (void)deviceDataDecoded;
+
+@end
+
 ///
 /// The most coarse exercise detection
 ///
@@ -65,5 +71,6 @@ typedef NSString MRExercise;
 /// block is detected.
 ///
 @property id<MRExerciseBlockDelegate> exerciseBlockDelegate;
+@property id<MRDeviceDataDelegate> deviceDataDelegate;
 @property id<MRClassificationPipelineDelegate> classificationPipelineDelegate;
 @end
