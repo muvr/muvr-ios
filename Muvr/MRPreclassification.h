@@ -1,5 +1,11 @@
 #import <Foundation/Foundation.h>
 
+@interface Threed : NSObject
+@property int16_t x;
+@property int16_t y;
+@property int16_t z;
+@end
+
 @protocol MRDeviceDataDelegate
 
 //- (void)deviceDataDecoded:(uint16_t **)memory rows:(int)rows cols:(int)cols;

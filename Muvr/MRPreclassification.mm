@@ -56,6 +56,9 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
     m_classification_failed(fromData);
 }
 
+@implementation Threed
+@end
+
 #pragma MARK - MRPreclassification implementation
 
 @implementation MRPreclassification {
@@ -93,12 +96,13 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
 
         NSMutableArray *values = [[NSMutableArray alloc] init];
         for (int i = 0; i < data.rows; ++i) {
-            NSMutableArray *value = [[NSMutableArray alloc] init];
-            for (int j = 0; j < data.cols; ++j) {
-                NSNumber *n = [NSNumber numberWithInt:data.at<int16_t>(i, j)];
-                [value addObject:n];
+            if (data.cols == 3) {
+                Threed *t = [[Threed alloc] init];
+                t.x = data.at<int16_t>(i, 0);
+                t.y = data.at<int16_t>(i, 1);
+                t.z = data.at<int16_t>(i, 2);
+                [values addObject:t];
             }
-            [values addObject:value];
         }
         [self.deviceDataDelegate deviceDataDecoded:values];
     }

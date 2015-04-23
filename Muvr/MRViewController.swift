@@ -4,7 +4,7 @@ import Charts
 class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataDelegate, MRClassificationPipelineDelegate, MRDeviceSessionDelegate {
     private let preclassification: MRPreclassification = MRPreclassification()
     private let pcd = MRRawPebbleConnectedDevice()
-    private var data: [[NSNumber]] = []
+    private var data: [Threed] = []
     
     @IBOutlet var statusLabel: UILabel!
     @IBOutlet var lineChartView: FixedLineChartView!
@@ -81,10 +81,9 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
     // MARK: MRDeviceDataDelegate
     func deviceDataDecoded(rows: [AnyObject]!) {
         
-        func mkLineChartDataSet(values: [[NSNumber]], index: Int, label: String, color: UIColor) -> LineChartDataSet {
-            var cdes: [ChartDataEntry] = []
-            for (index, val) in enumerate(values) {
-                cdes += [ChartDataEntry(value: val[index] as Float, xIndex: index)]
+        func mkLineChartDataSet<A>(values: [A], label: String, color: UIColor, f: A -> Float) -> LineChartDataSet {
+            let cdes: [ChartDataEntry] = values.zipWithIndex().map { (index, a) in
+                return ChartDataEntry(value: f(a) as Float, xIndex: index)
             }
             let ds = LineChartDataSet(yVals: cdes, label: label)
             ds.circleRadius = 0
@@ -92,7 +91,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
             return ds
         }
         
-        self.data += rows as! [[NSNumber]]
+        self.data += rows as! [Threed]
         
         if (self.data.count > 1000) {
             self.data = Array(self.data[rows.count..<self.data.count])
@@ -106,16 +105,20 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
         lineChartView.setScaleMinima(1, scaleY: 1)
         lineChartView.leftAxis.startAtZeroEnabled = false
         lineChartView.rightAxis.startAtZeroEnabled = false
+        lineChartView.setVisibleXRange(100)
         lineChartView.setVisibleXRange(CGFloat(100))
         lineChartView.setVisibleYRange(3000, axis: ChartYAxis.AxisDependency.Left)
         lineChartView.setVisibleYRange(3000, axis: ChartYAxis.AxisDependency.Right)
         
-        let data = LineChartData(xVals: xVals, dataSets: [
-            mkLineChartDataSet(self.data, 0, "X", UIColor.redColor()),
-            mkLineChartDataSet(self.data, 1, "Y", UIColor.greenColor()),
-            mkLineChartDataSet(self.data, 2, "Z", UIColor.blueColor()),
-        ])
-        lineChartView.data = data;
+        let xs = mkLineChartDataSet(self.data, "X", UIColor.redColor(), { (x: Threed) in return Float(x.x) })
+        let ys = mkLineChartDataSet(self.data, "Y", UIColor.greenColor(), { (x: Threed) in return Float(x.y) })
+        let zs = mkLineChartDataSet(self.data, "Z", UIColor.blueColor(), { (x: Threed) in return Float(x.z) })
+        
+        let data = LineChartData(xVals: xVals, dataSets: [xs, ys, zs])
+        lineChartView.data = data
+        if self.data.count > 100 {
+            lineChartView.moveViewToX(self.data.count - 100)
+        }
     }
     
     // MARK: MRClassificationDelegate
