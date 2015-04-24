@@ -57,6 +57,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
     }
     
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
+        //NSLog("%@", data)
         preclassification.pushBack(data, from: 0, at: time)
     }
     
@@ -102,13 +103,15 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
             xVals += [String(i)]
         }
         
-        lineChartView.setScaleMinima(1, scaleY: 1)
+        lineChartView.setScaleEnabled(false)
         lineChartView.leftAxis.startAtZeroEnabled = false
         lineChartView.rightAxis.startAtZeroEnabled = false
+        lineChartView.rightAxis.customAxisMax = 1500
+        lineChartView.rightAxis.customAxisMin = -1500
+        lineChartView.leftAxis.customAxisMax = 1500
+        lineChartView.leftAxis.customAxisMin = -1500
         lineChartView.setVisibleXRange(100)
         lineChartView.setVisibleXRange(CGFloat(100))
-        lineChartView.setVisibleYRange(3000, axis: ChartYAxis.AxisDependency.Left)
-        lineChartView.setVisibleYRange(3000, axis: ChartYAxis.AxisDependency.Right)
         
         let xs = mkLineChartDataSet(self.data, "X", UIColor.redColor(), { (x: Threed) in return Float(x.x) })
         let ys = mkLineChartDataSet(self.data, "Y", UIColor.greenColor(), { (x: Threed) in return Float(x.y) })
