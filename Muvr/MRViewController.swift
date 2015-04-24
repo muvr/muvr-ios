@@ -7,7 +7,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
     private var data: [Threed] = []
     
     @IBOutlet var statusLabel: UILabel!
-    @IBOutlet var lineChartView: FixedLineChartView!
+    @IBOutlet var lineChartView: LineChartView!
     
 
     override func viewDidLoad() {

@@ -54,7 +54,7 @@
                                     <action selector="stop" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ZWq-Ug-gia"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" id="vhf-AQ-kma" customClass="FixedLineChartView" customModule="Muvr" customModuleProvider="target">
+                            <view contentMode="scaleToFill" id="vhf-AQ-kma" customClass="LineChartView" customModule="Charts">
                                 <rect key="frame" x="16" y="44" width="704" height="350"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -63,7 +63,7 @@
                                 <rect key="frame" x="300" y="18" width="189" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>

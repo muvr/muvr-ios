@@ -34,7 +34,6 @@
 		5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */; };
 		5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */; };
 		548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 548225531AC57A3500EEEFCB /* MRPreclassification.mm */; };
-		54B045E31AE93A630091BCE0 /* FixedLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B045E21AE93A630091BCE0 /* FixedLineChartView.swift */; };
 		54F0DC481AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */; };
 		54F0DC491AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC2B1AC57E8D0061EC5D /* CMakeLists.txt */; };
 		54F0DC4A1AC57E8D0061EC5D /* all_1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC2D1AC57E8D0061EC5D /* all_1.csv */; };
@@ -108,7 +107,6 @@
 		548225521AC57A3500EEEFCB /* MRPreclassification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPreclassification.h; sourceTree = "<group>"; };
 		548225531AC57A3500EEEFCB /* MRPreclassification.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRPreclassification.mm; sourceTree = "<group>"; };
 		548226BD1AC57CD300EEEFCB /* libMuvrPreclassification.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMuvrPreclassification.a; path = "MuvrPreclassification/build/Debug-iphoneos/libMuvrPreclassification.a"; sourceTree = "<group>"; };
-		54B045E21AE93A630091BCE0 /* FixedLineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FixedLineChartView.swift; sourceTree = "<group>"; };
 		54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		54F0DC251AC57E8D0061EC5D /* device_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data.h; sourceTree = "<group>"; };
 		54F0DC261AC57E8D0061EC5D /* device_data_decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data_decoder.h; sourceTree = "<group>"; };
@@ -221,7 +219,6 @@
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
 				FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */,
 				FC1AC75C1ADE98F200832DE7 /* MRExerciseSessionPayload.swift */,
-				54B045E21AE93A630091BCE0 /* FixedLineChartView.swift */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -609,7 +606,6 @@
 				543374131AD01060005864D7 /* MRRawPebbleDeviceSession.swift in Sources */,
 				542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */,
 				543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */,
-				54B045E31AE93A630091BCE0 /* FixedLineChartView.swift in Sources */,
 				5433741D1AD010B1005864D7 /* Box.swift in Sources */,
 				5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */,
 				FC5593B71ADBE56400F235ED /* SwiftyJSON.swift in Sources */,
