@@ -85,7 +85,7 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
     return self;
 }
 
-- (void)pushBack:(NSData *)data from:(int)location at:(CFAbsoluteTime)time {
+- (void)pushBack:(NSData *)data from:(int)location {
     const uint8_t *buf = reinterpret_cast<const uint8_t*>(data.bytes);
     raw_sensor_data decoded = decode_single_packet(buf);
     if (self.deviceDataDelegate != nil) {
@@ -104,7 +104,7 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
                 [values addObject:t];
             }
         }
-        [self.deviceDataDelegate deviceDataDecoded:values];
+        [self.deviceDataDelegate deviceDataDecoded3D:values fromSensor:decoded.type() device:decoded.device_id() andLocation:location];
     }
     sensor_data_fuser::fusion_result result = m_fuser->push_back(decoded, sensor_location_t::wrist, 0);
     switch (result.type()) {

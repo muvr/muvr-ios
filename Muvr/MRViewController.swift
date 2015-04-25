@@ -58,7 +58,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
     
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
         //NSLog("%@", data)
-        preclassification.pushBack(data, from: 0, at: time)
+        preclassification.pushBack(data, from: 0)
     }
     
     // MARK: MRExerciseBlockDelegate implementation
@@ -80,8 +80,8 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
     }
     
     // MARK: MRDeviceDataDelegate
-    func deviceDataDecoded(rows: [AnyObject]!) {
-        
+    func deviceDataDecoded3D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+
         func mkLineChartDataSet<A>(values: [A], label: String, color: UIColor, f: A -> Float) -> LineChartDataSet {
             let cdes: [ChartDataEntry] = values.zipWithIndex().map { (index, a) in
                 return ChartDataEntry(value: f(a) as Float, xIndex: index)
@@ -122,6 +122,10 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
         if self.data.count > 100 {
             lineChartView.moveViewToX(self.data.count - 100)
         }
+    }
+    
+    func deviceDataDecoded1D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+        ///
     }
     
     // MARK: MRClassificationDelegate
