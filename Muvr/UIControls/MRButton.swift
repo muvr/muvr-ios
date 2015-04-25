@@ -1,5 +1,8 @@
 import Foundation
 
+///
+/// Common replacement for UIButton with Muvr-wide properties
+///
 class MRButton : UIButton {
     
     required init(coder aDecoder: NSCoder) {
