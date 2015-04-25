@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5403814C1AEBBE45000C8B15 /* export.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5403814B1AEBBE45000C8B15 /* export.cc */; };
+		5403814E1AEC0C63000C8B15 /* MRSensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403814D1AEC0C63000C8B15 /* MRSensorView.swift */; };
 		541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA31AC577E00056A81B /* MRAppDelegate.swift */; };
 		541ABBA61AC577E00056A81B /* MRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA51AC577E00056A81B /* MRViewController.swift */; };
 		541ABBA91AC577E00056A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBA71AC577E00056A81B /* Main.storyboard */; };
@@ -72,6 +73,7 @@
 		16D2F8864F1B66657A209A69 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5403814A1AEBBE3B000C8B15 /* export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = export.h; path = "../../../../muvr-preclassification/core/include/export.h"; sourceTree = "<group>"; };
 		5403814B1AEBBE45000C8B15 /* export.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = export.cc; path = "../../../../../muvr-preclassification/core/main/cc/export.cc"; sourceTree = "<group>"; };
+		5403814D1AEC0C63000C8B15 /* MRSensorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSensorView.swift; sourceTree = "<group>"; };
 		541ABB9E1AC577E00056A81B /* Muvr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Muvr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		541ABBA21AC577E00056A81B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		541ABBA31AC577E00056A81B /* MRAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAppDelegate.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				543374101AD01060005864D7 /* Device */,
 				541ABBA31AC577E00056A81B /* MRAppDelegate.swift */,
 				541ABBA51AC577E00056A81B /* MRViewController.swift */,
+				5403814D1AEC0C63000C8B15 /* MRSensorView.swift */,
 				541ABBA71AC577E00056A81B /* Main.storyboard */,
 				541ABBAA1AC577E00056A81B /* Images.xcassets */,
 				541ABBAC1AC577E00056A81B /* LaunchScreen.xib */,
@@ -624,6 +627,7 @@
 				FC1AC7601ADE9A2D00832DE7 /* MRMuvrServer.swift in Sources */,
 				54F0DC541AC57E8D0061EC5D /* nomovement_decider.cc in Sources */,
 				543374211AD010B1005864D7 /* Predef.swift in Sources */,
+				5403814E1AEC0C63000C8B15 /* MRSensorView.swift in Sources */,
 				542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */,
 				54F0DC551AC57E8D0061EC5D /* raw_sensor_data.cc in Sources */,
 				5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */,

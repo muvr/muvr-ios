@@ -85,15 +85,18 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
     return self;
 }
 
-- (void)pushBack:(NSData *)data from:(int)location {
+- (void)pushBack:(NSData *)data from:(uint8_t)location {
+    // core processing
     const uint8_t *buf = reinterpret_cast<const uint8_t*>(data.bytes);
     raw_sensor_data decoded = decode_single_packet(buf);
+    sensor_data_fuser::fusion_result result = m_fuser->push_back(decoded, sensor_location_t::wrist, 0);
+
+    // hooks & delegates
+    
+    // first, handle the device data stuff
     if (self.deviceDataDelegate != nil) {
         Mat data = decoded.data();
         
-        //uint16_t **memory = data.ptr<uint16_t*>();
-        //[self.deviceDataDelegate deviceDataDecoded:memory rows:data.rows cols:data.cols];
-
         NSMutableArray *values = [[NSMutableArray alloc] init];
         for (int i = 0; i < data.rows; ++i) {
             if (data.cols == 3) {
@@ -102,25 +105,35 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
                 t.y = data.at<int16_t>(i, 1);
                 t.z = data.at<int16_t>(i, 2);
                 [values addObject:t];
+            } else if (data.cols == 1) {
+                [values addObject:[NSNumber numberWithInt:data.at<int16_t>(i, 0)]];
+            } else {
+                throw std::runtime_error("unreportable data dimension");
             }
         }
         [self.deviceDataDelegate deviceDataDecoded3D:values fromSensor:decoded.type() device:decoded.device_id() andLocation:location];
     }
-    sensor_data_fuser::fusion_result result = m_fuser->push_back(decoded, sensor_location_t::wrist, 0);
-    switch (result.type()) {
-        case sensor_data_fuser::fusion_result::not_moving:
-            if (self.exerciseBlockDelegate != nil) [self.exerciseBlockDelegate notMoving];
-            break;
-        case sensor_data_fuser::fusion_result::moving:
-            if (self.exerciseBlockDelegate != nil) [self.exerciseBlockDelegate moving];
-            break;
-        case sensor_data_fuser::fusion_result::exercising:
-            if (self.exerciseBlockDelegate != nil) [self.exerciseBlockDelegate exercising];
-            break;
-        case sensor_data_fuser::fusion_result::exercise_ended:
-            if (self.exerciseBlockDelegate != nil) [self.exerciseBlockDelegate exerciseEnded];
-            break;
+
+    // second, the exercise blocks
+    if (self.exerciseBlockDelegate != nil) {
+        switch (result.type()) {
+            case sensor_data_fuser::fusion_result::not_moving:
+                [self.exerciseBlockDelegate notMoving];
+                break;
+            case sensor_data_fuser::fusion_result::moving:
+                [self.exerciseBlockDelegate moving];
+                break;
+            case sensor_data_fuser::fusion_result::exercising:
+                [self.exerciseBlockDelegate exercising];
+                break;
+            case sensor_data_fuser::fusion_result::exercise_ended:
+                [self.exerciseBlockDelegate exerciseEnded];
+                break;
+        }
     }
+    
+    // finally, the classification pipeline
+    
 }
 
 @end

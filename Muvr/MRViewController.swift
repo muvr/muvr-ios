@@ -1,18 +1,16 @@
 import UIKit
 import Charts
 
-class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataDelegate, MRClassificationPipelineDelegate, MRDeviceSessionDelegate {
+class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificationPipelineDelegate, MRDeviceSessionDelegate {
     private let preclassification: MRPreclassification = MRPreclassification()
     private let pcd = MRRawPebbleConnectedDevice()
-    private var data: [Threed] = []
     
     @IBOutlet var statusLabel: UILabel!
-    @IBOutlet var lineChartView: LineChartView!
-    
+    @IBOutlet var sensorView: MRSensorView!
 
     override func viewDidLoad() {
         preclassification.exerciseBlockDelegate = self
-        preclassification.deviceDataDelegate = self
+        preclassification.deviceDataDelegate = sensorView
         preclassification.classificationPipelineDelegate = self
     }
     
@@ -77,56 +75,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
     
     func notMoving() {
         statusLabel.text = "Not moving";
-    }
-    
-    // MARK: MRDeviceDataDelegate
-    func deviceDataDecoded3D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
-
-        func mkLineChartDataSet<A>(values: [A], label: String, color: UIColor, f: A -> Float) -> LineChartDataSet {
-            let cdes: [ChartDataEntry] = values.zipWithIndex().map { (index, a) in
-                return ChartDataEntry(value: f(a) as Float, xIndex: index)
-            }
-            let ds = LineChartDataSet(yVals: cdes, label: label)
-            ds.circleRadius = 0
-            ds.colors = [color]
-            return ds
-        }
-        
-        self.data += rows as! [Threed]
-        
-        if (self.data.count > 1000) {
-            self.data = Array(self.data[rows.count..<self.data.count])
-        }
-        
-        var xVals: [String] = []
-        for i in 0..<self.data.count {
-            xVals += [String(i)]
-        }
-        
-        lineChartView.setScaleEnabled(false)
-        lineChartView.leftAxis.startAtZeroEnabled = false
-        lineChartView.rightAxis.startAtZeroEnabled = false
-        lineChartView.rightAxis.customAxisMax = 1500
-        lineChartView.rightAxis.customAxisMin = -1500
-        lineChartView.leftAxis.customAxisMax = 1500
-        lineChartView.leftAxis.customAxisMin = -1500
-        lineChartView.setVisibleXRange(100)
-        lineChartView.setVisibleXRange(CGFloat(100))
-        
-        let xs = mkLineChartDataSet(self.data, "X", UIColor.redColor(), { (x: Threed) in return Float(x.x) })
-        let ys = mkLineChartDataSet(self.data, "Y", UIColor.greenColor(), { (x: Threed) in return Float(x.y) })
-        let zs = mkLineChartDataSet(self.data, "Z", UIColor.blueColor(), { (x: Threed) in return Float(x.z) })
-        
-        let data = LineChartData(xVals: xVals, dataSets: [xs, ys, zs])
-        lineChartView.data = data
-        if self.data.count > 100 {
-            lineChartView.moveViewToX(self.data.count - 100)
-        }
-    }
-    
-    func deviceDataDecoded1D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
-        ///
-    }
+    }    
     
     // MARK: MRClassificationDelegate
     func classificationSucceeded() {//(exercise: String!, fromData data: NSData!) {
