@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5403814C1AEBBE45000C8B15 /* export.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5403814B1AEBBE45000C8B15 /* export.cc */; };
 		5403814E1AEC0C63000C8B15 /* MRSensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403814D1AEC0C63000C8B15 /* MRSensorView.swift */; };
+		540381511AEC2B5A000C8B15 /* MRButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381501AEC2B5A000C8B15 /* MRButton.swift */; };
 		541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA31AC577E00056A81B /* MRAppDelegate.swift */; };
 		541ABBA61AC577E00056A81B /* MRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA51AC577E00056A81B /* MRViewController.swift */; };
 		541ABBA91AC577E00056A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBA71AC577E00056A81B /* Main.storyboard */; };
@@ -74,6 +75,7 @@
 		5403814A1AEBBE3B000C8B15 /* export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = export.h; path = "../../../../muvr-preclassification/core/include/export.h"; sourceTree = "<group>"; };
 		5403814B1AEBBE45000C8B15 /* export.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = export.cc; path = "../../../../../muvr-preclassification/core/main/cc/export.cc"; sourceTree = "<group>"; };
 		5403814D1AEC0C63000C8B15 /* MRSensorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSensorView.swift; sourceTree = "<group>"; };
+		540381501AEC2B5A000C8B15 /* MRButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRButton.swift; sourceTree = "<group>"; };
 		541ABB9E1AC577E00056A81B /* Muvr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Muvr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		541ABBA21AC577E00056A81B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		541ABBA31AC577E00056A81B /* MRAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAppDelegate.swift; sourceTree = "<group>"; };
@@ -184,6 +186,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5403814F1AEC2B47000C8B15 /* UIControls */ = {
+			isa = PBXGroup;
+			children = (
+				540381501AEC2B5A000C8B15 /* MRButton.swift */,
+			);
+			name = UIControls;
+			path = Muvr/UIControls;
+			sourceTree = SOURCE_ROOT;
+		};
 		541ABB951AC577E00056A81B = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +223,7 @@
 				543374231AD01104005864D7 /* Ext */,
 				543374141AD010B1005864D7 /* Predef */,
 				543374101AD01060005864D7 /* Device */,
+				5403814F1AEC2B47000C8B15 /* UIControls */,
 				541ABBA31AC577E00056A81B /* MRAppDelegate.swift */,
 				541ABBA51AC577E00056A81B /* MRViewController.swift */,
 				5403814D1AEC0C63000C8B15 /* MRSensorView.swift */,
@@ -614,6 +626,7 @@
 				FC1AC75D1ADE98F200832DE7 /* MRExerciseSessionPayload.swift in Sources */,
 				543374131AD01060005864D7 /* MRRawPebbleDeviceSession.swift in Sources */,
 				542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */,
+				540381511AEC2B5A000C8B15 /* MRButton.swift in Sources */,
 				543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */,
 				5433741D1AD010B1005864D7 /* Box.swift in Sources */,
 				5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */,

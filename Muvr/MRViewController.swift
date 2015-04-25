@@ -6,6 +6,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
     private let pcd = MRRawPebbleConnectedDevice()
     
     @IBOutlet var statusLabel: UILabel!
+    @IBOutlet var startStopButton: UIButton!
     @IBOutlet var sensorView: MRSensorView!
 
     override func viewDidLoad() {
@@ -20,15 +21,17 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
     }
     
     @IBAction
-    func start() {
-        statusLabel.text = "Starting...";
-        pcd.start(self)
-    }
-    
-    @IBAction
-    func stop() {
-        pcd.stop()
-        statusLabel.text = "---";
+    func startStop() {
+        if pcd.running {
+            startStopButton.setTitle("Start", forState: UIControlState.Normal)
+            startStopButton.titleLabel?.text = "Start"
+            pcd.stop()
+            statusLabel.text = "---";
+        } else {
+            startStopButton.setTitle("Stop", forState: UIControlState.Normal)
+            statusLabel.text = "Starting...";
+            pcd.start(self)
+        }
     }
     
     @IBAction

@@ -67,6 +67,9 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     
     // MARK: Device implementation
 
+    ///
+    /// Starts a session
+    ///
     func start(deviceSessionDelegate: MRDeviceSessionDelegate) {
         if currentSession == nil {
             if central.connectedWatches.count > 1 {
@@ -84,9 +87,19 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         }
     }
     
+    ///
+    /// Stops the currently running session
+    ///
     func stop() {
         currentSession?.stop()
         currentSession = nil
+    }
+    
+    ///
+    /// Indicates whether the device is running
+    ///
+    var running: Bool {
+        return currentSession != nil
     }
     
     // MARK: PBPebbleCentral implementation
