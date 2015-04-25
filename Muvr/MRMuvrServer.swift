@@ -157,8 +157,10 @@ public class MRMuvrServer {
         case let .Some(Body.Json(params)):
             let encoding = lsr.method == .GET ? ParameterEncoding.URL : ParameterEncoding.JSON
             return manager.request(lsr.method, baseUrlString + lsr.path, parameters: params, encoding: encoding)
-        case let .Some(Body.Data(data)): return manager.upload(URLRequest(lsr.method, URL: baseUrlString + lsr.path), data: data)
-        case .None: return manager.request(lsr.method, baseUrlString + lsr.path, parameters: nil, encoding: ParameterEncoding.URL)
+        case let .Some(Body.Data(data)):
+            return manager.upload(URLRequest(lsr.method, URL: baseUrlString + lsr.path), data: data)
+        case .None:
+            return manager.request(lsr.method, baseUrlString + lsr.path, parameters: nil, encoding: ParameterEncoding.URL)
         }
     }
     
@@ -172,8 +174,8 @@ public class MRMuvrServer {
         return mutableURLRequest
     }
     
-    func exerciseSessionPayload(payload: MRExerciseSessionPayload, f: Result<String> -> Void) -> Void {
-        request(MRMuvrServerURLs.exerciseSessionPayload(), body: .Json(params: payload.marshal()))
-            .responseAsResult(f) { json in return json.stringValue }
+    func exerciseSessionPayload(userId: MRUserId, sessionId: MRSessionId, payload: NSData, f: Result<Void> -> Void) -> Void {
+        request(MRMuvrServerURLs.ExerciseSessionClassification(userId: userId, sessionId: sessionId), body: .Data(data: payload))
+            .responseAsResult(f, completionHandler: constUnit())
     }
 }

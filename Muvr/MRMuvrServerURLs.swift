@@ -23,14 +23,14 @@ protocol MRMuvrServerRequestConvertible {
 }
 
 ///
-/// The Lift server URLs and request data mappers
+/// The Muvr server URLs and request data mappers
 ///
 enum MRMuvrServerURLs : MRMuvrServerRequestConvertible {
     
     ///
     /// Register the user
     ///
-    case exerciseSessionPayload()
+    case ExerciseSessionClassification(userId: MRUserId, sessionId: MRSessionId)
     
     private struct Format {
         private static let simpleDateFormatter: NSDateFormatter = {
@@ -50,7 +50,7 @@ enum MRMuvrServerURLs : MRMuvrServerRequestConvertible {
         get {
             let r: MRMuvrServerRequest = {
                 switch self {
-                case let .exerciseSessionPayload: return MRMuvrServerRequest(path: "/exerciseSession/payload", method: Method.POST)
+                case .ExerciseSessionClassification(let user, let session): return MRMuvrServerRequest(path: "/exercise/\(user.UUIDString)/\(session.UUIDString)", method: Method.POST)
                 }
                 }()
             
