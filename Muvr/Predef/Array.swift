@@ -29,6 +29,33 @@ extension Array {
         
         return r
     }
+    
+    /// 
+    /// Returns the tail of this array
+    ///
+    var tail: [Element] {
+        if self.isEmpty { return [] }
+        return Array(self[1..<count])
+    }
+    
+    ///
+    /// Returns the first element as array of one element
+    ///
+    var firsts: [Element] {
+        if self.isEmpty { return [] }
+        return [self[0]]
+    }
+    
+    ///
+    /// fold left
+    ///
+    func foldLeft<B>(zero: B, f: (Element, B) -> B) -> B {
+        var result = zero
+        for x in self {
+            result = f(x, result)
+        }
+        return result
+    }
 
     ///
     /// Return minimum element by applying ``value`` to each element to determine
@@ -44,19 +71,6 @@ extension Array {
     ///
     func maxBy<C : Comparable>(value: Element -> C) -> Element? {
         return comparingBy(value) { $0 > $1 }
-    }
-    
-    ///
-    /// Flat maps all elements by applying ``f``
-    ///
-    func flatMap<That>(f: Element -> That?) -> [That] {
-        var r: [That] = []
-        for e in self {
-            if let x = f(e) {
-                r += [x]
-            }
-        }
-        return r
     }
     
     ///

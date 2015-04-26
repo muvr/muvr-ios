@@ -61,9 +61,43 @@
 @end
 
 ///
-/// For now a naïve way to represent a classified exercise as a NSString
+/// The classification result
 ///
-typedef NSString MRExercise;
+@interface MRClassifiedExercise : NSObject
+- (instancetype)initWithExercise:(NSString *)exercise
+                   andConfidence:(double) confidence;
+
+- (instancetype)initWithExercise:(NSString *)exercise
+                     repetitions:(NSNumber *)repetitions
+                          weight:(NSNumber *)weight
+                       intensity:(NSNumber *)intensity
+                   andConfidence:(double)confidence;
+
+/// if != nil, the number of repetitions
+@property (readonly) NSNumber *repetitions;
+/// if != nil, the weight
+@property (readonly) NSNumber *weight;
+/// if != nil, the intensity
+@property (readonly) NSNumber *intensity;
+/// the classified exercise
+@property (readonly) NSString *exercise;
+/// the classification confidence
+@property (readonly) double confidence;
+@end
+
+///
+/// The classified exercise set. In most cases, the ``sets`` property will contain only one entry.
+/// However, some users may do drop-sets (the same exercise with decreasing weight), super-sets
+/// any many other tortures.
+///
+@interface MRClassifiedExerciseSet : NSObject
+/// computes the overall confidence for this set
+- (double)confidence;
+/// retrieves the given set at the index
+- (MRClassifiedExercise *)objectAtIndexedSubscript:(int)idx;
+/// the exercise sets, containing ``MRClassifiedExercise``
+@property (readonly) NSArray *sets;
+@end
 
 ///
 /// Actions executed as results of exercise
@@ -71,19 +105,13 @@ typedef NSString MRExercise;
 @protocol MRClassificationPipelineDelegate
 
 ///
-/// Classification successful
+/// Classification successful, ``result`` holds elements of type ``MRClassifiedExerciseSet``. The
+/// implementation of this delegate should examine the array and decide what to do depending on
+/// the size of the array. The ``data`` value holds the exported ``muvr::fused_sensor_data`` that
+/// was used for the classification.
 ///
-- (void)classificationSucceeded;
+- (void)classificationCompleted:(NSArray *)result fromData:(NSData *)data;
 
-///
-/// Classification ambiguous
-///
-- (void)classificationAmbiguous;
-
-///
-/// Classification failed
-///
-- (void)classificationFailed;
 @end
 
 ///

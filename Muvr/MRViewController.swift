@@ -36,16 +36,8 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
     
     @IBAction
     func send() {
-        exerciseSessionPayload()
-    }
-    
-    // TODO: Send correct fused / preprocessed sensor data
-    func exerciseSessionPayload() {
-//        MRMuvrServer.sharedInstance.exerciseSessionPayload(MRExerciseSessionPayload(data: "payloadz")) {
-//            $0.cata(
-//                { e in println("Server request failed: " + e.localizedDescription) },
-//                r: { s in println("Server request success: " + s) })
-//        }
+        let data = "somesuch".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+        classificationCompleted([], fromData: data)
     }
     
     // MARK: MRDeviceSessionDelegate implementation
@@ -81,20 +73,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
     }    
     
     // MARK: MRClassificationDelegate
-    func classificationSucceeded() {//(exercise: String!, fromData data: NSData!) {
-        println("Successfully classified exercise")
-        // Positive sample: MuvrServer.sharedInstance...
+    func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
+        MRClassificationCompletedViewController.presentClassificationResult(self, result: result, fromData: data)
     }
-    
-    func classificationAmbiguous() { //(exercises: [AnyObject]!, fromData data: NSData!) {
-        println("Ambiguously classified exercise")
-        // BT message to the watch -> decide
-        // Positive sample: MuvrServer.sharedInstance...
-    }
-    
-    func classificationFailed() { //(data: NSData!) {
-        println("Failed to classify exercise")
-        // Failning sample: MuvrServer.sharedInstance...
-    }
-
 }

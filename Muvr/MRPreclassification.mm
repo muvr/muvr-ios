@@ -3,6 +3,7 @@
 #import "MuvrPreclassification/include/sensor_data.h"
 #import "MuvrPreclassification/include/device_data_decoder.h"
 #import "MuvrPreclassification/include/classifier.h"
+#import "MuvrPreclassification/include/export.h"
 
 using namespace muvr;
 
@@ -56,7 +57,54 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
     m_classification_failed(fromData);
 }
 
+#pragma MARK - Threed implementation
+
 @implementation Threed
+@end
+
+#pragma MARK - MRClassifiedExerciseSet implementation
+
+@implementation MRClassifiedExerciseSet
+
+- (double)confidence {
+    if (_sets.count == 0) return 0;
+    
+    double sum = 0;
+    for (MRClassifiedExercise *set : _sets) {
+        sum += set.confidence;
+    }
+    return sum / _sets.count;
+}
+
+- (MRClassifiedExercise *)objectAtIndexedSubscript:(int)idx {
+    return [_sets objectAtIndexedSubscript:idx];
+}
+
+@end
+
+#pragma MARK - MRClassifiedExercise implementation
+
+@implementation MRClassifiedExercise
+
+- (instancetype)initWithExercise:(NSString *)exercise andConfidence:(double)confidence {
+    self = [super init];
+    _exercise = exercise;
+    _confidence = confidence;
+    return self;
+}
+
+- (instancetype)initWithExercise:(NSString *)exercise repetitions:(NSNumber *)repetitions weight:(NSNumber *)weight intensity:(NSNumber *)intensity andConfidence:(double)confidence {
+    self = [super init];
+    
+    _exercise = exercise;
+    _confidence = confidence;
+    _repetitions = repetitions;
+    _weight = weight;
+    _intensity = intensity;
+    
+    return self;
+}
+
 @end
 
 #pragma MARK - MRPreclassification implementation
@@ -68,19 +116,8 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
 
 - (instancetype)init {
     self = [super init];
-    auto success = [self](const std::string &exercise, const fused_sensor_data &fromData) {
-        if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationSucceeded];
-    };
-    auto ambiguous = [self](const std::vector<std::string> &exercises, const fused_sensor_data &fromData) {
-        if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationAmbiguous];
-    };
-    auto failed = [self](const fused_sensor_data &fromData) {
-        if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationFailed];
-    };
-    
     m_fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(std::shared_ptr<movement_decider>(new movement_decider()),
                                                                        std::shared_ptr<exercise_decider>(new const_exercise_decider())));
-    m_classifier = std::unique_ptr<classifier>(new delegating_classifier(success, ambiguous, failed));
     
     return self;
 }
@@ -89,7 +126,7 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
     // core processing
     const uint8_t *buf = reinterpret_cast<const uint8_t*>(data.bytes);
     raw_sensor_data decoded = decode_single_packet(buf);
-    sensor_data_fuser::fusion_result result = m_fuser->push_back(decoded, sensor_location_t::wrist, 0);
+    sensor_data_fuser::fusion_result fusionResult = m_fuser->push_back(decoded, sensor_location_t::wrist, 0);
 
     // hooks & delegates
     
@@ -116,7 +153,7 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
 
     // second, the exercise blocks
     if (self.exerciseBlockDelegate != nil) {
-        switch (result.type()) {
+        switch (fusionResult.type()) {
             case sensor_data_fuser::fusion_result::not_moving:
                 [self.exerciseBlockDelegate notMoving];
                 break;
@@ -132,8 +169,20 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
         }
     }
     
+    if (fusionResult.type() != sensor_data_fuser::fusion_result::exercise_ended) return;
+    
     // finally, the classification pipeline
     
+    // TODO: Complete me
+    NSArray *classificationResult = [NSArray array];
+    
+    // the hooks
+    if (self.classificationPipelineDelegate != nil) {
+        std::ostringstream os;
+        for (auto &x : fusionResult.fused_exercise_data()) export_data(os, x);
+        NSData *data = [[NSString stringWithUTF8String:os.str().c_str()] dataUsingEncoding:NSUTF8StringEncoding];
+        [self.classificationPipelineDelegate classificationCompleted:classificationResult fromData:data];
+    }
 }
 
 @end
