@@ -13,6 +13,9 @@
 		540381551AECFB05000C8B15 /* MRClassificationCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381541AECFB05000C8B15 /* MRClassificationCompletedViewController.swift */; };
 		540381571AECFB25000C8B15 /* MRSensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381561AECFB25000C8B15 /* MRSensorView.swift */; };
 		5403815D1AED0B13000C8B15 /* Accessories.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5403815C1AED0B13000C8B15 /* Accessories.storyboard */; };
+		5403815F1AED28A0000C8B15 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5403815E1AED28A0000C8B15 /* Settings.bundle */; };
+		540381611AED2F85000C8B15 /* MRExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381601AED2F85000C8B15 /* MRExerciseModel.swift */; };
+		540381631AED2FD1000C8B15 /* MRExerciseModel+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381621AED2FD1000C8B15 /* MRExerciseModel+Marshalling.swift */; };
 		541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA31AC577E00056A81B /* MRAppDelegate.swift */; };
 		541ABBA61AC577E00056A81B /* MRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA51AC577E00056A81B /* MRViewController.swift */; };
 		541ABBA91AC577E00056A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBA71AC577E00056A81B /* Main.storyboard */; };
@@ -81,6 +84,9 @@
 		540381541AECFB05000C8B15 /* MRClassificationCompletedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRClassificationCompletedViewController.swift; sourceTree = "<group>"; };
 		540381561AECFB25000C8B15 /* MRSensorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSensorView.swift; sourceTree = "<group>"; };
 		5403815C1AED0B13000C8B15 /* Accessories.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Accessories.storyboard; sourceTree = "<group>"; };
+		5403815E1AED28A0000C8B15 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		540381601AED2F85000C8B15 /* MRExerciseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModel.swift; sourceTree = "<group>"; };
+		540381621AED2FD1000C8B15 /* MRExerciseModel+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseModel+Marshalling.swift"; sourceTree = "<group>"; };
 		541ABB9E1AC577E00056A81B /* Muvr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Muvr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		541ABBA21AC577E00056A81B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		541ABBA31AC577E00056A81B /* MRAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAppDelegate.swift; sourceTree = "<group>"; };
@@ -242,6 +248,7 @@
 				548225531AC57A3500EEEFCB /* MRPreclassification.mm */,
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
 				FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */,
+				5403815E1AED28A0000C8B15 /* Settings.bundle */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -436,6 +443,8 @@
 				FC1AC75E1ADE9A2D00832DE7 /* MRMuvrServer.swift */,
 				FC1AC75F1ADE9A2D00832DE7 /* MRMuvrServerURLs.swift */,
 				540381521AEC3567000C8B15 /* MRTypes.swift */,
+				540381601AED2F85000C8B15 /* MRExerciseModel.swift */,
+				540381621AED2FD1000C8B15 /* MRExerciseModel+Marshalling.swift */,
 			);
 			name = MuvrServer;
 			sourceTree = "<group>";
@@ -542,6 +551,7 @@
 			files = (
 				54F0DC481AC57E8D0061EC5D /* CMakeLists.txt in Resources */,
 				54F0DC4E1AC57E8D0061EC5D /* matlab_workspace.mat in Resources */,
+				5403815F1AED28A0000C8B15 /* Settings.bundle in Resources */,
 				54F0DC4B1AC57E8D0061EC5D /* all_2.csv in Resources */,
 				541ABBA91AC577E00056A81B /* Main.storyboard in Resources */,
 				54F0DC561AC57E8D0061EC5D /* CMakeLists.txt in Resources */,
@@ -643,10 +653,12 @@
 				54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */,
 				54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */,
 				540381571AECFB25000C8B15 /* MRSensorView.swift in Sources */,
+				540381611AED2F85000C8B15 /* MRExerciseModel.swift in Sources */,
 				FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */,
 				542AB2191ACC4FD100F20299 /* symbolic_aggregate_approximation.cc in Sources */,
 				540381531AEC3567000C8B15 /* MRTypes.swift in Sources */,
 				FC1AC7601ADE9A2D00832DE7 /* MRMuvrServer.swift in Sources */,
+				540381631AED2FD1000C8B15 /* MRExerciseModel+Marshalling.swift in Sources */,
 				54F0DC541AC57E8D0061EC5D /* nomovement_decider.cc in Sources */,
 				543374211AD010B1005864D7 /* Predef.swift in Sources */,
 				542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */,

@@ -66,6 +66,12 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
 
 @implementation MRClassifiedExerciseSet
 
+- (instancetype)init:(MRClassifiedExercise *)exercise {
+    self = [super init];
+    _sets = [NSArray arrayWithObject:exercise];
+    return self;
+}
+
 - (double)confidence {
     if (_sets.count == 0) return 0;
     
@@ -179,7 +185,13 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
     // the hooks
     if (self.classificationPipelineDelegate != nil) {
         std::ostringstream os;
-        for (auto &x : fusionResult.fused_exercise_data()) export_data(os, x);
+        os << "[";
+        for (int i = 0; i < fusionResult.fused_exercise_data().size(); ++i) {
+            if (i > 0) os << ",";
+            export_data(os, fusionResult.fused_exercise_data()[i]);
+        }
+        os << "]";
+
         NSData *data = [[NSString stringWithUTF8String:os.str().c_str()] dataUsingEncoding:NSUTF8StringEncoding];
         [self.classificationPipelineDelegate classificationCompleted:classificationResult fromData:data];
     }

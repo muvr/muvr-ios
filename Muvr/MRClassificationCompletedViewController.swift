@@ -1,5 +1,9 @@
 import Foundation
 
+class MRClassifiedExerciseSetTableViewCell : UITableViewCell {
+    var classifiedExerciseSet: MRClassifiedExerciseSet? = nil
+}
+
 class MRClassificationCompletedViewController : UITableViewController {
     private struct Consts {
         static let Head = 0
@@ -9,7 +13,8 @@ class MRClassificationCompletedViewController : UITableViewController {
     }
     
     private var data: NSData!
-    private var simpleSets: [Int:[MRClassifiedExercise]] = [:]
+    private var simpleClassified: [MRClassifiedExercise] = []
+    private var simpleOthers: [MRClassifiedExercise] = []
     
     class func presentClassificationResult(parent: UIViewController, result: [AnyObject]!, fromData data: NSData!) -> Void {
         let ctrl: MRClassificationCompletedViewController =
@@ -26,9 +31,8 @@ class MRClassificationCompletedViewController : UITableViewController {
             MRClassifiedExercise(exercise: "Tricep extension", andConfidence: 1),
         ]
 
-        ctrl.simpleSets[Consts.Head] = simpleClassifiedSets.firsts
-        ctrl.simpleSets[Consts.Tail] = simpleClassifiedSets.tail
-        ctrl.simpleSets[Consts.Others] = simpleOtherSets
+        ctrl.simpleClassified = simpleClassifiedSets
+        ctrl.simpleOthers = simpleOtherSets
         ctrl.data = data
         
         parent.presentViewController(ctrl, animated: true, completion: nil)
@@ -42,38 +46,47 @@ class MRClassificationCompletedViewController : UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == Consts.None {
-            return 1
-        } else {
-            return simpleSets[section]!.count
+        switch section {
+        case Consts.Head: return simpleClassified.count > 0 ? 1 : 0;
+        case Consts.Tail: return simpleClassified.count > 1 ? simpleClassified.count - 1 : 0;
+        case Consts.Others: return simpleOthers.count
+        case Consts.None: return 1
+        default: fatalError("Match error")
         }
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case Consts.Head where simpleSets[section]!.count > 0: return "Best match"
-        case Consts.Tail where simpleSets[section]!.count > 0: return "Alternatives"
-        case Consts.Others where simpleSets[section]!.count > 0: return "Others"
+        case Consts.Head where simpleClassified.count > 1 : return "Best match"
+        case Consts.Tail where simpleClassified.count > 2 : return "Alternatives"
+        case Consts.Others where !simpleOthers.isEmpty: return "Others"
         default: return nil
         }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == Consts.None {
-            return tableView.dequeueReusableCellWithIdentifier("none")! as! UITableViewCell
-        } else {
-            let set = simpleSets[indexPath.section]!
-            let exercise = set[indexPath.row]
-            
-            let cell = tableView.dequeueReusableCellWithIdentifier("simpleExercise")! as! UITableViewCell
+        func simpleCell(exercise: MRClassifiedExercise) -> UITableViewCell {
+            let cell = tableView.dequeueReusableCellWithIdentifier("simpleExercise")! as! MRClassifiedExerciseSetTableViewCell
+            cell.classifiedExerciseSet = MRClassifiedExerciseSet(exercise)
             cell.textLabel?.text = exercise.exercise
             cell.detailTextLabel?.text = "Detail here"
             return cell
         }
+        
+        switch (indexPath.section, indexPath.row) {
+        case (Consts.None, _): return tableView.dequeueReusableCellWithIdentifier("none")! as! MRClassifiedExerciseSetTableViewCell
+        case (Consts.Head, _): return simpleCell(simpleClassified[0])
+        case (Consts.Tail, let x): return simpleCell(simpleClassified[x - 1])
+        case (Consts.Others, let x): return simpleCell(simpleOthers[x])
+        default: fatalError("Match error")
+        }
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        MRMuvrServer.sharedInstance.exerciseSessionPayload(MRUserId(), sessionId: MRSessionId(), payload: data, f: constUnit())
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! MRClassifiedExerciseSetTableViewCell
+        let example = MRExerciseExample(classified: simpleClassified.map { MRClassifiedExerciseSet($0) }, correct: cell.classifiedExerciseSet, fusedSensorData: data)
+
+        MRMuvrServer.sharedInstance.exerciseSessionExample(MRUserId(), sessionId: MRSessionId(), example: example, f: constUnit())
         dismissViewControllerAnimated(true, completion: nil)
     }
 }

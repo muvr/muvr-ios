@@ -131,13 +131,11 @@ public class MRMuvrServer {
         return dateFormatter
         }()
     
-    private var baseUrlString: String = MRUserDefaults.muvrServerUrl
-    
-    func setBaseUrlString(baseUrlString: String) -> Bool {
-        if self.baseUrlString == baseUrlString { return false }
-        
+    private var baseUrlString: String = "http://localhost:8080"
+
+    /// Sets the base URL
+    func setBaseUrlString(baseUrlString: String) -> Void {
         self.baseUrlString = baseUrlString
-        return true
     }
     
     ///
@@ -174,8 +172,9 @@ public class MRMuvrServer {
         return mutableURLRequest
     }
     
-    func exerciseSessionPayload(userId: MRUserId, sessionId: MRSessionId, payload: NSData, f: Result<Void> -> Void) -> Void {
-        request(MRMuvrServerURLs.ExerciseSessionClassification(userId: userId, sessionId: sessionId), body: .Data(data: payload))
+    func exerciseSessionExample(userId: MRUserId, sessionId: MRSessionId, example: MRExerciseExample, f: Result<Void> -> Void) -> Void {
+        request(MRMuvrServerURLs.ExerciseSessionExample(userId: userId, sessionId: sessionId), body: .Json(params: example.marshal()))
             .responseAsResult(f, completionHandler: constUnit())
     }
+    
 }

@@ -30,7 +30,7 @@ enum MRMuvrServerURLs : MRMuvrServerRequestConvertible {
     ///
     /// Register the user
     ///
-    case ExerciseSessionClassification(userId: MRUserId, sessionId: MRSessionId)
+    case ExerciseSessionExample(userId: MRUserId, sessionId: MRSessionId)
     
     private struct Format {
         private static let simpleDateFormatter: NSDateFormatter = {
@@ -50,7 +50,7 @@ enum MRMuvrServerURLs : MRMuvrServerRequestConvertible {
         get {
             let r: MRMuvrServerRequest = {
                 switch self {
-                case .ExerciseSessionClassification(let user, let session): return MRMuvrServerRequest(path: "/exercise/\(user.UUIDString)/\(session.UUIDString)", method: Method.POST)
+                case .ExerciseSessionExample(let user, let session): return MRMuvrServerRequest(path: "/exercise/\(user.UUIDString)/\(session.UUIDString)", method: Method.POST)
                 }
                 }()
             

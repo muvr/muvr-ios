@@ -34,12 +34,6 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
         }
     }
     
-    @IBAction
-    func send() {
-        let data = "somesuch".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-        classificationCompleted([], fromData: data)
-    }
-    
     // MARK: MRDeviceSessionDelegate implementation
     func deviceSession(session: DeviceSession, endedFrom deviceId: DeviceId) {
         //

@@ -91,6 +91,10 @@
 /// any many other tortures.
 ///
 @interface MRClassifiedExerciseSet : NSObject
+
+/// Initializes this instance with just one exercise in a set
+- (instancetype)init:(MRClassifiedExercise *)exercise;
+
 /// computes the overall confidence for this set
 - (double)confidence;
 /// retrieves the given set at the index
