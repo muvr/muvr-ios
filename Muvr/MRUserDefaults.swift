@@ -11,7 +11,7 @@ struct MRUserDefaults {
             if let url = NSUserDefaults.standardUserDefaults().stringForKey("muvrServerUrl") {
                 return url
             } else {
-                return "http://127.0.0.1:8089"
+                return "http://127.0.0.1:8080"
             }
         }
     }

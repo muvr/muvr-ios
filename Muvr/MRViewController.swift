@@ -1,19 +1,19 @@
 import UIKit
 import Charts
 
-class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataDelegate, MRClassificationPipelineDelegate, MRDeviceSessionDelegate {
+
+class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificationPipelineDelegate, MRDeviceSessionDelegate {
     private let preclassification: MRPreclassification = MRPreclassification()
     private let pcd = MRRawPebbleConnectedDevice()
-    private var data: [Threed] = []
     
     @IBOutlet var statusLabel: UILabel!
     @IBOutlet var exerciseLabel: UILabel!
     @IBOutlet var exerciseRepetitionsLabel: UILabel!
-    @IBOutlet var lineChartView: FixedLineChartView!
-    
+    @IBOutlet var startStopButton: UIButton!
+    @IBOutlet var sensorView: MRSensorView!
     override func viewDidLoad() {
         preclassification.exerciseBlockDelegate = self
-        preclassification.deviceDataDelegate = self
+        preclassification.deviceDataDelegate = sensorView
         preclassification.classificationPipelineDelegate = self
     }
     
@@ -23,28 +23,16 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
     }
     
     @IBAction
-    func start() {
-        statusLabel.text = "Starting...";
-        pcd.start(self)
-    }
-    
-    @IBAction
-    func stop() {
-        pcd.stop()
-        statusLabel.text = "---";
-    }
-    
-    @IBAction
-    func send() {
-        exerciseSessionPayload()
-    }
-    
-    // TODO: Send correct fused / preprocessed sensor data
-    func exerciseSessionPayload() {
-        MRMuvrServer.sharedInstance.exerciseSessionPayload(MRExerciseSessionPayload(data: "payloadz")) {
-            $0.cata(
-                { e in println("Server request failed: " + e.localizedDescription) },
-                r: { s in println("Server request success: " + s) })
+    func startStop() {
+        if pcd.running {
+            startStopButton.setTitle("Start", forState: UIControlState.Normal)
+            startStopButton.titleLabel?.text = "Start"
+            pcd.stop()
+            statusLabel.text = "---";
+        } else {
+            startStopButton.setTitle("Stop", forState: UIControlState.Normal)
+            statusLabel.text = "Starting...";
+            pcd.start(self)
         }
     }
     
@@ -58,7 +46,8 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
     }
     
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
-        preclassification.pushBack(data, from: 0, at: time)
+        //NSLog("%@", data)
+        preclassification.pushBack(data, from: 0)
     }
     
     // MARK: MRExerciseBlockDelegate implementation
@@ -79,63 +68,18 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
         statusLabel.text = "Not moving";
     }
     
-    // MARK: MRDeviceDataDelegate
-    func deviceDataDecoded(rows: [AnyObject]!) {
+    func classificationFailed() {
         
-        func mkLineChartDataSet<A>(values: [A], label: String, color: UIColor, f: A -> Float) -> LineChartDataSet {
-            let cdes: [ChartDataEntry] = values.zipWithIndex().map { (index, a) in
-                return ChartDataEntry(value: f(a) as Float, xIndex: index)
-            }
-            let ds = LineChartDataSet(yVals: cdes, label: label)
-            ds.circleRadius = 0
-            ds.colors = [color]
-            return ds
-        }
+    }
+    
+    func classificationAmbiguous() {
         
-        self.data += rows as! [Threed]
-        
-        if (self.data.count > 1000) {
-            self.data = Array(self.data[rows.count..<self.data.count])
-        }
-        
-        var xVals: [String] = []
-        for i in 0..<self.data.count {
-            xVals += [String(i)]
-        }
-        
-        lineChartView.setScaleMinima(1, scaleY: 1)
-        lineChartView.leftAxis.startAtZeroEnabled = false
-        lineChartView.rightAxis.startAtZeroEnabled = false
-        lineChartView.setVisibleXRange(100)
-        lineChartView.setVisibleXRange(CGFloat(100))
-        lineChartView.setVisibleYRange(3000, axis: ChartYAxis.AxisDependency.Left)
-        lineChartView.setVisibleYRange(3000, axis: ChartYAxis.AxisDependency.Right)
-        
-        let xs = mkLineChartDataSet(self.data, "X", UIColor.redColor(), { (x: Threed) in return Float(x.x) })
-        let ys = mkLineChartDataSet(self.data, "Y", UIColor.greenColor(), { (x: Threed) in return Float(x.y) })
-        let zs = mkLineChartDataSet(self.data, "Z", UIColor.blueColor(), { (x: Threed) in return Float(x.z) })
-        
-        let data = LineChartData(xVals: xVals, dataSets: [xs, ys, zs])
-        lineChartView.data = data
-        if self.data.count > 100 {
-            lineChartView.moveViewToX(self.data.count - 100)
-        }
     }
     
     func classificationSucceeded(exercise: String!, reps count: Int32) {//(exercise: String!, fromData data: NSData!) {
-        println("Successfully classified exercise")
-        // Positive sample: MuvrServer.sharedInstance...
     }
     
-    func classificationAmbiguous() { //(exercises: [AnyObject]!, fromData data: NSData!) {
-        println("Ambiguously classified exercise")
-        // BT message to the watch -> decide
-        // Positive sample: MuvrServer.sharedInstance...
+    func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
+        MRClassificationCompletedViewController.presentClassificationResult(self, result: result, fromData: data)
     }
-    
-    func classificationFailed() { //(data: NSData!) {
-        println("Failed to classify exercise")
-        // Failning sample: MuvrServer.sharedInstance...
-    }
-
 }
