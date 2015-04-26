@@ -7,9 +7,10 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
     private var data: [Threed] = []
     
     @IBOutlet var statusLabel: UILabel!
+    @IBOutlet var exerciseLabel: UILabel!
+    @IBOutlet var exerciseRepetitionsLabel: UILabel!
     @IBOutlet var lineChartView: FixedLineChartView!
     
-
     override func viewDidLoad() {
         preclassification.exerciseBlockDelegate = self
         preclassification.deviceDataDelegate = self
@@ -121,8 +122,7 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRDeviceDataD
         }
     }
     
-    // MARK: MRClassificationDelegate
-    func classificationSucceeded() {//(exercise: String!, fromData data: NSData!) {
+    func classificationSucceeded(exercise: String!, reps count: Int32) {//(exercise: String!, fromData data: NSData!) {
         println("Successfully classified exercise")
         // Positive sample: MuvrServer.sharedInstance...
     }

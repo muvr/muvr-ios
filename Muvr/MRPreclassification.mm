@@ -2,7 +2,8 @@
 #import "MuvrPreclassification/include/easylogging++.h"
 #import "MuvrPreclassification/include/sensor_data.h"
 #import "MuvrPreclassification/include/device_data_decoder.h"
-#import "MuvrPreclassification/include/classifier.h"
+#import "MuvrPreclassification/include/svm_classifier.h"
+#import "MuvrPreclassification/include/svm_classifier_factory.h"
 
 using namespace muvr;
 
@@ -15,72 +16,27 @@ public:
     }
 };
 
-typedef std::function<void(const std::string&, const fused_sensor_data&)> classification_succeeded_t;
-typedef std::function<void(const std::vector<std::string>&, const fused_sensor_data&)> classification_ambiguous_t;
-typedef std::function<void(const fused_sensor_data&)> classification_failed_t;
-
-class delegating_classifier : public classifier {
-private:
-    classification_succeeded_t m_classification_succeeded;
-    classification_ambiguous_t m_classification_ambiguous;
-    classification_failed_t m_classification_failed;
-public:
-    delegating_classifier(classification_succeeded_t classification_succeeded,
-                          classification_ambiguous_t classification_ambiguous,
-                          classification_failed_t classification_failed);
-    
-    virtual void classification_succeeded(const std::string &exercise, const fused_sensor_data &fromData);
-    
-    virtual void classification_ambiguous(const std::vector<std::string> &exercises, const fused_sensor_data &fromData);
-    
-    virtual void classification_failed(const fused_sensor_data &fromData);
-};
-
-delegating_classifier::delegating_classifier(classification_succeeded_t classification_succeeded,
-                                             classification_ambiguous_t classification_ambiguous,
-                                             classification_failed_t classification_failed):
-m_classification_succeeded(classification_succeeded),
-m_classification_ambiguous(classification_ambiguous),
-m_classification_failed(classification_failed) {
-}
-
-void delegating_classifier::classification_succeeded(const std::string &exercise, const fused_sensor_data &fromData) {
-    m_classification_succeeded(exercise, fromData);
-}
-
-void delegating_classifier::classification_ambiguous(const std::vector<std::string> &exercises, const fused_sensor_data &fromData) {
-    m_classification_ambiguous(exercises, fromData);
-}
-
-void delegating_classifier::classification_failed(const fused_sensor_data &fromData) {
-    m_classification_failed(fromData);
-}
-
 @implementation Threed
 @end
 
-#pragma MARK - MRPreclassification implementation
-
 @implementation MRPreclassification {
     std::unique_ptr<sensor_data_fuser> m_fuser;
-    std::unique_ptr<classifier> m_classifier;
+    std::unique_ptr<svm_classifier> m_classifier;
 }
 
 - (instancetype)init {
     self = [super init];
-    auto success = [self](const std::string &exercise, const fused_sensor_data &fromData) {
-        if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationSucceeded];
-    };
-    auto ambiguous = [self](const std::vector<std::string> &exercises, const fused_sensor_data &fromData) {
-        if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationAmbiguous];
-    };
-    auto failed = [self](const fused_sensor_data &fromData) {
-        if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationFailed];
-    };
     
     m_fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(std::shared_ptr<movement_decider>(new movement_decider()),
                                                                        std::shared_ptr<exercise_decider>(new const_exercise_decider())));
-    m_classifier = std::unique_ptr<classifier>(new delegating_classifier(success, ambiguous, failed));
+    
+    NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-curl-features" ofType:@"libsvm"];
+    std::string libsvm(fullPath.UTF8String);
+    fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-curl-features" ofType:@"scale"];
+    std::string scale(fullPath.UTF8String);
+    
+    auto classifier = svm_classifier_factory().build(libsvm, scale);
+    m_classifier = std::unique_ptr<svm_classifier>(&classifier);
     
     return self;
 }
@@ -119,6 +75,27 @@ void delegating_classifier::classification_failed(const fused_sensor_data &fromD
             break;
         case sensor_data_fuser::fusion_result::exercise_ended:
             if (self.exerciseBlockDelegate != nil) [self.exerciseBlockDelegate exerciseEnded];
+            
+            svm_classifier::classification_result classification_result = m_classifier->classify(result.fused_exercise_data());
+            
+            switch (classification_result.type()) {
+                case svm_classifier::classification_result::success:{
+                    NSString* exercise = [NSString stringWithCString:classification_result.exercises()[0].c_str()encoding:[NSString defaultCStringEncoding]];
+                    
+                    if (self.classificationPipelineDelegate != nil)
+                        [self.classificationPipelineDelegate classificationSucceeded:exercise reps:classification_result.repetitions()];
+                    break;
+                }
+                case svm_classifier::classification_result::ambiguous: {
+                    if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationAmbiguous];
+                    break;
+                }
+                case svm_classifier::classification_result::failure: {
+                    if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationFailed];
+                    break;
+                }
+            }
+            
             break;
     }
 }

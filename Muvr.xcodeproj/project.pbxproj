@@ -35,25 +35,25 @@
 		5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */; };
 		548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 548225531AC57A3500EEEFCB /* MRPreclassification.mm */; };
 		54B045E31AE93A630091BCE0 /* FixedLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B045E21AE93A630091BCE0 /* FixedLineChartView.swift */; };
-		54F0DC481AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */; };
-		54F0DC491AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC2B1AC57E8D0061EC5D /* CMakeLists.txt */; };
 		54F0DC4A1AC57E8D0061EC5D /* all_1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC2D1AC57E8D0061EC5D /* all_1.csv */; };
-		54F0DC4B1AC57E8D0061EC5D /* all_2.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC2E1AC57E8D0061EC5D /* all_2.csv */; };
-		54F0DC4C1AC57E8D0061EC5D /* all_4.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC2F1AC57E8D0061EC5D /* all_4.csv */; };
-		54F0DC4E1AC57E8D0061EC5D /* matlab_workspace.mat in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC311AC57E8D0061EC5D /* matlab_workspace.mat */; };
 		54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */; };
 		54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC361AC57E8D0061EC5D /* exercise_decider.cc */; };
 		54F0DC531AC57E8D0061EC5D /* kalman_smooth.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC371AC57E8D0061EC5D /* kalman_smooth.cc */; };
 		54F0DC541AC57E8D0061EC5D /* nomovement_decider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC381AC57E8D0061EC5D /* nomovement_decider.cc */; };
 		54F0DC551AC57E8D0061EC5D /* raw_sensor_data.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC391AC57E8D0061EC5D /* raw_sensor_data.cc */; };
 		54F0DC561AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC3B1AC57E8D0061EC5D /* CMakeLists.txt */; };
-		54F0DC5F1AC57E8D0061EC5D /* all_4.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC471AC57E8D0061EC5D /* all_4.csv */; };
 		6FE82F244080A35A0F4E861B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D2F8864F1B66657A209A69 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FC1AC7591ADE8CEA00832DE7 /* classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC7581ADE8CEA00832DE7 /* classifier.cc */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 		FC1AC75D1ADE98F200832DE7 /* MRExerciseSessionPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75C1ADE98F200832DE7 /* MRExerciseSessionPayload.swift */; };
 		FC1AC7601ADE9A2D00832DE7 /* MRMuvrServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75E1ADE9A2D00832DE7 /* MRMuvrServer.swift */; };
 		FC1AC7611ADE9A2D00832DE7 /* MRMuvrServerURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75F1ADE9A2D00832DE7 /* MRMuvrServerURLs.swift */; };
+		FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */; };
+		FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705E1AEA6CC900829357 /* svm_classifier.cc */; };
+		FC3970621AEA6CC900829357 /* svm.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705F1AEA6CC900829357 /* svm.cc */; };
+		FC39706F1AEA78E200829357 /* svm-model-curl-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = FC39706C1AEA78E200829357 /* svm-model-curl-features.libsvm */; };
+		FC3970701AEA78E200829357 /* svm-model-curl-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = FC39706D1AEA78E200829357 /* svm-model-curl-features.rds */; };
+		FC3970711AEA78E200829357 /* svm-model-curl-features.scale in Resources */ = {isa = PBXBuildFile; fileRef = FC39706E1AEA78E200829357 /* svm-model-curl-features.scale */; };
 		FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */; };
 		FC5593B71ADBE56400F235ED /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B41ADBE56400F235ED /* SwiftyJSON.swift */; };
 /* End PBXBuildFile section */
@@ -146,6 +146,15 @@
 		FC1AC75C1ADE98F200832DE7 /* MRExerciseSessionPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionPayload.swift; sourceTree = "<group>"; };
 		FC1AC75E1ADE9A2D00832DE7 /* MRMuvrServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRMuvrServer.swift; sourceTree = "<group>"; };
 		FC1AC75F1ADE9A2D00832DE7 /* MRMuvrServerURLs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRMuvrServerURLs.swift; sourceTree = "<group>"; };
+		FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = svm_classifier_factory.cc; path = "../../../../../muvr-preclassification/core/main/cc/svm_classifier_factory.cc"; sourceTree = "<group>"; };
+		FC39705E1AEA6CC900829357 /* svm_classifier.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = svm_classifier.cc; path = "../../../../../muvr-preclassification/core/main/cc/svm_classifier.cc"; sourceTree = "<group>"; };
+		FC39705F1AEA6CC900829357 /* svm.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = svm.cc; path = "../../../../../muvr-preclassification/core/main/cc/svm.cc"; sourceTree = "<group>"; };
+		FC3970631AEA6CEB00829357 /* svm_classifier_factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm_classifier_factory.h; path = "../../../../muvr-preclassification/core/include/svm_classifier_factory.h"; sourceTree = "<group>"; };
+		FC3970641AEA6CEC00829357 /* svm_classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm_classifier.h; path = "../../../../muvr-preclassification/core/include/svm_classifier.h"; sourceTree = "<group>"; };
+		FC3970651AEA6CEC00829357 /* svm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm.h; path = "../../../../muvr-preclassification/core/include/svm.h"; sourceTree = "<group>"; };
+		FC39706C1AEA78E200829357 /* svm-model-curl-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-curl-features.libsvm"; sourceTree = "<group>"; };
+		FC39706D1AEA78E200829357 /* svm-model-curl-features.rds */ = {isa = PBXFileReference; lastKnownFileType = file; path = "svm-model-curl-features.rds"; sourceTree = "<group>"; };
+		FC39706E1AEA78E200829357 /* svm-model-curl-features.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-curl-features.scale"; sourceTree = "<group>"; };
 		FC5593AF1ADBE56400F235ED /* Alamofire+SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Alamofire+SwiftyJSON.h"; sourceTree = "<group>"; };
 		FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alamofire+SwiftyJSON.swift"; sourceTree = "<group>"; };
 		FC5593B31ADBE56400F235ED /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyJSON.h; sourceTree = "<group>"; };
@@ -296,6 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */,
+				FC39706A1AEA78E200829357 /* config */,
 				54F0DC241AC57E8D0061EC5D /* include */,
 				54F0DC2A1AC57E8D0061EC5D /* main */,
 				54F0DC3A1AC57E8D0061EC5D /* test */,
@@ -306,6 +316,9 @@
 		54F0DC241AC57E8D0061EC5D /* include */ = {
 			isa = PBXGroup;
 			children = (
+				FC3970631AEA6CEB00829357 /* svm_classifier_factory.h */,
+				FC3970641AEA6CEC00829357 /* svm_classifier.h */,
+				FC3970651AEA6CEC00829357 /* svm.h */,
 				5443FA741AE69DC900CC229D /* easylogging++.h */,
 				542AB2081ACC4FC400F20299 /* piecewise_aggregate_approximation.h */,
 				FC5593C71ADD7E5400F235ED /* classifier.h */,
@@ -347,6 +360,9 @@
 		54F0DC341AC57E8D0061EC5D /* cc */ = {
 			isa = PBXGroup;
 			children = (
+				FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */,
+				FC39705E1AEA6CC900829357 /* svm_classifier.cc */,
+				FC39705F1AEA6CC900829357 /* svm.cc */,
 				FC1AC7581ADE8CEA00832DE7 /* classifier.cc */,
 				542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */,
 				542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */,
@@ -406,6 +422,25 @@
 				F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		FC39706A1AEA78E200829357 /* config */ = {
+			isa = PBXGroup;
+			children = (
+				FC39706B1AEA78E200829357 /* svm */,
+			);
+			name = config;
+			path = "../../../muvr-preclassification/core/config";
+			sourceTree = "<group>";
+		};
+		FC39706B1AEA78E200829357 /* svm */ = {
+			isa = PBXGroup;
+			children = (
+				FC39706C1AEA78E200829357 /* svm-model-curl-features.libsvm */,
+				FC39706D1AEA78E200829357 /* svm-model-curl-features.rds */,
+				FC39706E1AEA78E200829357 /* svm-model-curl-features.scale */,
+			);
+			path = svm;
 			sourceTree = "<group>";
 		};
 		FC5593AB1ADBE05300F235ED /* MuvrServer */ = {
@@ -517,17 +552,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54F0DC481AC57E8D0061EC5D /* CMakeLists.txt in Resources */,
-				54F0DC4E1AC57E8D0061EC5D /* matlab_workspace.mat in Resources */,
-				54F0DC4B1AC57E8D0061EC5D /* all_2.csv in Resources */,
+				FC39706F1AEA78E200829357 /* svm-model-curl-features.libsvm in Resources */,
 				541ABBA91AC577E00056A81B /* Main.storyboard in Resources */,
 				54F0DC561AC57E8D0061EC5D /* CMakeLists.txt in Resources */,
 				54F0DC4A1AC57E8D0061EC5D /* all_1.csv in Resources */,
 				541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */,
+				FC3970701AEA78E200829357 /* svm-model-curl-features.rds in Resources */,
+				FC3970711AEA78E200829357 /* svm-model-curl-features.scale in Resources */,
 				541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */,
-				54F0DC491AC57E8D0061EC5D /* CMakeLists.txt in Resources */,
-				54F0DC5F1AC57E8D0061EC5D /* all_4.csv in Resources */,
-				54F0DC4C1AC57E8D0061EC5D /* all_4.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,6 +625,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC3970621AEA6CC900829357 /* svm.cc in Sources */,
 				FC1AC7591ADE8CEA00832DE7 /* classifier.cc in Sources */,
 				548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */,
 				543374201AD010B1005864D7 /* Operators.swift in Sources */,
@@ -612,7 +645,9 @@
 				54B045E31AE93A630091BCE0 /* FixedLineChartView.swift in Sources */,
 				5433741D1AD010B1005864D7 /* Box.swift in Sources */,
 				5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */,
+				FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */,
 				FC5593B71ADBE56400F235ED /* SwiftyJSON.swift in Sources */,
+				FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */,
 				5443FA791AE69E1400CC229D /* sensor_data_fuser_rsde.cc in Sources */,
 				543374221AD010B1005864D7 /* Result.swift in Sources */,
 				54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */,

@@ -45,7 +45,7 @@ typedef NSString MRExercise;
 ///
 /// Classification successful
 ///
-- (void)classificationSucceeded;
+- (void)classificationSucceeded: (NSString *)exercise reps: (int)count;
 
 ///
 /// Classification ambiguous
