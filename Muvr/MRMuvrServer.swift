@@ -131,13 +131,11 @@ public class MRMuvrServer {
         return dateFormatter
         }()
     
-    private var baseUrlString: String = MRUserDefaults.muvrServerUrl
-    
-    func setBaseUrlString(baseUrlString: String) -> Bool {
-        if self.baseUrlString == baseUrlString { return false }
-        
+    private var baseUrlString: String = "http://localhost:8080"
+
+    /// Sets the base URL
+    func setBaseUrlString(baseUrlString: String) -> Void {
         self.baseUrlString = baseUrlString
-        return true
     }
     
     ///
@@ -157,8 +155,10 @@ public class MRMuvrServer {
         case let .Some(Body.Json(params)):
             let encoding = lsr.method == .GET ? ParameterEncoding.URL : ParameterEncoding.JSON
             return manager.request(lsr.method, baseUrlString + lsr.path, parameters: params, encoding: encoding)
-        case let .Some(Body.Data(data)): return manager.upload(URLRequest(lsr.method, URL: baseUrlString + lsr.path), data: data)
-        case .None: return manager.request(lsr.method, baseUrlString + lsr.path, parameters: nil, encoding: ParameterEncoding.URL)
+        case let .Some(Body.Data(data)):
+            return manager.upload(URLRequest(lsr.method, URL: baseUrlString + lsr.path), data: data)
+        case .None:
+            return manager.request(lsr.method, baseUrlString + lsr.path, parameters: nil, encoding: ParameterEncoding.URL)
         }
     }
     
@@ -172,8 +172,9 @@ public class MRMuvrServer {
         return mutableURLRequest
     }
     
-    func exerciseSessionPayload(payload: MRExerciseSessionPayload, f: Result<String> -> Void) -> Void {
-        request(MRMuvrServerURLs.exerciseSessionPayload(), body: .Json(params: payload.marshal()))
-            .responseAsResult(f) { json in return json.stringValue }
+    func exerciseSessionExample(userId: MRUserId, sessionId: MRSessionId, example: MRExerciseExample, f: Result<Void> -> Void) -> Void {
+        request(MRMuvrServerURLs.ExerciseSessionExample(userId: userId, sessionId: sessionId), body: .Json(params: example.marshal()))
+            .responseAsResult(f, completionHandler: constUnit())
     }
+    
 }
