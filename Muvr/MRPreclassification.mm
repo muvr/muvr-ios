@@ -149,12 +149,19 @@ public:
     // TODO: Complete me
     NSMutableArray *classificationResult = [NSMutableArray array];
     
-    MRClassifiedExercise *exercise = [[MRClassifiedExercise alloc] initWithExercise:[NSString stringWithCString:classification_result.exercises()[0].c_str()encoding:[NSString defaultCStringEncoding]] repetitions:@(classification_result.repetitions()) weight: @(1) intensity: @(0.5) andConfidence: 0.5];
+    svm_classifier::classified_exercise classified_exercise = classification_result.exercises()[0];
+    MRClassifiedExercise *exercise = [[MRClassifiedExercise alloc]
+                                      initWithExercise:
+                                        [NSString stringWithCString:classified_exercise.exercise_name().c_str()encoding:[NSString defaultCStringEncoding]]
+                                      repetitions:@(classified_exercise.repetitions())
+                                      weight: @(classified_exercise.weight())
+                                      intensity: @(classified_exercise.intensity())
+                                      andConfidence: classified_exercise.confidence()];
+    
     MRClassifiedExerciseSet *exercise_set = [[MRClassifiedExerciseSet alloc] init:exercise];
     
     [classificationResult addObject:exercise_set];
     NSLog(@"ARRAY:\n%@", classificationResult);
-
     
     // the hooks
     if (self.classificationPipelineDelegate != nil) {

@@ -27,7 +27,7 @@ class MRClassificationCompletedViewController : UITableViewController {
         
         let simpleClassifiedSets = classifiedSets.map { $0.sets[0] as! MRClassifiedExercise }
         let simpleOtherSets: [MRClassifiedExercise] = [
-            MRClassifiedExercise(exercise: "Bicel curl", andConfidence: 1),
+            MRClassifiedExercise(exercise: "Bicep curl", andConfidence: 1),
             MRClassifiedExercise(exercise: "Tricep extension", andConfidence: 1),
         ]
 
