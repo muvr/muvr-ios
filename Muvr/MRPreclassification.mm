@@ -88,7 +88,7 @@ public:
     std::string scale(fullPath.UTF8String);
     
     auto classifier = svm_classifier_factory().build(libsvm, scale);
-    m_classifier = std::unique_ptr<svm_classifier>(&classifier);
+    m_classifier = std::unique_ptr<svm_classifier>(classifier);
     
     return self;
 }
@@ -136,37 +136,25 @@ public:
                 break;
             case sensor_data_fuser::fusion_result::exercise_ended:
                 [self.exerciseBlockDelegate exerciseEnded];
-            
-            svm_classifier::classification_result classification_result = m_classifier->classify(fusionResult.fused_exercise_data());
-            
-            switch (classification_result.type()) {
-                case svm_classifier::classification_result::success:{
-                    NSString* exercise = [NSString stringWithCString:classification_result.exercises()[0].c_str()encoding:[NSString defaultCStringEncoding]];
-                    
-                    if (self.classificationPipelineDelegate != nil)
-                        [self.classificationPipelineDelegate classificationSucceeded:exercise reps:classification_result.repetitions()];
-                    break;
-                }
-                case svm_classifier::classification_result::ambiguous: {
-                    if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationAmbiguous];
-                    break;
-                }
-                case svm_classifier::classification_result::failure: {
-                    if (self.classificationPipelineDelegate != nil) [self.classificationPipelineDelegate classificationFailed];
-                    break;
-                }
-            }
-            
                 break;
         }
     }
     
+    //TODO: FIX
     if (fusionResult.type() != sensor_data_fuser::fusion_result::exercise_ended) return;
     
     // finally, the classification pipeline
+    svm_classifier::classification_result classification_result = m_classifier->classify(fusionResult.fused_exercise_data());
     
     // TODO: Complete me
-    NSArray *classificationResult = [NSArray array];
+    NSMutableArray *classificationResult = [NSMutableArray array];
+    
+    MRClassifiedExercise *exercise = [[MRClassifiedExercise alloc] initWithExercise:[NSString stringWithCString:classification_result.exercises()[0].c_str()encoding:[NSString defaultCStringEncoding]] repetitions:@(classification_result.repetitions()) weight: @(1) intensity: @(0.5) andConfidence: 0.5];
+    MRClassifiedExerciseSet *exercise_set = [[MRClassifiedExerciseSet alloc] init:exercise];
+    
+    [classificationResult addObject:exercise_set];
+    NSLog(@"ARRAY:\n%@", classificationResult);
+
     
     // the hooks
     if (self.classificationPipelineDelegate != nil) {

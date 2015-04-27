@@ -108,6 +108,7 @@
 ///
 @protocol MRClassificationPipelineDelegate
 
+//TODO: FIX
 - (void)classificationSucceeded: (NSString *)exercise reps: (int)count;
 
 - (void)classificationFailed;
