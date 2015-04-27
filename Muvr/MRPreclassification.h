@@ -108,12 +108,6 @@
 ///
 @protocol MRClassificationPipelineDelegate
 
-//TODO: FIX
-- (void)classificationSucceeded: (NSString *)exercise reps: (int)count;
-
-- (void)classificationFailed;
-
-- (void)classificationAmbiguous;
 ///
 /// Classification successful, ``result`` holds elements of type ``MRClassifiedExerciseSet``. The
 /// implementation of this delegate should examine the array and decide what to do depending on

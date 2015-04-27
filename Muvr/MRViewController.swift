@@ -68,17 +68,6 @@ class MRViewController: UIViewController, MRExerciseBlockDelegate, MRClassificat
         statusLabel.text = "Not moving";
     }
     
-    func classificationFailed() {
-        
-    }
-    
-    func classificationAmbiguous() {
-        
-    }
-    
-    func classificationSucceeded(exercise: String!, reps count: Int32) {//(exercise: String!, fromData data: NSData!) {
-    }
-    
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
         MRClassificationCompletedViewController.presentClassificationResult(self, result: result, fromData: data)
     }

@@ -144,24 +144,21 @@ public:
     if (fusionResult.type() != sensor_data_fuser::fusion_result::exercise_ended) return;
     
     // finally, the classification pipeline
-    svm_classifier::classification_result classification_result = m_classifier->classify(fusionResult.fused_exercise_data());
+    svm_classifier::classification_result classificationResult = m_classifier->classify(fusionResult.fused_exercise_data());
     
-    // TODO: Complete me
-    NSMutableArray *classificationResult = [NSMutableArray array];
+    NSMutableArray *transformedClassificationResult = [NSMutableArray array];
     
-    svm_classifier::classified_exercise classified_exercise = classification_result.exercises()[0];
+    // for now we just take the first and only identified exercise
+    svm_classifier::classified_exercise classified_exercise = classificationResult.exercises()[0];
     MRClassifiedExercise *exercise = [[MRClassifiedExercise alloc]
-                                      initWithExercise:
-                                        [NSString stringWithCString:classified_exercise.exercise_name().c_str()encoding:[NSString defaultCStringEncoding]]
+                                      initWithExercise:[NSString stringWithCString:classified_exercise.exercise_name().c_str()encoding:[NSString defaultCStringEncoding]]
                                       repetitions:@(classified_exercise.repetitions())
                                       weight: @(classified_exercise.weight())
                                       intensity: @(classified_exercise.intensity())
                                       andConfidence: classified_exercise.confidence()];
     
     MRClassifiedExerciseSet *exercise_set = [[MRClassifiedExerciseSet alloc] init:exercise];
-    
-    [classificationResult addObject:exercise_set];
-    NSLog(@"ARRAY:\n%@", classificationResult);
+    [transformedClassificationResult addObject:exercise_set];
     
     // the hooks
     if (self.classificationPipelineDelegate != nil) {
@@ -174,7 +171,7 @@ public:
         os << "]";
 
         NSData *data = [[NSString stringWithUTF8String:os.str().c_str()] dataUsingEncoding:NSUTF8StringEncoding];
-        [self.classificationPipelineDelegate classificationCompleted:classificationResult fromData:data];
+        [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
     }
 }
 
