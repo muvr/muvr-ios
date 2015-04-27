@@ -57,8 +57,8 @@ class MRClassificationCompletedViewController : UITableViewController {
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case Consts.Head where simpleClassified.count > 1 : return "Best match"
-        case Consts.Tail where simpleClassified.count > 2 : return "Alternatives"
+        case Consts.Head where simpleClassified.count > 0 : return "Best match"
+        case Consts.Tail where simpleClassified.count > 1 : return "Alternatives"
         case Consts.Others where !simpleOthers.isEmpty: return "Others"
         default: return nil
         }
@@ -86,7 +86,7 @@ class MRClassificationCompletedViewController : UITableViewController {
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! MRClassifiedExerciseSetTableViewCell
         let example = MRExerciseExample(classified: simpleClassified.map { MRClassifiedExerciseSet($0) }, correct: cell.classifiedExerciseSet, fusedSensorData: data)
 
-        MRMuvrServer.sharedInstance.exerciseSessionExample(MRUserId(), sessionId: MRSessionId(), example: example, f: constUnit())
+        MRMuvrServer.sharedInstance.exerciseSessionExample(MRUserId(), sessionId: MRSessionId(), example: example) { $0.cata(println, r: println) }
         dismissViewControllerAnimated(true, completion: nil)
     }
 }

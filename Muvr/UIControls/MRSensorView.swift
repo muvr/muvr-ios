@@ -70,7 +70,7 @@ class MRSensorView : LineChartView, MRDeviceDataDelegate {
     
     // trim an array to at most ``count`` elements.
     private func trimTo<A>(count: Int, values: [A]) -> [A] {
-        if values.count > 10000 {
+        if values.count > count {
             return Array(values[100..<values.count])
         } else {
             return values
