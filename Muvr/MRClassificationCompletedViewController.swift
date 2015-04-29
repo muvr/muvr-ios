@@ -1,7 +1,15 @@
 import Foundation
 
-class MRClassifiedExerciseSetTableViewCell : UITableViewCell {
-    var classifiedExerciseSet: MRClassifiedExerciseSet? = nil
+class MRClassificationCompletedTableViewCell : UITableViewCell {
+    private var exercise: AnyObject?
+    
+    func getExercise<A>() -> A? {
+        return exercise as! A?
+    }
+    
+    func setExercise(exercise: AnyObject?) {
+        self.exercise = exercise
+    }
 }
 
 class MRClassificationCompletedViewController : UITableViewController {
@@ -13,22 +21,22 @@ class MRClassificationCompletedViewController : UITableViewController {
     }
     
     private var data: NSData!
-    private var simpleClassified: [MRClassifiedExercise] = []
-    private var simpleOthers: [MRClassifiedExercise] = []
+    private var simpleClassified: [MRResistanceExercise] = []
+    private var simpleOthers: [MRResistanceExercise] = []
     
     class func presentClassificationResult(parent: UIViewController, result: [AnyObject]!, fromData data: NSData!) -> Void {
         let ctrl: MRClassificationCompletedViewController =
             UIStoryboard(name: "Accessories", bundle: nil).instantiateViewControllerWithIdentifier("MRClassificationCompletedViewController") as! MRClassificationCompletedViewController
-        var classifiedSets = result as! [MRClassifiedExerciseSet]
+        var classifiedSets = result as! [MRResistanceExerciseSet]
         classifiedSets.sort( { x, y in return x.confidence() > y.confidence() });
         
         let simple = classifiedSets.forall { $0.sets.count == 1 }
         if !simple { fatalError("Cannot yet deal with drop-sets and super-sets") }
         
-        let simpleClassifiedSets = classifiedSets.map { $0.sets[0] as! MRClassifiedExercise }
-        let simpleOtherSets: [MRClassifiedExercise] = [
-            MRClassifiedExercise(exercise: "Bicep curl", andConfidence: 1),
-            MRClassifiedExercise(exercise: "Tricep extension", andConfidence: 1),
+        let simpleClassifiedSets = classifiedSets.map { $0.sets[0] as! MRResistanceExercise }
+        let simpleOtherSets: [MRResistanceExercise] = [
+            MRResistanceExercise(exercise: "Bicep curl", andConfidence: 1),
+            MRResistanceExercise(exercise: "Tricep extension", andConfidence: 1),
         ]
 
         ctrl.simpleClassified = simpleClassifiedSets
@@ -65,16 +73,16 @@ class MRClassificationCompletedViewController : UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        func simpleCell(exercise: MRClassifiedExercise) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCellWithIdentifier("simpleExercise")! as! MRClassifiedExerciseSetTableViewCell
-            cell.classifiedExerciseSet = MRClassifiedExerciseSet(exercise)
+        func simpleCell(exercise: MRResistanceExercise) -> UITableViewCell {
+            let cell = tableView.dequeueReusableCellWithIdentifier("simpleExercise")! as! MRClassificationCompletedTableViewCell
+            cell.setExercise(MRResistanceExerciseSet(exercise))
             cell.textLabel?.text = exercise.exercise
             cell.detailTextLabel?.text = "Detail here"
             return cell
         }
         
         switch (indexPath.section, indexPath.row) {
-        case (Consts.None, _): return tableView.dequeueReusableCellWithIdentifier("none")! as! MRClassifiedExerciseSetTableViewCell
+        case (Consts.None, _): return tableView.dequeueReusableCellWithIdentifier("none")! as! MRClassificationCompletedTableViewCell
         case (Consts.Head, _): return simpleCell(simpleClassified[0])
         case (Consts.Tail, let x): return simpleCell(simpleClassified[x - 1])
         case (Consts.Others, let x): return simpleCell(simpleOthers[x])
@@ -83,10 +91,11 @@ class MRClassificationCompletedViewController : UITableViewController {
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! MRClassifiedExerciseSetTableViewCell
-        let example = MRExerciseExample(classified: simpleClassified.map { MRClassifiedExerciseSet($0) }, correct: cell.classifiedExerciseSet, fusedSensorData: data)
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! MRClassificationCompletedTableViewCell
+        let exerciseSet: MRResistanceExerciseSet? = cell.getExercise()
+        let example = MRResistanceExerciseSetExample(classified: simpleClassified.map { MRResistanceExerciseSet($0) }, correct: exerciseSet, fusedSensorData: data)
 
-        MRMuvrServer.sharedInstance.exerciseSessionExample(MRUserId(), sessionId: MRSessionId(), example: example) { $0.cata(println, r: println) }
+        MRMuvrServer.sharedInstance.exerciseSessionResistanceExample(MRUserId(), sessionId: MRSessionId(), example: example) { $0.cata(println, r: println) }
         dismissViewControllerAnimated(true, completion: nil)
     }
 }

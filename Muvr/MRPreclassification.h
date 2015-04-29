@@ -63,7 +63,7 @@
 ///
 /// The classification result
 ///
-@interface MRClassifiedExercise : NSObject
+@interface MRResistanceExercise : NSObject
 - (instancetype)initWithExercise:(NSString *)exercise
                    andConfidence:(double) confidence;
 
@@ -90,15 +90,15 @@
 /// However, some users may do drop-sets (the same exercise with decreasing weight), super-sets
 /// any many other tortures.
 ///
-@interface MRClassifiedExerciseSet : NSObject
+@interface MRResistanceExerciseSet : NSObject
 
 /// Initializes this instance with just one exercise in a set
-- (instancetype)init:(MRClassifiedExercise *)exercise;
+- (instancetype)init:(MRResistanceExercise *)exercise;
 
 /// computes the overall confidence for this set
 - (double)confidence;
 /// retrieves the given set at the index
-- (MRClassifiedExercise *)objectAtIndexedSubscript:(int)idx;
+- (MRResistanceExercise *)objectAtIndexedSubscript:(int)idx;
 /// the exercise sets, containing ``MRClassifiedExercise``
 @property (readonly) NSArray *sets;
 @end

@@ -1,6 +1,6 @@
 import Foundation
 
-extension MRClassifiedExercise {
+extension MRResistanceExercise {
     
     func marshal() -> [String : AnyObject] {
         var params: [String : AnyObject] = ["exercise": exercise, "confidence": confidence]
@@ -12,7 +12,7 @@ extension MRClassifiedExercise {
     
 }
 
-extension MRClassifiedExerciseSet {
+extension MRResistanceExerciseSet {
     
     func marshal() -> [String : AnyObject] {
         return ["sets":sets.map { $0.marshal() }]
@@ -20,7 +20,7 @@ extension MRClassifiedExerciseSet {
     
 }
 
-extension MRExerciseExample {
+extension MRResistanceExerciseSetExample {
     
     func marshal() -> [String : AnyObject] {
         let jsonData = JSON(data: fusedSensorData, options: NSJSONReadingOptions.AllowFragments, error: nil)

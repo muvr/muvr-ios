@@ -13,7 +13,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="simpleExercise" textLabel="mGh-xO-UZ3" detailTextLabel="shr-F1-sm2" style="IBUITableViewCellStyleValue1" id="ZqC-m6-bUa" customClass="MRClassifiedExerciseSetTableViewCell" customModule="Muvr" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="simpleExercise" textLabel="mGh-xO-UZ3" detailTextLabel="shr-F1-sm2" style="IBUITableViewCellStyleValue1" id="ZqC-m6-bUa" customClass="MRClassificationCompletedTableViewCell" customModule="Muvr" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="50" width="414" height="59"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZqC-m6-bUa" id="ZWZ-0G-ovF">
@@ -35,7 +35,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="none" textLabel="SqX-St-w7l" style="IBUITableViewCellStyleDefault" id="r3I-S1-ldj" customClass="MRClassifiedExerciseSetTableViewCell" customModule="Muvr" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="none" textLabel="SqX-St-w7l" style="IBUITableViewCellStyleDefault" id="r3I-S1-ldj" customClass="MRClassificationCompletedTableViewCell" customModule="Muvr" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="r3I-S1-ldj" id="8LJ-zp-yNe">

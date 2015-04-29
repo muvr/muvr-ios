@@ -172,8 +172,8 @@ public class MRMuvrServer {
         return mutableURLRequest
     }
     
-    func exerciseSessionExample(userId: MRUserId, sessionId: MRSessionId, example: MRExerciseExample, f: Result<Void> -> Void) -> Void {
-        request(MRMuvrServerURLs.ExerciseSessionExample(userId: userId, sessionId: sessionId), body: .Json(params: example.marshal()))
+    func exerciseSessionResistanceExample(userId: MRUserId, sessionId: MRSessionId, example: MRResistanceExerciseSetExample, f: Result<Void> -> Void) -> Void {
+        request(MRMuvrServerURLs.ExerciseSessionResistanceExample(userId: userId, sessionId: sessionId), body: .Json(params: example.marshal()))
             .responseAsResult(f, completionHandler: constUnit())
     }
     

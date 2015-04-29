@@ -22,11 +22,11 @@ public:
 @implementation Threed
 @end
 
-#pragma MARK - MRClassifiedExerciseSet implementation
+#pragma MARK - MRResistanceExerciseSet implementation
 
-@implementation MRClassifiedExerciseSet
+@implementation MRResistanceExerciseSet
 
-- (instancetype)init:(MRClassifiedExercise *)exercise {
+- (instancetype)init:(MRResistanceExercise *)exercise {
     self = [super init];
     _sets = [NSArray arrayWithObject:exercise];
     return self;
@@ -36,21 +36,21 @@ public:
     if (_sets.count == 0) return 0;
     
     double sum = 0;
-    for (MRClassifiedExercise *set : _sets) {
+    for (MRResistanceExercise *set : _sets) {
         sum += set.confidence;
     }
     return sum / _sets.count;
 }
 
-- (MRClassifiedExercise *)objectAtIndexedSubscript:(int)idx {
+- (MRResistanceExercise *)objectAtIndexedSubscript:(int)idx {
     return [_sets objectAtIndexedSubscript:idx];
 }
 
 @end
 
-#pragma MARK - MRClassifiedExercise implementation
+#pragma MARK - MRResistanceExercise implementation
 
-@implementation MRClassifiedExercise
+@implementation MRResistanceExercise
 
 - (instancetype)initWithExercise:(NSString *)exercise andConfidence:(double)confidence {
     self = [super init];
@@ -81,7 +81,7 @@ public:
 - (instancetype)init {
     self = [super init];
     m_fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(std::shared_ptr<movement_decider>(new movement_decider()),
-                                                                       std::shared_ptr<exercise_decider>(new exercise_decider())));
+                                                                       std::shared_ptr<exercise_decider>(new const_exercise_decider())));
     NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-curl-features" ofType:@"libsvm"];
     std::string libsvm(fullPath.UTF8String);
     fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-curl-features" ofType:@"scale"];
@@ -150,14 +150,14 @@ public:
     
     // for now we just take the first and only identified exercise
     svm_classifier::classified_exercise classified_exercise = classificationResult.exercises()[0];
-    MRClassifiedExercise *exercise = [[MRClassifiedExercise alloc]
+    MRResistanceExercise *exercise = [[MRResistanceExercise alloc]
                                       initWithExercise:[NSString stringWithCString:classified_exercise.exercise_name().c_str()encoding:[NSString defaultCStringEncoding]]
                                       repetitions:@(classified_exercise.repetitions())
                                       weight: @(classified_exercise.weight())
                                       intensity: @(classified_exercise.intensity())
                                       andConfidence: classified_exercise.confidence()];
     
-    MRClassifiedExerciseSet *exercise_set = [[MRClassifiedExerciseSet alloc] init:exercise];
+    MRResistanceExerciseSet *exercise_set = [[MRResistanceExerciseSet alloc] init:exercise];
     [transformedClassificationResult addObject:exercise_set];
     
     // the hooks
