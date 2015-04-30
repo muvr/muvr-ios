@@ -16,14 +16,20 @@ class MRLoginViewController : UIViewController {
     }
     
     @IBAction
-    func login(sender: UIButton) {
+    func login() {
         view.endEditing(true)
         MRApplicationState.login(email: username.text, password: password.text) { $0.getOrUnit(self.showAccount) }
     }
     
     @IBAction
-    func register(sender: UIButton) {
+    func register() {
         view.endEditing(true)
         MRApplicationState.register(email: username.text, password: password.text) { $0.getOrUnit(self.showAccount) }
+    }
+    
+    @IBAction
+    func skip() {
+        view.endEditing(true)
+        performSegueWithIdentifier("main", sender: nil)
     }
 }

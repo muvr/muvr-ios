@@ -45,7 +45,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="JMa-Hl-dL9"/>
+                    <tabBarItem key="tabBarItem" title="Ad-hoc exercise" image="exercise" id="JMa-Hl-dL9"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -103,8 +103,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="login:" destination="xl4-18-EiY" eventType="touchUpInside" id="IZG-d7-igP"/>
-                                    <action selector="startStop" destination="vXZ-lx-hvc" eventType="touchUpInside" id="yKS-zX-JWV"/>
+                                    <action selector="login" destination="xl4-18-EiY" eventType="touchUpInside" id="k1M-0m-jx1"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="das-Z8-7wg" customClass="MRButton" customModule="Muvr" customModuleProvider="target">
@@ -115,8 +114,21 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="register:" destination="xl4-18-EiY" eventType="touchUpInside" id="j4q-uJ-IQc"/>
+                                    <action selector="register" destination="xl4-18-EiY" eventType="touchUpInside" id="uty-0P-lsy"/>
                                     <action selector="startStop" destination="vXZ-lx-hvc" eventType="touchUpInside" id="S3M-en-dYu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ESG-Wg-H16" customClass="MRButton" customModule="Muvr" customModuleProvider="target">
+                                <rect key="frame" x="97" y="223" width="301" height="30"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="Skip">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="skip" destination="xl4-18-EiY" eventType="touchUpInside" id="MBw-jU-fF9"/>
+                                    <action selector="startStop" destination="vXZ-lx-hvc" eventType="touchUpInside" id="aUE-pK-bpq"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -155,6 +167,9 @@
             <point key="canvasLocation" x="220" y="-768"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="exercise" width="25" height="25"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
