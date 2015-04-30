@@ -24,6 +24,9 @@ class MRClassificationCompletedViewController : UITableViewController {
     private var simpleClassified: [MRResistanceExercise] = []
     private var simpleOthers: [MRResistanceExercise] = []
     
+    // TODO: Fixme
+    let state = MRExercisingApplicationState(userId: MRUserId(), sessionId: MRSessionId())
+    
     class func presentClassificationResult(parent: UIViewController, result: [AnyObject]!, fromData data: NSData!) -> Void {
         let ctrl: MRClassificationCompletedViewController =
             UIStoryboard(name: "Accessories", bundle: nil).instantiateViewControllerWithIdentifier("MRClassificationCompletedViewController") as! MRClassificationCompletedViewController
@@ -94,8 +97,8 @@ class MRClassificationCompletedViewController : UITableViewController {
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! MRClassificationCompletedTableViewCell
         let exerciseSet: MRResistanceExerciseSet? = cell.getExercise()
         let example = MRResistanceExerciseSetExample(classified: simpleClassified.map { MRResistanceExerciseSet($0) }, correct: exerciseSet, fusedSensorData: data)
-
-        MRMuvrServer.sharedInstance.exerciseSessionResistanceExample(MRUserId(), sessionId: MRSessionId(), example: example) { $0.cata(println, r: println) }
+        state.postResistanceExample(example) { $0.cata(println, r: println) }
+        
         dismissViewControllerAnimated(true, completion: nil)
     }
 }

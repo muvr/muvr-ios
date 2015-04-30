@@ -42,6 +42,12 @@
 		5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */; };
 		5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */; };
 		5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */; };
+		54820DF41AF27DC200E3AEC2 /* MRMuvrServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DF21AF27DC200E3AEC2 /* MRMuvrServer.swift */; };
+		54820DF51AF27DC200E3AEC2 /* MRMuvrServerURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DF31AF27DC200E3AEC2 /* MRMuvrServerURLs.swift */; };
+		54820DF91AF2811300E3AEC2 /* MRApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DF81AF2811300E3AEC2 /* MRApplicationState.swift */; };
+		54820DFB1AF2895100E3AEC2 /* MRLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DFA1AF2895100E3AEC2 /* MRLoginViewController.swift */; };
+		54820DFD1AF28D1900E3AEC2 /* Result+GetOrUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DFC1AF28D1900E3AEC2 /* Result+GetOrUnit.swift */; };
+		54820DFF1AF2971900E3AEC2 /* MRTypes+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DFE1AF2971900E3AEC2 /* MRTypes+Marshalling.swift */; };
 		548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 548225531AC57A3500EEEFCB /* MRPreclassification.mm */; };
 		54F0DC4A1AC57E8D0061EC5D /* all_1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC2D1AC57E8D0061EC5D /* all_1.csv */; };
 		54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */; };
@@ -53,8 +59,6 @@
 		6FE82F244080A35A0F4E861B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D2F8864F1B66657A209A69 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FC1AC7591ADE8CEA00832DE7 /* classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC7581ADE8CEA00832DE7 /* classifier.cc */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
-		FC1AC7601ADE9A2D00832DE7 /* MRMuvrServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75E1ADE9A2D00832DE7 /* MRMuvrServer.swift */; };
-		FC1AC7611ADE9A2D00832DE7 /* MRMuvrServerURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75F1ADE9A2D00832DE7 /* MRMuvrServerURLs.swift */; };
 		FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */; };
 		FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705E1AEA6CC900829357 /* svm_classifier.cc */; };
 		FC3970621AEA6CC900829357 /* svm.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705F1AEA6CC900829357 /* svm.cc */; };
@@ -121,6 +125,12 @@
 		5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_rsdt.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_rsdt.cc"; sourceTree = "<group>"; };
 		5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_sce.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_sce.cc"; sourceTree = "<group>"; };
 		5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_sct.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_sct.cc"; sourceTree = "<group>"; };
+		54820DF21AF27DC200E3AEC2 /* MRMuvrServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MRMuvrServer.swift; path = MuvrServer/MRMuvrServer.swift; sourceTree = "<group>"; };
+		54820DF31AF27DC200E3AEC2 /* MRMuvrServerURLs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MRMuvrServerURLs.swift; path = MuvrServer/MRMuvrServerURLs.swift; sourceTree = "<group>"; };
+		54820DF81AF2811300E3AEC2 /* MRApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRApplicationState.swift; sourceTree = "<group>"; };
+		54820DFA1AF2895100E3AEC2 /* MRLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRLoginViewController.swift; sourceTree = "<group>"; };
+		54820DFC1AF28D1900E3AEC2 /* Result+GetOrUnit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Result+GetOrUnit.swift"; sourceTree = "<group>"; };
+		54820DFE1AF2971900E3AEC2 /* MRTypes+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRTypes+Marshalling.swift"; sourceTree = "<group>"; };
 		548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Muvr-Bridging-Header.h"; sourceTree = "<group>"; };
 		548225521AC57A3500EEEFCB /* MRPreclassification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPreclassification.h; sourceTree = "<group>"; };
 		548225531AC57A3500EEEFCB /* MRPreclassification.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRPreclassification.mm; sourceTree = "<group>"; };
@@ -159,8 +169,6 @@
 		F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FC1AC7581ADE8CEA00832DE7 /* classifier.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = classifier.cc; path = "../../../../../muvr-preclassification/core/main/cc/classifier.cc"; sourceTree = "<group>"; };
 		FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRUserDefaults.swift; sourceTree = "<group>"; };
-		FC1AC75E1ADE9A2D00832DE7 /* MRMuvrServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRMuvrServer.swift; sourceTree = "<group>"; };
-		FC1AC75F1ADE9A2D00832DE7 /* MRMuvrServerURLs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRMuvrServerURLs.swift; sourceTree = "<group>"; };
 		FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = svm_classifier_factory.cc; path = "../../../../../muvr-preclassification/core/main/cc/svm_classifier_factory.cc"; sourceTree = "<group>"; };
 		FC39705E1AEA6CC900829357 /* svm_classifier.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = svm_classifier.cc; path = "../../../../../muvr-preclassification/core/main/cc/svm_classifier.cc"; sourceTree = "<group>"; };
 		FC39705F1AEA6CC900829357 /* svm.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = svm.cc; path = "../../../../../muvr-preclassification/core/main/cc/svm.cc"; sourceTree = "<group>"; };
@@ -244,6 +252,10 @@
 				543374141AD010B1005864D7 /* Predef */,
 				543374101AD01060005864D7 /* Device */,
 				5403814F1AEC2B47000C8B15 /* UIControls */,
+				54820DF81AF2811300E3AEC2 /* MRApplicationState.swift */,
+				540381521AEC3567000C8B15 /* MRTypes.swift */,
+				540381601AED2F85000C8B15 /* MRExerciseModel.swift */,
+				540381621AED2FD1000C8B15 /* MRExerciseModel+Marshalling.swift */,
 				541ABBA31AC577E00056A81B /* MRAppDelegate.swift */,
 				541ABBA51AC577E00056A81B /* MRViewController.swift */,
 				540381541AECFB05000C8B15 /* MRClassificationCompletedViewController.swift */,
@@ -258,6 +270,9 @@
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
 				FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */,
 				5403815E1AED28A0000C8B15 /* Settings.bundle */,
+				54820DFA1AF2895100E3AEC2 /* MRLoginViewController.swift */,
+				54820DFC1AF28D1900E3AEC2 /* Result+GetOrUnit.swift */,
+				54820DFE1AF2971900E3AEC2 /* MRTypes+Marshalling.swift */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -475,11 +490,8 @@
 		FC5593AB1ADBE05300F235ED /* MuvrServer */ = {
 			isa = PBXGroup;
 			children = (
-				FC1AC75E1ADE9A2D00832DE7 /* MRMuvrServer.swift */,
-				FC1AC75F1ADE9A2D00832DE7 /* MRMuvrServerURLs.swift */,
-				540381521AEC3567000C8B15 /* MRTypes.swift */,
-				540381601AED2F85000C8B15 /* MRExerciseModel.swift */,
-				540381621AED2FD1000C8B15 /* MRExerciseModel+Marshalling.swift */,
+				54820DF31AF27DC200E3AEC2 /* MRMuvrServerURLs.swift */,
+				54820DF21AF27DC200E3AEC2 /* MRMuvrServer.swift */,
 			);
 			name = MuvrServer;
 			sourceTree = "<group>";
@@ -671,6 +683,7 @@
 				5403814C1AEBBE45000C8B15 /* export.cc in Sources */,
 				5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */,
 				5433741F1AD010B1005864D7 /* Either.swift in Sources */,
+				54820DFB1AF2895100E3AEC2 /* MRLoginViewController.swift in Sources */,
 				5433741C1AD010B1005864D7 /* Array.swift in Sources */,
 				543374251AD01104005864D7 /* NSError+Convenience.swift in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
@@ -678,6 +691,7 @@
 				542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */,
 				540381551AECFB05000C8B15 /* MRClassificationCompletedViewController.swift in Sources */,
 				540381511AEC2B5A000C8B15 /* MRButton.swift in Sources */,
+				54820DFD1AF28D1900E3AEC2 /* Result+GetOrUnit.swift in Sources */,
 				543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */,
 				5433741D1AD010B1005864D7 /* Box.swift in Sources */,
 				5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */,
@@ -690,20 +704,22 @@
 				54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */,
 				540381571AECFB25000C8B15 /* MRSensorView.swift in Sources */,
 				540381611AED2F85000C8B15 /* MRExerciseModel.swift in Sources */,
+				54820DF91AF2811300E3AEC2 /* MRApplicationState.swift in Sources */,
 				FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */,
 				542AB2191ACC4FD100F20299 /* symbolic_aggregate_approximation.cc in Sources */,
 				540381531AEC3567000C8B15 /* MRTypes.swift in Sources */,
-				FC1AC7601ADE9A2D00832DE7 /* MRMuvrServer.swift in Sources */,
 				540381631AED2FD1000C8B15 /* MRExerciseModel+Marshalling.swift in Sources */,
+				54820DFF1AF2971900E3AEC2 /* MRTypes+Marshalling.swift in Sources */,
 				54F0DC541AC57E8D0061EC5D /* nomovement_decider.cc in Sources */,
+				54820DF51AF27DC200E3AEC2 /* MRMuvrServerURLs.swift in Sources */,
 				543374211AD010B1005864D7 /* Predef.swift in Sources */,
+				54820DF41AF27DC200E3AEC2 /* MRMuvrServer.swift in Sources */,
 				542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */,
 				54F0DC551AC57E8D0061EC5D /* raw_sensor_data.cc in Sources */,
 				5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */,
 				542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */,
 				543374271AD0111B005864D7 /* String+Localisation.swift in Sources */,
 				54F0DC531AC57E8D0061EC5D /* kalman_smooth.cc in Sources */,
-				FC1AC7611ADE9A2D00832DE7 /* MRMuvrServerURLs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
