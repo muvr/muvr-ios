@@ -4,6 +4,8 @@ import Foundation
 /// The initial state that can only do basic user operation like login, send token, ...
 ///
 struct MRApplicationState {
+    static var muscleGroups: [MRMuscleGroup] = MRMuscleGroupRepository.load()
+    
     static var deviceToken: NSData?
     private static var loggedInStateInstance: MRLoggedInApplicationState? = nil
     
@@ -42,6 +44,7 @@ struct MRApplicationState {
             unmarshaller: MRUserId.unmarshal,
             onComplete: afterLogin(f))
     }
+    
 }
 
 ///

@@ -3,7 +3,7 @@ import Charts
 
 
 class MRExerciseViewController: UIViewController, MRExerciseBlockDelegate, MRClassificationPipelineDelegate, MRDeviceSessionDelegate {
-    private let preclassification: MRPreclassification = MRPreclassification()
+    private var preclassification: MRPreclassification?
     private let pcd = MRRawPebbleConnectedDevice()
     
     @IBOutlet var statusLabel: UILabel!
@@ -11,29 +11,20 @@ class MRExerciseViewController: UIViewController, MRExerciseBlockDelegate, MRCla
     @IBOutlet var exerciseRepetitionsLabel: UILabel!
     @IBOutlet var startStopButton: UIButton!
     @IBOutlet var sensorView: MRSensorView!
-    override func viewDidLoad() {
-        preclassification.exerciseBlockDelegate = self
-        preclassification.deviceDataDelegate = sensorView
-        preclassification.classificationPipelineDelegate = self
+    
+    func startExercising(muscleGroupIds: [String]) {
+        NSLog("Load classifiers here")
+
+        // TODO: load classifiers here
+        preclassification = MRPreclassification()
+        preclassification!.exerciseBlockDelegate = self
+        preclassification!.deviceDataDelegate = sensorView
+        preclassification!.classificationPipelineDelegate = self
+        pcd.start(self)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        statusLabel.text = "---";
-    }
-    
-    @IBAction
-    func startStop() {
-        if pcd.running {
-            startStopButton.setTitle("Start", forState: UIControlState.Normal)
-            startStopButton.titleLabel?.text = "Start"
-            pcd.stop()
-            statusLabel.text = "---";
-        } else {
-            startStopButton.setTitle("Stop", forState: UIControlState.Normal)
-            statusLabel.text = "Starting...";
-            pcd.start(self)
-        }
+    override func willMoveToParentViewController(parent: UIViewController?) {
+        pcd.stop()
     }
     
     // MARK: MRDeviceSessionDelegate implementation
@@ -47,7 +38,7 @@ class MRExerciseViewController: UIViewController, MRExerciseBlockDelegate, MRCla
     
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
         //NSLog("%@", data)
-        preclassification.pushBack(data, from: 0)
+        preclassification!.pushBack(data, from: 0)
     }
     
     // MARK: MRExerciseBlockDelegate implementation
