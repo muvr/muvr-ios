@@ -58,11 +58,15 @@
 		FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */; };
 		FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705E1AEA6CC900829357 /* svm_classifier.cc */; };
 		FC3970621AEA6CC900829357 /* svm.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705F1AEA6CC900829357 /* svm.cc */; };
-		FC39706F1AEA78E200829357 /* svm-model-curl-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = FC39706C1AEA78E200829357 /* svm-model-curl-features.libsvm */; };
-		FC3970701AEA78E200829357 /* svm-model-curl-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = FC39706D1AEA78E200829357 /* svm-model-curl-features.rds */; };
-		FC3970711AEA78E200829357 /* svm-model-curl-features.scale in Resources */ = {isa = PBXBuildFile; fileRef = FC39706E1AEA78E200829357 /* svm-model-curl-features.scale */; };
 		FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */; };
 		FC5593B71ADBE56400F235ED /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B41ADBE56400F235ED /* SwiftyJSON.swift */; };
+		FCF4C4321AF3A347004BE0B3 /* classifier_loader.cc in Sources */ = {isa = PBXBuildFile; fileRef = FCF4C4311AF3A347004BE0B3 /* classifier_loader.cc */; };
+		FCF4C43A1AF3A53D004BE0B3 /* svm-model-bicep_curl-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = FCF4C4341AF3A53D004BE0B3 /* svm-model-bicep_curl-features.libsvm */; };
+		FCF4C43B1AF3A53D004BE0B3 /* svm-model-bicep_curl-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = FCF4C4351AF3A53D004BE0B3 /* svm-model-bicep_curl-features.rds */; };
+		FCF4C43C1AF3A53D004BE0B3 /* svm-model-bicep_curl-features.scale in Resources */ = {isa = PBXBuildFile; fileRef = FCF4C4361AF3A53D004BE0B3 /* svm-model-bicep_curl-features.scale */; };
+		FCF4C43D1AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = FCF4C4371AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.libsvm */; };
+		FCF4C43E1AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = FCF4C4381AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.rds */; };
+		FCF4C43F1AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.scale in Resources */ = {isa = PBXBuildFile; fileRef = FCF4C4391AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.scale */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,14 +171,19 @@
 		FC3970631AEA6CEB00829357 /* svm_classifier_factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm_classifier_factory.h; path = "../../../../muvr-preclassification/core/include/svm_classifier_factory.h"; sourceTree = "<group>"; };
 		FC3970641AEA6CEC00829357 /* svm_classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm_classifier.h; path = "../../../../muvr-preclassification/core/include/svm_classifier.h"; sourceTree = "<group>"; };
 		FC3970651AEA6CEC00829357 /* svm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm.h; path = "../../../../muvr-preclassification/core/include/svm.h"; sourceTree = "<group>"; };
-		FC39706C1AEA78E200829357 /* svm-model-curl-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-curl-features.libsvm"; sourceTree = "<group>"; };
-		FC39706D1AEA78E200829357 /* svm-model-curl-features.rds */ = {isa = PBXFileReference; lastKnownFileType = file; path = "svm-model-curl-features.rds"; sourceTree = "<group>"; };
-		FC39706E1AEA78E200829357 /* svm-model-curl-features.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-curl-features.scale"; sourceTree = "<group>"; };
 		FC5593AF1ADBE56400F235ED /* Alamofire+SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Alamofire+SwiftyJSON.h"; sourceTree = "<group>"; };
 		FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alamofire+SwiftyJSON.swift"; sourceTree = "<group>"; };
 		FC5593B31ADBE56400F235ED /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyJSON.h; sourceTree = "<group>"; };
 		FC5593B41ADBE56400F235ED /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		FC5593C71ADD7E5400F235ED /* classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier.h; path = "../../../../muvr-preclassification/core/include/classifier.h"; sourceTree = "<group>"; };
+		FC6512871AF3A6C2007CB46E /* classifier_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier_loader.h; path = "../../../../muvr-preclassification/core/include/classifier_loader.h"; sourceTree = "<group>"; };
+		FCF4C4311AF3A347004BE0B3 /* classifier_loader.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = classifier_loader.cc; path = "../../../../../muvr-preclassification/core/main/cc/classifier_loader.cc"; sourceTree = "<group>"; };
+		FCF4C4341AF3A53D004BE0B3 /* svm-model-bicep_curl-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-bicep_curl-features.libsvm"; sourceTree = "<group>"; };
+		FCF4C4351AF3A53D004BE0B3 /* svm-model-bicep_curl-features.rds */ = {isa = PBXFileReference; lastKnownFileType = file; path = "svm-model-bicep_curl-features.rds"; sourceTree = "<group>"; };
+		FCF4C4361AF3A53D004BE0B3 /* svm-model-bicep_curl-features.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-bicep_curl-features.scale"; sourceTree = "<group>"; };
+		FCF4C4371AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-triceps_pushdown-features.libsvm"; sourceTree = "<group>"; };
+		FCF4C4381AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.rds */ = {isa = PBXFileReference; lastKnownFileType = file; path = "svm-model-triceps_pushdown-features.rds"; sourceTree = "<group>"; };
+		FCF4C4391AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-triceps_pushdown-features.scale"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -343,6 +352,7 @@
 		54F0DC241AC57E8D0061EC5D /* include */ = {
 			isa = PBXGroup;
 			children = (
+				FC6512871AF3A6C2007CB46E /* classifier_loader.h */,
 				FC3970631AEA6CEB00829357 /* svm_classifier_factory.h */,
 				5403814A1AEBBE3B000C8B15 /* export.h */,
 				FC3970641AEA6CEC00829357 /* svm_classifier.h */,
@@ -388,6 +398,7 @@
 		54F0DC341AC57E8D0061EC5D /* cc */ = {
 			isa = PBXGroup;
 			children = (
+				FCF4C4311AF3A347004BE0B3 /* classifier_loader.cc */,
 				FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */,
 				5403814B1AEBBE45000C8B15 /* export.cc */,
 				FC39705E1AEA6CC900829357 /* svm_classifier.cc */,
@@ -465,9 +476,12 @@
 		FC39706B1AEA78E200829357 /* svm */ = {
 			isa = PBXGroup;
 			children = (
-				FC39706C1AEA78E200829357 /* svm-model-curl-features.libsvm */,
-				FC39706D1AEA78E200829357 /* svm-model-curl-features.rds */,
-				FC39706E1AEA78E200829357 /* svm-model-curl-features.scale */,
+				FCF4C4341AF3A53D004BE0B3 /* svm-model-bicep_curl-features.libsvm */,
+				FCF4C4351AF3A53D004BE0B3 /* svm-model-bicep_curl-features.rds */,
+				FCF4C4361AF3A53D004BE0B3 /* svm-model-bicep_curl-features.scale */,
+				FCF4C4371AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.libsvm */,
+				FCF4C4381AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.rds */,
+				FCF4C4391AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.scale */,
 			);
 			path = svm;
 			sourceTree = "<group>";
@@ -585,15 +599,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC39706F1AEA78E200829357 /* svm-model-curl-features.libsvm in Resources */,
 				5403815F1AED28A0000C8B15 /* Settings.bundle in Resources */,
+				FCF4C43A1AF3A53D004BE0B3 /* svm-model-bicep_curl-features.libsvm in Resources */,
+				FCF4C43D1AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.libsvm in Resources */,
+				FCF4C43E1AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.rds in Resources */,
 				541ABBA91AC577E00056A81B /* Main.storyboard in Resources */,
 				54F0DC561AC57E8D0061EC5D /* CMakeLists.txt in Resources */,
 				54F0DC4A1AC57E8D0061EC5D /* all_1.csv in Resources */,
 				541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */,
-				FC3970701AEA78E200829357 /* svm-model-curl-features.rds in Resources */,
+				FCF4C43C1AF3A53D004BE0B3 /* svm-model-bicep_curl-features.scale in Resources */,
+				FCF4C43B1AF3A53D004BE0B3 /* svm-model-bicep_curl-features.rds in Resources */,
 				5403815D1AED0B13000C8B15 /* Accessories.storyboard in Resources */,
-				FC3970711AEA78E200829357 /* svm-model-curl-features.scale in Resources */,
+				FCF4C43F1AF3A53D004BE0B3 /* svm-model-triceps_pushdown-features.scale in Resources */,
 				541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -690,6 +707,7 @@
 				54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */,
 				540381571AECFB25000C8B15 /* MRSensorView.swift in Sources */,
 				540381611AED2F85000C8B15 /* MRExerciseModel.swift in Sources */,
+				FCF4C4321AF3A347004BE0B3 /* classifier_loader.cc in Sources */,
 				FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */,
 				542AB2191ACC4FD100F20299 /* symbolic_aggregate_approximation.cc in Sources */,
 				540381531AEC3567000C8B15 /* MRTypes.swift in Sources */,
