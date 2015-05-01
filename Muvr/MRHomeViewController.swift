@@ -8,18 +8,22 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     private let calendar = JTCalendar()
     private var resistanceSessionDates: [MRResistanceExerciseSessionDate] = []
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        calendar.calendarAppearance.isWeekMode = true
+        calendar.menuMonthsView = JTCalendarMenuView()
+        calendar.contentView = calendarContentView
+        
+        calendar.dataSource = self
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
         MRApplicationState.loggedInState!.getResistanceExerciseSessionDates {
             $0.getOrUnit(self.setResistanceExerciseSessionDates)
         }
-        
-        calendar.calendarAppearance.isWeekMode = true
-        calendar.menuMonthsView = JTCalendarMenuView()
-        calendar.contentView = calendarContentView
-        
-        calendar.dataSource = self
     }
     
     private func setResistanceExerciseSessionDates(resistanceSessionDates: [MRResistanceExerciseSessionDate]) {
