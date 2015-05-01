@@ -7,6 +7,9 @@ struct MRApplicationState {
     static var muscleGroups: [MRMuscleGroup] = MRMuscleGroupRepository.load()
     
     static var deviceToken: NSData?
+    
+    static let anonymousUserId: MRUserId = MRUserId(UUIDString: "855060A5-5585-46A7-80B8-C6CBD83197F8")!
+    
     private static var loggedInStateInstance: MRLoggedInApplicationState? = nil
     
     static var loggedInState: MRLoggedInApplicationState? {
@@ -45,6 +48,11 @@ struct MRApplicationState {
             onComplete: afterLogin(f))
     }
     
+    static func skip(f: Result<MRLoggedInApplicationState> -> Void) -> Void {
+        MRApplicationState.loggedInStateInstance = MRLoggedInApplicationState(userId: anonymousUserId)
+        f(Result.value(MRApplicationState.loggedInStateInstance!))
+    }
+    
 }
 
 ///
@@ -63,6 +71,10 @@ struct MRLoggedInApplicationState {
     
     func registerDeviceToken(token: NSData) -> Void {
         
+    }
+    
+    func getResistanceExerciseSessionDates(f: Result<[MRResistanceExerciseSessionDate]> -> Void) -> Void {
+        f(Result.value([]))
     }
 
 }

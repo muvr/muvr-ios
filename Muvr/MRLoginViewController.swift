@@ -30,6 +30,6 @@ class MRLoginViewController : UIViewController {
     @IBAction
     func skip() {
         view.endEditing(true)
-        performSegueWithIdentifier("main", sender: nil)
+        MRApplicationState.skip { $0.getOrUnit(self.showAccount) }
     }
 }

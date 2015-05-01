@@ -16,6 +16,7 @@
 		5403815F1AED28A0000C8B15 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5403815E1AED28A0000C8B15 /* Settings.bundle */; };
 		540381611AED2F85000C8B15 /* MRExerciseSetExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381601AED2F85000C8B15 /* MRExerciseSetExample.swift */; };
 		540381631AED2FD1000C8B15 /* MRExerciseSetExample+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381621AED2FD1000C8B15 /* MRExerciseSetExample+Marshalling.swift */; };
+		5403A87A1AF3B3D000FB8381 /* MRHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403A8791AF3B3D000FB8381 /* MRHomeViewController.swift */; };
 		541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA31AC577E00056A81B /* MRAppDelegate.swift */; };
 		541ABBA61AC577E00056A81B /* MRExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA51AC577E00056A81B /* MRExerciseViewController.swift */; };
 		541ABBA91AC577E00056A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBA71AC577E00056A81B /* Main.storyboard */; };
@@ -54,6 +55,10 @@
 		54820DFD1AF28D1900E3AEC2 /* Result+GetOrUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DFC1AF28D1900E3AEC2 /* Result+GetOrUnit.swift */; };
 		54820DFF1AF2971900E3AEC2 /* MRTypes+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DFE1AF2971900E3AEC2 /* MRTypes+Marshalling.swift */; };
 		548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 548225531AC57A3500EEEFCB /* MRPreclassification.mm */; };
+		54B610851AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610841AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift */; };
+		54B610871AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610861AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift */; };
+		54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */; };
+		54B6108F1AF3BB4A0034F2DD /* MRResistanceExerciseSessionDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6108E1AF3BB4A0034F2DD /* MRResistanceExerciseSessionDate.swift */; };
 		54F0DC4A1AC57E8D0061EC5D /* all_1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC2D1AC57E8D0061EC5D /* all_1.csv */; };
 		54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */; };
 		54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC361AC57E8D0061EC5D /* exercise_decider.cc */; };
@@ -96,6 +101,7 @@
 		5403815E1AED28A0000C8B15 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		540381601AED2F85000C8B15 /* MRExerciseSetExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSetExample.swift; sourceTree = "<group>"; };
 		540381621AED2FD1000C8B15 /* MRExerciseSetExample+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseSetExample+Marshalling.swift"; sourceTree = "<group>"; };
+		5403A8791AF3B3D000FB8381 /* MRHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRHomeViewController.swift; sourceTree = "<group>"; };
 		541ABB9E1AC577E00056A81B /* Muvr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Muvr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		541ABBA21AC577E00056A81B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		541ABBA31AC577E00056A81B /* MRAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAppDelegate.swift; sourceTree = "<group>"; };
@@ -145,6 +151,10 @@
 		548225521AC57A3500EEEFCB /* MRPreclassification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPreclassification.h; sourceTree = "<group>"; };
 		548225531AC57A3500EEEFCB /* MRPreclassification.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRPreclassification.mm; sourceTree = "<group>"; };
 		548226BD1AC57CD300EEEFCB /* libMuvrPreclassification.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMuvrPreclassification.a; path = "MuvrPreclassification/build/Debug-iphoneos/libMuvrPreclassification.a"; sourceTree = "<group>"; };
+		54B610841AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSetIntensityView.swift; sourceTree = "<group>"; };
+		54B610861AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSetTableViewCell.swift; sourceTree = "<group>"; };
+		54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSession.swift; sourceTree = "<group>"; };
+		54B6108E1AF3BB4A0034F2DD /* MRResistanceExerciseSessionDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSessionDate.swift; sourceTree = "<group>"; };
 		54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		54F0DC251AC57E8D0061EC5D /* device_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data.h; sourceTree = "<group>"; };
 		54F0DC261AC57E8D0061EC5D /* device_data_decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data_decoder.h; sourceTree = "<group>"; };
@@ -228,10 +238,20 @@
 			children = (
 				540381561AECFB25000C8B15 /* MRSensorView.swift */,
 				540381501AEC2B5A000C8B15 /* MRButton.swift */,
+				54B610841AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift */,
 			);
 			name = UIControls;
 			path = Muvr/UIControls;
 			sourceTree = SOURCE_ROOT;
+		};
+		5403A8781AF3B3C000FB8381 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				5403A8791AF3B3D000FB8381 /* MRHomeViewController.swift */,
+				54B610861AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift */,
+			);
+			name = Home;
+			sourceTree = "<group>";
 		};
 		541ABB951AC577E00056A81B = {
 			isa = PBXGroup;
@@ -265,8 +285,10 @@
 				543374101AD01060005864D7 /* Device */,
 				5403814F1AEC2B47000C8B15 /* UIControls */,
 				547E6A821AF35680005DE00C /* Exercise */,
+				5403A8781AF3B3C000FB8381 /* Home */,
 				54820DF81AF2811300E3AEC2 /* MRApplicationState.swift */,
 				541ABBA31AC577E00056A81B /* MRAppDelegate.swift */,
+				54820DFA1AF2895100E3AEC2 /* MRLoginViewController.swift */,
 				541ABBAA1AC577E00056A81B /* Images.xcassets */,
 				541ABBA71AC577E00056A81B /* Main.storyboard */,
 				541ABBAC1AC577E00056A81B /* LaunchScreen.xib */,
@@ -278,7 +300,6 @@
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
 				FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */,
 				5403815E1AED28A0000C8B15 /* Settings.bundle */,
-				54820DFA1AF2895100E3AEC2 /* MRLoginViewController.swift */,
 				54820DFC1AF28D1900E3AEC2 /* Result+GetOrUnit.swift */,
 			);
 			path = Muvr;
@@ -369,6 +390,8 @@
 				54820DFE1AF2971900E3AEC2 /* MRTypes+Marshalling.swift */,
 				547E6A8A1AF36938005DE00C /* MRMuscleGroup.swift */,
 				547E6A8C1AF36A10005DE00C /* MRMuscleGroup+Marshalling.swift */,
+				54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */,
+				54B6108E1AF3BB4A0034F2DD /* MRResistanceExerciseSessionDate.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -712,11 +735,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54B6108F1AF3BB4A0034F2DD /* MRResistanceExerciseSessionDate.swift in Sources */,
 				FC3970621AEA6CC900829357 /* svm.cc in Sources */,
 				FC1AC7591ADE8CEA00832DE7 /* classifier.cc in Sources */,
 				548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */,
 				547E6A8D1AF36A10005DE00C /* MRMuscleGroup+Marshalling.swift in Sources */,
 				543374201AD010B1005864D7 /* Operators.swift in Sources */,
+				54B610851AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift in Sources */,
 				5433742F1AD01345005864D7 /* String+MD5.swift in Sources */,
 				5433741E1AD010B1005864D7 /* Dictionary.swift in Sources */,
 				541ABBA61AC577E00056A81B /* MRExerciseViewController.swift in Sources */,
@@ -732,6 +757,7 @@
 				542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */,
 				547E6A8B1AF36938005DE00C /* MRMuscleGroup.swift in Sources */,
 				540381551AECFB05000C8B15 /* MRClassificationCompletedViewController.swift in Sources */,
+				5403A87A1AF3B3D000FB8381 /* MRHomeViewController.swift in Sources */,
 				540381511AEC2B5A000C8B15 /* MRButton.swift in Sources */,
 				54820DFD1AF28D1900E3AEC2 /* Result+GetOrUnit.swift in Sources */,
 				543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */,
@@ -746,6 +772,7 @@
 				54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */,
 				540381571AECFB25000C8B15 /* MRSensorView.swift in Sources */,
 				547E6A911AF374FF005DE00C /* MRMuscleGroupRepository.swift in Sources */,
+				54B610871AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift in Sources */,
 				540381611AED2F85000C8B15 /* MRExerciseSetExample.swift in Sources */,
 				54820DF91AF2811300E3AEC2 /* MRApplicationState.swift in Sources */,
 				FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */,
@@ -758,6 +785,7 @@
 				54820DF51AF27DC200E3AEC2 /* MRMuvrServerURLs.swift in Sources */,
 				543374211AD010B1005864D7 /* Predef.swift in Sources */,
 				54820DF41AF27DC200E3AEC2 /* MRMuvrServer.swift in Sources */,
+				54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */,
 				542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */,
 				54F0DC551AC57E8D0061EC5D /* raw_sensor_data.cc in Sources */,
 				5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */,

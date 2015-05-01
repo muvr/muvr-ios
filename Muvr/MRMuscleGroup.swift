@@ -13,7 +13,7 @@ import Foundation
 ///
 struct MRMuscleGroup {
     /// the identifier of the muscle group
-    var id: String
+    var id: MRMuscleGroupId
     /// the title
     var title: String
     /// the exercises
