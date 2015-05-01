@@ -7,35 +7,41 @@
         <!--Exercise-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController title="Exercise" id="vXZ-lx-hvc" customClass="MRExerciseViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Exercise" hidesBottomBarWhenPushed="YES" id="vXZ-lx-hvc" customClass="MRExerciseViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="vhf-AQ-kma" customClass="MRSensorView" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="16" y="44" width="382" height="672"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Starting..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qVX-5d-Kvc">
-                                <rect key="frame" x="16" y="20" width="124" height="23"/>
+                                <rect key="frame" x="16" y="100" width="124" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lvt-Q6-mqE">
-                                <rect key="frame" x="270" y="20" width="128" height="23"/>
+                                <rect key="frame" x="270" y="100" width="128" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" id="vhf-AQ-kma" customClass="MRSensorView" customModule="Muvr" customModuleProvider="target">
+                                <rect key="frame" x="16" y="131" width="382" height="585"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Ad-hoc exercise" image="exercise" id="JMa-Hl-dL9"/>
-                    <navigationItem key="navigationItem" id="se8-gg-fKz"/>
+                    <navigationItem key="navigationItem" title="Exercising" prompt="0:00" id="se8-gg-fKz">
+                        <barButtonItem key="leftBarButtonItem" title="Stop" id="D55-AX-y6G">
+                            <connections>
+                                <action selector="stopSession" destination="vXZ-lx-hvc" id="AEO-5d-qfT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="sensorView" destination="vhf-AQ-kma" id="h4c-oT-j7n"/>
@@ -100,7 +106,6 @@
                                 </state>
                                 <connections>
                                     <action selector="register" destination="xl4-18-EiY" eventType="touchUpInside" id="uty-0P-lsy"/>
-                                    <action selector="startStop" destination="vXZ-lx-hvc" eventType="touchUpInside" id="S3M-en-dYu"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ESG-Wg-H16" customClass="MRButton" customModule="Muvr" customModuleProvider="target">
@@ -113,7 +118,6 @@
                                 </state>
                                 <connections>
                                     <action selector="skip" destination="xl4-18-EiY" eventType="touchUpInside" id="MBw-jU-fF9"/>
-                                    <action selector="startStop" destination="vXZ-lx-hvc" eventType="touchUpInside" id="aUE-pK-bpq"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -145,23 +149,40 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="f8O-Bh-A1k" kind="relationship" relationship="viewControllers" id="Lqv-Je-lqE"/>
+                        <segue destination="7Kg-NS-5ll" kind="relationship" relationship="viewControllers" id="77p-7J-5P8"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yoo-Gl-RbR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="220" y="-768"/>
         </scene>
+        <!--Exercise-->
+        <scene sceneID="G8e-se-sfO">
+            <objects>
+                <navigationController id="7Kg-NS-5ll" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Exercise" image="exercise" id="jCc-Zu-5JM"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="VuS-bU-Rxv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="f8O-Bh-A1k" kind="relationship" relationship="rootViewController" id="az7-pp-Rr1"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IMz-kU-PZl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-804" y="231"/>
+        </scene>
         <!--Session properties-->
         <scene sceneID="Ahw-Ow-znE">
             <objects>
                 <viewController id="f8O-Bh-A1k" userLabel="Session properties" customClass="MRSessionPropertiesViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kwg-wR-iab">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="PqQ-v9-GdS">
-                                <rect key="frame" x="0.0" y="20" width="414" height="665"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="PqQ-v9-GdS">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="621"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -197,17 +218,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <tabBarItem key="tabBarItem" title="Exercise" image="exercise" id="RSB-TC-fr5"/>
-                    <navigationItem key="navigationItem" title="Exercise Session" id="pPE-f3-yPC"/>
+                    <navigationItem key="navigationItem" title="Muscle group" id="pPE-f3-yPC"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="tableView" destination="PqQ-v9-GdS" id="hKL-31-N27"/>
-                        <segue destination="vXZ-lx-hvc" kind="modal" identifier="exercise" id="VdY-d8-Izy"/>
+                        <segue destination="vXZ-lx-hvc" kind="push" identifier="exercise" id="VdY-d8-Izy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="up8-Z6-Oa6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-380" y="231"/>
+            <point key="canvasLocation" x="-228" y="231"/>
         </scene>
     </scenes>
     <resources>

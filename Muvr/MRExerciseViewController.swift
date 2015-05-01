@@ -18,15 +18,14 @@ class MRExerciseViewController: UIViewController, MRExerciseBlockDelegate, MRCla
         // TODO: load classifiers here
         preclassification = MRPreclassification()
         preclassification!.exerciseBlockDelegate = self
-        preclassification!.deviceDataDelegate = sensorView
         preclassification!.classificationPipelineDelegate = self
         pcd.start(self)
     }
     
-    override func willMoveToParentViewController(parent: UIViewController?) {
-        pcd.stop()
+    override func viewDidLoad() {
+        preclassification?.deviceDataDelegate = sensorView
     }
-    
+        
     // MARK: MRDeviceSessionDelegate implementation
     func deviceSession(session: DeviceSession, endedFrom deviceId: DeviceId) {
         //
@@ -61,5 +60,11 @@ class MRExerciseViewController: UIViewController, MRExerciseBlockDelegate, MRCla
     
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
         MRClassificationCompletedViewController.presentClassificationResult(self, result: result, fromData: data)
+    }
+    
+    @IBAction
+    func stopSession() {
+        pcd.stop()
+        navigationController?.popToRootViewControllerAnimated(true)
     }
 }
