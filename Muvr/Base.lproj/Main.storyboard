@@ -4,62 +4,18 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
-        <!--Page View Controller-->
+        <!--Exercisinng-->
         <scene sceneID="O0N-2Q-XgZ">
             <objects>
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="yBW-jo-lQQ" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="Exercisinng" prompt="Elapsed 0:00" id="Vpn-jK-h9G">
+                        <barButtonItem key="leftBarButtonItem" title="Stop" id="cT2-rc-lLc"/>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C4K-Hl-5f2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="716" y="1786"/>
-        </scene>
-        <!--Exercise-->
-        <scene sceneID="ufC-wZ-h7g">
-            <objects>
-                <viewController title="Exercise" hidesBottomBarWhenPushed="YES" id="vXZ-lx-hvc" customClass="MRExerciseViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Starting..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qVX-5d-Kvc">
-                                <rect key="frame" x="16" y="100" width="124" height="23"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lvt-Q6-mqE">
-                                <rect key="frame" x="270" y="100" width="128" height="23"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" id="vhf-AQ-kma" customClass="MRSensorView" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="16" y="131" width="382" height="585"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Exercising" prompt="0:00" id="se8-gg-fKz">
-                        <barButtonItem key="leftBarButtonItem" title="Stop" id="D55-AX-y6G">
-                            <connections>
-                                <action selector="stopSession" destination="vXZ-lx-hvc" id="AEO-5d-qfT"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                    <connections>
-                        <outlet property="sensorView" destination="vhf-AQ-kma" id="h4c-oT-j7n"/>
-                        <outlet property="statusLabel" destination="qVX-5d-Kvc" id="dzY-Xo-pCw"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1184" y="1226"/>
+            <point key="canvasLocation" x="925" y="1226"/>
         </scene>
         <!--Login-->
         <scene sceneID="vfe-T7-72L">
@@ -232,7 +188,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="tableView" destination="PqQ-v9-GdS" id="hKL-31-N27"/>
-                        <segue destination="vXZ-lx-hvc" kind="push" identifier="exercise" id="VdY-d8-Izy"/>
+                        <segue destination="yBW-jo-lQQ" kind="push" id="vo3-HH-GR5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="up8-Z6-Oa6" userLabel="First Responder" sceneMemberID="firstResponder"/>

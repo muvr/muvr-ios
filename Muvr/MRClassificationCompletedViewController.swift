@@ -29,7 +29,7 @@ class MRClassificationCompletedViewController : UITableViewController {
     
     class func presentClassificationResult(parent: UIViewController, result: [AnyObject]!, fromData data: NSData!) -> Void {
         let ctrl: MRClassificationCompletedViewController =
-            UIStoryboard(name: "Accessories", bundle: nil).instantiateViewControllerWithIdentifier("MRClassificationCompletedViewController") as! MRClassificationCompletedViewController
+            UIStoryboard(name: "Exercise", bundle: nil).instantiateViewControllerWithIdentifier("MRClassificationCompletedViewController") as! MRClassificationCompletedViewController
         var classifiedSets = result as! [MRResistanceExerciseSet]
         classifiedSets.sort( { x, y in return x.confidence() > y.confidence() });
         
