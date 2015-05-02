@@ -71,6 +71,15 @@ public enum Result<V> {
         return self >>- f
     }
     
+    public func map<S>(f: V -> S) -> Result<S> {
+        switch self {
+        case let Error(e):
+            return .Error(e)
+        case let Value(v):
+            return .Value(Box(f(v.value)))
+        }
+    }
+    
     /// Creates an Error with the given value.
     public static func error(e: NSError) -> Result<V> {
         return .Error(e)

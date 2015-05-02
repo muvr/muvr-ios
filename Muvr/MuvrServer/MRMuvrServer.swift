@@ -70,21 +70,42 @@ extension Request {
     
 }
 
+/*
+protocol MRMuvrServerCaller {
+
+    func apply<A>(req: MRMuvrServerRequestConvertible, unmarshaller: (JSON) -> A, body: MRMuvrServerRequestBody?, onComplete: Result<A> -> Void) -> Void
+    
+    func apply<A>(req: MRMuvrServerRequestConvertible, unmarshaller: (JSON) -> A, onComplete: Result<A> -> Void) -> Void
+}
+*/
+
 ///
 /// Lift server connection
 ///
-public class MRMuvrServer {
+class MRMuvrServer {
+    
+    ///
+    /// Body is either JSON structure, Text or NSData
+    ///
+    enum Body {
+        case Json(params: [String : AnyObject])
+        case Data(data: NSData)
+    }
     
     ///
     /// Singleton instance of the LiftServer. The instances are stateless, so it is generally a
     /// good idea to take advantage of the singleton
     ///
-    public class var sharedInstance: MRMuvrServer {
+    class var sharedInstance: MRMuvrServer {
         struct Singleton {
             static let instance = MRMuvrServer()
         }
         
         return Singleton.instance
+    }
+    
+    private init() {
+        
     }
     
     ///
@@ -132,18 +153,10 @@ public class MRMuvrServer {
         }()
     
     private var baseUrlString: String = "http://localhost:8080"
-
+    
     /// Sets the base URL
     func setBaseUrlString(baseUrlString: String) -> Void {
         self.baseUrlString = baseUrlString
-    }
-    
-    ///
-    /// Body is either JSON structure, Text or NSData
-    ///
-    private enum Body {
-        case Json(params: [String : AnyObject])
-        case Data(data: NSData)
     }
     
     ///
@@ -162,6 +175,14 @@ public class MRMuvrServer {
         }
     }
     
+    func apply<A>(req: MRMuvrServerRequestConvertible, body: Body, unmarshaller: JSON -> A, onComplete: Result<A> -> Void) {
+        request(req, body: body).responseAsResult(onComplete, completionHandler: unmarshaller)
+    }
+    
+    func apply<A>(req: MRMuvrServerRequestConvertible, unmarshaller: JSON -> A, onComplete: Result<A> -> Void) {
+        request(req, body: nil).responseAsResult(onComplete, completionHandler: unmarshaller)
+    }
+    
     ///
     /// This method has been made private in Alamofire. Copied over here for convenience.
     ///
@@ -171,10 +192,5 @@ public class MRMuvrServer {
         
         return mutableURLRequest
     }
-    
-    func exerciseSessionResistanceExample(userId: MRUserId, sessionId: MRSessionId, example: MRResistanceExerciseSetExample, f: Result<Void> -> Void) -> Void {
-        request(MRMuvrServerURLs.ExerciseSessionResistanceExample(userId: userId, sessionId: sessionId), body: .Json(params: example.marshal()))
-            .responseAsResult(f, completionHandler: constUnit())
-    }
-    
+        
 }

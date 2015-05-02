@@ -32,6 +32,12 @@ enum MRMuvrServerURLs : MRMuvrServerRequestConvertible {
     ///
     case ExerciseSessionResistanceExample(userId: MRUserId, sessionId: MRSessionId)
     
+    /// User login
+    case UserLogin()
+    
+    /// User registration
+    case UserRegister()
+    
     private struct Format {
         private static let simpleDateFormatter: NSDateFormatter = {
             let dateFormatter = NSDateFormatter()
@@ -51,6 +57,8 @@ enum MRMuvrServerURLs : MRMuvrServerRequestConvertible {
             let r: MRMuvrServerRequest = {
                 switch self {
                 case .ExerciseSessionResistanceExample(let user, let session): return MRMuvrServerRequest(path: "/exercise/\(user.UUIDString)/\(session.UUIDString)/resistance", method: Method.POST)
+                case .UserLogin: return MRMuvrServerRequest(path: "/user", method: Method.PUT)
+                case .UserRegister: return MRMuvrServerRequest(path: "/user", method: Method.POST)
                 }
                 }()
             
