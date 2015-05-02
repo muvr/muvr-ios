@@ -91,7 +91,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
 
     /// end the session here and on all devices
-    func end() {
+    private func end() {
         if let x = timer { x.invalidate() }
         navigationItem.prompt = nil
         pageControl?.removeFromSuperview()
@@ -111,6 +111,13 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         if stopSessionButton.tag < 0 {
             stopSessionButton.title = "Stop".localized()
         }
+    }
+    
+    private func currentPageViewController<A>() -> A? {
+        if let x = pageControl {
+            return pageViewControllers[x.currentPage] as? A
+        }
+        return nil
     }
     
     // MARK: UIPageViewControllerDataSource
@@ -148,35 +155,57 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         preclassification!.pushBack(data, from: 0)
     }
     
+    func deviceSession(session: DeviceSession, simpleMessageReceivedFrom deviceId: DeviceId, key: UInt32, value: UInt8) {
+        // TODO: complete me
+        classificationCompletedViewController?.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     // MARK: MRDeviceDataDelegate implementation
     func deviceDataDecoded1D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
-        if let x = pageViewControllers[pageControl!.currentPage] as? MRDeviceDataDelegate { x.deviceDataDecoded1D(rows, fromSensor: sensor, device: deviceId, andLocation: location) }
+        if let x: MRDeviceDataDelegate = currentPageViewController() { x.deviceDataDecoded1D(rows, fromSensor: sensor, device: deviceId, andLocation: location) }
     }
     
     func deviceDataDecoded3D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
-        if let x = pageViewControllers[pageControl!.currentPage] as? MRDeviceDataDelegate { x.deviceDataDecoded3D(rows, fromSensor: sensor, device: deviceId, andLocation: location) }
+        if let x: MRDeviceDataDelegate = currentPageViewController() { x.deviceDataDecoded3D(rows, fromSensor: sensor, device: deviceId, andLocation: location) }
     }
     
     // MARK: MRExerciseBlockDelegate implementation
     func exerciseEnded() {
-        if let x = pageViewControllers[pageControl!.currentPage] as? MRExerciseBlockDelegate { x.exerciseEnded() }
+        if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exerciseEnded() }
+        pcd.notifyClassifying()
     }
     
     func exercising() {
-        if let x = pageViewControllers[pageControl!.currentPage] as? MRExerciseBlockDelegate { x.exercising() }
+        if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exercising() }
+        pcd.notifyExercising()
     }
     
     func moving() {
-        if let x = pageViewControllers[pageControl!.currentPage] as? MRExerciseBlockDelegate { x.moving() }
+        if let x: MRExerciseBlockDelegate = currentPageViewController() { x.moving() }
+        pcd.notifyMoving()
     }
     
     func notMoving() {
-        if let x = pageViewControllers[pageControl!.currentPage] as? MRExerciseBlockDelegate { x.notMoving() }
+        if let x: MRExerciseBlockDelegate = currentPageViewController() { x.notMoving() }
+        pcd.notifyNotMoving()
     }
     
     // MARK: MRClassificationPipelineDelegate
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
         classificationCompletedViewController?.presentClassificationResult(self, state: state!, result: result, fromData: data)
+
+        var classifiedSets = result as! [MRResistanceExerciseSet]
+        classifiedSets.sort( { x, y in return x.confidence() > y.confidence() });
+        let simple = classifiedSets.forall { $0.sets.count == 1 }
+        if simple {
+            let simpleOtherSets: [MRResistanceExercise] = [
+                MRResistanceExercise(exercise: "Bicep curl", andConfidence: 1),
+                MRResistanceExercise(exercise: "Tricep extension", andConfidence: 1),
+            ]
+
+            let simpleClassifiedSets = classifiedSets.map { $0.sets[0] as! MRResistanceExercise } + simpleOtherSets
+            pcd.notifySimpleClassificationCompleted(simpleClassifiedSets)
+        }
     }
     
 }

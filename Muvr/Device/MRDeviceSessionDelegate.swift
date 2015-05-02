@@ -20,6 +20,11 @@ protocol MRDeviceSessionDelegate {
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData)
     
     ///
+    /// Called when the device sends a simple message (one byte)
+    ///
+    func deviceSession(session: DeviceSession, simpleMessageReceivedFrom deviceId: DeviceId, key: UInt32, value: UInt8)
+    
+    ///
     /// Called when a sensor data is not received, but was expected. This typically indicates a
     /// problem with the BLE connection
     ///

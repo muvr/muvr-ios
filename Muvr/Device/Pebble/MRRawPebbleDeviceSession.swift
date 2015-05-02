@@ -15,6 +15,9 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         private let deviceId = DeviceId()   // TODO: Actual deviceId
         private let deadKey = NSNumber(uint32: 0x0000dead)
         private let adKey = NSNumber(uint32: 0xface0fb0)
+        private let acceptedKey = NSNumber(uint32: 0xb0000003)
+        private let timedOutKey = NSNumber(uint32: 0xb1000003)
+        private let rejectedKey = NSNumber(uint32: 0xb2000003)
         private let warmupSamples = 5
         private var sampleCount = 0
 
@@ -25,6 +28,33 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         }
         
         private func appMessagesReceiveUpdateHandler(watch: PBWatch!, data: [NSObject : AnyObject]!) -> Bool {
+            for (k, rawValue) in data {
+                if let data = rawValue as? NSData {
+                    let b = UnsafePointer<UInt8>(data.bytes)
+                    switch k {
+                    case adKey:
+                        sampleCount += 1
+                        if sampleCount > warmupSamples {
+                            delegate.deviceSession(sessionId, sensorDataReceivedFrom: deviceId, atDeviceTime: CACurrentMediaTime(), data: data)
+                        }
+                        break
+                    case deadKey:
+                        delegate.deviceSession(sessionId, endedFrom: deviceId)
+                        break
+                    case acceptedKey:
+                        delegate.deviceSession(sessionId, simpleMessageReceivedFrom: deviceId, key: acceptedKey.uint32Value(), value: b.memory)
+                        break
+                    case rejectedKey:
+                        delegate.deviceSession(sessionId, simpleMessageReceivedFrom: deviceId, key: rejectedKey.uint32Value(), value: b.memory)
+                        break
+                    case timedOutKey:
+                        delegate.deviceSession(sessionId, simpleMessageReceivedFrom: deviceId, key: acceptedKey.uint32Value(), value: b.memory)
+                        break
+                    default:
+                        fatalError("Match error")
+                    }
+                }
+            }
             if let x = data[adKey] as? NSData {
                 sampleCount += 1
                 if sampleCount > warmupSamples {
@@ -33,6 +63,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
             } else if data[deadKey] != nil {
                 delegate.deviceSession(sessionId, endedFrom: deviceId)
             }
+            // TODO: classified here
             return true
         }
 
@@ -40,6 +71,16 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
             watch.appMessagesKill { (w, e) in
                 self.delegate.deviceSession(self.sessionId, endedFrom: self.deviceId)
             }
+        }
+        
+        func send(key: UInt32) {
+            let dict: [NSObject : AnyObject] = [NSNumber(uint32: key) : NSNumber(uint8: 0)]
+            watch.appMessagesPushUpdate(dict, onSent: { (watch, _, _) -> Void in })
+        }
+        
+        func send(key: UInt32, data: NSData) {
+            let dict: [NSObject : AnyObject] = [NSNumber(uint32: key) : data]
+            watch.appMessagesPushUpdate(dict, onSent: { (watch, _, _) -> Void in })
         }
     }
     
@@ -93,6 +134,34 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     func stop() {
         currentSession?.stop()
         currentSession = nil
+    }
+    
+    func notifyClassifying() {
+        // TODO: Needed at all?
+    }
+    
+    func notifyExercising() {
+        currentSession?.send(0xa0000002)
+    }
+    
+    func notifyNotMoving() {
+        currentSession?.send(0xa0000000)
+    }
+    
+    func notifyMoving() {
+        currentSession?.send(0xa0000001)
+    }
+    
+    func notifySimpleClassificationCompleted(simpleClassifiedSets: [MRResistanceExercise]) {
+        var data = NSMutableData()
+        simpleClassifiedSets.foreach { (x: MRResistanceExercise) -> Void in
+            var re = NSMutableData(length: sizeof(resistance_exercise_t))!
+            let name = UnsafePointer<Int8>(x.exercise.cStringUsingEncoding(NSASCIIStringEncoding)!)
+            mk_resistance_exercise(re.mutableBytes, name, UInt8(x.confidence * 100), 0, 0, 0)
+            data.appendData(re)
+        }
+        
+        currentSession?.send(0xa0000003, data: data)
     }
     
     ///
