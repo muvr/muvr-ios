@@ -1,5 +1,8 @@
 import Foundation
 
+///
+/// A UITableViewCell that adds a reference to the exercise being classified.
+///
 class MRClassificationCompletedTableViewCell : UITableViewCell {
     private var exercise: AnyObject?
     
@@ -12,7 +15,15 @@ class MRClassificationCompletedTableViewCell : UITableViewCell {
     }
 }
 
+///
+/// Controls a view that can be presented when the ``MRClassificationPipelineDelegate``'s methods are called,
+/// allowing the users to provide feedback on the classification.
+///
+/// TODO: Provide an interface to some device that can provide the feedback without the users having to use the phone
+///
 class MRClassificationCompletedViewController : UITableViewController {
+    static let storyboardId: String = "MRClassificationCompletedViewController"
+    
     private struct Consts {
         static let Head = 0
         static let Tail = 1
@@ -23,13 +34,9 @@ class MRClassificationCompletedViewController : UITableViewController {
     private var data: NSData!
     private var simpleClassified: [MRResistanceExercise] = []
     private var simpleOthers: [MRResistanceExercise] = []
-    
-    // TODO: Fixme
-    let state = MRExercisingApplicationState(userId: MRUserId(), sessionId: MRSessionId())
-    
-    class func presentClassificationResult(parent: UIViewController, result: [AnyObject]!, fromData data: NSData!) -> Void {
-        let ctrl: MRClassificationCompletedViewController =
-            UIStoryboard(name: "Exercise", bundle: nil).instantiateViewControllerWithIdentifier("MRClassificationCompletedViewController") as! MRClassificationCompletedViewController
+    private var state: MRExercisingApplicationState!
+   
+    func presentClassificationResult(parent: UIViewController, state: MRExercisingApplicationState, result: [AnyObject]!, fromData data: NSData!) -> Void {
         var classifiedSets = result as! [MRResistanceExerciseSet]
         classifiedSets.sort( { x, y in return x.confidence() > y.confidence() });
         
@@ -41,17 +48,26 @@ class MRClassificationCompletedViewController : UITableViewController {
             MRResistanceExercise(exercise: "Bicep curl", andConfidence: 1),
             MRResistanceExercise(exercise: "Tricep extension", andConfidence: 1),
         ]
-
-        ctrl.simpleClassified = simpleClassifiedSets
-        ctrl.simpleOthers = simpleOtherSets
-        ctrl.data = data
         
-        parent.presentViewController(ctrl, animated: true, completion: nil)
+        self.simpleClassified = simpleClassifiedSets
+        self.simpleOthers = simpleOtherSets
+        self.data = data
+        self.state = state
+        
+        parent.presentViewController(self, animated: true, completion: nil)
     }
     
     // MARK: UITableViewController implementation
     
-    // show the "head", "tail", "others"
+    ///
+    /// We have four sections. We hope that the first element in the classified results is indeed 
+    /// the exercise that the user has performed. 
+    ///
+    /// - the most likely outcome: Consts.Head
+    /// - the alternatives: Consts.Tail
+    /// - the others: Consts.Others
+    /// - completely wrong: Consts.None
+    ///
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 4
     }

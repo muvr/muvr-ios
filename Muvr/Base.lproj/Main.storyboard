@@ -7,11 +7,18 @@
         <!--Exercisinng-->
         <scene sceneID="O0N-2Q-XgZ">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="yBW-jo-lQQ" sceneMemberID="viewController">
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="yBW-jo-lQQ" customClass="MRExerciseSessionViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Exercisinng" prompt="Elapsed 0:00" id="Vpn-jK-h9G">
-                        <barButtonItem key="leftBarButtonItem" title="Stop" id="cT2-rc-lLc"/>
+                        <barButtonItem key="leftBarButtonItem" title="Stop" id="cT2-rc-lLc">
+                            <connections>
+                                <action selector="stopSession" destination="yBW-jo-lQQ" id="hqZ-lo-p2c"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="stopSessionButton" destination="cT2-rc-lLc" id="HAZ-Yu-iGO"/>
+                    </connections>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C4K-Hl-5f2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -188,7 +195,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="tableView" destination="PqQ-v9-GdS" id="hKL-31-N27"/>
-                        <segue destination="yBW-jo-lQQ" kind="push" id="vo3-HH-GR5"/>
+                        <segue destination="yBW-jo-lQQ" kind="push" identifier="exercise" id="vo3-HH-GR5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="up8-Z6-Oa6" userLabel="First Responder" sceneMemberID="firstResponder"/>

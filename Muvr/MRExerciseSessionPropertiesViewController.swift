@@ -1,10 +1,16 @@
 import Foundation
 
+///
+/// Controls a view that allows the user to provide details of the exercise session he or she
+/// is about to start. 
+///
+/// We use these details to configure the movement and exercise deciders, and the classifiers.
+///
 class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet
     var tableView: UITableView!
     
-    // #pragma mark - UITableViewDelegate
+    // MARK: UITableViewDelegate
     func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
         NSLog("Show info for cell")
     }
@@ -14,7 +20,7 @@ class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate,
         performSegueWithIdentifier("exercise", sender: [cell.id])
     }
     
-    // #pragma mark - UITableViewDataSource
+    // MARK: UITableViewDataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -33,12 +39,12 @@ class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate,
         return cell
     }
     
-    // #pragma MARK - the rest
+    // MARK: Transition to exercising
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let ctrl = segue.destinationViewController as? MRExerciseViewController,
+        if let ctrl = segue.destinationViewController as? MRExerciseSessionViewController,
            let muscleGroupsIds = sender as? [String] {
-            ctrl.startExercising(muscleGroupsIds)
+            ctrl.startSession(MRExercisingApplicationState(userId: MRUserId(), sessionId: MRSessionId()))
         }
     }
 
