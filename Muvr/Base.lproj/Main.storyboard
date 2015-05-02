@@ -7,7 +7,8 @@
         <!--Exercisinng-->
         <scene sceneID="O0N-2Q-XgZ">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="yBW-jo-lQQ" customClass="MRExerciseSessionViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <pageViewController autoresizesArchivedViewToFullSize="NO" hidesBottomBarWhenPushed="YES" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="yBW-jo-lQQ" customClass="MRExerciseSessionViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Exercisinng" prompt="Elapsed 0:00" id="Vpn-jK-h9G">
                         <barButtonItem key="leftBarButtonItem" title="Stop" id="cT2-rc-lLc">
                             <connections>

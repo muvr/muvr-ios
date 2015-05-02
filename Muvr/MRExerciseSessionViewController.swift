@@ -28,6 +28,8 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         dataSource = self
         delegate = self
         
+        navigationItem.prompt = "MRExerciseSessionViewController.elapsed".localized(0, 0)
+        
         let storyboard = UIStoryboard(name: "Exercise", bundle: nil)
         pageViewControllers = [MRExerciseSessionDeviceDataViewController.storyboardId, MRExerciseSessionLogViewController.storyboardId].map { storyboard.instantiateViewControllerWithIdentifier($0) as! UIViewController }
         classificationCompletedViewController = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionClassificationCompletedViewController.storyboardId) as! MRExerciseSessionClassificationCompletedViewController
@@ -38,7 +40,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
             let navBarSize = nc.navigationBar.bounds.size
             let origin = CGPoint(x: navBarSize.width / 2, y: navBarSize.height / 2 + navBarSize.height / 4)
             pageControl = UIPageControl(frame: CGRect(x: origin.x, y: origin.y, width: 0, height: 0))
-            pageControl.numberOfPages = 3
+            pageControl.numberOfPages = pageViewControllers.count
             nc.navigationBar.addSubview(pageControl)
         }
         
@@ -74,7 +76,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         let elapsed = Int(NSDate().timeIntervalSinceDate(startTime!))
         let minutes: Int = elapsed / 60
         let seconds: Int = elapsed - minutes * 60
-        navigationItem.prompt = "LiveSessionController.elapsed".localized(minutes, seconds)
+        navigationItem.prompt = "MRExerciseSessionViewController.elapsed".localized(minutes, seconds)
         stopSessionButton.tag -= 1
         if stopSessionButton.tag < 0 {
             stopSessionButton.title = "Stop".localized()
@@ -102,7 +104,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
             pageControl.currentPage = x
         }
     }
-    
+        
     // MARK: MRDeviceSessionDelegate implementation
     func deviceSession(session: DeviceSession, endedFrom deviceId: DeviceId) {
         end()

@@ -42,6 +42,7 @@
 		5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */; };
 		5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */; };
 		5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */; };
+		54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 54477CFB1AF4E82E00F502EC /* Localizable.strings */; };
 		5464EBBF1AF4E1FD00B5317B /* classifier_loader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */; };
 		5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */; };
 		5464EBC81AF4E24F00B5317B /* svm-model-bicep_curl-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC21AF4E24F00B5317B /* svm-model-bicep_curl-features.rds */; };
@@ -141,6 +142,7 @@
 		5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_rsdt.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_rsdt.cc"; sourceTree = "<group>"; };
 		5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_sce.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_sce.cc"; sourceTree = "<group>"; };
 		5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_sct.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_sct.cc"; sourceTree = "<group>"; };
+		54477CFC1AF4E82E00F502EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = classifier_loader.cc; path = "../../../../../muvr-preclassification/core/main/cc/classifier_loader.cc"; sourceTree = "<group>"; };
 		5464EBC01AF4E21400B5317B /* classifier_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier_loader.h; path = "../../../../muvr-preclassification/core/include/classifier_loader.h"; sourceTree = "<group>"; };
 		5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-bicep_curl-features.libsvm"; sourceTree = "<group>"; };
@@ -313,6 +315,7 @@
 				FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */,
 				5403815E1AED28A0000C8B15 /* Settings.bundle */,
 				54820DFC1AF28D1900E3AEC2 /* Result+GetOrUnit.swift */,
+				54477CFB1AF4E82E00F502EC /* Localizable.strings */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -689,6 +692,7 @@
 				54F0DC4A1AC57E8D0061EC5D /* all_1.csv in Resources */,
 				5464EBCB1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds in Resources */,
 				5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */,
+				54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */,
 				541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */,
 				541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */,
 				5464EBC91AF4E24F00B5317B /* svm-model-bicep_curl-features.scale in Resources */,
@@ -854,6 +858,14 @@
 				541ABBAD1AC577E00056A81B /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		54477CFB1AF4E82E00F502EC /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				54477CFC1AF4E82E00F502EC /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
