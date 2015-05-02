@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
-        <!--Classification Completed View Controller-->
+        <!--Exercise Session Classification Completed View Controller-->
         <scene sceneID="EOy-fh-6pK">
             <objects>
-                <tableViewController storyboardIdentifier="MRClassificationCompletedViewController" id="vaU-9V-MO8" customClass="MRClassificationCompletedViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="MRExerciseSessionClassificationCompletedViewController" id="vaU-9V-MO8" customClass="MRExerciseSessionClassificationCompletedViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="29r-fQ-ofN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -62,10 +62,10 @@
             </objects>
             <point key="canvasLocation" x="1259" y="-155"/>
         </scene>
-        <!--View Controller-->
+        <!--Exercise Session Log View Controller-->
         <scene sceneID="IvT-9v-F1h">
             <objects>
-                <viewController id="boQ-Ag-R7Q" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MRExerciseSessionLogViewController" id="boQ-Ag-R7Q" customClass="MRExerciseSessionLogViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fo9-hd-YJH"/>
                         <viewControllerLayoutGuide type="bottom" id="eAr-3P-xet"/>
@@ -84,7 +84,7 @@
         <!--Exercise-->
         <scene sceneID="AmP-d3-AdS">
             <objects>
-                <viewController storyboardIdentifier="MRExerciseViewController" title="Exercise" hidesBottomBarWhenPushed="YES" id="TEt-n1-E9P" customClass="MRExerciseViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MRExerciseSessionDeviceDataViewController" title="Exercise" hidesBottomBarWhenPushed="YES" id="TEt-n1-E9P" customClass="MRExerciseSessionDeviceDataViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0s9-Tr-qc1"/>
                         <viewControllerLayoutGuide type="bottom" id="hFM-UI-u89"/>

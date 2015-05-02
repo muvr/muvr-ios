@@ -21,8 +21,8 @@ class MRClassificationCompletedTableViewCell : UITableViewCell {
 ///
 /// TODO: Provide an interface to some device that can provide the feedback without the users having to use the phone
 ///
-class MRClassificationCompletedViewController : UITableViewController {
-    static let storyboardId: String = "MRClassificationCompletedViewController"
+class MRExerciseSessionClassificationCompletedViewController : UITableViewController {
+    static let storyboardId: String = "MRExerciseSessionClassificationCompletedViewController"
     
     private struct Consts {
         static let Head = 0

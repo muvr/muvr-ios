@@ -6,7 +6,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     private var timer: NSTimer?
     private var pageControl: UIPageControl!
     private var pageViewControllers: [UIViewController] = []
-    private var classificationCompletedViewController: MRClassificationCompletedViewController!
+    private var classificationCompletedViewController: MRExerciseSessionClassificationCompletedViewController!
     private var startTime: NSDate?
     private var preclassification: MRPreclassification?
     private var state: MRExercisingApplicationState!
@@ -30,7 +30,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         
         let storyboard = UIStoryboard(name: "Exercise", bundle: nil)
         pageViewControllers = [MRExerciseSessionDeviceDataViewController.storyboardId, MRExerciseSessionLogViewController.storyboardId].map { storyboard.instantiateViewControllerWithIdentifier($0) as! UIViewController }
-        classificationCompletedViewController = storyboard.instantiateViewControllerWithIdentifier(MRClassificationCompletedViewController.storyboardId) as! MRClassificationCompletedViewController
+        classificationCompletedViewController = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionClassificationCompletedViewController.storyboardId) as! MRExerciseSessionClassificationCompletedViewController
         
         setViewControllers([pageViewControllers.first!], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
         
@@ -61,9 +61,13 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
             stopSessionButton.title = "Really?".localized()
             stopSessionButton.tag = 3
         } else {
-            pcd.stop()
-            navigationController?.popToRootViewControllerAnimated(true)
+            end()
         }
+    }
+    
+    func end() {
+        pcd.stop()
+        navigationController?.popToRootViewControllerAnimated(true)
     }
     
     func tick() {
@@ -97,22 +101,14 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         if let x = (pageViewControllers.indexOf { $0 === pageViewController.viewControllers.first! }) {
             pageControl.currentPage = x
         }
-
-        // set the delegates
-        if let x = pageViewController.viewControllers.first as? UIViewController {
-            if let d = x as? MRExerciseBlockDelegate { preclassification!.exerciseBlockDelegate = d }
-            if let d = x as? MRClassificationPipelineDelegate { preclassification!.classificationPipelineDelegate = d }
-            if let d = x as? MRDeviceDataDelegate { preclassification!.deviceDataDelegate = d }
-        }
     }
     
     // MARK: MRDeviceSessionDelegate implementation
     func deviceSession(session: DeviceSession, endedFrom deviceId: DeviceId) {
-        //
+        end()
     }
     
     func deviceSession(session: DeviceSession, sensorDataNotReceivedFrom deviceId: DeviceId) {
-        //
     }
     
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
@@ -122,28 +118,28 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     // MARK: MRDeviceDataDelegate implementation
     func deviceDataDecoded1D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
-        
+        if let x = pageViewControllers[pageControl.currentPage] as? MRDeviceDataDelegate { x.deviceDataDecoded1D(rows, fromSensor: sensor, device: deviceId, andLocation: location) }
     }
     
     func deviceDataDecoded3D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
-        
+        if let x = pageViewControllers[pageControl.currentPage] as? MRDeviceDataDelegate { x.deviceDataDecoded3D(rows, fromSensor: sensor, device: deviceId, andLocation: location) }
     }
     
     // MARK: MRExerciseBlockDelegate implementation
     func exerciseEnded() {
-        
+        if let x = pageViewControllers[pageControl.currentPage] as? MRExerciseBlockDelegate { x.exerciseEnded() }
     }
     
     func exercising() {
-        
+        if let x = pageViewControllers[pageControl.currentPage] as? MRExerciseBlockDelegate { x.exercising() }
     }
     
     func moving() {
-        
+        if let x = pageViewControllers[pageControl.currentPage] as? MRExerciseBlockDelegate { x.moving() }
     }
     
     func notMoving() {
-        
+        if let x = pageViewControllers[pageControl.currentPage] as? MRExerciseBlockDelegate { x.notMoving() }
     }
     
     // MARK: MRClassificationPipelineDelegate

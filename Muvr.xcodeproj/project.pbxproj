@@ -42,6 +42,13 @@
 		5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */; };
 		5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */; };
 		5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */; };
+		5464EBBF1AF4E1FD00B5317B /* classifier_loader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */; };
+		5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */; };
+		5464EBC81AF4E24F00B5317B /* svm-model-bicep_curl-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC21AF4E24F00B5317B /* svm-model-bicep_curl-features.rds */; };
+		5464EBC91AF4E24F00B5317B /* svm-model-bicep_curl-features.scale in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC31AF4E24F00B5317B /* svm-model-bicep_curl-features.scale */; };
+		5464EBCA1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC41AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm */; };
+		5464EBCB1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC51AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds */; };
+		5464EBCC1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC61AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale */; };
 		547E6A841AF356C0005DE00C /* MRExerciseSessionPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A831AF356C0005DE00C /* MRExerciseSessionPropertiesViewController.swift */; };
 		547E6A8B1AF36938005DE00C /* MRMuscleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A8A1AF36938005DE00C /* MRMuscleGroup.swift */; };
 		547E6A8D1AF36A10005DE00C /* MRMuscleGroup+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A8C1AF36A10005DE00C /* MRMuscleGroup+Marshalling.swift */; };
@@ -74,9 +81,6 @@
 		FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */; };
 		FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705E1AEA6CC900829357 /* svm_classifier.cc */; };
 		FC3970621AEA6CC900829357 /* svm.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705F1AEA6CC900829357 /* svm.cc */; };
-		FC39706F1AEA78E200829357 /* svm-model-curl-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = FC39706C1AEA78E200829357 /* svm-model-curl-features.libsvm */; };
-		FC3970701AEA78E200829357 /* svm-model-curl-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = FC39706D1AEA78E200829357 /* svm-model-curl-features.rds */; };
-		FC3970711AEA78E200829357 /* svm-model-curl-features.scale in Resources */ = {isa = PBXBuildFile; fileRef = FC39706E1AEA78E200829357 /* svm-model-curl-features.scale */; };
 		FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */; };
 		FC5593B71ADBE56400F235ED /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B41ADBE56400F235ED /* SwiftyJSON.swift */; };
 /* End PBXBuildFile section */
@@ -137,6 +141,14 @@
 		5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_rsdt.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_rsdt.cc"; sourceTree = "<group>"; };
 		5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_sce.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_sce.cc"; sourceTree = "<group>"; };
 		5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_sct.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_sct.cc"; sourceTree = "<group>"; };
+		5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = classifier_loader.cc; path = "../../../../../muvr-preclassification/core/main/cc/classifier_loader.cc"; sourceTree = "<group>"; };
+		5464EBC01AF4E21400B5317B /* classifier_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier_loader.h; path = "../../../../muvr-preclassification/core/include/classifier_loader.h"; sourceTree = "<group>"; };
+		5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-bicep_curl-features.libsvm"; sourceTree = "<group>"; };
+		5464EBC21AF4E24F00B5317B /* svm-model-bicep_curl-features.rds */ = {isa = PBXFileReference; lastKnownFileType = file; path = "svm-model-bicep_curl-features.rds"; sourceTree = "<group>"; };
+		5464EBC31AF4E24F00B5317B /* svm-model-bicep_curl-features.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-bicep_curl-features.scale"; sourceTree = "<group>"; };
+		5464EBC41AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-triceps_pushdown-features.libsvm"; sourceTree = "<group>"; };
+		5464EBC51AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds */ = {isa = PBXFileReference; lastKnownFileType = file; path = "svm-model-triceps_pushdown-features.rds"; sourceTree = "<group>"; };
+		5464EBC61AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-triceps_pushdown-features.scale"; sourceTree = "<group>"; };
 		547E6A831AF356C0005DE00C /* MRExerciseSessionPropertiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionPropertiesViewController.swift; sourceTree = "<group>"; };
 		547E6A8A1AF36938005DE00C /* MRMuscleGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRMuscleGroup.swift; sourceTree = "<group>"; };
 		547E6A8C1AF36A10005DE00C /* MRMuscleGroup+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRMuscleGroup+Marshalling.swift"; sourceTree = "<group>"; };
@@ -199,9 +211,6 @@
 		FC3970631AEA6CEB00829357 /* svm_classifier_factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm_classifier_factory.h; path = "../../../../muvr-preclassification/core/include/svm_classifier_factory.h"; sourceTree = "<group>"; };
 		FC3970641AEA6CEC00829357 /* svm_classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm_classifier.h; path = "../../../../muvr-preclassification/core/include/svm_classifier.h"; sourceTree = "<group>"; };
 		FC3970651AEA6CEC00829357 /* svm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm.h; path = "../../../../muvr-preclassification/core/include/svm.h"; sourceTree = "<group>"; };
-		FC39706C1AEA78E200829357 /* svm-model-curl-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-curl-features.libsvm"; sourceTree = "<group>"; };
-		FC39706D1AEA78E200829357 /* svm-model-curl-features.rds */ = {isa = PBXFileReference; lastKnownFileType = file; path = "svm-model-curl-features.rds"; sourceTree = "<group>"; };
-		FC39706E1AEA78E200829357 /* svm-model-curl-features.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-curl-features.scale"; sourceTree = "<group>"; };
 		FC5593AF1ADBE56400F235ED /* Alamofire+SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Alamofire+SwiftyJSON.h"; sourceTree = "<group>"; };
 		FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alamofire+SwiftyJSON.swift"; sourceTree = "<group>"; };
 		FC5593B31ADBE56400F235ED /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyJSON.h; sourceTree = "<group>"; };
@@ -426,6 +435,7 @@
 		54F0DC241AC57E8D0061EC5D /* include */ = {
 			isa = PBXGroup;
 			children = (
+				5464EBC01AF4E21400B5317B /* classifier_loader.h */,
 				FC3970631AEA6CEB00829357 /* svm_classifier_factory.h */,
 				5403814A1AEBBE3B000C8B15 /* export.h */,
 				FC3970641AEA6CEC00829357 /* svm_classifier.h */,
@@ -471,6 +481,7 @@
 		54F0DC341AC57E8D0061EC5D /* cc */ = {
 			isa = PBXGroup;
 			children = (
+				5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */,
 				FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */,
 				5403814B1AEBBE45000C8B15 /* export.cc */,
 				FC39705E1AEA6CC900829357 /* svm_classifier.cc */,
@@ -548,9 +559,12 @@
 		FC39706B1AEA78E200829357 /* svm */ = {
 			isa = PBXGroup;
 			children = (
-				FC39706C1AEA78E200829357 /* svm-model-curl-features.libsvm */,
-				FC39706D1AEA78E200829357 /* svm-model-curl-features.rds */,
-				FC39706E1AEA78E200829357 /* svm-model-curl-features.scale */,
+				5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */,
+				5464EBC21AF4E24F00B5317B /* svm-model-bicep_curl-features.rds */,
+				5464EBC31AF4E24F00B5317B /* svm-model-bicep_curl-features.scale */,
+				5464EBC41AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm */,
+				5464EBC51AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds */,
+				5464EBC61AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale */,
 			);
 			path = svm;
 			sourceTree = "<group>";
@@ -665,17 +679,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC39706F1AEA78E200829357 /* svm-model-curl-features.libsvm in Resources */,
 				5403815F1AED28A0000C8B15 /* Settings.bundle in Resources */,
 				541ABBA91AC577E00056A81B /* Main.storyboard in Resources */,
 				547E6A941AF378C4005DE00C /* musclegroups.json in Resources */,
+				5464EBCA1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm in Resources */,
 				54F0DC561AC57E8D0061EC5D /* CMakeLists.txt in Resources */,
 				54B610931AF3C6010034F2DD /* Exercise.storyboard in Resources */,
+				5464EBC81AF4E24F00B5317B /* svm-model-bicep_curl-features.rds in Resources */,
 				54F0DC4A1AC57E8D0061EC5D /* all_1.csv in Resources */,
+				5464EBCB1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds in Resources */,
+				5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */,
 				541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */,
-				FC3970701AEA78E200829357 /* svm-model-curl-features.rds in Resources */,
-				FC3970711AEA78E200829357 /* svm-model-curl-features.scale in Resources */,
 				541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */,
+				5464EBC91AF4E24F00B5317B /* svm-model-bicep_curl-features.scale in Resources */,
+				5464EBCC1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -756,6 +773,7 @@
 				5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */,
 				5433741F1AD010B1005864D7 /* Either.swift in Sources */,
 				54820DFB1AF2895100E3AEC2 /* MRLoginViewController.swift in Sources */,
+				5464EBBF1AF4E1FD00B5317B /* classifier_loader.cc in Sources */,
 				5433741C1AD010B1005864D7 /* Array.swift in Sources */,
 				543374251AD01104005864D7 /* NSError+Convenience.swift in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
