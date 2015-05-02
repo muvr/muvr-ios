@@ -4,6 +4,7 @@
 #import "MuvrPreclassification/include/device_data_decoder.h"
 #import "MuvrPreclassification/include/svm_classifier.h"
 #import "MuvrPreclassification/include/svm_classifier_factory.h"
+#import "MuvrPreclassification/include/classifier_loader.h"
 #import "MuvrPreclassification/include/export.h"
 
 using namespace muvr;
@@ -75,7 +76,7 @@ public:
 
 @implementation MRPreclassification {
     std::unique_ptr<sensor_data_fuser> m_fuser;
-    std::unique_ptr<svm_classifier> m_classifier;
+    std::vector<svm_classifier> m_classifiers;
 }
 
 - (instancetype)init {
@@ -83,12 +84,15 @@ public:
     m_fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(std::shared_ptr<movement_decider>(new movement_decider()),
                                                                        std::shared_ptr<exercise_decider>(new const_exercise_decider())));
     NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-curl-features" ofType:@"libsvm"];
-    std::string libsvm(fullPath.UTF8String);
+    std::string libsvm([fullPath stringByDeletingLastPathComponent].UTF8String);
     fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-curl-features" ofType:@"scale"];
     std::string scale(fullPath.UTF8String);
     
-    auto classifier = svm_classifier_factory().build(libsvm, scale);
-    m_classifier = std::unique_ptr<svm_classifier>(classifier);
+    auto classifiers = muvr::classifier_loader().load(libsvm);
+    m_classifiers = classifiers;
+    
+    //svm_classifier_factory().build(libsvm, scale);
+    //m_classifier = std::unique_ptr<svm_classifier>(classifier);
     
     return self;
 }
@@ -140,26 +144,36 @@ public:
         }
     }
     
-    //TODO: FIX
     if (fusionResult.type() != sensor_data_fuser::fusion_result::exercise_ended) return;
     
+    //TODO: We don't want to call classifiers in a loop. All this management of classifiers and results should be
+    // handled in c++ code
+    
     // finally, the classification pipeline
-    svm_classifier::classification_result classificationResult = m_classifier->classify(fusionResult.fused_exercise_data());
+    std::vector<svm_classifier::classification_result> results;
+    for(int i = 0; i < m_classifiers.size(); ++i) {
+        results.push_back(m_classifiers[i].classify(fusionResult.fused_exercise_data()));
+    }
     
     NSMutableArray *transformedClassificationResult = [NSMutableArray array];
-    
-    // for now we just take the first and only identified exercise
-    svm_classifier::classified_exercise classified_exercise = classificationResult.exercises()[0];
-    MRResistanceExercise *exercise = [[MRResistanceExercise alloc]
-                                      initWithExercise:[NSString stringWithCString:classified_exercise.exercise_name().c_str()encoding:[NSString defaultCStringEncoding]]
-                                      repetitions:@(classified_exercise.repetitions())
-                                      weight: @(classified_exercise.weight())
-                                      intensity: @(classified_exercise.intensity())
-                                      andConfidence: classified_exercise.confidence()];
-    
-    MRResistanceExerciseSet *exercise_set = [[MRResistanceExerciseSet alloc] init:exercise];
-    [transformedClassificationResult addObject:exercise_set];
-    
+    for(int i = 0; i < results.size(); ++i) {
+        if(results[i].exercises().size() > 0) {
+            
+            // for now we just take the first and only identified exercise if there is any
+            svm_classifier::classified_exercise classified_exercise = results[i].exercises()[0];
+            
+            MRResistanceExercise *exercise = [[MRResistanceExercise alloc]
+                                              initWithExercise:[NSString stringWithCString:classified_exercise.exercise_name().c_str()encoding:[NSString defaultCStringEncoding]]
+                                              repetitions:@(classified_exercise.repetitions())
+                                              weight: @(classified_exercise.weight())
+                                              intensity: @(classified_exercise.intensity())
+                                              andConfidence: classified_exercise.confidence()];
+            
+            MRResistanceExerciseSet *exercise_set = [[MRResistanceExerciseSet alloc] init:exercise];
+            [transformedClassificationResult addObject:exercise_set];
+        }
+    }
+
     // the hooks
     if (self.classificationPipelineDelegate != nil) {
         std::ostringstream os;
