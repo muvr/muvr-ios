@@ -1,4 +1,5 @@
 import Foundation
+import SQLite
 
 ///
 /// The initial state that can only do basic user operation like login, send token, ...
@@ -11,6 +12,10 @@ struct MRApplicationState {
     static let anonymousUserId: MRUserId = MRUserId(UUIDString: "855060A5-5585-46A7-80B8-C6CBD83197F8")!
     
     private static var loggedInStateInstance: MRLoggedInApplicationState? = nil
+    
+    private static var database: Database {
+        return Database()
+    }
     
     static var loggedInState: MRLoggedInApplicationState? {
         if let x = loggedInStateInstance { return x }
@@ -91,7 +96,12 @@ struct MRExercisingApplicationState {
         self.userId = userId
     }
     
-    func postResistanceExample(example: MRResistanceExerciseSetExample, f: Result<Void> -> Void) -> Void {        
+    func postResistanceExample(example: MRResistanceExerciseSetExample, f: Result<Void> -> Void) -> Void {
+        MRApplicationState.database.db.create(table: users, ifNotExists: true) { t in
+            t.column(id)
+            /* ... */
+        }
+        
         MRMuvrServer.sharedInstance.apply(
             MRMuvrServerURLs.ExerciseSessionResistanceExample(userId: userId, sessionId: sessionId),
             body: MRMuvrServer.Body.Json(params: example.marshal()),
