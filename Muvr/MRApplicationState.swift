@@ -98,7 +98,7 @@ struct MRExercisingApplicationState {
     
     func postResistanceExample(example: MRResistanceExerciseSetExample, f: Result<Void> -> Void) -> Void {
         MRApplicationState.database.db.create(table: users, ifNotExists: true) { t in
-            t.column(id)
+            
             /* ... */
         }
         
