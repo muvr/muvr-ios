@@ -82,8 +82,10 @@
 		FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */; };
 		FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705E1AEA6CC900829357 /* svm_classifier.cc */; };
 		FC3970621AEA6CC900829357 /* svm.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705F1AEA6CC900829357 /* svm.cc */; };
+		FC3A4E8D1AF6E3DF00DABEC2 /* ensemble_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC3A4E8C1AF6E3DF00DABEC2 /* ensemble_classifier.cc */; };
 		FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */; };
 		FC5593B71ADBE56400F235ED /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B41ADBE56400F235ED /* SwiftyJSON.swift */; };
+		FCEFD5B61AF8B315007C840F /* device_data_encoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = FCEFD5B51AF8B315007C840F /* device_data_encoder.cc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -213,11 +215,18 @@
 		FC3970631AEA6CEB00829357 /* svm_classifier_factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm_classifier_factory.h; path = "../../../../muvr-preclassification/core/include/svm_classifier_factory.h"; sourceTree = "<group>"; };
 		FC3970641AEA6CEC00829357 /* svm_classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm_classifier.h; path = "../../../../muvr-preclassification/core/include/svm_classifier.h"; sourceTree = "<group>"; };
 		FC3970651AEA6CEC00829357 /* svm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm.h; path = "../../../../muvr-preclassification/core/include/svm.h"; sourceTree = "<group>"; };
+		FC3A4E8C1AF6E3DF00DABEC2 /* ensemble_classifier.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ensemble_classifier.cc; path = "../../../../../muvr-preclassification/core/main/cc/ensemble_classifier.cc"; sourceTree = "<group>"; };
+		FC3A4E8E1AF6E3EB00DABEC2 /* ensemble_classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ensemble_classifier.h; path = "../../../../muvr-preclassification/core/include/ensemble_classifier.h"; sourceTree = "<group>"; };
+		FC3A4E8F1AF6E88200DABEC2 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Pods/Alamofire.framework"; sourceTree = "<group>"; };
+		FC3A4E901AF6E88200DABEC2 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = "Pods/../build/Debug-iphoneos/Pods/Charts.framework"; sourceTree = "<group>"; };
+		FC3A4E911AF6E88200DABEC2 /* JTCalendar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JTCalendar.framework; path = "Pods/../build/Debug-iphoneos/Pods/JTCalendar.framework"; sourceTree = "<group>"; };
+		FC3A4E921AF6E88200DABEC2 /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = "Pods/../build/Debug-iphoneos/Pods/Reachability.framework"; sourceTree = "<group>"; };
 		FC5593AF1ADBE56400F235ED /* Alamofire+SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Alamofire+SwiftyJSON.h"; sourceTree = "<group>"; };
 		FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alamofire+SwiftyJSON.swift"; sourceTree = "<group>"; };
 		FC5593B31ADBE56400F235ED /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyJSON.h; sourceTree = "<group>"; };
 		FC5593B41ADBE56400F235ED /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		FC5593C71ADD7E5400F235ED /* classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier.h; path = "../../../../muvr-preclassification/core/include/classifier.h"; sourceTree = "<group>"; };
+		FCEFD5B51AF8B315007C840F /* device_data_encoder.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = device_data_encoder.cc; path = "../../../../../muvr-preclassification/core/main/cc/device_data_encoder.cc"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +251,10 @@
 		288CCE5D5AB7F6FBE827B7C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FC3A4E8F1AF6E88200DABEC2 /* Alamofire.framework */,
+				FC3A4E901AF6E88200DABEC2 /* Charts.framework */,
+				FC3A4E911AF6E88200DABEC2 /* JTCalendar.framework */,
+				FC3A4E921AF6E88200DABEC2 /* Reachability.framework */,
 				548226BD1AC57CD300EEEFCB /* libMuvrPreclassification.a */,
 				16D2F8864F1B66657A209A69 /* Pods.framework */,
 			);
@@ -438,6 +451,7 @@
 		54F0DC241AC57E8D0061EC5D /* include */ = {
 			isa = PBXGroup;
 			children = (
+				FC3A4E8E1AF6E3EB00DABEC2 /* ensemble_classifier.h */,
 				5464EBC01AF4E21400B5317B /* classifier_loader.h */,
 				FC3970631AEA6CEB00829357 /* svm_classifier_factory.h */,
 				5403814A1AEBBE3B000C8B15 /* export.h */,
@@ -484,6 +498,8 @@
 		54F0DC341AC57E8D0061EC5D /* cc */ = {
 			isa = PBXGroup;
 			children = (
+				FCEFD5B51AF8B315007C840F /* device_data_encoder.cc */,
+				FC3A4E8C1AF6E3DF00DABEC2 /* ensemble_classifier.cc */,
 				5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */,
 				FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */,
 				5403814B1AEBBE45000C8B15 /* export.cc */,
@@ -778,6 +794,7 @@
 				5433741F1AD010B1005864D7 /* Either.swift in Sources */,
 				54820DFB1AF2895100E3AEC2 /* MRLoginViewController.swift in Sources */,
 				5464EBBF1AF4E1FD00B5317B /* classifier_loader.cc in Sources */,
+				FC3A4E8D1AF6E3DF00DABEC2 /* ensemble_classifier.cc in Sources */,
 				5433741C1AD010B1005864D7 /* Array.swift in Sources */,
 				543374251AD01104005864D7 /* NSError+Convenience.swift in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
@@ -815,6 +832,7 @@
 				543374211AD010B1005864D7 /* Predef.swift in Sources */,
 				54820DF41AF27DC200E3AEC2 /* MRMuvrServer.swift in Sources */,
 				54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */,
+				FCEFD5B61AF8B315007C840F /* device_data_encoder.cc in Sources */,
 				542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */,
 				54F0DC551AC57E8D0061EC5D /* raw_sensor_data.cc in Sources */,
 				54D35FD81AF4E02100A5295D /* MRExerciseSessionLogViewController.swift in Sources */,
@@ -956,6 +974,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
+				);
 				INFOPLIST_FILE = Muvr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -977,6 +999,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
+				);
 				INFOPLIST_FILE = Muvr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
