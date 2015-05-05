@@ -85,6 +85,7 @@
 		FC3A4E8D1AF6E3DF00DABEC2 /* ensemble_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC3A4E8C1AF6E3DF00DABEC2 /* ensemble_classifier.cc */; };
 		FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */; };
 		FC5593B71ADBE56400F235ED /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B41ADBE56400F235ED /* SwiftyJSON.swift */; };
+		FCEFD5B61AF8B315007C840F /* device_data_encoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = FCEFD5B51AF8B315007C840F /* device_data_encoder.cc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -225,6 +226,7 @@
 		FC5593B31ADBE56400F235ED /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyJSON.h; sourceTree = "<group>"; };
 		FC5593B41ADBE56400F235ED /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		FC5593C71ADD7E5400F235ED /* classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier.h; path = "../../../../muvr-preclassification/core/include/classifier.h"; sourceTree = "<group>"; };
+		FCEFD5B51AF8B315007C840F /* device_data_encoder.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = device_data_encoder.cc; path = "../../../../../muvr-preclassification/core/main/cc/device_data_encoder.cc"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -496,6 +498,7 @@
 		54F0DC341AC57E8D0061EC5D /* cc */ = {
 			isa = PBXGroup;
 			children = (
+				FCEFD5B51AF8B315007C840F /* device_data_encoder.cc */,
 				FC3A4E8C1AF6E3DF00DABEC2 /* ensemble_classifier.cc */,
 				5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */,
 				FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */,
@@ -829,6 +832,7 @@
 				543374211AD010B1005864D7 /* Predef.swift in Sources */,
 				54820DF41AF27DC200E3AEC2 /* MRMuvrServer.swift in Sources */,
 				54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */,
+				FCEFD5B61AF8B315007C840F /* device_data_encoder.cc in Sources */,
 				542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */,
 				54F0DC551AC57E8D0061EC5D /* raw_sensor_data.cc in Sources */,
 				54D35FD81AF4E02100A5295D /* MRExerciseSessionLogViewController.swift in Sources */,
