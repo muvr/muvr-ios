@@ -54,6 +54,7 @@
 		5455E7301AFA73C70049BB6B /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */; };
 		5455E7321AFA77310049BB6B /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5455E71D1AF901DA0049BB6B /* SQLite.framework */; };
 		5455E7331AFA77310049BB6B /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5455E71D1AF901DA0049BB6B /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5460CDAF1AFAAACD000DA384 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5460CDAE1AFAAACD000DA384 /* sqlite3.framework */; };
 		5464EBBF1AF4E1FD00B5317B /* classifier_loader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */; };
 		5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */; };
 		5464EBC81AF4E24F00B5317B /* svm-model-bicep_curl-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC21AF4E24F00B5317B /* svm-model-bicep_curl-features.rds */; };
@@ -179,6 +180,7 @@
 		5455E72B1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRResistanceExerciseSessionProperties+Marshalling.swift"; sourceTree = "<group>"; };
 		5455E72D1AFA6E6D0049BB6B /* NSDate+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Marshalling.swift"; sourceTree = "<group>"; };
 		5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+DateUtils.swift"; sourceTree = "<group>"; };
+		5460CDAE1AFAAACD000DA384 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = UnmanagedFrameworks/sqlite3.framework; sourceTree = "<group>"; };
 		5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = classifier_loader.cc; path = "../../../../../muvr-preclassification/core/main/cc/classifier_loader.cc"; sourceTree = "<group>"; };
 		5464EBC01AF4E21400B5317B /* classifier_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier_loader.h; path = "../../../../muvr-preclassification/core/include/classifier_loader.h"; sourceTree = "<group>"; };
 		5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-bicep_curl-features.libsvm"; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 			files = (
 				5455E7201AF9022A0049BB6B /* libsqlite3.dylib in Frameworks */,
 				5455E7321AFA77310049BB6B /* SQLite.framework in Frameworks */,
+				5460CDAF1AFAAACD000DA384 /* sqlite3.framework in Frameworks */,
 				6FE82F244080A35A0F4E861B /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -287,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				5455E71F1AF9022A0049BB6B /* libsqlite3.dylib */,
+				5460CDAE1AFAAACD000DA384 /* sqlite3.framework */,
 				5455E71D1AF901DA0049BB6B /* SQLite.framework */,
 				FC3A4E8F1AF6E88200DABEC2 /* Alamofire.framework */,
 				FC3A4E901AF6E88200DABEC2 /* Charts.framework */,
