@@ -46,6 +46,13 @@
 		5455E71E1AF901DA0049BB6B /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5455E71D1AF901DA0049BB6B /* SQLite.framework */; };
 		5455E7201AF9022A0049BB6B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5455E71F1AF9022A0049BB6B /* libsqlite3.dylib */; };
 		5455E7221AF90FF80049BB6B /* MRDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7211AF90FF80049BB6B /* MRDataModel.swift */; };
+		5455E7241AFA2D440049BB6B /* MRDataModel+DD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7231AFA2D440049BB6B /* MRDataModel+DD.swift */; };
+		5455E7261AFA30920049BB6B /* MRDataModel+CustomTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7251AFA30920049BB6B /* MRDataModel+CustomTypes.swift */; };
+		5455E7281AFA3C820049BB6B /* MRResistanceExerciseSessionProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7271AFA3C820049BB6B /* MRResistanceExerciseSessionProperties.swift */; };
+		5455E72A1AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7291AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift */; };
+		5455E72C1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72B1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift */; };
+		5455E72E1AFA6E6D0049BB6B /* NSDate+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72D1AFA6E6D0049BB6B /* NSDate+Marshalling.swift */; };
+		5455E7301AFA73C70049BB6B /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */; };
 		5464EBBF1AF4E1FD00B5317B /* classifier_loader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */; };
 		5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */; };
 		5464EBC81AF4E24F00B5317B /* svm-model-bicep_curl-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC21AF4E24F00B5317B /* svm-model-bicep_curl-features.rds */; };
@@ -68,7 +75,6 @@
 		54B610851AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610841AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift */; };
 		54B610871AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610861AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift */; };
 		54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */; };
-		54B6108F1AF3BB4A0034F2DD /* MRResistanceExerciseSessionDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6108E1AF3BB4A0034F2DD /* MRResistanceExerciseSessionDate.swift */; };
 		54B610911AF3C5B00034F2DD /* MRExerciseSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */; };
 		54B610931AF3C6010034F2DD /* Exercise.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54B610921AF3C6010034F2DD /* Exercise.storyboard */; };
 		54D35FD81AF4E02100A5295D /* MRExerciseSessionLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D35FD71AF4E02100A5295D /* MRExerciseSessionLogViewController.swift */; };
@@ -151,6 +157,13 @@
 		5455E71D1AF901DA0049BB6B /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = UnmanagedFrameworks/SQLite.framework; sourceTree = "<group>"; };
 		5455E71F1AF9022A0049BB6B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		5455E7211AF90FF80049BB6B /* MRDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDataModel.swift; sourceTree = "<group>"; };
+		5455E7231AFA2D440049BB6B /* MRDataModel+DD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRDataModel+DD.swift"; sourceTree = "<group>"; };
+		5455E7251AFA30920049BB6B /* MRDataModel+CustomTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRDataModel+CustomTypes.swift"; sourceTree = "<group>"; };
+		5455E7271AFA3C820049BB6B /* MRResistanceExerciseSessionProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSessionProperties.swift; sourceTree = "<group>"; };
+		5455E7291AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRResistanceExerciseSession+Marshalling.swift"; sourceTree = "<group>"; };
+		5455E72B1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRResistanceExerciseSessionProperties+Marshalling.swift"; sourceTree = "<group>"; };
+		5455E72D1AFA6E6D0049BB6B /* NSDate+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Marshalling.swift"; sourceTree = "<group>"; };
+		5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+DateUtils.swift"; sourceTree = "<group>"; };
 		5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = classifier_loader.cc; path = "../../../../../muvr-preclassification/core/main/cc/classifier_loader.cc"; sourceTree = "<group>"; };
 		5464EBC01AF4E21400B5317B /* classifier_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier_loader.h; path = "../../../../muvr-preclassification/core/include/classifier_loader.h"; sourceTree = "<group>"; };
 		5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-bicep_curl-features.libsvm"; sourceTree = "<group>"; };
@@ -177,7 +190,6 @@
 		54B610841AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSetIntensityView.swift; sourceTree = "<group>"; };
 		54B610861AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSetTableViewCell.swift; sourceTree = "<group>"; };
 		54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSession.swift; sourceTree = "<group>"; };
-		54B6108E1AF3BB4A0034F2DD /* MRResistanceExerciseSessionDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSessionDate.swift; sourceTree = "<group>"; };
 		54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionViewController.swift; sourceTree = "<group>"; };
 		54B610921AF3C6010034F2DD /* Exercise.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Exercise.storyboard; sourceTree = "<group>"; };
 		54D35FD71AF4E02100A5295D /* MRExerciseSessionLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionLogViewController.swift; sourceTree = "<group>"; };
@@ -340,6 +352,8 @@
 				54820DFC1AF28D1900E3AEC2 /* Result+GetOrUnit.swift */,
 				54477CFB1AF4E82E00F502EC /* Localizable.strings */,
 				5455E7211AF90FF80049BB6B /* MRDataModel.swift */,
+				5455E7231AFA2D440049BB6B /* MRDataModel+DD.swift */,
+				5455E7251AFA30920049BB6B /* MRDataModel+CustomTypes.swift */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -433,7 +447,11 @@
 				547E6A8A1AF36938005DE00C /* MRMuscleGroup.swift */,
 				547E6A8C1AF36A10005DE00C /* MRMuscleGroup+Marshalling.swift */,
 				54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */,
-				54B6108E1AF3BB4A0034F2DD /* MRResistanceExerciseSessionDate.swift */,
+				5455E7291AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift */,
+				5455E7271AFA3C820049BB6B /* MRResistanceExerciseSessionProperties.swift */,
+				5455E72B1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift */,
+				5455E72D1AFA6E6D0049BB6B /* NSDate+Marshalling.swift */,
+				5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -789,8 +807,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5455E72C1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift in Sources */,
 				5455E7221AF90FF80049BB6B /* MRDataModel.swift in Sources */,
-				54B6108F1AF3BB4A0034F2DD /* MRResistanceExerciseSessionDate.swift in Sources */,
 				FC3970621AEA6CC900829357 /* svm.cc in Sources */,
 				FC1AC7591ADE8CEA00832DE7 /* classifier.cc in Sources */,
 				548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */,
@@ -808,6 +826,7 @@
 				5464EBBF1AF4E1FD00B5317B /* classifier_loader.cc in Sources */,
 				FC3A4E8D1AF6E3DF00DABEC2 /* ensemble_classifier.cc in Sources */,
 				5433741C1AD010B1005864D7 /* Array.swift in Sources */,
+				5455E72E1AFA6E6D0049BB6B /* NSDate+Marshalling.swift in Sources */,
 				543374251AD01104005864D7 /* NSError+Convenience.swift in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
 				54B610911AF3C5B00034F2DD /* MRExerciseSessionViewController.swift in Sources */,
@@ -822,17 +841,20 @@
 				5433741D1AD010B1005864D7 /* Box.swift in Sources */,
 				5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */,
 				FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */,
+				5455E7261AFA30920049BB6B /* MRDataModel+CustomTypes.swift in Sources */,
 				FC5593B71ADBE56400F235ED /* SwiftyJSON.swift in Sources */,
 				FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */,
 				5443FA791AE69E1400CC229D /* sensor_data_fuser_rsde.cc in Sources */,
 				543374221AD010B1005864D7 /* Result.swift in Sources */,
 				54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */,
 				54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */,
+				5455E72A1AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift in Sources */,
 				540381571AECFB25000C8B15 /* MRSensorView.swift in Sources */,
 				547E6A911AF374FF005DE00C /* MRMuscleGroupRepository.swift in Sources */,
 				54B610871AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift in Sources */,
 				540381611AED2F85000C8B15 /* MRExerciseSetExample.swift in Sources */,
 				54820DF91AF2811300E3AEC2 /* MRApplicationState.swift in Sources */,
+				5455E7241AFA2D440049BB6B /* MRDataModel+DD.swift in Sources */,
 				FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */,
 				542AB2191ACC4FD100F20299 /* symbolic_aggregate_approximation.cc in Sources */,
 				540381531AEC3567000C8B15 /* MRTypes.swift in Sources */,
@@ -840,10 +862,12 @@
 				547E6A841AF356C0005DE00C /* MRExerciseSessionPropertiesViewController.swift in Sources */,
 				54820DFF1AF2971900E3AEC2 /* MRTypes+Marshalling.swift in Sources */,
 				54F0DC541AC57E8D0061EC5D /* nomovement_decider.cc in Sources */,
+				5455E7301AFA73C70049BB6B /* NSDate+DateUtils.swift in Sources */,
 				54820DF51AF27DC200E3AEC2 /* MRMuvrServerURLs.swift in Sources */,
 				543374211AD010B1005864D7 /* Predef.swift in Sources */,
 				54820DF41AF27DC200E3AEC2 /* MRMuvrServer.swift in Sources */,
 				54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */,
+				5455E7281AFA3C820049BB6B /* MRResistanceExerciseSessionProperties.swift in Sources */,
 				FCEFD5B61AF8B315007C840F /* device_data_encoder.cc in Sources */,
 				542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */,
 				54F0DC551AC57E8D0061EC5D /* raw_sensor_data.cc in Sources */,

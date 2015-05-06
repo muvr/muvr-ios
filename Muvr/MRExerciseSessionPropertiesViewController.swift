@@ -44,7 +44,8 @@ class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate,
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let ctrl = segue.destinationViewController as? MRExerciseSessionViewController,
            let muscleGroupsIds = sender as? [String] {
-            ctrl.startSession(MRExercisingApplicationState(userId: MRUserId(), sessionId: MRSessionId()))
+            let properties = MRResistanceExerciseSessionProperties(intendedIntensity: 1, muscleGroupIds: muscleGroupsIds)
+            ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties))
         }
     }
 

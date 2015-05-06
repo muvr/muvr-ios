@@ -6,7 +6,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet var calendarContentView: JTCalendarContentView!
     
     private let calendar = JTCalendar()
-    private var resistanceSessionDates: [MRResistanceExerciseSessionDate] = []
+    private var resistanceExerciseSessions: [MRResistanceExerciseSession] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +21,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        MRApplicationState.loggedInState!.getResistanceExerciseSessionDates {
-            $0.getOrUnit(self.setResistanceExerciseSessionDates)
-        }
-    }
-    
-    private func setResistanceExerciseSessionDates(resistanceSessionDates: [MRResistanceExerciseSessionDate]) {
-        self.resistanceSessionDates = resistanceSessionDates
+        resistanceExerciseSessions = MRApplicationState.loggedInState!.getResistanceExerciseSessions()
         calendarContentView.reloadData()
         calendar.currentDate = NSDate()
         calendar.currentDateSelected = NSDate()
@@ -50,7 +44,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     // MARK: JTCalendarDataSource
     
     func calendarHaveEvent(calendar: JTCalendar!, date: NSDate!) -> Bool {
-        return !resistanceSessionDates.filter { elem in return elem.date == date }.isEmpty
+        return resistanceExerciseSessions.find { elem in elem.startDate.dateOnly == date } != nil
     }
     
     func calendarDidDateSelected(calendar: JTCalendar!, date: NSDate!) {

@@ -9,14 +9,10 @@ struct MRApplicationState {
     
     static var deviceToken: NSData?
     
-    static let anonymousUserId: MRUserId = MRUserId(UUIDString: "855060A5-5585-46A7-80B8-C6CBD83197F8")!
+    static let anonymousUserId: MRUserId = UIDevice.currentDevice().identifierForVendor
     
     private static var loggedInStateInstance: MRLoggedInApplicationState? = nil
-    
-    private static var database: Database {
-        return Database()
-    }
-    
+        
     static var loggedInState: MRLoggedInApplicationState? {
         if let x = loggedInStateInstance { return x }
         
@@ -65,23 +61,42 @@ struct MRApplicationState {
 ///
 struct MRLoggedInApplicationState {
     internal let userId: MRUserId
+    internal let isAnonymous: Bool
     
     init(userId: MRUserId) {
         self.userId = userId
+        self.isAnonymous = userId == MRApplicationState.anonymousUserId
     }
     
     func checkAccount(f: Result<Bool> -> Void) -> Void {
         f(Result.value(true))
+        // TODO: Implement me
     }
     
     func registerDeviceToken(token: NSData) -> Void {
-        
+        // TODO: Implement me
     }
     
-    func getResistanceExerciseSessionDates(f: Result<[MRResistanceExerciseSessionDate]> -> Void) -> Void {
-        f(Result.value([]))
+    ///
+    /// Starts a resistance exercise session with the given properties
+    ///
+    func startSession(properties: MRResistanceExerciseSessionProperties) -> MRExercisingApplicationState {
+        let sessionId = MRSessionId()
+        let session = MRResistanceExerciseSession(startDate: NSDate(), properties: properties)
+        MRDataModel.resistanceExerciseSessions.insert(
+            MRDataModel.MRResistanceExerciseSessionDataModel.id <- sessionId,
+            MRDataModel.MRResistanceExerciseSessionDataModel.timestamp <- session.startDate,
+            MRDataModel.MRResistanceExerciseSessionDataModel.json <- JSON(session.marshal()))
+        return MRExercisingApplicationState(userId: userId, sessionId: sessionId)
     }
-
+    
+    ///
+    /// Returns the 100 most recent resistance exercise sessions, ordered by descending startDate
+    ///
+    func getResistanceExerciseSessions() -> [MRResistanceExerciseSession] {
+        return MRDataModel.MRResistanceExerciseSessionDataModel.findAll(limit: 100)
+    }
+    
 }
 
 ///
@@ -96,17 +111,21 @@ struct MRExercisingApplicationState {
         self.userId = userId
     }
     
-    func postResistanceExample(example: MRResistanceExerciseSetExample, f: Result<Void> -> Void) -> Void {
-        MRApplicationState.database.db.create(table: users, ifNotExists: true) { t in
-            
-            /* ... */
-        }
+    func postResistanceExample(example: MRResistanceExerciseSetExample) -> Void {
+        let id = NSUUID()
+        
+        MRDataModel.resistanceExerciseSets.insert(
+            MRDataModel.MRResistanceExerciseSetDataModel.id <- id,
+            MRDataModel.MRResistanceExerciseSetDataModel.timestamp <- NSDate(),
+            MRDataModel.MRResistanceExerciseSetDataModel.sessionId <- sessionId,
+            MRDataModel.MRResistanceExerciseSetDataModel.json <- JSON(example.marshal())
+        )
         
         MRMuvrServer.sharedInstance.apply(
             MRMuvrServerURLs.ExerciseSessionResistanceExample(userId: userId, sessionId: sessionId),
             body: MRMuvrServer.Body.Json(params: example.marshal()),
             unmarshaller: constUnit(),
-            onComplete: f)
+            onComplete: constUnit())
     }
     
 }
