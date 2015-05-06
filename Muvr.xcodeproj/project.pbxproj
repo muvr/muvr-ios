@@ -43,7 +43,6 @@
 		5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */; };
 		5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */; };
 		54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 54477CFB1AF4E82E00F502EC /* Localizable.strings */; };
-		5455E71E1AF901DA0049BB6B /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5455E71D1AF901DA0049BB6B /* SQLite.framework */; };
 		5455E7201AF9022A0049BB6B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5455E71F1AF9022A0049BB6B /* libsqlite3.dylib */; };
 		5455E7221AF90FF80049BB6B /* MRDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7211AF90FF80049BB6B /* MRDataModel.swift */; };
 		5455E7241AFA2D440049BB6B /* MRDataModel+DD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7231AFA2D440049BB6B /* MRDataModel+DD.swift */; };
@@ -53,6 +52,8 @@
 		5455E72C1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72B1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift */; };
 		5455E72E1AFA6E6D0049BB6B /* NSDate+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72D1AFA6E6D0049BB6B /* NSDate+Marshalling.swift */; };
 		5455E7301AFA73C70049BB6B /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */; };
+		5455E7321AFA77310049BB6B /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5455E71D1AF901DA0049BB6B /* SQLite.framework */; };
+		5455E7331AFA77310049BB6B /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5455E71D1AF901DA0049BB6B /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5464EBBF1AF4E1FD00B5317B /* classifier_loader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */; };
 		5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */; };
 		5464EBC81AF4E24F00B5317B /* svm-model-bicep_curl-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC21AF4E24F00B5317B /* svm-model-bicep_curl-features.rds */; };
@@ -106,6 +107,20 @@
 			remoteInfo = Muvr;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5455E7341AFA77310049BB6B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5455E7331AFA77310049BB6B /* SQLite.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		16D2F8864F1B66657A209A69 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -253,7 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5455E7201AF9022A0049BB6B /* libsqlite3.dylib in Frameworks */,
-				5455E71E1AF901DA0049BB6B /* SQLite.framework in Frameworks */,
+				5455E7321AFA77310049BB6B /* SQLite.framework in Frameworks */,
 				6FE82F244080A35A0F4E861B /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -650,6 +665,7 @@
 				541ABB9C1AC577E00056A81B /* Resources */,
 				B9254235749BB7D35FB7A2E7 /* Copy Pods Resources */,
 				5AAFF8FE4287D04CFD84EE90 /* Embed Pods Frameworks */,
+				5455E7341AFA77310049BB6B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

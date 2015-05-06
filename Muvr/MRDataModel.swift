@@ -16,9 +16,14 @@ struct MRDataModel {
     private static var database: Database {
         let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as! String
         let db = Database("\(path)/db.sqlite3")
-        MRDataModel.create(db)
+        db.foreignKeys = true
         return db
     }
+    
+    internal static func initialize() {
+        MRDataModel.create(database)
+    }
+    
     /// resistance exercise sessions table (1:N) to resistance exercise sets
     static let resistanceExerciseSessions = database["resistanceExerciseSessions"]
     /// resistance exercise sets table

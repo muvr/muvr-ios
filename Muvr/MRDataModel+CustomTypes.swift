@@ -41,7 +41,9 @@ extension JSON : Value {
     }
     public var datatypeValue: Blob {
         let os = NSOutputStream.outputStreamToMemory()
+        os.open()
         NSJSONSerialization.writeJSONObject(self.object, toStream: os, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
+        os.close()
         let data: NSData = os.propertyForKey(NSStreamDataWrittenToMemoryStreamKey) as! NSData
         return Blob(bytes: data.bytes, length: data.length)
     }
