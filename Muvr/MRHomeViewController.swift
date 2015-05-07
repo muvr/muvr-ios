@@ -27,10 +27,10 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
         super.viewDidAppear(animated)
         
         resistanceExerciseSessions = MRApplicationState.loggedInState!.getResistanceExerciseSessions()
-        calendarContentView.reloadData()
+        calendar.reloadData()
         calendar.currentDate = NSDate()
         calendar.currentDateSelected = NSDate()
-        calendarDidDateSelected(self.calendar, date: NSDate())
+        calendarDidDateSelected(calendar, date: NSDate())
     }
     
     // MARK: UITableViewDataSource
@@ -77,8 +77,9 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
             case (Consts.Sessions, let x):
                 let ((id, _), _) = resistanceExerciseSessionDetails[x]
                 MRApplicationState.loggedInState!.deleteSession(id)
-                resistanceExerciseSessionDetails = resistanceExerciseSessionDetails.filter { $0.0.0 != id }
-                tableView.reloadData()
+                resistanceExerciseSessions = MRApplicationState.loggedInState!.getResistanceExerciseSessions()
+                calendar.reloadData()
+                calendarDidDateSelected(calendar, date: calendar.currentDateSelected)
             default:
                 // noop
                 return
