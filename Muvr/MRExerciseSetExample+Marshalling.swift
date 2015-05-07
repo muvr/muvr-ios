@@ -10,12 +10,27 @@ extension MRResistanceExercise {
         return params
     }
     
+    static func unmarshal(json: JSON) -> MRResistanceExercise {
+        return MRResistanceExercise(
+            exercise: json["exercise"].stringValue,
+            repetitions: json["repetitions"].number,
+            weight: json["weight"].number,
+            intensity: json["intensity"].number,
+            andConfidence: json["confidence"].doubleValue)
+    }
+    
 }
 
 extension MRResistanceExerciseSet {
     
     func marshal() -> [String : AnyObject] {
         return ["sets":sets.map { $0.marshal() }]
+    }
+    
+    static func unmarshal(json: JSON) -> MRResistanceExerciseSet {
+        return MRResistanceExerciseSet(
+            sets: json["sets"].arrayValue.map(MRResistanceExercise.unmarshal)
+        )
     }
     
 }

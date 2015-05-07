@@ -7,12 +7,12 @@ import SQLite
 extension MRDataModel.MRResistanceExerciseSetDataModel {
 
     private static func create(t: SchemaBuilder) -> Void {
-        let fk = MRDataModel.resistanceExerciseSessions.namespace(MRDataModel.MRResistanceExerciseSessionDataModel.id)
-        t.column(id, primaryKey: true)
-        t.column(serverId)
+        let fk = MRDataModel.resistanceExerciseSessions.namespace(MRDataModel.rowId)
+        t.column(MRDataModel.rowId, primaryKey: true)
+        t.column(MRDataModel.serverId)
         t.column(sessionId)
-        t.column(timestamp)
-        t.column(json)
+        t.column(MRDataModel.timestamp)
+        t.column(MRDataModel.json)
 
         t.foreignKey(sessionId, references: fk, update: SchemaBuilder.Dependency.Restrict, delete: SchemaBuilder.Dependency.Cascade)
     }
@@ -24,10 +24,10 @@ extension MRDataModel.MRResistanceExerciseSetDataModel {
 ///
 extension MRDataModel.MRResistanceExerciseSessionDataModel {
     private static func create(t: SchemaBuilder) -> Void {
-        t.column(id, primaryKey: true)
-        t.column(serverId)
-        t.column(timestamp)
-        t.column(json)
+        t.column(MRDataModel.rowId, primaryKey: true)
+        t.column(MRDataModel.serverId)
+        t.column(MRDataModel.timestamp)
+        t.column(MRDataModel.json)
     }
     
 }

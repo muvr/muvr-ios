@@ -1,6 +1,8 @@
 import Foundation
 import SQLite
 
+typealias MRResistanceExerciseSessionDetail = ((NSUUID, MRResistanceExerciseSession), [MRResistanceExerciseSet])
+
 ///
 /// Defines the persistence model, closely tied to SQLite (the framework and the underlying DB). This 
 /// is in favour of CoreData in persuit of initial simplicity. It may be necessary to switch to using
@@ -25,27 +27,23 @@ struct MRDataModel {
     }
     
     /// resistance exercise sessions table (1:N) to resistance exercise sets
-    static let resistanceExerciseSessions = database["resistanceExerciseSessions"]
+    internal static let resistanceExerciseSessions = database["resistanceExerciseSessions"]
     /// resistance exercise sets table
-    static let resistanceExerciseSets = database["resistanceExerciseSets"]
+    internal static let resistanceExerciseSets = database["resistanceExerciseSets"]
     
     /// common identity column
-    private static let id = Expression<NSUUID>("id")
+    internal static let rowId = Expression<NSUUID>("id")
     /// common identity column
-    private static let serverId = Expression<NSUUID?>("serverId")
+    internal static let serverId = Expression<NSUUID?>("serverId")
     /// common timestamp column
-    private static let timestamp = Expression<NSDate>("timestamp")
+    internal static let timestamp = Expression<NSDate>("timestamp")
     /// common JSON column
-    private static let json = Expression<JSON>("json")
+    internal static let json = Expression<JSON>("json")
 
     ///
     /// The exercise session
     ///
     struct MRResistanceExerciseSessionDataModel {
-        static let id = MRDataModel.id
-        static let timestamp = MRDataModel.timestamp
-        static let json = MRDataModel.json
-        static let serverId = MRDataModel.serverId
 
         static func findAll(limit: Int = 100) -> [MRResistanceExerciseSession] {
             // select * from resistanceExerciseSessions order by timestamp
@@ -55,17 +53,71 @@ struct MRDataModel {
             }
             return sessions
         }
+        
+        static func find(on date: NSDate) -> [MRResistanceExerciseSessionDetail] {
+            
+            func map(row: Row) -> (NSUUID, MRResistanceExerciseSession, MRResistanceExerciseSet) {
+                return (
+                    row.get(resistanceExerciseSessions.namespace(rowId)),
+                    MRResistanceExerciseSession.unmarshal(row.get(resistanceExerciseSessions.namespace(json))),
+                    MRResistanceExerciseSet.unmarshal(row.get(resistanceExerciseSets.namespace(json)))
+                )
+            }
+            
+            var r: [MRResistanceExerciseSessionDetail] = []
+
+            let midnight = date.dateOnly
+            for row in resistanceExerciseSessions
+                .join(resistanceExerciseSets, on: MRResistanceExerciseSetDataModel.sessionId == resistanceExerciseSessions.namespace(rowId))
+                .filter(resistanceExerciseSessions.namespace(timestamp) >= midnight && resistanceExerciseSessions.namespace(timestamp) < midnight.addDays(1))
+                .order(resistanceExerciseSessions.namespace(rowId), resistanceExerciseSessions.namespace(timestamp).desc) {
+            
+                let (id, session, set) = map(row)
+                if var ((lastId, _), sets) = r.last {
+                    if id != lastId {
+                        r += [((id, session), [set])]
+                    } else {
+                        sets += [set]
+                    }
+                } else {
+                    r += [((id, session), [set])]
+                }
+                
+            }
+            return r
+        }
+
+        static func insert(id: NSUUID, session: MRResistanceExerciseSession) -> Void {
+            resistanceExerciseSessions.insert(
+                rowId <- id,
+                timestamp <- session.startDate,
+                json <- JSON(session.marshal()))
+        }
+        
     }
     
     ///
     /// The exercise set, many sets in one session
     ///
     struct MRResistanceExerciseSetDataModel {
-        static let id = MRDataModel.id
         static let sessionId = Expression<NSUUID>("sessionId")
-        static let timestamp = MRDataModel.timestamp
-        static let json = MRDataModel.json
-        static let serverId = MRDataModel.serverId
+        
+//        static func find(on date: NSDate) -> [MRResistanceExerciseSet] {
+//            let midnight = date.dateOnly
+//            var sets: [MRResistanceExerciseSet] = []
+//            for row in resistanceExerciseSets.filter(timestamp > midnight.addDays(-1) && timestamp < midnight.addDays(1)) {
+//                sets += [MRResistanceExerciseSet.unmarshal(row.get(json))]
+//            }
+//            return sets
+//        }
+        
+        static func insert(id: NSUUID, sessionId: NSUUID, set: MRResistanceExerciseSet) -> Void {
+            resistanceExerciseSets.insert(
+                rowId <- id,
+                timestamp <- NSDate(),
+                self.sessionId <- sessionId,
+                json <- JSON(set.marshal()))
+        }
     }
     
 }

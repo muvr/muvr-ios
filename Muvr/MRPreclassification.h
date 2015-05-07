@@ -95,6 +95,9 @@
 /// Initializes this instance with just one exercise in a set
 - (instancetype)init:(MRResistanceExercise *)exercise;
 
+/// Initializes this instance with the given ``sets``
+- (instancetype)initWithSets:(NSArray *)sets;
+
 /// computes the overall confidence for this set
 - (double)confidence;
 /// retrieves the given set at the index

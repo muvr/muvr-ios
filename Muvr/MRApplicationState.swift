@@ -81,13 +81,10 @@ struct MRLoggedInApplicationState {
     /// Starts a resistance exercise session with the given properties
     ///
     func startSession(properties: MRResistanceExerciseSessionProperties) -> MRExercisingApplicationState {
-        let sessionId = MRSessionId()
+        let id = MRSessionId()
         let session = MRResistanceExerciseSession(startDate: NSDate(), properties: properties)
-        MRDataModel.resistanceExerciseSessions.insert(
-            MRDataModel.MRResistanceExerciseSessionDataModel.id <- sessionId,
-            MRDataModel.MRResistanceExerciseSessionDataModel.timestamp <- session.startDate,
-            MRDataModel.MRResistanceExerciseSessionDataModel.json <- JSON(session.marshal()))
-        return MRExercisingApplicationState(userId: userId, sessionId: sessionId)
+        MRDataModel.MRResistanceExerciseSessionDataModel.insert(id, session: session)
+        return MRExercisingApplicationState(userId: userId, sessionId: id)
     }
     
     ///
@@ -95,6 +92,13 @@ struct MRLoggedInApplicationState {
     ///
     func getResistanceExerciseSessions() -> [MRResistanceExerciseSession] {
         return MRDataModel.MRResistanceExerciseSessionDataModel.findAll(limit: 100)
+    }
+    
+    ///
+    /// Returns the MRResistanceExerciseSessionDetail that happened on the given day (i.e. from midnight to midnight)
+    ///
+    func getResistanceExerciseSessionDetails(on date: NSDate) -> [MRResistanceExerciseSessionDetail] {
+        return MRDataModel.MRResistanceExerciseSessionDataModel.find(on: date)
     }
     
 }
@@ -114,12 +118,9 @@ struct MRExercisingApplicationState {
     func postResistanceExample(example: MRResistanceExerciseSetExample) -> Void {
         let id = NSUUID()
         
-        MRDataModel.resistanceExerciseSets.insert(
-            MRDataModel.MRResistanceExerciseSetDataModel.id <- id,
-            MRDataModel.MRResistanceExerciseSetDataModel.timestamp <- NSDate(),
-            MRDataModel.MRResistanceExerciseSetDataModel.sessionId <- sessionId,
-            MRDataModel.MRResistanceExerciseSetDataModel.json <- JSON(example.marshal())
-        )
+        if let set = example.correct {
+            MRDataModel.MRResistanceExerciseSetDataModel.insert(id, sessionId: sessionId, set: set)
+        }
         
         MRMuvrServer.sharedInstance.apply(
             MRMuvrServerURLs.ExerciseSessionResistanceExample(userId: userId, sessionId: sessionId),

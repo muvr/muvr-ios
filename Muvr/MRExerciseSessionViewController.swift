@@ -111,6 +111,11 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         if stopSessionButton.tag < 0 {
             stopSessionButton.title = "Stop".localized()
         }
+#if (arch(i386) || arch(x86_64)) && os(iOS)
+        if elapsed % 20 == 0 {
+            classificationCompletedViewController?.presentClassificationResult(self, state: state!, result: [], fromData: NSData())
+        }
+#endif
     }
     
     private func currentPageViewController<A>() -> A? {

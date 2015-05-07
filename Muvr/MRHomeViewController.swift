@@ -7,6 +7,11 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     
     private let calendar = JTCalendar()
     private var resistanceExerciseSessions: [MRResistanceExerciseSession] = []
+    private var resistanceExerciseSets: [MRResistanceExerciseSessionDetail] = []
+    
+    private struct Consts {
+        static let Sessions = 0
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,15 +35,33 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     
     // MARK: UITableViewDataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        switch section {
+        case Consts.Sessions: return resistanceExerciseSets.count
+        default: fatalError("Match error")
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        fatalError(":(")
+        switch (indexPath.section, indexPath.row) {
+        case (Consts.Sessions, let x):
+            let ((_, session), sets) = resistanceExerciseSets[x]
+            let cell = tableView.dequeueReusableCellWithIdentifier("session") as! MRResistanceExerciseSetTableViewCell
+            cell.title.text = ", ".join(session.properties.muscleGroupIds)
+            return cell
+        default:
+            fatalError(":(")
+        }
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case Consts.Sessions: return "Sessions".localized()
+        default: fatalError("Match error")
+        }
     }
     
     // MARK: JTCalendarDataSource
@@ -48,7 +71,8 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     }
     
     func calendarDidDateSelected(calendar: JTCalendar!, date: NSDate!) {
-        NSLog("...")
+        resistanceExerciseSets = MRApplicationState.loggedInState!.getResistanceExerciseSessionDetails(on: date)
+        tableView.reloadData()
     }
 
 }
