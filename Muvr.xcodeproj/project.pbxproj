@@ -347,7 +347,6 @@
 		541ABBA01AC577E00056A81B /* Muvr */ = {
 			isa = PBXGroup;
 			children = (
-				5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */,
 				547E6A921AF377FE005DE00C /* Repository */,
 				547E6A871AF35793005DE00C /* Model */,
 				FC5593AE1ADBE56400F235ED /* Alamofire */,
@@ -373,6 +372,7 @@
 				5403815E1AED28A0000C8B15 /* Settings.bundle */,
 				54820DFC1AF28D1900E3AEC2 /* Result+GetOrUnit.swift */,
 				54477CFB1AF4E82E00F502EC /* Localizable.strings */,
+				5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */,
 				5455E7211AF90FF80049BB6B /* MRDataModel.swift */,
 				5455E7231AFA2D440049BB6B /* MRDataModel+DD.swift */,
 				5455E7251AFA30920049BB6B /* MRDataModel+CustomTypes.swift */,
