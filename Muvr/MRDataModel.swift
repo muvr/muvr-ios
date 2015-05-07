@@ -41,6 +41,7 @@ struct MRDataModel {
     ///
     struct MRResistanceExerciseSessionDataModel {
 
+        /// Finds all MRResistanceExerciseSession instances
         static func findAll(limit: Int = 100) -> [MRResistanceExerciseSession] {
             // select * from resistanceExerciseSessions order by timestamp
             var sessions: [MRResistanceExerciseSession] = []
@@ -50,6 +51,7 @@ struct MRDataModel {
             return sessions
         }
         
+        /// Finds all MRResistanceExerciseSessionDetails on the given date
         static func find(on date: NSDate) -> [MRResistanceExerciseSessionDetail] {
             
             func map(row: Row) -> (NSUUID, MRResistanceExerciseSession, MRResistanceExerciseSet) {
@@ -66,7 +68,7 @@ struct MRDataModel {
             for row in resistanceExerciseSessions
                 .join(resistanceExerciseSets, on: MRResistanceExerciseSetDataModel.sessionId == resistanceExerciseSessions.namespace(rowId))
                 .filter(resistanceExerciseSessions.namespace(timestamp) >= midnight && resistanceExerciseSessions.namespace(timestamp) < midnight.addDays(1))
-                .order(resistanceExerciseSessions.namespace(rowId), resistanceExerciseSessions.namespace(timestamp).desc) {
+                .order(resistanceExerciseSessions.namespace(timestamp).desc) {
             
                 let (id, session, set) = map(row)
                 if var ((lastId, _), sets) = r.last {
@@ -84,11 +86,17 @@ struct MRDataModel {
             return r
         }
 
+        /// Inserts a new ``session`` with the given row ``id``
         static func insert(id: NSUUID, session: MRResistanceExerciseSession) -> Void {
             resistanceExerciseSessions.insert(
                 rowId <- id,
                 timestamp <- session.startDate,
                 json <- JSON(session.marshal()))
+        }
+        
+        /// removes a row identified by row ``id``
+        static func delete(id: NSUUID) -> Void {
+            resistanceExerciseSessions.filter(rowId == id).limit(1).delete()
         }
         
     }
@@ -98,15 +106,6 @@ struct MRDataModel {
     ///
     struct MRResistanceExerciseSetDataModel {
         static let sessionId = Expression<NSUUID>("sessionId")
-        
-//        static func find(on date: NSDate) -> [MRResistanceExerciseSet] {
-//            let midnight = date.dateOnly
-//            var sets: [MRResistanceExerciseSet] = []
-//            for row in resistanceExerciseSets.filter(timestamp > midnight.addDays(-1) && timestamp < midnight.addDays(1)) {
-//                sets += [MRResistanceExerciseSet.unmarshal(row.get(json))]
-//            }
-//            return sets
-//        }
         
         static func insert(id: NSUUID, sessionId: NSUUID, set: MRResistanceExerciseSet) -> Void {
             resistanceExerciseSets.insert(

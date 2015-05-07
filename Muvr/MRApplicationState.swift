@@ -81,12 +81,19 @@ struct MRLoggedInApplicationState {
     /// Starts a resistance exercise session with the given properties
     ///
     func startSession(properties: MRResistanceExerciseSessionProperties) -> MRExercisingApplicationState {
-        let id = MRSessionId()
+        let id = NSUUID()
         let session = MRResistanceExerciseSession(startDate: NSDate(), properties: properties)
         MRDataModel.MRResistanceExerciseSessionDataModel.insert(id, session: session)
         return MRExercisingApplicationState(userId: userId, sessionId: id)
     }
     
+    func deleteSession(id: NSUUID) -> Void {
+//        if let x = MRDataModel.MRResistanceExerciseSessionDataModel.getServerId(id) {
+//            // TODO: Delete on server
+//        }
+        MRDataModel.MRResistanceExerciseSessionDataModel.delete(id)
+    }
+
     ///
     /// Returns the 100 most recent resistance exercise sessions, ordered by descending startDate
     ///

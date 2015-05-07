@@ -7,7 +7,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     
     private let calendar = JTCalendar()
     private var resistanceExerciseSessions: [MRResistanceExerciseSession] = []
-    private var resistanceExerciseSets: [MRResistanceExerciseSessionDetail] = []
+    private var resistanceExerciseSessionDetails: [MRResistanceExerciseSessionDetail] = []
     
     private struct Consts {
         static let Sessions = 0
@@ -40,7 +40,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case Consts.Sessions: return resistanceExerciseSets.count
+        case Consts.Sessions: return resistanceExerciseSessionDetails.count
         default: fatalError("Match error")
         }
     }
@@ -48,7 +48,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch (indexPath.section, indexPath.row) {
         case (Consts.Sessions, let x):
-            let ((_, session), sets) = resistanceExerciseSets[x]
+            let ((_, session), sets) = resistanceExerciseSessionDetails[x]
             let cell = tableView.dequeueReusableCellWithIdentifier("session") as! MRResistanceExerciseSetTableViewCell
             cell.setSession(session, andSets: sets)
             return cell
@@ -71,6 +71,21 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            switch (indexPath.section, indexPath.row) {
+            case (Consts.Sessions, let x):
+                let ((id, _), _) = resistanceExerciseSessionDetails[x]
+                MRApplicationState.loggedInState!.deleteSession(id)
+                resistanceExerciseSessionDetails = resistanceExerciseSessionDetails.filter { $0.0.0 != id }
+                tableView.reloadData()
+            default:
+                // noop
+                return
+            }
+        }
+    }
+    
     // MARK: JTCalendarDataSource
     
     func calendarHaveEvent(calendar: JTCalendar!, date: NSDate!) -> Bool {
@@ -78,7 +93,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     }
     
     func calendarDidDateSelected(calendar: JTCalendar!, date: NSDate!) {
-        resistanceExerciseSets = MRApplicationState.loggedInState!.getResistanceExerciseSessionDetails(on: date)
+        resistanceExerciseSessionDetails = MRApplicationState.loggedInState!.getResistanceExerciseSessionDetails(on: date)
         tableView.reloadData()
     }
 
