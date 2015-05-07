@@ -50,10 +50,17 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
         case (Consts.Sessions, let x):
             let ((_, session), sets) = resistanceExerciseSets[x]
             let cell = tableView.dequeueReusableCellWithIdentifier("session") as! MRResistanceExerciseSetTableViewCell
-            cell.title.text = ", ".join(session.properties.muscleGroupIds)
+            cell.setSession(session, andSets: sets)
             return cell
         default:
             fatalError(":(")
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        switch indexPath.section {
+        case Consts.Sessions: return 100
+        default: return 44
         }
     }
     

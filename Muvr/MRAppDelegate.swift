@@ -33,7 +33,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
         registerSettingsAndDelegates()
         
         // initialize the data models
-        MRDataModel.initialize()
+        MRDataModel.create()
         
         // main initialization
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

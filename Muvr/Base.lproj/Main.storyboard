@@ -15,9 +15,15 @@
                                 <action selector="stopSession" destination="yBW-jo-lQQ" id="hqZ-lo-p2c"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ZNv-Sr-wqo">
+                            <connections>
+                                <action selector="explicitAdd" destination="yBW-jo-lQQ" id="QIp-MD-86o"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="explicitAddButon" destination="ZNv-Sr-wqo" id="3Yi-xp-vcH"/>
                         <outlet property="stopSessionButton" destination="cT2-rc-lLc" id="HAZ-Yu-iGO"/>
                     </connections>
                 </pageViewController>

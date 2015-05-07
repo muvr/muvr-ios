@@ -13,19 +13,15 @@ typealias MRResistanceExerciseSessionDetail = ((NSUUID, MRResistanceExerciseSess
 /// make the strucrue of the data explicit.
 ///
 struct MRDataModel {
-    
+        
     /// The database instance
-    private static var database: Database {
+    internal static var database: Database {
         let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as! String
         let db = Database("\(path)/db.sqlite3")
         db.foreignKeys = true
         return db
     }
-    
-    internal static func initialize() {
-        MRDataModel.create(database)
-    }
-    
+        
     /// resistance exercise sessions table (1:N) to resistance exercise sets
     internal static let resistanceExerciseSessions = database["resistanceExerciseSessions"]
     /// resistance exercise sets table
@@ -77,7 +73,8 @@ struct MRDataModel {
                     if id != lastId {
                         r += [((id, session), [set])]
                     } else {
-                        sets += [set]
+                        r.removeLast()
+                        r += [((id, session), sets + [set])]
                     }
                 } else {
                     r += [((id, session), [set])]

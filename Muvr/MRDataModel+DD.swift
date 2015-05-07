@@ -37,9 +37,43 @@ extension MRDataModel.MRResistanceExerciseSessionDataModel {
 ///
 extension MRDataModel {
     
-    internal static func create(db: Database) -> Void {
-        db.create(table: resistanceExerciseSessions, temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.create)
-        db.create(table: resistanceExerciseSets,     temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSetDataModel.create)
+    enum CreateResult {
+        case Created()
+        case Recreated()
+        case UpgradedFrom(version: String)
+    }
+
+    private static func version() -> Int {
+        let dictionary = NSBundle.mainBundle().infoDictionary!
+        let version = dictionary["CFBundleShortVersionString"] as! String
+        
+        let nums = split(version) { $0 == "." }
+        assert(nums.count == 2)
+        
+        return 10 * nums[0].toInt()! + nums[1].toInt()!
+    }
+    
+    internal static func create() -> CreateResult {
+        func create() {
+            database.create(table: resistanceExerciseSessions, temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.create)
+            database.create(table: resistanceExerciseSets,     temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSetDataModel.create)
+            database.userVersion = version()
+        }
+        
+        func drop() {
+            database.drop(table: resistanceExerciseSets,     ifExists: true)
+            database.drop(table: resistanceExerciseSessions, ifExists: true)
+        }
+        
+        let needsUpgrade = database.userVersion < version() && database.userVersion > 0
+        
+        if needsUpgrade {
+            drop()
+            create()
+            return .Recreated()
+        }
+        create()
+        return .Created()
     }
     
 }

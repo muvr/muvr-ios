@@ -100,6 +100,7 @@
 
 /// computes the overall confidence for this set
 - (double)confidence;
+
 /// retrieves the given set at the index
 - (MRResistanceExercise *)objectAtIndexedSubscript:(int)idx;
 /// the exercise sets, containing ``MRClassifiedExercise``
