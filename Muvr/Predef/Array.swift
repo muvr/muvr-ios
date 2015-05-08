@@ -113,6 +113,14 @@ extension Array {
         return true
     }
     
+    func flatMap<B>(transform: Element -> B?) -> [B] {
+        var result: [B] = []
+        for e in self {
+            if let b = transform(e) { result += [b] }
+        }
+        return result
+    }
+    
     ///
     /// Returns ``true`` if the ``predicate`` evalues to ``true`` for at least
     /// one element in this array
@@ -132,5 +140,5 @@ extension Array {
         }
         return r
     }
-    
+        
 }

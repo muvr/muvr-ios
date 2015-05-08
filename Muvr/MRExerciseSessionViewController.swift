@@ -35,6 +35,8 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     /// the stop (back) button
     @IBOutlet var stopSessionButton: UIBarButtonItem!
+    /// the "add exercise button"
+    @IBOutlet var explicitAddButon: UIBarButtonItem!
 
     /// instantiate the pages and classification-completed VC, set up page control and timer
     /// start all configured sensors
@@ -88,6 +90,11 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         } else {
             end()
         }
+    }
+    
+    @IBAction
+    func explicitAdd() {
+        classificationCompletedViewController?.presentClassificationResult(self, state: state!, result: [], fromData: NSData())
     }
 
     /// end the session here and on all devices

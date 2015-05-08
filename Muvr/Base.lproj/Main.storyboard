@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="xl4-18-EiY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="xl4-18-EiY">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
@@ -15,9 +15,15 @@
                                 <action selector="stopSession" destination="yBW-jo-lQQ" id="hqZ-lo-p2c"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ZNv-Sr-wqo">
+                            <connections>
+                                <action selector="explicitAdd" destination="yBW-jo-lQQ" id="QIp-MD-86o"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="explicitAddButon" destination="ZNv-Sr-wqo" id="3Yi-xp-vcH"/>
                         <outlet property="stopSessionButton" destination="cT2-rc-lLc" id="HAZ-Yu-iGO"/>
                     </connections>
                 </pageViewController>
@@ -239,11 +245,11 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="session" rowHeight="91" id="rEo-e9-uvq" customClass="MRResistanceExerciseSetTableViewCell" customModule="Muvr" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="130" width="414" height="91"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="session" rowHeight="153" id="rEo-e9-uvq" userLabel="set" customClass="MRResistanceExerciseSetTableViewCell" customModule="Muvr" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="130" width="414" height="153"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rEo-e9-uvq" id="QgQ-Wu-qQD">
-                                            <rect key="frame" x="0.0" y="0.0" width="381" height="90"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="381" height="152"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dNG-pJ-CTf">
@@ -271,13 +277,13 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="chartView" destination="CKh-jY-dvf" id="rXU-XB-28x"/>
-                                            <outlet property="detailLabel" destination="dNG-pJ-CTf" id="Gei-1E-2AM"/>
-                                            <outlet property="titleLabel" destination="ezr-i8-dlt" id="np6-xO-Gh7"/>
+                                            <outlet property="chart" destination="CKh-jY-dvf" id="JIU-LN-AZu"/>
+                                            <outlet property="detail" destination="dNG-pJ-CTf" id="3gM-hG-kfj"/>
+                                            <outlet property="title" destination="ezr-i8-dlt" id="LGb-PF-Cnl"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="suggestion" textLabel="sTl-L0-Hgg" detailTextLabel="lwF-Gr-6c9" rowHeight="91" style="IBUITableViewCellStyleValue2" id="Q5R-Z2-SeX">
-                                        <rect key="frame" x="0.0" y="221" width="414" height="91"/>
+                                        <rect key="frame" x="0.0" y="283" width="414" height="91"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Q5R-Z2-SeX" id="gBZ-ez-liK">
                                             <rect key="frame" x="0.0" y="0.0" width="381" height="90"/>
@@ -299,7 +305,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="offlineSession" textLabel="FeQ-WN-ZnV" detailTextLabel="BH0-4d-cfC" rowHeight="91" style="IBUITableViewCellStyleValue2" id="uYg-k6-Ebl" customClass="OfflineSessionTableViewCell" customModule="Muvr" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="312" width="414" height="91"/>
+                                        <rect key="frame" x="0.0" y="374" width="414" height="91"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uYg-k6-Ebl" id="sCQ-p0-6FH">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>

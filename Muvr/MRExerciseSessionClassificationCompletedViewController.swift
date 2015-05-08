@@ -113,7 +113,7 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! MRClassificationCompletedTableViewCell
         let exerciseSet: MRResistanceExerciseSet? = cell.getExercise()
         let example = MRResistanceExerciseSetExample(classified: simpleClassified.map { MRResistanceExerciseSet($0) }, correct: exerciseSet, fusedSensorData: data)
-        state.postResistanceExample(example) { $0.cata(println, r: println) }
+        state.postResistanceExample(example)
         
         dismissViewControllerAnimated(true, completion: nil)
     }

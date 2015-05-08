@@ -32,6 +32,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
         // notifications et al
         registerSettingsAndDelegates()
         
+        // initialize the data models
+        MRDataModel.create()
+        
         // main initialization
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let lis = MRApplicationState.loggedInState {

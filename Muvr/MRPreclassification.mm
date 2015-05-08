@@ -34,6 +34,12 @@ public:
     return self;
 }
 
+- (instancetype)initWithSets:(NSArray *)sets {
+    self = [super init];
+    _sets = sets;
+    return self;
+}
+
 - (double)confidence {
     if (_sets.count == 0) return 0;
     
