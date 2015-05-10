@@ -135,7 +135,7 @@
 ///
 /// Push back the data received from the device at the given location and time
 ///
-- (void)pushBack:(NSData *)data from:(uint8_t)location;
+- (void)pushBack:(NSData *)data from:(uint8_t)location withHint:(MRResistanceExercise *)plannedExercise;
 
 ///
 /// exercise block delegate, whose methods get called when entire exercise block is detected.

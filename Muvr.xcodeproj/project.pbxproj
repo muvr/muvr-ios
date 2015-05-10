@@ -73,6 +73,9 @@
 		54820DFD1AF28D1900E3AEC2 /* Result+GetOrUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DFC1AF28D1900E3AEC2 /* Result+GetOrUnit.swift */; };
 		54820DFF1AF2971900E3AEC2 /* MRTypes+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DFE1AF2971900E3AEC2 /* MRTypes+Marshalling.swift */; };
 		548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 548225531AC57A3500EEEFCB /* MRPreclassification.mm */; };
+		5488F39D1AFF8C960086BF7B /* exercise_plan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5488F39B1AFF8C960086BF7B /* exercise_plan.cc */; };
+		5488F39E1AFF8C960086BF7B /* simple_exercise_plan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5488F39C1AFF8C960086BF7B /* simple_exercise_plan.cc */; };
+		5488F3A11AFF8E1A0086BF7B /* MRExercisePlan.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5488F3A01AFF8E1A0086BF7B /* MRExercisePlan.mm */; };
 		54B610851AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610841AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift */; };
 		54B610871AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610861AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift */; };
 		54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */; };
@@ -89,7 +92,6 @@
 		54F0DC551AC57E8D0061EC5D /* raw_sensor_data.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC391AC57E8D0061EC5D /* raw_sensor_data.cc */; };
 		54F0DC561AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC3B1AC57E8D0061EC5D /* CMakeLists.txt */; };
 		6FE82F244080A35A0F4E861B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D2F8864F1B66657A209A69 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		FC1AC7591ADE8CEA00832DE7 /* classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC7581ADE8CEA00832DE7 /* classifier.cc */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 		FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */; };
 		FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705E1AEA6CC900829357 /* svm_classifier.cc */; };
@@ -206,6 +208,11 @@
 		548225521AC57A3500EEEFCB /* MRPreclassification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPreclassification.h; sourceTree = "<group>"; };
 		548225531AC57A3500EEEFCB /* MRPreclassification.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRPreclassification.mm; sourceTree = "<group>"; };
 		548226BD1AC57CD300EEEFCB /* libMuvrPreclassification.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMuvrPreclassification.a; path = "MuvrPreclassification/build/Debug-iphoneos/libMuvrPreclassification.a"; sourceTree = "<group>"; };
+		5488F39B1AFF8C960086BF7B /* exercise_plan.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = exercise_plan.cc; path = "../../../../../muvr-preclassification/core/main/cc/exercise_plan.cc"; sourceTree = "<group>"; };
+		5488F39C1AFF8C960086BF7B /* simple_exercise_plan.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = simple_exercise_plan.cc; path = "../../../../../muvr-preclassification/core/main/cc/simple_exercise_plan.cc"; sourceTree = "<group>"; };
+		5488F39F1AFF8CA00086BF7B /* exercise_plan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = exercise_plan.h; path = "../../../../muvr-preclassification/core/include/exercise_plan.h"; sourceTree = "<group>"; };
+		5488F3A01AFF8E1A0086BF7B /* MRExercisePlan.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRExercisePlan.mm; sourceTree = "<group>"; };
+		5488F3A21AFF8E340086BF7B /* MRExercisePlan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRExercisePlan.h; sourceTree = "<group>"; };
 		54B610841AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSetIntensityView.swift; sourceTree = "<group>"; };
 		54B610861AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSetTableViewCell.swift; sourceTree = "<group>"; };
 		54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSession.swift; sourceTree = "<group>"; };
@@ -244,7 +251,6 @@
 		54F0DC471AC57E8D0061EC5D /* all_4.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all_4.csv; sourceTree = "<group>"; };
 		A04E9B04EE1C27607A68F65A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		FC1AC7581ADE8CEA00832DE7 /* classifier.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = classifier.cc; path = "../../../../../muvr-preclassification/core/main/cc/classifier.cc"; sourceTree = "<group>"; };
 		FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRUserDefaults.swift; sourceTree = "<group>"; };
 		FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = svm_classifier_factory.cc; path = "../../../../../muvr-preclassification/core/main/cc/svm_classifier_factory.cc"; sourceTree = "<group>"; };
 		FC39705E1AEA6CC900829357 /* svm_classifier.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = svm_classifier.cc; path = "../../../../../muvr-preclassification/core/main/cc/svm_classifier.cc"; sourceTree = "<group>"; };
@@ -365,8 +371,6 @@
 				541ABBAC1AC577E00056A81B /* LaunchScreen.xib */,
 				541ABBA11AC577E00056A81B /* Supporting Files */,
 				54F0DC221AC57E8D0061EC5D /* MuvrPreclassification */,
-				548225521AC57A3500EEEFCB /* MRPreclassification.h */,
-				548225531AC57A3500EEEFCB /* MRPreclassification.mm */,
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
 				FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */,
 				5403815E1AED28A0000C8B15 /* Settings.bundle */,
@@ -376,6 +380,10 @@
 				5455E7211AF90FF80049BB6B /* MRDataModel.swift */,
 				5455E7231AFA2D440049BB6B /* MRDataModel+DD.swift */,
 				5455E7251AFA30920049BB6B /* MRDataModel+CustomTypes.swift */,
+				548225521AC57A3500EEEFCB /* MRPreclassification.h */,
+				548225531AC57A3500EEEFCB /* MRPreclassification.mm */,
+				5488F3A01AFF8E1A0086BF7B /* MRExercisePlan.mm */,
+				5488F3A21AFF8E340086BF7B /* MRExercisePlan.h */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -501,6 +509,7 @@
 		54F0DC241AC57E8D0061EC5D /* include */ = {
 			isa = PBXGroup;
 			children = (
+				5488F39F1AFF8CA00086BF7B /* exercise_plan.h */,
 				FC3A4E8E1AF6E3EB00DABEC2 /* ensemble_classifier.h */,
 				5464EBC01AF4E21400B5317B /* classifier_loader.h */,
 				FC3970631AEA6CEB00829357 /* svm_classifier_factory.h */,
@@ -548,6 +557,8 @@
 		54F0DC341AC57E8D0061EC5D /* cc */ = {
 			isa = PBXGroup;
 			children = (
+				5488F39B1AFF8C960086BF7B /* exercise_plan.cc */,
+				5488F39C1AFF8C960086BF7B /* simple_exercise_plan.cc */,
 				FCEFD5B51AF8B315007C840F /* device_data_encoder.cc */,
 				FC3A4E8C1AF6E3DF00DABEC2 /* ensemble_classifier.cc */,
 				5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */,
@@ -555,7 +566,6 @@
 				5403814B1AEBBE45000C8B15 /* export.cc */,
 				FC39705E1AEA6CC900829357 /* svm_classifier.cc */,
 				FC39705F1AEA6CC900829357 /* svm.cc */,
-				FC1AC7581ADE8CEA00832DE7 /* classifier.cc */,
 				542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */,
 				542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */,
 				5443FA751AE69E1400CC229D /* sensor_data_fuser_rsde.cc */,
@@ -832,15 +842,16 @@
 				5455E72C1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift in Sources */,
 				5455E7221AF90FF80049BB6B /* MRDataModel.swift in Sources */,
 				FC3970621AEA6CC900829357 /* svm.cc in Sources */,
-				FC1AC7591ADE8CEA00832DE7 /* classifier.cc in Sources */,
 				548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */,
 				547E6A8D1AF36A10005DE00C /* MRMuscleGroup+Marshalling.swift in Sources */,
 				543374201AD010B1005864D7 /* Operators.swift in Sources */,
+				5488F39E1AFF8C960086BF7B /* simple_exercise_plan.cc in Sources */,
 				54B610851AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift in Sources */,
 				5433742F1AD01345005864D7 /* String+MD5.swift in Sources */,
 				5433741E1AD010B1005864D7 /* Dictionary.swift in Sources */,
 				541ABBA61AC577E00056A81B /* MRExerciseSessionDeviceDataViewController.swift in Sources */,
 				FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */,
+				5488F3A11AFF8E1A0086BF7B /* MRExercisePlan.mm in Sources */,
 				5403814C1AEBBE45000C8B15 /* export.cc in Sources */,
 				5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */,
 				5433741F1AD010B1005864D7 /* Either.swift in Sources */,
@@ -849,6 +860,7 @@
 				FC3A4E8D1AF6E3DF00DABEC2 /* ensemble_classifier.cc in Sources */,
 				5433741C1AD010B1005864D7 /* Array.swift in Sources */,
 				5455E72E1AFA6E6D0049BB6B /* NSDate+Marshalling.swift in Sources */,
+				5488F39D1AFF8C960086BF7B /* exercise_plan.cc in Sources */,
 				543374251AD01104005864D7 /* NSError+Convenience.swift in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
 				54B610911AF3C5B00034F2DD /* MRExerciseSessionViewController.swift in Sources */,

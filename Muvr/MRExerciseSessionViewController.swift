@@ -72,7 +72,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     /// configures the current session
-    func startSession(state: MRExercisingApplicationState) {
+    func startSession(state: MRExercisingApplicationState, withPlan plan: MRExercisePlan?) {
         self.state = state
         
         // TODO: load & configure the classifiers here
@@ -159,7 +159,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
         //NSLog("%@", data)
-        preclassification!.pushBack(data, from: 0)
+        preclassification!.pushBack(data, from: 0, withHint: nil)
     }
     
     func deviceSession(session: DeviceSession, simpleMessageReceivedFrom deviceId: DeviceId, key: UInt32, value: UInt8) {

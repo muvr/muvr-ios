@@ -45,7 +45,7 @@ class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate,
         if let ctrl = segue.destinationViewController as? MRExerciseSessionViewController,
            let muscleGroupsIds = sender as? [String] {
             let properties = MRResistanceExerciseSessionProperties(intendedIntensity: 1, muscleGroupIds: muscleGroupsIds)
-            ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties))
+            ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties), withPlan: nil)
         }
     }
 
