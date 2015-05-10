@@ -28,6 +28,8 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     private var preclassification: MRPreclassification?
     /// the state to handle the results of the classification
     private var state: MRExercisingApplicationState?
+    /// the plan
+    private var plan: MRExercisePlan?
     
     // TODO: add more sensors
     /// the Pebble interface
@@ -43,6 +45,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     override func viewDidLoad() {
         assert(preclassification != nil, "preclassification == nil: typically because startSession(...) has not been called")
         assert(state != nil, "state == nil: typically because startSession(...) has not been called")
+        assert(plan != nil, "plan == nil: typically because startSession(...) has not been called")
         
         super.viewDidLoad()
         dataSource = self
@@ -51,7 +54,12 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         navigationItem.prompt = "MRExerciseSessionViewController.elapsed".localized(0, 0)
         
         let storyboard = UIStoryboard(name: "Exercise", bundle: nil)
-        pageViewControllers = [MRExerciseSessionDeviceDataViewController.storyboardId, MRExerciseSessionLogViewController.storyboardId].map { storyboard.instantiateViewControllerWithIdentifier($0) as! UIViewController }
+        
+        let pvc = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionPlanViewController.storyboardId) as! MRExerciseSessionPlanViewController
+        pvc.setExercisePlan(plan!)
+        let dvc = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionDeviceDataViewController.storyboardId) as! MRExerciseSessionDeviceDataViewController
+        
+        pageViewControllers = [pvc, dvc]
         classificationCompletedViewController = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionClassificationCompletedViewController.storyboardId) as? MRExerciseSessionClassificationCompletedViewController
         
         setViewControllers([pageViewControllers.first!], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
@@ -74,6 +82,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     /// configures the current session
     func startSession(state: MRExercisingApplicationState, withPlan plan: MRExercisePlan) {
         self.state = state
+        self.plan = plan
         
         // TODO: load & configure the classifiers here
         preclassification = MRPreclassification()
@@ -94,7 +103,12 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     @IBAction
     func explicitAdd() {
-        classificationCompletedViewController?.presentClassificationResult(self, state: state!, result: [], fromData: NSData())
+        classificationCompletedViewController?.presentClassificationResult(self, result: [], fromData: NSData()) { example in
+            self.state!.postResistanceExample(example)
+            if let x = example.correct {
+                self.plan!.exercise(x.sets[0] as! MRResistanceExercise)
+            }
+        }
     }
 
     /// end the session here and on all devices
@@ -199,7 +213,12 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     // MARK: MRClassificationPipelineDelegate
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
-        classificationCompletedViewController?.presentClassificationResult(self, state: state!, result: result, fromData: data)
+        classificationCompletedViewController?.presentClassificationResult(self, result: result, fromData: data) { example in
+            self.state!.postResistanceExample(example)
+            if let x = example.correct {
+                self.plan!.exercise(x.sets[0] as! MRResistanceExercise)
+            }
+        }
 
         var classifiedSets = result as! [MRResistanceExerciseSet]
         classifiedSets.sort( { x, y in return x.confidence() > y.confidence() });

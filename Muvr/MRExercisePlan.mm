@@ -42,12 +42,20 @@ using namespace muvr;
             switch (item.exercise_item.tag) {
                 case muvr::planned_exercise::resistance:
                     _resistanceExercise = [MRResistanceExercise plannedExercise:item.exercise_item];
+                    break;
                 default:
                     @throw @"Match error";
             }
     }
     
     return self;
+}
+
+- (NSString*)description {
+    if (_rest != NULL) return @"rest";
+    if (_resistanceExercise != NULL) return @"r. exercise";
+    
+    @throw @"Bad match";
 }
 
 @end
@@ -68,6 +76,7 @@ using namespace muvr;
 @implementation MRExercisePlan {
     std::unique_ptr<exercise_plan> exercisePlan;
     NSArray *empty;
+    NSMutableArray *completed;
 }
 
 + (instancetype)planWithResistanceExercises:(NSArray *)resistanceExercises andDefaultDuration:(uint)duration {
@@ -88,6 +97,7 @@ using namespace muvr;
 - (instancetype)init {
     self = [super init];
     empty = [[NSArray alloc] init];
+    completed = [[NSMutableArray alloc] init];
     return self;
 }
 
@@ -115,8 +125,11 @@ using namespace muvr;
 }
 
 - (NSArray *)exercise:(MRResistanceExercise *)actual {
-    if (!exercisePlan) return empty;
     planned_exercise pe = [self fromMRResistanceExercise:actual];
+    if (!exercisePlan) {
+        [completed addObject:[[MRExercisePlanItem alloc] init:pe]];
+        return empty;
+    }
     return [self convert:exercisePlan->exercise(pe, 0)];
 }
 
@@ -126,7 +139,7 @@ using namespace muvr;
 }
 
 - (NSArray *)completed {
-    if (!exercisePlan) return empty;
+    if (!exercisePlan) return completed;
     return [self convert:exercisePlan->completed()];
 }
 

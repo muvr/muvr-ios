@@ -34,9 +34,9 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
     private var data: NSData!
     private var simpleClassified: [MRResistanceExercise] = []
     private var simpleOthers: [MRResistanceExercise] = []
-    private var state: MRExercisingApplicationState!
+    private var onComplete: (MRResistanceExerciseSetExample -> Void)!
    
-    func presentClassificationResult(parent: UIViewController, state: MRExercisingApplicationState, result: [AnyObject]!, fromData data: NSData!) -> Void {
+    func presentClassificationResult(parent: UIViewController, result: [AnyObject]!, fromData data: NSData!, onComplete: MRResistanceExerciseSetExample -> Void) -> Void {
         var classifiedSets = result as! [MRResistanceExerciseSet]
         classifiedSets.sort( { x, y in return x.confidence() > y.confidence() });
         
@@ -52,7 +52,7 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
         self.simpleClassified = simpleClassifiedSets
         self.simpleOthers = simpleOtherSets
         self.data = data
-        self.state = state
+        self.onComplete = onComplete
         
         parent.presentViewController(self, animated: true, completion: nil)
     }
@@ -113,8 +113,8 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! MRClassificationCompletedTableViewCell
         let exerciseSet: MRResistanceExerciseSet? = cell.getExercise()
         let example = MRResistanceExerciseSetExample(classified: simpleClassified.map { MRResistanceExerciseSet($0) }, correct: exerciseSet, fusedSensorData: data)
-        state.postResistanceExample(example)
-        
         dismissViewControllerAnimated(true, completion: nil)
+        
+        onComplete(example)
     }
 }
