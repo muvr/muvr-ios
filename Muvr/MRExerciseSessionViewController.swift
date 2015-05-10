@@ -72,7 +72,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     /// configures the current session
-    func startSession(state: MRExercisingApplicationState, withPlan plan: MRExercisePlan?) {
+    func startSession(state: MRExercisingApplicationState, withPlan plan: MRExercisePlan) {
         self.state = state
         
         // TODO: load & configure the classifiers here

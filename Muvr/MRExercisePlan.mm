@@ -67,6 +67,15 @@ using namespace muvr;
 
 @implementation MRExercisePlan {
     std::unique_ptr<exercise_plan> exercisePlan;
+    NSArray *empty;
+}
+
++ (instancetype)planWithResistanceExercises:(NSArray *)resistanceExercises andDefaultDuration:(uint)duration {
+    return [[MRExercisePlan alloc] initWithResistanceExercises:resistanceExercises andDefaultRestDuration:duration];
+}
+
++ (instancetype)adHoc {
+    return [[MRExercisePlan alloc] init];
 }
 
 - (planned_exercise)fromMRResistanceExercise:(MRResistanceExercise *)exercise {
@@ -74,6 +83,12 @@ using namespace muvr;
     double weight = exercise.weight != nil ? exercise.weight.doubleValue : 0;
     uint repetitions = exercise.repetitions != nil ? exercise.repetitions.intValue : 0;
     return planned_exercise(std::string(exercise.exercise.UTF8String), intensity, weight, repetitions);
+}
+
+- (instancetype)init {
+    self = [super init];
+    empty = [[NSArray alloc] init];
+    return self;
 }
 
 - (instancetype)initWithResistanceExercises:(NSArray *)resistanceExercises andDefaultRestDuration:(uint)duration {
@@ -100,23 +115,28 @@ using namespace muvr;
 }
 
 - (NSArray *)exercise:(MRResistanceExercise *)actual {
+    if (!exercisePlan) return empty;
     planned_exercise pe = [self fromMRResistanceExercise:actual];
     return [self convert:exercisePlan->exercise(pe, 0)];
 }
 
 - (NSArray *)rest {
+    if (!exercisePlan) return empty;
     return [self convert:exercisePlan->no_exercise(0)];
 }
 
 - (NSArray *)completed {
+    if (!exercisePlan) return empty;
     return [self convert:exercisePlan->completed()];
 }
 
 - (NSArray *)todo {
+    if (!exercisePlan) return empty;
     return [self convert:exercisePlan->todo()];
 }
 
 - (NSArray *)deviations {
+    if (!exercisePlan) return empty;
     NSMutableArray* result = [[NSMutableArray alloc] init];
     for (const auto &x : exercisePlan->deviations()) {
         [result addObject:[[MRExercisePlanDeviation alloc] init:x]];
@@ -125,6 +145,7 @@ using namespace muvr;
 }
 
 - (double)progress {
+    if (!exercisePlan) return 0;
     return exercisePlan->progress();
 }
 

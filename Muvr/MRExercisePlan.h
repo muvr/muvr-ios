@@ -43,7 +43,12 @@
 /// Construct this instance with the given array of ``MRResistanceExercise *`` instances, padding them
 /// with ``MRRest *`` instances of the given ``duration``.
 ///
-- (instancetype)initWithResistanceExercises:(NSArray *)resistanceExercises andDefaultRestDuration:(uint)duration;
++ (instancetype)planWithResistanceExercises:(NSArray *)resistanceExercises andDefaultDuration:(uint)duration;
+
+///
+/// Construct ad-hoc exercise plan
+///
++ (instancetype)adHoc;
 
 ///
 /// Submit exercise, return array of ``MRExercisePlanItem *``s still to be done
