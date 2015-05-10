@@ -51,11 +51,11 @@ using namespace muvr;
     return self;
 }
 
-- (NSString*)description {
+- (NSString *)description {
     if (_rest != NULL) return @"rest";
     if (_resistanceExercise != NULL) return @"r. exercise";
     
-    @throw @"Bad match";
+    @throw @"MRExercisePlanItem in illegal state.";
 }
 
 @end
@@ -133,7 +133,7 @@ using namespace muvr;
     return [self convert:exercisePlan->exercise(pe, 0)];
 }
 
-- (NSArray *)rest {
+- (NSArray *)noExercise {
     if (!exercisePlan) return empty;
     return [self convert:exercisePlan->no_exercise(0)];
 }

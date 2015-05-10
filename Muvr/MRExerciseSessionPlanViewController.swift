@@ -1,5 +1,23 @@
 import Foundation
 
+enum MRExerciseSessionPlanTableViewCellState {
+    case Completed
+    case Todo
+}
+
+///
+/// Cell that displays exercise plan item
+///
+class MRExerciseSessionPlanResistanceExerciseTableViewCell : UITableViewCell {
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var descriptionLabel: UILabel!
+    
+    func setResistanceExercise(exercise: MRResistanceExercise, state: MRExerciseSessionPlanTableViewCellState) -> Void {
+        
+    }
+    
+}
+
 ///
 /// Controls a view that displays the log of the current session
 ///
@@ -8,8 +26,8 @@ class MRExerciseSessionPlanViewController : UIViewController, UITableViewDelegat
     @IBOutlet var tableView: UITableView!
     
     private struct Consts {
-        static let Todo = 0
-        static let Completed = 1
+        static let Progress = 0
+        static let Deviations = 1
     }
     
     private var plan: MRExercisePlan?
@@ -25,8 +43,8 @@ class MRExerciseSessionPlanViewController : UIViewController, UITableViewDelegat
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case Consts.Todo: return plan!.todo().count
-        case Consts.Completed: return plan!.completed().count
+        case Consts.Progress: return plan!.todo.count + plan!.completed.count
+        case Consts.Deviations: return plan!.deviations.count
         default: fatalError("Match error")
         }
     }
@@ -37,22 +55,32 @@ class MRExerciseSessionPlanViewController : UIViewController, UITableViewDelegat
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case Consts.Todo: return "Todo".localized()
-        case Consts.Completed: return "Completed".localized()
+        case Consts.Progress: return "Progress".localized()
+        case Consts.Deviations: return "Deviations".localized()
         default: fatalError("Match error")
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch (indexPath.section, indexPath.row) {
-        case (Consts.Todo, let x):
-            let cell = tableView.dequeueReusableCellWithIdentifier("todo") as! UITableViewCell
-            let item = plan!.todo()[x] as! MRExercisePlanItem
-            cell.textLabel!.text = item.description
-            return cell
-        case (Consts.Completed, let x):
-            let cell = tableView.dequeueReusableCellWithIdentifier("completed") as! UITableViewCell
-            let item = plan!.completed()[x] as! MRExercisePlanItem
+        case (Consts.Progress, let x):
+            let items = plan!.todo.map { ($0 as! MRExercisePlanItem, MRExerciseSessionPlanTableViewCellState.Todo) } +
+                        plan!.completed.map { ($0 as! MRExercisePlanItem, MRExerciseSessionPlanTableViewCellState.Completed) }
+            let (item, state) = items[x]
+            if let resistanceExercise = item.resistanceExercise {
+                let cell = tableView.dequeueReusableCellWithIdentifier("resistanceExercise") as! MRExerciseSessionPlanResistanceExerciseTableViewCell
+                cell.setResistanceExercise(resistanceExercise, state: state)
+                return cell
+            }
+            if let rest = item.rest {
+                let cell = tableView.dequeueReusableCellWithIdentifier("rest") as! UITableViewCell
+                return cell
+            }
+            
+            fatalError("Bad item type")
+        case (Consts.Deviations, let x):
+            let cell = tableView.dequeueReusableCellWithIdentifier("deviation") as! UITableViewCell
+            let item = plan!.deviations[x] as! MRExercisePlanItem
             cell.textLabel!.text = item.description
             return cell
         default: fatalError("Match error")

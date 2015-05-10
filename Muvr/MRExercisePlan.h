@@ -58,27 +58,27 @@
 ///
 /// Submit rest, return array of ``MRExercisePlanItem *``s still to be done
 ///
-- (NSArray *)rest;
+- (NSArray *)noExercise;
 
 ///
 /// Return array of ``MRExercisePlanItem *``s that have already been done
 ///
-- (NSArray *)completed;
+@property (readonly) NSArray * completed;
 
 ///
 /// Return array of ``MRExercisePlanDeviation *``s
 ///
-- (NSArray *)deviations;
+@property (readonly) NSArray * deviations;
 
 ///
 /// Submit rest, return array of ``MRExercisePlanItem *``s still to be done
 ///
-- (NSArray *)todo;
+@property (readonly) NSArray * todo;
 
 ///
 /// Return the progress through the plan (0..1)
 ///
-- (double)progress;
+@property (readonly) double progress;
 
 @end
 
