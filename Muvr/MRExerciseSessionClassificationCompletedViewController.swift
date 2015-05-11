@@ -36,21 +36,9 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
     private var simpleOthers: [MRResistanceExercise] = []
     private var onComplete: (MRResistanceExerciseSetExample -> Void)!
    
-    func presentClassificationResult(parent: UIViewController, result: [AnyObject]!, fromData data: NSData!, onComplete: MRResistanceExerciseSetExample -> Void) -> Void {
-        var classifiedSets = result as! [MRResistanceExerciseSet]
-        classifiedSets.sort( { x, y in return x.confidence() > y.confidence() });
-        
-        let simple = classifiedSets.forall { $0.sets.count == 1 }
-        if !simple { fatalError("Cannot yet deal with drop-sets and super-sets") }
-        
-        let simpleClassifiedSets = classifiedSets.map { $0.sets[0] as! MRResistanceExercise }
-        let simpleOtherSets: [MRResistanceExercise] = [
-            MRResistanceExercise(exercise: "Bicep curl", andConfidence: 1),
-            MRResistanceExercise(exercise: "Tricep extension", andConfidence: 1),
-        ]
-        
-        self.simpleClassified = simpleClassifiedSets
-        self.simpleOthers = simpleOtherSets
+    func presentClassificationResult(parent: UIViewController, userClassification: MRExerciseSessionUserClassification, fromData data: NSData!, onComplete: MRResistanceExerciseSetExample -> Void) -> Void {
+        self.simpleClassified = userClassification.simpleClassifiedSets
+        self.simpleOthers = userClassification.simpleOtherSets
         self.data = data
         self.onComplete = onComplete
         

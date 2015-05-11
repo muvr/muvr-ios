@@ -103,11 +103,14 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     @IBAction
     func explicitAdd() {
-        classificationCompletedViewController?.presentClassificationResult(self, result: [], fromData: NSData()) { example in
-            self.state!.postResistanceExample(example)
-            if let x = example.correct {
-                self.plan!.exercise(x.sets[0] as! MRResistanceExercise)
-            }
+        let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, result: [])
+        classificationCompletedViewController?.presentClassificationResult(self, userClassification: uc, fromData: NSData(), onComplete: logExerciseExample)
+    }
+    
+    private func logExerciseExample(example: MRResistanceExerciseSetExample) {
+        self.state!.postResistanceExample(example)
+        if let x = example.correct {
+            x.sets.foreach { self.plan!.exercise($0 as! MRResistanceExercise) }
         }
     }
 
@@ -213,25 +216,9 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     // MARK: MRClassificationPipelineDelegate
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
-        classificationCompletedViewController?.presentClassificationResult(self, result: result, fromData: data) { example in
-            self.state!.postResistanceExample(example)
-            if let x = example.correct {
-                self.plan!.exercise(x.sets[0] as! MRResistanceExercise)
-            }
-        }
-
-        var classifiedSets = result as! [MRResistanceExerciseSet]
-        classifiedSets.sort( { x, y in return x.confidence() > y.confidence() });
-        let simple = classifiedSets.forall { $0.sets.count == 1 }
-        if simple {
-            let simpleOtherSets: [MRResistanceExercise] = [
-                MRResistanceExercise(exercise: "Bicep curl", andConfidence: 1),
-                MRResistanceExercise(exercise: "Tricep extension", andConfidence: 1),
-            ]
-
-            let simpleClassifiedSets = classifiedSets.map { $0.sets[0] as! MRResistanceExercise } + simpleOtherSets
-            pcd.notifySimpleClassificationCompleted(simpleClassifiedSets)
-        }
+        let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, result: [])
+        classificationCompletedViewController?.presentClassificationResult(self, userClassification: uc, fromData: data, onComplete: logExerciseExample)
+        pcd.notifySimpleClassificationCompleted(uc.simpleClassifiedSets)
     }
     
 }

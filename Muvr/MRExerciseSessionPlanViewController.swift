@@ -1,8 +1,20 @@
 import Foundation
+import Charts
 
 enum MRExerciseSessionPlanTableViewCellState {
     case Completed
     case Todo
+}
+
+///
+/// Bar charts
+///
+class MRResistanceExerciseChartView : BarChartView {
+    
+    func setResistanceExercise(exercise: MRResistanceExercise) {
+        
+    }
+    
 }
 
 ///
@@ -11,9 +23,11 @@ enum MRExerciseSessionPlanTableViewCellState {
 class MRExerciseSessionPlanResistanceExerciseTableViewCell : UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
+    @IBOutlet var chart: MRResistanceExerciseChartView!
     
     func setResistanceExercise(exercise: MRResistanceExercise, state: MRExerciseSessionPlanTableViewCellState) -> Void {
-        
+        titleLabel.text = exercise.exercise
+        chart.setResistanceExercise(exercise)
     }
     
 }
@@ -57,6 +71,14 @@ class MRExerciseSessionPlanViewController : UIViewController, UITableViewDelegat
         switch section {
         case Consts.Progress: return "Progress".localized()
         case Consts.Deviations: return "Deviations".localized()
+        default: fatalError("Match error")
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        switch indexPath.section {
+        case Consts.Progress: return 90
+        case Consts.Deviations: return 40
         default: fatalError("Match error")
         }
     }

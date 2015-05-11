@@ -84,7 +84,7 @@ struct MRLoggedInApplicationState {
         let id = NSUUID()
         let session = MRResistanceExerciseSession(startDate: NSDate(), properties: properties)
         MRDataModel.MRResistanceExerciseSessionDataModel.insert(id, session: session)
-        return MRExercisingApplicationState(userId: userId, sessionId: id)
+        return MRExercisingApplicationState(userId: userId, sessionId: id, session: session)
     }
     
     func deleteSession(id: NSUUID) -> Void {
@@ -116,10 +116,12 @@ struct MRLoggedInApplicationState {
 struct MRExercisingApplicationState {
     let sessionId: MRSessionId
     let userId: MRUserId
+    let session: MRResistanceExerciseSession
     
-    init(userId: MRUserId, sessionId: MRSessionId) {
+    init(userId: MRUserId, sessionId: MRSessionId, session: MRResistanceExerciseSession) {
         self.sessionId = sessionId
         self.userId = userId
+        self.session = session
     }
     
     func postResistanceExample(example: MRResistanceExerciseSetExample) -> Void {
