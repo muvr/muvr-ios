@@ -217,8 +217,10 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     // MARK: MRClassificationPipelineDelegate
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
         let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, result: [], planned: plan!.todo)
+        assert(!uc.combinedSimpleSets.isEmpty, "Attempt to present classification result with no options.")
+        
         classificationCompletedViewController?.presentClassificationResult(self, userClassification: uc, fromData: data, onComplete: logExerciseExample)
-        pcd.notifySimpleClassificationCompleted(uc.simpleClassifiedSets)
+        pcd.notifySimpleClassificationCompleted(uc.combinedSimpleSets)
     }
     
 }

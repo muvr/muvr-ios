@@ -1,18 +1,33 @@
 import Foundation
 
+///
+/// Implements the ordering and concatenating logic for the classification,
+/// taking into account the different sources of data
+///
 struct MRExerciseSessionUserClassification {
     var plannedSet: MRResistanceExerciseSet?
     var classifiedSets: [MRResistanceExerciseSet]
     var otherSets: [MRResistanceExerciseSet]
     
+    /// The combined simple view of the classified exercises
+    var combinedSimpleSets: [MRResistanceExercise] {
+        if let x = simplePlannedSet {
+            return simpleClassifiedSets + [x] + simpleOtherSets
+        }
+        return simpleClassifiedSets + simpleOtherSets
+    }
+    
+    /// The simple view of the classified exercises
     var simpleClassifiedSets: [MRResistanceExercise] {
         return simple(classifiedSets)
     }
     
+    /// The simple view of the other exercises
     var simpleOtherSets: [MRResistanceExercise] {
         return simple(otherSets)
     }
 
+    /// The simple view of the planned exercise
     var simplePlannedSet: MRResistanceExercise? {
         return plannedSet?.sets[0] as? MRResistanceExercise
     }
