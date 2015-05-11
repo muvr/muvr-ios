@@ -80,45 +80,40 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="resistanceExercise" rowHeight="76" id="nlh-qa-dCS" customClass="MRExerciseSessionPlanResistanceExerciseTableViewCell" customModule="Muvr" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="resistanceExercise" rowHeight="30" id="nlh-qa-dCS" customClass="MRExerciseSessionPlanResistanceExerciseTableViewCell" customModule="Muvr" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nlh-qa-dCS" id="tbQ-WH-XhR">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rest" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GOM-7S-Lsb">
-                                                    <rect key="frame" x="8" y="8" width="96" height="21"/>
+                                                    <rect key="frame" x="8" y="4" width="96" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9C-p6-jch">
-                                                    <rect key="frame" x="112" y="8" width="294" height="21"/>
+                                                    <rect key="frame" x="112" y="4" width="294" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LDd-ZU-4Qf" customClass="MRResistanceExerciseChartView" customModule="Muvr" customModuleProvider="target">
-                                                    <rect key="frame" x="112" y="29" width="294" height="38"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </view>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="chart" destination="LDd-ZU-4Qf" id="HBD-0g-7SN"/>
                                             <outlet property="descriptionLabel" destination="p9C-p6-jch" id="BWn-vD-XeF"/>
                                             <outlet property="titleLabel" destination="GOM-7S-Lsb" id="7qs-M1-Y9b"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rest" rowHeight="22" id="zxm-PJ-yOI">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rest" rowHeight="30" id="zxm-PJ-yOI">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zxm-PJ-yOI" id="VZi-3c-gGJ">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="kQt-Cy-fIU">
-                                                    <rect key="frame" x="109" y="10" width="297" height="3"/>
+                                                    <rect key="frame" x="109" y="14" width="297" height="3"/>
                                                 </progressView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rest" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H6m-cf-Sgm">
-                                                    <rect key="frame" x="8" y="0.0" width="96" height="21"/>
+                                                    <rect key="frame" x="8" y="4" width="96" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -126,7 +121,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="deviation" textLabel="ZxL-hV-8LQ" detailTextLabel="KkL-MF-zAD" style="IBUITableViewCellStyleValue2" id="ORH-lg-Sh0">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="deviation" textLabel="ZxL-hV-8LQ" detailTextLabel="KkL-MF-zAD" rowHeight="30" style="IBUITableViewCellStyleValue2" id="ORH-lg-Sh0">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ORH-lg-Sh0" id="gFl-R3-VuT">
                                             <autoresizingMask key="autoresizingMask"/>

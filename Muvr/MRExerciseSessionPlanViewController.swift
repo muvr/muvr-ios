@@ -7,27 +7,16 @@ enum MRExerciseSessionPlanTableViewCellState {
 }
 
 ///
-/// Bar charts
-///
-class MRResistanceExerciseChartView : BarChartView {
-    
-    func setResistanceExercise(exercise: MRResistanceExercise) {
-        
-    }
-    
-}
-
-///
 /// Cell that displays exercise plan item
 ///
 class MRExerciseSessionPlanResistanceExerciseTableViewCell : UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
-    @IBOutlet var chart: MRResistanceExerciseChartView!
     
     func setResistanceExercise(exercise: MRResistanceExercise, state: MRExerciseSessionPlanTableViewCellState) -> Void {
-        titleLabel.text = exercise.exercise
-        chart.setResistanceExercise(exercise)
+        titleLabel.text = "Intensity"
+        descriptionLabel.text = exercise.localisedTitle
+        if state == .Completed { titleLabel.textColor = UIColor.greenColor() }
     }
     
 }
@@ -77,8 +66,8 @@ class MRExerciseSessionPlanViewController : UIViewController, UITableViewDelegat
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch indexPath.section {
-        case Consts.Progress: return 90
-        case Consts.Deviations: return 40
+        case Consts.Progress: return 30
+        case Consts.Deviations: return 30
         default: fatalError("Match error")
         }
     }
@@ -102,8 +91,8 @@ class MRExerciseSessionPlanViewController : UIViewController, UITableViewDelegat
             fatalError("Bad item type")
         case (Consts.Deviations, let x):
             let cell = tableView.dequeueReusableCellWithIdentifier("deviation") as! UITableViewCell
-            let item = plan!.deviations[x] as! MRExercisePlanItem
-            cell.textLabel!.text = item.description
+            let item = plan!.deviations[x] as! MRExercisePlanDeviation
+            cell.detailTextLabel!.text = item.description
             return cell
         default: fatalError("Match error")
         }

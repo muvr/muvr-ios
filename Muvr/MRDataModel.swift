@@ -45,6 +45,14 @@ struct MRDataModel {
     internal static let locid = Expression<String>("locid")
     
     ///
+    /// Resistance exercise plans
+    ///
+    struct MRResistanceExercisePlanDataModel {
+        static let defaultPlans: [MRResistanceExercisePlan] = MRDataModel.loadArray("resistanceplans", unmarshal: MRResistanceExercisePlan.unmarshal)!.1
+            
+    }
+    
+    ///
     /// Muscle group data model
     ///
     struct MRMuscleGroupDataModel {

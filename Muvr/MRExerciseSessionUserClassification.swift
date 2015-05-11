@@ -23,10 +23,9 @@ struct MRExerciseSessionUserClassification {
         
         var exercises: [MRResistanceExercise] = []
         for mg in properties.muscleGroupIds {
-            MRApplicationState.localisedMuscleGroups
-                .filter { $0.id == mg }
-                .flatMap { $0.exercises }
-                .forEach { x in exercises.append(MRResistanceExercise(exercise: x.title, andConfidence: 1)) }
+            MRApplicationState.exercises.forEach { exercise in
+                if exercise.isInMuscleGroupId(mg) { exercises.append(MRResistanceExercise(exercise: exercise.id, andConfidence: 1)) }
+            }
         }
         
         otherSets = exercises.map { MRResistanceExerciseSet($0) }

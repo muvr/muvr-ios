@@ -52,8 +52,12 @@ using namespace muvr;
 }
 
 - (NSString *)description {
-    if (_rest != NULL) return @"rest";
-    if (_resistanceExercise != NULL) return @"r. exercise";
+    if (_rest != NULL) {
+        return [NSString stringWithFormat:@"%f", _rest.duration];
+    }
+    if (_resistanceExercise != NULL) {
+        return [NSString stringWithFormat:@"%@, %@ reps, %@ weight, %@ intensity", _resistanceExercise.exercise, _resistanceExercise.repetitions, _resistanceExercise.weight, _resistanceExercise.intensity];
+    }
     
     @throw @"MRExercisePlanItem in illegal state.";
 }
@@ -69,6 +73,10 @@ using namespace muvr;
     _planned = [[MRExercisePlanItem alloc] init:deviation.planned];
     
     return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ x %@", _planned.description, _actual.description];
 }
 
 @end

@@ -8,4 +8,8 @@ struct MRExercise {
     var title: String
     //var description: String
     //var video: NSURL
+    
+    func isInMuscleGroupId(muscleGroupId: MRMuscleGroupId) -> Bool {
+        return startsWith(id, muscleGroupId)
+    }
 }

@@ -6,9 +6,8 @@ import Foundation
 ///
 /// We use these details to configure the movement and exercise deciders, and the classifiers.
 ///
-class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet
-    var tableView: UITableView!
+class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet var tableView: UITableView!
     
     // MARK: UITableViewDelegate
     func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
@@ -16,7 +15,7 @@ class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate,
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = MRApplicationState.localisedMuscleGroups[indexPath.row]
+        let cell = MRApplicationState.muscleGroups[indexPath.row]
         performSegueWithIdentifier("exercise", sender: [cell.id])
     }
     
@@ -26,15 +25,15 @@ class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate,
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MRApplicationState.localisedMuscleGroups.count
+        return MRApplicationState.muscleGroups.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell  {
-        let data = MRApplicationState.localisedMuscleGroups[indexPath.row]
+        let data = MRApplicationState.muscleGroups[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier("default") as! UITableViewCell
         
         cell.textLabel!.text = data.title
-        cell.detailTextLabel!.text = ", ".join(data.exercises.map { $0.title })
+        cell.detailTextLabel!.text = ", ".join(data.localisedExercises.map { $0.title })
         
         return cell
     }
@@ -44,7 +43,7 @@ class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate,
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let ctrl = segue.destinationViewController as? MRExerciseSessionViewController,
            let muscleGroupsIds = sender as? [String] {
-            let properties = MRResistanceExerciseSessionProperties(intendedIntensity: 1, muscleGroupIds: muscleGroupsIds)
+            let properties = MRResistanceExerciseSessionProperties(intendedIntensity: 0.5, muscleGroupIds: muscleGroupsIds)
             ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties), withPlan: MRExercisePlan.adHoc())
         }
     }

@@ -6,13 +6,19 @@ import SQLite
 ///
 struct MRApplicationState {
     
-    static var localisedMuscleGroups: [MRLocalisedMuscleGroup] {
-        let mgs = MRDataModel.MRMuscleGroupDataModel.get(NSLocale.currentLocale())
-        let exs = MRDataModel.MRExerciseDataModel.get(NSLocale.currentLocale())
-        return mgs.map { mg in
-            let exercises = exs.filter { x in return mg.exercises.exists { $0 == x.id } }
-            return MRLocalisedMuscleGroup(id: mg.id, title: mg.title, exercises: exercises)
-        }
+    static var muscleGroups: [MRMuscleGroup] {
+        return MRDataModel.MRMuscleGroupDataModel.get(NSLocale.currentLocale())
+    }
+    
+    static var exercises: [MRExercise] {
+        return MRDataModel.MRExerciseDataModel.get(NSLocale.currentLocale())
+    }
+    
+    static func joinMuscleGroups(ids: [MRMuscleGroupId]) -> String {
+        return ", ".join(muscleGroups.flatMap { (mg: MRMuscleGroup) -> String? in
+            if (ids.exists { $0 == mg.id }) { return mg.title }
+            return nil
+        })
     }
     
     static var deviceToken: NSData?
@@ -96,9 +102,6 @@ struct MRLoggedInApplicationState {
     }
     
     func deleteSession(id: NSUUID) -> Void {
-//        if let x = MRDataModel.MRResistanceExerciseSessionDataModel.getServerId(id) {
-//            // TODO: Delete on server
-//        }
         MRDataModel.MRResistanceExerciseSessionDataModel.delete(id)
     }
 
@@ -114,6 +117,16 @@ struct MRLoggedInApplicationState {
     ///
     func getResistanceExerciseSessionDetails(on date: NSDate) -> [MRResistanceExerciseSessionDetail] {
         return MRDataModel.MRResistanceExerciseSessionDataModel.find(on: date)
+    }
+    
+    ///
+    /// Returns ``MRResistanceExercisePlan``s that should happen on the given ``date``
+    ///
+    func getSimpleResistanceExercisePlansOn(on date: NSDate) -> [MRResistanceExercisePlan] {
+        if isAnonymous {
+            return MRDataModel.MRResistanceExercisePlanDataModel.defaultPlans
+        }
+        fatalError("Implement me")
     }
     
 }

@@ -1,6 +1,40 @@
-[
-  {"id":"arms/bicep-curl", "title":"Bicep curl"},
-  {"id":"arms/tricep-press", "title":"Tricep press"},
-  {"id":"chest/incline-press", "title":"Incline press"},
-  {"id":"chest/cable-cross-over", "title":"Cable cross-over"}
-]
+ [
+  {"id":"arms/barbell-biceps-curl",          "title":"Barbell biceps curl"},
+  {"id":"arms/dumbbell-biceps-curl",         "title":"Dumbbell biceps curl"},
+  {"id":"arms/incline-dumbbell-curl",        "title":"Incline dumbbell curl"},
+  {"id":"arms/reverse-barbell-curl",         "title":"Reverse barbell curl"},
+  {"id":"arms/preacher-curl",                "title":"Preacher curl"},
+  {"id":"arms/isometric-dumbbell-curl",      "title":"Isometric dumbbell curl"},
+  {"id":"arms/cable-rope-biceps-curl",       "title":"Cable rope biceps curl"},
+  
+  {"id":"arms/lying-triceps-extensions",     "title":"Lying triceps extensions"},
+  {"id":"arms/overhead-triceps-press",       "title":"Overhead triceps press"},
+  {"id":"arms/dip",                          "title":"Dips / bench dip"},
+  {"id":"arms/cable-bar-triceps-extension",  "title":"Cable bar triceps extension"},
+  {"id":"arms/cable-rope-triceps-extension", "title":"Cable rope triceps extension"},
+  {"id":"arms/cable-triceps-kickback",       "title":"Cable triceps kickback"},
+  
+  {"id":"chest/dumbbell-fly",                "title":"Dumbbell fly"},
+  {"id":"chest/barbell-bench-press",         "title":"Barbell bench press"},
+  {"id":"chest/dumbbell-bench-press",        "title":"Dumbbell bench press"},
+  {"id":"chest/pushups",                     "title":"Pushups"},
+  {"id":"chest/leverage-chest-press",        "title":"Leverage chest press"},
+  {"id":"chest/cable-crossover",             "title":"Cable cross-overs"},
+  {"id":"chest/dumbbell-pullover" ,          "title":"Dumbbell pull-overs"},
+  
+  {"id":"back/pullup",                       "title":"Pull-up"},
+  {"id":"back/barbell-row",                  "title":"Barbell row"},
+  {"id":"back/reverse-grip-pulldown",        "title":"Reverse grip pull-down"},
+  {"id":"back/lat-pulldown",                 "title":"Lat pull-down"},
+  {"id":"back/one-arm-dumbbell-row",         "title":"One arm dumbbell row"},
+  {"id":"back/close-grip-seated-cable-row",  "title":"Close-grip seated cable row"},
+  {"id":"back/back-extension",               "title":"Back extension"},
+  {"id":"back/deadlift",                     "title":"Deadlift"},
+  
+  {"id":"shoulders/overhead-press",          "title":"Overhead press"},
+  {"id":"shoulders/dumbbell-fly",            "title":"Bumbbell fly"},
+  {"id":"shoulders/face-pull",               "title":"Face pull"},
+  {"id":"shoulders/high-pull",               "title":"High pull"},
+  {"id":"shoulders/dips",                    "title":"Dips"},
+  {"id":"shoulders/dumbbell-raise",          "title":"Dumbbell raise"}
+  ]

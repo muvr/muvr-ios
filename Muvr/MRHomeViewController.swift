@@ -8,9 +8,11 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     private let calendar = JTCalendar()
     private var resistanceExerciseSessions: [MRResistanceExerciseSession] = []
     private var resistanceExerciseSessionDetails: [MRResistanceExerciseSessionDetail] = []
+    private var resistanceExercisePlans: [MRResistanceExercisePlan] = []
     
     private struct Consts {
         static let Sessions = 0
+        static let ResistancePlans = 1
     }
     
     override func viewDidLoad() {
@@ -35,12 +37,13 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     
     // MARK: UITableViewDataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case Consts.Sessions: return resistanceExerciseSessionDetails.count
+        case Consts.ResistancePlans: return resistanceExercisePlans.count
         default: fatalError("Match error")
         }
     }
@@ -51,6 +54,12 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
             let ((_, session), sets) = resistanceExerciseSessionDetails[x]
             let cell = tableView.dequeueReusableCellWithIdentifier("session") as! MRResistanceExerciseSetTableViewCell
             cell.setSession(session, andSets: sets)
+            return cell
+        case (Consts.ResistancePlans, let x):
+            let plan = resistanceExercisePlans[x]
+            let cell = tableView.dequeueReusableCellWithIdentifier("resistancePlan") as! UITableViewCell
+            cell.textLabel!.text = MRApplicationState.joinMuscleGroups(plan.muscleGroupIds)
+            cell.detailTextLabel!.text = plan.title
             return cell
         default:
             fatalError(":(")
@@ -67,7 +76,26 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case Consts.Sessions: return "Sessions".localized()
+        case Consts.ResistancePlans: return "Resistance plans".localized()
         default: fatalError("Match error")
+        }
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        switch (indexPath.section, indexPath.row) {
+        case (Consts.Sessions, let x):
+            // noop
+            return
+        case (Consts.ResistancePlans, let x):
+            performSegueWithIdentifier("startPlan", sender: x)
+        default: fatalError("Match error")
+        }
+    }
+    
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        switch indexPath.section {
+        case Consts.Sessions: return UITableViewCellEditingStyle.Delete
+        default: return UITableViewCellEditingStyle.None
         }
     }
     
@@ -95,7 +123,20 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     
     func calendarDidDateSelected(calendar: JTCalendar!, date: NSDate!) {
         resistanceExerciseSessionDetails = MRApplicationState.loggedInState!.getResistanceExerciseSessionDetails(on: date)
+        resistanceExercisePlans = MRApplicationState.loggedInState!.getSimpleResistanceExercisePlansOn(on: date)
         tableView.reloadData()
+    }
+    
+    // MARK: Transition to exercising
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let ctrl = segue.destinationViewController as? MRExerciseSessionViewController,
+            let planIndex = sender as? Int {
+                let plan = resistanceExercisePlans[planIndex]
+                let properties = MRResistanceExerciseSessionProperties(intendedIntensity: plan.intendedIntensity, muscleGroupIds: plan.muscleGroupIds)
+                ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties),
+                    withPlan: MRExercisePlan(resistanceExercises: plan.exercises, andDefaultDuration: 20000))
+        }
     }
 
 }

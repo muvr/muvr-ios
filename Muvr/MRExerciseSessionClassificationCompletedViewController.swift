@@ -83,7 +83,7 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
         func simpleCell(exercise: MRResistanceExercise) -> UITableViewCell {
             let cell = tableView.dequeueReusableCellWithIdentifier("simpleExercise")! as! MRClassificationCompletedTableViewCell
             cell.setExercise(MRResistanceExerciseSet(exercise))
-            cell.textLabel?.text = exercise.exercise
+            cell.textLabel?.text = exercise.localisedTitle
             cell.detailTextLabel?.text = "Detail here"
             return cell
         }

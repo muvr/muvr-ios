@@ -29,7 +29,7 @@
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C4K-Hl-5f2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="925" y="1226"/>
+            <point key="canvasLocation" x="-97" y="2235"/>
         </scene>
         <!--Login-->
         <scene sceneID="vfe-T7-72L">
@@ -136,11 +136,11 @@
             </objects>
             <point key="canvasLocation" x="220" y="-768"/>
         </scene>
-        <!--Exercise-->
+        <!--Quick Start-->
         <scene sceneID="G8e-se-sfO">
             <objects>
                 <navigationController id="7Kg-NS-5ll" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Exercise" image="exercise" id="jCc-Zu-5JM"/>
+                    <tabBarItem key="tabBarItem" title="Quick Start" image="exercise" id="jCc-Zu-5JM"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="VuS-bU-Rxv">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -156,7 +156,7 @@
         <!--Session properties-->
         <scene sceneID="Ahw-Ow-znE">
             <objects>
-                <viewController id="f8O-Bh-A1k" userLabel="Session properties" customClass="MRSessionPropertiesViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="f8O-Bh-A1k" userLabel="Session properties" customClass="MRExerciseSessionAdHocViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kwg-wR-iab">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -282,7 +282,7 @@
                                             <outlet property="title" destination="ezr-i8-dlt" id="LGb-PF-Cnl"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="suggestion" textLabel="sTl-L0-Hgg" detailTextLabel="lwF-Gr-6c9" rowHeight="91" style="IBUITableViewCellStyleValue2" id="Q5R-Z2-SeX">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="resistancePlan" textLabel="sTl-L0-Hgg" detailTextLabel="lwF-Gr-6c9" rowHeight="91" style="IBUITableViewCellStyleValue2" id="Q5R-Z2-SeX">
                                         <rect key="frame" x="0.0" y="283" width="414" height="91"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Q5R-Z2-SeX" id="gBZ-ez-liK">
@@ -296,28 +296,6 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lwF-Gr-6c9">
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="offlineSession" textLabel="FeQ-WN-ZnV" detailTextLabel="BH0-4d-cfC" rowHeight="91" style="IBUITableViewCellStyleValue2" id="uYg-k6-Ebl" customClass="OfflineSessionTableViewCell" customModule="Muvr" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="374" width="414" height="91"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uYg-k6-Ebl" id="sCQ-p0-6FH">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FeQ-WN-ZnV">
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BH0-4d-cfC">
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -352,6 +330,7 @@
                     <connections>
                         <outlet property="calendarContentView" destination="PXY-D9-26S" id="TkW-Gf-xIe"/>
                         <outlet property="tableView" destination="Tp4-us-78c" id="Qcz-gf-3I6"/>
+                        <segue destination="yBW-jo-lQQ" kind="push" identifier="startPlan" id="aYh-b3-m7Y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cRt-Me-hFf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -368,4 +347,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="aYh-b3-m7Y"/>
+    </inferredMetricsTieBreakers>
 </document>
