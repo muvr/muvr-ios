@@ -27,21 +27,25 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
     private struct Consts {
         static let Head = 0
         static let Tail = 1
-        static let Others = 2
-        static let None = 3
+        static let Planned = 2
+        static let Others = 3
+        static let None = 4
     }
     
     private var data: NSData!
     private var simpleClassified: [MRResistanceExercise] = []
     private var simpleOthers: [MRResistanceExercise] = []
+    private var simplePlanned: MRResistanceExercise? = nil
     private var onComplete: (MRResistanceExerciseSetExample -> Void)!
    
     func presentClassificationResult(parent: UIViewController, userClassification: MRExerciseSessionUserClassification, fromData data: NSData!, onComplete: MRResistanceExerciseSetExample -> Void) -> Void {
         self.simpleClassified = userClassification.simpleClassifiedSets
         self.simpleOthers = userClassification.simpleOtherSets
+        self.simplePlanned = userClassification.simplePlannedSet
         self.data = data
         self.onComplete = onComplete
         
+        tableView.reloadData()
         parent.presentViewController(self, animated: true, completion: nil)
     }
     
@@ -62,8 +66,9 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case Consts.Head: return simpleClassified.count > 0 ? 1 : 0;
-        case Consts.Tail: return simpleClassified.count > 1 ? simpleClassified.count - 1 : 0;
+        case Consts.Head: return simpleClassified.count > 0 ? 1 : 0
+        case Consts.Tail: return simpleClassified.count > 1 ? simpleClassified.count - 1 : 0
+        case Consts.Planned: return simplePlanned != nil ? 1 : 0
         case Consts.Others: return simpleOthers.count
         case Consts.None: return 1
         default: fatalError("Match error")
@@ -72,9 +77,10 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case Consts.Head where simpleClassified.count > 0 : return "Best match"
-        case Consts.Tail where simpleClassified.count > 1 : return "Alternatives"
-        case Consts.Others where !simpleOthers.isEmpty: return "Others"
+        case Consts.Head where simpleClassified.count > 0 : return "Best match".localized()
+        case Consts.Tail where simpleClassified.count > 1 : return "Alternatives".localized()
+        case Consts.Planned where simplePlanned != nil: return "Planned".localized()
+        case Consts.Others where !simpleOthers.isEmpty: return "Others".localized()
         default: return nil
         }
     }
@@ -91,6 +97,7 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
         switch (indexPath.section, indexPath.row) {
         case (Consts.None, _): return tableView.dequeueReusableCellWithIdentifier("none")! as! MRClassificationCompletedTableViewCell
         case (Consts.Head, _): return simpleCell(simpleClassified[0])
+        case (Consts.Planned, _): return simpleCell(simplePlanned!)
         case (Consts.Tail, let x): return simpleCell(simpleClassified[x - 1])
         case (Consts.Others, let x): return simpleCell(simpleOthers[x])
         default: fatalError("Match error")

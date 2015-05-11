@@ -1,6 +1,7 @@
 import Foundation
 
 struct MRExerciseSessionUserClassification {
+    var plannedSet: MRResistanceExerciseSet?
     var classifiedSets: [MRResistanceExerciseSet]
     var otherSets: [MRResistanceExerciseSet]
     
@@ -11,6 +12,10 @@ struct MRExerciseSessionUserClassification {
     var simpleOtherSets: [MRResistanceExercise] {
         return simple(otherSets)
     }
+
+    var simplePlannedSet: MRResistanceExercise? {
+        return plannedSet?.sets[0] as? MRResistanceExercise
+    }
     
     private func simple(set: [MRResistanceExerciseSet]) -> [MRResistanceExercise] {
         let simple = set.forAll { $0.sets.count == 1 }
@@ -18,8 +23,14 @@ struct MRExerciseSessionUserClassification {
         return set.map { $0.sets[0] as! MRResistanceExercise }
     }
 
-    init(properties: MRResistanceExerciseSessionProperties, result: [AnyObject]) {
+    init(properties: MRResistanceExerciseSessionProperties, result: [AnyObject], planned: [AnyObject]) {
         classifiedSets = (result as! [MRResistanceExerciseSet]).sorted( { x, y in return x.confidence() > y.confidence() });
+        for planItem in (planned as! [MRExercisePlanItem]) {
+            if let plannedExercise = planItem.resistanceExercise {
+                plannedSet = MRResistanceExerciseSet(plannedExercise)
+                break
+            }
+        }
         
         var exercises: [MRResistanceExercise] = []
         for mg in properties.muscleGroupIds {

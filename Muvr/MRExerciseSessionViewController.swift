@@ -103,7 +103,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     @IBAction
     func explicitAdd() {
-        let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, result: [])
+        let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, result: [], planned: plan!.todo)
         classificationCompletedViewController?.presentClassificationResult(self, userClassification: uc, fromData: NSData(), onComplete: logExerciseExample)
     }
     
@@ -216,7 +216,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     // MARK: MRClassificationPipelineDelegate
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
-        let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, result: [])
+        let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, result: [], planned: plan!.todo)
         classificationCompletedViewController?.presentClassificationResult(self, userClassification: uc, fromData: data, onComplete: logExerciseExample)
         pcd.notifySimpleClassificationCompleted(uc.simpleClassifiedSets)
     }
