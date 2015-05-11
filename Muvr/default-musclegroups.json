@@ -1,0 +1,4 @@
+[
+  {"id":"arms", "title":"Arms", "exercises":["arms/bicep-curl", "arms/tricep-press"]},
+  {"id":"chest", "title":"Chest", "exercises":["chest/incline-press", "chest/cable-cross-over"]}
+]

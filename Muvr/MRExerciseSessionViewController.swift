@@ -110,7 +110,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     private func logExerciseExample(example: MRResistanceExerciseSetExample) {
         self.state!.postResistanceExample(example)
         if let x = example.correct {
-            x.sets.foreach { self.plan!.exercise($0 as! MRResistanceExercise) }
+            x.sets.forEach { self.plan!.exercise($0 as! MRResistanceExercise) }
         }
     }
 

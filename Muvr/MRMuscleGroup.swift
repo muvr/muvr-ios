@@ -17,5 +17,5 @@ struct MRMuscleGroup {
     /// the title
     var title: String
     /// the exercises
-    var exercises: [String]
+    var exercises: [MRExerciseId]
 }

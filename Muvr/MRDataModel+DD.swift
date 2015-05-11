@@ -23,6 +23,7 @@ extension MRDataModel.MRResistanceExerciseSetDataModel {
 /// The data definition for resistance exercise session
 ///
 extension MRDataModel.MRResistanceExerciseSessionDataModel {
+    
     private static func create(t: SchemaBuilder) -> Void {
         t.column(MRDataModel.rowId, primaryKey: true)
         t.column(MRDataModel.serverId)
@@ -30,6 +31,27 @@ extension MRDataModel.MRResistanceExerciseSessionDataModel {
         t.column(MRDataModel.json)
     }
     
+}
+
+///
+/// The data definition for muscle groups
+///
+extension MRDataModel.MRMuscleGroupDataModel {
+    
+    private static func create(t: SchemaBuilder) -> Void {
+        t.column(MRDataModel.locid, primaryKey: true)
+        t.column(MRDataModel.json)
+    }
+    
+}
+
+extension MRDataModel.MRExerciseDataModel {
+
+    private static func create(t: SchemaBuilder) -> Void {
+        t.column(MRDataModel.locid, primaryKey: true)
+        t.column(MRDataModel.json)
+    }
+
 }
 
 ///
@@ -57,12 +79,25 @@ extension MRDataModel {
         func create() {
             database.create(table: resistanceExerciseSessions, temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.create)
             database.create(table: resistanceExerciseSets,     temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSetDataModel.create)
+            database.create(table: muscleGroups,               temporary: false, ifNotExists: true, MRDataModel.MRMuscleGroupDataModel.create)
+            database.create(table: exercises,                  temporary: false, ifNotExists: true, MRDataModel.MRExerciseDataModel.create)
             database.userVersion = version()
         }
         
         func drop() {
             database.drop(table: resistanceExerciseSets,     ifExists: true)
             database.drop(table: resistanceExerciseSessions, ifExists: true)
+            database.drop(index: exercises,                  ifExists: true)
+            database.drop(index: muscleGroups,               ifExists: true)
+        }
+        
+        func setDefaultData() {
+            if let exercises = loadArray("exercises", unmarshal: MRExercise.unmarshal) {
+                MRDataModel.MRExerciseDataModel.set(exercises.1, locale: exercises.0)
+            }
+            if let muscleGroups = loadArray("musclegroups", unmarshal: MRMuscleGroup.unmarshal) {
+                MRDataModel.MRMuscleGroupDataModel.set(muscleGroups.1, locale: muscleGroups.0)
+            }
         }
         
         let needsUpgrade = database.userVersion < version() && database.userVersion > 0
@@ -70,9 +105,11 @@ extension MRDataModel {
         if needsUpgrade {
             drop()
             create()
+            setDefaultData()
             return .Recreated()
         }
         create()
+        setDefaultData()
         return .Created()
     }
     

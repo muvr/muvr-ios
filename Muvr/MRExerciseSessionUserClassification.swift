@@ -13,7 +13,7 @@ struct MRExerciseSessionUserClassification {
     }
     
     private func simple(set: [MRResistanceExerciseSet]) -> [MRResistanceExercise] {
-        let simple = set.forall { $0.sets.count == 1 }
+        let simple = set.forAll { $0.sets.count == 1 }
         if !simple { fatalError("set are not all simple") }
         return set.map { $0.sets[0] as! MRResistanceExercise }
     }
@@ -21,10 +21,15 @@ struct MRExerciseSessionUserClassification {
     init(properties: MRResistanceExerciseSessionProperties, result: [AnyObject]) {
         classifiedSets = (result as! [MRResistanceExerciseSet]).sorted( { x, y in return x.confidence() > y.confidence() });
         
-        otherSets = [
-            MRResistanceExercise(exercise: "arms/bicep-curl", andConfidence: 1),
-            MRResistanceExercise(exercise: "arms/tricep-extension", andConfidence: 1),
-        ].map { MRResistanceExerciseSet($0) }
+        var exercises: [MRResistanceExercise] = []
+        for mg in properties.muscleGroupIds {
+            MRApplicationState.localisedMuscleGroups
+                .filter { $0.id == mg }
+                .flatMap { $0.exercises }
+                .forEach { x in exercises.append(MRResistanceExercise(exercise: x.title, andConfidence: 1)) }
+        }
+        
+        otherSets = exercises.map { MRResistanceExerciseSet($0) }
     }
     
 }

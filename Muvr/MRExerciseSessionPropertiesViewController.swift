@@ -16,7 +16,7 @@ class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate,
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = MRApplicationState.muscleGroups[indexPath.row]
+        let cell = MRApplicationState.localisedMuscleGroups[indexPath.row]
         performSegueWithIdentifier("exercise", sender: [cell.id])
     }
     
@@ -26,15 +26,15 @@ class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate,
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MRApplicationState.muscleGroups.count
+        return MRApplicationState.localisedMuscleGroups.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell  {
-        let data = MRApplicationState.muscleGroups[indexPath.row]
+        let data = MRApplicationState.localisedMuscleGroups[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier("default") as! UITableViewCell
         
         cell.textLabel!.text = data.title
-        cell.detailTextLabel!.text = ", ".join(data.exercises)
+        cell.detailTextLabel!.text = ", ".join(data.exercises.map { $0.title })
         
         return cell
     }

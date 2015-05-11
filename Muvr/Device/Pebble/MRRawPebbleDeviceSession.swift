@@ -154,7 +154,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     
     func notifySimpleClassificationCompleted(simpleClassifiedSets: [MRResistanceExercise]) {
         var data = NSMutableData()
-        simpleClassifiedSets.foreach { (x: MRResistanceExercise) -> Void in
+        simpleClassifiedSets.forEach { (x: MRResistanceExercise) -> Void in
             var re = NSMutableData(length: sizeof(resistance_exercise_t))!
             let name = UnsafePointer<Int8>(x.exercise.cStringUsingEncoding(NSASCIIStringEncoding)!)
             mk_resistance_exercise(re.mutableBytes, name, UInt8(x.confidence * 100), 0, 0, 0)

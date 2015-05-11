@@ -1,0 +1,6 @@
+[
+  {"id":"arms/bicep-curl", "title":"Bicep curl"},
+  {"id":"arms/tricep-press", "title":"Tricep press"},
+  {"id":"chest/incline-press", "title":"Incline press"},
+  {"id":"chest/cable-cross-over", "title":"Cable cross-over"}
+]

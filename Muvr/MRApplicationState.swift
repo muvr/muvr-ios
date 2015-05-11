@@ -5,7 +5,15 @@ import SQLite
 /// The initial state that can only do basic user operation like login, send token, ...
 ///
 struct MRApplicationState {
-    static var muscleGroups: [MRMuscleGroup] = MRMuscleGroupRepository.load()
+    
+    static var localisedMuscleGroups: [MRLocalisedMuscleGroup] {
+        let mgs = MRDataModel.MRMuscleGroupDataModel.get(NSLocale.currentLocale())
+        let exs = MRDataModel.MRExerciseDataModel.get(NSLocale.currentLocale())
+        return mgs.map { mg in
+            let exercises = exs.filter { x in return mg.exercises.exists { $0 == x.id } }
+            return MRLocalisedMuscleGroup(id: mg.id, title: mg.title, exercises: exercises)
+        }
+    }
     
     static var deviceToken: NSData?
     
