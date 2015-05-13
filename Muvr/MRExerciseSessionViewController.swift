@@ -107,7 +107,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     @IBAction
     func explicitAdd() {
-        let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, data: NSData(), result: [], planned: plan!.todo)
+        let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, data: NSData(), result: [], planned: plan!.current)
         classificationCompletedViewController?.presentClassificationResult(self, userClassification: uc, onComplete: logExerciseExample)
     }
     
@@ -139,6 +139,13 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         if stopSessionButton.tag < 0 {
             stopSessionButton.title = "Stop".localized()
         }
+        #if (arch(i386) || arch(x86_64)) && os(iOS)
+            
+        plan!.noExercise()
+            
+        #endif
+        
+        if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
     }
     
     private func currentPageViewController<A>() -> A? {
@@ -213,12 +220,14 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     func exercising() {
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exercising() }
+        if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
         pcd.notifyExercising()
     }
     
     func moving() {
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.moving() }
+        if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
         pcd.notifyMoving()
     }
     
@@ -228,6 +237,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         plan!.noExercise();
         
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.notMoving() }
+        if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
         pcd.notifyNotMoving()
     }
     
@@ -237,7 +247,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         
         waitingForUser = true
 
-        userClassification = MRExerciseSessionUserClassification(properties: state!.session.properties, data: data, result: [], planned: plan!.todo)
+        userClassification = MRExerciseSessionUserClassification(properties: state!.session.properties, data: data, result: [], planned: plan!.current)
         assert(!userClassification!.combinedSimpleSets.isEmpty, "Attempt to present classification result with no options.")
         
         classificationCompletedViewController?.presentClassificationResult(self, userClassification: userClassification!, onComplete: logExerciseExample)

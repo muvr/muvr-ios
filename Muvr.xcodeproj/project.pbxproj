@@ -85,6 +85,7 @@
 		54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */; };
 		54B610911AF3C5B00034F2DD /* MRExerciseSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */; };
 		54B610931AF3C6010034F2DD /* Exercise.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54B610921AF3C6010034F2DD /* Exercise.storyboard */; };
+		54BC18B11B0391EA004C179B /* MRExercisePlanDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC18B01B0391EA004C179B /* MRExercisePlanDelegate.swift */; };
 		54D35FD81AF4E02100A5295D /* MRExerciseSessionPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D35FD71AF4E02100A5295D /* MRExerciseSessionPlanViewController.swift */; };
 		54E2878A1AFB5A1900D9E259 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5460CDAE1AFAAACD000DA384 /* sqlite3.framework */; };
 		54E2878B1AFB5A1900D9E259 /* sqlite3.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5460CDAE1AFAAACD000DA384 /* sqlite3.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -232,6 +233,7 @@
 		54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSession.swift; sourceTree = "<group>"; };
 		54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionViewController.swift; sourceTree = "<group>"; };
 		54B610921AF3C6010034F2DD /* Exercise.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Exercise.storyboard; sourceTree = "<group>"; };
+		54BC18B01B0391EA004C179B /* MRExercisePlanDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisePlanDelegate.swift; sourceTree = "<group>"; };
 		54D35FD71AF4E02100A5295D /* MRExerciseSessionPlanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionPlanViewController.swift; sourceTree = "<group>"; };
 		54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		54F0DC251AC57E8D0061EC5D /* device_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data.h; sourceTree = "<group>"; };
@@ -481,6 +483,7 @@
 				54D35FD71AF4E02100A5295D /* MRExerciseSessionPlanViewController.swift */,
 				54F288111B00A6F300E4D591 /* MRExerciseSessionUserClassification.swift */,
 				54B610921AF3C6010034F2DD /* Exercise.storyboard */,
+				54BC18B01B0391EA004C179B /* MRExercisePlanDelegate.swift */,
 			);
 			name = Exercise;
 			sourceTree = "<group>";
@@ -923,6 +926,7 @@
 				54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */,
 				5455E72A1AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift in Sources */,
 				540381571AECFB25000C8B15 /* MRSensorView.swift in Sources */,
+				54BC18B11B0391EA004C179B /* MRExercisePlanDelegate.swift in Sources */,
 				547E6A911AF374FF005DE00C /* MRDataModel+Defaults.swift in Sources */,
 				54B610871AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift in Sources */,
 				540381611AED2F85000C8B15 /* MRExerciseSetExample.swift in Sources */,

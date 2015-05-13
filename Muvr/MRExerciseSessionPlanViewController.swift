@@ -31,9 +31,14 @@ extension UITableViewCell {
 ///
 /// Controls a view that displays the log of the current session
 ///
-class MRExerciseSessionPlanViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MRExerciseSessionPlanViewController : UIViewController, UITableViewDelegate, UITableViewDataSource, MRExerciseSessionSubviewDelegate {
     static let storyboardId: String = "MRExerciseSessionPlanViewController"
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet var tableView: UITableView?
+    
+    private var completed: [MRExercisePlanItem] = []
+    private var todo: [MRExercisePlanItem] = []
+    private var current: MRExercisePlanItem? = nil
+    private var deviations: [MRExercisePlanDeviation] = []
     
     private struct Consts {
         static let Completed = 0
@@ -46,25 +51,34 @@ class MRExerciseSessionPlanViewController : UIViewController, UITableViewDelegat
     
     func setExercisePlan(plan: MRExercisePlan) {
         self.plan = plan
+        sessionUpdated()
+    }
+    
+    func sessionUpdated() {
+        todo = plan!.todo as! [MRExercisePlanItem]
+        completed = plan!.completed as! [MRExercisePlanItem]
+        current = plan!.current
+        deviations = plan!.deviations as! [MRExercisePlanDeviation]
+        
+        tableView?.reloadData()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        tableView.reloadData()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case Consts.Completed: return plan!.completed.count
-        case Consts.Current: return plan!.current != nil ? 1 : 0
-        case Consts.Todo: return plan!.todo.count
-        case Consts.Deviations: return plan!.deviations.count
+        case Consts.Completed: return completed.count
+        case Consts.Current: return current != nil ? 1 : 0
+        case Consts.Todo: return todo.count
+        case Consts.Deviations: return deviations.count
         default: fatalError("Match error")
         }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 4
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -83,8 +97,7 @@ class MRExerciseSessionPlanViewController : UIViewController, UITableViewDelegat
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        func dequeueExerciseCell(itemObj: AnyObject, completed: Bool) -> UITableViewCell {
-            let item = itemObj as! MRExercisePlanItem
+        func dequeueExerciseCell(item: MRExercisePlanItem, completed: Bool) -> UITableViewCell {
             if let resistanceExercise = item.resistanceExercise {
                 let cell = tableView.dequeueReusableCellWithIdentifier("resistanceExercise") as! MRExerciseSessionPlanResistanceExerciseTableViewCell
                 cell.setResistanceExercise(resistanceExercise)
@@ -103,11 +116,11 @@ class MRExerciseSessionPlanViewController : UIViewController, UITableViewDelegat
         
         switch (indexPath.section, indexPath.row) {
         case (Consts.Current, 0):
-            return dequeueExerciseCell(plan!.current, false)
+            return dequeueExerciseCell(current!, false)
         case (Consts.Completed, let x):
-            return dequeueExerciseCell(plan!.completed[plan!.completed.count - 1 - x], true)
+            return dequeueExerciseCell(completed[completed.count - 1 - x], true)
         case (Consts.Todo, let x):
-            return dequeueExerciseCell(plan!.todo[x], false)
+            return dequeueExerciseCell(todo[x], false)
         case (Consts.Deviations, let x):
             let cell = tableView.dequeueReusableCellWithIdentifier("deviation") as! UITableViewCell
             let item = plan!.deviations[x] as! MRExercisePlanDeviation
