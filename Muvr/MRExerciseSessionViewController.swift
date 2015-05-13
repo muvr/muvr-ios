@@ -20,8 +20,6 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     private var pageControl: UIPageControl?
     /// the detail views that the users can flip through
     private var pageViewControllers: [UIViewController] = []
-    /// the classification completed feedback controller
-    private var classificationCompletedViewController: MRExerciseSessionClassificationCompletedViewController?
     /// session start time (for elapsed time measurement)
     private var startTime: NSDate?
     /// the preclasssification instance configured to deal with the context of the session (intensity, muscle groups, etc.)
@@ -30,6 +28,12 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     private var state: MRExercisingApplicationState?
     /// the plan
     private var plan: MRExercisePlan?
+    /// the classification completed feedback controller
+    private var classificationCompletedViewController: MRExerciseSessionClassificationCompletedViewController?
+    /// are we waiting for user input?
+    private var waitingForUser: Bool = false
+    /// user classification
+    private var userClassification: MRExerciseSessionUserClassification?
     
     // TODO: add more sensors
     /// the Pebble interface
@@ -103,8 +107,8 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     @IBAction
     func explicitAdd() {
-        let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, result: [], planned: plan!.todo)
-        classificationCompletedViewController?.presentClassificationResult(self, userClassification: uc, fromData: NSData(), onComplete: logExerciseExample)
+        let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, data: NSData(), result: [], planned: plan!.todo)
+        classificationCompletedViewController?.presentClassificationResult(self, userClassification: uc, onComplete: logExerciseExample)
     }
     
     private func logExerciseExample(example: MRResistanceExerciseSetExample) {
@@ -175,13 +179,19 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
-        //NSLog("%@", data)
+        if waitingForUser { return }
+
         preclassification!.pushBack(data, from: 0, withHint: nil)
     }
     
     func deviceSession(session: DeviceSession, simpleMessageReceivedFrom deviceId: DeviceId, key: UInt32, value: UInt8) {
-        // TODO: complete me
+        if !waitingForUser { return }
+    
+        let correct = userClassification!.combinedSets[Int(value)]
+        
+        logExerciseExample(MRResistanceExerciseSetExample(classified: userClassification!.classifiedSets, correct: correct, fusedSensorData: userClassification!.data))
         classificationCompletedViewController?.dismissViewControllerAnimated(true, completion: nil)
+        waitingForUser = false
     }
     
     // MARK: MRDeviceDataDelegate implementation
@@ -195,32 +205,43 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     // MARK: MRExerciseBlockDelegate implementation
     func exerciseEnded() {
+        if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exerciseEnded() }
         pcd.notifyClassifying()
     }
     
     func exercising() {
+        if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exercising() }
         pcd.notifyExercising()
     }
     
     func moving() {
+        if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.moving() }
         pcd.notifyMoving()
     }
     
     func notMoving() {
+        if waitingForUser { return }
+
+        plan!.noExercise();
+        
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.notMoving() }
         pcd.notifyNotMoving()
     }
     
     // MARK: MRClassificationPipelineDelegate
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
-        let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, result: [], planned: plan!.todo)
-        assert(!uc.combinedSimpleSets.isEmpty, "Attempt to present classification result with no options.")
+        if waitingForUser { return }
         
-        classificationCompletedViewController?.presentClassificationResult(self, userClassification: uc, fromData: data, onComplete: logExerciseExample)
-        pcd.notifySimpleClassificationCompleted(uc.combinedSimpleSets)
+        waitingForUser = true
+
+        userClassification = MRExerciseSessionUserClassification(properties: state!.session.properties, data: data, result: [], planned: plan!.todo)
+        assert(!userClassification!.combinedSimpleSets.isEmpty, "Attempt to present classification result with no options.")
+        
+        classificationCompletedViewController?.presentClassificationResult(self, userClassification: userClassification!, onComplete: logExerciseExample)
+        pcd.notifySimpleClassificationCompleted(userClassification!.combinedSimpleSets)
     }
     
 }

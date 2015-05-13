@@ -122,6 +122,14 @@ extension Array {
     }
     
     ///
+    /// Takes the specified ``count`` of elements from this
+    ///
+    func take(n: Int) -> [Element] {
+        if n > count { return self }
+        return Array(self[0..<n])
+    }
+    
+    ///
     /// Returns ``true`` if the ``predicate`` evalues to ``true`` for at least
     /// one element in this array
     ///

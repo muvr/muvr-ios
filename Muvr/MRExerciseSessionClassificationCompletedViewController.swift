@@ -38,11 +38,11 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
     private var simplePlanned: MRResistanceExercise? = nil
     private var onComplete: (MRResistanceExerciseSetExample -> Void)!
    
-    func presentClassificationResult(parent: UIViewController, userClassification: MRExerciseSessionUserClassification, fromData data: NSData!, onComplete: MRResistanceExerciseSetExample -> Void) -> Void {
+    func presentClassificationResult(parent: UIViewController, userClassification: MRExerciseSessionUserClassification, onComplete: MRResistanceExerciseSetExample -> Void) -> Void {
         self.simpleClassified = userClassification.simpleClassifiedSets
         self.simpleOthers = userClassification.simpleOtherSets
         self.simplePlanned = userClassification.simplePlannedSet
-        self.data = data
+        self.data = userClassification.data
         self.onComplete = onComplete
         
         tableView.reloadData()

@@ -10,6 +10,9 @@
 /// the maximum rest duration
 @property (readonly) NSTimeInterval duration;
 
+// the remaining rest time
+// @property (readonly) NSTimeInterval remaining;
+
 /// the heart rate
 @property (readonly) uint8_t hrBelow;
 @end
@@ -51,14 +54,19 @@
 + (instancetype)adHoc;
 
 ///
-/// Submit exercise, return array of ``MRExercisePlanItem *``s still to be done
+/// Submit exercise, return the ``MRExercisePlanItem *`` that the user is expected to be doing
 ///
-- (NSArray *)exercise:(MRResistanceExercise *)actual;
+- (MRExercisePlanItem *)exercise:(MRResistanceExercise *)actual;
 
 ///
-/// Submit rest, return array of ``MRExercisePlanItem *``s still to be done
+/// Submit rest, return the ``MRExercisePlanItem *`` that the user is expected to be doing
 ///
-- (NSArray *)noExercise;
+- (MRExercisePlanItem *)noExercise;
+
+///
+/// The ``MRExercisePlanItem *`` that the user is expected to be doing
+///
+@property (readonly) MRExercisePlanItem* current;
 
 ///
 /// Return array of ``MRExercisePlanItem *``s that have already been done

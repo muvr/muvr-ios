@@ -9,9 +9,9 @@
   
   {"id":"arms/lying-triceps-extensions",     "title":"Lying triceps extensions"},
   {"id":"arms/overhead-triceps-press",       "title":"Overhead triceps press"},
-  {"id":"arms/dip",                          "title":"Dips / bench dip"},
-  {"id":"arms/cable-bar-triceps-extension",  "title":"Cable bar triceps extension"},
-  {"id":"arms/cable-rope-triceps-extension", "title":"Cable rope triceps extension"},
+  {"id":"arms/dip",                          "title":"Dip / bench dip"},
+  {"id":"arms/cable-bar-triceps-extension",  "title":"Cable bar triceps ext."},
+  {"id":"arms/cable-rope-triceps-extension", "title":"Cable rope triceps ext."},
   {"id":"arms/cable-triceps-kickback",       "title":"Cable triceps kickback"},
   
   {"id":"chest/dumbbell-fly",                "title":"Dumbbell fly"},
@@ -27,7 +27,7 @@
   {"id":"back/reverse-grip-pulldown",        "title":"Reverse grip pull-down"},
   {"id":"back/lat-pulldown",                 "title":"Lat pull-down"},
   {"id":"back/one-arm-dumbbell-row",         "title":"One arm dumbbell row"},
-  {"id":"back/close-grip-seated-cable-row",  "title":"Close-grip seated cable row"},
+  {"id":"back/close-grip-seated-cable-row",  "title":"Seated cable row"},
   {"id":"back/back-extension",               "title":"Back extension"},
   {"id":"back/deadlift",                     "title":"Deadlift"},
   

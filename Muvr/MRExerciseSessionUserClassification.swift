@@ -8,13 +8,19 @@ struct MRExerciseSessionUserClassification {
     var plannedSet: MRResistanceExerciseSet?
     var classifiedSets: [MRResistanceExerciseSet]
     var otherSets: [MRResistanceExerciseSet]
+    var data: NSData
     
     /// The combined simple view of the classified exercises
     var combinedSimpleSets: [MRResistanceExercise] {
-        if let x = simplePlannedSet {
-            return simpleClassifiedSets + [x] + simpleOtherSets
+        return simple(combinedSets)
+    }
+    
+    /// the combined view of the classified sets
+    var combinedSets: [MRResistanceExerciseSet] {
+        if let x = plannedSet {
+            return classifiedSets + [x] + otherSets
         }
-        return simpleClassifiedSets + simpleOtherSets
+        return classifiedSets + otherSets
     }
     
     /// The simple view of the classified exercises
@@ -38,7 +44,7 @@ struct MRExerciseSessionUserClassification {
         return set.map { $0.sets[0] as! MRResistanceExercise }
     }
 
-    init(properties: MRResistanceExerciseSessionProperties, result: [AnyObject], planned: [AnyObject]) {
+    init(properties: MRResistanceExerciseSessionProperties, data: NSData, result: [AnyObject], planned: [AnyObject]) {
         classifiedSets = (result as! [MRResistanceExerciseSet]).sorted( { x, y in return x.confidence() > y.confidence() });
         for planItem in (planned as! [MRExercisePlanItem]) {
             if let plannedExercise = planItem.resistanceExercise {
@@ -55,6 +61,7 @@ struct MRExerciseSessionUserClassification {
         }
         
         otherSets = exercises.map { MRResistanceExerciseSet($0) }
+        self.data = data
     }
     
 }

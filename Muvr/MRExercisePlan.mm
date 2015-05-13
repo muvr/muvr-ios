@@ -132,18 +132,28 @@ using namespace muvr;
     return result;
 }
 
-- (NSArray *)exercise:(MRResistanceExercise *)actual {
+- (MRExercisePlanItem *)exercise:(MRResistanceExercise *)actual {
     planned_exercise pe = [self fromMRResistanceExercise:actual];
     if (!exercisePlan) {
         [completed addObject:[[MRExercisePlanItem alloc] init:pe]];
-        return empty;
+        return NULL;
     }
-    return [self convert:exercisePlan->exercise(pe, 0)];
+    timestamp_t now = (timestamp_t)(CFAbsoluteTimeGetCurrent() * 1000);
+
+    const auto &x = exercisePlan->exercise(pe, now);
+    if (x) return [[MRExercisePlanItem alloc] init:*x];
+
+    return NULL;
 }
 
-- (NSArray *)noExercise {
-    if (!exercisePlan) return empty;
-    return [self convert:exercisePlan->no_exercise(0)];
+- (MRExercisePlanItem *)noExercise {
+    if (!exercisePlan) return NULL;
+    timestamp_t now = (timestamp_t)(CFAbsoluteTimeGetCurrent() * 1000);
+    
+    const auto &x = exercisePlan->no_exercise(now);
+    if (x) return [[MRExercisePlanItem alloc] init:*x];
+
+    return NULL;
 }
 
 - (NSArray *)completed {
@@ -154,6 +164,12 @@ using namespace muvr;
 - (NSArray *)todo {
     if (!exercisePlan) return empty;
     return [self convert:exercisePlan->todo()];
+}
+
+- (MRExercisePlanItem *)current {
+    const auto &x = exercisePlan->current();
+    if (x) return [[MRExercisePlanItem alloc] init:*x];
+    return NULL;
 }
 
 - (NSArray *)deviations {
