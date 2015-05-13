@@ -134,8 +134,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
             let planIndex = sender as? Int {
                 let plan = resistanceExercisePlans[planIndex]
                 let properties = MRResistanceExerciseSessionProperties(intendedIntensity: plan.intendedIntensity, muscleGroupIds: plan.muscleGroupIds)
-                ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties),
-                    withPlan: MRExercisePlan(resistanceExercises: plan.exercises, andDefaultDuration: 20000))
+                ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties), withPlan: plan)
         }
     }
 

@@ -16,7 +16,7 @@ class MRExerciseSessionPlanResistanceExerciseTableViewCell : UITableViewCell {
 class MRExerciseSessionPlanRestTableViewCell : UITableViewCell {
     
     func setRest(rest: MRRest) -> Void {
-        detailTextLabel!.text = "\(rest.duration) remaining" //"%d remaining".localized()
+        detailTextLabel!.text = "\(rest.minimumDuration) remaining" //"%d remaining".localized()
     }
 }
 

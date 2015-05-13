@@ -7,11 +7,11 @@
 ///
 @interface MRRest : NSObject
 
-/// the maximum rest duration
-@property (readonly) NSTimeInterval duration;
+/// the minimum rest duration
+@property (readonly) NSTimeInterval minimumDuration;
 
-// the remaining rest time
-// @property (readonly) NSTimeInterval remaining;
+/// the maximum duration
+@property (readonly) NSTimeInterval maximumDuration;
 
 /// the heart rate
 @property (readonly) uint8_t hrBelow;
@@ -58,7 +58,7 @@
 /// Construct this instance with the given array of ``MRResistanceExercise *`` instances, padding them
 /// with ``MRRest *`` instances of the given ``duration``.
 ///
-+ (instancetype)planWithResistanceExercises:(NSArray *)resistanceExercises andDefaultDuration:(uint)duration;
++ (instancetype)planWithResistanceExercises:(NSArray *)resistanceExercises;
 
 ///
 /// Construct ad-hoc exercise plan
@@ -101,7 +101,7 @@
 @property (readonly) double progress;
 
 ///
-/// The plan delegate
+/// The exercise plan delegate
 ///
 @property id<MRExercisePlanDelegate> delegate;
 

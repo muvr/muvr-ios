@@ -28,6 +28,8 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     private var state: MRExercisingApplicationState?
     /// the plan
     private var plan: MRExercisePlan?
+    /// the plan definition
+    private var planDefinition: MRResistanceExercisePlan?
     /// the classification completed feedback controller
     private var classificationCompletedViewController: MRExerciseSessionClassificationCompletedViewController?
     /// are we waiting for user input?
@@ -47,11 +49,23 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     /// instantiate the pages and classification-completed VC, set up page control and timer
     /// start all configured sensors
     override func viewDidLoad() {
-        assert(preclassification != nil, "preclassification == nil: typically because startSession(...) has not been called")
         assert(state != nil, "state == nil: typically because startSession(...) has not been called")
-        assert(plan != nil, "plan == nil: typically because startSession(...) has not been called")
-        
         super.viewDidLoad()
+        pcd.start(self)
+
+        if let x = planDefinition {
+            self.plan = MRExercisePlan(resistanceExercises: x.exercises)
+            self.plan!.delegate = self
+        } else {
+            self.plan = MRExercisePlan.adHoc()
+        }
+        
+        // TODO: load & configure the classifiers here (according to state & plan)
+        preclassification = MRPreclassification()
+        preclassification!.deviceDataDelegate = self
+        preclassification!.classificationPipelineDelegate = self
+        preclassification!.exerciseBlockDelegate = self
+
         dataSource = self
         delegate = self
         
@@ -79,21 +93,12 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         
         startTime = NSDate()
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "tick", userInfo: nil, repeats: true)
-        
-        pcd.start(self)
     }
     
     /// configures the current session
-    func startSession(state: MRExercisingApplicationState, withPlan plan: MRExercisePlan) {
+    func startSession(state: MRExercisingApplicationState, withPlan definition: MRResistanceExercisePlan?) {
         self.state = state
-        self.plan = plan
-        self.plan!.delegate = self
-        
-        // TODO: load & configure the classifiers here
-        preclassification = MRPreclassification()
-        preclassification!.deviceDataDelegate = self
-        preclassification!.classificationPipelineDelegate = self
-        preclassification!.exerciseBlockDelegate = self
+        self.planDefinition = definition
     }
     
     @IBAction

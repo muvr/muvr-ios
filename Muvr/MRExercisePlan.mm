@@ -31,7 +31,8 @@ using namespace muvr;
 @implementation MRRest
 - (instancetype)init:(const planned_rest &)rest {
     self = [super init];
-    _duration = rest.duration;
+    _minimumDuration = rest.minimum_duration;
+    _maximumDuration = rest.maximum_duration;
     _hrBelow = rest.heart_rate;
     return self;
 }
@@ -69,7 +70,7 @@ using namespace muvr;
 
 - (NSString *)description {
     if (_rest != NULL) {
-        return [NSString stringWithFormat:@"%f", _rest.duration];
+        return [NSString stringWithFormat:@"%f", _rest.minimumDuration];
     }
     if (_resistanceExercise != NULL) {
         return [NSString stringWithFormat:@"%@, %@ reps, %@ weight, %@ intensity", _resistanceExercise.exercise, _resistanceExercise.repetitions, _resistanceExercise.weight, _resistanceExercise.intensity];
@@ -114,8 +115,8 @@ using namespace muvr;
     MRExercisePlanItem *current;
 }
 
-+ (instancetype)planWithResistanceExercises:(NSArray *)resistanceExercises andDefaultDuration:(uint)duration {
-    return [[MRExercisePlan alloc] initWithResistanceExercises:resistanceExercises andDefaultRestDuration:duration];
++ (instancetype)planWithResistanceExercises:(NSArray *)resistanceExercises {
+    return [[MRExercisePlan alloc] initWithResistanceExercises:resistanceExercises];
 }
 
 + (instancetype)adHoc {
@@ -137,14 +138,11 @@ using namespace muvr;
     return self;
 }
 
-- (instancetype)initWithResistanceExercises:(NSArray *)resistanceExercises andDefaultRestDuration:(uint)duration {
+- (instancetype)initWithResistanceExercises:(NSArray *)resistanceExercises {
     self = [super init];
-    
     std::vector<exercise_plan_item> plan;
     for (MRResistanceExercise *exercise : resistanceExercises) {
-        planned_rest plannedRest {.duration = duration, .heart_rate = 0};
         plan.push_back([self fromMRResistanceExercise:exercise]);
-        plan.push_back(plannedRest);
     }
     
     current = NULL;
@@ -174,7 +172,7 @@ using namespace muvr;
     MRExercisePlanItem *c = NULL;
     if (x) c = [[MRExercisePlanItem alloc] init:*x];
 
-    if (_delegate != NULL && ![c isRoughlyEqual:current]) [_delegate currentItem:c changedFromPrevious:current];
+    if (_delegate != NULL && c != NULL && ![c isRoughlyEqual:current]) [_delegate currentItem:c changedFromPrevious:current];
     current = c;
     
     return c;
@@ -189,7 +187,7 @@ using namespace muvr;
     MRExercisePlanItem *c = NULL;
     if (x) c = [[MRExercisePlanItem alloc] init:*x];
 
-    if (_delegate != NULL && ![c isEqual:current]) [_delegate currentItem:c changedFromPrevious:current];
+    if (_delegate != NULL && c != NULL && ![c isRoughlyEqual:current]) [_delegate currentItem:c changedFromPrevious:current];
     current = c;
     
     return c;
@@ -206,6 +204,7 @@ using namespace muvr;
 }
 
 - (MRExercisePlanItem *)current {
+    if (!exercisePlan) return NULL;
     const auto &x = exercisePlan->current();
     if (x) return [[MRExercisePlanItem alloc] init:*x];
     return NULL;

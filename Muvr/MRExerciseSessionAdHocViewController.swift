@@ -44,7 +44,7 @@ class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelega
         if let ctrl = segue.destinationViewController as? MRExerciseSessionViewController,
            let muscleGroupsIds = sender as? [String] {
             let properties = MRResistanceExerciseSessionProperties(intendedIntensity: 0.5, muscleGroupIds: muscleGroupsIds)
-            ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties), withPlan: MRExercisePlan.adHoc())
+            ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties), withPlan: nil)
         }
     }
 
