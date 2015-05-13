@@ -12,7 +12,7 @@ import Foundation
 /// pages.
 ///
 class MRExerciseSessionViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate,
-    MRDeviceSessionDelegate, MRDeviceDataDelegate, MRExerciseBlockDelegate, MRClassificationPipelineDelegate {
+    MRDeviceSessionDelegate, MRDeviceDataDelegate, MRExerciseBlockDelegate, MRClassificationPipelineDelegate, MRExercisePlanDelegate {
     
     /// the timer for the stop button
     private var timer: NSTimer?
@@ -87,6 +87,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     func startSession(state: MRExercisingApplicationState, withPlan plan: MRExercisePlan) {
         self.state = state
         self.plan = plan
+        self.plan!.delegate = self
         
         // TODO: load & configure the classifiers here
         preclassification = MRPreclassification()
@@ -252,6 +253,13 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         
         classificationCompletedViewController?.presentClassificationResult(self, userClassification: userClassification!, onComplete: logExerciseExample)
         pcd.notifySimpleClassificationCompleted(userClassification!.combinedSimpleSets)
+    }
+    
+    // MARK: MRExercisePlanDelegate
+    func currentItem(item: MRExercisePlanItem!, changedFromPrevious previous: MRExercisePlanItem!) {
+        if let re = item.resistanceExercise {
+            pcd.notifySimpleCurrent(re)
+        }
     }
     
 }

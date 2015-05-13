@@ -38,6 +38,18 @@
 @end
 
 ///
+/// Exercise plan delegate
+///
+@protocol MRExercisePlanDelegate
+
+///
+/// Called when the current item changes
+///
+- (void)currentItem:(MRExercisePlanItem *)item changedFromPrevious:(MRExercisePlanItem *)previous;
+
+@end
+
+///
 /// The exercise plan interface
 ///
 @interface MRExercisePlan : NSObject
@@ -87,6 +99,11 @@
 /// Return the progress through the plan (0..1)
 ///
 @property (readonly) double progress;
+
+///
+/// The plan delegate
+///
+@property id<MRExercisePlanDelegate> delegate;
 
 @end
 

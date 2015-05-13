@@ -18,6 +18,14 @@ using namespace muvr;
     return [[MRResistanceExercise alloc] initWithExercise:exercise repetitions:repetitions weight:weight intensity:intensity andConfidence:1];
 }
 
+- (BOOL)isRoughlyEqual:(id)object {
+    if (object == NULL) return NO;
+    if (![object isKindOfClass:[self class]]) return NO;
+
+    MRResistanceExercise* other = (MRResistanceExercise *)object;
+    return [self.exercise isEqualToString:other.exercise];
+}
+
 @end
 
 @implementation MRRest
@@ -27,6 +35,14 @@ using namespace muvr;
     _hrBelow = rest.heart_rate;
     return self;
 }
+
+- (BOOL)isRoughlyEqual:(id)object {
+    if (object == NULL) return NO;
+    if (![object isKindOfClass:[self class]]) return NO;
+    
+    return YES;
+}
+
 @end
 
 @implementation MRExercisePlanItem
@@ -62,6 +78,16 @@ using namespace muvr;
     @throw @"MRExercisePlanItem in illegal state.";
 }
 
+- (BOOL)isRoughlyEqual:(id)object {
+    if (![object isKindOfClass:[self class]]) return NO;
+    
+    MRExercisePlanItem *other = (MRExercisePlanItem *)object;
+    if (_rest != NULL) return [_rest isRoughlyEqual:other.rest];
+    if (_resistanceExercise != NULL) return [_resistanceExercise isRoughlyEqual:other.resistanceExercise];
+
+    return NO;
+}
+
 @end
 
 @implementation MRExercisePlanDeviation
@@ -85,6 +111,7 @@ using namespace muvr;
     std::unique_ptr<exercise_plan> exercisePlan;
     NSArray *empty;
     NSMutableArray *completed;
+    MRExercisePlanItem *current;
 }
 
 + (instancetype)planWithResistanceExercises:(NSArray *)resistanceExercises andDefaultDuration:(uint)duration {
@@ -106,6 +133,7 @@ using namespace muvr;
     self = [super init];
     empty = [[NSArray alloc] init];
     completed = [[NSMutableArray alloc] init];
+    current = NULL;
     return self;
 }
 
@@ -119,6 +147,7 @@ using namespace muvr;
         plan.push_back(plannedRest);
     }
     
+    current = NULL;
     exercisePlan = std::unique_ptr<exercise_plan>(new simple_exercise_plan(plan));
     
     return self;
@@ -141,9 +170,14 @@ using namespace muvr;
     timestamp_t now = (timestamp_t)(CFAbsoluteTimeGetCurrent() * 1000);
 
     const auto &x = exercisePlan->exercise(pe, now);
-    if (x) return [[MRExercisePlanItem alloc] init:*x];
+    
+    MRExercisePlanItem *c = NULL;
+    if (x) c = [[MRExercisePlanItem alloc] init:*x];
 
-    return NULL;
+    if (_delegate != NULL && ![c isRoughlyEqual:current]) [_delegate currentItem:c changedFromPrevious:current];
+    current = c;
+    
+    return c;
 }
 
 - (MRExercisePlanItem *)noExercise {
@@ -151,9 +185,14 @@ using namespace muvr;
     timestamp_t now = (timestamp_t)(CFAbsoluteTimeGetCurrent() * 1000);
     
     const auto &x = exercisePlan->no_exercise(now);
-    if (x) return [[MRExercisePlanItem alloc] init:*x];
+    
+    MRExercisePlanItem *c = NULL;
+    if (x) c = [[MRExercisePlanItem alloc] init:*x];
 
-    return NULL;
+    if (_delegate != NULL && ![c isEqual:current]) [_delegate currentItem:c changedFromPrevious:current];
+    current = c;
+    
+    return c;
 }
 
 - (NSArray *)completed {
