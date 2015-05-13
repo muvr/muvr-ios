@@ -1,0 +1,6 @@
+[
+  {"id":"arms",      "title":"Arms",      "exercises":["arms/barbell-biceps-curl", "arms/preacher-curls", "arms/overhead-triceps-press", "arms/dips"]},
+  {"id":"chest",     "title":"Chest",     "exercises":["chest/dumbbell-flyes", "chest/barbell-bench-press", "chest/pushups", "chest/cable-crossovers"]},
+  {"id":"back",      "title":"Back",      "exercises":["back/pullup", "back/deadlift", "back/lat-pulldown", "back/close-grip-seated-cable-row"]},
+  {"id":"shoulders", "title":"Shoulders", "exercises":["shoulders/overhead-press", "shoulders/high-pull", "shoulders/dumbbell-raise"]}
+]

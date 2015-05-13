@@ -98,14 +98,14 @@ extension Array {
     ///
     /// Apply the function ``f`` to every element
     ///
-    func foreach(f: Element -> Void) -> Void {
+    func forEach(f: Element -> Void) -> Void {
         for e in self { f(e) }
     }
     
     ///
     /// Returns ``true`` if ``predicate`` evaluates to ``true`` for all elements.
     ///
-    func forall(predicate: Element -> Bool) -> Bool {
+    func forAll(predicate: Element -> Bool) -> Bool {
         for e in self {
             if !predicate(e) { return false }
         }
@@ -119,6 +119,14 @@ extension Array {
             if let b = transform(e) { result += [b] }
         }
         return result
+    }
+    
+    ///
+    /// Takes the specified ``count`` of elements from this
+    ///
+    func take(n: Int) -> [Element] {
+        if n > count { return self }
+        return Array(self[0..<n])
     }
     
     ///

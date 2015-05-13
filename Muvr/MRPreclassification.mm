@@ -101,7 +101,7 @@ public:
     return self;
 }
 
-- (void)pushBack:(NSData *)data from:(uint8_t)location {
+- (void)pushBack:(NSData *)data from:(uint8_t)location withHint:(MRResistanceExercise *)plannedExercise {
     // core processing
     const uint8_t *buf = reinterpret_cast<const uint8_t*>(data.bytes);
     raw_sensor_data decoded = decode_single_packet(buf);
@@ -155,7 +155,7 @@ public:
     
     NSMutableArray *transformedClassificationResult = [NSMutableArray array];
 
-    if(result.exercises().size() > 0) {
+    if (result.exercises().size() > 0) {
             
         // for now we just take the first and only identified exercise if there is any
         svm_classifier::classified_exercise classified_exercise = result.exercises()[0];

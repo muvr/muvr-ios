@@ -6,9 +6,8 @@ import Foundation
 ///
 /// We use these details to configure the movement and exercise deciders, and the classifiers.
 ///
-class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet
-    var tableView: UITableView!
+class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet var tableView: UITableView!
     
     // MARK: UITableViewDelegate
     func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
@@ -34,7 +33,7 @@ class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate,
         let cell = tableView.dequeueReusableCellWithIdentifier("default") as! UITableViewCell
         
         cell.textLabel!.text = data.title
-        cell.detailTextLabel!.text = ", ".join(data.exercises)
+        cell.detailTextLabel!.text = ", ".join(data.localisedExercises.map { $0.title })
         
         return cell
     }
@@ -44,8 +43,8 @@ class MRSessionPropertiesViewController : UIViewController, UITableViewDelegate,
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let ctrl = segue.destinationViewController as? MRExerciseSessionViewController,
            let muscleGroupsIds = sender as? [String] {
-            let properties = MRResistanceExerciseSessionProperties(intendedIntensity: 1, muscleGroupIds: muscleGroupsIds)
-            ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties))
+            let properties = MRResistanceExerciseSessionProperties(intendedIntensity: 0.5, muscleGroupIds: muscleGroupsIds)
+            ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties), withPlan: MRExercisePlan.adHoc())
         }
     }
 

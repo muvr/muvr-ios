@@ -26,6 +26,12 @@ struct MRDataModel {
     internal static let resistanceExerciseSessions = database["resistanceExerciseSessions"]
     /// resistance exercise sets table
     internal static let resistanceExerciseSets = database["resistanceExerciseSets"]
+    /// muscle groups
+    internal static let muscleGroups = database["muscleGroups"]
+    /// exercises
+    internal static let exercises = database["exercises"]
+    /// exercise plans
+    internal static let exercisePlans = database["exercisePlan"]
     
     /// common identity column
     internal static let rowId = Expression<NSUUID>("id")
@@ -35,7 +41,58 @@ struct MRDataModel {
     internal static let timestamp = Expression<NSDate>("timestamp")
     /// common JSON column
     internal static let json = Expression<JSON>("json")
+    /// the locale id
+    internal static let locid = Expression<String>("locid")
+    
+    ///
+    /// Resistance exercise plans
+    ///
+    struct MRResistanceExercisePlanDataModel {
+        static let defaultPlans: [MRResistanceExercisePlan] = MRDataModel.loadArray("resistanceplans", unmarshal: MRResistanceExercisePlan.unmarshal)!.1
+            
+    }
+    
+    ///
+    /// Muscle group data model
+    ///
+    struct MRMuscleGroupDataModel {
+        
+        static func set(groups: [MRMuscleGroup], locale: NSLocale) {
+            let l = locale.localeIdentifier
+            muscleGroups.filter(locid == l).delete()
+            muscleGroups.insert(locid <- l, json <- JSON(groups.map { $0.marshal() }))
+        }
+        
+        static func get(locale: NSLocale) -> [MRMuscleGroup] {
+            var mgs: [MRMuscleGroup] = []
+            for row in muscleGroups {//.filter(locid == locale.localeIdentifier) {
+                mgs += row.get(json).arrayValue.map(MRMuscleGroup.unmarshal)
+            }
+            return mgs
+        }
+        
+    }
+    
+    ///
+    /// Exercise data model
+    ///
+    struct MRExerciseDataModel {
 
+        static func set(values: [MRExercise], locale: NSLocale) {
+            let l = locale.localeIdentifier
+            exercises.filter(locid == l).delete()
+            exercises.insert(locid <- l, json <- JSON(values.map { $0.marshal() }))
+        }
+        
+        static func get(locale: NSLocale) -> [MRExercise] {
+            var exs: [MRExercise] = []
+            for row in exercises {//.filter(locid == locale.localeIdentifier) {
+                exs += row.get(json).arrayValue.map(MRExercise.unmarshal)
+            }
+            return exs
+        }
+    }
+    
     ///
     /// The exercise session
     ///
