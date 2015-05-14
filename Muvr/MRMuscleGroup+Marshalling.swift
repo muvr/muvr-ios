@@ -11,4 +11,8 @@ extension MRMuscleGroup {
         )
     }
     
+    func marshal() -> [String : AnyObject] {
+        return ["id" : id, "title":title, "exercises":exercises]
+    }
+    
 }

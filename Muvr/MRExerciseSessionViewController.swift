@@ -12,7 +12,7 @@ import Foundation
 /// pages.
 ///
 class MRExerciseSessionViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate,
-    MRDeviceSessionDelegate, MRDeviceDataDelegate, MRExerciseBlockDelegate, MRClassificationPipelineDelegate {
+    MRDeviceSessionDelegate, MRDeviceDataDelegate, MRExerciseBlockDelegate, MRClassificationPipelineDelegate, MRExercisePlanDelegate {
     
     /// the timer for the stop button
     private var timer: NSTimer?
@@ -20,14 +20,22 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     private var pageControl: UIPageControl?
     /// the detail views that the users can flip through
     private var pageViewControllers: [UIViewController] = []
-    /// the classification completed feedback controller
-    private var classificationCompletedViewController: MRExerciseSessionClassificationCompletedViewController?
     /// session start time (for elapsed time measurement)
     private var startTime: NSDate?
     /// the preclasssification instance configured to deal with the context of the session (intensity, muscle groups, etc.)
     private var preclassification: MRPreclassification?
     /// the state to handle the results of the classification
     private var state: MRExercisingApplicationState?
+    /// the plan
+    private var plan: MRExercisePlan?
+    /// the plan definition
+    private var planDefinition: MRResistanceExercisePlan?
+    /// the classification completed feedback controller
+    private var classificationCompletedViewController: MRExerciseSessionClassificationCompletedViewController?
+    /// are we waiting for user input?
+    private var waitingForUser: Bool = false
+    /// user classification
+    private var userClassification: MRExerciseSessionUserClassification?
     
     // TODO: add more sensors
     /// the Pebble interface
@@ -41,17 +49,35 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     /// instantiate the pages and classification-completed VC, set up page control and timer
     /// start all configured sensors
     override func viewDidLoad() {
-        assert(preclassification != nil, "preclassification == nil: typically because startSession(...) has not been called")
         assert(state != nil, "state == nil: typically because startSession(...) has not been called")
-        
         super.viewDidLoad()
+        pcd.start(self)
+
+        if let x = planDefinition {
+            self.plan = MRExercisePlan(resistanceExercises: x.exercises)
+            self.plan!.delegate = self
+        } else {
+            self.plan = MRExercisePlan.adHoc()
+        }
+        
+        // TODO: load & configure the classifiers here (according to state & plan)
+        preclassification = MRPreclassification()
+        preclassification!.deviceDataDelegate = self
+        preclassification!.classificationPipelineDelegate = self
+        preclassification!.exerciseBlockDelegate = self
+
         dataSource = self
         delegate = self
         
         navigationItem.prompt = "MRExerciseSessionViewController.elapsed".localized(0, 0)
         
         let storyboard = UIStoryboard(name: "Exercise", bundle: nil)
-        pageViewControllers = [MRExerciseSessionDeviceDataViewController.storyboardId, MRExerciseSessionLogViewController.storyboardId].map { storyboard.instantiateViewControllerWithIdentifier($0) as! UIViewController }
+        
+        let pvc = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionPlanViewController.storyboardId) as! MRExerciseSessionPlanViewController
+        pvc.setExercisePlan(plan!)
+        let dvc = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionDeviceDataViewController.storyboardId) as! MRExerciseSessionDeviceDataViewController
+        
+        pageViewControllers = [pvc, dvc]
         classificationCompletedViewController = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionClassificationCompletedViewController.storyboardId) as? MRExerciseSessionClassificationCompletedViewController
         
         setViewControllers([pageViewControllers.first!], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
@@ -67,19 +93,12 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         
         startTime = NSDate()
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "tick", userInfo: nil, repeats: true)
-        
-        pcd.start(self)
     }
     
     /// configures the current session
-    func startSession(state: MRExercisingApplicationState) {
+    func startSession(state: MRExercisingApplicationState, withPlan definition: MRResistanceExercisePlan?) {
         self.state = state
-        
-        // TODO: load & configure the classifiers here
-        preclassification = MRPreclassification()
-        preclassification!.deviceDataDelegate = self
-        preclassification!.classificationPipelineDelegate = self
-        preclassification!.exerciseBlockDelegate = self
+        self.planDefinition = definition
     }
     
     @IBAction
@@ -94,7 +113,15 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     @IBAction
     func explicitAdd() {
-        classificationCompletedViewController?.presentClassificationResult(self, state: state!, result: [], fromData: NSData())
+        let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, data: NSData(), result: [], planned: plan!.current)
+        classificationCompletedViewController?.presentClassificationResult(self, userClassification: uc, onComplete: logExerciseExample)
+    }
+    
+    private func logExerciseExample(example: MRResistanceExerciseSetExample) {
+        self.state!.postResistanceExample(example)
+        if let x = example.correct {
+            x.sets.forEach { self.plan!.exercise($0 as! MRResistanceExercise) }
+        }
     }
 
     /// end the session here and on all devices
@@ -118,6 +145,13 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         if stopSessionButton.tag < 0 {
             stopSessionButton.title = "Stop".localized()
         }
+        #if (arch(i386) || arch(x86_64)) && os(iOS)
+            
+        plan!.noExercise()
+            
+        #endif
+        
+        if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
     }
     
     private func currentPageViewController<A>() -> A? {
@@ -158,13 +192,19 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
-        //NSLog("%@", data)
-        preclassification!.pushBack(data, from: 0)
+        if waitingForUser { return }
+
+        preclassification!.pushBack(data, from: 0, withHint: nil)
     }
     
     func deviceSession(session: DeviceSession, simpleMessageReceivedFrom deviceId: DeviceId, key: UInt32, value: UInt8) {
-        // TODO: complete me
+        if !waitingForUser { return }
+    
+        let correct = userClassification!.combinedSets[Int(value)]
+        
+        logExerciseExample(MRResistanceExerciseSetExample(classified: userClassification!.classifiedSets, correct: correct, fusedSensorData: userClassification!.data))
         classificationCompletedViewController?.dismissViewControllerAnimated(true, completion: nil)
+        waitingForUser = false
     }
     
     // MARK: MRDeviceDataDelegate implementation
@@ -178,40 +218,52 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     // MARK: MRExerciseBlockDelegate implementation
     func exerciseEnded() {
+        if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exerciseEnded() }
         pcd.notifyClassifying()
     }
     
     func exercising() {
+        if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exercising() }
+        if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
         pcd.notifyExercising()
     }
     
     func moving() {
+        if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.moving() }
+        if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
         pcd.notifyMoving()
     }
     
     func notMoving() {
+        if waitingForUser { return }
+
+        plan!.noExercise();
+        
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.notMoving() }
+        if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
         pcd.notifyNotMoving()
     }
     
     // MARK: MRClassificationPipelineDelegate
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
-        classificationCompletedViewController?.presentClassificationResult(self, state: state!, result: result, fromData: data)
+        if waitingForUser { return }
+        
+        waitingForUser = true
 
-        var classifiedSets = result as! [MRResistanceExerciseSet]
-        classifiedSets.sort( { x, y in return x.confidence() > y.confidence() });
-        let simple = classifiedSets.forall { $0.sets.count == 1 }
-        if simple {
-            let simpleOtherSets: [MRResistanceExercise] = [
-                MRResistanceExercise(exercise: "Bicep curl", andConfidence: 1),
-                MRResistanceExercise(exercise: "Tricep extension", andConfidence: 1),
-            ]
-
-            let simpleClassifiedSets = classifiedSets.map { $0.sets[0] as! MRResistanceExercise } + simpleOtherSets
-            pcd.notifySimpleClassificationCompleted(simpleClassifiedSets)
+        userClassification = MRExerciseSessionUserClassification(properties: state!.session.properties, data: data, result: [], planned: plan!.current)
+        assert(!userClassification!.combinedSimpleSets.isEmpty, "Attempt to present classification result with no options.")
+        
+        classificationCompletedViewController?.presentClassificationResult(self, userClassification: userClassification!, onComplete: logExerciseExample)
+        pcd.notifySimpleClassificationCompleted(userClassification!.combinedSimpleSets)
+    }
+    
+    // MARK: MRExercisePlanDelegate
+    func currentItem(item: MRExercisePlanItem!, changedFromPrevious previous: MRExercisePlanItem!) {
+        if let re = item.resistanceExercise {
+            pcd.notifySimpleCurrent(re)
         }
     }
     

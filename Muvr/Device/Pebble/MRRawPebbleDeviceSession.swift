@@ -154,14 +154,25 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     
     func notifySimpleClassificationCompleted(simpleClassifiedSets: [MRResistanceExercise]) {
         var data = NSMutableData()
-        simpleClassifiedSets.foreach { (x: MRResistanceExercise) -> Void in
+        // (#define APP_MESSAGE_INBOX_SIZE_MINIMUM 124) / 29 == 4
+        simpleClassifiedSets.take(4).forEach { (x: MRResistanceExercise) -> Void in
             var re = NSMutableData(length: sizeof(resistance_exercise_t))!
-            let name = UnsafePointer<Int8>(x.exercise.cStringUsingEncoding(NSASCIIStringEncoding)!)
+            let name = UnsafePointer<Int8>(x.localisedTitle.cStringUsingEncoding(NSASCIIStringEncoding)!)
             mk_resistance_exercise(re.mutableBytes, name, UInt8(x.confidence * 100), 0, 0, 0)
             data.appendData(re)
         }
         
+        assert(data.length <= 124, "Too much data to send over BLE.")
         currentSession?.send(0xa0000003, data: data)
+    }
+    
+    func notifySimpleCurrent(exercise: MRResistanceExercise) {
+        var data = NSMutableData(length: sizeof(resistance_exercise_t))!
+        let name = UnsafePointer<Int8>(exercise.localisedTitle.cStringUsingEncoding(NSASCIIStringEncoding)!)
+        mk_resistance_exercise(data.mutableBytes, name, UInt8(exercise.confidence * 100), 0, 0, 0)
+
+        assert(data.length <= 124, "Too much data to send over BLE.")
+        currentSession?.send(0xa0000004, data: data)
     }
     
     ///

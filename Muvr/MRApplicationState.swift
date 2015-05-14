@@ -5,7 +5,21 @@ import SQLite
 /// The initial state that can only do basic user operation like login, send token, ...
 ///
 struct MRApplicationState {
-    static var muscleGroups: [MRMuscleGroup] = MRMuscleGroupRepository.load()
+    
+    static var muscleGroups: [MRMuscleGroup] {
+        return MRDataModel.MRMuscleGroupDataModel.get(NSLocale.currentLocale())
+    }
+    
+    static var exercises: [MRExercise] {
+        return MRDataModel.MRExerciseDataModel.get(NSLocale.currentLocale())
+    }
+    
+    static func joinMuscleGroups(ids: [MRMuscleGroupId]) -> String {
+        return ", ".join(muscleGroups.flatMap { (mg: MRMuscleGroup) -> String? in
+            if (ids.exists { $0 == mg.id }) { return mg.title }
+            return nil
+        })
+    }
     
     static var deviceToken: NSData?
     
@@ -84,13 +98,10 @@ struct MRLoggedInApplicationState {
         let id = NSUUID()
         let session = MRResistanceExerciseSession(startDate: NSDate(), properties: properties)
         MRDataModel.MRResistanceExerciseSessionDataModel.insert(id, session: session)
-        return MRExercisingApplicationState(userId: userId, sessionId: id)
+        return MRExercisingApplicationState(userId: userId, sessionId: id, session: session)
     }
     
     func deleteSession(id: NSUUID) -> Void {
-//        if let x = MRDataModel.MRResistanceExerciseSessionDataModel.getServerId(id) {
-//            // TODO: Delete on server
-//        }
         MRDataModel.MRResistanceExerciseSessionDataModel.delete(id)
     }
 
@@ -108,6 +119,16 @@ struct MRLoggedInApplicationState {
         return MRDataModel.MRResistanceExerciseSessionDataModel.find(on: date)
     }
     
+    ///
+    /// Returns ``MRResistanceExercisePlan``s that should happen on the given ``date``
+    ///
+    func getSimpleResistanceExercisePlansOn(on date: NSDate) -> [MRResistanceExercisePlan] {
+        if isAnonymous {
+            return MRDataModel.MRResistanceExercisePlanDataModel.defaultPlans
+        }
+        fatalError("Implement me")
+    }
+    
 }
 
 ///
@@ -116,10 +137,12 @@ struct MRLoggedInApplicationState {
 struct MRExercisingApplicationState {
     let sessionId: MRSessionId
     let userId: MRUserId
+    let session: MRResistanceExerciseSession
     
-    init(userId: MRUserId, sessionId: MRSessionId) {
+    init(userId: MRUserId, sessionId: MRSessionId, session: MRResistanceExerciseSession) {
         self.sessionId = sessionId
         self.userId = userId
+        self.session = session
     }
     
     func postResistanceExample(example: MRResistanceExerciseSetExample) -> Void {
