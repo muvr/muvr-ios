@@ -89,7 +89,7 @@ public:
 - (instancetype)init {
     self = [super init];
     m_fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(std::shared_ptr<movement_decider>(new movement_decider()),
-                                                                       std::shared_ptr<exercise_decider>(new const_exercise_decider())));
+                                                                       std::shared_ptr<exercise_decider>(new exercise_decider())));
     NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-bicep_curl-features" ofType:@"libsvm"];
     std::string libsvm([fullPath stringByDeletingLastPathComponent].UTF8String);
     fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-bicep_curl-features" ofType:@"scale"];
