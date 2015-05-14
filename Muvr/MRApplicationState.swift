@@ -128,7 +128,7 @@ struct MRExercisingApplicationState {
         if let set = example.correct {
             MRDataModel.MRResistanceExerciseSetDataModel.insert(id, sessionId: sessionId, set: set)
         }
-        
+
         MRMuvrServer.sharedInstance.apply(
             MRMuvrServerURLs.ExerciseSessionResistanceExample(userId: userId, sessionId: sessionId),
             body: MRMuvrServer.Body.Json(params: example.marshal()),
