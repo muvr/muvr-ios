@@ -90,7 +90,6 @@
 		54DBE36B1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54DBE36A1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm */; };
 		54E2878A1AFB5A1900D9E259 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5460CDAE1AFAAACD000DA384 /* sqlite3.framework */; };
 		54E2878B1AFB5A1900D9E259 /* sqlite3.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5460CDAE1AFAAACD000DA384 /* sqlite3.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		54F0DC4A1AC57E8D0061EC5D /* all_1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC2D1AC57E8D0061EC5D /* all_1.csv */; };
 		54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */; };
 		54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC361AC57E8D0061EC5D /* exercise_decider.cc */; };
 		54F0DC531AC57E8D0061EC5D /* kalman_smooth.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC371AC57E8D0061EC5D /* kalman_smooth.cc */; };
@@ -245,13 +244,6 @@
 		54F0DC281AC57E8D0061EC5D /* sensor_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sensor_data.h; sourceTree = "<group>"; };
 		54F0DC291AC57E8D0061EC5D /* sensor_symbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sensor_symbol.h; sourceTree = "<group>"; };
 		54F0DC2B1AC57E8D0061EC5D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		54F0DC2D1AC57E8D0061EC5D /* all_1.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all_1.csv; sourceTree = "<group>"; };
-		54F0DC2E1AC57E8D0061EC5D /* all_2.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all_2.csv; sourceTree = "<group>"; };
-		54F0DC2F1AC57E8D0061EC5D /* all_4.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all_4.csv; sourceTree = "<group>"; };
-		54F0DC301AC57E8D0061EC5D /* exerciseset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = exerciseset.m; sourceTree = "<group>"; };
-		54F0DC311AC57E8D0061EC5D /* matlab_workspace.mat */ = {isa = PBXFileReference; lastKnownFileType = file; path = matlab_workspace.mat; sourceTree = "<group>"; };
-		54F0DC321AC57E8D0061EC5D /* nomovement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = nomovement.m; sourceTree = "<group>"; };
-		54F0DC331AC57E8D0061EC5D /* sigfft.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sigfft.m; sourceTree = "<group>"; };
 		54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device_data_decoder.cc; sourceTree = "<group>"; };
 		54F0DC361AC57E8D0061EC5D /* exercise_decider.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = exercise_decider.cc; sourceTree = "<group>"; };
 		54F0DC371AC57E8D0061EC5D /* kalman_smooth.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kalman_smooth.cc; sourceTree = "<group>"; };
@@ -581,13 +573,6 @@
 		54F0DC2C1AC57E8D0061EC5D /* M */ = {
 			isa = PBXGroup;
 			children = (
-				54F0DC2D1AC57E8D0061EC5D /* all_1.csv */,
-				54F0DC2E1AC57E8D0061EC5D /* all_2.csv */,
-				54F0DC2F1AC57E8D0061EC5D /* all_4.csv */,
-				54F0DC301AC57E8D0061EC5D /* exerciseset.m */,
-				54F0DC311AC57E8D0061EC5D /* matlab_workspace.mat */,
-				54F0DC321AC57E8D0061EC5D /* nomovement.m */,
-				54F0DC331AC57E8D0061EC5D /* sigfft.m */,
 			);
 			path = M;
 			sourceTree = "<group>";
@@ -805,7 +790,6 @@
 				54F0DC561AC57E8D0061EC5D /* CMakeLists.txt in Resources */,
 				54B610931AF3C6010034F2DD /* Exercise.storyboard in Resources */,
 				5464EBC81AF4E24F00B5317B /* svm-model-bicep_curl-features.rds in Resources */,
-				54F0DC4A1AC57E8D0061EC5D /* all_1.csv in Resources */,
 				5464EBCB1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds in Resources */,
 				5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */,
 				54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */,
