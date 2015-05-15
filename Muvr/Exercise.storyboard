@@ -76,7 +76,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="4sl-PA-jyb">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="4sl-PA-jyb">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
@@ -148,6 +148,12 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4sl-PA-jyb" firstAttribute="bottom" secondItem="nOE-Gh-pft" secondAttribute="top" id="0bR-s2-1bv"/>
+                            <constraint firstItem="4sl-PA-jyb" firstAttribute="top" secondItem="Ag3-kr-tub" secondAttribute="top" id="QUm-5E-zDl"/>
+                            <constraint firstItem="4sl-PA-jyb" firstAttribute="leading" secondItem="Ag3-kr-tub" secondAttribute="leading" id="aux-fp-v0v"/>
+                            <constraint firstAttribute="trailing" secondItem="4sl-PA-jyb" secondAttribute="trailing" id="fha-a1-Fph"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
