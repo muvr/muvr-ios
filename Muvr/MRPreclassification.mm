@@ -14,22 +14,22 @@ INITIALIZE_EASYLOGGINGPP;
 
 class const_exercise_decider : public exercise_decider {
 public:
-    virtual exercise_result has_exercise(const raw_sensor_data& source, exercise_context &context) override {
+    virtual exercise_result has_exercise(const raw_sensor_data& source, state &context) override {
         return yes;
     }
 };
 
 class monitoring_exercise_decider : public exercise_decider {
 private:
-    exercise_context m_last_context;
+    state m_last_state;
 public:
-    virtual exercise_result has_exercise(const raw_sensor_data& source, exercise_context &context) override {
+    virtual exercise_result has_exercise(const raw_sensor_data& source, state &context) override {
         const auto r = exercise_decider::has_exercise(source, context);
-        m_last_context = context;
+        m_last_state = context;
         return r;
     }
     
-    exercise_context last_context() const { return m_last_context; }
+    state last_state() const { return m_last_state; }
 };
 
 #pragma MARK - Threed implementation

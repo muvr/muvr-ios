@@ -126,7 +126,7 @@ struct MRLoggedInApplicationState {
         if isAnonymous {
             return MRDataModel.MRResistanceExercisePlanDataModel.defaultPlans
         }
-        fatalError("Implement me")
+        return MRDataModel.MRResistanceExercisePlanDataModel.defaultPlans
     }
     
 }

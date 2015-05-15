@@ -6,7 +6,7 @@ using namespace muvr;
 
 @implementation MRExerciseDeciderState
 
-- (instancetype)init:(exercise_decider::exercise_decider::exercise_context &)context {
+- (instancetype)init:(exercise_decider::exercise_decider::state &)context {
     self = [super init];
     
     
