@@ -1,6 +1,7 @@
 import Foundation
 import SQLite
 
+/// The session detail aggregate
 typealias MRResistanceExerciseSessionDetail = ((NSUUID, MRResistanceExerciseSession), [MRResistanceExerciseSet])
 
 ///
@@ -26,6 +27,10 @@ struct MRDataModel {
     internal static let resistanceExerciseSessions = database["resistanceExerciseSessions"]
     /// resistance exercise sets table
     internal static let resistanceExerciseSets = database["resistanceExerciseSets"]
+    /// resistance exercise examples table
+    internal static let resistanceExerciseSetExamples = database["resistanceExerciseSetExamples"]
+    /// plan deviations
+    internal static let exercisePlanDeviations = database["exercisePlanDeviations"]
     /// muscle groups
     internal static let muscleGroups = database["muscleGroups"]
     /// exercises
@@ -97,20 +102,20 @@ struct MRDataModel {
     /// The exercise session
     ///
     struct MRResistanceExerciseSessionDataModel {
+        static let deleted = Expression<Bool>("deleted")
+        static let sessionId = Expression<NSUUID>("sessionId")
 
         /// Finds all MRResistanceExerciseSession instances
         static func findAll(limit: Int = 100) -> [MRResistanceExerciseSession] {
             // select * from resistanceExerciseSessions order by timestamp
             var sessions: [MRResistanceExerciseSession] = []
-            for row in resistanceExerciseSessions.order(timestamp.desc).limit(limit) {
+            for row in resistanceExerciseSessions.filter(deleted == false).order(timestamp.desc).limit(limit) {
                 sessions += [MRResistanceExerciseSession.unmarshal(row.get(json))]
             }
             return sessions
         }
         
-        /// Finds all MRResistanceExerciseSessionDetails on the given date
-        static func find(on date: NSDate) -> [MRResistanceExerciseSessionDetail] {
-            
+        private static func mapDetail(query: Query) -> [MRResistanceExerciseSessionDetail] {
             func map(row: Row) -> (NSUUID, MRResistanceExerciseSession, MRResistanceExerciseSet) {
                 return (
                     row.get(resistanceExerciseSessions.namespace(rowId)),
@@ -120,13 +125,7 @@ struct MRDataModel {
             }
             
             var r: [MRResistanceExerciseSessionDetail] = []
-
-            let midnight = date.dateOnly
-            for row in resistanceExerciseSessions
-                .join(resistanceExerciseSets, on: MRResistanceExerciseSetDataModel.sessionId == resistanceExerciseSessions.namespace(rowId))
-                .filter(resistanceExerciseSessions.namespace(timestamp) >= midnight && resistanceExerciseSessions.namespace(timestamp) < midnight.addDays(1))
-                .order(resistanceExerciseSessions.namespace(timestamp).desc) {
-            
+            for row in query {
                 let (id, session, set) = map(row)
                 if var ((lastId, _), sets) = r.last {
                     if id != lastId {
@@ -138,9 +137,35 @@ struct MRDataModel {
                 } else {
                     r += [((id, session), [set])]
                 }
-                
+                    
             }
             return r
+        }
+        
+        /// Finds all MRResistanceExerciseSessionDetails on the given date
+        static func find(on date: NSDate) -> [MRResistanceExerciseSessionDetail] {
+            let midnight = date.dateOnly
+            let query = resistanceExerciseSessions
+                .join(resistanceExerciseSets, on: sessionId == resistanceExerciseSessions.namespace(rowId))
+                .filter(deleted == false &&
+                        resistanceExerciseSessions.namespace(timestamp) >= midnight && resistanceExerciseSessions.namespace(timestamp) < midnight.addDays(1))
+                .order(resistanceExerciseSessions.namespace(timestamp).desc)
+            
+            return mapDetail(query)
+        }
+        
+        /// Finds all unsynchronized details
+        static func findUnsynced() -> [MRResistanceExerciseSessionDetail] {
+            let query = resistanceExerciseSessions
+                .join(resistanceExerciseSets, on: sessionId == resistanceExerciseSessions.namespace(rowId))
+                .filter(deleted == false && resistanceExerciseSessions.namespace(serverId) == nil)
+                .order(resistanceExerciseSessions.namespace(timestamp).desc)
+            return mapDetail(query)
+        }
+
+        /// sets the server id value
+        static func setSynchronised(id: NSUUID, serverId: NSUUID) -> Void {
+            MRDataModel.resistanceExerciseSessions.filter(MRDataModel.rowId == id).update(MRDataModel.serverId <- serverId)
         }
 
         /// Inserts a new ``session`` with the given row ``id``
@@ -148,30 +173,55 @@ struct MRDataModel {
             resistanceExerciseSessions.insert(
                 rowId <- id,
                 timestamp <- session.startDate,
+                deleted <- false,
                 json <- JSON(session.marshal()))
         }
         
         /// removes a row identified by row ``id``
         static func delete(id: NSUUID) -> Void {
-            resistanceExerciseSessions.filter(rowId == id).limit(1).delete()
+            resistanceExerciseSessions.filter(rowId == id).limit(1).update(deleted <- true)
         }
         
-    }
-    
-    ///
-    /// The exercise set, many sets in one session
-    ///
-    struct MRResistanceExerciseSetDataModel {
-        static let sessionId = Expression<NSUUID>("sessionId")
-        
-        static func insert(id: NSUUID, sessionId: NSUUID, set: MRResistanceExerciseSet) -> Void {
-            resistanceExerciseSets.insert(
+        private static func insertChild(#into: Query, id: NSUUID, sessionId: NSUUID, value: JSON) -> Void {
+            into.insert(
                 rowId <- id,
                 timestamp <- NSDate(),
                 self.sessionId <- sessionId,
-                json <- JSON(set.marshal()))
+                json <- value)
+        }
+        
+        private static func findChildren<A>(#from: Query, sessionId: MRSessionId, unmarshal: JSON -> A) -> [A] {
+            var r: [A] = []
+            for row in from {
+                r.append(unmarshal(row.get(json)))
+            }
+            return r
+        }
+
+        /// add a set into this session
+        static func insertResistanceExerciseSet(id: NSUUID, sessionId: NSUUID, set: MRResistanceExerciseSet) -> Void {
+            insertChild(into: MRDataModel.resistanceExerciseSets, id: id, sessionId: sessionId, value: JSON(set.marshal()))
+        }
+        
+        /// add an example to this session
+        static func insertResistanceExerciseSetExample(id: NSUUID, sessionId: NSUUID, example: MRResistanceExerciseSetExample) -> Void{
+            insertChild(into: MRDataModel.resistanceExerciseSetExamples, id: id, sessionId: sessionId, value: JSON(example.marshal()))
+        }
+        
+        /// add a plan deviation to this session
+        static func insertExercisePlanDeviation(id: NSUUID, sessionId: NSUUID, deviation: MRExercisePlanDeviation) -> Void {
+            insertChild(into: MRDataModel.exercisePlanDeviations, id: id, sessionId: sessionId, value: JSON(deviation.marshal()))
+        }
+
+        /// find the EES as array of JSONs to be synchronized
+        static func findResistanceExerciseSetExamplesJson(sessionId: MRSessionId) -> [JSON] {
+            return findChildren(from: MRDataModel.resistanceExerciseSetExamples, sessionId: sessionId, unmarshal: identity)
+        }
+        
+        /// find the EPD as array of JSONs to be synchronized
+        static func findExercisePlanDeviationsJson(sessionId: MRSessionId) -> [JSON] {
+            return findChildren(from: MRDataModel.exercisePlanDeviations, sessionId: sessionId, unmarshal: identity)
         }
     }
     
 }
-

@@ -26,7 +26,10 @@ struct MRApplicationState {
     static let anonymousUserId: MRUserId = UIDevice.currentDevice().identifierForVendor
     
     private static var loggedInStateInstance: MRLoggedInApplicationState? = nil
-        
+    
+    ///
+    /// Returns the currently logged-in state
+    ///
     static var loggedInState: MRLoggedInApplicationState? {
         if let x = loggedInStateInstance { return x }
         
@@ -37,8 +40,8 @@ struct MRApplicationState {
         return MRApplicationState.loggedInStateInstance
     }
     
-    // Result<MRUserId> -> Void => Result<MRLoggedInApplicationState> -> Void
-    
+    /// Result<MRUserId> -> Void => Result<MRLoggedInApplicationState> -> Void
+    /// performs operation after successful login
     private static func afterLogin(g: Result<MRLoggedInApplicationState> -> Void) -> (Result<MRUserId> -> Void) {
         return { (ruid: Result<MRUserId>) in
             g(ruid.map { x in
@@ -49,20 +52,23 @@ struct MRApplicationState {
         }
     }
 
+    /// Logs in the user with the given email and password
     static func login(#email: String, password: String, f: Result<MRLoggedInApplicationState> -> Void) -> Void {
         MRMuvrServer.sharedInstance.apply(MRMuvrServerURLs.UserLogin(),
             body: MRMuvrServer.Body.Json(params: ["email": email, "password": password]),
             unmarshaller: MRUserId.unmarshal,
             onComplete: afterLogin(f))
     }
-    
+
+    /// Registers a new user with the given username and password
     static func register(#email: String, password: String, f: Result<MRLoggedInApplicationState> -> Void) -> Void {
         MRMuvrServer.sharedInstance.apply(MRMuvrServerURLs.UserRegister(),
             body: MRMuvrServer.Body.Json(params: ["email": email, "password": password]),
             unmarshaller: MRUserId.unmarshal,
             onComplete: afterLogin(f))
     }
-    
+
+    /// Skips the login operation
     static func skip(f: Result<MRLoggedInApplicationState> -> Void) -> Void {
         MRApplicationState.loggedInStateInstance = MRLoggedInApplicationState(userId: anonymousUserId)
         f(Result.value(MRApplicationState.loggedInStateInstance!))
@@ -101,6 +107,9 @@ struct MRLoggedInApplicationState {
         return MRExercisingApplicationState(userId: userId, sessionId: id, session: session)
     }
     
+    ///
+    /// Removes an existing session locally and on the server
+    ///
     func deleteSession(id: NSUUID) -> Void {
         MRDataModel.MRResistanceExerciseSessionDataModel.delete(id)
     }
@@ -149,14 +158,17 @@ struct MRExercisingApplicationState {
         let id = NSUUID()
         
         if let set = example.correct {
-            MRDataModel.MRResistanceExerciseSetDataModel.insert(id, sessionId: sessionId, set: set)
+            MRDataModel.MRResistanceExerciseSessionDataModel.insertResistanceExerciseSet(id, sessionId: sessionId, set: set)
         }
+        MRDataModel.MRResistanceExerciseSessionDataModel.insertResistanceExerciseSetExample(id, sessionId: sessionId, example: example)
 
+        #if false
         MRMuvrServer.sharedInstance.apply(
             MRMuvrServerURLs.ExerciseSessionResistanceExample(userId: userId, sessionId: sessionId),
             body: MRMuvrServer.Body.Json(params: example.marshal()),
             unmarshaller: constUnit(),
             onComplete: constUnit())
+        #endif
     }
     
 }

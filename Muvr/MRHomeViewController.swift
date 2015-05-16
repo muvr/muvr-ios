@@ -28,6 +28,13 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        // tidy up the data
+        MRDataModel.cleanup()
+
+        // sync the data to the server
+        MRApplicationState.loggedInState!.sync();
+        
+        // load the view data
         resistanceExerciseSessions = MRApplicationState.loggedInState!.getResistanceExerciseSessions()
         calendar.reloadData()
         calendar.currentDate = NSDate()

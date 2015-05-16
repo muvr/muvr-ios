@@ -14,7 +14,7 @@
 @property (readonly) NSTimeInterval maximumDuration;
 
 /// the heart rate
-@property (readonly) uint8_t hrBelow;
+@property (readonly) uint8_t minimumHeartRate;
 @end
 
 ///

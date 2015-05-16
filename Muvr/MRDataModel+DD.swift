@@ -2,33 +2,26 @@ import Foundation
 import SQLite
 
 ///
-/// The data definition for resistance exercise set
-///
-extension MRDataModel.MRResistanceExerciseSetDataModel {
-
-    private static func create(t: SchemaBuilder) -> Void {
-        let fk = MRDataModel.resistanceExerciseSessions.namespace(MRDataModel.rowId)
-        t.column(MRDataModel.rowId, primaryKey: true)
-        t.column(MRDataModel.serverId)
-        t.column(sessionId)
-        t.column(MRDataModel.timestamp)
-        t.column(MRDataModel.json)
-
-        t.foreignKey(sessionId, references: fk, update: SchemaBuilder.Dependency.Restrict, delete: SchemaBuilder.Dependency.Cascade)
-    }
-    
-}
-
-///
 /// The data definition for resistance exercise session
 ///
 extension MRDataModel.MRResistanceExerciseSessionDataModel {
     
+    private static func createChild(t: SchemaBuilder) -> Void {
+        let fk = MRDataModel.resistanceExerciseSessions.namespace(MRDataModel.rowId)
+        t.column(MRDataModel.rowId, primaryKey: true)
+        t.column(sessionId)
+        t.column(MRDataModel.timestamp)
+        t.column(MRDataModel.json)
+        
+        t.foreignKey(sessionId, references: fk, update: SchemaBuilder.Dependency.Restrict, delete: SchemaBuilder.Dependency.Cascade)
+    }
+
     private static func create(t: SchemaBuilder) -> Void {
         t.column(MRDataModel.rowId, primaryKey: true)
         t.column(MRDataModel.serverId)
         t.column(MRDataModel.timestamp)
         t.column(MRDataModel.json)
+        t.column(deleted)
     }
     
 }
@@ -77,18 +70,22 @@ extension MRDataModel {
     
     internal static func create() -> CreateResult {
         func create() {
-            database.create(table: resistanceExerciseSessions, temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.create)
-            database.create(table: resistanceExerciseSets,     temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSetDataModel.create)
-            database.create(table: muscleGroups,               temporary: false, ifNotExists: true, MRDataModel.MRMuscleGroupDataModel.create)
-            database.create(table: exercises,                  temporary: false, ifNotExists: true, MRDataModel.MRExerciseDataModel.create)
+            database.create(table: resistanceExerciseSessions,    temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.create)
+            database.create(table: resistanceExerciseSets,        temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.createChild)
+            database.create(table: resistanceExerciseSetExamples, temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.createChild)
+            database.create(table: exercisePlanDeviations,        temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.createChild)
+            database.create(table: muscleGroups,                  temporary: false, ifNotExists: true, MRDataModel.MRMuscleGroupDataModel.create)
+            database.create(table: exercises,                     temporary: false, ifNotExists: true, MRDataModel.MRExerciseDataModel.create)
             database.userVersion = version()
         }
         
         func drop() {
-            database.drop(table: resistanceExerciseSets,     ifExists: true)
-            database.drop(table: resistanceExerciseSessions, ifExists: true)
-            database.drop(index: exercises,                  ifExists: true)
-            database.drop(index: muscleGroups,               ifExists: true)
+            database.drop(table: resistanceExerciseSets,        ifExists: true)
+            database.drop(table: resistanceExerciseSetExamples, ifExists: true)
+            database.drop(table: exercisePlanDeviations,        ifExists: true)
+            database.drop(table: resistanceExerciseSessions,    ifExists: true)
+            database.drop(index: exercises,                     ifExists: true)
+            database.drop(index: muscleGroups,                  ifExists: true)
         }
         
         func setDefaultData() {

@@ -33,7 +33,7 @@ using namespace muvr;
     self = [super init];
     _minimumDuration = rest.minimum_duration;
     _maximumDuration = rest.maximum_duration;
-    _hrBelow = rest.heart_rate;
+    _minimumHeartRate = rest.heart_rate;
     return self;
 }
 
