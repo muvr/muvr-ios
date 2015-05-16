@@ -131,6 +131,8 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         pageControl?.removeFromSuperview()
         pageControl = nil
 
+        self.state!.end(plan!.deviations as! [MRExercisePlanDeviation])
+        
         pcd.stop()
         navigationController?.popToRootViewControllerAnimated(true)
     }

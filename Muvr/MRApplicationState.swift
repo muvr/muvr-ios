@@ -154,6 +154,10 @@ struct MRExercisingApplicationState {
         self.session = session
     }
     
+    func end(deviations: [MRExercisePlanDeviation]) -> Void {
+        deviations.forEach { MRDataModel.MRResistanceExerciseSessionDataModel.insertExercisePlanDeviation(NSUUID(), sessionId: self.sessionId, deviation: $0) }
+    }
+    
     func postResistanceExample(example: MRResistanceExerciseSetExample) -> Void {
         let id = NSUUID()
         
@@ -162,7 +166,7 @@ struct MRExercisingApplicationState {
         }
         MRDataModel.MRResistanceExerciseSessionDataModel.insertResistanceExerciseSetExample(id, sessionId: sessionId, example: example)
 
-        #if false
+        #if true
         MRMuvrServer.sharedInstance.apply(
             MRMuvrServerURLs.ExerciseSessionResistanceExample(userId: userId, sessionId: sessionId),
             body: MRMuvrServer.Body.Json(params: example.marshal()),
