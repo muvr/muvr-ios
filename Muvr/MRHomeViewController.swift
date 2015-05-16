@@ -1,9 +1,10 @@
 import Foundation
 import JTCalendar
 
-class MRHomeViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, JTCalendarDataSource {
+class MRHomeViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, JTCalendarDataSource, UIActionSheetDelegate {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var calendarContentView: JTCalendarContentView!
+    @IBOutlet var profileItem: UIBarItem!
     
     private let calendar = JTCalendar()
     private var resistanceExerciseSessions: [MRResistanceExerciseSession] = []
@@ -40,6 +41,34 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
         calendar.currentDate = NSDate()
         calendar.currentDateSelected = NSDate()
         calendarDidDateSelected(calendar, date: NSDate())
+        
+        // set up UI controls
+        profileItem.enabled = !MRApplicationState.loggedInState!.isAnonymous
+    }
+    
+    @IBAction func editProfile() -> Void {
+        performSegueWithIdentifier("profile", sender: nil)
+    }
+    
+    @IBAction func settings() -> Void {
+        let accountActionTitle = MRApplicationState.loggedInState!.isAnonymous ? "Register" : "Logout"
+        let menu = UIActionSheet(title: nil, delegate: self,
+            cancelButtonTitle: "Cancel".localized(),
+            destructiveButtonTitle: accountActionTitle.localized(),
+            otherButtonTitles: "Synchronize".localized())
+        menu.showFromTabBar(tabBarController?.tabBar)
+    }
+    
+    // MARK: UIActionSheetDelegate
+    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+        switch buttonIndex {
+        case 0: // Destructive: logout or register
+            performSegueWithIdentifier("logout", sender: self)
+        case 2: // Synchronize
+            MRApplicationState.loggedInState!.sync()
+        default: // noop
+            return
+        }
     }
     
     // MARK: UITableViewDataSource
