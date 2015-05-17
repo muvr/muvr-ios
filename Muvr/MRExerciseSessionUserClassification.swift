@@ -44,14 +44,14 @@ struct MRExerciseSessionUserClassification {
         return set.map { $0.sets[0] as! MRResistanceExercise }
     }
 
-    init(properties: MRResistanceExerciseSessionProperties, data: NSData, result: [AnyObject], planned: MRExercisePlanItem?) {
+    init(session: MRResistanceExerciseSession, data: NSData, result: [AnyObject], planned: MRExercisePlanItem?) {
         classifiedSets = (result as! [MRResistanceExerciseSet]).sorted( { x, y in return x.confidence() > y.confidence() });
         if let plannedExercise = planned?.resistanceExercise {
            plannedSet = MRResistanceExerciseSet(plannedExercise)
         }
         
         var exercises: [MRResistanceExercise] = []
-        for mg in properties.muscleGroupIds {
+        for mg in session.muscleGroupIds {
             MRApplicationState.exercises.forEach { exercise in
                 if exercise.isInMuscleGroupId(mg) { exercises.append(MRResistanceExercise(exercise: exercise.id, andConfidence: 1)) }
             }

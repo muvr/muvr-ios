@@ -58,9 +58,7 @@
 		5455E7221AF90FF80049BB6B /* MRDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7211AF90FF80049BB6B /* MRDataModel.swift */; };
 		5455E7241AFA2D440049BB6B /* MRDataModel+DD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7231AFA2D440049BB6B /* MRDataModel+DD.swift */; };
 		5455E7261AFA30920049BB6B /* MRDataModel+CustomTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7251AFA30920049BB6B /* MRDataModel+CustomTypes.swift */; };
-		5455E7281AFA3C820049BB6B /* MRResistanceExerciseSessionProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7271AFA3C820049BB6B /* MRResistanceExerciseSessionProperties.swift */; };
 		5455E72A1AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7291AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift */; };
-		5455E72C1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72B1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift */; };
 		5455E72E1AFA6E6D0049BB6B /* NSDate+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72D1AFA6E6D0049BB6B /* NSDate+Marshalling.swift */; };
 		5455E7301AFA73C70049BB6B /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */; };
 		5455E7321AFA77310049BB6B /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5455E71D1AF901DA0049BB6B /* SQLite.framework */; };
@@ -207,9 +205,7 @@
 		5455E7211AF90FF80049BB6B /* MRDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDataModel.swift; sourceTree = "<group>"; };
 		5455E7231AFA2D440049BB6B /* MRDataModel+DD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRDataModel+DD.swift"; sourceTree = "<group>"; };
 		5455E7251AFA30920049BB6B /* MRDataModel+CustomTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRDataModel+CustomTypes.swift"; sourceTree = "<group>"; };
-		5455E7271AFA3C820049BB6B /* MRResistanceExerciseSessionProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSessionProperties.swift; sourceTree = "<group>"; };
 		5455E7291AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRResistanceExerciseSession+Marshalling.swift"; sourceTree = "<group>"; };
-		5455E72B1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRResistanceExerciseSessionProperties+Marshalling.swift"; sourceTree = "<group>"; };
 		5455E72D1AFA6E6D0049BB6B /* NSDate+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Marshalling.swift"; sourceTree = "<group>"; };
 		5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+DateUtils.swift"; sourceTree = "<group>"; };
 		5460CDAE1AFAAACD000DA384 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = UnmanagedFrameworks/sqlite3.framework; sourceTree = "<group>"; };
@@ -521,8 +517,6 @@
 				54F2881D1B00BD0100E4D591 /* MRMuscleGroup+Localisation.swift */,
 				54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */,
 				5455E7291AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift */,
-				5455E7271AFA3C820049BB6B /* MRResistanceExerciseSessionProperties.swift */,
-				5455E72B1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift */,
 				5455E72D1AFA6E6D0049BB6B /* NSDate+Marshalling.swift */,
 				5447E7F61B00FB7C0003C0A0 /* MRResistanceExercisePlan.swift */,
 				5447E7FA1B010C860003C0A0 /* MRResistanceExercisePlan+Marshalling.swift */,
@@ -889,7 +883,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5455E72C1AFA3E170049BB6B /* MRResistanceExerciseSessionProperties+Marshalling.swift in Sources */,
 				5455E7221AF90FF80049BB6B /* MRDataModel.swift in Sources */,
 				54F288121B00A6F300E4D591 /* MRExerciseSessionUserClassification.swift in Sources */,
 				FC3970621AEA6CC900829357 /* svm.cc in Sources */,
@@ -966,7 +959,6 @@
 				543374211AD010B1005864D7 /* Predef.swift in Sources */,
 				54820DF41AF27DC200E3AEC2 /* MRMuvrServer.swift in Sources */,
 				54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */,
-				5455E7281AFA3C820049BB6B /* MRResistanceExerciseSessionProperties.swift in Sources */,
 				FCEFD5B61AF8B315007C840F /* device_data_encoder.cc in Sources */,
 				542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */,
 				5447E7FB1B010C860003C0A0 /* MRResistanceExercisePlan+Marshalling.swift in Sources */,

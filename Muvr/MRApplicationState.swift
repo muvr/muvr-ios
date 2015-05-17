@@ -100,9 +100,8 @@ struct MRLoggedInApplicationState {
     ///
     /// Starts a resistance exercise session with the given properties
     ///
-    func startSession(properties: MRResistanceExerciseSessionProperties) -> MRExercisingApplicationState {
+    func startSession(session: MRResistanceExerciseSession) -> MRExercisingApplicationState {
         let id = NSUUID()
-        let session = MRResistanceExerciseSession(startDate: NSDate(), properties: properties)
         MRDataModel.MRResistanceExerciseSessionDataModel.insert(id, session: session)
         return MRExercisingApplicationState(userId: userId, sessionId: id, session: session)
     }

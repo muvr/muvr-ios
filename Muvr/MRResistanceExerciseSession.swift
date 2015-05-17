@@ -2,5 +2,7 @@ import Foundation
 
 struct MRResistanceExerciseSession {
     var startDate: NSDate
-    var properties: MRResistanceExerciseSessionProperties
+    var intendedIntensity: Double
+    var muscleGroupIds: [MRMuscleGroupId]
+    var title: String
 }

@@ -43,7 +43,7 @@ class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelega
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let ctrl = segue.destinationViewController as? MRExerciseSessionViewController,
            let muscleGroupsIds = sender as? [String] {
-            let properties = MRResistanceExerciseSessionProperties(intendedIntensity: 0.5, muscleGroupIds: muscleGroupsIds)
+            let properties = MRResistanceExerciseSession(startDate: NSDate(), intendedIntensity: 0.5, muscleGroupIds: muscleGroupsIds, title: "Ad Hoc".localized())
             ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties), withPlan: nil)
         }
     }

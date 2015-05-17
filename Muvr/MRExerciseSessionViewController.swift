@@ -113,7 +113,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     @IBAction
     func explicitAdd() {
-        let uc = MRExerciseSessionUserClassification(properties: state!.session.properties, data: NSData(), result: [], planned: plan!.current)
+        let uc = MRExerciseSessionUserClassification(session: state!.session, data: NSData(), result: [], planned: plan!.current)
         classificationCompletedViewController?.presentClassificationResult(self, userClassification: uc, onComplete: logExerciseExample)
     }
     
@@ -255,7 +255,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         
         waitingForUser = true
 
-        userClassification = MRExerciseSessionUserClassification(properties: state!.session.properties, data: data, result: [], planned: plan!.current)
+        userClassification = MRExerciseSessionUserClassification(session: state!.session, data: data, result: [], planned: plan!.current)
         assert(!userClassification!.combinedSimpleSets.isEmpty, "Attempt to present classification result with no options.")
         
         classificationCompletedViewController?.presentClassificationResult(self, userClassification: userClassification!, onComplete: logExerciseExample)
