@@ -27,10 +27,9 @@ protocol MRMuvrServerRequestConvertible {
 ///
 enum MRMuvrServerURLs : MRMuvrServerRequestConvertible {
     
-    ///
-    /// Register the user
-    ///
-    case ExerciseSessionResistanceExample(userId: MRUserId, sessionId: MRSessionId)
+    //case ExerciseSessionResistanceExample(userId: MRUserId, sessionId: MRSessionId)
+    
+    case SubmitEntireResistanceExerciseSession(userId: MRUserId, sessionId: MRSessionId)
     
     /// User login
     case UserLogin()
@@ -56,7 +55,7 @@ enum MRMuvrServerURLs : MRMuvrServerRequestConvertible {
         get {
             let r: MRMuvrServerRequest = {
                 switch self {
-                case .ExerciseSessionResistanceExample(let user, let session): return MRMuvrServerRequest(path: "/exercise/\(user.UUIDString)/\(session.UUIDString)/resistance", method: Method.POST)
+                case .SubmitEntireResistanceExerciseSession(let user, let session): return MRMuvrServerRequest(path: "/exercise/\(user.UUIDString)/resistance", method: Method.POST)
                 case .UserLogin: return MRMuvrServerRequest(path: "/user", method: Method.PUT)
                 case .UserRegister: return MRMuvrServerRequest(path: "/user", method: Method.POST)
                 }

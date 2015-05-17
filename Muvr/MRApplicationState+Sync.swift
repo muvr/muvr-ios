@@ -21,8 +21,10 @@ extension MRLoggedInApplicationState {
             println(NSString(data: d, encoding: NSUTF8StringEncoding))
             
             // pretend it all worked...
-            
-            MRDataModel.MRResistanceExerciseSessionDataModel.setSynchronised(id, serverId: NSUUID())
+            MRMuvrServer.sharedInstance.apply(
+                MRMuvrServerURLs.SubmitEntireResistanceExerciseSession(userId: userId, sessionId: id), body: .Json(params: params), unmarshaller: MRSessionId.unmarshal) {
+                    $0.cata(constUnit(), r: { MRDataModel.MRResistanceExerciseSessionDataModel.setSynchronised(id, serverId: $0) })
+                }
         }
     }
     
