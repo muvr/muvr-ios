@@ -70,15 +70,6 @@ extension Request {
     
 }
 
-/*
-protocol MRMuvrServerCaller {
-
-    func apply<A>(req: MRMuvrServerRequestConvertible, unmarshaller: (JSON) -> A, body: MRMuvrServerRequestBody?, onComplete: Result<A> -> Void) -> Void
-    
-    func apply<A>(req: MRMuvrServerRequestConvertible, unmarshaller: (JSON) -> A, onComplete: Result<A> -> Void) -> Void
-}
-*/
-
 ///
 /// Lift server connection
 ///
@@ -181,6 +172,25 @@ class MRMuvrServer {
     
     func apply<A>(req: MRMuvrServerRequestConvertible, unmarshaller: JSON -> A, onComplete: Result<A> -> Void) {
         request(req, body: nil).responseAsResult(onComplete, completionHandler: unmarshaller)
+    }
+    
+    func apply(req: MRMuvrServerRequestConvertible, onComplete: Result<NSData> -> Void) {
+        request(req, body: nil).response { (_, response, responseBody, err) -> Void in
+            let body = responseBody as? NSData
+            if let x = response {
+                if x.statusCode != 200 {
+                    onComplete(Result.error(NSError.errorWithMessage("Request failed", code: x.statusCode)))
+                } else {
+                    if let b = body {
+                        onComplete(Result.value(b))
+                    } else {
+                        onComplete(Result.error(NSError.errorWithMessage("No body", code: x.statusCode)))
+                    }
+                }
+            } else if let e = err {
+                onComplete(Result.error(e))
+            }
+        }
     }
     
     ///

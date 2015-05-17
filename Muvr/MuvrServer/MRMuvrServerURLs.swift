@@ -31,9 +31,18 @@ enum MRMuvrServerURLs : MRMuvrServerRequestConvertible {
     
     case SubmitEntireResistanceExerciseSession(userId: MRUserId, sessionId: MRSessionId)
     
+    /// Get user public profile
+    case GetPublicProfile(userId: MRUserId)
+    /// Set user public profile
+    case SetPublicProfile(userId: MRUserId)
+    
+    /// Set profile image
+    case SetProfileImage(userId: MRUserId)
+    /// Get profile image
+    case GetProfileImage(userId: MRUserId)
+    
     /// User login
     case UserLogin()
-    
     /// User registration
     case UserRegister()
     
@@ -58,6 +67,10 @@ enum MRMuvrServerURLs : MRMuvrServerRequestConvertible {
                 case .SubmitEntireResistanceExerciseSession(let user, let session): return MRMuvrServerRequest(path: "/exercise/\(user.UUIDString)/resistance", method: Method.POST)
                 case .UserLogin: return MRMuvrServerRequest(path: "/user", method: Method.PUT)
                 case .UserRegister: return MRMuvrServerRequest(path: "/user", method: Method.POST)
+                case .GetPublicProfile(let user): return MRMuvrServerRequest(path: "/user/\(user.UUIDString)", method: Method.GET)
+                case .SetPublicProfile(let user): return MRMuvrServerRequest(path: "/user/\(user.UUIDString)", method: Method.POST)
+                case .SetProfileImage(let user): return MRMuvrServerRequest(path: "/user/\(user.UUIDString)/image", method: Method.POST)
+                case .GetProfileImage(let user): return MRMuvrServerRequest(path: "/user/\(user.UUIDString)/image", method: Method.GET)
                 }
                 }()
             
