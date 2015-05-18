@@ -115,87 +115,92 @@ public:
 }
 
 - (void)pushBack:(NSData *)data from:(uint8_t)location withHint:(MRResistanceExercise *)plannedExercise {
-    // core processing
-    const uint8_t *buf = reinterpret_cast<const uint8_t*>(data.bytes);
-    raw_sensor_data decoded = decode_single_packet(buf);
-    sensor_data_fuser::fusion_result fusionResult = m_fuser->push_back(decoded, sensor_location_t::wrist, 0);
+    try {
+        const uint8_t *buf = reinterpret_cast<const uint8_t*>(data.bytes);
+        raw_sensor_data decoded = decode_single_packet(buf);    
+        sensor_data_fuser::fusion_result fusionResult = m_fuser->push_back(decoded, sensor_location_t::wrist, 0);
 
-    // hooks & delegates
-    
-    // first, handle the device data stuff
-    if (self.deviceDataDelegate != nil) {
-        Mat data = decoded.data();
+        // hooks & delegates
         
-        NSMutableArray *values = [[NSMutableArray alloc] init];
-        for (int i = 0; i < data.rows; ++i) {
-            if (data.cols == 3) {
-                Threed *t = [[Threed alloc] init];
-                t.x = data.at<int16_t>(i, 0);
-                t.y = data.at<int16_t>(i, 1);
-                t.z = data.at<int16_t>(i, 2);
-                [values addObject:t];
-            } else if (data.cols == 1) {
-                [values addObject:[NSNumber numberWithInt:data.at<int16_t>(i, 0)]];
-            } else {
-                throw std::runtime_error("unreportable data dimension");
+        // first, handle the device data stuff
+        if (self.deviceDataDelegate != nil) {
+            Mat data = decoded.data();
+            
+            NSMutableArray *values = [[NSMutableArray alloc] init];
+            for (int i = 0; i < data.rows; ++i) {
+                if (data.cols == 3) {
+                    Threed *t = [[Threed alloc] init];
+                    t.x = data.at<int16_t>(i, 0);
+                    t.y = data.at<int16_t>(i, 1);
+                    t.z = data.at<int16_t>(i, 2);
+                    [values addObject:t];
+                } else if (data.cols == 1) {
+                    [values addObject:[NSNumber numberWithInt:data.at<int16_t>(i, 0)]];
+                } else {
+                    throw std::runtime_error("unreportable data dimension");
+                }
+            }
+            [self.deviceDataDelegate deviceDataDecoded3D:values fromSensor:decoded.type() device:decoded.device_id() andLocation:location];
+        }
+
+        // second, the exercise blocks
+        if (self.exerciseBlockDelegate != nil) {
+            switch (fusionResult.type()) {
+                case sensor_data_fuser::fusion_result::not_moving:
+                    [self.exerciseBlockDelegate notMoving];
+                    break;
+                case sensor_data_fuser::fusion_result::moving:
+                    [self.exerciseBlockDelegate moving];
+                    break;
+                case sensor_data_fuser::fusion_result::exercising:
+                    [self.exerciseBlockDelegate exercising];
+                    break;
+                case sensor_data_fuser::fusion_result::exercise_ended:
+                    [self.exerciseBlockDelegate exerciseEnded];
+                    break;
             }
         }
-        [self.deviceDataDelegate deviceDataDecoded3D:values fromSensor:decoded.type() device:decoded.device_id() andLocation:location];
-    }
-
-    // second, the exercise blocks
-    if (self.exerciseBlockDelegate != nil) {
-        switch (fusionResult.type()) {
-            case sensor_data_fuser::fusion_result::not_moving:
-                [self.exerciseBlockDelegate notMoving];
-                break;
-            case sensor_data_fuser::fusion_result::moving:
-                [self.exerciseBlockDelegate moving];
-                break;
-            case sensor_data_fuser::fusion_result::exercising:
-                [self.exerciseBlockDelegate exercising];
-                break;
-            case sensor_data_fuser::fusion_result::exercise_ended:
-                [self.exerciseBlockDelegate exerciseEnded];
-                break;
-        }
-    }
-    
-    if (fusionResult.type() != sensor_data_fuser::fusion_result::exercise_ended) return;
-    
-    // finally, the classification pipeline
-    svm_classifier::classification_result result = m_classifier->classify(fusionResult.fused_exercise_data());
-    
-    NSMutableArray *transformedClassificationResult = [NSMutableArray array];
-
-    if (result.exercises().size() > 0) {
-            
-        // for now we just take the first and only identified exercise if there is any
-        svm_classifier::classified_exercise classified_exercise = result.exercises()[0];
-            
-        MRResistanceExercise *exercise = [[MRResistanceExercise alloc]
-                                            initWithExercise:[NSString stringWithCString:classified_exercise.exercise_name().c_str()encoding:[NSString defaultCStringEncoding]]
-                                            repetitions:@(classified_exercise.repetitions())
-                                            weight: @(classified_exercise.weight())
-                                            intensity: @(classified_exercise.intensity())
-                                            andConfidence: classified_exercise.confidence()];
         
-        MRResistanceExerciseSet *exercise_set = [[MRResistanceExerciseSet alloc] init:exercise];
-        [transformedClassificationResult addObject:exercise_set];
-    }
-    
-    // the hooks
-    if (self.classificationPipelineDelegate != nil) {
-        std::ostringstream os;
-        os << "[";
-        for (int i = 0; i < fusionResult.fused_exercise_data().size(); ++i) {
-            if (i > 0) os << ",";
-            export_data(os, fusionResult.fused_exercise_data()[i]);
-        }
-        os << "]";
+        if (fusionResult.type() != sensor_data_fuser::fusion_result::exercise_ended) return;
+        
+        // finally, the classification pipeline
+        svm_classifier::classification_result result = m_classifier->classify(fusionResult.fused_exercise_data());
+        
+        NSMutableArray *transformedClassificationResult = [NSMutableArray array];
 
-        NSData *data = [[NSString stringWithUTF8String:os.str().c_str()] dataUsingEncoding:NSUTF8StringEncoding];
-        [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
+        if (result.exercises().size() > 0) {
+                
+            // for now we just take the first and only identified exercise if there is any
+            svm_classifier::classified_exercise classified_exercise = result.exercises()[0];
+                
+            MRResistanceExercise *exercise = [[MRResistanceExercise alloc]
+                                                initWithExercise:[NSString stringWithCString:classified_exercise.exercise_name().c_str()encoding:[NSString defaultCStringEncoding]]
+                                                repetitions:@(classified_exercise.repetitions())
+                                                weight: @(classified_exercise.weight())
+                                                intensity: @(classified_exercise.intensity())
+                                                andConfidence: classified_exercise.confidence()];
+            
+            MRResistanceExerciseSet *exercise_set = [[MRResistanceExerciseSet alloc] init:exercise];
+            [transformedClassificationResult addObject:exercise_set];
+        }
+        
+        // the hooks
+        if (self.classificationPipelineDelegate != nil) {
+            std::ostringstream os;
+            os << "[";
+            for (int i = 0; i < fusionResult.fused_exercise_data().size(); ++i) {
+                if (i > 0) os << ",";
+                export_data(os, fusionResult.fused_exercise_data()[i]);
+            }
+            os << "]";
+
+            NSData *data = [[NSString stringWithUTF8String:os.str().c_str()] dataUsingEncoding:NSUTF8StringEncoding];
+            [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
+        }
+    } catch (std::exception &ex) {
+        std::cerr << ex.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Something is fucked up" << std::endl;
     }
 }
 

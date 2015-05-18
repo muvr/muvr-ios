@@ -17,9 +17,6 @@ extension MRLoggedInApplicationState {
                 "deviations":JSON(deviations).object
             ]
             
-            let d = NSJSONSerialization.dataWithJSONObject(params, options: NSJSONWritingOptions.PrettyPrinted, error: nil)!
-            println(NSString(data: d, encoding: NSUTF8StringEncoding))
-            
             // pretend it all worked...
             MRMuvrServer.sharedInstance.apply(
                 MRMuvrServerURLs.SubmitEntireResistanceExerciseSession(userId: userId, sessionId: id), body: .Json(params: params), unmarshaller: MRSessionId.unmarshal) {
