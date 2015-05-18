@@ -99,6 +99,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     func startSession(state: MRExercisingApplicationState, withPlan definition: MRResistanceExercisePlan?) {
         self.state = state
         self.planDefinition = definition
+        UIApplication.sharedApplication().idleTimerDisabled = true
     }
     
     @IBAction
@@ -132,6 +133,8 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         pageControl = nil
 
         self.state!.end(plan!.deviations as! [MRExercisePlanDeviation])
+        
+        UIApplication.sharedApplication().idleTimerDisabled = false
         
         pcd.stop()
         navigationController?.popToRootViewControllerAnimated(true)
