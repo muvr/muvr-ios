@@ -200,7 +200,13 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         if waitingForUser { return }
 
         #if true
-        
+            let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+            let path = paths.first as! String
+            let fileHandle = NSFileHandle(forWritingAtPath: path)
+            
+            fileHandle?.seekToEndOfFile()
+            fileHandle?.writeData(data)
+            fileHandle?.closeFile()
         #endif
         
         preclassification!.pushBack(data, from: 0, withHint: nil)
