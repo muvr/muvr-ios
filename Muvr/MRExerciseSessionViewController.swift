@@ -196,6 +196,10 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
         if waitingForUser { return }
 
+        #if true
+        
+        #endif
+        
         preclassification!.pushBack(data, from: 0, withHint: nil)
     }
     
