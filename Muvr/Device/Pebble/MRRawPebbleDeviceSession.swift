@@ -186,9 +186,15 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     
     func pebbleCentral(central: PBPebbleCentral!, watchDidConnect watch: PBWatch!, isNew: Bool) {
         NSLog("Connected %@", watch)
+        if currentSession != nil {
+            
+        }
     }
     
     func pebbleCentral(central: PBPebbleCentral!, watchDidDisconnect watch: PBWatch!) {
         NSLog("watchDidDisconnect %@", watch)
+        if currentSession != nil {
+            
+        }
     }
 }
