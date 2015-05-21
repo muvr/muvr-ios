@@ -37,7 +37,7 @@ struct MRExercisingApplicationState {
     
     func collectData(#mark: Int, deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        let component = String(format: "data-%d-%d.raw", mark, deviceId)
+        let component = String(format: "data-%@-%d-%d.raw", sessionId.UUIDString, mark, deviceId)
         let path = (paths.first as! String).stringByAppendingPathComponent(component)
         if !NSFileManager.defaultManager().fileExistsAtPath(path) {
             NSFileManager.defaultManager().createFileAtPath(path, contents: nil, attributes: nil)
