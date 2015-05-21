@@ -8,6 +8,7 @@ import Foundation
 ///
 class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var dataCollectionSwitch: UISwitch!
     
     // MARK: UITableViewDelegate
     func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
@@ -16,7 +17,8 @@ class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelega
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = MRApplicationState.muscleGroups[indexPath.row]
-        performSegueWithIdentifier("exercise", sender: [cell.id])
+        let segue = dataCollectionSwitch.on ? "dataCollection" : "exercise"
+        performSegueWithIdentifier(segue, sender: [cell.id])
     }
     
     // MARK: UITableViewDataSource
@@ -41,7 +43,7 @@ class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelega
     // MARK: Transition to exercising
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let ctrl = segue.destinationViewController as? MRExerciseSessionViewController,
+        if let ctrl = segue.destinationViewController as? MRExerciseSessionStartable,
            let muscleGroupsIds = sender as? [String] {
             let properties = MRResistanceExerciseSession(startDate: NSDate(), intendedIntensity: 0.5, muscleGroupIds: muscleGroupsIds, title: "Ad Hoc".localized())
             ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties), withPlan: nil)

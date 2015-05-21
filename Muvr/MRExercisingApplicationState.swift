@@ -35,4 +35,18 @@ struct MRExercisingApplicationState {
         #endif
     }
     
+    func collectData(#mark: Int, deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
+        let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        let component = String(format: "data-%d-%d.raw", mark, deviceId)
+        let path = (paths.first as! String).stringByAppendingPathComponent(component)
+        if !NSFileManager.defaultManager().fileExistsAtPath(path) {
+            NSFileManager.defaultManager().createFileAtPath(path, contents: nil, attributes: nil)
+        }
+        let fileHandle = NSFileHandle(forWritingAtPath: path)
+        
+        fileHandle?.seekToEndOfFile()
+        fileHandle?.writeData(data)
+        fileHandle?.closeFile()
+    }
+    
 }

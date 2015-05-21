@@ -44,6 +44,8 @@
 		543374271AD0111B005864D7 /* String+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374261AD0111B005864D7 /* String+Localisation.swift */; };
 		543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374281AD011A3005864D7 /* MRDeviceSessionDelegate.swift */; };
 		5433742F1AD01345005864D7 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5433742E1AD01345005864D7 /* String+MD5.swift */; };
+		543ED4811B0DB3AE00D12768 /* MRExerciseSessionDataCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543ED4801B0DB3AE00D12768 /* MRExerciseSessionDataCollectionViewController.swift */; };
+		543ED4831B0DBCCE00D12768 /* MRExerciseSessionStartable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543ED4821B0DBCCE00D12768 /* MRExerciseSessionStartable.swift */; };
 		5443FA791AE69E1400CC229D /* sensor_data_fuser_rsde.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA751AE69E1400CC229D /* sensor_data_fuser_rsde.cc */; };
 		5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */; };
 		5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */; };
@@ -194,6 +196,8 @@
 		543374261AD0111B005864D7 /* String+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localisation.swift"; sourceTree = "<group>"; };
 		543374281AD011A3005864D7 /* MRDeviceSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDeviceSessionDelegate.swift; sourceTree = "<group>"; };
 		5433742E1AD01345005864D7 /* String+MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
+		543ED4801B0DB3AE00D12768 /* MRExerciseSessionDataCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionDataCollectionViewController.swift; sourceTree = "<group>"; };
+		543ED4821B0DBCCE00D12768 /* MRExerciseSessionStartable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionStartable.swift; sourceTree = "<group>"; };
 		5443FA741AE69DC900CC229D /* easylogging++.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "easylogging++.h"; path = "../../../../muvr-preclassification/core/include/easylogging++.h"; sourceTree = "<group>"; };
 		5443FA751AE69E1400CC229D /* sensor_data_fuser_rsde.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_rsde.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_rsde.cc"; sourceTree = "<group>"; };
 		5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_rsdt.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_rsdt.cc"; sourceTree = "<group>"; };
@@ -505,14 +509,16 @@
 		547E6A821AF35680005DE00C /* Exercise */ = {
 			isa = PBXGroup;
 			children = (
-				547E6A831AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift */,
+				543ED4801B0DB3AE00D12768 /* MRExerciseSessionDataCollectionViewController.swift */,
 				54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */,
+				547E6A831AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift */,
 				540381541AECFB05000C8B15 /* MRExerciseSessionClassificationCompletedViewController.swift */,
 				541ABBA51AC577E00056A81B /* MRExerciseSessionDeviceDataViewController.swift */,
 				54D35FD71AF4E02100A5295D /* MRExerciseSessionPlanViewController.swift */,
 				54F288111B00A6F300E4D591 /* MRExerciseSessionUserClassification.swift */,
 				54B610921AF3C6010034F2DD /* Exercise.storyboard */,
 				54BC18B01B0391EA004C179B /* MRExercisePlanDelegate.swift */,
+				543ED4821B0DBCCE00D12768 /* MRExerciseSessionStartable.swift */,
 			);
 			name = Exercise;
 			sourceTree = "<group>";
@@ -956,6 +962,7 @@
 				542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */,
 				547E6A8B1AF36938005DE00C /* MRMuscleGroup.swift in Sources */,
 				540381551AECFB05000C8B15 /* MRExerciseSessionClassificationCompletedViewController.swift in Sources */,
+				543ED4831B0DBCCE00D12768 /* MRExerciseSessionStartable.swift in Sources */,
 				5403A87A1AF3B3D000FB8381 /* MRHomeViewController.swift in Sources */,
 				540381511AEC2B5A000C8B15 /* MRButton.swift in Sources */,
 				54820DFD1AF28D1900E3AEC2 /* Result+GetOrUnit.swift in Sources */,
@@ -987,6 +994,7 @@
 				540381531AEC3567000C8B15 /* MRTypes.swift in Sources */,
 				54005C9C1B0764E300BF0732 /* MRRest+Marshalling.swift in Sources */,
 				540381631AED2FD1000C8B15 /* MRExerciseSetExample+Marshalling.swift in Sources */,
+				543ED4811B0DB3AE00D12768 /* MRExerciseSessionDataCollectionViewController.swift in Sources */,
 				547E6A841AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift in Sources */,
 				54820DFF1AF2971900E3AEC2 /* MRTypes+Marshalling.swift in Sources */,
 				54F0DC541AC57E8D0061EC5D /* nomovement_decider.cc in Sources */,

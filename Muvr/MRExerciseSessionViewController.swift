@@ -11,7 +11,7 @@ import Foundation
 /// used in ``MRPreclassification`` are implemented as proxies to the view controllers that handle the various
 /// pages.
 ///
-class MRExerciseSessionViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate,
+class MRExerciseSessionViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, MRExerciseSessionStartable,
     MRDeviceSessionDelegate, MRDeviceDataDelegate, MRExerciseBlockDelegate, MRClassificationPipelineDelegate, MRExercisePlanDelegate {
     
     /// the timer for the stop button
