@@ -117,7 +117,7 @@ public:
 - (void)pushBack:(NSData *)data from:(uint8_t)location withHint:(MRResistanceExercise *)plannedExercise {
     try {
         const uint8_t *buf = reinterpret_cast<const uint8_t*>(data.bytes);
-        raw_sensor_data decoded = decode_single_packet(buf);    
+        raw_sensor_data decoded = decode_single_packet(buf).first;
         sensor_data_fuser::fusion_result fusionResult = m_fuser->push_back(decoded, sensor_location_t::wrist, 0);
 
         // hooks & delegates
