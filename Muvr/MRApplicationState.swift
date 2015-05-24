@@ -74,4 +74,16 @@ struct MRApplicationState {
         f(Result.value(MRApplicationState.loggedInStateInstance!))
     }
     
+    /// Removes cached training data
+    static func clearTrainingData() {
+        let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        let path = (paths.first as! String)
+        for file in NSFileManager.defaultManager().contentsOfDirectoryAtPath(path, error: nil)! as! [String] {
+            if file.pathExtension == "raw" {
+                NSFileManager.defaultManager().removeItemAtPath(path.stringByAppendingPathComponent(file), error: nil)
+            }
+        }
+
+    }
+    
 }

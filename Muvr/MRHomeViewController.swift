@@ -55,7 +55,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
         let menu = UIActionSheet(title: nil, delegate: self,
             cancelButtonTitle: "Cancel".localized(),
             destructiveButtonTitle: accountActionTitle.localized(),
-            otherButtonTitles: "Synchronize".localized())
+            otherButtonTitles: "Synchronize".localized(), "Reset Training Data".localized())
         menu.showFromTabBar(tabBarController?.tabBar)
     }
     
@@ -66,6 +66,8 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
             performSegueWithIdentifier("logout", sender: self)
         case 2: // Synchronize
             MRApplicationState.loggedInState!.sync()
+        case 3: // Reset
+            MRApplicationState.clearTrainingData()
         default: // noop
             return
         }
