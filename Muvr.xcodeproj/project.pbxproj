@@ -56,15 +56,12 @@
 		5447E7FB1B010C860003C0A0 /* MRResistanceExercisePlan+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5447E7FA1B010C860003C0A0 /* MRResistanceExercisePlan+Marshalling.swift */; };
 		5447E7FD1B010E5F0003C0A0 /* MRResistanceExercisePlan+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5447E7FC1B010E5F0003C0A0 /* MRResistanceExercisePlan+Localisation.swift */; };
 		5447E7FF1B0114170003C0A0 /* MRResistanceExercise+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5447E7FE1B0114170003C0A0 /* MRResistanceExercise+Localisation.swift */; };
-		5455E7201AF9022A0049BB6B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5455E71F1AF9022A0049BB6B /* libsqlite3.dylib */; };
 		5455E7221AF90FF80049BB6B /* MRDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7211AF90FF80049BB6B /* MRDataModel.swift */; };
 		5455E7241AFA2D440049BB6B /* MRDataModel+DD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7231AFA2D440049BB6B /* MRDataModel+DD.swift */; };
 		5455E7261AFA30920049BB6B /* MRDataModel+CustomTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7251AFA30920049BB6B /* MRDataModel+CustomTypes.swift */; };
 		5455E72A1AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7291AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift */; };
 		5455E72E1AFA6E6D0049BB6B /* NSDate+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72D1AFA6E6D0049BB6B /* NSDate+Marshalling.swift */; };
 		5455E7301AFA73C70049BB6B /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */; };
-		5455E7321AFA77310049BB6B /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5455E71D1AF901DA0049BB6B /* SQLite.framework */; };
-		5455E7331AFA77310049BB6B /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5455E71D1AF901DA0049BB6B /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5464EBBF1AF4E1FD00B5317B /* classifier_loader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */; };
 		5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */; };
 		5464EBC81AF4E24F00B5317B /* svm-model-bicep_curl-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC21AF4E24F00B5317B /* svm-model-bicep_curl-features.rds */; };
@@ -99,8 +96,6 @@
 		54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CC46591B08FAD5007B739A /* MobileCoreServices.framework */; };
 		54D35FD81AF4E02100A5295D /* MRExerciseSessionPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D35FD71AF4E02100A5295D /* MRExerciseSessionPlanViewController.swift */; };
 		54DBE36B1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54DBE36A1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm */; };
-		54E2878A1AFB5A1900D9E259 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5460CDAE1AFAAACD000DA384 /* sqlite3.framework */; };
-		54E2878B1AFB5A1900D9E259 /* sqlite3.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5460CDAE1AFAAACD000DA384 /* sqlite3.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */; };
 		54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC361AC57E8D0061EC5D /* exercise_decider.cc */; };
 		54F0DC531AC57E8D0061EC5D /* kalman_smooth.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC371AC57E8D0061EC5D /* kalman_smooth.cc */; };
@@ -133,21 +128,6 @@
 			remoteInfo = Muvr;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		5455E7341AFA77310049BB6B /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				54E2878B1AFB5A1900D9E259 /* sqlite3.framework in Embed Frameworks */,
-				5455E7331AFA77310049BB6B /* SQLite.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		16D2F8864F1B66657A209A69 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -209,7 +189,6 @@
 		5447E7FA1B010C860003C0A0 /* MRResistanceExercisePlan+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRResistanceExercisePlan+Marshalling.swift"; sourceTree = "<group>"; };
 		5447E7FC1B010E5F0003C0A0 /* MRResistanceExercisePlan+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRResistanceExercisePlan+Localisation.swift"; sourceTree = "<group>"; };
 		5447E7FE1B0114170003C0A0 /* MRResistanceExercise+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRResistanceExercise+Localisation.swift"; sourceTree = "<group>"; };
-		5455E71D1AF901DA0049BB6B /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = UnmanagedFrameworks/SQLite.framework; sourceTree = "<group>"; };
 		5455E71F1AF9022A0049BB6B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		5455E7211AF90FF80049BB6B /* MRDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDataModel.swift; sourceTree = "<group>"; };
 		5455E7231AFA2D440049BB6B /* MRDataModel+DD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRDataModel+DD.swift"; sourceTree = "<group>"; };
@@ -217,7 +196,6 @@
 		5455E7291AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRResistanceExerciseSession+Marshalling.swift"; sourceTree = "<group>"; };
 		5455E72D1AFA6E6D0049BB6B /* NSDate+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Marshalling.swift"; sourceTree = "<group>"; };
 		5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+DateUtils.swift"; sourceTree = "<group>"; };
-		5460CDAE1AFAAACD000DA384 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = UnmanagedFrameworks/sqlite3.framework; sourceTree = "<group>"; };
 		5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = classifier_loader.cc; path = "../../../../../muvr-preclassification/core/main/cc/classifier_loader.cc"; sourceTree = "<group>"; };
 		5464EBC01AF4E21400B5317B /* classifier_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier_loader.h; path = "../../../../muvr-preclassification/core/include/classifier_loader.h"; sourceTree = "<group>"; };
 		5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-bicep_curl-features.libsvm"; sourceTree = "<group>"; };
@@ -239,7 +217,6 @@
 		548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Muvr-Bridging-Header.h"; sourceTree = "<group>"; };
 		548225521AC57A3500EEEFCB /* MRPreclassification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPreclassification.h; sourceTree = "<group>"; };
 		548225531AC57A3500EEEFCB /* MRPreclassification.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRPreclassification.mm; sourceTree = "<group>"; };
-		548226BD1AC57CD300EEEFCB /* libMuvrPreclassification.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMuvrPreclassification.a; path = "MuvrPreclassification/build/Debug-iphoneos/libMuvrPreclassification.a"; sourceTree = "<group>"; };
 		5488F39B1AFF8C960086BF7B /* exercise_plan.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = exercise_plan.cc; path = "../../../../../muvr-preclassification/core/main/cc/exercise_plan.cc"; sourceTree = "<group>"; };
 		5488F39C1AFF8C960086BF7B /* simple_exercise_plan.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = simple_exercise_plan.cc; path = "../../../../../muvr-preclassification/core/main/cc/simple_exercise_plan.cc"; sourceTree = "<group>"; };
 		5488F39F1AFF8CA00086BF7B /* exercise_plan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = exercise_plan.h; path = "../../../../muvr-preclassification/core/include/exercise_plan.h"; sourceTree = "<group>"; };
@@ -299,10 +276,6 @@
 		FC3970651AEA6CEC00829357 /* svm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm.h; path = "../../../../muvr-preclassification/core/include/svm.h"; sourceTree = "<group>"; };
 		FC3A4E8C1AF6E3DF00DABEC2 /* ensemble_classifier.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ensemble_classifier.cc; path = "../../../../../muvr-preclassification/core/main/cc/ensemble_classifier.cc"; sourceTree = "<group>"; };
 		FC3A4E8E1AF6E3EB00DABEC2 /* ensemble_classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ensemble_classifier.h; path = "../../../../muvr-preclassification/core/include/ensemble_classifier.h"; sourceTree = "<group>"; };
-		FC3A4E8F1AF6E88200DABEC2 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Pods/Alamofire.framework"; sourceTree = "<group>"; };
-		FC3A4E901AF6E88200DABEC2 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = "Pods/../build/Debug-iphoneos/Pods/Charts.framework"; sourceTree = "<group>"; };
-		FC3A4E911AF6E88200DABEC2 /* JTCalendar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JTCalendar.framework; path = "Pods/../build/Debug-iphoneos/Pods/JTCalendar.framework"; sourceTree = "<group>"; };
-		FC3A4E921AF6E88200DABEC2 /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = "Pods/../build/Debug-iphoneos/Pods/Reachability.framework"; sourceTree = "<group>"; };
 		FC5593AF1ADBE56400F235ED /* Alamofire+SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Alamofire+SwiftyJSON.h"; sourceTree = "<group>"; };
 		FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alamofire+SwiftyJSON.swift"; sourceTree = "<group>"; };
 		FC5593B31ADBE56400F235ED /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyJSON.h; sourceTree = "<group>"; };
@@ -317,9 +290,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */,
-				5455E7201AF9022A0049BB6B /* libsqlite3.dylib in Frameworks */,
-				5455E7321AFA77310049BB6B /* SQLite.framework in Frameworks */,
-				54E2878A1AFB5A1900D9E259 /* sqlite3.framework in Frameworks */,
 				6FE82F244080A35A0F4E861B /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,13 +309,6 @@
 			children = (
 				54CC46591B08FAD5007B739A /* MobileCoreServices.framework */,
 				5455E71F1AF9022A0049BB6B /* libsqlite3.dylib */,
-				5460CDAE1AFAAACD000DA384 /* sqlite3.framework */,
-				5455E71D1AF901DA0049BB6B /* SQLite.framework */,
-				FC3A4E8F1AF6E88200DABEC2 /* Alamofire.framework */,
-				FC3A4E901AF6E88200DABEC2 /* Charts.framework */,
-				FC3A4E911AF6E88200DABEC2 /* JTCalendar.framework */,
-				FC3A4E921AF6E88200DABEC2 /* Reachability.framework */,
-				548226BD1AC57CD300EEEFCB /* libMuvrPreclassification.a */,
 				16D2F8864F1B66657A209A69 /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -762,7 +725,6 @@
 				541ABB9C1AC577E00056A81B /* Resources */,
 				B9254235749BB7D35FB7A2E7 /* Copy Pods Resources */,
 				5AAFF8FE4287D04CFD84EE90 /* Embed Pods Frameworks */,
-				5455E7341AFA77310049BB6B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1095,7 +1057,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1131,7 +1093,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -1150,9 +1112,9 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
-					"$(PROJECT_DIR)/UnmanagedFrameworks",
 				);
 				INFOPLIST_FILE = Muvr/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1177,9 +1139,9 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
-					"$(PROJECT_DIR)/UnmanagedFrameworks",
 				);
 				INFOPLIST_FILE = Muvr/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

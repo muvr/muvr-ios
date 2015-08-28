@@ -1,5 +1,5 @@
 import Foundation
-import SQLite
+//import SQLite
 
 ///
 /// The initial state that can only do basic user operation like login, send token, ...

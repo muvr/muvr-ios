@@ -176,12 +176,11 @@ class MRMuvrServer {
     
     func apply(req: MRMuvrServerRequestConvertible, onComplete: Result<NSData> -> Void) {
         request(req, body: nil).response { (_, response, responseBody, err) -> Void in
-            let body = responseBody as? NSData
             if let x = response {
                 if x.statusCode != 200 {
                     onComplete(Result.error(NSError.errorWithMessage("Request failed", code: x.statusCode)))
                 } else {
-                    if let b = body {
+                    if let b = responseBody {
                         onComplete(Result.value(b))
                     } else {
                         onComplete(Result.error(NSError.errorWithMessage("No body", code: x.statusCode)))

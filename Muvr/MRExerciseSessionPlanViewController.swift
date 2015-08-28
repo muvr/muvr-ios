@@ -1,5 +1,5 @@
 import Foundation
-import Charts
+//import Charts
 
 ///
 /// Cell that displays exercise plan item
