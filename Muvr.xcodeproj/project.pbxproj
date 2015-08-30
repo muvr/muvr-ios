@@ -44,8 +44,9 @@
 		543374271AD0111B005864D7 /* String+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374261AD0111B005864D7 /* String+Localisation.swift */; };
 		543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374281AD011A3005864D7 /* MRDeviceSessionDelegate.swift */; };
 		5433742F1AD01345005864D7 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5433742E1AD01345005864D7 /* String+MD5.swift */; };
-		543ED4811B0DB3AE00D12768 /* MRExerciseSessionDataCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543ED4801B0DB3AE00D12768 /* MRExerciseSessionDataCollectionViewController.swift */; };
 		543ED4831B0DBCCE00D12768 /* MRExerciseSessionStartable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543ED4821B0DBCCE00D12768 /* MRExerciseSessionStartable.swift */; };
+		544201371B93847100354DB7 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 544201361B93847100354DB7 /* ExternalAccessory.framework */; };
+		544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 544201381B9384B500354DB7 /* CoreBluetooth.framework */; };
 		5443FA791AE69E1400CC229D /* sensor_data_fuser_rsde.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA751AE69E1400CC229D /* sensor_data_fuser_rsde.cc */; };
 		5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */; };
 		5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */; };
@@ -94,6 +95,12 @@
 		54CC46561B08E684007B739A /* MRLoggedInApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC46551B08E684007B739A /* MRLoggedInApplicationState.swift */; };
 		54CC46581B08E691007B739A /* MRExercisingApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC46571B08E691007B739A /* MRExercisingApplicationState.swift */; };
 		54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CC46591B08FAD5007B739A /* MobileCoreServices.framework */; };
+		54CDF18B1B937B5A0060BF02 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CDF1851B937B5A0060BF02 /* Alamofire.framework */; };
+		54CDF18C1B937B5A0060BF02 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CDF1861B937B5A0060BF02 /* Charts.framework */; };
+		54CDF18D1B937B5A0060BF02 /* JTCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CDF1871B937B5A0060BF02 /* JTCalendar.framework */; };
+		54CDF18E1B937B5A0060BF02 /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CDF1881B937B5A0060BF02 /* Reachability.framework */; };
+		54CDF18F1B937B5A0060BF02 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CDF1891B937B5A0060BF02 /* SQLite.framework */; };
+		54CDF1901B937B5A0060BF02 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CDF18A1B937B5A0060BF02 /* sqlite3.framework */; };
 		54D35FD81AF4E02100A5295D /* MRExerciseSessionPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D35FD71AF4E02100A5295D /* MRExerciseSessionPlanViewController.swift */; };
 		54DBE36B1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54DBE36A1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm */; };
 		54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */; };
@@ -108,7 +115,6 @@
 		54F2881B1B00BBAA00E4D591 /* default-exercises.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F288191B00BBAA00E4D591 /* default-exercises.json */; };
 		54F2881C1B00BBAA00E4D591 /* default-musclegroups.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F2881A1B00BBAA00E4D591 /* default-musclegroups.json */; };
 		54F2881E1B00BD0100E4D591 /* MRMuscleGroup+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F2881D1B00BD0100E4D591 /* MRMuscleGroup+Localisation.swift */; };
-		6FE82F244080A35A0F4E861B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D2F8864F1B66657A209A69 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 		FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */; };
 		FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705E1AEA6CC900829357 /* svm_classifier.cc */; };
@@ -176,8 +182,11 @@
 		543374261AD0111B005864D7 /* String+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localisation.swift"; sourceTree = "<group>"; };
 		543374281AD011A3005864D7 /* MRDeviceSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDeviceSessionDelegate.swift; sourceTree = "<group>"; };
 		5433742E1AD01345005864D7 /* String+MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
-		543ED4801B0DB3AE00D12768 /* MRExerciseSessionDataCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionDataCollectionViewController.swift; sourceTree = "<group>"; };
 		543ED4821B0DBCCE00D12768 /* MRExerciseSessionStartable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionStartable.swift; sourceTree = "<group>"; };
+		544201361B93847100354DB7 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		544201381B9384B500354DB7 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		5442013A1B9384BE00354DB7 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		5442013C1B9384CA00354DB7 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		5443FA741AE69DC900CC229D /* easylogging++.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "easylogging++.h"; path = "../../../../muvr-preclassification/core/include/easylogging++.h"; sourceTree = "<group>"; };
 		5443FA751AE69E1400CC229D /* sensor_data_fuser_rsde.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_rsde.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_rsde.cc"; sourceTree = "<group>"; };
 		5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_rsdt.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_rsdt.cc"; sourceTree = "<group>"; };
@@ -233,6 +242,12 @@
 		54CC46551B08E684007B739A /* MRLoggedInApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRLoggedInApplicationState.swift; sourceTree = "<group>"; };
 		54CC46571B08E691007B739A /* MRExercisingApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisingApplicationState.swift; sourceTree = "<group>"; };
 		54CC46591B08FAD5007B739A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		54CDF1851B937B5A0060BF02 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
+		54CDF1861B937B5A0060BF02 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = "Pods/../build/Debug-iphoneos/Charts.framework"; sourceTree = "<group>"; };
+		54CDF1871B937B5A0060BF02 /* JTCalendar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JTCalendar.framework; path = "Pods/../build/Debug-iphoneos/JTCalendar.framework"; sourceTree = "<group>"; };
+		54CDF1881B937B5A0060BF02 /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = "Pods/../build/Debug-iphoneos/Reachability.framework"; sourceTree = "<group>"; };
+		54CDF1891B937B5A0060BF02 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
+		54CDF18A1B937B5A0060BF02 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = "Pods/../build/Debug-iphoneos/sqlite3.framework"; sourceTree = "<group>"; };
 		54D35FD71AF4E02100A5295D /* MRExerciseSessionPlanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionPlanViewController.swift; sourceTree = "<group>"; };
 		54DBE3691B05DABA00BD76CD /* MRPreclassificationScaffolding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRPreclassificationScaffolding.h; sourceTree = "<group>"; };
 		54DBE36A1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRPreclassificationScaffolding.mm; sourceTree = "<group>"; };
@@ -289,8 +304,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */,
+				544201371B93847100354DB7 /* ExternalAccessory.framework in Frameworks */,
+				54CDF18B1B937B5A0060BF02 /* Alamofire.framework in Frameworks */,
+				54CDF18C1B937B5A0060BF02 /* Charts.framework in Frameworks */,
+				54CDF18D1B937B5A0060BF02 /* JTCalendar.framework in Frameworks */,
+				54CDF18E1B937B5A0060BF02 /* Reachability.framework in Frameworks */,
+				54CDF18F1B937B5A0060BF02 /* SQLite.framework in Frameworks */,
+				54CDF1901B937B5A0060BF02 /* sqlite3.framework in Frameworks */,
 				54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */,
-				6FE82F244080A35A0F4E861B /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +329,16 @@
 		288CCE5D5AB7F6FBE827B7C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5442013C1B9384CA00354DB7 /* MessageUI.framework */,
+				5442013A1B9384BE00354DB7 /* CoreMotion.framework */,
+				544201381B9384B500354DB7 /* CoreBluetooth.framework */,
+				544201361B93847100354DB7 /* ExternalAccessory.framework */,
+				54CDF1851B937B5A0060BF02 /* Alamofire.framework */,
+				54CDF1861B937B5A0060BF02 /* Charts.framework */,
+				54CDF1871B937B5A0060BF02 /* JTCalendar.framework */,
+				54CDF1881B937B5A0060BF02 /* Reachability.framework */,
+				54CDF1891B937B5A0060BF02 /* SQLite.framework */,
+				54CDF18A1B937B5A0060BF02 /* sqlite3.framework */,
 				54CC46591B08FAD5007B739A /* MobileCoreServices.framework */,
 				5455E71F1AF9022A0049BB6B /* libsqlite3.dylib */,
 				16D2F8864F1B66657A209A69 /* Pods.framework */,
@@ -472,7 +504,6 @@
 		547E6A821AF35680005DE00C /* Exercise */ = {
 			isa = PBXGroup;
 			children = (
-				543ED4801B0DB3AE00D12768 /* MRExerciseSessionDataCollectionViewController.swift */,
 				54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */,
 				547E6A831AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift */,
 				540381541AECFB05000C8B15 /* MRExerciseSessionClassificationCompletedViewController.swift */,
@@ -956,7 +987,6 @@
 				540381531AEC3567000C8B15 /* MRTypes.swift in Sources */,
 				54005C9C1B0764E300BF0732 /* MRRest+Marshalling.swift in Sources */,
 				540381631AED2FD1000C8B15 /* MRExerciseSetExample+Marshalling.swift in Sources */,
-				543ED4811B0DB3AE00D12768 /* MRExerciseSessionDataCollectionViewController.swift in Sources */,
 				547E6A841AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift in Sources */,
 				54820DFF1AF2971900E3AEC2 /* MRTypes+Marshalling.swift in Sources */,
 				54F0DC541AC57E8D0061EC5D /* nomovement_decider.cc in Sources */,
@@ -1112,6 +1142,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Muvr/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
@@ -1119,6 +1150,58 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MuvrPreclassification/build/Debug-iphoneos",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"stdc++\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"Charts\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreImage\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"JTCalendar\"",
+					"-framework",
+					"\"PebbleKit\"",
+					"-framework",
+					"\"PebbleVendor\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Reachability\"",
+					"-framework",
+					"\"SQLite\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"opencv2\"",
+					"-framework",
+					"\"sqlite3\"",
+					"-weak_framework",
+					"\"CoreBluetooth\"",
+					"-weak_framework",
+					"\"CoreMotion\"",
+					"-weak_framework",
+					"\"ExternalAccessory\"",
+					"-weak_framework",
+					"\"MessageUI\"",
+					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1139,6 +1222,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Muvr/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
@@ -1146,6 +1230,58 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MuvrPreclassification/build/Debug-iphoneos",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"stdc++\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"Charts\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreImage\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"JTCalendar\"",
+					"-framework",
+					"\"PebbleKit\"",
+					"-framework",
+					"\"PebbleVendor\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Reachability\"",
+					"-framework",
+					"\"SQLite\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"opencv2\"",
+					"-framework",
+					"\"sqlite3\"",
+					"-weak_framework",
+					"\"CoreBluetooth\"",
+					"-weak_framework",
+					"\"CoreMotion\"",
+					"-weak_framework",
+					"\"ExternalAccessory\"",
+					"-weak_framework",
+					"\"MessageUI\"",
+					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
