@@ -10,11 +10,20 @@
 
 using namespace muvr;
 
+//#define WITH_CLASSIFICATION
+
 INITIALIZE_EASYLOGGINGPP;
 
 class const_exercise_decider : public exercise_decider {
 public:
     virtual exercise_result has_exercise(const raw_sensor_data& source, state &context) override {
+        return yes;
+    }
+};
+
+class const_movement_decider : public movement_decider {
+public:
+    virtual movement_result has_movement(const raw_sensor_data& source) const override {
         return yes;
     }
 };
@@ -95,14 +104,23 @@ public:
 @end
 
 @implementation MRPreclassification {
+    std::shared_ptr<movement_decider> m_movement_decider;
+    std::shared_ptr<exercise_decider> m_exercise_decider;
+    
     std::unique_ptr<sensor_data_fuser> m_fuser;
+    
+#ifdef WITH_CLASSIFICATION
     std::unique_ptr<ensemble_classifier> m_classifier;
+#endif
 }
 
 - (instancetype)init {
     self = [super init];
-    m_fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(std::shared_ptr<movement_decider>(new movement_decider()),
-                                                                       std::shared_ptr<exercise_decider>(new exercise_decider())));
+    m_movement_decider = std::shared_ptr<movement_decider>(new const_movement_decider);
+    m_exercise_decider = std::shared_ptr<exercise_decider>(new const_exercise_decider);
+    m_fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(m_movement_decider, m_exercise_decider));
+    
+#ifdef WITH_CLASSIFICATION
     NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-bicep_curl-features" ofType:@"libsvm"];
     std::string libsvm([fullPath stringByDeletingLastPathComponent].UTF8String);
     fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-bicep_curl-features" ofType:@"scale"];
@@ -110,7 +128,7 @@ public:
     
     auto classifiers = muvr::classifier_loader().load(libsvm);
     m_classifier = std::unique_ptr<muvr::ensemble_classifier>(new ensemble_classifier::ensemble_classifier(classifiers));
-    
+#endif
     return self;
 }
 
@@ -160,7 +178,7 @@ public:
                     break;
             }
         }
-        
+#ifdef WITH_CLASSIFICATION
         if (fusionResult.type() != sensor_data_fuser::fusion_result::exercise_ended) return;
         
         // finally, the classification pipeline
@@ -197,6 +215,7 @@ public:
             NSData *data = [[NSString stringWithUTF8String:os.str().c_str()] dataUsingEncoding:NSUTF8StringEncoding];
             [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
         }
+#endif
     } catch (std::exception &ex) {
         std::cerr << ex.what() << std::endl;
     } catch (...) {
