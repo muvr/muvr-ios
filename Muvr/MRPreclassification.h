@@ -130,6 +130,21 @@
 @end
 
 ///
+/// Actions executed as results of training
+///
+@protocol MRTrainingPipelineDelegate
+
+///
+/// Classification successful, ``result`` holds elements of type ``MRClassifiedExerciseSet``. The
+/// implementation of this delegate should examine the array and decide what to do depending on
+/// the size of the array. The ``data`` value holds the exported ``muvr::fused_sensor_data`` that
+/// was used for the classification.
+///
+- (void)trainingCompleted:(NSArray *)result fromData:(NSData *)data;
+
+@end
+
+///
 /// Interface to the C++ codebase implementing the preclassification code
 ///
 @interface MRPreclassification : NSObject
@@ -145,6 +160,16 @@
 - (void)pushBack:(NSData *)data from:(uint8_t)location withHint:(MRResistanceExercise *)plannedExercise;
 
 ///
+/// Marks the start of the training session for the given exercise
+///
+- (void)trainingStarted:(MRResistanceExercise *)exercise;
+
+///
+/// Marks the end of the training session
+///
+- (void)trainingCompleted;
+
+///
 /// exercise block delegate, whose methods get called when entire exercise block is detected.
 ///
 @property id<MRExerciseBlockDelegate> exerciseBlockDelegate;
@@ -158,4 +183,9 @@
 /// provides hooks into the classification pipeline
 ///
 @property id<MRClassificationPipelineDelegate> classificationPipelineDelegate;
+
+///
+/// provides hooks into the training pipeline
+///
+@property id<MRTrainingPipelineDelegate> trainingPipelineDelegate;
 @end

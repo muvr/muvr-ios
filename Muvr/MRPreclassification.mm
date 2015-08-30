@@ -104,21 +104,23 @@ public:
 @end
 
 @implementation MRPreclassification {
-    std::shared_ptr<movement_decider> m_movement_decider;
-    std::shared_ptr<exercise_decider> m_exercise_decider;
+    std::shared_ptr<movement_decider> movementDecider;
+    std::shared_ptr<exercise_decider> exerciseDecider;
     
-    std::unique_ptr<sensor_data_fuser> m_fuser;
+    std::unique_ptr<sensor_data_fuser> fuser;
+    
+    MRResistanceExercise *trainingExercise;
     
 #ifdef WITH_CLASSIFICATION
-    std::unique_ptr<ensemble_classifier> m_classifier;
+    std::unique_ptr<ensemble_classifier> classifier;
 #endif
 }
 
 - (instancetype)init {
     self = [super init];
-    m_movement_decider = std::shared_ptr<movement_decider>(new const_movement_decider);
-    m_exercise_decider = std::shared_ptr<exercise_decider>(new const_exercise_decider);
-    m_fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(m_movement_decider, m_exercise_decider));
+    movementDecider = std::shared_ptr<movement_decider>(new const_movement_decider);
+    exerciseDecider = std::shared_ptr<exercise_decider>(new const_exercise_decider);
+    fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(movementDecider, exerciseDecider));
     
 #ifdef WITH_CLASSIFICATION
     NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-bicep_curl-features" ofType:@"libsvm"];
@@ -132,11 +134,23 @@ public:
     return self;
 }
 
+- (NSData *)formatFusedSensorData:(sensor_data_fuser::fusion_result&)fusionResult {
+    std::ostringstream os;
+    os << "[";
+    for (int i = 0; i < fusionResult.fused_exercise_data().size(); ++i) {
+        if (i > 0) os << ",";
+        export_data(os, fusionResult.fused_exercise_data()[i]);
+    }
+    os << "]";
+    
+    return [[NSString stringWithUTF8String:os.str().c_str()] dataUsingEncoding:NSUTF8StringEncoding];
+}
+
 - (void)pushBack:(NSData *)data from:(uint8_t)location withHint:(MRResistanceExercise *)plannedExercise {
     try {
         const uint8_t *buf = reinterpret_cast<const uint8_t*>(data.bytes);
         raw_sensor_data decoded = decode_single_packet(buf).first;
-        sensor_data_fuser::fusion_result fusionResult = m_fuser->push_back(decoded, sensor_location_t::wrist, 0);
+        sensor_data_fuser::fusion_result fusionResult = fuser->push_back(decoded, sensor_location_t::wrist, 0);
 
         // hooks & delegates
         
@@ -178,6 +192,7 @@ public:
                     break;
             }
         }
+        
 #ifdef WITH_CLASSIFICATION
         if (fusionResult.type() != sensor_data_fuser::fusion_result::exercise_ended) return;
         
@@ -204,15 +219,7 @@ public:
         
         // the hooks
         if (self.classificationPipelineDelegate != nil) {
-            std::ostringstream os;
-            os << "[";
-            for (int i = 0; i < fusionResult.fused_exercise_data().size(); ++i) {
-                if (i > 0) os << ",";
-                export_data(os, fusionResult.fused_exercise_data()[i]);
-            }
-            os << "]";
-
-            NSData *data = [[NSString stringWithUTF8String:os.str().c_str()] dataUsingEncoding:NSUTF8StringEncoding];
+            NSData *data = [self formatFusedSensorData...];
             [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
         }
 #endif
@@ -221,6 +228,20 @@ public:
     } catch (...) {
         std::cerr << "Something is fucked up" << std::endl;
     }
+}
+
+- (void)trainingCompleted {
+    if (self.trainingPipelineDelegate == nil) return;
+    
+    auto result = fuser->completed();
+    NSData *data = [self formatFusedSensorData:result];
+    
+    [self.trainingPipelineDelegate trainingCompleted:[NSArray arrayWithObject:trainingExercise] fromData:data];
+}
+
+- (void)trainingStarted:(MRResistanceExercise *)exercise {
+    fuser->clear();
+    trainingExercise = exercise;
 }
 
 @end
