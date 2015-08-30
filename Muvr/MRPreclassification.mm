@@ -236,7 +236,9 @@ public:
     auto result = fuser->completed();
     NSData *data = [self formatFusedSensorData:result];
     
-    [self.trainingPipelineDelegate trainingCompleted:[NSArray arrayWithObject:trainingExercise] fromData:data];
+    MRResistanceExerciseSet* set = [[MRResistanceExerciseSet alloc] init:trainingExercise];
+    
+    [self.trainingPipelineDelegate trainingCompleted:set fromData:data];
 }
 
 - (void)trainingStarted:(MRResistanceExercise *)exercise {

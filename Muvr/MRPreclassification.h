@@ -140,7 +140,7 @@
 /// the size of the array. The ``data`` value holds the exported ``muvr::fused_sensor_data`` that
 /// was used for the classification.
 ///
-- (void)trainingCompleted:(NSArray *)result fromData:(NSData *)data;
+- (void)trainingCompleted:(MRResistanceExerciseSet *)set fromData:(NSData *)data;
 
 @end
 

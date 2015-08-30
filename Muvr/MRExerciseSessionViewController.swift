@@ -301,8 +301,9 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     // MARK: MRTrainingPipelineDelegate
-    func trainingCompleted(result: [AnyObject]!, fromData data: NSData!) {
-        NSLog("Got %@ from data %@", result, data)
+    func trainingCompleted(set: MRResistanceExerciseSet!, fromData data: NSData!) {
+        let example = MRResistanceExerciseSetExample(classified: [], correct: set, fusedSensorData: data)
+        self.state!.postResistanceExample(example)
     }
     
     // MARK: MRClassificationPipelineDelegate
