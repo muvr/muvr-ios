@@ -66,7 +66,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
             performSegueWithIdentifier("logout", sender: self)
         case 2: // Synchronize
             MRApplicationState.loggedInState!.sync()
-        case 3: // Reset
+        case 3: // Reset training
             MRApplicationState.clearTrainingData()
         default: // noop
             return

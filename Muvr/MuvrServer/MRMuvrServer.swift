@@ -1,6 +1,19 @@
 import Foundation
 import Alamofire
 
+extension NSURLRequest {
+    
+    func show() -> String {
+        if let b = HTTPBody {
+            let bs = NSString(data: b, encoding: NSUTF8StringEncoding)!
+            return String(format: "%@\n%@", self, bs)
+        } else {
+            return String(format: "%@", self)
+        }
+    }
+    
+}
+
 ///
 /// Adds the response negotiation
 ///
@@ -42,12 +55,13 @@ extension Request {
                     } else {
                         // 4xx responses are errors, but do not mean that the server is broken
                         let userInfo = [NSLocalizedDescriptionKey : json.stringValue]
-                        let err = NSError(domain: "com.eigengo.lift", code: x.statusCode, userInfo: userInfo)
-                        NSLog("4xx %@ -> %@", request, x)
+                        let err = NSError(domain: "io.muvr", code: x.statusCode, userInfo: userInfo)
+                        
+                        NSLog("4xx %@ -> %@", request.show(), x)
                         f(Result.error(err))
                     }
                     if statusCodeFamily == 5 {
-                        NSLog("5xx %@ -> %@", request, x)
+                        NSLog("5xx %@ -> %@", request.show(), x)
                         // we have 5xx responses. this counts as server error.
                     }
                 } else if let x = error {

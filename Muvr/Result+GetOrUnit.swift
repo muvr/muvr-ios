@@ -3,7 +3,11 @@ import Foundation
 extension Result {
     
     func getOrUnit(r: V -> Void) -> Void {
-        cata(const(()), r: r)
+        func loggingError(err: NSError) -> Void {
+            NSLog("Ignoring error %@", err)
+        }
+
+        cata(loggingError, r: r)
     }
     
 }

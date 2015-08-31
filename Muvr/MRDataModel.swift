@@ -162,6 +162,12 @@ struct MRDataModel {
                 .order(resistanceExerciseSessions.namespace(timestamp).desc)
             return mapDetail(query)
         }
+        
+        /// Removes all sessions and their sets
+        static func deleteAll() -> Void {
+            resistanceExerciseSets.delete()
+            resistanceExerciseSessions.delete()
+        }
 
         /// sets the server id value
         static func setSynchronised(id: NSUUID, serverId: NSUUID) -> Void {

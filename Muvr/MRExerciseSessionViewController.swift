@@ -271,12 +271,14 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     // MARK: MRExerciseBlockDelegate implementation
     func exerciseEnded() {
+        if trainingMode { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exerciseEnded() }
         pcd.notifyClassifying()
     }
     
     func exercising() {
+        if trainingMode { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exercising() }
         if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
@@ -284,6 +286,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func moving() {
+        if trainingMode { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.moving() }
         if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
@@ -291,6 +294,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func notMoving() {
+        if trainingMode { return }
         if waitingForUser { return }
 
         plan!.noExercise();
