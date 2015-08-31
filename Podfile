@@ -2,10 +2,12 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.4'
 use_frameworks!
 
-pod 'OpenCV'
+# Viz http://code.opencv.org/issues/4052
+pod 'OpenCV', '2.4.9'
 pod 'Alamofire'
 pod 'Charts'
-pod 'JTCalendar'
+# TODO: Update JTCalendar
+pod 'JTCalendar', '~> 1'
 pod 'Reachability'
 pod 'PebbleKit'
 pod 'sqlite3'

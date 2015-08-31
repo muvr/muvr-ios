@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B4FBFA5824CB8564BACAB29 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3AA10F80ED661B9AC5A823 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		54005C941B07560400BF0732 /* MRApplicationState+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54005C931B07560400BF0732 /* MRApplicationState+Sync.swift */; };
 		54005C961B07566900BF0732 /* MRDataModel+Housekeeping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54005C951B07566900BF0732 /* MRDataModel+Housekeeping.swift */; };
 		54005C981B07641F00BF0732 /* MRExercisePlanDeviation+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54005C971B07641F00BF0732 /* MRExercisePlanDeviation+Marshalling.swift */; };
@@ -97,13 +98,13 @@
 		54CC46561B08E684007B739A /* MRLoggedInApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC46551B08E684007B739A /* MRLoggedInApplicationState.swift */; };
 		54CC46581B08E691007B739A /* MRExercisingApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC46571B08E691007B739A /* MRExercisingApplicationState.swift */; };
 		54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CC46591B08FAD5007B739A /* MobileCoreServices.framework */; };
-		54CDF18B1B937B5A0060BF02 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CDF1851B937B5A0060BF02 /* Alamofire.framework */; };
-		54CDF18C1B937B5A0060BF02 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CDF1861B937B5A0060BF02 /* Charts.framework */; };
-		54CDF18D1B937B5A0060BF02 /* JTCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CDF1871B937B5A0060BF02 /* JTCalendar.framework */; };
-		54CDF18E1B937B5A0060BF02 /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CDF1881B937B5A0060BF02 /* Reachability.framework */; };
-		54CDF18F1B937B5A0060BF02 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CDF1891B937B5A0060BF02 /* SQLite.framework */; };
-		54CDF1901B937B5A0060BF02 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CDF18A1B937B5A0060BF02 /* sqlite3.framework */; };
 		54D35FD81AF4E02100A5295D /* MRExerciseSessionPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D35FD71AF4E02100A5295D /* MRExerciseSessionPlanViewController.swift */; };
+		54D5275D1B94D79F00B56719 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D527571B94D79F00B56719 /* Alamofire.framework */; };
+		54D5275E1B94D79F00B56719 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D527581B94D79F00B56719 /* Charts.framework */; };
+		54D5275F1B94D79F00B56719 /* JTCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D527591B94D79F00B56719 /* JTCalendar.framework */; };
+		54D527601B94D79F00B56719 /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D5275A1B94D79F00B56719 /* Reachability.framework */; };
+		54D527611B94D79F00B56719 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D5275B1B94D79F00B56719 /* SQLite.framework */; };
+		54D527621B94D79F00B56719 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D5275C1B94D79F00B56719 /* sqlite3.framework */; };
 		54DBE36B1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54DBE36A1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm */; };
 		54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */; };
 		54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC361AC57E8D0061EC5D /* exercise_decider.cc */; };
@@ -138,7 +139,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		16D2F8864F1B66657A209A69 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C3AA10F80ED661B9AC5A823 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		54005C931B07560400BF0732 /* MRApplicationState+Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRApplicationState+Sync.swift"; sourceTree = "<group>"; };
 		54005C951B07566900BF0732 /* MRDataModel+Housekeeping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRDataModel+Housekeeping.swift"; sourceTree = "<group>"; };
 		54005C971B07641F00BF0732 /* MRExercisePlanDeviation+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExercisePlanDeviation+Marshalling.swift"; sourceTree = "<group>"; };
@@ -246,13 +247,13 @@
 		54CC46551B08E684007B739A /* MRLoggedInApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRLoggedInApplicationState.swift; sourceTree = "<group>"; };
 		54CC46571B08E691007B739A /* MRExercisingApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisingApplicationState.swift; sourceTree = "<group>"; };
 		54CC46591B08FAD5007B739A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		54CDF1851B937B5A0060BF02 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
-		54CDF1861B937B5A0060BF02 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = "Pods/../build/Debug-iphoneos/Charts.framework"; sourceTree = "<group>"; };
-		54CDF1871B937B5A0060BF02 /* JTCalendar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JTCalendar.framework; path = "Pods/../build/Debug-iphoneos/JTCalendar.framework"; sourceTree = "<group>"; };
-		54CDF1881B937B5A0060BF02 /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = "Pods/../build/Debug-iphoneos/Reachability.framework"; sourceTree = "<group>"; };
-		54CDF1891B937B5A0060BF02 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
-		54CDF18A1B937B5A0060BF02 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = "Pods/../build/Debug-iphoneos/sqlite3.framework"; sourceTree = "<group>"; };
 		54D35FD71AF4E02100A5295D /* MRExerciseSessionPlanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionPlanViewController.swift; sourceTree = "<group>"; };
+		54D527571B94D79F00B56719 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
+		54D527581B94D79F00B56719 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = "Pods/../build/Debug-iphoneos/Charts.framework"; sourceTree = "<group>"; };
+		54D527591B94D79F00B56719 /* JTCalendar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JTCalendar.framework; path = "Pods/../build/Debug-iphoneos/JTCalendar.framework"; sourceTree = "<group>"; };
+		54D5275A1B94D79F00B56719 /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = "Pods/../build/Debug-iphoneos/Reachability.framework"; sourceTree = "<group>"; };
+		54D5275B1B94D79F00B56719 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
+		54D5275C1B94D79F00B56719 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = "Pods/../build/Debug-iphoneos/sqlite3.framework"; sourceTree = "<group>"; };
 		54DBE3691B05DABA00BD76CD /* MRPreclassificationScaffolding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRPreclassificationScaffolding.h; sourceTree = "<group>"; };
 		54DBE36A1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRPreclassificationScaffolding.mm; sourceTree = "<group>"; };
 		54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
@@ -308,15 +309,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54D5275D1B94D79F00B56719 /* Alamofire.framework in Frameworks */,
+				54D5275E1B94D79F00B56719 /* Charts.framework in Frameworks */,
+				54D5275F1B94D79F00B56719 /* JTCalendar.framework in Frameworks */,
+				54D527601B94D79F00B56719 /* Reachability.framework in Frameworks */,
+				54D527611B94D79F00B56719 /* SQLite.framework in Frameworks */,
+				54D527621B94D79F00B56719 /* sqlite3.framework in Frameworks */,
 				544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */,
 				544201371B93847100354DB7 /* ExternalAccessory.framework in Frameworks */,
-				54CDF18B1B937B5A0060BF02 /* Alamofire.framework in Frameworks */,
-				54CDF18C1B937B5A0060BF02 /* Charts.framework in Frameworks */,
-				54CDF18D1B937B5A0060BF02 /* JTCalendar.framework in Frameworks */,
-				54CDF18E1B937B5A0060BF02 /* Reachability.framework in Frameworks */,
-				54CDF18F1B937B5A0060BF02 /* SQLite.framework in Frameworks */,
-				54CDF1901B937B5A0060BF02 /* sqlite3.framework in Frameworks */,
 				54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */,
+				0B4FBFA5824CB8564BACAB29 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,19 +335,19 @@
 		288CCE5D5AB7F6FBE827B7C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				54D527571B94D79F00B56719 /* Alamofire.framework */,
+				54D527581B94D79F00B56719 /* Charts.framework */,
+				54D527591B94D79F00B56719 /* JTCalendar.framework */,
+				54D5275A1B94D79F00B56719 /* Reachability.framework */,
+				54D5275B1B94D79F00B56719 /* SQLite.framework */,
+				54D5275C1B94D79F00B56719 /* sqlite3.framework */,
 				5442013C1B9384CA00354DB7 /* MessageUI.framework */,
 				5442013A1B9384BE00354DB7 /* CoreMotion.framework */,
 				544201381B9384B500354DB7 /* CoreBluetooth.framework */,
 				544201361B93847100354DB7 /* ExternalAccessory.framework */,
-				54CDF1851B937B5A0060BF02 /* Alamofire.framework */,
-				54CDF1861B937B5A0060BF02 /* Charts.framework */,
-				54CDF1871B937B5A0060BF02 /* JTCalendar.framework */,
-				54CDF1881B937B5A0060BF02 /* Reachability.framework */,
-				54CDF1891B937B5A0060BF02 /* SQLite.framework */,
-				54CDF18A1B937B5A0060BF02 /* sqlite3.framework */,
 				54CC46591B08FAD5007B739A /* MobileCoreServices.framework */,
 				5455E71F1AF9022A0049BB6B /* libsqlite3.dylib */,
-				16D2F8864F1B66657A209A69 /* Pods.framework */,
+				2C3AA10F80ED661B9AC5A823 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
