@@ -76,6 +76,8 @@ extension Request {
                     
                     tryCompleteFromCache(x, request, f, completionHandler)
                 }
+                
+                NSLog("%@", request.show())
             }
         } else {
             tryCompleteFromCache(NSError.errorWithMessage("Server unavailable", code: 999), request, f, completionHandler)
