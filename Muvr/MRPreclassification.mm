@@ -7,6 +7,7 @@
 #import "MuvrPreclassification/include/classifier_loader.h"
 #import "MuvrPreclassification/include/export.h"
 #import "MuvrPreclassification/include/ensemble_classifier.h"
+#import "MRMultilayerPerceptron.h"
 
 using namespace muvr;
 
@@ -111,9 +112,9 @@ public:
     
     MRResistanceExercise *trainingExercise;
     
-#ifdef WITH_CLASSIFICATION
-    std::unique_ptr<ensemble_classifier> classifier;
-#endif
+//#ifdef WITH_CLASSIFICATION
+    MRMultilayerPerceptron * classifier;
+//#endif
 }
 
 - (instancetype)init {
@@ -122,15 +123,17 @@ public:
     exerciseDecider = std::shared_ptr<exercise_decider>(new const_exercise_decider);
     fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(movementDecider, exerciseDecider));
     
-#ifdef WITH_CLASSIFICATION
-    NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-bicep_curl-features" ofType:@"libsvm"];
-    std::string libsvm([fullPath stringByDeletingLastPathComponent].UTF8String);
-    fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-bicep_curl-features" ofType:@"scale"];
-    std::string scale(fullPath.UTF8String);
+// #ifdef WITH_CLASSIFICATION
+    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"Models" ofType:@"bundle"];
+    //NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-bicep_curl-features" ofType:@"libsvm"];
+    //std::string libsvm([fullPath stringByDeletingLastPathComponent].UTF8String);
+    //fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-bicep_curl-features" ofType:@"scale"];
+    //std::string scale(fullPath.UTF8String);
     
-    auto classifiers = muvr::classifier_loader().load(libsvm);
-    m_classifier = std::unique_ptr<muvr::ensemble_classifier>(new ensemble_classifier::ensemble_classifier(classifiers));
-#endif
+//    auto classifiers = muvr::classifier_loader().load(libsvm);
+//    m_classifier = std::unique_ptr<muvr::ensemble_classifier>(new ensemble_classifier::ensemble_classifier(classifiers));
+    classifier = [[MRMultilayerPerceptron alloc] initFromFiles: bundlePath];
+// #endif
     return self;
 }
 
@@ -193,11 +196,11 @@ public:
             }
         }
         
-#ifdef WITH_CLASSIFICATION
+//#ifdef WITH_CLASSIFICATION
         if (fusionResult.type() != sensor_data_fuser::fusion_result::exercise_ended) return;
         
         // finally, the classification pipeline
-        svm_classifier::classification_result result = m_classifier->classify(fusionResult.fused_exercise_data());
+        svm_classifier::classification_result result = [classifier classify: fusionResult.fused_exercise_data()];
         
         NSMutableArray *transformedClassificationResult = [NSMutableArray array];
 
@@ -217,12 +220,12 @@ public:
             [transformedClassificationResult addObject:exercise_set];
         }
         
-        // the hooks
-        if (self.classificationPipelineDelegate != nil) {
-            NSData *data = [self formatFusedSensorData...];
-            [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
-        }
-#endif
+        // TODO: FIX the hooks
+        //if (self.classificationPipelineDelegate != nil) {
+        //    NSData *data = fusionResult.fused_exercise_data();
+        //    [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
+        //}
+//#endif
     } catch (std::exception &ex) {
         std::cerr << ex.what() << std::endl;
     } catch (...) {
