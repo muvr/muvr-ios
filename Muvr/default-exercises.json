@@ -6,7 +6,6 @@
   {"id":"arms/preacher-curl",                "title":"Preacher curl"},
   {"id":"arms/isometric-dumbbell-curl",      "title":"Isometric dumbbell curl"},
   {"id":"arms/cable-rope-biceps-curl",       "title":"Cable rope biceps curl"},
-  
   {"id":"arms/lying-triceps-extensions",     "title":"Lying triceps extensions"},
   {"id":"arms/overhead-triceps-press",       "title":"Overhead triceps press"},
   {"id":"arms/dip",                          "title":"Dip / bench dip"},
@@ -21,6 +20,14 @@
   {"id":"chest/leverage-chest-press",        "title":"Leverage chest press"},
   {"id":"chest/cable-crossover",             "title":"Cable cross-overs"},
   {"id":"chest/dumbbell-pullover" ,          "title":"Dumbbell pull-overs"},
+  {"id":"chest/flat-chest-press",            "title":"Flat chest press"},
+  {"id":"chest/decline-chest-press",         "title":"Decline chest press"},
+  {"id":"chest/incline-chest-press",         "title":"Incline chest press"},
+  {"id":"chest/cable-flyes",                 "title":"Cable flyes"},
+  
+  {"id": "core/sit-ups",                     "title":"Sit ups"},
+  {"id": "core/cable-crunches",              "title":"Cable crunches"},
+  {"id": "core/plank",                       "title":"Plank"},
   
   {"id":"back/pullup",                       "title":"Pull-up"},
   {"id":"back/barbell-row",                  "title":"Barbell row"},
@@ -37,4 +44,4 @@
   {"id":"shoulders/high-pull",               "title":"High pull"},
   {"id":"shoulders/dips",                    "title":"Dips"},
   {"id":"shoulders/dumbbell-raise",          "title":"Dumbbell raise"}
-  ]
+]
