@@ -118,6 +118,9 @@
 		54F2881B1B00BBAA00E4D591 /* default-exercises.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F288191B00BBAA00E4D591 /* default-exercises.json */; };
 		54F2881C1B00BBAA00E4D591 /* default-musclegroups.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F2881A1B00BBAA00E4D591 /* default-musclegroups.json */; };
 		54F2881E1B00BD0100E4D591 /* MRMuscleGroup+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F2881D1B00BD0100E4D591 /* MRMuscleGroup+Localisation.swift */; };
+		9D3037971B94F69700426C70 /* MRMultilayerPerceptron.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */; };
+		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
+		C8068EAB1F070E61009BC49C /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D2F8864F1B66657A209A69 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 		FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */; };
 		FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705E1AEA6CC900829357 /* svm_classifier.cc */; };
@@ -285,6 +288,9 @@
 		54F288191B00BBAA00E4D591 /* default-exercises.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "default-exercises.json"; sourceTree = "<group>"; };
 		54F2881A1B00BBAA00E4D591 /* default-musclegroups.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "default-musclegroups.json"; sourceTree = "<group>"; };
 		54F2881D1B00BD0100E4D591 /* MRMuscleGroup+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRMuscleGroup+Localisation.swift"; sourceTree = "<group>"; };
+		9D3037951B94F67100426C70 /* MRMultilayerPerceptron.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRMultilayerPerceptron.h; sourceTree = "<group>"; };
+		9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRMultilayerPerceptron.mm; sourceTree = "<group>"; };
+		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
 		A04E9B04EE1C27607A68F65A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRUserDefaults.swift; sourceTree = "<group>"; };
@@ -318,7 +324,7 @@
 				544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */,
 				544201371B93847100354DB7 /* ExternalAccessory.framework in Frameworks */,
 				54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */,
-				0B4FBFA5824CB8564BACAB29 /* Pods.framework in Frameworks */,
+				C8068EAB1F070E61009BC49C /* Pods.framework in Frameworks */,n
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +413,8 @@
 		541ABBA01AC577E00056A81B /* Muvr */ = {
 			isa = PBXGroup;
 			children = (
+				9D30379B1B95CCC500426C70 /* Models.bundle */,
+				9D3037921B94F61200426C70 /* Classification */,
 				54005C901B0755D800BF0732 /* ApplicationState */,
 				547E6A921AF377FE005DE00C /* DataModel */,
 				547E6A871AF35793005DE00C /* Model */,
@@ -709,6 +717,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		9D3037921B94F61200426C70 /* Classification */ = {
+			isa = PBXGroup;
+			children = (
+				9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */,
+				9D3037951B94F67100426C70 /* MRMultilayerPerceptron.h */,
+			);
+			name = Classification;
+			sourceTree = "<group>";
+		};
 		FC39706A1AEA78E200829357 /* config */ = {
 			isa = PBXGroup;
 			children = (
@@ -851,6 +868,7 @@
 				5464EBC81AF4E24F00B5317B /* svm-model-bicep_curl-features.rds in Resources */,
 				5464EBCB1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds in Resources */,
 				5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */,
+				9D30379C1B95CCC500426C70 /* Models.bundle in Resources */,
 				54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */,
 				541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */,
 				54F2881C1B00BBAA00E4D591 /* default-musclegroups.json in Resources */,
@@ -956,6 +974,7 @@
 				5442013F1B93946800354DB7 /* MRExercises.swift in Sources */,
 				5433741C1AD010B1005864D7 /* Array.swift in Sources */,
 				5455E72E1AFA6E6D0049BB6B /* NSDate+Marshalling.swift in Sources */,
+				9D3037971B94F69700426C70 /* MRMultilayerPerceptron.mm in Sources */,
 				5488F39D1AFF8C960086BF7B /* exercise_plan.cc in Sources */,
 				543374251AD01104005864D7 /* NSError+Convenience.swift in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
