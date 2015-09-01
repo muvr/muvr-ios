@@ -6,8 +6,7 @@ use_frameworks!
 pod 'OpenCV', '2.4.9'
 pod 'Alamofire'
 pod 'Charts'
-# TODO: Update JTCalendar
-pod 'JTCalendar', '~> 1'
+pod 'JTCalendar', '~> 2'
 pod 'Reachability'
 pod 'PebbleKit'
 pod 'sqlite3'
