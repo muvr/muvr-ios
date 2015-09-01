@@ -170,7 +170,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     
     func calendar(calendar: JTCalendarManager!, didTouchDayView dv: UIView!) {
         let dayView = dv as! JTCalendarDayView
-        setDate(dayView.date)
+        refreshCalendar(on: dayView.date)
     }
     
     // MARK: Transition to exercising
