@@ -12,6 +12,11 @@ using namespace muvr;
 @interface MRMultilayerPerceptron : NSObject
 
 ///
+/// Size of the steps between two classification attempts. Classifier will fuse the results of all windows.
+///
+@property int windowStepSize;
+
+///
 /// Constructs an instance, sets up the underlying native structures loading the model
 /// from file
 ///
