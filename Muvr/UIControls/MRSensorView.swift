@@ -96,7 +96,7 @@ class MRSensorView : LineChartView, MRDeviceDataDelegate {
     /// create a LineChartDataSet from an array of values, label, color and a function that extracts a value from element of A
     private func lineChartDataSetFrom<A>(values: [A], label: String, color: UIColor, f: A -> Float) -> LineChartDataSet {
         let cdes: [ChartDataEntry] = values.zipWithIndex().map { (index, a) in
-            return ChartDataEntry(value: f(a) as Float, xIndex: index)
+            return ChartDataEntry(value: Double(f(a)), xIndex: index)
         }
         let ds = LineChartDataSet(yVals: cdes, label: label)
         ds.circleRadius = 0
@@ -109,7 +109,7 @@ class MRSensorView : LineChartView, MRDeviceDataDelegate {
     private func refreshData<A>(values: [MRSensorViewDataKey : [A]], dataSets: (String, [A]) -> [LineChartDataSet]) {
         let viewSize = 100
 
-        setVisibleXRange(CGFloat(viewSize))
+        setVisibleXRange(minXRange: -CGFloat(viewSize), maxXRange: CGFloat(viewSize))
         setScaleEnabled(false)
 
         var ds: [LineChartDataSet] = []

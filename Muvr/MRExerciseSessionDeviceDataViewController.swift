@@ -1,5 +1,5 @@
 import UIKit
-import Charts
+//import Charts
 
 ///
 /// Controls a view in ``Exercise.storyboard``, which displays a chart with the recorded sensor data and the current

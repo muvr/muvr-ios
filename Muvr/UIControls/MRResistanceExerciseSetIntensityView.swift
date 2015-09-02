@@ -58,7 +58,7 @@ class MRResistanceExerciseSetIntensityView : BarChartView {
         let repetitions = setsWithIndex.map { (i, s) -> (ChartDataEntry, UIColor) in
             let color = MRResistanceExerciseSetIntensityView.colorFor(intensity: (averageInSet(s) { $0.intensity }) ?? 0.5)
             if let repetitions = (sumInSet(s) { $0.repetitions }) {
-                return (BarChartDataEntry(value: repetitions, xIndex: i), color)
+                return (BarChartDataEntry(value: Double(repetitions), xIndex: i), color)
             }
             return (BarChartDataEntry(value: 10, xIndex: i), color)
         }

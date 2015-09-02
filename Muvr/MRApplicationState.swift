@@ -1,5 +1,5 @@
 import Foundation
-import SQLite
+//import SQLite
 
 ///
 /// The initial state that can only do basic user operation like login, send token, ...
@@ -76,6 +76,7 @@ struct MRApplicationState {
     
     /// Removes cached training data
     static func clearTrainingData() {
+        /*
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
         let path = (paths.first as! String)
         for file in NSFileManager.defaultManager().contentsOfDirectoryAtPath(path, error: nil)! as! [String] {
@@ -83,7 +84,8 @@ struct MRApplicationState {
                 NSFileManager.defaultManager().removeItemAtPath(path.stringByAppendingPathComponent(file), error: nil)
             }
         }
-
+        */
+        MRDataModel.MRResistanceExerciseSessionDataModel.deleteAll()
     }
     
 }

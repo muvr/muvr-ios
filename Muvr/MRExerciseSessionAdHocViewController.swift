@@ -8,7 +8,6 @@ import Foundation
 ///
 class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var dataCollectionSwitch: UISwitch!
     
     // MARK: UITableViewDelegate
     func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
@@ -17,8 +16,7 @@ class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelega
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = MRApplicationState.muscleGroups[indexPath.row]
-        let segue = dataCollectionSwitch.on ? "dataCollection" : "exercise"
-        performSegueWithIdentifier(segue, sender: [cell.id])
+        performSegueWithIdentifier("exercise", sender: [cell.id])
     }
     
     // MARK: UITableViewDataSource

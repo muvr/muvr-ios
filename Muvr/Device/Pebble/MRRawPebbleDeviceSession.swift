@@ -18,7 +18,8 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         private let acceptedKey = NSNumber(uint32: 0xb0000003)
         private let timedOutKey = NSNumber(uint32: 0xb1000003)
         private let rejectedKey = NSNumber(uint32: 0xb2000003)
-        private let warmupSamples = 5
+        private let trainingCompletedKey = NSNumber(uint32: 0xb3000003)
+        private let warmupSamples = 0
         private var sampleCount = 0
 
         init(watch: PBWatch, delegate: MRDeviceSessionDelegate) {
@@ -42,14 +43,16 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
                         delegate.deviceSession(sessionId, endedFrom: deviceId)
                         break
                     case acceptedKey:
-                        delegate.deviceSession(sessionId, simpleMessageReceivedFrom: deviceId, key: acceptedKey.uint32Value(), value: b.memory)
+                        delegate.deviceSession(sessionId, exerciseAccepted: b.memory, from: deviceId)
                         break
                     case rejectedKey:
-                        delegate.deviceSession(sessionId, simpleMessageReceivedFrom: deviceId, key: rejectedKey.uint32Value(), value: b.memory)
+                        delegate.deviceSession(sessionId, exerciseRejected: b.memory, from: deviceId)
                         break
                     case timedOutKey:
-                        delegate.deviceSession(sessionId, simpleMessageReceivedFrom: deviceId, key: acceptedKey.uint32Value(), value: b.memory)
+                        delegate.deviceSession(sessionId, exerciseSelectionTimedOut: b.memory, from: deviceId)
                         break
+                    case trainingCompletedKey:
+                        delegate.deviceSession(sessionId, exerciseTrainingCompletedFrom: deviceId)
                     default:
                         fatalError("Match error")
                     }

@@ -1,6 +1,19 @@
 import Foundation
 import Alamofire
 
+extension NSURLRequest {
+    
+    func show() -> String {
+        if let b = HTTPBody {
+            let bs = NSString(data: b, encoding: NSUTF8StringEncoding)!
+            return String(format: "%@\n%@", self, bs)
+        } else {
+            return String(format: "%@", self)
+        }
+    }
+    
+}
+
 ///
 /// Adds the response negotiation
 ///
@@ -42,12 +55,13 @@ extension Request {
                     } else {
                         // 4xx responses are errors, but do not mean that the server is broken
                         let userInfo = [NSLocalizedDescriptionKey : json.stringValue]
-                        let err = NSError(domain: "com.eigengo.lift", code: x.statusCode, userInfo: userInfo)
-                        NSLog("4xx %@ -> %@", request, x)
+                        let err = NSError(domain: "io.muvr", code: x.statusCode, userInfo: userInfo)
+                        
+                        NSLog("4xx %@ -> %@", request.show(), x)
                         f(Result.error(err))
                     }
                     if statusCodeFamily == 5 {
-                        NSLog("5xx %@ -> %@", request, x)
+                        NSLog("5xx %@ -> %@", request.show(), x)
                         // we have 5xx responses. this counts as server error.
                     }
                 } else if let x = error {
@@ -62,6 +76,8 @@ extension Request {
                     
                     tryCompleteFromCache(x, request, f, completionHandler)
                 }
+                
+                NSLog("%@", request.show())
             }
         } else {
             tryCompleteFromCache(NSError.errorWithMessage("Server unavailable", code: 999), request, f, completionHandler)
@@ -176,12 +192,11 @@ class MRMuvrServer {
     
     func apply(req: MRMuvrServerRequestConvertible, onComplete: Result<NSData> -> Void) {
         request(req, body: nil).response { (_, response, responseBody, err) -> Void in
-            let body = responseBody as? NSData
             if let x = response {
                 if x.statusCode != 200 {
                     onComplete(Result.error(NSError.errorWithMessage("Request failed", code: x.statusCode)))
                 } else {
-                    if let b = body {
+                    if let b = responseBody {
                         onComplete(Result.value(b))
                     } else {
                         onComplete(Result.error(NSError.errorWithMessage("No body", code: x.statusCode)))

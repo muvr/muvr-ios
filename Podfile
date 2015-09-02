@@ -1,10 +1,13 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.2'
+platform :ios, '8.4'
 use_frameworks!
 
-pod 'OpenCV', '~> 2.4.9.1'
-pod 'Alamofire', '~> 1.2'
-pod 'Charts', '~>2.0.9'
-pod 'JTCalendar', '~> 1.1'
+# Viz http://code.opencv.org/issues/4052
+pod 'OpenCV', '2.4.9'
+pod 'Alamofire'
+pod 'Charts'
+pod 'JTCalendar', '~> 2'
 pod 'Reachability'
 pod 'PebbleKit'
+pod 'sqlite3'
+pod 'SQLite.swift', git: 'https://github.com/stephencelis/SQLite.swift.git'

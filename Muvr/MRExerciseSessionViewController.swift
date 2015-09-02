@@ -12,8 +12,13 @@ import Foundation
 /// pages.
 ///
 class MRExerciseSessionViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, MRExerciseSessionStartable,
-    MRDeviceSessionDelegate, MRDeviceDataDelegate, MRExerciseBlockDelegate, MRClassificationPipelineDelegate, MRExercisePlanDelegate {
+    MRDeviceSessionDelegate, MRDeviceDataDelegate, MRExerciseBlockDelegate, MRClassificationPipelineDelegate, MRExercisePlanDelegate,
+    MRTrainingPipelineDelegate {
+    /// sets the mode
+    private let trainingMode = true
     
+    /// the exercises selection
+    private var exercises: MRExercises?
     /// the timer for the stop button
     private var timer: NSTimer?
     /// the dots in the top bar
@@ -65,6 +70,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         preclassification!.deviceDataDelegate = self
         preclassification!.classificationPipelineDelegate = self
         preclassification!.exerciseBlockDelegate = self
+        preclassification!.trainingPipelineDelegate = self
 
         dataSource = self
         delegate = self
@@ -99,6 +105,8 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     func startSession(state: MRExercisingApplicationState, withPlan definition: MRResistanceExercisePlan?) {
         self.state = state
         self.planDefinition = definition
+        // TODO: This wants to be parametrized according to the definition
+        self.exercises = MRExercises.cassandraSummit()
         UIApplication.sharedApplication().idleTimerDisabled = true
     }
     
@@ -212,6 +220,36 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         preclassification!.pushBack(data, from: 0, withHint: nil)
     }
     
+    // MARK: MRDeviceSessionDelegate classification mode
+    
+    private func acceptedExercise(index: UInt8) {
+        if trainingMode {
+            preclassification!.trainingStarted(exercises![index])
+        } else {
+            // ???
+        }
+    }
+    
+    func deviceSession(session: DeviceSession, exerciseAccepted index: UInt8, from deviceId: DeviceId) {
+        acceptedExercise(index)
+    }
+    
+    func deviceSession(session: DeviceSession, exerciseRejected index: UInt8, from deviceId: DeviceId) {
+        // ???
+    }
+    
+    func deviceSession(session: DeviceSession, exerciseSelectionTimedOut index: UInt8, from deviceId: DeviceId) {
+        acceptedExercise(index)
+    }
+        
+    // MARK: MRDeviceSessionDelegate training mode
+    
+    func deviceSession(session: DeviceSession, exerciseTrainingCompletedFrom deviceId: DeviceId) {
+        preclassification!.trainingCompleted()
+    }
+    
+    // MARK: MRDeviceSessionDelegate misc
+    
     func deviceSession(session: DeviceSession, simpleMessageReceivedFrom deviceId: DeviceId, key: UInt32, value: UInt8) {
         if !waitingForUser { return }
     
@@ -233,12 +271,14 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     // MARK: MRExerciseBlockDelegate implementation
     func exerciseEnded() {
+        if trainingMode { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exerciseEnded() }
         pcd.notifyClassifying()
     }
     
     func exercising() {
+        if trainingMode { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exercising() }
         if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
@@ -246,6 +286,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func moving() {
+        if trainingMode { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.moving() }
         if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
@@ -253,6 +294,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func notMoving() {
+        if trainingMode { return }
         if waitingForUser { return }
 
         plan!.noExercise();
@@ -260,6 +302,12 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.notMoving() }
         if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
         pcd.notifyNotMoving()
+    }
+    
+    // MARK: MRTrainingPipelineDelegate
+    func trainingCompleted(set: MRResistanceExerciseSet!, fromData data: NSData!) {
+        let example = MRResistanceExerciseSetExample(classified: [], correct: set, fusedSensorData: data)
+        self.state!.postResistanceExample(example)
     }
     
     // MARK: MRClassificationPipelineDelegate

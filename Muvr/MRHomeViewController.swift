@@ -1,12 +1,12 @@
 import Foundation
 import JTCalendar
 
-class MRHomeViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, JTCalendarDataSource, UIActionSheetDelegate {
+class MRHomeViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, JTCalendarDelegate, UIActionSheetDelegate {
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var calendarContentView: JTCalendarContentView!
+    @IBOutlet var calendarContentView: JTHorizontalCalendarView!
     @IBOutlet var profileItem: UIBarItem!
     
-    private let calendar = JTCalendar()
+    private let calendar = JTCalendarManager()
     private var resistanceExerciseSessions: [MRResistanceExerciseSession] = []
     private var resistanceExerciseSessionDetails: [MRResistanceExerciseSessionDetail] = []
     private var resistanceExercisePlans: [MRResistanceExercisePlan] = []
@@ -19,11 +19,11 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        calendar.calendarAppearance.isWeekMode = true
-        calendar.menuMonthsView = JTCalendarMenuView()
+        //calendar.delegate = self
+        calendar.menuView = JTCalendarMenuView()
         calendar.contentView = calendarContentView
-        
-        calendar.dataSource = self
+        calendar.settings.weekModeEnabled = true
+        calendar.delegate = self
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -37,10 +37,9 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
         
         // load the view data
         resistanceExerciseSessions = MRApplicationState.loggedInState!.getResistanceExerciseSessions()
-        calendar.reloadData()
-        calendar.currentDate = NSDate()
-        calendar.currentDateSelected = NSDate()
-        calendarDidDateSelected(calendar, date: NSDate())
+        calendar.setDate(NSDate())
+        calendar.reload()
+        refreshCalendar(on: calendar.date())
         
         // set up UI controls
         profileItem.enabled = !MRApplicationState.loggedInState!.isAnonymous
@@ -66,7 +65,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
             performSegueWithIdentifier("logout", sender: self)
         case 2: // Synchronize
             MRApplicationState.loggedInState!.sync()
-        case 3: // Reset
+        case 3: // Reset training
             MRApplicationState.clearTrainingData()
         default: // noop
             return
@@ -144,8 +143,10 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
                 let ((id, _), _) = resistanceExerciseSessionDetails[x]
                 MRApplicationState.loggedInState!.deleteSession(id)
                 resistanceExerciseSessions = MRApplicationState.loggedInState!.getResistanceExerciseSessions()
-                calendar.reloadData()
-                calendarDidDateSelected(calendar, date: calendar.currentDateSelected)
+                
+                refreshCalendar(on: calendar.date())
+                calendar.reload()
+                tableView.reloadData()
             default:
                 // noop
                 return
@@ -153,16 +154,23 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    // MARK: JTCalendarDataSource
-    
-    func calendarHaveEvent(calendar: JTCalendar!, date: NSDate!) -> Bool {
-        return resistanceExerciseSessions.find { elem in elem.startDate.dateOnly == date } != nil
-    }
-    
-    func calendarDidDateSelected(calendar: JTCalendar!, date: NSDate!) {
+    private func refreshCalendar(on date: NSDate) {
         resistanceExerciseSessionDetails = MRApplicationState.loggedInState!.getResistanceExerciseSessionDetails(on: date)
         resistanceExercisePlans = MRApplicationState.loggedInState!.getSimpleResistanceExercisePlansOn(on: date)
+        calendar.setDate(date)
         tableView.reloadData()
+    }
+    
+    // MARK: JTCalendarDelegate
+    func calendar(calendar: JTCalendarManager!, prepareDayView dv: UIView!) {
+        JTCalendarHelper.calendar(calendar, prepareDayView: dv, on: calendar.date()) { date in
+            self.resistanceExerciseSessions.find { elem in elem.startDate.dateOnly == date } != nil
+        }
+    }
+    
+    func calendar(calendar: JTCalendarManager!, didTouchDayView dv: UIView!) {
+        let dayView = dv as! JTCalendarDayView
+        refreshCalendar(on: dayView.date)
     }
     
     // MARK: Transition to exercising
@@ -176,4 +184,36 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
         }
     }
 
+}
+
+struct JTCalendarHelper {
+    typealias HasEvent = NSDate -> Bool
+    private static let dateHelper: JTDateHelper = JTDateHelper()
+    
+    static func calendar(calendar: JTCalendarManager!, prepareDayView dv: UIView!,
+        on selectedDate: NSDate?, hasEvent: HasEvent) {
+        
+        if let dayView = dv as? JTCalendarDayView {
+            // Today
+            if JTCalendarHelper.dateHelper.date(selectedDate, isTheSameDayThan: dayView.date) ?? false {
+                dayView.circleView.hidden = false
+                dayView.circleView.backgroundColor = UIColor.redColor()
+                dayView.dotView.backgroundColor = UIColor.whiteColor()
+                dayView.textLabel.textColor = UIColor.whiteColor()
+            } else if JTCalendarHelper.dateHelper.date(NSDate(), isTheSameDayThan: dayView.date) {
+                dayView.circleView.hidden = false
+                dayView.circleView.backgroundColor = UIColor.blueColor()
+                dayView.dotView.backgroundColor = UIColor.whiteColor()
+                dayView.textLabel.textColor = UIColor.whiteColor()
+            } else {
+                dayView.circleView.hidden = true
+                dayView.dotView.backgroundColor = UIColor.redColor()
+                dayView.textLabel.textColor = UIColor.blackColor()
+            }
+            
+            
+            dayView.dotView.hidden = !hasEvent(dayView.date)
+        }
+    }
+    
 }
