@@ -112,9 +112,7 @@ public:
     
     MRResistanceExercise *trainingExercise;
     
-//#ifdef WITH_CLASSIFICATION
     MRMultilayerPerceptron * classifier;
-//#endif
 }
 
 - (instancetype)init {
@@ -123,17 +121,8 @@ public:
     exerciseDecider = std::shared_ptr<exercise_decider>(new const_exercise_decider);
     fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(movementDecider, exerciseDecider));
     
-// #ifdef WITH_CLASSIFICATION
     NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"Models" ofType:@"bundle"];
-    //NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-bicep_curl-features" ofType:@"libsvm"];
-    //std::string libsvm([fullPath stringByDeletingLastPathComponent].UTF8String);
-    //fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-bicep_curl-features" ofType:@"scale"];
-    //std::string scale(fullPath.UTF8String);
-    
-//    auto classifiers = muvr::classifier_loader().load(libsvm);
-//    m_classifier = std::unique_ptr<muvr::ensemble_classifier>(new ensemble_classifier::ensemble_classifier(classifiers));
     classifier = [[MRMultilayerPerceptron alloc] initFromFiles: bundlePath];
-// #endif
     return self;
 }
 
