@@ -53,7 +53,10 @@ public:
 
 - (instancetype)init:(MRResistanceExercise *)exercise {
     self = [super init];
-    _sets = [NSArray arrayWithObject:exercise];
+    if(exercise != nil)
+        _sets = [NSArray arrayWithObject:exercise];
+    else
+        _sets = [NSMutableArray arrayWithCapacity: 0];
     return self;
 }
 
