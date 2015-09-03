@@ -1,29 +1,3 @@
-dumbbell-chest-press
-dumbbell-chest-fly
-barbell-press
-lat-pulldown-straight
-twist
-angle-chest-press
-lat-pulldown-angled
-cable-cross-overs
-dumbbell-press
-lateral-raise
-side-dips
-deltoid-row
-leverage-high-row
-pulldown-crunch
-dumbbell-row
-dumbbell-front-rise
-triceps-dips
-rope-triceps-extension
-straight-bar-biceps-curl
-cable-deltoid-cross-overs
-rope-biceps-curl
-straight-bar-triceps-extension
-alt-dumbbell-biceps-curl
-barbell-biceps-curl
-dumbbell-side-rise
-overhead-pull
-barbell-pullup
-rowing
-dumbbell-biceps-curl
+Lateral raise
+Triceps extension
+Bicep curl

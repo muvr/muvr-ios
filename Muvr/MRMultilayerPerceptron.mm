@@ -35,7 +35,7 @@
     NSData *weights = [NSData dataWithContentsOfFile:path];
     
     // TODO: Load model from file and set attributes
-    NSArray *layers = [NSArray arrayWithObjects:@1200, @500, @250, @100, @29, nil];
+    NSArray *layers = [NSArray arrayWithObjects:@1200, @100, @50, @3, nil];
     
     // Lets assume we loaded the data correctly
     // assert(weights.length / 8 == 370279);
@@ -52,7 +52,7 @@
     
     //TODO: Move parameters to file loaded from generated model
     _windowSize = 400;
-    _nrOfClasses = 29;
+    _nrOfClasses = 3;
     
     // Default settings
     [self setWindowStepSize: 10];
@@ -107,7 +107,7 @@
     int matCols = image->cols;
     NSMutableData* data = [[NSMutableData alloc]init];
     double *pix;
-    for (int i = 0; i < matRows; Ïi++)
+    for (int i = 0; i < matRows; i++)
     {
         for (int j = 0; j < matCols; j++ )
         {
@@ -119,7 +119,7 @@
 }
 
 -  (svm_classifier::classification_result)classify: (const std::vector<fused_sensor_data> &)data{
-
+    NSDate *startTime = [NSDate date];
     if(data.size() == 0){
         LOG(WARNING) << "Classification called, but no data passed!" << std::endl;
         return svm_classifier::classification_result(muvr::svm_classifier::classification_result::failure, std::vector<muvr::svm_classifier::classified_exercise> { }, data);
@@ -132,8 +132,15 @@
     
     // LOG(TRACE) << "Raw input data = "<< std::endl << " "  << preprocessed << std::endl << std::endl;
     
+    // We need a window full of data to do any prediction
+    if(first_sensor_data.data.rows < _windowSize){
+        LOG(INFO) << "Not enough data for prediction :( " << std::endl;
+        return svm_classifier::classification_result(muvr::svm_classifier::classification_result::failure, std::vector<muvr::svm_classifier::classified_exercise> { }, data);
+    }
+    
     // Sliding window.
-    int numWindows = 0;
+    int numWindows = (first_sensor_data.data.rows - _windowSize) / [self windowStepSize] + 1;
+    int numFeatures = 1200;
     int prediction = -1;
     double overall_prediction[_nrOfClasses];
     
@@ -141,36 +148,43 @@
         overall_prediction[c] = 0;
     }
     
-    // We need a window full of data to do any prediction
-    if(first_sensor_data.data.rows < _windowSize){
-        LOG(INFO) << "Not enough data for prediction :( " << std::endl;
-    }
-
-    for(int i = 0; i + _windowSize <= first_sensor_data.data.rows; i += [self windowStepSize]) {
+    NSMutableData *featureMatrix = [NSMutableData dataWithLength: numFeatures * numWindows * sizeof(double)];
+    double *features = (double *)featureMatrix.mutableBytes;
+    
+    for(int i = 0; i < numWindows; ++i) {
         // Get window expected size.
-        Mat window = preprocessed(cv::Range(i, i + _windowSize), cv::Range(0, 3));
+        int start = i * [self windowStepSize];
+        int end = i * [self windowStepSize] + _windowSize;
+        Mat window = preprocessed(cv::Range(start, end), cv::Range(0, 3));
         Mat feature_matrix = [self preprocessingPipeline:window withScale:4000 withCenter:0];
         
         // Predict output of the model for new sample
-        NSMutableData * windowPrediction = [NSMutableData dataWithLength:sizeof(double)*_nrOfClasses];
         NSData *feature_vector = [self dataFromMat: &feature_matrix];
-        
-        // Run the model on the feature vector. We will get a vector of probabilities for the different classes
-        [_model predictByFeatureVector:feature_vector intoPredictionVector:windowPrediction];
-        double * confidenceScores = (double *)windowPrediction.bytes;
-        
-        // For now we will select the class that is most probable over all windows. More advanced selection possible
-        for(int c=0; c < _nrOfClasses; ++c){
-//            NSString * exerciseName = [self exerciseName: c];
-//            LOG(TRACE) << "Prediction: "<< [NSString stringWithFormat:@"%.2f", confidenceScores[c]].UTF8String <<" for " << exerciseName.UTF8String << std::endl;
-            overall_prediction[c] += confidenceScores[c];
-            if(prediction == -1 or overall_prediction[prediction] < overall_prediction[c])  {
-                prediction = c;
-            }
-        }
-        numWindows++;
+        memcpy(&features[i*numFeatures], (double *)feature_vector.bytes, numFeatures * sizeof(double));
     }
-
+    
+    NSMutableData * windowPrediction = [NSMutableData dataWithLength:_nrOfClasses*numWindows*sizeof(double)];
+    
+    
+        // Run the model on the feature vector. We will get a vector of probabilities for the different classes
+    [_model predictByFeatureMatrix:featureMatrix intoPredictionMatrix:windowPrediction];
+    
+    double * confidenceScores = (double *)windowPrediction.bytes;
+        
+    // For now we will select the class that is most probable over all windows. More advanced selection possible
+    for(int c=0; c < _nrOfClasses; ++c){
+        //            NSString * exerciseName = [self exerciseName: c];
+        //            LOG(TRACE) << "Prediction: "<< [NSString stringWithFormat:@"%.2f", confidenceScores[c]].UTF8String <<" for " << exerciseName.UTF8String << std::endl;
+        for(int w = 0; w < numWindows; ++w){
+            overall_prediction[c] += confidenceScores[c*numWindows+w];
+        }
+        
+        if(prediction == -1 or overall_prediction[prediction] < overall_prediction[c])  {
+            prediction = c;
+        }
+    }
+    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate: startTime];
+    LOG(TRACE) << "Classification took: " << timeInterval << " seconds" << std::endl;
     if(prediction >= 0) {
         for(int c=0; c < _nrOfClasses; ++c){
             NSString * exerciseName = [self exerciseName: c];
