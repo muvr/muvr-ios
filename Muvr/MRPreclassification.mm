@@ -231,13 +231,12 @@ public:
         MRResistanceExerciseSet *exercise_set = [[MRResistanceExerciseSet alloc] init:exercise];
         [transformedClassificationResult addObject:exercise_set];
         
-        if (self.classificationPipelineDelegate != nil) {
-            [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
-        }
+//        if (self.classificationPipelineDelegate != nil) {
+//            [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
+//        }
     }
     
     // --- End classification
-    
     MRResistanceExerciseSet* set = [[MRResistanceExerciseSet alloc] init:trainingExercise];
     
     [self.trainingPipelineDelegate trainingCompleted: set fromData:data];
