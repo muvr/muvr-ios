@@ -184,7 +184,7 @@
         }
     }
     NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate: startTime];
-    LOG(TRACE) << "Classification took: " << timeInterval << " seconds" << std::endl;
+    LOG(TRACE) << "Classification took: " << timeInterval << " seconds for " << first_sensor_data.data.rows / first_sensor_data.samples_per_second << " seconds of data" << std::endl;
     if(prediction >= 0) {
         for(int c=0; c < _nrOfClasses; ++c){
             NSString * exerciseName = [self exerciseName: c];
