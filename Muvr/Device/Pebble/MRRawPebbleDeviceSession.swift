@@ -4,6 +4,60 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     private let central = PBPebbleCentral.defaultCentral()
     private var currentSession: MRPebbleDeviceSession?
     
+    struct MessageKeyDecoder {
+        enum DecodedKey {
+            case Duplicate
+            case Undefined
+            case Dead
+            case AccelerometerData(data: NSData)
+            case Accepted(index: UInt8)
+            case Rejected(index: UInt8)
+            case TimedOut(index: UInt8)
+            case TrainingCompleted
+        }
+        
+        private var count: UInt32 = UInt32.max
+        
+        private static let deadKey              = NSNumber(uint32: 0xdead0000)
+        private static let adKey                = NSNumber(uint32: 0xad000000)
+        private static let acceptedKey          = NSNumber(uint32: 0x01000000)
+        private static let timedOutKey          = NSNumber(uint32: 0x02000000)
+        private static let rejectedKey          = NSNumber(uint32: 0x03000000)
+        private static let trainingCompletedKey = NSNumber(uint32: 0x04000000)
+        private static let countKey             = NSNumber(uint32: 0x0c000000)
+        
+        mutating func decode(dict: [NSObject : AnyObject]) -> DecodedKey {
+            
+            if let msgCount = dict[MessageKeyDecoder.countKey] as? NSNumber {
+                println("reported count = \(msgCount), our count = \(count)");
+                if msgCount.unsignedIntValue == count {
+                    println("Duplicate")
+                    count = msgCount.unsignedIntValue
+                    return DecodedKey.Duplicate
+                }
+                count = msgCount.unsignedIntValue
+            }
+            
+            for (k, rawValue) in dict {
+                if let data = rawValue as? NSData {
+                    let b = UnsafePointer<UInt8>(data.bytes)
+                    switch k {
+                    case MessageKeyDecoder.deadKey: return DecodedKey.Dead
+                    case MessageKeyDecoder.adKey: return DecodedKey.AccelerometerData(data: data)
+                    case MessageKeyDecoder.acceptedKey: return DecodedKey.Accepted(index: b.memory)
+                    case MessageKeyDecoder.rejectedKey: return DecodedKey.Rejected(index: b.memory)
+                    case MessageKeyDecoder.timedOutKey: return DecodedKey.TimedOut(index: b.memory)
+                    case MessageKeyDecoder.trainingCompletedKey: return DecodedKey.TrainingCompleted
+                    case MessageKeyDecoder.countKey: continue
+                    default: return .Undefined
+                    }
+                }
+            }
+            
+            return .Undefined
+        }
+    }
+
     ///
     /// Pebble device session
     ///
@@ -13,14 +67,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         private let watch: PBWatch!
         private let sessionId = DeviceSession()
         private let deviceId = DeviceId()   // TODO: Actual deviceId
-        private let deadKey = NSNumber(uint32: 0x0000dead)
-        private let adKey = NSNumber(uint32: 0xface0fb0)
-        private let acceptedKey = NSNumber(uint32: 0xb0000003)
-        private let timedOutKey = NSNumber(uint32: 0xb1000003)
-        private let rejectedKey = NSNumber(uint32: 0xb2000003)
-        private let trainingCompletedKey = NSNumber(uint32: 0xb3000003)
-        private let warmupSamples = 0
-        private var sampleCount = 0
+        private var mkd = MessageKeyDecoder()
 
         init(watch: PBWatch, delegate: MRDeviceSessionDelegate) {
             self.watch = watch
@@ -29,44 +76,32 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         }
         
         private func appMessagesReceiveUpdateHandler(watch: PBWatch!, data: [NSObject : AnyObject]!) -> Bool {
-            for (k, rawValue) in data {
-                if let data = rawValue as? NSData {
-                    let b = UnsafePointer<UInt8>(data.bytes)
-                    switch k {
-                    case adKey:
-                        sampleCount += 1
-                        if sampleCount > warmupSamples {
-                            delegate.deviceSession(sessionId, sensorDataReceivedFrom: deviceId, atDeviceTime: CACurrentMediaTime(), data: data)
-                        }
-                        break
-                    case deadKey:
-                        delegate.deviceSession(sessionId, endedFrom: deviceId)
-                        break
-                    case acceptedKey:
-                        delegate.deviceSession(sessionId, exerciseAccepted: b.memory, from: deviceId)
-                        break
-                    case rejectedKey:
-                        delegate.deviceSession(sessionId, exerciseRejected: b.memory, from: deviceId)
-                        break
-                    case timedOutKey:
-                        delegate.deviceSession(sessionId, exerciseSelectionTimedOut: b.memory, from: deviceId)
-                        break
-                    case trainingCompletedKey:
-                        delegate.deviceSession(sessionId, exerciseTrainingCompletedFrom: deviceId)
-                    default:
-                        fatalError("Match error")
-                    }
-                }
+            switch mkd.decode(data) {
+            case .Duplicate:
+                println("Duplicate")
+                break
+            case .Undefined:
+                println("Undefined")
+                break
+            case .AccelerometerData(data: let data):
+                delegate.deviceSession(sessionId, sensorDataReceivedFrom: deviceId, atDeviceTime: CACurrentMediaTime(), data: data)
+                break
+            case .Accepted(index: let index):
+                delegate.deviceSession(sessionId, exerciseAccepted: index, from: deviceId)
+                break
+            case .Rejected(index: let index):
+                delegate.deviceSession(sessionId, exerciseRejected: index, from: deviceId)
+                break
+            case .TimedOut(index: let index):
+                delegate.deviceSession(sessionId, exerciseSelectionTimedOut: index, from: deviceId)
+                break
+            case .TrainingCompleted:
+                delegate.deviceSession(sessionId, exerciseTrainingCompletedFrom: deviceId)
+                break
+            default:
+                fatalError("Match error")
             }
-            if let x = data[adKey] as? NSData {
-                sampleCount += 1
-                if sampleCount > warmupSamples {
-                    delegate.deviceSession(sessionId, sensorDataReceivedFrom: deviceId, atDeviceTime: CACurrentMediaTime(), data: x)
-                }
-            } else if data[deadKey] != nil {
-                delegate.deviceSession(sessionId, endedFrom: deviceId)
-            }
-            // TODO: classified here
+            
             return true
         }
 

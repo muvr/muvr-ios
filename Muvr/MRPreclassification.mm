@@ -232,6 +232,7 @@ public:
 
 - (void)trainingCompleted {
     if (self.trainingPipelineDelegate == nil) return;
+    assert(trainingExercise != nil); // "trainingExercise != nil failed. [trainingStarted:] not caled.");
     
     auto result = fuser->completed();
     NSData *data = [self formatFusedSensorData:result];
