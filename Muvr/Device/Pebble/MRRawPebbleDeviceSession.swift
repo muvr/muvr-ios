@@ -24,9 +24,11 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         private static let timedOutKey          = NSNumber(uint32: 0x02000000)
         private static let rejectedKey          = NSNumber(uint32: 0x03000000)
         private static let trainingCompletedKey = NSNumber(uint32: 0x04000000)
+        private static let countKey             = NSNumber(uint32: 0x0c000000)
         
         mutating func decode(dict: [NSObject : AnyObject]) -> DecodedKey {
-            if let msgCount = dict[NSNumber(uint32: 0x0c000000)] as? NSNumber {
+            
+            if let msgCount = dict[MessageKeyDecoder.countKey] as? NSNumber {
                 println("reported count = \(msgCount), our count = \(count)");
                 if msgCount.unsignedIntValue == count {
                     println("Duplicate")
@@ -36,7 +38,6 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
                 count = msgCount.unsignedIntValue
             }
             
-
             for (k, rawValue) in dict {
                 if let data = rawValue as? NSData {
                     let b = UnsafePointer<UInt8>(data.bytes)
@@ -47,6 +48,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
                     case MessageKeyDecoder.rejectedKey: return DecodedKey.Rejected(index: b.memory)
                     case MessageKeyDecoder.timedOutKey: return DecodedKey.TimedOut(index: b.memory)
                     case MessageKeyDecoder.trainingCompletedKey: return DecodedKey.TrainingCompleted
+                    case MessageKeyDecoder.countKey: continue
                     default: return .Undefined
                     }
                 }
