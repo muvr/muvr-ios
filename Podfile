@@ -2,7 +2,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.4'
 use_frameworks!
 
-# Viz http://code.opencv.org/issues/4052
+# TODO: When 2.4.11 is available, use it. Until then, skil 2.4.10; viz http://code.opencv.org/issues/4052
 pod 'OpenCV', '2.4.9'
 pod 'Alamofire'
 pod 'Charts'
@@ -11,4 +11,6 @@ pod 'Reachability'
 pod 'PebbleKit'
 pod 'sqlite3'
 pod 'SQLite.swift', git: 'https://github.com/stephencelis/SQLite.swift.git'
-pod 'MLPNeuralNet'
+
+# TODO: When merged, use the default repo
+pod 'MLPNeuralNet', git: 'https://github.com/tmbo/MLPNeuralNet.git', branch: 'feature/matrix'
