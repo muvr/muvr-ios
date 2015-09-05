@@ -204,9 +204,9 @@ public:
     }
 }
 
-- (void)trainingCompleted {
-    if (self.trainingPipelineDelegate == nil) return;
-    assert(trainingExercise != nil); // "trainingExercise != nil failed. [trainingStarted:] not caled.");
+- (void)exerciseCompleted {
+    if (self.classificationPipelineDelegate == nil) return;
+    assert(trainingExercise == nil); // "trainingExercise == nil failed. [trainingStarted:] not caled.");
     
     auto result = fuser->completed();
     NSData *data = [self formatFusedSensorData:result];
@@ -217,12 +217,11 @@ public:
     NSMutableArray *transformedClassificationResult = [NSMutableArray array];
     
     if (classificationResult.exercises().size() > 0) {
-        
         // for now we just take the first and only identified exercise if there is any
         svm_classifier::classified_exercise classified_exercise = classificationResult.exercises()[0];
         
         MRResistanceExercise *exercise = [[MRResistanceExercise alloc]
-                                          initWithExercise:[NSString stringWithCString:classified_exercise.exercise_name().c_str()encoding:[NSString defaultCStringEncoding]]
+                                          initWithExercise:[NSString stringWithCString:classified_exercise.exercise_name().c_str() encoding:[NSString defaultCStringEncoding]]
                                           repetitions:@(classified_exercise.repetitions())
                                           weight: @(classified_exercise.weight())
                                           intensity: @(classified_exercise.intensity())
@@ -230,16 +229,22 @@ public:
         
         MRResistanceExerciseSet *exercise_set = [[MRResistanceExerciseSet alloc] init:exercise];
         [transformedClassificationResult addObject:exercise_set];
-        
-//        if (self.classificationPipelineDelegate != nil) {
-//            [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
-//        }
     }
+    
+    [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
+}
+
+- (void)trainingCompleted {
+    if (self.trainingPipelineDelegate == nil) return;
+    assert(trainingExercise != nil); // "trainingExercise != nil failed. [trainingStarted:] not caled.");
+    
+    auto result = fuser->completed();
+    NSData *data = [self formatFusedSensorData:result];
     
     // --- End classification
     MRResistanceExerciseSet* set = [[MRResistanceExerciseSet alloc] init:trainingExercise];
-    
-    [self.trainingPipelineDelegate trainingCompleted: set fromData:data];
+    [self.trainingPipelineDelegate trainingCompleted:set fromData:data];
+    trainingExercise = nil;
 }
 
 - (void)trainingStarted:(MRResistanceExercise *)exercise {

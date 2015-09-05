@@ -18,7 +18,7 @@
 }
 
 // Load label mapping from bundle
-- (void)loadLabelsFromBundle: (NSString *)bundlePath {
+- (void)loadLabelsFromBundle:(NSString *)bundlePath {
     
     NSString *labelsFile = [[NSBundle bundleWithPath:bundlePath] pathForResource: @"labels" ofType: @"txt"];
     NSString *labelsContent = [NSString stringWithContentsOfFile:labelsFile encoding:NSUTF8StringEncoding error:nil];
@@ -27,7 +27,7 @@
 }
 
 // Load Model from bundle
-- (void)loadModelFromBundle: (NSString *)bundlePath {
+- (void)loadModelFromBundle:(NSString *)bundlePath {
     
     // Load weights from file. The file is a raw file containing an array of double values
     NSString* path = [[NSBundle bundleWithPath:bundlePath] pathForResource: @"weights" ofType: @"raw"];
@@ -47,7 +47,7 @@
     _model.outputActivationFunction = MLPSigmoid;
 }
 
-- (instancetype)initFromFiles: (NSString *)bundlePath {
+- (instancetype)initFromFiles:(NSString *)bundlePath {
     self = [super init];
     
     //TODO: Move parameters to file loaded from generated model
@@ -55,18 +55,16 @@
     _nrOfClasses = 3;
     
     // Default settings
-    [self setWindowStepSize: 10];
+    [self setWindowStepSize:10];
     
-    
-    [self loadLabelsFromBundle: bundlePath];
-    
-    [self loadModelFromBundle: bundlePath];
+    [self loadLabelsFromBundle:bundlePath];
+    [self loadModelFromBundle:bundlePath];
     
     return self;
 }
 
 // Make sure the matrix has the correct datatype
-- (cv::Mat)initial_preprocessing: (const cv::Mat &)data {
+- (cv::Mat)initial_preprocessing:(const cv::Mat &)data {
     Mat cv_data;
     // Convert to double precision
     data.convertTo(cv_data, CV_64FC1);
@@ -75,7 +73,7 @@
 }
 
 // Center and scale the given data
-- (cv::Mat)transform_scale: (const cv::Mat &)data withScale:(double)scale withCenter:(double)center{
+- (cv::Mat)transform_scale:(const cv::Mat &)data withScale:(double)scale withCenter:(double)center{
     Mat scaled_data = data.clone();
     
     for (int j = 0; j < data.cols; j++) {
@@ -87,40 +85,39 @@
 }
 
 // Prepare data for classification
-- (cv::Mat)preprocessingPipeline: (const cv::Mat &)data withScale:(double)scale withCenter:(double)center {
+- (cv::Mat)preprocessingPipeline:(const cv::Mat &)data withScale:(double)scale withCenter:(double)center {
     // Flatten matrix using column-major transformation.
     Mat feature_vector =  Mat(data.t()).reshape(1, 1);
     
-    Mat scaled_feature_vector = [self transform_scale: feature_vector withScale: scale withCenter: center];
+    Mat scaled_feature_vector = [self transform_scale:feature_vector withScale:scale withCenter:center];
     
     return scaled_feature_vector;
 }
+
 // Map a classifier output to a label
-- (NSString *)exerciseName: (int) idx{
-    return [_labels objectAtIndex: idx];
+- (NSString *)exerciseName:(int)idx{
+    return [_labels objectAtIndex:idx];
 }
 
 // Convert Mat into a NSData column first vector
-- (NSMutableData*) dataFromMat:(cv::Mat*) image
+- (NSMutableData*)dataFromMat:(cv::Mat*)image
 {
     int matRows = image->rows;
     int matCols = image->cols;
-    NSMutableData* data = [[NSMutableData alloc]init];
+    NSMutableData* data = [[NSMutableData alloc] init];
     double *pix;
-    for (int i = 0; i < matRows; i++)
-    {
-        for (int j = 0; j < matCols; j++ )
-        {
+    for (int i = 0; i < matRows; i++) {
+        for (int j = 0; j < matCols; j++ ) {
             pix = &image->at<double>(i, j);
-            [data appendBytes:(void*)pix length: sizeof(double)];
+            [data appendBytes:(void*)pix length:sizeof(double)];
         }
     }
     return data;
 }
 
--  (svm_classifier::classification_result)classify: (const std::vector<fused_sensor_data> &)data{
+- (svm_classifier::classification_result)classify:(const std::vector<fused_sensor_data> &)data{
     NSDate *startTime = [NSDate date];
-    if(data.size() == 0){
+    if (data.size() == 0) {
         LOG(WARNING) << "Classification called, but no data passed!" << std::endl;
         return svm_classifier::classification_result(muvr::svm_classifier::classification_result::failure, std::vector<muvr::svm_classifier::classified_exercise> { }, data);
     }
@@ -133,7 +130,7 @@
     // LOG(TRACE) << "Raw input data = "<< std::endl << " "  << preprocessed << std::endl << std::endl;
     
     // We need a window full of data to do any prediction
-    if(first_sensor_data.data.rows < _windowSize){
+    if (first_sensor_data.data.rows < _windowSize) {
         LOG(INFO) << "Not enough data for prediction :( " << std::endl;
         return svm_classifier::classification_result(muvr::svm_classifier::classification_result::failure, std::vector<muvr::svm_classifier::classified_exercise> { }, data);
     }
@@ -144,14 +141,14 @@
     int prediction = -1;
     double overall_prediction[_nrOfClasses];
     
-    for(int c=0; c < _nrOfClasses; ++c){
-        overall_prediction[c] = 0;
+    for (int i = 0; i < _nrOfClasses; ++i) {
+        overall_prediction[i] = 0;
     }
     
-    NSMutableData *featureMatrix = [NSMutableData dataWithLength: numFeatures * numWindows * sizeof(double)];
+    NSMutableData *featureMatrix = [NSMutableData dataWithLength:numFeatures * numWindows * sizeof(double)];
     double *features = (double *)featureMatrix.mutableBytes;
     
-    for(int i = 0; i < numWindows; ++i) {
+    for (int i = 0; i < numWindows; ++i) {
         // Get window expected size.
         int start = i * [self windowStepSize];
         int end = i * [self windowStepSize] + _windowSize;
@@ -159,7 +156,7 @@
         Mat feature_matrix = [self preprocessingPipeline:window withScale:4000 withCenter:0];
         
         // Predict output of the model for new sample
-        NSData *feature_vector = [self dataFromMat: &feature_matrix];
+        NSData *feature_vector = [self dataFromMat:&feature_matrix];
         memcpy(&features[i*numFeatures], (double *)feature_vector.bytes, numFeatures * sizeof(double));
     }
     
@@ -169,25 +166,24 @@
         // Run the model on the feature vector. We will get a vector of probabilities for the different classes
     [_model predictByFeatureMatrix:featureMatrix intoPredictionMatrix:windowPrediction];
     
-    double * confidenceScores = (double *)windowPrediction.bytes;
+    double *confidenceScores = (double *)windowPrediction.bytes;
         
     // For now we will select the class that is most probable over all windows. More advanced selection possible
-    for(int c=0; c < _nrOfClasses; ++c){
-        //            NSString * exerciseName = [self exerciseName: c];
-        //            LOG(TRACE) << "Prediction: "<< [NSString stringWithFormat:@"%.2f", confidenceScores[c]].UTF8String <<" for " << exerciseName.UTF8String << std::endl;
-        for(int w = 0; w < numWindows; ++w){
-            overall_prediction[c] += confidenceScores[c*numWindows+w];
+    for (int i=0; i < _nrOfClasses; ++i) {
+        for (int w = 0; w < numWindows; ++w) {
+            overall_prediction[i] += confidenceScores[i * numWindows + w];
         }
         
-        if(prediction == -1 or overall_prediction[prediction] < overall_prediction[c])  {
-            prediction = c;
+        if (prediction == -1 or overall_prediction[prediction] < overall_prediction[i]) {
+            prediction = i;
         }
     }
-    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate: startTime];
+    
+    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:startTime];
     LOG(TRACE) << "Classification took: " << timeInterval << " seconds for " << first_sensor_data.data.rows / first_sensor_data.samples_per_second << " seconds of data" << std::endl;
-    if(prediction >= 0) {
-        for(int c=0; c < _nrOfClasses; ++c){
-            NSString * exerciseName = [self exerciseName: c];
+    if (prediction >= 0) {
+        for (int c = 0; c < _nrOfClasses; ++c) {
+            NSString * exerciseName = [self exerciseName:c];
             LOG(TRACE) << "Prediction: "<< [NSString stringWithFormat:@"%.2f", overall_prediction[c]].UTF8String <<" for " << exerciseName.UTF8String << std::endl;
         }
         

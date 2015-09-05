@@ -32,6 +32,7 @@
 		542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */; };
 		542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */; };
 		542AB2191ACC4FD100F20299 /* symbolic_aggregate_approximation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */; };
+		542E630A1B9B009A00BA6B26 /* MRMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E63091B9B009A00BA6B26 /* MRMode.swift */; };
 		543374131AD01060005864D7 /* MRRawPebbleDeviceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374121AD01060005864D7 /* MRRawPebbleDeviceSession.swift */; };
 		5433741C1AD010B1005864D7 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374151AD010B1005864D7 /* Array.swift */; };
 		5433741D1AD010B1005864D7 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374161AD010B1005864D7 /* Box.swift */; };
@@ -175,6 +176,7 @@
 		542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser.cc"; sourceTree = "<group>"; };
 		542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = symbol_alphabet.cc; path = "../../../../../muvr-preclassification/core/main/cc/symbol_alphabet.cc"; sourceTree = "<group>"; };
 		542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = symbolic_aggregate_approximation.cc; path = "../../../../../muvr-preclassification/core/main/cc/symbolic_aggregate_approximation.cc"; sourceTree = "<group>"; };
+		542E63091B9B009A00BA6B26 /* MRMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRMode.swift; sourceTree = "<group>"; };
 		543374121AD01060005864D7 /* MRRawPebbleDeviceSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRRawPebbleDeviceSession.swift; sourceTree = "<group>"; };
 		543374151AD010B1005864D7 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		543374161AD010B1005864D7 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 				54005C971B07641F00BF0732 /* MRExercisePlanDeviation+Marshalling.swift */,
 				54005C991B07647100BF0732 /* MRExercisePlanItem+Marshalling.swift */,
 				54005C9B1B0764E300BF0732 /* MRRest+Marshalling.swift */,
+				542E63091B9B009A00BA6B26 /* MRMode.swift */,
 			);
 			name = Exercise;
 			sourceTree = "<group>";
@@ -1000,6 +1003,7 @@
 				543374221AD010B1005864D7 /* Result.swift in Sources */,
 				54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */,
 				54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */,
+				542E630A1B9B009A00BA6B26 /* MRMode.swift in Sources */,
 				5455E72A1AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift in Sources */,
 				540381571AECFB25000C8B15 /* MRSensorView.swift in Sources */,
 				54BC18B11B0391EA004C179B /* MRExercisePlanDelegate.swift in Sources */,

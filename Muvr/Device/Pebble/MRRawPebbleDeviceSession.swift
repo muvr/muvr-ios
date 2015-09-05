@@ -14,6 +14,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
             case Rejected(index: UInt8)
             case TimedOut(index: UInt8)
             case TrainingCompleted
+            case ExerciseCompleted
         }
         
         private var count: UInt32 = UInt32.max
@@ -24,6 +25,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         private static let timedOutKey          = NSNumber(uint32: 0x02000000)
         private static let rejectedKey          = NSNumber(uint32: 0x03000000)
         private static let trainingCompletedKey = NSNumber(uint32: 0x04000000)
+        private static let exerciseCompletedKey = NSNumber(uint32: 0x05000000)
         private static let countKey             = NSNumber(uint32: 0x0c000000)
         
         mutating func decode(dict: [NSObject : AnyObject]) -> DecodedKey {
@@ -48,6 +50,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
                     case MessageKeyDecoder.rejectedKey: return DecodedKey.Rejected(index: b.memory)
                     case MessageKeyDecoder.timedOutKey: return DecodedKey.TimedOut(index: b.memory)
                     case MessageKeyDecoder.trainingCompletedKey: return DecodedKey.TrainingCompleted
+                    case MessageKeyDecoder.exerciseCompletedKey: return DecodedKey.ExerciseCompleted
                     case MessageKeyDecoder.countKey: continue
                     default: return .Undefined
                     }
@@ -97,6 +100,9 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
                 break
             case .TrainingCompleted:
                 delegate.deviceSession(sessionId, exerciseTrainingCompletedFrom: deviceId)
+                break
+            case .ExerciseCompleted:
+                delegate.deviceSession(sessionId, exerciseCompletedFrom: deviceId)
                 break
             default:
                 fatalError("Match error")
@@ -149,7 +155,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     ///
     /// Starts a session
     ///
-    func start(deviceSessionDelegate: MRDeviceSessionDelegate) {
+    func start(deviceSessionDelegate: MRDeviceSessionDelegate, inMode mode: MRMode) {
         if currentSession == nil {
             if central.connectedWatches.count > 1 {
                 // TODO: DeviceSessionDelegate.deviceSession:didNotStart
@@ -161,6 +167,11 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
                 let watch = central.connectedWatches[0] as! PBWatch
                 watch.appMessagesLaunch { (watch, error) in
                     self.currentSession = MRPebbleDeviceSession(watch: watch, delegate: deviceSessionDelegate)
+                    switch mode {
+                    case .Training: self.currentSession?.send(0xb0000000); break
+                    case .AssistedClassification: self.currentSession?.send(0xb0000001); break
+                    case .AutomaticClassification: self.currentSession?.send(0xb0000002); break
+                    }
                 }
             }
         }

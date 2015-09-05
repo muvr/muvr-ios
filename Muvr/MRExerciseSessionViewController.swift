@@ -15,7 +15,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     MRDeviceSessionDelegate, MRDeviceDataDelegate, MRExerciseBlockDelegate, MRClassificationPipelineDelegate, MRExercisePlanDelegate,
     MRTrainingPipelineDelegate {
     /// sets the mode
-    private let trainingMode = true
+    private let mode = MRMode.AssistedClassification
     
     /// the exercises selection
     private var exercises: MRExercises?
@@ -56,7 +56,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     override func viewDidLoad() {
         assert(state != nil, "state == nil: typically because startSession(...) has not been called")
         super.viewDidLoad()
-        pcd.start(self)
+        pcd.start(self, inMode: mode)
 
         if let x = planDefinition {
             self.plan = MRExercisePlan(resistanceExercises: x.exercises)
@@ -223,10 +223,15 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     // MARK: MRDeviceSessionDelegate classification mode
     
     private func acceptedExercise(index: UInt8) {
-        if trainingMode {
+        if mode == .Training {
             preclassification!.trainingStarted(exercises![index])
         } else {
-            // ???
+            if !waitingForUser { return }
+            
+            let correct = userClassification!.combinedSets[Int(index)]
+            logExerciseExample(MRResistanceExerciseSetExample(classified: userClassification!.classifiedSets, correct: correct, fusedSensorData: userClassification!.data))
+            classificationCompletedViewController?.dismissViewControllerAnimated(true, completion: nil)
+            waitingForUser = false
         }
     }
     
@@ -236,6 +241,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     func deviceSession(session: DeviceSession, exerciseRejected index: UInt8, from deviceId: DeviceId) {
         // ???
+        acceptedExercise(index)
     }
     
     func deviceSession(session: DeviceSession, exerciseSelectionTimedOut index: UInt8, from deviceId: DeviceId) {
@@ -248,16 +254,8 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         preclassification!.trainingCompleted()
     }
     
-    // MARK: MRDeviceSessionDelegate misc
-    
-    func deviceSession(session: DeviceSession, simpleMessageReceivedFrom deviceId: DeviceId, key: UInt32, value: UInt8) {
-        if !waitingForUser { return }
-    
-        let correct = userClassification!.combinedSets[Int(value)]
-        
-        logExerciseExample(MRResistanceExerciseSetExample(classified: userClassification!.classifiedSets, correct: correct, fusedSensorData: userClassification!.data))
-        classificationCompletedViewController?.dismissViewControllerAnimated(true, completion: nil)
-        waitingForUser = false
+    func deviceSession(session: DeviceSession, exerciseCompletedFrom deviceId: DeviceId) {
+        preclassification!.exerciseCompleted()
     }
     
     // MARK: MRDeviceDataDelegate implementation
@@ -271,14 +269,14 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     // MARK: MRExerciseBlockDelegate implementation
     func exerciseEnded() {
-        if trainingMode { return }
+        if mode != .AutomaticClassification { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exerciseEnded() }
         pcd.notifyClassifying()
     }
     
     func exercising() {
-        if trainingMode { return }
+        if mode != .AutomaticClassification { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exercising() }
         if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
@@ -286,7 +284,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func moving() {
-        if trainingMode { return }
+        if mode != .AutomaticClassification { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.moving() }
         if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
@@ -294,7 +292,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func notMoving() {
-        if trainingMode { return }
+        if mode != .AutomaticClassification { return }
         if waitingForUser { return }
 
         plan!.noExercise();
@@ -316,7 +314,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         
         waitingForUser = true
 
-        userClassification = MRExerciseSessionUserClassification(session: state!.session, data: data, result: [], planned: plan!.current)
+        userClassification = MRExerciseSessionUserClassification(session: state!.session, data: data, result: result, planned: plan!.current)
         assert(!userClassification!.combinedSimpleSets.isEmpty, "Attempt to present classification result with no options.")
         
         classificationCompletedViewController?.presentClassificationResult(self, userClassification: userClassification!, onComplete: logExerciseExample)

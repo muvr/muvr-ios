@@ -165,9 +165,14 @@
 - (void)trainingStarted:(MRResistanceExercise *)exercise;
 
 ///
-/// Marks the end of the training session
+/// Marks the end of the training block
 ///
 - (void)trainingCompleted;
+
+///
+/// Marks the end of the exercise block
+///
+- (void)exerciseCompleted;
 
 ///
 /// exercise block delegate, whose methods get called when entire exercise block is detected.
