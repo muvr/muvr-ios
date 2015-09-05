@@ -66,7 +66,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         }
         
         // TODO: load & configure the classifiers here (according to state & plan)
-        preclassification = MRPreclassification()
+        preclassification = MRPreclassification.classifying(state!.session.muscleGroups.first!.modelParameters!)
         preclassification!.deviceDataDelegate = self
         preclassification!.classificationPipelineDelegate = self
         preclassification!.exerciseBlockDelegate = self
@@ -223,7 +223,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     // MARK: MRDeviceSessionDelegate classification mode
     
     private func acceptedExercise(index: UInt8) {
-        if mode == .Training {
+        if mode.exerciseReportFirst {
             preclassification!.trainingStarted(exercises![index])
         } else {
             if !waitingForUser { return }
@@ -269,14 +269,13 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     // MARK: MRExerciseBlockDelegate implementation
     func exerciseEnded() {
-        if mode != .AutomaticClassification { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exerciseEnded() }
         pcd.notifyClassifying()
     }
     
     func exercising() {
-        if mode != .AutomaticClassification { return }
+        if !mode.reportMovementExercise { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exercising() }
         if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
@@ -284,7 +283,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func moving() {
-        if mode != .AutomaticClassification { return }
+        if !mode.reportMovementExercise { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.moving() }
         if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
@@ -292,10 +291,10 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func notMoving() {
-        if mode != .AutomaticClassification { return }
+        if !mode.reportMovementExercise { return }
         if waitingForUser { return }
 
-        plan!.noExercise();
+        plan!.noExercise()
         
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.notMoving() }
         if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }

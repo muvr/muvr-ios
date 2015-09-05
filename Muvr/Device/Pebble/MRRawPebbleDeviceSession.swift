@@ -4,7 +4,30 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     private let central = PBPebbleCentral.defaultCentral()
     private var currentSession: MRPebbleDeviceSession?
     
-    struct MessageKeyDecoder {
+    private struct MessageDataEncoder {
+        
+        static func formatMRResistanceExerciseSet(exercises: [MRResistanceExercise]) -> NSData {
+            assert(exercises.count < 5, "The sets must be < 5")
+            
+            var data = NSMutableData()
+            // (#define APP_MESSAGE_INBOX_SIZE_MINIMUM 124) / 29 == 4
+            exercises.take(4).forEach { (x: MRResistanceExercise) -> Void in
+                var re = NSMutableData(length: sizeof(resistance_exercise_t))!
+                let name = UnsafePointer<Int8>(x.localisedTitle.cStringUsingEncoding(NSASCIIStringEncoding)!)
+                mk_resistance_exercise(re.mutableBytes, name, UInt8(x.confidence * 100), 0, 0, 0)
+                data.appendData(re)
+            }
+            
+            assert(data.length <= 124, "Too much data to send over BLE.")
+            return data
+        }
+        
+    }
+    
+    ///
+    /// MessageKeyDecoder
+    ///
+    private struct MessageKeyDecoder {
         enum DecodedKey {
             case Duplicate
             case Undefined
@@ -168,9 +191,9 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
                 watch.appMessagesLaunch { (watch, error) in
                     self.currentSession = MRPebbleDeviceSession(watch: watch, delegate: deviceSessionDelegate)
                     switch mode {
-                    case .Training: self.currentSession?.send(0xb0000000); break
-                    case .AssistedClassification: self.currentSession?.send(0xb0000001); break
-                    case .AutomaticClassification: self.currentSession?.send(0xb0000002); break
+                    case .Training(let exercises): self.currentSession?.send(0xb0000000, data: MessageDataEncoder.formatMRResistanceExerciseSet(exercises)); break
+                    case .AssistedClassification: self.currentSession?.send(0xb1000000); break
+                    case .AutomaticClassification: self.currentSession?.send(0xb2000000); break
                     }
                 }
             }
@@ -202,17 +225,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     }
     
     func notifySimpleClassificationCompleted(simpleClassifiedSets: [MRResistanceExercise]) {
-        var data = NSMutableData()
-        // (#define APP_MESSAGE_INBOX_SIZE_MINIMUM 124) / 29 == 4
-        simpleClassifiedSets.take(4).forEach { (x: MRResistanceExercise) -> Void in
-            var re = NSMutableData(length: sizeof(resistance_exercise_t))!
-            let name = UnsafePointer<Int8>(x.localisedTitle.cStringUsingEncoding(NSASCIIStringEncoding)!)
-            mk_resistance_exercise(re.mutableBytes, name, UInt8(x.confidence * 100), 0, 0, 0)
-            data.appendData(re)
-        }
-        
-        assert(data.length <= 124, "Too much data to send over BLE.")
-        currentSession?.send(0xa0000003, data: data)
+        currentSession?.send(0xa0000003, data: MessageDataEncoder.formatMRResistanceExerciseSet(simpleClassifiedSets))
     }
     
     func notifySimpleCurrent(exercise: MRResistanceExercise) {

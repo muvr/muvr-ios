@@ -1,4 +1,4 @@
- [
+[
   {"id":"arms/barbell-biceps-curl",          "title":"Barbell biceps curl"},
   {"id":"arms/dumbbell-biceps-curl",         "title":"Dumbbell biceps curl"},
   {"id":"arms/incline-dumbbell-curl",        "title":"Incline dumbbell curl"},
@@ -12,6 +12,8 @@
   {"id":"arms/cable-bar-triceps-extension",  "title":"Cable bar triceps ext."},
   {"id":"arms/cable-rope-triceps-extension", "title":"Cable rope triceps ext."},
   {"id":"arms/cable-triceps-kickback",       "title":"Cable triceps kickback"},
+  {"id":"arms/biceps-curl",                  "title":"Biceps curl"},
+  {"id":"arms/triceps-extension",            "title":"Triceps extension"},
   
   {"id":"chest/dumbbell-fly",                "title":"Dumbbell fly"},
   {"id":"chest/barbell-bench-press",         "title":"Barbell bench press"},
@@ -43,5 +45,6 @@
   {"id":"shoulders/face-pull",               "title":"Face pull"},
   {"id":"shoulders/high-pull",               "title":"High pull"},
   {"id":"shoulders/dips",                    "title":"Dips"},
-  {"id":"shoulders/dumbbell-raise",          "title":"Dumbbell raise"}
+  {"id":"shoulders/dumbbell-raise",          "title":"Dumbbell raise"},
+  {"id":"shoulders/lateral-raise",           "title":"Lateral raise"}
 ]

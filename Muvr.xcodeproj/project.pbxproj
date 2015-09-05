@@ -93,6 +93,9 @@
 		54B610911AF3C5B00034F2DD /* MRExerciseSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */; };
 		54B610931AF3C6010034F2DD /* Exercise.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54B610921AF3C6010034F2DD /* Exercise.storyboard */; };
 		54BC18B11B0391EA004C179B /* MRExercisePlanDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC18B01B0391EA004C179B /* MRExercisePlanDelegate.swift */; };
+		54BF09121B9B735B00A3E6C7 /* MRModelParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 54BF09111B9B735B00A3E6C7 /* MRModelParameters.m */; };
+		54BF09151B9B74F300A3E6C7 /* MRMuscleGroup+ModelParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BF09141B9B74F300A3E6C7 /* MRMuscleGroup+ModelParameters.swift */; };
+		54BF09171B9B77D800A3E6C7 /* MRResistanceExerciseSession+MuscleGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BF09161B9B77D800A3E6C7 /* MRResistanceExerciseSession+MuscleGroups.swift */; };
 		54CC46521B08E5B6007B739A /* MRPublicProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC46511B08E5B6007B739A /* MRPublicProfile.swift */; };
 		54CC46541B08E5DE007B739A /* MRPublicProfile+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC46531B08E5DE007B739A /* MRPublicProfile+Marshalling.swift */; };
 		54CC46561B08E684007B739A /* MRLoggedInApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC46551B08E684007B739A /* MRLoggedInApplicationState.swift */; };
@@ -246,6 +249,10 @@
 		54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionViewController.swift; sourceTree = "<group>"; };
 		54B610921AF3C6010034F2DD /* Exercise.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Exercise.storyboard; sourceTree = "<group>"; };
 		54BC18B01B0391EA004C179B /* MRExercisePlanDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisePlanDelegate.swift; sourceTree = "<group>"; };
+		54BF09111B9B735B00A3E6C7 /* MRModelParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRModelParameters.m; sourceTree = "<group>"; };
+		54BF09131B9B736900A3E6C7 /* MRModelParameters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRModelParameters.h; sourceTree = "<group>"; };
+		54BF09141B9B74F300A3E6C7 /* MRMuscleGroup+ModelParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRMuscleGroup+ModelParameters.swift"; sourceTree = "<group>"; };
+		54BF09161B9B77D800A3E6C7 /* MRResistanceExerciseSession+MuscleGroups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRResistanceExerciseSession+MuscleGroups.swift"; sourceTree = "<group>"; };
 		54CC46511B08E5B6007B739A /* MRPublicProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRPublicProfile.swift; sourceTree = "<group>"; };
 		54CC46531B08E5DE007B739A /* MRPublicProfile+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRPublicProfile+Marshalling.swift"; sourceTree = "<group>"; };
 		54CC46551B08E684007B739A /* MRLoggedInApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRLoggedInApplicationState.swift; sourceTree = "<group>"; };
@@ -440,8 +447,6 @@
 				54820DFC1AF28D1900E3AEC2 /* Result+GetOrUnit.swift */,
 				54477CFB1AF4E82E00F502EC /* Localizable.strings */,
 				5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */,
-				548225521AC57A3500EEEFCB /* MRPreclassification.h */,
-				548225531AC57A3500EEEFCB /* MRPreclassification.mm */,
 				5488F3A01AFF8E1A0086BF7B /* MRExercisePlan.mm */,
 				5488F3A21AFF8E340086BF7B /* MRExercisePlan.h */,
 				54DBE3691B05DABA00BD76CD /* MRPreclassificationScaffolding.h */,
@@ -571,8 +576,10 @@
 				547E6A8A1AF36938005DE00C /* MRMuscleGroup.swift */,
 				547E6A8C1AF36A10005DE00C /* MRMuscleGroup+Marshalling.swift */,
 				54F2881D1B00BD0100E4D591 /* MRMuscleGroup+Localisation.swift */,
+				54BF09141B9B74F300A3E6C7 /* MRMuscleGroup+ModelParameters.swift */,
 				54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */,
 				5455E7291AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift */,
+				54BF09161B9B77D800A3E6C7 /* MRResistanceExerciseSession+MuscleGroups.swift */,
 				5447E7F61B00FB7C0003C0A0 /* MRResistanceExercisePlan.swift */,
 				5447E7FA1B010C860003C0A0 /* MRResistanceExercisePlan+Marshalling.swift */,
 				5447E7FC1B010E5F0003C0A0 /* MRResistanceExercisePlan+Localisation.swift */,
@@ -722,8 +729,12 @@
 		9D3037921B94F61200426C70 /* Classification */ = {
 			isa = PBXGroup;
 			children = (
+				548225521AC57A3500EEEFCB /* MRPreclassification.h */,
+				548225531AC57A3500EEEFCB /* MRPreclassification.mm */,
 				9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */,
 				9D3037951B94F67100426C70 /* MRMultilayerPerceptron.h */,
+				54BF09111B9B735B00A3E6C7 /* MRModelParameters.m */,
+				54BF09131B9B736900A3E6C7 /* MRModelParameters.h */,
 			);
 			name = Classification;
 			sourceTree = "<group>";
@@ -944,6 +955,7 @@
 			files = (
 				5455E7221AF90FF80049BB6B /* MRDataModel.swift in Sources */,
 				54F288121B00A6F300E4D591 /* MRExerciseSessionUserClassification.swift in Sources */,
+				54BF09171B9B77D800A3E6C7 /* MRResistanceExerciseSession+MuscleGroups.swift in Sources */,
 				FC3970621AEA6CC900829357 /* svm.cc in Sources */,
 				548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */,
 				547E6A8D1AF36A10005DE00C /* MRMuscleGroup+Marshalling.swift in Sources */,
@@ -969,6 +981,7 @@
 				5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */,
 				5433741F1AD010B1005864D7 /* Either.swift in Sources */,
 				54F2881E1B00BD0100E4D591 /* MRMuscleGroup+Localisation.swift in Sources */,
+				54BF09151B9B74F300A3E6C7 /* MRMuscleGroup+ModelParameters.swift in Sources */,
 				54820DFB1AF2895100E3AEC2 /* MRLoginViewController.swift in Sources */,
 				5464EBBF1AF4E1FD00B5317B /* classifier_loader.cc in Sources */,
 				54CC46581B08E691007B739A /* MRExercisingApplicationState.swift in Sources */,
@@ -979,6 +992,7 @@
 				9D3037971B94F69700426C70 /* MRMultilayerPerceptron.mm in Sources */,
 				5488F39D1AFF8C960086BF7B /* exercise_plan.cc in Sources */,
 				543374251AD01104005864D7 /* NSError+Convenience.swift in Sources */,
+				54BF09121B9B735B00A3E6C7 /* MRModelParameters.m in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
 				54B610911AF3C5B00034F2DD /* MRExerciseSessionViewController.swift in Sources */,
 				543374131AD01060005864D7 /* MRRawPebbleDeviceSession.swift in Sources */,
