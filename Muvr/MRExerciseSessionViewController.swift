@@ -15,8 +15,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     MRDeviceSessionDelegate, MRDeviceDataDelegate, MRExerciseBlockDelegate, MRClassificationPipelineDelegate, MRExercisePlanDelegate,
     MRTrainingPipelineDelegate {
     /// sets the mode
-    private let mode = MRMode.AssistedClassification
-    
+    private var mode: MRMode?
     /// the exercises selection
     private var exercises: MRExercises?
     /// the timer for the stop button
@@ -56,21 +55,6 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     override func viewDidLoad() {
         assert(state != nil, "state == nil: typically because startSession(...) has not been called")
         super.viewDidLoad()
-        pcd.start(self, inMode: mode)
-
-        if let x = planDefinition {
-            self.plan = MRExercisePlan(resistanceExercises: x.exercises)
-            self.plan!.delegate = self
-        } else {
-            self.plan = MRExercisePlan.adHoc()
-        }
-        
-        // TODO: load & configure the classifiers here (according to state & plan)
-        preclassification = MRPreclassification.classifying(state!.session.muscleGroups.first!.modelParameters!)
-        preclassification!.deviceDataDelegate = self
-        preclassification!.classificationPipelineDelegate = self
-        preclassification!.exerciseBlockDelegate = self
-        preclassification!.trainingPipelineDelegate = self
 
         dataSource = self
         delegate = self
@@ -105,8 +89,28 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     func startSession(state: MRExercisingApplicationState, withPlan definition: MRResistanceExercisePlan?) {
         self.state = state
         self.planDefinition = definition
+        
         // TODO: This wants to be parametrized according to the definition
+        mode = MRMode.AssistedClassification
         self.exercises = MRExercises.cassandraSummit()
+        
+        if let x = planDefinition {
+            self.plan = MRExercisePlan(resistanceExercises: x.exercises)
+            self.plan!.delegate = self
+        } else {
+            self.plan = MRExercisePlan.adHoc()
+        }
+        
+        // TODO: load & configure the classifiers here (according to state & plan)
+        preclassification = MRPreclassification.classifying(state.session.muscleGroups.first!.modelParameters!)
+        preclassification!.deviceDataDelegate = self
+        preclassification!.classificationPipelineDelegate = self
+        preclassification!.exerciseBlockDelegate = self
+        preclassification!.trainingPipelineDelegate = self
+
+        // Start the Pebble device
+        pcd.start(self, inMode: mode!)
+
         UIApplication.sharedApplication().idleTimerDisabled = true
     }
     
@@ -223,7 +227,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     // MARK: MRDeviceSessionDelegate classification mode
     
     private func acceptedExercise(index: UInt8) {
-        if mode.exerciseReportFirst {
+        if mode!.exerciseReportFirst {
             preclassification!.trainingStarted(exercises![index])
         } else {
             if !waitingForUser { return }
@@ -275,7 +279,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func exercising() {
-        if !mode.reportMovementExercise { return }
+        if !mode!.reportMovementExercise { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exercising() }
         if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
@@ -283,7 +287,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func moving() {
-        if !mode.reportMovementExercise { return }
+        if !mode!.reportMovementExercise { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.moving() }
         if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
@@ -291,7 +295,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func notMoving() {
-        if !mode.reportMovementExercise { return }
+        if !mode!.reportMovementExercise { return }
         if waitingForUser { return }
 
         plan!.noExercise()
@@ -304,7 +308,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     // MARK: MRTrainingPipelineDelegate
     func trainingCompleted(set: MRResistanceExerciseSet!, fromData data: NSData!) {
         let example = MRResistanceExerciseSetExample(classified: [], correct: set, fusedSensorData: data)
-        self.state!.postResistanceExample(example)
+        logExerciseExample(example)
     }
     
     // MARK: MRClassificationPipelineDelegate
