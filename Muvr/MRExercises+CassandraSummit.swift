@@ -4,9 +4,9 @@ extension MRExercises {
     
     static func cassandraSummit() -> MRExercises {
         return MRExercises(examples: [
-                MRResistanceExercise(exercise: "Bicep curl", andConfidence: 1),
-                MRResistanceExercise(exercise: "Chest fly", andConfidence: 1),
-                MRResistanceExercise(exercise: "Shoulder press", andConfidence: 1)
+                MRResistanceExercise(exercise: "Lateral rise", andConfidence: 1),
+                MRResistanceExercise(exercise: "Triceps extension", andConfidence: 1),
+                MRResistanceExercise(exercise: "Biceps curl", andConfidence: 1)
             ])
     }
     

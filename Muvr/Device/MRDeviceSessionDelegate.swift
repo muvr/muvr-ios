@@ -20,11 +20,6 @@ protocol MRDeviceSessionDelegate {
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData)
     
     ///
-    /// Called when the device sends a simple message (one byte)
-    ///
-    func deviceSession(session: DeviceSession, simpleMessageReceivedFrom deviceId: DeviceId, key: UInt32, value: UInt8)
-    
-    ///
     /// The following functions refer to _exercise index_. It is an index in the ``resistance_exercise_t`` array, which has been
     /// previously set by calling ``MRRawPebbleDeviceSession.notifySimpleClassificationCompleted`` function.
     ///
@@ -63,10 +58,17 @@ protocol MRDeviceSessionDelegate {
     /// Called when the user selects the exercise that is being trained.
     ///
     /// @param session the device session
-    /// @param index the selected exercise number
     /// @param deviceId the device sending the notification
     ///
     func deviceSession(session: DeviceSession, exerciseTrainingCompletedFrom deviceId: DeviceId)
+    
+    ///
+    /// Called when the completes explicitly exercise
+    ///
+    /// @param session the device session
+    /// @param deviceId the device sending the notification
+    ///
+    func deviceSession(session: DeviceSession, exerciseCompletedFrom deviceId: DeviceId)
     
     ///
     /// Called when a sensor data is not received, but was expected. This typically indicates a

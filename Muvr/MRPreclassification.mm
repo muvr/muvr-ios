@@ -7,6 +7,7 @@
 #import "MuvrPreclassification/include/classifier_loader.h"
 #import "MuvrPreclassification/include/export.h"
 #import "MuvrPreclassification/include/ensemble_classifier.h"
+#import "MRMultilayerPerceptron.h"
 
 using namespace muvr;
 
@@ -52,7 +53,10 @@ public:
 
 - (instancetype)init:(MRResistanceExercise *)exercise {
     self = [super init];
-    _sets = [NSArray arrayWithObject:exercise];
+    if(exercise != nil)
+        _sets = [NSArray arrayWithObject:exercise];
+    else
+        _sets = [NSMutableArray arrayWithCapacity: 0];
     return self;
 }
 
@@ -111,9 +115,7 @@ public:
     
     MRResistanceExercise *trainingExercise;
     
-#ifdef WITH_CLASSIFICATION
-    std::unique_ptr<ensemble_classifier> classifier;
-#endif
+    MRMultilayerPerceptron * classifier;
 }
 
 - (instancetype)init {
@@ -122,15 +124,8 @@ public:
     exerciseDecider = std::shared_ptr<exercise_decider>(new const_exercise_decider);
     fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(movementDecider, exerciseDecider));
     
-#ifdef WITH_CLASSIFICATION
-    NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-bicep_curl-features" ofType:@"libsvm"];
-    std::string libsvm([fullPath stringByDeletingLastPathComponent].UTF8String);
-    fullPath = [[NSBundle mainBundle] pathForResource:@"svm-model-bicep_curl-features" ofType:@"scale"];
-    std::string scale(fullPath.UTF8String);
-    
-    auto classifiers = muvr::classifier_loader().load(libsvm);
-    m_classifier = std::unique_ptr<muvr::ensemble_classifier>(new ensemble_classifier::ensemble_classifier(classifiers));
-#endif
+    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"Models" ofType:@"bundle"];
+    classifier = [[MRMultilayerPerceptron alloc] initFromFiles: bundlePath];
     return self;
 }
 
@@ -150,6 +145,14 @@ public:
     try {
         const uint8_t *buf = reinterpret_cast<const uint8_t*>(data.bytes);
         raw_sensor_data decoded = decode_single_packet(buf).first;
+        // A: std::optional<fused_sensor_data> res = fuser->push_back(decoded, loc, 0, min_window = 4000); mutating
+        
+        // B: fuser->push_back(decoded, loc, 0) mutating;
+        //    fuser->window(from_end = 4000);
+        //    fuser->slice(from, to);
+        // ---
+        //   fuser->erase_before()
+        
         sensor_data_fuser::fusion_result fusionResult = fuser->push_back(decoded, sensor_location_t::wrist, 0);
 
         // hooks & delegates
@@ -193,41 +196,42 @@ public:
             }
         }
         
-#ifdef WITH_CLASSIFICATION
-        if (fusionResult.type() != sensor_data_fuser::fusion_result::exercise_ended) return;
-        
-        // finally, the classification pipeline
-        svm_classifier::classification_result result = m_classifier->classify(fusionResult.fused_exercise_data());
-        
-        NSMutableArray *transformedClassificationResult = [NSMutableArray array];
-
-        if (result.exercises().size() > 0) {
-                
-            // for now we just take the first and only identified exercise if there is any
-            svm_classifier::classified_exercise classified_exercise = result.exercises()[0];
-                
-            MRResistanceExercise *exercise = [[MRResistanceExercise alloc]
-                                                initWithExercise:[NSString stringWithCString:classified_exercise.exercise_name().c_str()encoding:[NSString defaultCStringEncoding]]
-                                                repetitions:@(classified_exercise.repetitions())
-                                                weight: @(classified_exercise.weight())
-                                                intensity: @(classified_exercise.intensity())
-                                                andConfidence: classified_exercise.confidence()];
-            
-            MRResistanceExerciseSet *exercise_set = [[MRResistanceExerciseSet alloc] init:exercise];
-            [transformedClassificationResult addObject:exercise_set];
-        }
-        
-        // the hooks
-        if (self.classificationPipelineDelegate != nil) {
-            NSData *data = [self formatFusedSensorData...];
-            [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
-        }
-#endif
+        // TODO: Put classification right here using windows of fused data
     } catch (std::exception &ex) {
         std::cerr << ex.what() << std::endl;
     } catch (...) {
         std::cerr << "Something is fucked up" << std::endl;
     }
+}
+
+- (void)exerciseCompleted {
+    if (self.classificationPipelineDelegate == nil) return;
+    assert(trainingExercise == nil); // "trainingExercise == nil failed. [trainingStarted:] not caled.");
+    
+    auto result = fuser->completed();
+    NSData *data = [self formatFusedSensorData:result];
+    
+    // --- Move classification to pushBack
+    svm_classifier::classification_result classificationResult = [classifier classify:result.fused_exercise_data()];
+    
+    NSMutableArray *transformedClassificationResult = [NSMutableArray array];
+    
+    if (classificationResult.exercises().size() > 0) {
+        // for now we just take the first and only identified exercise if there is any
+        svm_classifier::classified_exercise classified_exercise = classificationResult.exercises()[0];
+        
+        MRResistanceExercise *exercise = [[MRResistanceExercise alloc]
+                                          initWithExercise:[NSString stringWithCString:classified_exercise.exercise_name().c_str() encoding:[NSString defaultCStringEncoding]]
+                                          repetitions:@(classified_exercise.repetitions())
+                                          weight: @(classified_exercise.weight())
+                                          intensity: @(classified_exercise.intensity())
+                                          andConfidence: classified_exercise.confidence()];
+        
+        MRResistanceExerciseSet *exercise_set = [[MRResistanceExerciseSet alloc] init:exercise];
+        [transformedClassificationResult addObject:exercise_set];
+    }
+    
+    [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
 }
 
 - (void)trainingCompleted {
@@ -237,9 +241,10 @@ public:
     auto result = fuser->completed();
     NSData *data = [self formatFusedSensorData:result];
     
+    // --- End classification
     MRResistanceExerciseSet* set = [[MRResistanceExerciseSet alloc] init:trainingExercise];
-    
     [self.trainingPipelineDelegate trainingCompleted:set fromData:data];
+    trainingExercise = nil;
 }
 
 - (void)trainingStarted:(MRResistanceExercise *)exercise {

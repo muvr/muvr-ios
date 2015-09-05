@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B4FBFA5824CB8564BACAB29 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3AA10F80ED661B9AC5A823 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		54005C941B07560400BF0732 /* MRApplicationState+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54005C931B07560400BF0732 /* MRApplicationState+Sync.swift */; };
 		54005C961B07566900BF0732 /* MRDataModel+Housekeeping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54005C951B07566900BF0732 /* MRDataModel+Housekeeping.swift */; };
 		54005C981B07641F00BF0732 /* MRExercisePlanDeviation+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54005C971B07641F00BF0732 /* MRExercisePlanDeviation+Marshalling.swift */; };
@@ -33,6 +32,7 @@
 		542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */; };
 		542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */; };
 		542AB2191ACC4FD100F20299 /* symbolic_aggregate_approximation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */; };
+		542E630A1B9B009A00BA6B26 /* MRMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E63091B9B009A00BA6B26 /* MRMode.swift */; };
 		543374131AD01060005864D7 /* MRRawPebbleDeviceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374121AD01060005864D7 /* MRRawPebbleDeviceSession.swift */; };
 		5433741C1AD010B1005864D7 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374151AD010B1005864D7 /* Array.swift */; };
 		5433741D1AD010B1005864D7 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374161AD010B1005864D7 /* Box.swift */; };
@@ -118,6 +118,9 @@
 		54F2881B1B00BBAA00E4D591 /* default-exercises.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F288191B00BBAA00E4D591 /* default-exercises.json */; };
 		54F2881C1B00BBAA00E4D591 /* default-musclegroups.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F2881A1B00BBAA00E4D591 /* default-musclegroups.json */; };
 		54F2881E1B00BD0100E4D591 /* MRMuscleGroup+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F2881D1B00BD0100E4D591 /* MRMuscleGroup+Localisation.swift */; };
+		791024C419A5636E8BA52C85 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3AA10F80ED661B9AC5A823 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		9D3037971B94F69700426C70 /* MRMultilayerPerceptron.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */; };
+		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 		FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */; };
 		FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705E1AEA6CC900829357 /* svm_classifier.cc */; };
@@ -173,6 +176,7 @@
 		542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser.cc"; sourceTree = "<group>"; };
 		542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = symbol_alphabet.cc; path = "../../../../../muvr-preclassification/core/main/cc/symbol_alphabet.cc"; sourceTree = "<group>"; };
 		542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = symbolic_aggregate_approximation.cc; path = "../../../../../muvr-preclassification/core/main/cc/symbolic_aggregate_approximation.cc"; sourceTree = "<group>"; };
+		542E63091B9B009A00BA6B26 /* MRMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRMode.swift; sourceTree = "<group>"; };
 		543374121AD01060005864D7 /* MRRawPebbleDeviceSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRRawPebbleDeviceSession.swift; sourceTree = "<group>"; };
 		543374151AD010B1005864D7 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		543374161AD010B1005864D7 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
@@ -285,6 +289,9 @@
 		54F288191B00BBAA00E4D591 /* default-exercises.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "default-exercises.json"; sourceTree = "<group>"; };
 		54F2881A1B00BBAA00E4D591 /* default-musclegroups.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "default-musclegroups.json"; sourceTree = "<group>"; };
 		54F2881D1B00BD0100E4D591 /* MRMuscleGroup+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRMuscleGroup+Localisation.swift"; sourceTree = "<group>"; };
+		9D3037951B94F67100426C70 /* MRMultilayerPerceptron.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRMultilayerPerceptron.h; sourceTree = "<group>"; };
+		9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRMultilayerPerceptron.mm; sourceTree = "<group>"; };
+		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
 		A04E9B04EE1C27607A68F65A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRUserDefaults.swift; sourceTree = "<group>"; };
@@ -318,7 +325,7 @@
 				544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */,
 				544201371B93847100354DB7 /* ExternalAccessory.framework in Frameworks */,
 				54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */,
-				0B4FBFA5824CB8564BACAB29 /* Pods.framework in Frameworks */,
+				791024C419A5636E8BA52C85 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +414,8 @@
 		541ABBA01AC577E00056A81B /* Muvr */ = {
 			isa = PBXGroup;
 			children = (
+				9D30379B1B95CCC500426C70 /* Models.bundle */,
+				9D3037921B94F61200426C70 /* Classification */,
 				54005C901B0755D800BF0732 /* ApplicationState */,
 				547E6A921AF377FE005DE00C /* DataModel */,
 				547E6A871AF35793005DE00C /* Model */,
@@ -571,6 +580,7 @@
 				54005C971B07641F00BF0732 /* MRExercisePlanDeviation+Marshalling.swift */,
 				54005C991B07647100BF0732 /* MRExercisePlanItem+Marshalling.swift */,
 				54005C9B1B0764E300BF0732 /* MRRest+Marshalling.swift */,
+				542E63091B9B009A00BA6B26 /* MRMode.swift */,
 			);
 			name = Exercise;
 			sourceTree = "<group>";
@@ -707,6 +717,15 @@
 				F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		9D3037921B94F61200426C70 /* Classification */ = {
+			isa = PBXGroup;
+			children = (
+				9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */,
+				9D3037951B94F67100426C70 /* MRMultilayerPerceptron.h */,
+			);
+			name = Classification;
 			sourceTree = "<group>";
 		};
 		FC39706A1AEA78E200829357 /* config */ = {
@@ -851,6 +870,7 @@
 				5464EBC81AF4E24F00B5317B /* svm-model-bicep_curl-features.rds in Resources */,
 				5464EBCB1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds in Resources */,
 				5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */,
+				9D30379C1B95CCC500426C70 /* Models.bundle in Resources */,
 				54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */,
 				541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */,
 				54F2881C1B00BBAA00E4D591 /* default-musclegroups.json in Resources */,
@@ -956,6 +976,7 @@
 				5442013F1B93946800354DB7 /* MRExercises.swift in Sources */,
 				5433741C1AD010B1005864D7 /* Array.swift in Sources */,
 				5455E72E1AFA6E6D0049BB6B /* NSDate+Marshalling.swift in Sources */,
+				9D3037971B94F69700426C70 /* MRMultilayerPerceptron.mm in Sources */,
 				5488F39D1AFF8C960086BF7B /* exercise_plan.cc in Sources */,
 				543374251AD01104005864D7 /* NSError+Convenience.swift in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
@@ -982,6 +1003,7 @@
 				543374221AD010B1005864D7 /* Result.swift in Sources */,
 				54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */,
 				54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */,
+				542E630A1B9B009A00BA6B26 /* MRMode.swift in Sources */,
 				5455E72A1AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift in Sources */,
 				540381571AECFB25000C8B15 /* MRSensorView.swift in Sources */,
 				54BC18B11B0391EA004C179B /* MRExercisePlanDelegate.swift in Sources */,
