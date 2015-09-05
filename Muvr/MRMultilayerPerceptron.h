@@ -3,6 +3,7 @@
 
 #import "MuvrPreclassification/include/sensor_data.h"
 #import "MuvrPreclassification/include/svm_classifier.h"
+#import "MRModelParameters.h"
 
 using namespace muvr;
 
@@ -14,13 +15,13 @@ using namespace muvr;
 ///
 /// Size of the steps between two classification attempts. Classifier will fuse the results of all windows.
 ///
-@property int windowStepSize;
+@property uint windowStepSize;
 
 ///
 /// Constructs an instance, sets up the underlying native structures loading the model
 /// from file
 ///
-- (instancetype)initFromFiles:(NSString *)directory;
+- (instancetype)initWithModel:(MRModelParameters *)model;
 
 ///
 /// Classify the passed data

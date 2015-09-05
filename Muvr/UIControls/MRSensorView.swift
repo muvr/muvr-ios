@@ -109,7 +109,7 @@ class MRSensorView : LineChartView, MRDeviceDataDelegate {
     private func refreshData<A>(values: [MRSensorViewDataKey : [A]], dataSets: (String, [A]) -> [LineChartDataSet]) {
         let viewSize = 100
 
-        setVisibleXRange(minXRange: -CGFloat(viewSize), maxXRange: CGFloat(viewSize))
+        setVisibleXRange(minXRange: 0, maxXRange: CGFloat(viewSize))
         setScaleEnabled(false)
 
         var ds: [LineChartDataSet] = []

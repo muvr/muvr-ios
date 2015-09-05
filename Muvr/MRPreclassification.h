@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "MRModelParameters.h"
 
 ///
 /// Object holding triple of X, Y, Z values typical for three-dimensional
@@ -149,10 +150,16 @@
 ///
 @interface MRPreclassification : NSObject
 
+
 ///
 /// Constructs an instance, sets up the underlying native structures
 ///
-- (instancetype)init;
++ (instancetype)training;
+
+///
+/// Constructs an instance, sets up the underlying native structures
+///
++ (instancetype)classifying:(MRModelParameters *)model;
 
 ///
 /// Push back the data received from the device at the given location and time

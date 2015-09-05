@@ -118,14 +118,21 @@ public:
     MRMultilayerPerceptron * classifier;
 }
 
-- (instancetype)init {
++ (instancetype)training {
+    return [[MRPreclassification alloc] initWithModel:nil];
+}
+
++ (instancetype)classifying:(MRModelParameters *)model {
+    return [[MRPreclassification alloc] initWithModel:model];
+}
+
+- (instancetype)initWithModel:(MRModelParameters *)model {
     self = [super init];
     movementDecider = std::shared_ptr<movement_decider>(new const_movement_decider);
     exerciseDecider = std::shared_ptr<exercise_decider>(new const_exercise_decider);
     fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(movementDecider, exerciseDecider));
     
-    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"Models" ofType:@"bundle"];
-    classifier = [[MRMultilayerPerceptron alloc] initFromFiles: bundlePath];
+    classifier = [[MRMultilayerPerceptron alloc] initWithModel:model];
     return self;
 }
 

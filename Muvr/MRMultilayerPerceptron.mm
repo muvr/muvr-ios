@@ -6,24 +6,15 @@
 
 #pragma MARK - MRResistanceExerciseSet implementation
 
-@implementation MRMultilayerPerceptron{
+@implementation MRMultilayerPerceptron {
     // Size of the moving window over the data. Specific to the trained model
-    int _windowSize;
+    uint _windowSize;
     // Number of classes the model got trained on
-    int _nrOfClasses;
-    // Label mapping of ids to human strings. Labels need to be sorted asc by id. Model specific
-    NSArray *_labels;
+    uint nrOfClasses;
     // Trained MLP model
-    MLPNeuralNet * _model;
-}
-
-// Load label mapping from bundle
-- (void)loadLabelsFromBundle:(NSString *)bundlePath {
-    
-    NSString *labelsFile = [[NSBundle bundleWithPath:bundlePath] pathForResource: @"labels" ofType: @"txt"];
-    NSString *labelsContent = [NSString stringWithContentsOfFile:labelsFile encoding:NSUTF8StringEncoding error:nil];
-    
-    _labels = [labelsContent componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    MLPNeuralNet *model;
+    // The human-readable labels
+    NSArray *labels;
 }
 
 // Load Model from bundle
@@ -40,25 +31,34 @@
     // Lets assume we loaded the data correctly
     // assert(weights.length / 8 == 370279);
     
-    _model = [[MLPNeuralNet alloc] initWithLayerConfig:layers
+    model = [[MLPNeuralNet alloc] initWithLayerConfig:layers
                                                weights:weights
                                             outputMode:MLPClassification];
-    _model.hiddenActivationFunction = MLPReLU;
-    _model.outputActivationFunction = MLPSigmoid;
+    model.hiddenActivationFunction = MLPReLU;
+    model.outputActivationFunction = MLPSigmoid;
 }
 
-- (instancetype)initFromFiles:(NSString *)bundlePath {
+- (instancetype)initWithModel:(MRModelParameters *)modelParamters {
     self = [super init];
-    
+    labels = modelParamters.labels;
+
     //TODO: Move parameters to file loaded from generated model
     _windowSize = 400;
-    _nrOfClasses = 3;
+    nrOfClasses = uint(labels.count);
+    
+    // TODO: Load model from file and set attributes
+    NSArray *layers = [NSArray arrayWithObjects:@1200, @100, @50, @3, nil];
+    
+    // Lets assume we loaded the data correctly
+    // assert(weights.length / 8 == 370279);
+    model = [[MLPNeuralNet alloc] initWithLayerConfig:layers
+                                               weights:modelParamters.weights
+                                            outputMode:MLPClassification];
+    model.hiddenActivationFunction = MLPReLU;
+    model.outputActivationFunction = MLPSigmoid;
     
     // Default settings
     [self setWindowStepSize:10];
-    
-    [self loadLabelsFromBundle:bundlePath];
-    [self loadModelFromBundle:bundlePath];
     
     return self;
 }
@@ -96,7 +96,7 @@
 
 // Map a classifier output to a label
 - (NSString *)exerciseName:(int)idx{
-    return [_labels objectAtIndex:idx];
+    return [labels objectAtIndex:idx];
 }
 
 // Convert Mat into a NSData column first vector
@@ -136,12 +136,12 @@
     }
     
     // Sliding window.
-    int numWindows = (first_sensor_data.data.rows - _windowSize) / [self windowStepSize] + 1;
+    NSUInteger numWindows = (first_sensor_data.data.rows - _windowSize) / [self windowStepSize] + 1;
     int numFeatures = 1200;
     int prediction = -1;
-    double overall_prediction[_nrOfClasses];
+    double overall_prediction[nrOfClasses];
     
-    for (int i = 0; i < _nrOfClasses; ++i) {
+    for (int i = 0; i < nrOfClasses; ++i) {
         overall_prediction[i] = 0;
     }
     
@@ -150,8 +150,8 @@
     
     for (int i = 0; i < numWindows; ++i) {
         // Get window expected size.
-        int start = i * [self windowStepSize];
-        int end = i * [self windowStepSize] + _windowSize;
+        uint start = i * [self windowStepSize];
+        uint end = i * [self windowStepSize] + _windowSize;
         Mat window = preprocessed(cv::Range(start, end), cv::Range(0, 3));
         Mat feature_matrix = [self preprocessingPipeline:window withScale:4000 withCenter:0];
         
@@ -160,16 +160,16 @@
         memcpy(&features[i*numFeatures], (double *)feature_vector.bytes, numFeatures * sizeof(double));
     }
     
-    NSMutableData * windowPrediction = [NSMutableData dataWithLength:_nrOfClasses*numWindows*sizeof(double)];
+    NSMutableData * windowPrediction = [NSMutableData dataWithLength:nrOfClasses*numWindows*sizeof(double)];
     
     
         // Run the model on the feature vector. We will get a vector of probabilities for the different classes
-    [_model predictByFeatureMatrix:featureMatrix intoPredictionMatrix:windowPrediction];
+    [model predictByFeatureMatrix:featureMatrix intoPredictionMatrix:windowPrediction];
     
     double *confidenceScores = (double *)windowPrediction.bytes;
         
     // For now we will select the class that is most probable over all windows. More advanced selection possible
-    for (int i=0; i < _nrOfClasses; ++i) {
+    for (int i=0; i < nrOfClasses; ++i) {
         for (int w = 0; w < numWindows; ++w) {
             overall_prediction[i] += confidenceScores[i * numWindows + w];
         }
@@ -182,7 +182,7 @@
     NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:startTime];
     LOG(TRACE) << "Classification took: " << timeInterval << " seconds for " << first_sensor_data.data.rows / first_sensor_data.samples_per_second << " seconds of data" << std::endl;
     if (prediction >= 0) {
-        for (int c = 0; c < _nrOfClasses; ++c) {
+        for (int c = 0; c < nrOfClasses; ++c) {
             NSString * exerciseName = [self exerciseName:c];
             LOG(TRACE) << "Prediction: "<< [NSString stringWithFormat:@"%.2f", overall_prediction[c]].UTF8String <<" for " << exerciseName.UTF8String << std::endl;
         }

@@ -12,7 +12,7 @@ extension MRMuscleGroup {
     }
     
     func marshal() -> [String : AnyObject] {
-        return ["id" : id, "title":title, "exercises":exercises]
+        return ["id":id, "title":title, "exercises":exercises]
     }
     
 }
