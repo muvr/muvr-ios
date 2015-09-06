@@ -162,7 +162,7 @@ struct MRDataModel {
         static func findUnsynced() -> [MRResistanceExerciseSessionDetail<(MRResistanceExerciseExample, NSData)>] {
             let query = resistanceExerciseSessions
                 .join(resistanceExerciseExamples, on: sessionId == resistanceExerciseSessions.namespace(rowId))
-//                .join(resistanceExerciseExamplesData, on: exampleId == resistanceExerciseExamples.namespace(rowId))
+                .join(resistanceExerciseExamplesData, on: exampleId == resistanceExerciseExamples.namespace(rowId))
                 .filter(deleted == false && resistanceExerciseSessions.namespace(serverId) == nil)
                 .order(resistanceExerciseSessions.namespace(timestamp).desc)
             return mapDetail(query) { row in
