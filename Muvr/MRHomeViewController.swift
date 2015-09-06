@@ -8,7 +8,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     
     private let calendar = JTCalendarManager()
     private var resistanceExerciseSessions: [MRResistanceExerciseSession] = []
-    private var resistanceExerciseSessionDetails: [MRResistanceExerciseSessionDetail] = []
+    private var resistanceExerciseSessionDetails: [MRResistanceExerciseSessionDetail<MRResistanceExerciseExample>] = []
     
     private struct Consts {
         static let Sessions = 0
@@ -85,9 +85,9 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch (indexPath.section, indexPath.row) {
         case (Consts.Sessions, let x):
-            let ((_, session), examples) = resistanceExerciseSessionDetails[x]
+            let detail = resistanceExerciseSessionDetails[x]
             let cell = tableView.dequeueReusableCellWithIdentifier("session") as! MRResistanceExerciseTableViewCell
-            cell.setSession(session, andExamples: examples)
+            cell.setSession(detail.session, andExamples: detail.details)
             return cell
         default:
             fatalError(":(")
@@ -128,8 +128,8 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
         if editingStyle == UITableViewCellEditingStyle.Delete {
             switch (indexPath.section, indexPath.row) {
             case (Consts.Sessions, let x):
-                let ((id, _), _) = resistanceExerciseSessionDetails[x]
-                MRApplicationState.loggedInState!.deleteSession(id)
+                let detail = resistanceExerciseSessionDetails[x]
+                MRApplicationState.loggedInState!.deleteSession(detail.id)
                 resistanceExerciseSessions = MRApplicationState.loggedInState!.getResistanceExerciseSessions()
                 
                 refreshCalendar(on: calendar.date())

@@ -114,8 +114,8 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         classificationCompletedViewController?.presentClassificationResult(self, userClassification: uc, onComplete: logExerciseExample)
     }
     
-    private func logExerciseExample(example: MRResistanceExerciseExample) {
-        self.state!.postResistanceExample(example)
+    private func logExerciseExample(example: MRResistanceExerciseExample, data: NSData) {
+        self.state!.postResistanceExample(example, fusedSensorData: data)
         
     }
 
@@ -212,7 +212,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
             if !waitingForUser { return }
             
             let correct = userClassification!.combined[Int(index)]
-            logExerciseExample(MRResistanceExerciseExample(classified: userClassification!.classified, correct: correct, fusedSensorData: userClassification!.data))
+            logExerciseExample(MRResistanceExerciseExample(classified: userClassification!.classified, correct: correct), data: userClassification!.data)
             classificationCompletedViewController?.dismissViewControllerAnimated(true, completion: nil)
             waitingForUser = false
         }
@@ -284,8 +284,8 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     // MARK: MRTrainingPipelineDelegate
     func trainingCompleted(exercise: MRResistanceExercise!, fromData data: NSData!) {
-        let example = MRResistanceExerciseExample(classified: [], correct: MRClassifiedResistanceExercise(exercise), fusedSensorData: data)
-        logExerciseExample(example)
+        let example = MRResistanceExerciseExample(classified: [], correct: MRClassifiedResistanceExercise(exercise))
+        logExerciseExample(example, data: data)
     }
     
     // MARK: MRClassificationPipelineDelegate

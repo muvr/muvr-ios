@@ -67,7 +67,7 @@ struct MRLoggedInApplicationState {
     ///
     /// Returns the MRResistanceExerciseSessionDetail that happened on the given day (i.e. from midnight to midnight)
     ///
-    func getResistanceExerciseSessionDetails(on date: NSDate) -> [MRResistanceExerciseSessionDetail] {
+    func getResistanceExerciseSessionDetails(on date: NSDate) -> [MRResistanceExerciseSessionDetail<MRResistanceExerciseExample>] {
         return MRDataModel.MRResistanceExerciseSessionDataModel.find(on: date)
     }
         
