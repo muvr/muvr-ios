@@ -11,9 +11,9 @@ import Foundation
 ///
 /// Moreover, not using all classifiers will improve the responsiveness of the app.
 ///
-struct MRMuscleGroup {
+struct MRExerciseModel {
     /// the identifier of the muscle group
-    var id: MRMuscleGroupId
+    var id: MRExerciseModelId
     /// the title
     var title: String
     /// the exercises

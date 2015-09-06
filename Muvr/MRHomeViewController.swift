@@ -9,11 +9,9 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     private let calendar = JTCalendarManager()
     private var resistanceExerciseSessions: [MRResistanceExerciseSession] = []
     private var resistanceExerciseSessionDetails: [MRResistanceExerciseSessionDetail] = []
-    private var resistanceExercisePlans: [MRResistanceExercisePlan] = []
     
     private struct Consts {
         static let Sessions = 0
-        static let ResistancePlans = 1
     }
     
     override func viewDidLoad() {
@@ -80,7 +78,6 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case Consts.Sessions: return resistanceExerciseSessionDetails.count
-        case Consts.ResistancePlans: return resistanceExercisePlans.count
         default: fatalError("Match error")
         }
     }
@@ -88,15 +85,9 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch (indexPath.section, indexPath.row) {
         case (Consts.Sessions, let x):
-            let ((_, session), sets) = resistanceExerciseSessionDetails[x]
+            let ((_, session), exercises) = resistanceExerciseSessionDetails[x]
             let cell = tableView.dequeueReusableCellWithIdentifier("session") as! MRResistanceExerciseSetTableViewCell
-            cell.setSession(session, andSets: sets)
-            return cell
-        case (Consts.ResistancePlans, let x):
-            let plan = resistanceExercisePlans[x]
-            let cell = tableView.dequeueReusableCellWithIdentifier("resistancePlan") as! UITableViewCell
-            cell.textLabel!.text = MRApplicationState.joinMuscleGroups(plan.muscleGroupIds)
-            cell.detailTextLabel!.text = plan.title
+            cell.setSession(session, andExercises: exercises)
             return cell
         default:
             fatalError(":(")
@@ -113,7 +104,6 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case Consts.Sessions: return "Sessions".localized()
-        case Consts.ResistancePlans: return "Resistance plans".localized()
         default: fatalError("Match error")
         }
     }
@@ -121,10 +111,8 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch (indexPath.section, indexPath.row) {
         case (Consts.Sessions, let x):
-            // noop
+            // TODO: view session
             return
-        case (Consts.ResistancePlans, let x):
-            performSegueWithIdentifier("startPlan", sender: x)
         default: fatalError("Match error")
         }
     }
@@ -156,7 +144,6 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     
     private func refreshCalendar(on date: NSDate) {
         resistanceExerciseSessionDetails = MRApplicationState.loggedInState!.getResistanceExerciseSessionDetails(on: date)
-        resistanceExercisePlans = MRApplicationState.loggedInState!.getSimpleResistanceExercisePlansOn(on: date)
         calendar.setDate(date)
         tableView.reloadData()
     }
@@ -176,12 +163,6 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     // MARK: Transition to exercising
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let ctrl = segue.destinationViewController as? MRExerciseSessionViewController,
-            let planIndex = sender as? Int {
-                let plan = resistanceExercisePlans[planIndex]
-                let session = MRResistanceExerciseSession(startDate: NSDate(), intendedIntensity: plan.intendedIntensity, muscleGroupIds: plan.muscleGroupIds, title: plan.localisedTitle)
-                ctrl.startSession(MRApplicationState.loggedInState!.startSession(session), withPlan: plan)
-        }
     }
 
 }

@@ -1,9 +1,9 @@
 import Foundation
 import Charts
 
-class MRResistanceExerciseSetIntensityView : BarChartView {
+class MRResistanceExerciseIntensityView : BarChartView {
     
-    private class func colorFor(#intensity: Float) -> UIColor {
+    private class func colorFor(#intensity: NSNumber) -> UIColor {
         if intensity <= 0.3 {
             // very light -> #59ABE3
             // was return UIColor.grayColor()
@@ -41,29 +41,15 @@ class MRResistanceExerciseSetIntensityView : BarChartView {
         descriptionText = ""
     }
 
-    func setResistenceExerciseSets(sets: [MRResistanceExerciseSet]) -> Void {
-        func averageInSet(set: MRResistanceExerciseSet, f: MRResistanceExercise -> NSNumber?) -> Float? {
-            let filtered = (set.sets as! [MRResistanceExercise]).flatMap { x in return f(x)?.floatValue }
-            if filtered.count == 0 { return nil }
-            return Float(filtered.count) / filtered.foldLeft(Float(0)) { (e, b) in return b + e }
-        }
-
-        func sumInSet(set: MRResistanceExerciseSet, f: MRResistanceExercise -> NSNumber?) -> Float? {
-            let filtered = (set.sets as! [MRResistanceExercise]).flatMap { x in return f(x)?.floatValue }
-            if filtered.count == 0 { return nil }
-            return filtered.foldLeft(Float(0)) { (e, b) in return b + e }
-        }
-
-        let setsWithIndex = sets.zipWithIndex()
-        let repetitions = setsWithIndex.map { (i, s) -> (ChartDataEntry, UIColor) in
-            let color = MRResistanceExerciseSetIntensityView.colorFor(intensity: (averageInSet(s) { $0.intensity }) ?? 0.5)
-            if let repetitions = (sumInSet(s) { $0.repetitions }) {
-                return (BarChartDataEntry(value: Double(repetitions), xIndex: i), color)
-            }
-            return (BarChartDataEntry(value: 10, xIndex: i), color)
+    func setResistenceExercises(exercises: [MRClassifiedResistanceExercise]) -> Void {
+        let ewi = exercises.zipWithIndex()
+        let repetitions = ewi.map { (i, exercise) -> (ChartDataEntry, UIColor) in
+            let color = MRResistanceExerciseIntensityView.colorFor(intensity: exercise.intensity ?? 0.5)
+            let repetitions = exercise.repetitions ?? 10
+            return (BarChartDataEntry(value: Double(repetitions), xIndex: i), color)
         }
         
-        let xs = setsWithIndex.map { (i, _) in return String(i + 1) }
+        let xs = ewi.map { (i, _) in return String(i + 1) }
         
         let repetitionsAndIntensities = BarChartDataSet(yVals: repetitions.map { $0.0 }, label: "")
         repetitionsAndIntensities.colors = repetitions.map { $0.1 }

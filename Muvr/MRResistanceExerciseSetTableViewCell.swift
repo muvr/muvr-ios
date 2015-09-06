@@ -3,7 +3,7 @@ import Foundation
 class MRResistanceExerciseSetTableViewCell : UITableViewCell {
     @IBOutlet var title: UILabel!
     @IBOutlet var detail: UILabel!
-    @IBOutlet var chart: MRResistanceExerciseSetIntensityView!
+    @IBOutlet var chart: MRResistanceExerciseIntensityView!
     
     private struct Consts {
         static let dateFormatter: NSDateFormatter = {
@@ -14,10 +14,10 @@ class MRResistanceExerciseSetTableViewCell : UITableViewCell {
         }()
     }
     
-    func setSession(session: MRResistanceExerciseSession, andSets sets: [MRResistanceExerciseSet]) -> Void {
-        title.text = MRApplicationState.joinMuscleGroups(session.muscleGroupIds)
+    func setSession(session: MRResistanceExerciseSession, andExercises exercises: [MRClassifiedResistanceExercise]) -> Void {
+        title.text = ", ".join(session.exerciseModel.exercises)
         let dateString = Consts.dateFormatter.stringFromDate(session.startDate)
         detail.text = "\(session.title) on \(dateString)"
-        chart.setResistenceExerciseSets(sets)
+        chart.setResistenceExercises(exercises)
     }
 }

@@ -14,25 +14,13 @@ struct MRExercisingApplicationState {
         self.session = session
     }
     
-    func end(deviations: [MRExercisePlanDeviation]) -> Void {
-        deviations.forEach { MRDataModel.MRResistanceExerciseSessionDataModel.insertExercisePlanDeviation(NSUUID(), sessionId: self.sessionId, deviation: $0) }
-    }
-    
-    func postResistanceExample(example: MRResistanceExerciseSetExample) -> Void {
+    func postResistanceExample(example: MRResistanceExerciseExample) -> Void {
         let id = NSUUID()
         
-        if let set = example.correct {
-            MRDataModel.MRResistanceExerciseSessionDataModel.insertResistanceExerciseSet(id, sessionId: sessionId, set: set)
+        if let c = example.correct {
+            MRDataModel.MRResistanceExerciseSessionDataModel.insertResistanceExercise(id, sessionId: sessionId, exercise: c)
         }
-        MRDataModel.MRResistanceExerciseSessionDataModel.insertResistanceExerciseSetExample(id, sessionId: sessionId, example: example)
-        
-        #if false
-            MRMuvrServer.sharedInstance.apply(
-            MRMuvrServerURLs.ExerciseSessionResistanceExample(userId: userId, sessionId: sessionId),
-            body: MRMuvrServer.Body.Json(params: example.marshal()),
-            unmarshaller: constUnit(),
-            onComplete: constUnit())
-        #endif
+        MRDataModel.MRResistanceExerciseSessionDataModel.insertResistanceExerciseExample(id, sessionId: sessionId, example: example)
     }
     
 }

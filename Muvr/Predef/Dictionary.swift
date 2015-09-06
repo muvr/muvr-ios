@@ -47,5 +47,17 @@ extension Dictionary {
         }
         return r
     }
+    
+    ///
+    /// Maps over this dictionary, returning a new dictionary with mapped keys 
+    ///
+    func map<K, V>(f: (Key, Value) -> (K, V)) -> [K:V] {
+        var r = [K:V](minimumCapacity: self.count)
+        for (ok, ov) in self {
+            let (nk, nv) = f(ok, ov)
+            r[nk] = nv
+        }
+        return r
+    }
 
 }

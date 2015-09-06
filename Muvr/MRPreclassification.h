@@ -69,50 +69,32 @@
 ///
 /// Construct this instance with unknown intensity, repetitions and weight
 ///
-- (instancetype)initWithExercise:(NSString *)exercise
-                   andConfidence:(double) confidence;
+- (instancetype)initWithId:(NSString *)id;
 
-///
-/// Construct this instance with all values known
-///
-- (instancetype)initWithExercise:(NSString *)exercise
-                     repetitions:(NSNumber *)repetitions
-                          weight:(NSNumber *)weight
-                       intensity:(NSNumber *)intensity
-                   andConfidence:(double)confidence;
+/// the classified exercise
+@property (readonly) NSString *id;
+@end
 
+@interface MRClassifiedResistanceExercise : NSObject
+
+- (instancetype)init:(MRResistanceExercise *)exercise;
+
+//- (instancetype)init:(MRResistanceExercise *)exercise
+//         repetitions:(NSNumber *)repetitions
+//              weight:(NSNumber *)weight
+//           intensity:(NSNumber *)intensity
+//       andConfidence:(double)confidence;
+//
+@property (readonly) MRResistanceExercise* resistanceExercise;
 /// if != nil, the number of repetitions
 @property (readonly) NSNumber *repetitions;
 /// if != nil, the weight
 @property (readonly) NSNumber *weight;
 /// if != nil, the intensity
 @property (readonly) NSNumber *intensity;
-/// the classified exercise
-@property (readonly) NSString *exercise;
-/// the classification confidence
+/// the confidence
 @property (readonly) double confidence;
-@end
 
-///
-/// The classified exercise set. In most cases, the ``sets`` property will contain only one entry.
-/// However, some users may do drop-sets (the same exercise with decreasing weight), super-sets
-/// any many other tortures.
-///
-@interface MRResistanceExerciseSet : NSObject
-
-/// Initializes this instance with just one exercise in a set
-- (instancetype)init:(MRResistanceExercise *)exercise;
-
-/// Initializes this instance with the given ``sets``
-- (instancetype)initWithSets:(NSArray *)sets;
-
-/// computes the overall confidence for this set
-- (double)confidence;
-
-/// retrieves the given set at the index
-- (MRResistanceExercise *)objectAtIndexedSubscript:(int)idx;
-/// the exercise sets, containing ``MRClassifiedExercise``
-@property (readonly) NSArray *sets;
 @end
 
 ///
@@ -121,7 +103,7 @@
 @protocol MRClassificationPipelineDelegate
 
 ///
-/// Classification successful, ``result`` holds elements of type ``MRClassifiedExerciseSet``. The
+/// Classification successful, ``result`` holds elements of type ``MRClassifiedExercise``. The
 /// implementation of this delegate should examine the array and decide what to do depending on
 /// the size of the array. The ``data`` value holds the exported ``muvr::fused_sensor_data`` that
 /// was used for the classification.
@@ -141,7 +123,7 @@
 /// the size of the array. The ``data`` value holds the exported ``muvr::fused_sensor_data`` that
 /// was used for the classification.
 ///
-- (void)trainingCompleted:(MRResistanceExerciseSet *)set fromData:(NSData *)data;
+- (void)trainingCompleted:(MRResistanceExercise *)exercise fromData:(NSData *)data;
 
 @end
 

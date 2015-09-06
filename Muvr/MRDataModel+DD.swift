@@ -29,7 +29,7 @@ extension MRDataModel.MRResistanceExerciseSessionDataModel {
 ///
 /// The data definition for muscle groups
 ///
-extension MRDataModel.MRMuscleGroupDataModel {
+extension MRDataModel.MRExerciseModelDataModel {
     
     private static func create(t: SchemaBuilder) -> Void {
         t.column(MRDataModel.locid, primaryKey: true)
@@ -38,7 +38,7 @@ extension MRDataModel.MRMuscleGroupDataModel {
     
 }
 
-extension MRDataModel.MRExerciseDataModel {
+extension MRDataModel.MRResistanceExerciseDataModel {
 
     private static func create(t: SchemaBuilder) -> Void {
         t.column(MRDataModel.locid, primaryKey: true)
@@ -71,29 +71,27 @@ extension MRDataModel {
     internal static func create() -> CreateResult {
         func create() {
             database.create(table: resistanceExerciseSessions,    temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.create)
-            database.create(table: resistanceExerciseSets,        temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.createChild)
-            database.create(table: resistanceExerciseSetExamples, temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.createChild)
-            database.create(table: exercisePlanDeviations,        temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.createChild)
-            database.create(table: muscleGroups,                  temporary: false, ifNotExists: true, MRDataModel.MRMuscleGroupDataModel.create)
-            database.create(table: exercises,                     temporary: false, ifNotExists: true, MRDataModel.MRExerciseDataModel.create)
+            database.create(table: resistanceExercises,           temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.createChild)
+            database.create(table: resistanceExerciseExamples,    temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.createChild)
+            database.create(table: exerciseModels,                temporary: false, ifNotExists: true, MRDataModel.MRExerciseModelDataModel.create)
+            database.create(table: exercises,                     temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseDataModel.create)
             database.userVersion = version()
         }
         
         func drop() {
-            database.drop(table: resistanceExerciseSets,        ifExists: true)
-            database.drop(table: resistanceExerciseSetExamples, ifExists: true)
-            database.drop(table: exercisePlanDeviations,        ifExists: true)
+            database.drop(table: resistanceExercises,           ifExists: true)
+            database.drop(table: resistanceExerciseExamples,    ifExists: true)
             database.drop(table: resistanceExerciseSessions,    ifExists: true)
             database.drop(index: exercises,                     ifExists: true)
-            database.drop(index: muscleGroups,                  ifExists: true)
+            database.drop(index: exerciseModels,                ifExists: true)
         }
         
         func setDefaultData() {
-            if let exercises = loadArray("exercises", unmarshal: MRExercise.unmarshal) {
-                MRDataModel.MRExerciseDataModel.set(exercises.1, locale: exercises.0)
+            if let exercises = loadArray("exercises", unmarshal: MRResistanceExercise.unmarshal) {
+                MRDataModel.MRResistanceExerciseDataModel.set(exercises.1, locale: exercises.0)
             }
-            if let muscleGroups = loadArray("musclegroups", unmarshal: MRMuscleGroup.unmarshal) {
-                MRDataModel.MRMuscleGroupDataModel.set(muscleGroups.1, locale: muscleGroups.0)
+            if let exerciseModels = loadArray("exercisemodels", unmarshal: MRExerciseModel.unmarshal) {
+                MRDataModel.MRExerciseModelDataModel.set(exerciseModels.1)
             }
         }
         

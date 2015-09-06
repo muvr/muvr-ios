@@ -6,15 +6,13 @@ extension MRLoggedInApplicationState {
         for ((id, session), sets) in MRDataModel.MRResistanceExerciseSessionDataModel.findUnsynced() {
             let setData = sets.map { $0.marshal() }
             
-            let examples = MRDataModel.MRResistanceExerciseSessionDataModel.findResistanceExerciseSetExamplesJson(id)
-            let deviations = MRDataModel.MRResistanceExerciseSessionDataModel.findExercisePlanDeviationsJson(id)
+            let examples = MRDataModel.MRResistanceExerciseSessionDataModel.findResistanceExerciseExamplesJson(id)
             
             let params: [String : AnyObject] = [
                 "id":id.UUIDString,
                 "session":session.marshal(),
-                "sets":JSON(setData).object,
+                "exercises":JSON(setData).object,
                 "examples":JSON(examples).object,
-                "deviations":JSON(deviations).object
             ]
             
             MRMuvrServer.sharedInstance.apply(

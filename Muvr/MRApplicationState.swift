@@ -6,19 +6,8 @@ import Foundation
 ///
 struct MRApplicationState {
     
-    static var muscleGroups: [MRMuscleGroup] {
-        return MRDataModel.MRMuscleGroupDataModel.get(NSLocale.currentLocale())
-    }
-    
-    static var exercises: [MRExercise] {
-        return MRDataModel.MRExerciseDataModel.get(NSLocale.currentLocale())
-    }
-    
-    static func joinMuscleGroups(ids: [MRMuscleGroupId]) -> String {
-        return ", ".join(muscleGroups.flatMap { (mg: MRMuscleGroup) -> String? in
-            if (ids.exists { $0 == mg.id }) { return mg.title }
-            return nil
-        })
+    static var exerciseModels: [MRExerciseModel] {
+        return MRDataModel.MRExerciseModelDataModel.get()
     }
     
     static var deviceToken: NSData?
