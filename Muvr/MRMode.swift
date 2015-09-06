@@ -1,7 +1,7 @@
 import Foundation
 
 enum MRMode {
-    case Training(resistanceExercises: [MRResistanceExercise])
+    case Training(resistanceExercises: [MRClassifiedResistanceExercise])
     case AssistedClassification
     case AutomaticClassification
     

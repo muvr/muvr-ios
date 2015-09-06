@@ -1,9 +1,9 @@
 import Foundation
 
-class MRResistanceExerciseSetTableViewCell : UITableViewCell {
+class MRResistanceExerciseTableViewCell : UITableViewCell {
     @IBOutlet var title: UILabel!
     @IBOutlet var detail: UILabel!
-    @IBOutlet var chart: MRResistanceExerciseSetIntensityView!
+    @IBOutlet var chart: MRResistanceExerciseIntensityView!
     
     private struct Consts {
         static let dateFormatter: NSDateFormatter = {
@@ -14,10 +14,10 @@ class MRResistanceExerciseSetTableViewCell : UITableViewCell {
         }()
     }
     
-    func setSession(session: MRResistanceExerciseSession, andSets sets: [MRResistanceExerciseSet]) -> Void {
-        title.text = MRApplicationState.joinMuscleGroups(session.muscleGroupIds)
+    func setSession(session: MRResistanceExerciseSession, andExamples examples: [MRResistanceExerciseExample]) -> Void {
+        title.text = session.title
         let dateString = Consts.dateFormatter.stringFromDate(session.startDate)
-        detail.text = "\(session.title) on \(dateString)"
-        chart.setResistenceExerciseSets(sets)
+        detail.text = "\(session.exerciseModel.title) on \(dateString)"
+        chart.setResistenceExercises(examples.flatMap { $0.correct })
     }
 }

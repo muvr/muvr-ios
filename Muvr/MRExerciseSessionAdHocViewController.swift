@@ -15,8 +15,7 @@ class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelega
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = MRApplicationState.muscleGroups[indexPath.row]
-        performSegueWithIdentifier("exercise", sender: [cell.id])
+        performSegueWithIdentifier("exercise", sender: NSNumber(integer: indexPath.row))
     }
     
     // MARK: UITableViewDataSource
@@ -25,15 +24,15 @@ class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelega
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MRApplicationState.muscleGroups.count
+        return MRApplicationState.exerciseModels.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell  {
-        let data = MRApplicationState.muscleGroups[indexPath.row]
+        let data = MRApplicationState.exerciseModels[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier("default") as! UITableViewCell
         
         cell.textLabel!.text = data.title
-        cell.detailTextLabel!.text = ", ".join(data.localisedExercises.map { $0.title })
+        cell.detailTextLabel!.text = ", ".join(data.exerciseTitles)
         
         return cell
     }
@@ -42,9 +41,10 @@ class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelega
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let ctrl = segue.destinationViewController as? MRExerciseSessionStartable,
-           let muscleGroupsIds = sender as? [String] {
-            let properties = MRResistanceExerciseSession(startDate: NSDate(), intendedIntensity: 0.5, muscleGroupIds: muscleGroupsIds, title: "Ad Hoc".localized())
-            ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties), withPlan: nil)
+           let i = sender as? NSNumber {
+            let model = MRApplicationState.exerciseModels[i.integerValue]
+            let properties = MRResistanceExerciseSession(startDate: NSDate(), intendedIntensity: 0.5, exerciseModel: model, title: "Ad Hoc".localized())
+            ctrl.startSession(MRApplicationState.loggedInState!.startSession(properties))
         }
     }
 

@@ -6,15 +6,15 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     
     private struct MessageDataEncoder {
         
-        static func formatMRResistanceExerciseSet(exercises: [MRResistanceExercise]) -> NSData {
+        static func formatMRResistanceExercises(exercises: [MRClassifiedResistanceExercise]) -> NSData {
             assert(exercises.count < 5, "The sets must be < 5")
             
             var data = NSMutableData()
             // (#define APP_MESSAGE_INBOX_SIZE_MINIMUM 124) / 29 == 4
-            exercises.take(4).forEach { (x: MRResistanceExercise) -> Void in
+            exercises.take(4).forEach { ce -> Void in
                 var re = NSMutableData(length: sizeof(resistance_exercise_t))!
-                let name = UnsafePointer<Int8>(x.localisedTitle.cStringUsingEncoding(NSASCIIStringEncoding)!)
-                mk_resistance_exercise(re.mutableBytes, name, UInt8(x.confidence * 100), 0, 0, 0)
+                let name = UnsafePointer<Int8>(ce.resistanceExercise.title.cStringUsingEncoding(NSASCIIStringEncoding)!)
+                mk_resistance_exercise(re.mutableBytes, name, UInt8(ce.confidence * 100), 0, 0, 0)
                 data.appendData(re)
             }
             
@@ -142,12 +142,22 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         
         func send(key: UInt32) {
             let dict: [NSObject : AnyObject] = [NSNumber(uint32: key) : NSNumber(uint8: 0)]
-            watch.appMessagesPushUpdate(dict, onSent: { (watch, _, _) -> Void in })
+            watch.appMessagesPushUpdate(dict, onSent: { (watch, _, err) -> Void in
+                if err != nil {
+                    NSLog("Send failed %@. Retrying.", err)
+                    self.send(key)
+                }
+            })
         }
         
         func send(key: UInt32, data: NSData) {
             let dict: [NSObject : AnyObject] = [NSNumber(uint32: key) : data]
-            watch.appMessagesPushUpdate(dict, onSent: { (watch, _, _) -> Void in })
+            watch.appMessagesPushUpdate(dict, onSent: { (watch, _, err) -> Void in
+                if err != nil {
+                    NSLog("Send failed %@. Retrying.", err)
+                    self.send(key, data: data)
+                }
+            })
         }
     }
     
@@ -191,7 +201,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
                 watch.appMessagesLaunch { (watch, error) in
                     self.currentSession = MRPebbleDeviceSession(watch: watch, delegate: deviceSessionDelegate)
                     switch mode {
-                    case .Training(let exercises): self.currentSession?.send(0xb0000000, data: MessageDataEncoder.formatMRResistanceExerciseSet(exercises)); break
+                    case .Training(let exercises): self.currentSession?.send(0xb0000000, data: MessageDataEncoder.formatMRResistanceExercises(exercises)); break
                     case .AssistedClassification: self.currentSession?.send(0xb1000000); break
                     case .AutomaticClassification: self.currentSession?.send(0xb2000000); break
                     }
@@ -224,14 +234,15 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         currentSession?.send(0xa0000001)
     }
     
-    func notifySimpleClassificationCompleted(simpleClassifiedSets: [MRResistanceExercise]) {
-        currentSession?.send(0xa0000003, data: MessageDataEncoder.formatMRResistanceExerciseSet(simpleClassifiedSets))
+    func notifySimpleClassificationCompleted(exercises: [MRClassifiedResistanceExercise]) {
+        currentSession?.send(0xa0000003, data: MessageDataEncoder.formatMRResistanceExercises(exercises))
     }
     
-    func notifySimpleCurrent(exercise: MRResistanceExercise) {
+    func notifySimpleCurrent(ec: (MRResistanceExercise, Double)) {
+        let (exercise, confidence) = ec
         var data = NSMutableData(length: sizeof(resistance_exercise_t))!
-        let name = UnsafePointer<Int8>(exercise.localisedTitle.cStringUsingEncoding(NSASCIIStringEncoding)!)
-        mk_resistance_exercise(data.mutableBytes, name, UInt8(exercise.confidence * 100), 0, 0, 0)
+        let name = UnsafePointer<Int8>(exercise.title.cStringUsingEncoding(NSASCIIStringEncoding)!)
+        mk_resistance_exercise(data.mutableBytes, name, UInt8(confidence * 100), 0, 0, 0)
 
         assert(data.length <= 124, "Too much data to send over BLE.")
         currentSession?.send(0xa0000004, data: data)

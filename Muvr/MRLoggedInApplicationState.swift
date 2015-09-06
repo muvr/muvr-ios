@@ -70,15 +70,5 @@ struct MRLoggedInApplicationState {
     func getResistanceExerciseSessionDetails(on date: NSDate) -> [MRResistanceExerciseSessionDetail] {
         return MRDataModel.MRResistanceExerciseSessionDataModel.find(on: date)
     }
-    
-    ///
-    /// Returns ``MRResistanceExercisePlan``s that should happen on the given ``date``
-    ///
-    func getSimpleResistanceExercisePlansOn(on date: NSDate) -> [MRResistanceExercisePlan] {
-        if isAnonymous {
-            return MRDataModel.MRResistanceExercisePlanDataModel.defaultPlans
-        }
-        return MRDataModel.MRResistanceExercisePlanDataModel.defaultPlans
-    }
-    
+        
 }

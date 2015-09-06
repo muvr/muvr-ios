@@ -47,61 +47,46 @@ public:
 @implementation Threed
 @end
 
-#pragma MARK - MRResistanceExerciseSet implementation
-
-@implementation MRResistanceExerciseSet
-
-- (instancetype)init:(MRResistanceExercise *)exercise {
-    self = [super init];
-    if(exercise != nil)
-        _sets = [NSArray arrayWithObject:exercise];
-    else
-        _sets = [NSMutableArray arrayWithCapacity: 0];
-    return self;
-}
-
-- (instancetype)initWithSets:(NSArray *)sets {
-    self = [super init];
-    _sets = sets;
-    return self;
-}
-
-- (double)confidence {
-    if (_sets.count == 0) return 0;
-    
-    double sum = 0;
-    for (MRResistanceExercise *set : _sets) {
-        sum += set.confidence;
-    }
-    return sum / _sets.count;
-}
-
-- (MRResistanceExercise *)objectAtIndexedSubscript:(int)idx {
-    return [_sets objectAtIndexedSubscript:idx];
-}
-
-@end
-
 #pragma MARK - MRResistanceExercise implementation
 
 @implementation MRResistanceExercise
 
-- (instancetype)initWithExercise:(NSString *)exercise andConfidence:(double)confidence {
+- (instancetype)initWithId:(NSString *)id {
     self = [super init];
-    _exercise = exercise;
+    _id = id;
+    return self;
+}
+
+@end
+
+#pragma MARK - MRClassifiedResistanceExercise implementation
+
+@implementation MRClassifiedResistanceExercise
+
+- (instancetype)init:(MRResistanceExercise *)resistanceExercise {
+    self = [super init];
+    _resistanceExercise = resistanceExercise;
+    return self;
+}
+
+- (instancetype)initWithResistanceExercise:(MRResistanceExercise *)resistanceExercise repetitions:(NSNumber *)repetitions weight:(NSNumber *)weight intensity:(NSNumber *)intensity andConfidence:(double)confidence {
+    self = [super init];
+    _resistanceExercise = resistanceExercise;
+    _repetitions = repetitions;
+    _weight = weight;
+    _intensity = intensity;
     _confidence = confidence;
     return self;
 }
 
-- (instancetype)initWithExercise:(NSString *)exercise repetitions:(NSNumber *)repetitions weight:(NSNumber *)weight intensity:(NSNumber *)intensity andConfidence:(double)confidence {
+- (instancetype)initWithClassifiedExercise:(muvr::svm_classifier::classified_exercise&)classifiedExercise {
     self = [super init];
-    
-    _exercise = exercise;
-    _confidence = confidence;
-    _repetitions = repetitions;
-    _weight = weight;
-    _intensity = intensity;
-    
+    NSString *x = [NSString stringWithCString:classifiedExercise.exercise_name().c_str() encoding:[NSString defaultCStringEncoding]];
+    _resistanceExercise = [[MRResistanceExercise alloc] initWithId:x];
+    _repetitions = @(classifiedExercise.repetitions());
+    _weight = @(classifiedExercise.weight());
+    _intensity = @(classifiedExercise.intensity());
+    _confidence = classifiedExercise.confidence();
     return self;
 }
 
@@ -227,15 +212,8 @@ public:
         // for now we just take the first and only identified exercise if there is any
         svm_classifier::classified_exercise classified_exercise = classificationResult.exercises()[0];
         
-        MRResistanceExercise *exercise = [[MRResistanceExercise alloc]
-                                          initWithExercise:[NSString stringWithCString:classified_exercise.exercise_name().c_str() encoding:[NSString defaultCStringEncoding]]
-                                          repetitions:@(classified_exercise.repetitions())
-                                          weight: @(classified_exercise.weight())
-                                          intensity: @(classified_exercise.intensity())
-                                          andConfidence: classified_exercise.confidence()];
-        
-        MRResistanceExerciseSet *exercise_set = [[MRResistanceExerciseSet alloc] init:exercise];
-        [transformedClassificationResult addObject:exercise_set];
+        MRClassifiedResistanceExercise *exercise = [[MRClassifiedResistanceExercise alloc] initWithClassifiedExercise:classified_exercise];
+        [transformedClassificationResult addObject:exercise];
     }
     
     [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
@@ -249,8 +227,7 @@ public:
     NSData *data = [self formatFusedSensorData:result];
     
     // --- End classification
-    MRResistanceExerciseSet* set = [[MRResistanceExerciseSet alloc] init:trainingExercise];
-    [self.trainingPipelineDelegate trainingCompleted:set fromData:data];
+    [self.trainingPipelineDelegate trainingCompleted:trainingExercise fromData:data];
     trainingExercise = nil;
 }
 

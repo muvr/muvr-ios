@@ -4,7 +4,7 @@ typealias MRSessionId = NSUUID
 
 typealias MRUserId = NSUUID
 
-typealias MRMuscleGroupId = String
+typealias MRExerciseModelId = String
 
 typealias MRExerciseIntensity = Double
 
