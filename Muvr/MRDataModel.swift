@@ -52,13 +52,13 @@ struct MRDataModel {
         
         static func set(groups: [MRExerciseModel]) {
             exerciseModels.delete()
-            exerciseModels.insert(json <- JSON(groups.map { $0.marshal() }))
+            groups.forEach { exerciseModels.insert(json <- JSON($0.marshal())) }
         }
         
         static func get() -> [MRExerciseModel] {
             var mgs: [MRExerciseModel] = []
             for row in exerciseModels {//.filter(locid == locale.localeIdentifier) {
-                mgs += row.get(json).arrayValue.map(MRExerciseModel.unmarshal)
+                mgs += [MRExerciseModel.unmarshal(row.get(json))]
             }
             return mgs
         }

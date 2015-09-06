@@ -32,7 +32,6 @@ extension MRDataModel.MRResistanceExerciseSessionDataModel {
 extension MRDataModel.MRExerciseModelDataModel {
     
     private static func create(t: SchemaBuilder) -> Void {
-        t.column(MRDataModel.locid, primaryKey: true)
         t.column(MRDataModel.json)
     }
     
