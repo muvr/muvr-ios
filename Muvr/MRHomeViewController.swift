@@ -72,7 +72,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     
     // MARK: UITableViewDataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

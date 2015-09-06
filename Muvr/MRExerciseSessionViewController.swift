@@ -142,9 +142,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
             stopSessionButton.title = "Stop".localized()
         }
         #if (arch(i386) || arch(x86_64)) && os(iOS)
-            
-        plan!.noExercise()
-            
+                        
         #endif
         
         if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
