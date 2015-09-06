@@ -2,9 +2,9 @@ import Foundation
 
 extension MRExerciseModel {
     
-    var localisedExercises: [MRResistanceExercise] {
-        let exs = MRDataModel.MRResistanceExerciseDataModel.get(NSLocale.currentLocale())
-        return exs.filter { x in return self.exercises.exists { $0 == x.id } }
+    var exerciseTitles: [String] {
+        let exs = MRDataModel.MRExerciseDataModel.get(NSLocale.currentLocale())
+        return exercises.map { eid in return exs.find { $0.0 == eid }?.1 ?? eid }
     }
     
 }

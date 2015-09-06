@@ -37,11 +37,12 @@ extension MRDataModel.MRExerciseModelDataModel {
     
 }
 
-extension MRDataModel.MRResistanceExerciseDataModel {
+extension MRDataModel.MRExerciseDataModel {
 
     private static func create(t: SchemaBuilder) -> Void {
-        t.column(MRDataModel.locid, primaryKey: true)
-        t.column(MRDataModel.json)
+        t.column(MRDataModel.locid)
+        t.column(MRDataModel.MRExerciseDataModel.exerciseId)
+        t.column(MRDataModel.MRExerciseDataModel.title)
     }
 
 }
@@ -72,7 +73,7 @@ extension MRDataModel {
             database.create(table: resistanceExerciseSessions,    temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.create)
             database.create(table: resistanceExerciseExamples,    temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.createChild)
             database.create(table: exerciseModels,                temporary: false, ifNotExists: true, MRDataModel.MRExerciseModelDataModel.create)
-            database.create(table: exercises,                     temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseDataModel.create)
+            database.create(table: exercises,                     temporary: false, ifNotExists: true, MRDataModel.MRExerciseDataModel.create)
             database.userVersion = version()
         }
         
@@ -84,8 +85,8 @@ extension MRDataModel {
         }
         
         func setDefaultData() {
-            if let exercises = loadArray("exercises", unmarshal: MRResistanceExercise.unmarshal) {
-                MRDataModel.MRResistanceExerciseDataModel.set(exercises.1, locale: exercises.0)
+            if let exerciseTitles = (loadArray("exercises") { json in return (json["id"].stringValue, json["title"].stringValue) }) {
+                MRDataModel.MRExerciseDataModel.set(exerciseTitles.1, locale: exerciseTitles.0)
             }
             if let exerciseModels = loadArray("exercisemodels", unmarshal: MRExerciseModel.unmarshal) {
                 MRDataModel.MRExerciseModelDataModel.set(exerciseModels.1)

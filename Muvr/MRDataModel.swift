@@ -48,17 +48,17 @@ struct MRDataModel {
     ///
     struct MRExerciseModelDataModel {
         
-        static func set(groups: [MRExerciseModel]) {
+        static func set(models: [MRExerciseModel]) {
             exerciseModels.delete()
-            groups.forEach { exerciseModels.insert(json <- JSON($0.marshal())) }
+            models.forEach { exerciseModels.insert(json <- JSON($0.marshal())) }
         }
         
         static func get() -> [MRExerciseModel] {
-            var mgs: [MRExerciseModel] = []
+            var ms: [MRExerciseModel] = []
             for row in exerciseModels {//.filter(locid == locale.localeIdentifier) {
-                mgs += [MRExerciseModel.unmarshal(row.get(json))]
+                ms.append(MRExerciseModel.unmarshal(row.get(json)))
             }
-            return mgs
+            return ms
         }
         
     }
@@ -66,19 +66,29 @@ struct MRDataModel {
     ///
     /// Exercise data model
     ///
-    struct MRResistanceExerciseDataModel {
+    struct MRExerciseDataModel {
+        typealias ExerciseLocalisation = (String, String)
+        static var cache: [String:[ExerciseLocalisation]] = [:]
+        static let exerciseId = Expression<String>("exerciseId")
+        static let title      = Expression<String>("title")
 
-        static func set(values: [MRResistanceExercise], locale: NSLocale) {
+        static func set(values: [ExerciseLocalisation], locale: NSLocale) {
             let l = locale.localeIdentifier
             exercises.filter(locid == l).delete()
-            exercises.insert(locid <- l, json <- JSON(values.map { $0.marshal() }))
+            values.forEach { x in
+                exercises.insert(locid <- l, exerciseId <- x.0, title <- x.1)
+            }
+            cache[locale.localeIdentifier] = values
         }
         
-        static func get(locale: NSLocale) -> [MRResistanceExercise] {
-            var exs: [MRResistanceExercise] = []
+        static func get(locale: NSLocale) -> [(String, String)] {
+            if let v = cache[locale.localeIdentifier] { return v }
+            
+            var exs: [ExerciseLocalisation] = []
             for row in exercises {//.filter(locid == locale.localeIdentifier) {
-                exs += row.get(json).arrayValue.map(MRResistanceExercise.unmarshal)
+                exs.append((row.get(exerciseId), row.get(title)))
             }
+            cache[locale.localeIdentifier] = exs
             return exs
         }
     }

@@ -3,16 +3,11 @@ import Foundation
 extension MRLoggedInApplicationState {
     
     func sync() {
-        for ((id, session), sets) in MRDataModel.MRResistanceExerciseSessionDataModel.findUnsynced() {
-            let setData = sets.map { $0.marshal() }
-            
-            let examples = MRDataModel.MRResistanceExerciseSessionDataModel.findResistanceExerciseExamplesJson(id)
-            
+        for ((id, session), examples) in MRDataModel.MRResistanceExerciseSessionDataModel.findUnsynced() {
             let params: [String : AnyObject] = [
                 "id":id.UUIDString,
                 "session":session.marshal(),
-                "exercises":JSON(setData).object,
-                "examples":JSON(examples).object,
+                "examples":examples.map { $0.marshal() }
             ]
             
             MRMuvrServer.sharedInstance.apply(

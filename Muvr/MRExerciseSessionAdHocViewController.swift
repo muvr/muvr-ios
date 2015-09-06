@@ -32,7 +32,7 @@ class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelega
         let cell = tableView.dequeueReusableCellWithIdentifier("default") as! UITableViewCell
         
         cell.textLabel!.text = data.title
-        cell.detailTextLabel!.text = ", ".join(data.localisedExercises.map { $0.title })
+        cell.detailTextLabel!.text = ", ".join(data.exerciseTitles)
         
         return cell
     }
