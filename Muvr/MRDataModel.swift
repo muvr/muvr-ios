@@ -199,14 +199,6 @@ struct MRDataModel {
             resistanceExerciseSessions.filter(rowId == id).limit(1).update(deleted <- true)
         }
         
-        private static func insertChild(#into: Query, id: NSUUID, sessionId: NSUUID, value: JSON) -> Void {
-            into.insert(
-                rowId <- id,
-                timestamp <- NSDate(),
-                self.sessionId <- sessionId,
-                json <- value)
-        }
-        
         private static func findChildren<A>(#from: Query, sessionId: MRSessionId, unmarshal: JSON -> A) -> [A] {
             var r: [A] = []
             for row in from {
