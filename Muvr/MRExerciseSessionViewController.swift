@@ -57,7 +57,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         
         let storyboard = UIStoryboard(name: "Exercise", bundle: nil)
         
-        let pvc = UIViewController()
+        let pvc = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionProgressViewController.storyboardId) as! MRExerciseSessionProgressViewController
         let dvc = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionDeviceDataViewController.storyboardId) as! MRExerciseSessionDeviceDataViewController
         
         pageViewControllers = [pvc, dvc]

@@ -142,12 +142,22 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         
         func send(key: UInt32) {
             let dict: [NSObject : AnyObject] = [NSNumber(uint32: key) : NSNumber(uint8: 0)]
-            watch.appMessagesPushUpdate(dict, onSent: { (watch, _, _) -> Void in })
+            watch.appMessagesPushUpdate(dict, onSent: { (watch, _, err) -> Void in
+                if err != nil {
+                    NSLog("Send failed %@. Retrying.", err)
+                    self.send(key)
+                }
+            })
         }
         
         func send(key: UInt32, data: NSData) {
             let dict: [NSObject : AnyObject] = [NSNumber(uint32: key) : data]
-            watch.appMessagesPushUpdate(dict, onSent: { (watch, _, _) -> Void in })
+            watch.appMessagesPushUpdate(dict, onSent: { (watch, _, err) -> Void in
+                if err != nil {
+                    NSLog("Send failed %@. Retrying.", err)
+                    self.send(key, data: data)
+                }
+            })
         }
     }
     
