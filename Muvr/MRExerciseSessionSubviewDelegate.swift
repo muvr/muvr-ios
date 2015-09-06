@@ -4,5 +4,4 @@ protocol MRExerciseSessionSubviewDelegate {
     
     func sessionUpdated();
     
-    
 }

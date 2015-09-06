@@ -86,7 +86,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
         switch (indexPath.section, indexPath.row) {
         case (Consts.Sessions, let x):
             let ((_, session), exercises) = resistanceExerciseSessionDetails[x]
-            let cell = tableView.dequeueReusableCellWithIdentifier("session") as! MRResistanceExerciseSetTableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("session") as! MRResistanceExerciseTableViewCell
             cell.setSession(session, andExercises: exercises)
             return cell
         default:
