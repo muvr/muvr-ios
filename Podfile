@@ -11,5 +11,4 @@ pod 'Reachability'
 pod 'PebbleKit'
 pod 'sqlite3'
 pod 'SQLite.swift', git: 'https://github.com/stephencelis/SQLite.swift.git'
-# TODO: When merged, use the default repo
-pod 'MLPNeuralNet', git: 'https://github.com/tmbo/MLPNeuralNet.git', branch: 'feature/matrix'
+pod 'MLPNeuralNet', '~> 1.0.7'
