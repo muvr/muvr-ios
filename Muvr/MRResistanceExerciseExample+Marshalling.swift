@@ -25,4 +25,14 @@ extension MRResistanceExerciseExample {
         return params
     }
     
+    static func unmarshal(json: JSON) -> MRResistanceExerciseExample {
+        let correct = MRClassifiedResistanceExercise.unmarshal(json["correct"])
+        let fsd = json["fusedSensorData"].rawData(options: NSJSONWritingOptions.allZeros, error: nil)!
+        
+        return MRResistanceExerciseExample(
+            classified: json["classified"].arrayValue.map(MRClassifiedResistanceExercise.unmarshal),
+            correct: correct,
+            fusedSensorData: fsd)
+    }
+    
 }

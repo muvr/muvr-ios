@@ -2,6 +2,6 @@ import Foundation
 
 struct MRResistanceExerciseExample {
     var classified: [MRClassifiedResistanceExercise]
-    var correct: MRResistanceExercise?
+    var correct: MRClassifiedResistanceExercise?
     var fusedSensorData: NSData
 }

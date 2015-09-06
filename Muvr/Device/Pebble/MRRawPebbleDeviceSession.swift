@@ -201,7 +201,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
                 watch.appMessagesLaunch { (watch, error) in
                     self.currentSession = MRPebbleDeviceSession(watch: watch, delegate: deviceSessionDelegate)
                     switch mode {
-                    case .Training(let exercises): self.currentSession?.send(0xb0000000, data: MessageDataEncoder.formatMRResistanceExercises(exercises.map { MRClassifiedResistanceExercise($0) })); break
+                    case .Training(let exercises): self.currentSession?.send(0xb0000000, data: MessageDataEncoder.formatMRResistanceExercises(exercises)); break
                     case .AssistedClassification: self.currentSession?.send(0xb1000000); break
                     case .AutomaticClassification: self.currentSession?.send(0xb2000000); break
                     }

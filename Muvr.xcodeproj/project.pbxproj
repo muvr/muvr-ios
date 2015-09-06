@@ -84,7 +84,7 @@
 		54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */; };
 		54B610911AF3C5B00034F2DD /* MRExerciseSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */; };
 		54B610931AF3C6010034F2DD /* Exercise.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54B610921AF3C6010034F2DD /* Exercise.storyboard */; };
-		54BC18B11B0391EA004C179B /* MRExerciseSessionSubviewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC18B01B0391EA004C179B /* MRExerciseSessionSubviewDelegate.swift */; };
+		54BC18B11B0391EA004C179B /* MRExercisingApplicationStateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC18B01B0391EA004C179B /* MRExercisingApplicationStateDelegate.swift */; };
 		54BF09121B9B735B00A3E6C7 /* MRModelParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 54BF09111B9B735B00A3E6C7 /* MRModelParameters.m */; };
 		54BF09151B9B74F300A3E6C7 /* MRExerciseModel+ModelParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BF09141B9B74F300A3E6C7 /* MRExerciseModel+ModelParameters.swift */; };
 		54CC46521B08E5B6007B739A /* MRPublicProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC46511B08E5B6007B739A /* MRPublicProfile.swift */; };
@@ -174,10 +174,10 @@
 		543374191AD010B1005864D7 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		5433741A1AD010B1005864D7 /* Predef.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Predef.swift; sourceTree = "<group>"; };
 		5433741B1AD010B1005864D7 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		543374241AD01104005864D7 /* NSError+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Convenience.swift"; sourceTree = "<group>"; };
-		543374261AD0111B005864D7 /* String+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localisation.swift"; sourceTree = "<group>"; };
+		543374241AD01104005864D7 /* NSError+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSError+Convenience.swift"; path = "../Ext/NSError+Convenience.swift"; sourceTree = "<group>"; };
+		543374261AD0111B005864D7 /* String+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Localisation.swift"; path = "../Ext/String+Localisation.swift"; sourceTree = "<group>"; };
 		543374281AD011A3005864D7 /* MRDeviceSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDeviceSessionDelegate.swift; sourceTree = "<group>"; };
-		5433742E1AD01345005864D7 /* String+MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
+		5433742E1AD01345005864D7 /* String+MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+MD5.swift"; path = "../Ext/String+MD5.swift"; sourceTree = "<group>"; };
 		543ED4821B0DBCCE00D12768 /* MRExerciseSessionStartable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionStartable.swift; sourceTree = "<group>"; };
 		544201361B93847100354DB7 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		544201381B9384B500354DB7 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -227,7 +227,7 @@
 		54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSession.swift; sourceTree = "<group>"; };
 		54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionViewController.swift; sourceTree = "<group>"; };
 		54B610921AF3C6010034F2DD /* Exercise.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Exercise.storyboard; sourceTree = "<group>"; };
-		54BC18B01B0391EA004C179B /* MRExerciseSessionSubviewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionSubviewDelegate.swift; sourceTree = "<group>"; };
+		54BC18B01B0391EA004C179B /* MRExercisingApplicationStateDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisingApplicationStateDelegate.swift; sourceTree = "<group>"; };
 		54BF09111B9B735B00A3E6C7 /* MRModelParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRModelParameters.m; sourceTree = "<group>"; };
 		54BF09131B9B736900A3E6C7 /* MRModelParameters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRModelParameters.h; sourceTree = "<group>"; };
 		54BF09141B9B74F300A3E6C7 /* MRExerciseModel+ModelParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseModel+ModelParameters.swift"; sourceTree = "<group>"; };
@@ -403,7 +403,6 @@
 				547E6A871AF35793005DE00C /* Model */,
 				FC5593AE1ADBE56400F235ED /* Alamofire */,
 				FC5593AB1ADBE05300F235ED /* MuvrServer */,
-				543374231AD01104005864D7 /* Ext */,
 				543374141AD010B1005864D7 /* Predef */,
 				543374101AD01060005864D7 /* Device */,
 				5403814F1AEC2B47000C8B15 /* UIControls */,
@@ -473,6 +472,9 @@
 		543374141AD010B1005864D7 /* Predef */ = {
 			isa = PBXGroup;
 			children = (
+				543374241AD01104005864D7 /* NSError+Convenience.swift */,
+				5433742E1AD01345005864D7 /* String+MD5.swift */,
+				543374261AD0111B005864D7 /* String+Localisation.swift */,
 				543374151AD010B1005864D7 /* Array.swift */,
 				543374161AD010B1005864D7 /* Box.swift */,
 				543374171AD010B1005864D7 /* Dictionary.swift */,
@@ -484,16 +486,6 @@
 			path = Predef;
 			sourceTree = "<group>";
 		};
-		543374231AD01104005864D7 /* Ext */ = {
-			isa = PBXGroup;
-			children = (
-				543374241AD01104005864D7 /* NSError+Convenience.swift */,
-				5433742E1AD01345005864D7 /* String+MD5.swift */,
-				543374261AD0111B005864D7 /* String+Localisation.swift */,
-			);
-			path = Ext;
-			sourceTree = "<group>";
-		};
 		547E6A821AF35680005DE00C /* Exercise */ = {
 			isa = PBXGroup;
 			children = (
@@ -503,7 +495,7 @@
 				541ABBA51AC577E00056A81B /* MRExerciseSessionDeviceDataViewController.swift */,
 				540381541AECFB05000C8B15 /* MRExerciseSessionClassificationCompletedViewController.swift */,
 				54F288111B00A6F300E4D591 /* MRExerciseSessionUserClassification.swift */,
-				54BC18B01B0391EA004C179B /* MRExerciseSessionSubviewDelegate.swift */,
+				54BC18B01B0391EA004C179B /* MRExercisingApplicationStateDelegate.swift */,
 				543ED4821B0DBCCE00D12768 /* MRExerciseSessionStartable.swift */,
 				54B610921AF3C6010034F2DD /* Exercise.storyboard */,
 			);
@@ -548,8 +540,8 @@
 				54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */,
 				5455E7291AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift */,
 				5447E7FE1B0114170003C0A0 /* MRResistanceExercise+Localisation.swift */,
-				542E63091B9B009A00BA6B26 /* MRMode.swift */,
 				542F83E61B9C5A4500CD5986 /* MRClassifiedResistanceExercise+Marshalling.swift */,
+				542E63091B9B009A00BA6B26 /* MRMode.swift */,
 			);
 			name = Exercise;
 			sourceTree = "<group>";
@@ -974,7 +966,7 @@
 				5455E72A1AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift in Sources */,
 				540381571AECFB25000C8B15 /* MRSensorView.swift in Sources */,
 				544DFB331B9C6DD70027EBCF /* MRExerciseSessionProgressViewController.swift in Sources */,
-				54BC18B11B0391EA004C179B /* MRExerciseSessionSubviewDelegate.swift in Sources */,
+				54BC18B11B0391EA004C179B /* MRExercisingApplicationStateDelegate.swift in Sources */,
 				547E6A911AF374FF005DE00C /* MRDataModel+Defaults.swift in Sources */,
 				54B610871AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift in Sources */,
 				54005C9E1B07D43100BF0732 /* MRProfileViewController.swift in Sources */,

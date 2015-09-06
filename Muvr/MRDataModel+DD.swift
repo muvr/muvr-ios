@@ -70,7 +70,6 @@ extension MRDataModel {
     internal static func create() -> CreateResult {
         func create() {
             database.create(table: resistanceExerciseSessions,    temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.create)
-            database.create(table: resistanceExercises,           temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.createChild)
             database.create(table: resistanceExerciseExamples,    temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.createChild)
             database.create(table: exerciseModels,                temporary: false, ifNotExists: true, MRDataModel.MRExerciseModelDataModel.create)
             database.create(table: exercises,                     temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseDataModel.create)
@@ -78,7 +77,6 @@ extension MRDataModel {
         }
         
         func drop() {
-            database.drop(table: resistanceExercises,           ifExists: true)
             database.drop(table: resistanceExerciseExamples,    ifExists: true)
             database.drop(table: resistanceExerciseSessions,    ifExists: true)
             database.drop(index: exercises,                     ifExists: true)

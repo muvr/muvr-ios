@@ -69,6 +69,16 @@ public:
     return self;
 }
 
+- (instancetype)initWithResistanceExercise:(MRResistanceExercise *)resistanceExercise repetitions:(NSNumber *)repetitions weight:(NSNumber *)weight intensity:(NSNumber *)intensity andConfidence:(double)confidence {
+    self = [super init];
+    _resistanceExercise = resistanceExercise;
+    _repetitions = repetitions;
+    _weight = weight;
+    _intensity = intensity;
+    _confidence = confidence;
+    return self;
+}
+
 - (instancetype)initWithClassifiedExercise:(muvr::svm_classifier::classified_exercise&)classifiedExercise {
     self = [super init];
     NSString *x = [NSString stringWithCString:classifiedExercise.exercise_name().c_str() encoding:[NSString defaultCStringEncoding]];

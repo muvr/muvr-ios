@@ -14,10 +14,10 @@ class MRResistanceExerciseTableViewCell : UITableViewCell {
         }()
     }
     
-    func setSession(session: MRResistanceExerciseSession, andExercises exercises: [MRClassifiedResistanceExercise]) -> Void {
-        title.text = ", ".join(session.exerciseModel.exercises)
+    func setSession(session: MRResistanceExerciseSession, andExamples examples: [MRResistanceExerciseExample]) -> Void {
+        title.text = session.title
         let dateString = Consts.dateFormatter.stringFromDate(session.startDate)
-        detail.text = "\(session.title) on \(dateString)"
-        chart.setResistenceExercises(exercises)
+        detail.text = "\(session.exerciseModel.title) on \(dateString)"
+        chart.setResistenceExercises(examples.flatMap { $0.correct })
     }
 }

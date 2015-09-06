@@ -79,12 +79,12 @@
 
 - (instancetype)init:(MRResistanceExercise *)exercise;
 
-//- (instancetype)init:(MRResistanceExercise *)exercise
-//         repetitions:(NSNumber *)repetitions
-//              weight:(NSNumber *)weight
-//           intensity:(NSNumber *)intensity
-//       andConfidence:(double)confidence;
-//
+- (instancetype)initWithResistanceExercise:(MRResistanceExercise *)resistanceExercise
+                               repetitions:(NSNumber *)repetitions
+                                    weight:(NSNumber *)weight
+                                 intensity:(NSNumber *)intensity
+                             andConfidence:(double)confidence;
+
 @property (readonly) MRResistanceExercise* resistanceExercise;
 /// if != nil, the number of repetitions
 @property (readonly) NSNumber *repetitions;

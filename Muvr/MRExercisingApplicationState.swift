@@ -7,6 +7,7 @@ struct MRExercisingApplicationState {
     let sessionId: MRSessionId
     let userId: MRUserId
     let session: MRResistanceExerciseSession
+    private var examples: [MRResistanceExerciseExample] = []
     
     init(userId: MRUserId, sessionId: MRSessionId, session: MRResistanceExerciseSession) {
         self.sessionId = sessionId
@@ -14,12 +15,9 @@ struct MRExercisingApplicationState {
         self.session = session
     }
     
-    func postResistanceExample(example: MRResistanceExerciseExample) -> Void {
+    mutating func postResistanceExample(example: MRResistanceExerciseExample) -> Void {
         let id = NSUUID()
-        
-        if let c = example.correct {
-            MRDataModel.MRResistanceExerciseSessionDataModel.insertResistanceExercise(id, sessionId: sessionId, exercise: c)
-        }
+        examples.append(example)
         MRDataModel.MRResistanceExerciseSessionDataModel.insertResistanceExerciseExample(id, sessionId: sessionId, example: example)
     }
     

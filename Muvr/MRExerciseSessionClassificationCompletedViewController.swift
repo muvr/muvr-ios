@@ -10,6 +10,12 @@ class MRClassificationCompletedTableViewCell : UITableViewCell {
         return exercise as! A?
     }
     
+    func getClassifiedResistanceExercise() -> MRClassifiedResistanceExercise? {
+        if let e = exercise as? MRResistanceExercise { return MRClassifiedResistanceExercise(e) }
+        
+        return nil
+    }
+    
     func setExercise(exercise: AnyObject?) {
         self.exercise = exercise
     }
@@ -98,7 +104,7 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! MRClassificationCompletedTableViewCell
-        let exercise: MRResistanceExercise? = cell.getExercise()
+        let exercise = cell.getClassifiedResistanceExercise()
         let example = MRResistanceExerciseExample(classified: userClassification.classified, correct: exercise, fusedSensorData: data)
         dismissViewControllerAnimated(true, completion: nil)
         

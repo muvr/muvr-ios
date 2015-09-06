@@ -116,6 +116,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     private func logExerciseExample(example: MRResistanceExerciseExample) {
         self.state!.postResistanceExample(example)
+        
     }
 
     /// end the session here and on all devices
@@ -145,7 +146,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
                         
         #endif
         
-        if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
+        if let x: MRExercisingApplicationStateDelegate = currentPageViewController() { x.exercisingApplicationStateUpdated(self.state!) }
     }
     
     private func currentPageViewController<A>() -> A? {
@@ -210,7 +211,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         } else {
             if !waitingForUser { return }
             
-            let correct = userClassification!.combined[Int(index)].resistanceExercise
+            let correct = userClassification!.combined[Int(index)]
             logExerciseExample(MRResistanceExerciseExample(classified: userClassification!.classified, correct: correct, fusedSensorData: userClassification!.data))
             classificationCompletedViewController?.dismissViewControllerAnimated(true, completion: nil)
             waitingForUser = false
@@ -260,7 +261,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         if !mode!.reportMovementExercise { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exercising() }
-        if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
+        if let x: MRExercisingApplicationStateDelegate = currentPageViewController() { x.exercisingApplicationStateUpdated(self.state!) }
         pcd.notifyExercising()
     }
     
@@ -268,7 +269,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         if !mode!.reportMovementExercise { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.moving() }
-        if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
+        if let x: MRExercisingApplicationStateDelegate = currentPageViewController() { x.exercisingApplicationStateUpdated(self.state!) }
         pcd.notifyMoving()
     }
     
@@ -277,13 +278,13 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         if waitingForUser { return }
         
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.notMoving() }
-        if let x: MRExerciseSessionSubviewDelegate = currentPageViewController() { x.sessionUpdated() }
+        if let x: MRExercisingApplicationStateDelegate = currentPageViewController() { x.exercisingApplicationStateUpdated(self.state!) }
         pcd.notifyNotMoving()
     }
     
     // MARK: MRTrainingPipelineDelegate
     func trainingCompleted(exercise: MRResistanceExercise!, fromData data: NSData!) {
-        let example = MRResistanceExerciseExample(classified: [], correct: exercise, fusedSensorData: data)
+        let example = MRResistanceExerciseExample(classified: [], correct: MRClassifiedResistanceExercise(exercise), fusedSensorData: data)
         logExerciseExample(example)
     }
     

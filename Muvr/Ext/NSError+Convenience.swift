@@ -8,7 +8,7 @@ extension NSError {
     
     public class func errorWithMessage(message: String, code: Int) -> NSError {
         let userInfo = [NSLocalizedDescriptionKey : message]
-        let err = NSError(domain: "com.eigengo.lift", code: code, userInfo: userInfo)
+        let err = NSError(domain: "io.muvr", code: code, userInfo: userInfo)
         return err
     }
 }
