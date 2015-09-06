@@ -15,10 +15,10 @@ struct MRExercisingApplicationState {
         self.session = session
     }
     
-    mutating func postResistanceExample(example: MRResistanceExerciseExample) -> Void {
+    mutating func postResistanceExample(example: MRResistanceExerciseExample, fusedSensorData: NSData) -> Void {
         let id = NSUUID()
         examples.append(example)
-        MRDataModel.MRResistanceExerciseSessionDataModel.insertResistanceExerciseExample(id, sessionId: sessionId, example: example)
+        MRDataModel.MRResistanceExerciseSessionDataModel.insertResistanceExerciseExample(id, sessionId: sessionId, example: example, fusedSensorData: fusedSensorData)
     }
     
 }

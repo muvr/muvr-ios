@@ -39,9 +39,9 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
     
     private var data: NSData!
     private var userClassification: MRExerciseSessionUserClassification!
-    private var onComplete: (MRResistanceExerciseExample -> Void)!
+    private var onComplete: ((MRResistanceExerciseExample, NSData) -> Void)!
    
-    func presentClassificationResult(parent: UIViewController, userClassification: MRExerciseSessionUserClassification, onComplete: MRResistanceExerciseExample -> Void) -> Void {
+    func presentClassificationResult(parent: UIViewController, userClassification: MRExerciseSessionUserClassification, onComplete: ((MRResistanceExerciseExample, NSData) -> Void)) -> Void {
         self.userClassification = userClassification
         self.data = userClassification.data
         self.onComplete = onComplete
@@ -105,9 +105,9 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! MRClassificationCompletedTableViewCell
         let exercise = cell.getClassifiedResistanceExercise()
-        let example = MRResistanceExerciseExample(classified: userClassification.classified, correct: exercise, fusedSensorData: data)
+        let example = MRResistanceExerciseExample(classified: userClassification.classified, correct: exercise)
         dismissViewControllerAnimated(true, completion: nil)
         
-        onComplete(example)
+        onComplete(example, data)
     }
 }

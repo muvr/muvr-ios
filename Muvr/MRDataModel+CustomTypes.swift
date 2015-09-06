@@ -27,6 +27,18 @@ extension NSDate : Value {
     }
 }
 
+extension NSData : Value {
+    public class var declaredDatatype: String {
+        return Blob.declaredDatatype
+    }
+    public class func fromDatatypeValue(blobValue: Blob) -> Self {
+        return self(bytes: blobValue.bytes, length: blobValue.length)
+    }
+    public var datatypeValue: Blob {
+        return Blob(bytes: bytes, length: length)
+    }
+}
+
 extension JSON : Value {
     public static var declaredDatatype: String {
         return Blob.declaredDatatype

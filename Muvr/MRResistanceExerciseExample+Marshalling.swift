@@ -16,10 +16,8 @@ extension MRResistanceExercise {
 extension MRResistanceExerciseExample {
     
     func marshal() -> [String : AnyObject] {
-        let jsonData = JSON(data: fusedSensorData, options: NSJSONReadingOptions.AllowFragments, error: nil)
         var params: [String : AnyObject] = [
-            "classified":classified.map { $0.marshal() },
-            "fusedSensorData":jsonData.object
+            "classified":classified.map { $0.marshal() }
         ]
         if let x = correct { params["correct"] = x.marshal() }
         return params
@@ -27,12 +25,10 @@ extension MRResistanceExerciseExample {
     
     static func unmarshal(json: JSON) -> MRResistanceExerciseExample {
         let correct = MRClassifiedResistanceExercise.unmarshal(json["correct"])
-        let fsd = json["fusedSensorData"].rawData(options: NSJSONWritingOptions.allZeros, error: nil)!
         
         return MRResistanceExerciseExample(
             classified: json["classified"].arrayValue.map(MRClassifiedResistanceExercise.unmarshal),
-            correct: correct,
-            fusedSensorData: fsd)
+            correct: correct)
     }
     
 }
