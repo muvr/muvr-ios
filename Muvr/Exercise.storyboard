@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A279b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -84,10 +84,76 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="4sl-PA-jyb">
-                                <rect key="frame" x="0.0" y="371" width="414" height="365"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="4sl-PA-jyb">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <animations/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="opV-VW-5vu">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="213"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gQk-KA-IVv">
+                                            <rect key="frame" x="0.0" y="175" width="414" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lDC-gU-Bjx" customClass="MBCircularProgressBarView">
+                                            <rect key="frame" x="0.0" y="22" width="414" height="169"/>
+                                            <animations/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="value">
+                                                    <real key="value" value="19"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="string" keyPath="unitString" value="s"/>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="maxValue">
+                                                    <real key="value" value="60"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="progressColor">
+                                                    <color key="value" red="0.51764705879999995" green="0.83921568629999999" blue="0.058823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="progressStrokeColor">
+                                                    <color key="value" red="0.51764705879999995" green="0.83921568629999999" blue="0.058823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t8S-2b-4Vj" customClass="MBCircularProgressBarView">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="213"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="value">
+                                                    <real key="value" value="0.0"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="string" keyPath="unitString" value="s"/>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="maxValue">
+                                                    <real key="value" value="20"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="showValueString" value="NO"/>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="progressStrokeColor">
+                                                    <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="progressColor">
+                                                    <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="gQk-KA-IVv" secondAttribute="trailing" id="0fM-5C-CGB"/>
+                                        <constraint firstItem="t8S-2b-4Vj" firstAttribute="top" secondItem="opV-VW-5vu" secondAttribute="top" id="6NL-XO-cuL"/>
+                                        <constraint firstAttribute="bottom" secondItem="t8S-2b-4Vj" secondAttribute="bottom" id="8EF-Wi-3tH"/>
+                                        <constraint firstItem="lDC-gU-Bjx" firstAttribute="leading" secondItem="opV-VW-5vu" secondAttribute="leading" id="Byi-Bv-iUr"/>
+                                        <constraint firstAttribute="trailing" secondItem="lDC-gU-Bjx" secondAttribute="trailing" id="SkP-Lo-FXx"/>
+                                        <constraint firstAttribute="bottom" secondItem="lDC-gU-Bjx" secondAttribute="bottom" constant="22" id="cc3-uU-35y"/>
+                                        <constraint firstAttribute="trailing" secondItem="t8S-2b-4Vj" secondAttribute="trailing" id="efl-aX-sze"/>
+                                        <constraint firstItem="t8S-2b-4Vj" firstAttribute="leading" secondItem="opV-VW-5vu" secondAttribute="leading" id="fcm-3Z-puP"/>
+                                        <constraint firstItem="lDC-gU-Bjx" firstAttribute="top" secondItem="opV-VW-5vu" secondAttribute="top" constant="22" id="q27-uz-DD7"/>
+                                        <constraint firstItem="gQk-KA-IVv" firstAttribute="leading" secondItem="opV-VW-5vu" secondAttribute="leading" id="tQ5-3w-EwM"/>
+                                        <constraint firstAttribute="bottom" secondItem="gQk-KA-IVv" secondAttribute="bottom" constant="17" id="utE-ss-MJz"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="resistanceExercise" textLabel="37o-e8-mgD" detailTextLabel="muK-YS-iea" rowHeight="30" style="IBUITableViewCellStyleValue2" id="nlh-qa-dCS">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -119,33 +185,6 @@
                                     <outlet property="delegate" destination="boQ-Ag-R7Q" id="dHO-zN-N1u"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1oY-Bk-ZCM">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="332"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lDC-gU-Bjx" customClass="MBCircularProgressBarView">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="332"/>
-                                        <animations/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="value">
-                                                <real key="value" value="0.0"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="unitString" value="s"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="maxValue">
-                                                <real key="value" value="60"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
-                                </subviews>
-                                <animations/>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSW-0A-VmM">
-                                <rect key="frame" x="16" y="340" width="382" height="23"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -154,12 +193,12 @@
                             <constraint firstItem="4sl-PA-jyb" firstAttribute="top" secondItem="Ag3-kr-tub" secondAttribute="top" id="QUm-5E-zDl"/>
                             <constraint firstItem="4sl-PA-jyb" firstAttribute="leading" secondItem="Ag3-kr-tub" secondAttribute="leading" id="aux-fp-v0v"/>
                             <constraint firstAttribute="trailing" secondItem="4sl-PA-jyb" secondAttribute="trailing" id="fha-a1-Fph"/>
-                            <constraint firstItem="4sl-PA-jyb" firstAttribute="top" secondItem="mSW-0A-VmM" secondAttribute="bottom" constant="8" id="hcy-vg-32L"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
-                        <outlet property="label" destination="mSW-0A-VmM" id="WOf-FN-HtA"/>
+                        <outlet property="label" destination="gQk-KA-IVv" id="Lzz-mA-Fi2"/>
+                        <outlet property="repetitions" destination="t8S-2b-4Vj" id="1R7-1f-9pa"/>
                         <outlet property="tableView" destination="4sl-PA-jyb" id="hfb-aU-tpq"/>
                         <outlet property="time" destination="lDC-gU-Bjx" id="Dvf-CY-nBx"/>
                     </connections>

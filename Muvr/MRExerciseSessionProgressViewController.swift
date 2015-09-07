@@ -4,14 +4,26 @@ import MBCircularProgressBar
 class MRExerciseSessionProgressViewController : UIViewController, UITableViewDelegate, UITableViewDataSource,
     MRExerciseBlockDelegate, MRExercisingApplicationStateDelegate, MRClassificationPipelineDelegate, MRTrainingPipelineDelegate {
     static let storyboardId: String = "MRExerciseSessionProgressViewController"
-    private var resistanceExercises: [MRClassifiedResistanceExercise] = []
+    private var resistanceExercises: [MRClassifiedResistanceExercise] = {
+        #if (arch(i386) || arch(x86_64)) && os(iOS)
+        return (0..<10).map { id in return MRClassifiedResistanceExercise(MRResistanceExercise(id: "Test \(id)")) }
+        #else
+        return []
+        #endif
+    }()
 
     @IBOutlet var tableView: UITableView!
     @IBOutlet var label: UILabel!
     @IBOutlet var time: MBCircularProgressBarView!
+    @IBOutlet var repetitions: MBCircularProgressBarView!
  
     private var timer: NSTimer?
     private var startTime: NSDate?
+    
+    override func viewDidLoad() {
+        time.value = 0
+        repetitions.value = 0
+    }
     
     private func start() {
         if timer == nil {
@@ -29,6 +41,7 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     func update() -> Void {
         if let elapsed = startTime?.timeIntervalSinceDate(NSDate()) {
             time.value = CGFloat(Int(-elapsed) % 60)
+            repetitions.value = CGFloat(Int(time.value) / 3)
         }
     }
 
@@ -64,7 +77,6 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     }
     
     func exerciseLogged(examples: [MRResistanceExerciseExample]) {
-        label.text = "Exercise logged \(examples)"
         resistanceExercises = examples.flatMap { $0.correct }
         stop()
         tableView.reloadData()
