@@ -84,15 +84,15 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     }
     
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
-        label.text = "Classification completed \(result)"
+        label.text = "Classified"
     }
     
     func classificationEstimated(result: [AnyObject]!) {
-        label.text = "Classification estimated \(result)"
+        label.text = "Estimated"
     }
     
     func trainingCompleted(exercise: MRResistanceExercise!, fromData data: NSData!) {
-        label.text = "Training completed \(exercise)"
+        label.text = "Trained"
     }
     
 }
