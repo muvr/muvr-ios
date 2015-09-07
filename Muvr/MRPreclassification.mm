@@ -15,6 +15,20 @@ using namespace muvr;
 
 INITIALIZE_EASYLOGGINGPP;
 
+@implementation MRClassifiedResistanceExercise (x)
+
+- (instancetype)initWithClassifiedExercise:(muvr::svm_classifier::classified_exercise&)classifiedExercise {
+    NSString *x = [NSString stringWithCString:classifiedExercise.exercise_name().c_str() encoding:[NSString defaultCStringEncoding]];
+    self = [self initWithResistanceExercise:[[MRResistanceExercise alloc] initWithId:x]
+                                repetitions:@(classifiedExercise.repetitions())
+                                     weight:@(classifiedExercise.weight())
+                                  intensity:@(classifiedExercise.intensity())
+                              andConfidence:classifiedExercise.confidence()];
+    return self;
+}
+
+@end
+
 class const_exercise_decider : public exercise_decider {
 public:
     virtual exercise_result has_exercise(const raw_sensor_data& source, state &context) override {
@@ -45,51 +59,6 @@ public:
 #pragma MARK - Threed implementation
 
 @implementation Threed
-@end
-
-#pragma MARK - MRResistanceExercise implementation
-
-@implementation MRResistanceExercise
-
-- (instancetype)initWithId:(NSString *)id {
-    self = [super init];
-    _id = id;
-    return self;
-}
-
-@end
-
-#pragma MARK - MRClassifiedResistanceExercise implementation
-
-@implementation MRClassifiedResistanceExercise
-
-- (instancetype)init:(MRResistanceExercise *)resistanceExercise {
-    self = [super init];
-    _resistanceExercise = resistanceExercise;
-    return self;
-}
-
-- (instancetype)initWithResistanceExercise:(MRResistanceExercise *)resistanceExercise repetitions:(NSNumber *)repetitions weight:(NSNumber *)weight intensity:(NSNumber *)intensity andConfidence:(double)confidence {
-    self = [super init];
-    _resistanceExercise = resistanceExercise;
-    _repetitions = repetitions;
-    _weight = weight;
-    _intensity = intensity;
-    _confidence = confidence;
-    return self;
-}
-
-- (instancetype)initWithClassifiedExercise:(muvr::svm_classifier::classified_exercise&)classifiedExercise {
-    self = [super init];
-    NSString *x = [NSString stringWithCString:classifiedExercise.exercise_name().c_str() encoding:[NSString defaultCStringEncoding]];
-    _resistanceExercise = [[MRResistanceExercise alloc] initWithId:x];
-    _repetitions = @(classifiedExercise.repetitions());
-    _weight = @(classifiedExercise.weight());
-    _intensity = @(classifiedExercise.intensity());
-    _confidence = classifiedExercise.confidence();
-    return self;
-}
-
 @end
 
 @implementation MRPreclassification {
