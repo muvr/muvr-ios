@@ -3,24 +3,31 @@ import XCTest
 
 class MRDataModelTests: XCTestCase {
     
-    private func randomString(len: Int) -> String {
+    /// Generates random string of the given ``length``
+    private func randomString(length: Int) -> String {
         let charSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         var c = Array(charSet)
         var s: String = ""
-        for n in (1...len) {
+        for n in (1...length) {
             s.append(c[Int(arc4random()) % c.count])
         }
         return s
     }
 
+    /// Generates random MRResistanceExerciseExample
     private func example() -> MRResistanceExerciseExample {
         return MRResistanceExerciseExample(classified: [], correct: MRClassifiedResistanceExercise(MRResistanceExercise(id: randomString(20))))
     }
-    
+
+    /// Generates random NSData that could be used for ``fusedSensorData`` for the MRResistanceExerciseExample``
     private func exampleData() -> NSData {
         return randomString(100).dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: false)!
     }
 
+    ///
+    /// Generates & inserts a random MRResistanceExerciseSession on the given ``date`` with the given ``exampleCount`` examples.
+    /// @return the generated session id, session, and array of (example, data)
+    ///
     private func insertSession(on date: NSDate, exampleCount: Int) -> (NSUUID, MRResistanceExerciseSession, [(MRResistanceExerciseExample, NSData)]) {
         let id = NSUUID()
         let model = MRExerciseModel(id: randomString(10), title: randomString(20), exercises: [])
@@ -40,8 +47,8 @@ class MRDataModelTests: XCTestCase {
     func testSessionMerging() {
         let midnight = NSDate().dateOnly
         MRDataModel.MRResistanceExerciseSessionDataModel.deleteAll()
-        let s1 = insertSession(on: midnight.addDays(0), exampleCount: 10)
-        let s2 = insertSession(on: midnight.addDays(0), exampleCount: 20)
+        let s1 = insertSession(on: midnight.addDays(0), exampleCount: 1)
+        let s2 = insertSession(on: midnight.addDays(0), exampleCount: 2)
         
         let res = MRDataModel.MRResistanceExerciseSessionDataModel.find(on: s1.1.startDate)
         println(res)
