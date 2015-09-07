@@ -47,11 +47,11 @@ class MRDataModelTests: XCTestCase {
     func testSessionMerging() {
         let midnight = NSDate().dateOnly
         MRDataModel.MRResistanceExerciseSessionDataModel.deleteAll()
-        let s1 = insertSession(on: midnight.addDays(0), exampleCount: 1)
-        let s2 = insertSession(on: midnight.addDays(0), exampleCount: 2)
+        let (id1, session1, examples1) = insertSession(on: midnight.addDays(0), exampleCount: 1)
+        let (id2, session2, examples2) = insertSession(on: midnight.addDays(0), exampleCount: 2)
         
-        let res = MRDataModel.MRResistanceExerciseSessionDataModel.find(on: s1.1.startDate)
-        println(res)
+        let res = MRDataModel.MRResistanceExerciseSessionDataModel.find(on: session1.startDate)
+        XCTAssertEqual([id1, id2], res.map { $0.id })
     }
     
 }
