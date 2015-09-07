@@ -116,7 +116,6 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     private func logExerciseExample(example: MRResistanceExerciseExample, data: NSData) {
         self.state!.postResistanceExample(example, fusedSensorData: data)
-        
     }
 
     /// end the session here and on all devices
