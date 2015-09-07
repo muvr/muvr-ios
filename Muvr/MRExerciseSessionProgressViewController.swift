@@ -35,6 +35,7 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     private func stop() {
         timer?.invalidate()
         time.value = 0
+        repetitions.value = 0
         timer = nil
     }
     
