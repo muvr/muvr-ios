@@ -87,8 +87,8 @@ class MRSensorView : LineChartView, MRDeviceDataDelegate {
     /// create data sets from 3D data
     private func threedLineChartDataSet(label: String, values: [Threed]) -> [LineChartDataSet] {
         let xs = lineChartDataSetFrom(values, label: "\(label) - X", color: UIColor.redColor(), f: { (x: Threed) in return Float(x.x) })
-        let ys = lineChartDataSetFrom(values, label: "\(label) - X", color: UIColor.greenColor(), f: { (x: Threed) in return Float(x.y) })
-        let zs = lineChartDataSetFrom(values, label: "\(label) - X", color: UIColor.blueColor(), f: { (x: Threed) in return Float(x.z) })
+        let ys = lineChartDataSetFrom(values, label: "\(label) - Y", color: UIColor.greenColor(), f: { (x: Threed) in return Float(x.y) })
+        let zs = lineChartDataSetFrom(values, label: "\(label) - Z", color: UIColor.blueColor(), f: { (x: Threed) in return Float(x.z) })
     
         return [xs, ys, zs];
     }
