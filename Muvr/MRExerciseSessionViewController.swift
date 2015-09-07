@@ -206,8 +206,12 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     private func acceptedExercise(index: UInt8) {
         if mode!.exerciseReportFirst {
-            assert(false)
-            // preclassification!.trainingStarted(exercises![index])
+            switch mode! {
+            case .Training(let exercises):
+                preclassification!.trainingStarted(exercises[Int(index)].resistanceExercise);
+            default:
+                assert(false);
+            }
         } else {
             if !waitingForUser { return }
             
