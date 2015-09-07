@@ -76,6 +76,10 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         
         startTime = NSDate()
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "tick", userInfo: nil, repeats: true)
+        
+        #if (arch(i386) || arch(x86_64)) && os(iOS)
+            exercising()
+        #endif
     }
     
     /// configures the current session

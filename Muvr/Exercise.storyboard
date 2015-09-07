@@ -85,7 +85,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="4sl-PA-jyb">
-                                <rect key="frame" x="0.0" y="220" width="414" height="516"/>
+                                <rect key="frame" x="0.0" y="371" width="414" height="365"/>
                                 <animations/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
@@ -119,8 +119,28 @@
                                     <outlet property="delegate" destination="boQ-Ag-R7Q" id="dHO-zN-N1u"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSW-0A-VmM">
-                                <rect key="frame" x="16" y="28" width="382" height="163"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1oY-Bk-ZCM">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="332"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lDC-gU-Bjx" customClass="MBCircularProgressBarView">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="332"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="value">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="unitString" value="s"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="maxValue">
+                                                <real key="value" value="60"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <animations/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSW-0A-VmM">
+                                <rect key="frame" x="16" y="340" width="382" height="23"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -134,12 +154,14 @@
                             <constraint firstItem="4sl-PA-jyb" firstAttribute="top" secondItem="Ag3-kr-tub" secondAttribute="top" id="QUm-5E-zDl"/>
                             <constraint firstItem="4sl-PA-jyb" firstAttribute="leading" secondItem="Ag3-kr-tub" secondAttribute="leading" id="aux-fp-v0v"/>
                             <constraint firstAttribute="trailing" secondItem="4sl-PA-jyb" secondAttribute="trailing" id="fha-a1-Fph"/>
+                            <constraint firstItem="4sl-PA-jyb" firstAttribute="top" secondItem="mSW-0A-VmM" secondAttribute="bottom" constant="8" id="hcy-vg-32L"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="label" destination="mSW-0A-VmM" id="WOf-FN-HtA"/>
                         <outlet property="tableView" destination="4sl-PA-jyb" id="hfb-aU-tpq"/>
+                        <outlet property="time" destination="lDC-gU-Bjx" id="Dvf-CY-nBx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kSX-MS-B9P" userLabel="First Responder" sceneMemberID="firstResponder"/>
