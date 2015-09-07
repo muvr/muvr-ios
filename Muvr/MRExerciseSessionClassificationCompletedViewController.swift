@@ -96,7 +96,8 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
         switch (indexPath.section, indexPath.row) {
         case (Consts.None, _): return tableView.dequeueReusableCellWithIdentifier("none")! as! MRClassificationCompletedTableViewCell
         case (Consts.Head, _): return simpleCell(userClassification.classified[0].resistanceExercise)
-        case (Consts.Tail, let x): return simpleCell(userClassification.classified[x - 1].resistanceExercise)
+        case (Consts.Tail, let x):
+            return simpleCell(userClassification.classified[x].resistanceExercise)
         case (Consts.Others, let x): return simpleCell(userClassification.other[x])
         default: fatalError("Match error")
         }
