@@ -7,7 +7,7 @@ struct MRExercisingApplicationState {
     let sessionId: MRSessionId
     let userId: MRUserId
     let session: MRResistanceExerciseSession
-    private var examples: [MRResistanceExerciseExample] = []
+    var examples: [MRResistanceExerciseExample] = []
     
     init(userId: MRUserId, sessionId: MRSessionId, session: MRResistanceExerciseSession) {
         self.sessionId = sessionId
