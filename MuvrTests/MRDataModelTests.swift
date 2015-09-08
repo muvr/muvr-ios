@@ -9,7 +9,8 @@ class MRDataModelTests: XCTestCase {
         var c = Array(charSet)
         var s: String = ""
         for n in (1...length) {
-            s.append(c[Int(arc4random()) % c.count])
+            let randomIndex = Int(arc4random_uniform(UInt32(c.count)))
+            s.append(c[randomIndex])
         }
         return s
     }
