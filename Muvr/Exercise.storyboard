@@ -15,6 +15,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="jfA-6e-2zn" customClass="MRResistanceExerciseProgressView" customModule="Muvr" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="212"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="simpleExercise" textLabel="0lC-9w-Ola" detailTextLabel="Qkq-nM-2tv" style="IBUITableViewCellStyleValue1" id="9wb-xS-XKw" customClass="MRClassificationCompletedTableViewCell" customModule="Muvr" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="50" width="414" height="59"/>
@@ -66,11 +71,15 @@
                             <outlet property="delegate" destination="vaU-9V-MO8" id="CdD-bp-naM"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="progressView" destination="jfA-6e-2zn" id="gdl-u9-ysg"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cch-Nc-kUW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="817" y="-205"/>
+            <point key="canvasLocation" x="14" y="-362"/>
         </scene>
         <!--Exercise Session Progress View Controller-->
         <scene sceneID="IvT-9v-F1h">
@@ -207,7 +216,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ApN-P9-TgT" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="268" y="-309"/>
+            <point key="canvasLocation" x="515" y="-353"/>
         </scene>
     </scenes>
 </document>
