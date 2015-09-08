@@ -6,12 +6,12 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Exercise Session Classification Completed View Controller-->
+        <!--Completed-->
         <scene sceneID="EOy-fh-6pK">
             <objects>
-                <tableViewController storyboardIdentifier="MRExerciseSessionClassificationCompletedViewController" hidesBottomBarWhenPushed="YES" id="vaU-9V-MO8" customClass="MRExerciseSessionClassificationCompletedViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="MRExerciseSessionClassificationCompletedViewController" title="Completed" hidesBottomBarWhenPushed="YES" id="vaU-9V-MO8" customClass="MRExerciseSessionClassificationCompletedViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="29r-fQ-ofN">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="94" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
@@ -72,6 +72,7 @@
                         </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="progressView" destination="jfA-6e-2zn" id="gdl-u9-ysg"/>
