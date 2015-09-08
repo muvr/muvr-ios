@@ -1,5 +1,4 @@
 import Foundation
-import MBCircularProgressBar
 
 class MRExerciseSessionProgressViewController : UIViewController, UITableViewDelegate, UITableViewDataSource,
     MRExerciseBlockDelegate, MRExercisingApplicationStateDelegate, MRClassificationPipelineDelegate, MRTrainingPipelineDelegate {
@@ -13,16 +12,14 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     }()
 
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var label: UILabel!
-    @IBOutlet var time: MBCircularProgressBarView!
-    @IBOutlet var repetitions: MBCircularProgressBarView!
+    @IBOutlet var progressView: MRResistanceExerciseProgressView!
  
     private var timer: NSTimer?
     private var startTime: NSDate?
     
     override func viewDidLoad() {
-        time.value = 0
-        repetitions.value = 0
+        progressView.setTime(0, max: 60)
+        progressView.setRepetitions(0, max: 20)
     }
     
     private func start() {
@@ -34,15 +31,18 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     
     private func stop() {
         timer?.invalidate()
-        time.value = 0
-        repetitions.value = 0
+        progressView.setTime(0, max: 60)
+        progressView.setRepetitions(0, max: 20)
+        progressView.exercisingImageHidden = true
+        progressView.setText("")
         timer = nil
     }
     
     func update() -> Void {
         if let elapsed = startTime?.timeIntervalSinceDate(NSDate()) {
-            time.value = CGFloat(Int(-elapsed) % 60)
-            repetitions.value = CGFloat(Int(time.value) / 3)
+            let time = Int(-elapsed) % 60
+            progressView.setTime(time, max: 60)
+            progressView.setRepetitions(time / 3, max: 20)
         }
     }
 
@@ -59,22 +59,22 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     }
     
     func exerciseEnded() {
-        label.text = "Exercise ended"
+        progressView.exercisingImageHidden = true
         stop()
     }
     
     func exercising() {
-        label.text = "Exercising"
+        progressView.exercisingImageHidden = false
         start()
     }
     
     func moving() {
-        label.text = "Moving"
+        progressView.exercisingImageHidden = false
         start()
     }
     
     func notMoving() {
-        label.text = "Not moving"
+        progressView.exercisingImageHidden = true
     }
     
     func exerciseLogged(examples: [MRResistanceExerciseExample]) {
@@ -84,15 +84,18 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     }
     
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
-        label.text = "Classified"
+        progressView.setText("Classified")
+        progressView.exercisingImageHidden = true
     }
     
     func classificationEstimated(result: [AnyObject]!) {
-        label.text = "Estimated"
+        progressView.setText("Estimated")
+        progressView.exercisingImageHidden = true
     }
     
     func trainingCompleted(exercise: MRResistanceExercise!, fromData data: NSData!) {
-        label.text = "Trained"
+        progressView.setText("Trained")
+        progressView.exercisingImageHidden = true
     }
     
 }
