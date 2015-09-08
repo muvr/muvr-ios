@@ -26,7 +26,7 @@ using namespace muvr;
 ///
 /// Classify the passed data
 ///
--  (svm_classifier::classification_result)classify:(const std::vector<fused_sensor_data> &)data;
+-  (svm_classifier::classification_result)classify:(const std::vector<fused_sensor_data> &)data withMaxResultsOf:(uint)numberOfResults;
 @end
 
 #endif
