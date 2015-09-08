@@ -173,20 +173,8 @@ public:
     NSData *data = [self formatFusedSensorData:result];
     
     // --- Move classification to pushBack
-    svm_classifier::classification_result classificationResult = [classifier classify:result.fused_exercise_data() withMaxResultsOf: 3];
-    
-    NSMutableArray *transformedClassificationResult = [NSMutableArray array];
-    
-    if (classificationResult.exercises().size() > 0) {
-        // for now we just take the first and only identified exercise if there is any
-        std::vector<muvr::svm_classifier::classified_exercise> exercises = classificationResult.exercises();
-        for (size_t i=0; i < exercises.size(); i++){
-            MRClassifiedResistanceExercise *exercise = [[MRClassifiedResistanceExercise alloc] initWithClassifiedExercise:exercises[i]];
-            [transformedClassificationResult addObject:exercise];
-        }
-    }
-    
-    [self.classificationPipelineDelegate classificationCompleted:transformedClassificationResult fromData:data];
+    NSArray* classificationResult = [classifier classify:result.fused_exercise_data() withMaximumResults:3];
+    [self.classificationPipelineDelegate classificationCompleted:classificationResult fromData:data];
 }
 
 - (void)trainingCompleted {

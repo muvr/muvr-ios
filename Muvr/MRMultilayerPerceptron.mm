@@ -3,6 +3,7 @@
 #import "MuvrPreclassification/include/sensor_data.h"
 #include "easylogging++.h"
 #import "MLPNeuralNet.h"
+#import "MRClassifiedResistanceExercise.h"
 
 #pragma MARK - MRResistanceExerciseSet implementation
 
@@ -132,7 +133,7 @@
 - (void)printClassificationResult:(NSMutableArray *)probabilities withRanking:(NSMutableArray *)class_ranking {
     [class_ranking enumerateObjectsUsingBlock:^(NSNumber* classId, NSUInteger idx, BOOL *stop) {
         NSNumber *prob = [probabilities objectAtIndex: classId.integerValue];
-        NSString * exerciseName = [self exerciseName:classId.integerValue];
+        NSString * exerciseName = [self exerciseName:classId.intValue];
         LOG(TRACE) << "Prediction: " << [NSString stringWithFormat:@"%.2f", prob.doubleValue].UTF8String <<  " for " << exerciseName.UTF8String << std::endl;
     }];
 }
@@ -156,11 +157,11 @@
     return featureMatrix;
 }
 
-- (svm_classifier::classification_result)classify:(const std::vector<fused_sensor_data> &)data withMaxResultsOf:(uint)numberOfResults{
+- (NSArray *)classify:(const std::vector<fused_sensor_data> &)data withMaximumResults:(uint)numberOfResults {
     NSDate *startTime = [NSDate date];
     if (data.size() == 0) {
         LOG(WARNING) << "Classification called, but no data passed!" << std::endl;
-        return svm_classifier::classification_result(muvr::svm_classifier::classification_result::failure, std::vector<muvr::svm_classifier::classified_exercise> { }, data);
+        return [[NSArray alloc] init];
     }
     
     auto firstSensorData = data[0];
@@ -168,13 +169,11 @@
     // We need a window full of data to do any prediction
     if (firstSensorData.data.rows < _windowSize) {
         LOG(INFO) << "Not enough data for prediction :( " << std::endl;
-        return svm_classifier::classification_result(muvr::svm_classifier::classification_result::failure, std::vector<muvr::svm_classifier::classified_exercise> { }, data);
+        return [[NSArray alloc] init];
     }
     
     // Apply initial preprocessing steps to data.
     Mat preprocessed = [self initialPreprocessing:firstSensorData.data];
-    
-    // LOG(TRACE) << "Raw input data = "<< std::endl << " "  << preprocessed << std::endl << std::endl;
     
     // Size of the sliding window
     NSUInteger numWindows = (firstSensorData.data.rows - _windowSize) / [self windowStepSize] + 1;
@@ -193,20 +192,25 @@
     LOG(TRACE) << "Classification took: " << timeInterval << " seconds for " << firstSensorData.data.rows / firstSensorData.samples_per_second << " seconds of data" << std::endl;
     
     [self printClassificationResult:probabilities withRanking:classRanking];
-
+    
     int resultSize = std::min(numberOfResults, nrOfClasses);
-    std::vector<muvr::svm_classifier::classified_exercise> exercises;
+    NSMutableArray *result = [[NSMutableArray alloc] init];
     
     for (int i=0; i < resultSize; ++i) {
         NSNumber *classId = [classRanking objectAtIndex:i];
-        NSString *exerciseName = [self exerciseName:classId.integerValue];
-        NSNumber *prob = [probabilities objectAtIndex: classId.integerValue];
-        
-        muvr::svm_classifier::classified_exercise exercise = svm_classifier::classified_exercise(exerciseName.UTF8String, -1, 1.0, 1.0, prob.doubleValue);
-        exercises.push_back(exercise);
+        NSString *exerciseName = [self exerciseName:classId.intValue];
+        NSNumber *prob = [probabilities objectAtIndex:classId.integerValue];
+
+        MRResistanceExercise* re = [[MRResistanceExercise alloc] initWithId:exerciseName];
+        MRClassifiedResistanceExercise *cre = [[MRClassifiedResistanceExercise alloc] initWithResistanceExercise:re
+                                                                                                     repetitions:0
+                                                                                                          weight:0
+                                                                                                       intensity:0
+                                                                                                   andConfidence:prob.doubleValue];
+        [result addObject:cre];
     }
-   
-    return svm_classifier::classification_result(muvr::svm_classifier::classification_result::success, exercises, data);
+    
+    return result;
 }
 
 @end
