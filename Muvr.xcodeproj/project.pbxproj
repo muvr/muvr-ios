@@ -88,6 +88,8 @@
 		5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */; };
 		5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */; };
 		5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */; };
+		544757071B9F34F0001E00BF /* MRResistanceExerciseProgressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 544757061B9F34F0001E00BF /* MRResistanceExerciseProgressView.xib */; };
+		544757091B9F360C001E00BF /* MRResistanceExerciseProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544757081B9F360C001E00BF /* MRResistanceExerciseProgressView.swift */; };
 		54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 54477CFB1AF4E82E00F502EC /* Localizable.strings */; };
 		5447E7FF1B0114170003C0A0 /* MRResistanceExercise+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5447E7FE1B0114170003C0A0 /* MRResistanceExercise+Localisation.swift */; };
 		544DFB331B9C6DD70027EBCF /* MRExerciseSessionProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544DFB321B9C6DD70027EBCF /* MRExerciseSessionProgressViewController.swift */; };
@@ -105,6 +107,7 @@
 		5464EBCA1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC41AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm */; };
 		5464EBCB1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC51AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds */; };
 		5464EBCC1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC61AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale */; };
+		547463531B9DE4BC0051F146 /* MRExercisingApplicationStateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547463521B9DE4BC0051F146 /* MRExercisingApplicationStateDelegate.swift */; };
 		547E6A841AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A831AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift */; };
 		547E6A8B1AF36938005DE00C /* MRExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A8A1AF36938005DE00C /* MRExerciseModel.swift */; };
 		547E6A8D1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A8C1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift */; };
@@ -123,7 +126,6 @@
 		54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */; };
 		54B610911AF3C5B00034F2DD /* MRExerciseSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */; };
 		54B610931AF3C6010034F2DD /* Exercise.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54B610921AF3C6010034F2DD /* Exercise.storyboard */; };
-		54BC18B11B0391EA004C179B /* MRExercisingApplicationStateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC18B01B0391EA004C179B /* MRExercisingApplicationStateDelegate.swift */; };
 		54BF09121B9B735B00A3E6C7 /* MRModelParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 54BF09111B9B735B00A3E6C7 /* MRModelParameters.m */; };
 		54BF09151B9B74F300A3E6C7 /* MRExerciseModel+ModelParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BF09141B9B74F300A3E6C7 /* MRExerciseModel+ModelParameters.swift */; };
 		54CC46521B08E5B6007B739A /* MRPublicProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC46511B08E5B6007B739A /* MRPublicProfile.swift */; };
@@ -235,6 +237,8 @@
 		5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_rsdt.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_rsdt.cc"; sourceTree = "<group>"; };
 		5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_sce.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_sce.cc"; sourceTree = "<group>"; };
 		5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_sct.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_sct.cc"; sourceTree = "<group>"; };
+		544757061B9F34F0001E00BF /* MRResistanceExerciseProgressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRResistanceExerciseProgressView.xib; sourceTree = "<group>"; };
+		544757081B9F360C001E00BF /* MRResistanceExerciseProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseProgressView.swift; sourceTree = "<group>"; };
 		54477CFC1AF4E82E00F502EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5447E7FE1B0114170003C0A0 /* MRResistanceExercise+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRResistanceExercise+Localisation.swift"; sourceTree = "<group>"; };
 		544DFB321B9C6DD70027EBCF /* MRExerciseSessionProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionProgressViewController.swift; sourceTree = "<group>"; };
@@ -254,6 +258,7 @@
 		5464EBC41AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-triceps_pushdown-features.libsvm"; sourceTree = "<group>"; };
 		5464EBC51AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds */ = {isa = PBXFileReference; lastKnownFileType = file; path = "svm-model-triceps_pushdown-features.rds"; sourceTree = "<group>"; };
 		5464EBC61AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-triceps_pushdown-features.scale"; sourceTree = "<group>"; };
+		547463521B9DE4BC0051F146 /* MRExercisingApplicationStateDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisingApplicationStateDelegate.swift; sourceTree = "<group>"; };
 		547E6A831AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionAdHocViewController.swift; sourceTree = "<group>"; };
 		547E6A8A1AF36938005DE00C /* MRExerciseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModel.swift; sourceTree = "<group>"; };
 		547E6A8C1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseModel+Marshalling.swift"; sourceTree = "<group>"; };
@@ -275,7 +280,6 @@
 		54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSession.swift; sourceTree = "<group>"; };
 		54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionViewController.swift; sourceTree = "<group>"; };
 		54B610921AF3C6010034F2DD /* Exercise.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Exercise.storyboard; sourceTree = "<group>"; };
-		54BC18B01B0391EA004C179B /* MRExercisingApplicationStateDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisingApplicationStateDelegate.swift; sourceTree = "<group>"; };
 		54BF09111B9B735B00A3E6C7 /* MRModelParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRModelParameters.m; sourceTree = "<group>"; };
 		54BF09131B9B736900A3E6C7 /* MRModelParameters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRModelParameters.h; sourceTree = "<group>"; };
 		54BF09141B9B74F300A3E6C7 /* MRExerciseModel+ModelParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseModel+ModelParameters.swift"; sourceTree = "<group>"; };
@@ -563,9 +567,11 @@
 				541ABBA51AC577E00056A81B /* MRExerciseSessionDeviceDataViewController.swift */,
 				540381541AECFB05000C8B15 /* MRExerciseSessionClassificationCompletedViewController.swift */,
 				54F288111B00A6F300E4D591 /* MRExerciseSessionUserClassification.swift */,
-				54BC18B01B0391EA004C179B /* MRExercisingApplicationStateDelegate.swift */,
+				547463521B9DE4BC0051F146 /* MRExercisingApplicationStateDelegate.swift */,
 				543ED4821B0DBCCE00D12768 /* MRExerciseSessionStartable.swift */,
 				54B610921AF3C6010034F2DD /* Exercise.storyboard */,
+				544757061B9F34F0001E00BF /* MRResistanceExerciseProgressView.xib */,
+				544757081B9F360C001E00BF /* MRResistanceExerciseProgressView.swift */,
 			);
 			name = Exercise;
 			sourceTree = "<group>";
@@ -903,6 +909,7 @@
 				54B610931AF3C6010034F2DD /* Exercise.storyboard in Resources */,
 				5464EBC81AF4E24F00B5317B /* svm-model-bicep_curl-features.rds in Resources */,
 				5464EBCB1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds in Resources */,
+				544757071B9F34F0001E00BF /* MRResistanceExerciseProgressView.xib in Resources */,
 				5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */,
 				9D30379C1B95CCC500426C70 /* Models.bundle in Resources */,
 				54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */,
@@ -981,6 +988,7 @@
 				FC3970621AEA6CC900829357 /* svm.cc in Sources */,
 				548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */,
 				547E6A8D1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift in Sources */,
+				547463531B9DE4BC0051F146 /* MRExercisingApplicationStateDelegate.swift in Sources */,
 				54CC46541B08E5DE007B739A /* MRPublicProfile+Marshalling.swift in Sources */,
 				543374201AD010B1005864D7 /* Operators.swift in Sources */,
 				5488F39E1AFF8C960086BF7B /* simple_exercise_plan.cc in Sources */,
@@ -1037,7 +1045,6 @@
 				5455E72A1AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift in Sources */,
 				540381571AECFB25000C8B15 /* MRSensorView.swift in Sources */,
 				544DFB331B9C6DD70027EBCF /* MRExerciseSessionProgressViewController.swift in Sources */,
-				54BC18B11B0391EA004C179B /* MRExercisingApplicationStateDelegate.swift in Sources */,
 				547E6A911AF374FF005DE00C /* MRDataModel+Defaults.swift in Sources */,
 				54B610871AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift in Sources */,
 				54005C9E1B07D43100BF0732 /* MRProfileViewController.swift in Sources */,
@@ -1062,6 +1069,7 @@
 				5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */,
 				542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */,
 				543374271AD0111B005864D7 /* String+Localisation.swift in Sources */,
+				544757091B9F360C001E00BF /* MRResistanceExerciseProgressView.swift in Sources */,
 				54F0DC531AC57E8D0061EC5D /* kalman_smooth.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

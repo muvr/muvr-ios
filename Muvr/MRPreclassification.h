@@ -75,6 +75,14 @@
 ///
 - (void)classificationCompleted:(NSArray *)result fromData:(NSData *)data;
 
+///
+/// Classification made some decisions, but this is not the final decision. The final decision will
+/// arrive in the ``classificationCompleted:fromData:`` call.
+///
+/// This method provides a way to provide a view on the in-progress classification.
+///
+- (void)classificationEstimated:(NSArray *)result;
+
 @end
 
 ///

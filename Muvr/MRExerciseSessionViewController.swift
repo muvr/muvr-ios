@@ -50,15 +50,15 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         assert(state != nil, "state == nil: typically because startSession(...) has not been called")
         super.viewDidLoad()
 
+        // MARK: Subview management
+        let storyboard = UIStoryboard(name: "Exercise", bundle: nil)
+        let pvc = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionProgressViewController.storyboardId) as! MRExerciseSessionProgressViewController
+        let dvc = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionDeviceDataViewController.storyboardId) as! MRExerciseSessionDeviceDataViewController
+        
         dataSource = self
         delegate = self
         
         navigationItem.prompt = "MRExerciseSessionViewController.elapsed".localized(0, 0)
-        
-        let storyboard = UIStoryboard(name: "Exercise", bundle: nil)
-        
-        let pvc = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionProgressViewController.storyboardId) as! MRExerciseSessionProgressViewController
-        let dvc = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionDeviceDataViewController.storyboardId) as! MRExerciseSessionDeviceDataViewController
         
         pageViewControllers = [pvc, dvc]
         classificationCompletedViewController = storyboard.instantiateViewControllerWithIdentifier(MRExerciseSessionClassificationCompletedViewController.storyboardId) as? MRExerciseSessionClassificationCompletedViewController
@@ -76,6 +76,10 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         
         startTime = NSDate()
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "tick", userInfo: nil, repeats: true)
+        
+        #if (arch(i386) || arch(x86_64)) && os(iOS)
+            exercising()
+        #endif
     }
     
     /// configures the current session
@@ -116,6 +120,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     private func logExerciseExample(example: MRResistanceExerciseExample, data: NSData) {
         self.state!.postResistanceExample(example, fusedSensorData: data)
+        if let x: MRExercisingApplicationStateDelegate = currentPageViewController() { x.exerciseLogged(self.state!.examples) }
     }
 
     /// end the session here and on all devices
@@ -141,11 +146,6 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         if stopSessionButton.tag < 0 {
             stopSessionButton.title = "Stop".localized()
         }
-        #if (arch(i386) || arch(x86_64)) && os(iOS)
-                        
-        #endif
-        
-        if let x: MRExercisingApplicationStateDelegate = currentPageViewController() { x.exercisingApplicationStateUpdated(self.state!) }
     }
     
     private func currentPageViewController<A>() -> A? {
@@ -187,16 +187,6 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     func deviceSession(session: DeviceSession, sensorDataReceivedFrom deviceId: DeviceId, atDeviceTime time: CFAbsoluteTime, data: NSData) {
         if waitingForUser { return }
-
-        #if true
-            let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-            let path = paths.first as! String
-            let fileHandle = NSFileHandle(forWritingAtPath: path)
-            
-            fileHandle?.seekToEndOfFile()
-            fileHandle?.writeData(data)
-            fileHandle?.closeFile()
-        #endif
         
         preclassification!.pushBack(data, from: 0, withHint: nil)
     }
@@ -206,10 +196,8 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     private func acceptedExercise(index: UInt8) {
         if mode!.exerciseReportFirst {
             switch mode! {
-            case .Training(let exercises):
-                preclassification!.trainingStarted(exercises[Int(index)].resistanceExercise);
-            default:
-                assert(false);
+            case .Training(let exercises): preclassification!.trainingStarted(exercises[Int(index)].resistanceExercise);
+            default: assert(false);
             }
         } else {
             if !waitingForUser { return }
@@ -261,45 +249,44 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     func exercising() {
-        if !mode!.reportMovementExercise { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.exercising() }
-        if let x: MRExercisingApplicationStateDelegate = currentPageViewController() { x.exercisingApplicationStateUpdated(self.state!) }
-        pcd.notifyExercising()
+        if mode!.reportMovementExercise { pcd.notifyExercising() }
     }
     
     func moving() {
-        if !mode!.reportMovementExercise { return }
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.moving() }
-        if let x: MRExercisingApplicationStateDelegate = currentPageViewController() { x.exercisingApplicationStateUpdated(self.state!) }
-        pcd.notifyMoving()
+        if mode!.reportMovementExercise {  pcd.notifyMoving() }
     }
     
     func notMoving() {
-        if !mode!.reportMovementExercise { return }
         if waitingForUser { return }
-        
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.notMoving() }
-        if let x: MRExercisingApplicationStateDelegate = currentPageViewController() { x.exercisingApplicationStateUpdated(self.state!) }
-        pcd.notifyNotMoving()
+        if !mode!.reportMovementExercise { pcd.notifyNotMoving() }
     }
     
     // MARK: MRTrainingPipelineDelegate
     func trainingCompleted(exercise: MRResistanceExercise!, fromData data: NSData!) {
         let example = MRResistanceExerciseExample(classified: [], correct: MRClassifiedResistanceExercise(exercise))
+        if let x: MRTrainingPipelineDelegate = currentPageViewController() { x.trainingCompleted(exercise, fromData: data) }
         logExerciseExample(example, data: data)
     }
     
     // MARK: MRClassificationPipelineDelegate
+    
+    func classificationEstimated(result: [AnyObject]!) {
+        if let x: MRClassificationPipelineDelegate = currentPageViewController() { x.classificationEstimated(result) }
+    }
+    
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
         if waitingForUser { return }
         
-        waitingForUser = true
-
+        if let x: MRClassificationPipelineDelegate = currentPageViewController() { x.classificationCompleted(result, fromData: data) }
         userClassification = MRExerciseSessionUserClassification(session: state!.session, data: data, result: result)
-        assert(!userClassification!.combined.isEmpty, "Attempt to present classification result with no options.")
+        if userClassification!.combined.isEmpty { return }
         
+        waitingForUser = true
         classificationCompletedViewController?.presentClassificationResult(self, userClassification: userClassification!, onComplete: logExerciseExample)
         pcd.notifySimpleClassificationCompleted(userClassification!.combined)
     }

@@ -37,6 +37,8 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
         static let None = 3
     }
     
+    @IBOutlet var progressView: MRResistanceExerciseProgressView!
+    
     private var data: NSData!
     private var userClassification: MRExerciseSessionUserClassification!
     private var onComplete: ((MRResistanceExerciseExample, NSData) -> Void)!
@@ -48,6 +50,13 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
         
         tableView.reloadData()
         parent.presentViewController(self, animated: true, completion: nil)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        progressView.setTime(15, max: 60)
+        progressView.setRepetitions(10, max: 20)
+        progressView.setText("Classified...")        
     }
     
     // MARK: UITableViewController implementation

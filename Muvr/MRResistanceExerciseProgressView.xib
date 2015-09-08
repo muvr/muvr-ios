@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MRResistanceExerciseProgressView" customModule="Muvr" customModuleProvider="target">
+            <connections>
+                <outlet property="bottomLabel" destination="5Jt-PC-hbF" id="Qth-9s-8OG"/>
+                <outlet property="exercisingImage" destination="Scf-40-DGQ" id="QL9-vi-lR8"/>
+                <outlet property="repetitions" destination="Nll-pu-sXU" id="2qx-iY-UAU"/>
+                <outlet property="time" destination="KrS-SK-bml" id="AEj-2W-mmh"/>
+                <outlet property="topLabel" destination="sBC-rb-1TB" id="RAZ-Yz-1YO"/>
+                <outlet property="view" destination="qA0-4P-B5y" id="w9i-vS-4wa"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="qA0-4P-B5y">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="212"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KrS-SK-bml" customClass="MBCircularProgressBarView">
+                    <rect key="frame" x="34" y="17" width="347" height="177"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="value">
+                            <real key="value" value="19"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="string" keyPath="unitString" value="s"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="maxValue">
+                            <real key="value" value="60"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="progressColor">
+                            <color key="value" red="0.51764705879999995" green="0.83921568629999999" blue="0.058823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="progressStrokeColor">
+                            <color key="value" red="0.51764705879999995" green="0.83921568629999999" blue="0.058823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="showValueString" value="NO"/>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nll-pu-sXU" customClass="MBCircularProgressBarView">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="212"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="value">
+                            <real key="value" value="12"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="string" keyPath="unitString" value="s"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="maxValue">
+                            <real key="value" value="20"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="showValueString" value="NO"/>
+                        <userDefinedRuntimeAttribute type="color" keyPath="progressStrokeColor">
+                            <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="progressColor">
+                            <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="exercising" translatesAutoresizingMaskIntoConstraints="NO" id="Scf-40-DGQ">
+                    <rect key="frame" x="162" y="75" width="90" height="72"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="90" id="ATS-XH-G1j"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50 s | 10 r" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sBC-rb-1TB">
+                    <rect key="frame" x="116" y="59" width="182" height="29"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="182" id="1Uz-4T-8Fy"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Some such" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Jt-PC-hbF">
+                    <rect key="frame" x="116" y="182" width="182" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="bc5-rW-4RZ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="sBC-rb-1TB" firstAttribute="leading" secondItem="5Jt-PC-hbF" secondAttribute="leading" id="7JJ-sC-ktp"/>
+                <constraint firstAttribute="bottom" secondItem="KrS-SK-bml" secondAttribute="bottom" constant="18" id="A57-05-xRH"/>
+                <constraint firstItem="Scf-40-DGQ" firstAttribute="top" secondItem="qA0-4P-B5y" secondAttribute="top" constant="75" id="Bi7-r6-DoM"/>
+                <constraint firstItem="Nll-pu-sXU" firstAttribute="leading" secondItem="qA0-4P-B5y" secondAttribute="leading" id="J00-LH-jM7"/>
+                <constraint firstItem="KrS-SK-bml" firstAttribute="leading" secondItem="qA0-4P-B5y" secondAttribute="leading" constant="34" id="KGa-63-ZBk"/>
+                <constraint firstItem="5Jt-PC-hbF" firstAttribute="top" secondItem="sBC-rb-1TB" secondAttribute="bottom" constant="94" id="Ngu-Q6-eYD"/>
+                <constraint firstAttribute="bottom" secondItem="Nll-pu-sXU" secondAttribute="bottom" id="NjS-wL-SK5"/>
+                <constraint firstItem="sBC-rb-1TB" firstAttribute="trailing" secondItem="5Jt-PC-hbF" secondAttribute="trailing" id="Qwk-K6-Mhy"/>
+                <constraint firstAttribute="trailing" secondItem="Nll-pu-sXU" secondAttribute="trailing" id="ckL-Za-0Oz"/>
+                <constraint firstItem="KrS-SK-bml" firstAttribute="top" secondItem="qA0-4P-B5y" secondAttribute="top" constant="17" id="ckW-H1-AQ3"/>
+                <constraint firstItem="sBC-rb-1TB" firstAttribute="top" secondItem="qA0-4P-B5y" secondAttribute="top" constant="59" id="eS9-1b-GPl"/>
+                <constraint firstItem="Scf-40-DGQ" firstAttribute="centerX" secondItem="KrS-SK-bml" secondAttribute="centerX" id="euc-rA-iB3"/>
+                <constraint firstAttribute="bottom" secondItem="5Jt-PC-hbF" secondAttribute="bottom" constant="5" id="gHc-zO-zyc"/>
+                <constraint firstItem="5Jt-PC-hbF" firstAttribute="top" secondItem="Scf-40-DGQ" secondAttribute="bottom" constant="35" id="hXP-6r-6tN"/>
+                <constraint firstItem="Nll-pu-sXU" firstAttribute="top" secondItem="qA0-4P-B5y" secondAttribute="top" id="ht3-gZ-k4H"/>
+                <constraint firstItem="5Jt-PC-hbF" firstAttribute="centerX" secondItem="Nll-pu-sXU" secondAttribute="centerX" id="jnV-J9-Lvc"/>
+                <constraint firstItem="sBC-rb-1TB" firstAttribute="centerX" secondItem="Scf-40-DGQ" secondAttribute="centerX" id="vHJ-XC-XQf"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="478" y="-71"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="exercising" width="256" height="256"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
