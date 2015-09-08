@@ -137,6 +137,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         func stop() {
             watch.appMessagesKill { (w, e) in
                 self.delegate.deviceSession(self.sessionId, endedFrom: self.deviceId)
+                w.appMessagesRemoveUpdateHandler(self.updateHandler)
             }
         }
         
