@@ -2,7 +2,6 @@
 #define Muvr_MRMultilayerPerceptron_h
 
 #import "MuvrPreclassification/include/sensor_data.h"
-#import "MuvrPreclassification/include/svm_classifier.h"
 #import "MRModelParameters.h"
 
 using namespace muvr;
@@ -24,9 +23,9 @@ using namespace muvr;
 - (instancetype)initWithModel:(MRModelParameters *)model;
 
 ///
-/// Classify the passed data
+/// Classify the passed data, returns ``NSArray*`` of ``MRClassifiedResistanceExercise``.
 ///
--  (svm_classifier::classification_result)classify:(const std::vector<fused_sensor_data> &)data;
+-  (NSArray *)classify:(const std::vector<fused_sensor_data> &)data withMaximumResults:(uint)numberOfResults;
 @end
 
 #endif
