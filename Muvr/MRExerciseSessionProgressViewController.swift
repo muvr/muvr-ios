@@ -23,6 +23,7 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     }
     
     private func start() {
+        progressView.expand()
         if timer == nil {
             timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "update", userInfo: nil, repeats: true)
             startTime = NSDate()
@@ -30,10 +31,10 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     }
     
     private func stop() {
+        progressView.collapse()
         timer?.invalidate()
         progressView.setTime(0, max: 60)
         progressView.setRepetitions(0, max: 20)
-        progressView.exercisingImageHidden = true
         progressView.setText("")
         timer = nil
     }
@@ -59,22 +60,19 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     }
     
     func exerciseEnded() {
-        progressView.exercisingImageHidden = true
         stop()
     }
     
     func exercising() {
-        progressView.exercisingImageHidden = false
         start()
     }
     
     func moving() {
-        progressView.exercisingImageHidden = false
         start()
     }
     
     func notMoving() {
-        progressView.exercisingImageHidden = true
+        stop()
     }
     
     func exerciseLogged(examples: [MRResistanceExerciseExample]) {
@@ -85,17 +83,14 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
         progressView.setText("Classified")
-        progressView.exercisingImageHidden = true
     }
     
     func classificationEstimated(result: [AnyObject]!) {
         progressView.setText("Estimated")
-        progressView.exercisingImageHidden = true
     }
     
     func trainingCompleted(exercise: MRResistanceExercise!, fromData data: NSData!) {
         progressView.setText("Trained")
-        progressView.exercisingImageHidden = true
     }
     
 }

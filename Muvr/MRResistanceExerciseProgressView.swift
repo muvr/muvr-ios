@@ -7,7 +7,12 @@ class MRResistanceExerciseProgressView : UIView {
     @IBOutlet var bottomLabel: UILabel!
     @IBOutlet var time: MBCircularProgressBarView!
     @IBOutlet var repetitions: MBCircularProgressBarView!
-    @IBOutlet var exercisingImage: UIImageView!
+
+    #if (arch(i386) || arch(x86_64)) && os(iOS)
+    private let animationDuration = 2.0
+    #else
+    private let animationDuration = 0.5
+    #endif
     
     private var text: String! = ""
 
@@ -29,7 +34,6 @@ class MRResistanceExerciseProgressView : UIView {
         addSubview(view)
         topLabel.text = ""
         bottomLabel.text = ""
-        exercisingImage.hidden = true
     }
     
     func setTime(value: Int, max: Int) -> Void {
@@ -48,13 +52,23 @@ class MRResistanceExerciseProgressView : UIView {
         bottomLabel.text = text
     }
     
-    var exercisingImageHidden: Bool {
-        get {
-            return exercisingImage.hidden
-        }
-        set {
-            exercisingImage.hidden = newValue
-        }
+    func expand() {
+        self.frame = self.superview!.frame
+        self.layoutIfNeeded()
+        
+        time.progressLineWidth = 30
+        repetitions.progressLineWidth = 30
+        topLabel.font = UIFont.systemFontOfSize(40, weight: 0.3)
+    }
+    
+    func collapse() {
+        let collapsed = CGRectMake(0, 0, frame.width, frame.width / 2)
+        self.frame = collapsed
+        self.layoutIfNeeded()
+        
+        topLabel.font = UIFont.systemFontOfSize(16, weight: 0.3)
+        time.progressLineWidth = 15
+        repetitions.progressLineWidth = 15
     }
         
 }
