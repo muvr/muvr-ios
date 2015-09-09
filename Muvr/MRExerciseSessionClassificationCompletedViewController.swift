@@ -54,9 +54,12 @@ class MRExerciseSessionClassificationCompletedViewController : UITableViewContro
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        progressView.setTime(15, max: 60)
-        progressView.setRepetitions(10, max: 20)
-        progressView.setText("Classified...")        
+        
+        if let f = userClassification.combined.first {
+            progressView.setTime(Int(f.time), max: 60)
+            progressView.setRepetitions(f.repetitions?.integerValue ?? 0, max: 20)
+            progressView.setText(f.resistanceExercise.title)
+        }
     }
     
     // MARK: UITableViewController implementation
