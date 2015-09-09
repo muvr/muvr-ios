@@ -166,6 +166,8 @@
     
     auto firstSensorData = data[0];
     
+    uint time = uint(firstSensorData.duration() / 1000);
+    
     // We need a window full of data to do any prediction
     if (firstSensorData.data.rows < _windowSize) {
         LOG(INFO) << "Not enough data for prediction :( " << std::endl;
@@ -206,6 +208,7 @@
                                                                                                      repetitions:0
                                                                                                           weight:0
                                                                                                        intensity:0
+                                                                                                            time:time
                                                                                                    andConfidence:prob.doubleValue];
         [result addObject:cre];
     }

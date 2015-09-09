@@ -12,38 +12,56 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     }()
 
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var progressView: MRResistanceExerciseProgressView!
- 
+    private let sessionProgressView: MRResistanceExerciseSessionProgressView
+    private let exerciseProgressView: MRResistanceExerciseProgressView
+    
+    private var started: Bool = false
     private var timer: NSTimer?
     private var startTime: NSDate?
     
+    required init(coder aDecoder: NSCoder) {
+        sessionProgressView = MRResistanceExerciseSessionProgressView(coder: aDecoder)
+        exerciseProgressView = MRResistanceExerciseProgressView(coder: aDecoder)
+        super.init(coder: aDecoder)
+    }
+    
     override func viewDidLoad() {
-        progressView.setTime(0, max: 60)
-        progressView.setRepetitions(0, max: 20)
+        exerciseProgressView.setTime(0, max: 60)
+        exerciseProgressView.setRepetitions(0, max: 20)
     }
     
     private func start() {
-        progressView.expand()
-        if timer == nil {
-            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "update", userInfo: nil, repeats: true)
-            startTime = NSDate()
-        }
+        if started { return }
+        
+        exerciseProgressView.setTime(0, max: 60)
+        exerciseProgressView.setRepetitions(0, max: 20)
+        exerciseProgressView.setText("")
+
+        started = true
+        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "update", userInfo: nil, repeats: true)
+        startTime = NSDate()
+        tableView.reloadData()
     }
     
     private func stop() {
-        progressView.collapse()
+        if !started { return }
+        
+        started = false
         timer?.invalidate()
-        progressView.setTime(0, max: 60)
-        progressView.setRepetitions(0, max: 20)
-        progressView.setText("")
+        tableView.reloadData()
         timer = nil
     }
     
     func update() -> Void {
         if let elapsed = startTime?.timeIntervalSinceDate(NSDate()) {
             let time = Int(-elapsed) % 60
-            progressView.setTime(time, max: 60)
-            progressView.setRepetitions(time / 3, max: 20)
+
+            #if (arch(i386) || arch(x86_64)) && os(iOS)
+                if time > 10 { stop() }
+            #endif
+
+            exerciseProgressView.setTime(time, max: 60)
+            exerciseProgressView.setRepetitions(time / 3, max: 20)
         }
     }
 
@@ -57,6 +75,21 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
         cell.textLabel?.text = exercise.resistanceExercise.title
         cell.detailTextLabel?.text = "Detail"
         return cell
+    }
+
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if started {
+            return tableView.frame.width
+        }
+        return 212
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if started {
+            return exerciseProgressView
+        } else {
+            return sessionProgressView
+        }
     }
     
     func exerciseEnded() {
@@ -77,20 +110,21 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     
     func exerciseLogged(examples: [MRResistanceExerciseExample]) {
         resistanceExercises = examples.flatMap { $0.correct }
+        sessionProgressView.setResistenceExercises(resistanceExercises)
         stop()
         tableView.reloadData()
     }
     
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
-        progressView.setText("Classified")
+        exerciseProgressView.setText("Classified")
     }
     
     func classificationEstimated(result: [AnyObject]!) {
-        progressView.setText("Estimated")
+        exerciseProgressView.setText("Estimated")
     }
     
     func trainingCompleted(exercise: MRResistanceExercise!, fromData data: NSData!) {
-        progressView.setText("Trained")
+        exerciseProgressView.setText("Trained")
     }
     
 }

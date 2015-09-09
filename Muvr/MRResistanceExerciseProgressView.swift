@@ -24,6 +24,7 @@ class MRResistanceExerciseProgressView : UIView {
         super.init(coder: aDecoder)
         NSBundle.mainBundle().loadNibNamed("MRResistanceExerciseProgressView", owner: self, options: nil)
         addSubview(view)
+        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
         topLabel.text = ""
         bottomLabel.text = ""
     }
@@ -44,29 +45,44 @@ class MRResistanceExerciseProgressView : UIView {
         bottomLabel.text = text
     }
     
-    func expand() {
-        if expanded { return }
-        expanded = true
-
-        self.frame = self.superview!.frame
-        self.layoutIfNeeded()
-        
-        time.progressLineWidth = frame.height / 25
-        repetitions.progressLineWidth = frame.height / 25
-        topLabel.font = UIFont.systemFontOfSize(frame.height / 10, weight: UIFontWeightUltraLight)
+    override var frame: CGRect {
+        didSet {
+            if view != nil {
+                view.frame = self.frame
+                time.progressLineWidth = frame.height / 25
+                repetitions.progressLineWidth = frame.height / 25
+                topLabel.font = UIFont.systemFontOfSize(frame.height / 10, weight: UIFontWeightUltraLight)
+            }
+        }
     }
+
+//    ///
+//    /// Expands the current view to fill the entire width of the screen.
+//    ///
+//    func expand() {
+//        if expanded { return }
+//        expanded = true
+//
+//        let superFrame = superview?.frame ?? UIScreen.mainScreen().bounds
+//        self.frame = CGRectMake(0, 0, superFrame.width, superFrame.width)
+//        self.layoutIfNeeded()
+//        
+//    }
+//    
+//    ///
+//    /// Collapses the current view 
+//    ///
+//    func collapse() {
+//        if !expanded { return }
+//        expanded = false
+//
+//        let superFrame = superview?.frame ?? UIScreen.mainScreen().bounds
+//        self.frame = CGRectMake(0, 0, superFrame.width, superFrame.width / 2)
+//        self.layoutIfNeeded()
+//        
+//        self.topLabel.font = UIFont.systemFontOfSize(self.frame.height / 10, weight: UIFontWeightUltraLight)
+//        self.time.progressLineWidth = frame.height / 25
+//        self.repetitions.progressLineWidth = frame.height / 25
+//    }
     
-    func collapse() {
-        if !expanded { return }
-        expanded = false
-
-        let collapsed = CGRectMake(0, 0, self.frame.width, self.frame.width / 2)
-        self.frame = collapsed
-        self.layoutIfNeeded()
-        
-        self.topLabel.font = UIFont.systemFontOfSize(self.frame.height / 10, weight: UIFontWeightUltraLight)
-        self.time.progressLineWidth = frame.height / 25
-        self.repetitions.progressLineWidth = frame.height / 25
-    }
-        
 }

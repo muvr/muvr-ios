@@ -22,13 +22,19 @@
     return self;
 }
 
-- (instancetype)initWithResistanceExercise:(MRResistanceExercise *)resistanceExercise repetitions:(NSNumber *)repetitions weight:(NSNumber *)weight intensity:(NSNumber *)intensity andConfidence:(double)confidence {
+- (instancetype)initWithResistanceExercise:(MRResistanceExercise *)resistanceExercise
+                               repetitions:(NSNumber *)repetitions
+                                    weight:(NSNumber *)weight
+                                 intensity:(NSNumber *)intensity
+                                      time:(uint)time
+                             andConfidence:(double)confidence {
     self = [super init];
     _resistanceExercise = resistanceExercise;
     _repetitions = repetitions;
     _weight = weight;
     _intensity = intensity;
     _confidence = confidence;
+    _time = time;
     return self;
 }
 

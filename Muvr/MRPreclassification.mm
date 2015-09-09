@@ -15,20 +15,6 @@ using namespace muvr;
 
 INITIALIZE_EASYLOGGINGPP;
 
-@implementation MRClassifiedResistanceExercise (x)
-
-- (instancetype)initWithClassifiedExercise:(muvr::svm_classifier::classified_exercise&)classifiedExercise {
-    NSString *x = [NSString stringWithCString:classifiedExercise.exercise_name().c_str() encoding:[NSString defaultCStringEncoding]];
-    self = [self initWithResistanceExercise:[[MRResistanceExercise alloc] initWithId:x]
-                                repetitions:@(classifiedExercise.repetitions())
-                                     weight:@(classifiedExercise.weight())
-                                  intensity:@(classifiedExercise.intensity())
-                              andConfidence:classifiedExercise.confidence()];
-    return self;
-}
-
-@end
-
 class const_exercise_decider : public exercise_decider {
 public:
     virtual exercise_result has_exercise(const raw_sensor_data& source, state &context) override {

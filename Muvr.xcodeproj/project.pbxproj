@@ -81,6 +81,8 @@
 		543374271AD0111B005864D7 /* String+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374261AD0111B005864D7 /* String+Localisation.swift */; };
 		543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374281AD011A3005864D7 /* MRDeviceSessionDelegate.swift */; };
 		5433742F1AD01345005864D7 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5433742E1AD01345005864D7 /* String+MD5.swift */; };
+		5433DFA31BA0A237000BFE3A /* MRResistanceExerciseSessionProgressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5433DFA21BA0A237000BFE3A /* MRResistanceExerciseSessionProgressView.xib */; };
+		5433DFA51BA0A245000BFE3A /* MRResistanceExerciseSessionProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5433DFA41BA0A245000BFE3A /* MRResistanceExerciseSessionProgressView.swift */; };
 		543ED4831B0DBCCE00D12768 /* MRExerciseSessionStartable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543ED4821B0DBCCE00D12768 /* MRExerciseSessionStartable.swift */; };
 		544201371B93847100354DB7 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 544201361B93847100354DB7 /* ExternalAccessory.framework */; };
 		544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 544201381B9384B500354DB7 /* CoreBluetooth.framework */; };
@@ -227,6 +229,8 @@
 		543374261AD0111B005864D7 /* String+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Localisation.swift"; path = "../Ext/String+Localisation.swift"; sourceTree = "<group>"; };
 		543374281AD011A3005864D7 /* MRDeviceSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDeviceSessionDelegate.swift; sourceTree = "<group>"; };
 		5433742E1AD01345005864D7 /* String+MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+MD5.swift"; path = "../Ext/String+MD5.swift"; sourceTree = "<group>"; };
+		5433DFA21BA0A237000BFE3A /* MRResistanceExerciseSessionProgressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRResistanceExerciseSessionProgressView.xib; sourceTree = "<group>"; };
+		5433DFA41BA0A245000BFE3A /* MRResistanceExerciseSessionProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSessionProgressView.swift; sourceTree = "<group>"; };
 		543ED4821B0DBCCE00D12768 /* MRExerciseSessionStartable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionStartable.swift; sourceTree = "<group>"; };
 		544201361B93847100354DB7 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		544201381B9384B500354DB7 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -572,6 +576,8 @@
 				54B610921AF3C6010034F2DD /* Exercise.storyboard */,
 				544757061B9F34F0001E00BF /* MRResistanceExerciseProgressView.xib */,
 				544757081B9F360C001E00BF /* MRResistanceExerciseProgressView.swift */,
+				5433DFA21BA0A237000BFE3A /* MRResistanceExerciseSessionProgressView.xib */,
+				5433DFA41BA0A245000BFE3A /* MRResistanceExerciseSessionProgressView.swift */,
 			);
 			name = Exercise;
 			sourceTree = "<group>";
@@ -915,6 +921,7 @@
 				54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */,
 				541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */,
 				54F2881C1B00BBAA00E4D591 /* default-exercisemodels.json in Resources */,
+				5433DFA31BA0A237000BFE3A /* MRResistanceExerciseSessionProgressView.xib in Resources */,
 				541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */,
 				5464EBC91AF4E24F00B5317B /* svm-model-bicep_curl-features.scale in Resources */,
 				5464EBCC1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale in Resources */,
@@ -1001,6 +1008,7 @@
 				541ABBA61AC577E00056A81B /* MRExerciseSessionDeviceDataViewController.swift in Sources */,
 				FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */,
 				54CC46521B08E5B6007B739A /* MRPublicProfile.swift in Sources */,
+				5433DFA51BA0A245000BFE3A /* MRResistanceExerciseSessionProgressView.swift in Sources */,
 				5403814C1AEBBE45000C8B15 /* export.cc in Sources */,
 				54DBE36B1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm in Sources */,
 				5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */,

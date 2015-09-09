@@ -25,6 +25,7 @@
                                repetitions:(NSNumber *)repetitions
                                     weight:(NSNumber *)weight
                                  intensity:(NSNumber *)intensity
+                                      time:(uint)time
                              andConfidence:(double)confidence;
 
 @property (readonly) MRResistanceExercise* resistanceExercise;
@@ -36,6 +37,8 @@
 @property (readonly) NSNumber *intensity;
 /// the confidence
 @property (readonly) double confidence;
+/// the time spent exercising in seconds
+@property (readonly) uint time;
 
 @end
 
