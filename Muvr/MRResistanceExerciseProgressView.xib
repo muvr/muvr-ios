@@ -58,12 +58,12 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50 s | 10 r" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sBC-rb-1TB">
-                    <rect key="frame" x="116" y="91" width="182" height="29"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50 s" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sBC-rb-1TB">
+                    <rect key="frame" x="116" y="62" width="182" height="87"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="182" id="neE-oi-7sQ"/>
+                        <constraint firstAttribute="width" constant="182" id="a1Z-CN-fsP"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="35"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -76,21 +76,21 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="KrS-SK-bml" firstAttribute="centerY" secondItem="sBC-rb-1TB" secondAttribute="centerY" id="3VN-7E-kh0"/>
-                <constraint firstItem="sBC-rb-1TB" firstAttribute="trailing" secondItem="5Jt-PC-hbF" secondAttribute="trailing" id="3sP-at-Gdx"/>
-                <constraint firstItem="sBC-rb-1TB" firstAttribute="leading" secondItem="5Jt-PC-hbF" secondAttribute="leading" id="8nZ-CE-btC"/>
-                <constraint firstItem="KrS-SK-bml" firstAttribute="centerX" secondItem="sBC-rb-1TB" secondAttribute="centerX" id="9KD-jW-6g3"/>
-                <constraint firstAttribute="trailing" secondItem="Nll-pu-sXU" secondAttribute="trailing" id="D5Y-04-kY1"/>
-                <constraint firstItem="KrS-SK-bml" firstAttribute="leading" secondItem="qA0-4P-B5y" secondAttribute="leading" constant="34" id="EHE-NH-Ccf"/>
-                <constraint firstItem="5Jt-PC-hbF" firstAttribute="top" secondItem="sBC-rb-1TB" secondAttribute="bottom" constant="62" id="Ple-6h-tTF"/>
-                <constraint firstItem="Nll-pu-sXU" firstAttribute="centerX" secondItem="sBC-rb-1TB" secondAttribute="centerX" id="Vbc-d2-2oH"/>
-                <constraint firstAttribute="bottom" secondItem="5Jt-PC-hbF" secondAttribute="bottom" constant="5" id="fkQ-lX-Sqa"/>
-                <constraint firstAttribute="bottom" secondItem="Nll-pu-sXU" secondAttribute="bottom" id="hIO-O9-rgK"/>
-                <constraint firstItem="sBC-rb-1TB" firstAttribute="top" secondItem="qA0-4P-B5y" secondAttribute="top" constant="91" id="hhd-4h-I1a"/>
-                <constraint firstItem="Nll-pu-sXU" firstAttribute="leading" secondItem="qA0-4P-B5y" secondAttribute="leading" id="lrm-sq-CpG"/>
-                <constraint firstAttribute="bottom" secondItem="KrS-SK-bml" secondAttribute="bottom" constant="18" id="qFr-Ox-rwF"/>
-                <constraint firstItem="Nll-pu-sXU" firstAttribute="top" secondItem="qA0-4P-B5y" secondAttribute="top" id="uQu-7c-2sl"/>
-                <constraint firstItem="KrS-SK-bml" firstAttribute="top" secondItem="qA0-4P-B5y" secondAttribute="top" constant="17" id="x9h-8c-rDE"/>
+                <constraint firstAttribute="bottom" secondItem="5Jt-PC-hbF" secondAttribute="bottom" constant="5" id="5bO-Po-CEu"/>
+                <constraint firstItem="sBC-rb-1TB" firstAttribute="centerY" secondItem="KrS-SK-bml" secondAttribute="centerY" id="5vR-ra-INh"/>
+                <constraint firstItem="sBC-rb-1TB" firstAttribute="centerX" secondItem="Nll-pu-sXU" secondAttribute="centerX" id="9Nb-hm-TXY"/>
+                <constraint firstItem="KrS-SK-bml" firstAttribute="top" secondItem="qA0-4P-B5y" secondAttribute="top" constant="17" id="H5i-VP-zX5"/>
+                <constraint firstItem="Nll-pu-sXU" firstAttribute="top" secondItem="qA0-4P-B5y" secondAttribute="top" id="UzR-ff-uVg"/>
+                <constraint firstItem="sBC-rb-1TB" firstAttribute="top" secondItem="qA0-4P-B5y" secondAttribute="top" constant="62" id="WJ1-Ho-gLw"/>
+                <constraint firstAttribute="bottom" secondItem="Nll-pu-sXU" secondAttribute="bottom" id="ZcY-Dz-9pi"/>
+                <constraint firstItem="KrS-SK-bml" firstAttribute="centerX" secondItem="sBC-rb-1TB" secondAttribute="centerX" id="btt-QF-Rjc"/>
+                <constraint firstItem="Nll-pu-sXU" firstAttribute="leading" secondItem="qA0-4P-B5y" secondAttribute="leading" id="dMM-r3-S9o"/>
+                <constraint firstItem="5Jt-PC-hbF" firstAttribute="top" secondItem="sBC-rb-1TB" secondAttribute="bottom" constant="33" id="dmv-bW-3fY"/>
+                <constraint firstAttribute="trailing" secondItem="Nll-pu-sXU" secondAttribute="trailing" id="exy-6Z-1qd"/>
+                <constraint firstItem="5Jt-PC-hbF" firstAttribute="trailing" secondItem="sBC-rb-1TB" secondAttribute="trailing" id="kkE-ww-MMN"/>
+                <constraint firstItem="KrS-SK-bml" firstAttribute="leading" secondItem="qA0-4P-B5y" secondAttribute="leading" constant="34" id="mtS-NO-3Xv"/>
+                <constraint firstItem="sBC-rb-1TB" firstAttribute="leading" secondItem="5Jt-PC-hbF" secondAttribute="leading" id="nMG-jd-8OA"/>
+                <constraint firstAttribute="bottom" secondItem="KrS-SK-bml" secondAttribute="bottom" constant="18" id="zQ0-YE-XfZ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="478" y="-71"/>
