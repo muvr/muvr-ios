@@ -44,11 +44,14 @@ class MRResistanceExerciseProgressView : UIView {
         bottomLabel.text = text
     }
     
+    ///
+    ///
+    ///
     func expand() {
         if expanded { return }
         expanded = true
 
-        self.frame = self.superview!.frame
+        self.frame = CGRectMake(0, 0, self.superview!.frame.width, self.superview!.frame.width)
         self.layoutIfNeeded()
         
         time.progressLineWidth = frame.height / 25
