@@ -76,8 +76,6 @@ public:
     classifier = [[MRMultilayerPerceptron alloc] initWithModel:model];
     repetitionEstimator = [[MRRepetitionEstimator alloc] init];
     
-    [repetitionEstimator foo];
-    
     return self;
 }
 

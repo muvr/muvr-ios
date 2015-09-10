@@ -157,9 +157,7 @@
 		791024C419A5636E8BA52C85 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3AA10F80ED661B9AC5A823 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		9D3037971B94F69700426C70 /* MRMultilayerPerceptron.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
-		9DF2EF4A1BA16BBC007794CF /* MRRepetitionsEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF2EF491BA16BBC007794CF /* MRRepetitionsEstimator.swift */; };
 		9DF2EF4D1BA17034007794CF /* MRRepetitionsEstimatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF2EF4C1BA17034007794CF /* MRRepetitionsEstimatorTests.swift */; };
-		9DF2EF4E1BA17192007794CF /* MRRepetitionsEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF2EF491BA16BBC007794CF /* MRRepetitionsEstimator.swift */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 		FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */; };
 		FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705E1AEA6CC900829357 /* svm_classifier.cc */; };
@@ -338,7 +336,6 @@
 		9D3037951B94F67100426C70 /* MRMultilayerPerceptron.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRMultilayerPerceptron.h; sourceTree = "<group>"; };
 		9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRMultilayerPerceptron.mm; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
-		9DF2EF491BA16BBC007794CF /* MRRepetitionsEstimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRRepetitionsEstimator.swift; sourceTree = "<group>"; };
 		9DF2EF4C1BA17034007794CF /* MRRepetitionsEstimatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRRepetitionsEstimatorTests.swift; sourceTree = "<group>"; };
 		A04E9B04EE1C27607A68F65A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -474,7 +471,6 @@
 		541ABBA01AC577E00056A81B /* Muvr */ = {
 			isa = PBXGroup;
 			children = (
-				9DF2EF461BA0F024007794CF /* Repetitions */,
 				9D30379B1B95CCC500426C70 /* Models.bundle */,
 				9D3037921B94F61200426C70 /* Classification */,
 				54005C901B0755D800BF0732 /* ApplicationState */,
@@ -791,14 +787,6 @@
 			name = Classification;
 			sourceTree = "<group>";
 		};
-		9DF2EF461BA0F024007794CF /* Repetitions */ = {
-			isa = PBXGroup;
-			children = (
-				9DF2EF491BA16BBC007794CF /* MRRepetitionsEstimator.swift */,
-			);
-			name = Repetitions;
-			sourceTree = "<group>";
-		};
 		9DF2EF4B1BA1701C007794CF /* Repetitions */ = {
 			isa = PBXGroup;
 			children = (
@@ -1050,7 +1038,6 @@
 				54F2881E1B00BD0100E4D591 /* MRExerciseModel+Localisation.swift in Sources */,
 				54BF09151B9B74F300A3E6C7 /* MRExerciseModel+ModelParameters.swift in Sources */,
 				54820DFB1AF2895100E3AEC2 /* MRLoginViewController.swift in Sources */,
-				9DF2EF4A1BA16BBC007794CF /* MRRepetitionsEstimator.swift in Sources */,
 				5464EBBF1AF4E1FD00B5317B /* classifier_loader.cc in Sources */,
 				5410C8291B9DC578005C57C1 /* MRClassifiedResistanceExercise.m in Sources */,
 				54CC46581B08E691007B739A /* MRExercisingApplicationState.swift in Sources */,
@@ -1130,7 +1117,6 @@
 				5410C8371B9DCA64005C57C1 /* SwiftyJSON.swift in Sources */,
 				5410C8431B9DCB0C005C57C1 /* NSDate+DateUtils.swift in Sources */,
 				5410C8401B9DCAFF005C57C1 /* Operators.swift in Sources */,
-				9DF2EF4E1BA17192007794CF /* MRRepetitionsEstimator.swift in Sources */,
 				5410C8271B9DC451005C57C1 /* MRMode.swift in Sources */,
 				5410C81D1B9DC451005C57C1 /* MRResistanceExerciseExample.swift in Sources */,
 				5410C8221B9DC451005C57C1 /* MRExerciseModel+ModelParameters.swift in Sources */,
