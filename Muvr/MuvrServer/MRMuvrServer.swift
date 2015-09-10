@@ -49,6 +49,7 @@ extension Request {
                     // we have a valid response
                     let statusCodeFamily = x.statusCode / 100
                     if statusCodeFamily == 1 || statusCodeFamily == 2 || statusCodeFamily == 3 {
+                        NSLog("2xx %@ -> %@", request.show(), x)
                         // 1xx, 2xx, 3xx responses are success responses
                         let val = completionHandler(json)
                         f(Result.value(val))

@@ -34,21 +34,36 @@ extension Request {
     - returns: The request.
     */
     public func responseSwiftyJSON(queue: dispatch_queue_t? = nil, options: NSJSONReadingOptions = .AllowFragments, completionHandler: (NSURLRequest, NSHTTPURLResponse?, JSON, NSError?) -> Void) -> Self {
-        return response(completionHandler:  { (request, response, object, error) -> Void in
-
+        return response(responseSerializer: Request.JSONResponseSerializer(options: options)) { (request, response, object) -> Void in
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                
                 var responseJSON: JSON
-                if error != nil || object == nil {
+
+                if object.isFailure {
                     responseJSON = JSON.nullJSON
                 } else {
-                    responseJSON = JSON(object!)
+                    responseJSON = JSON(object.value!)
                 }
-                
                 dispatch_async(queue ?? dispatch_get_main_queue(), {
                     completionHandler(self.request!, self.response, responseJSON, nil)
                 })
             })
-        })
+            
+        }
+//        return response(completionHandler:  { (request, response, object, error) -> Void in
+//            
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+//                
+//                var responseJSON: JSON
+//                if error != nil || object == nil {
+//                    print(error)
+//                    responseJSON = JSON.nullJSON
+//                } else {
+//                    responseJSON = JSON(object!)
+//                }
+//                dispatch_async(queue ?? dispatch_get_main_queue(), {
+//                    completionHandler(self.request!, self.response, responseJSON, nil)
+//                })
+//            })
+//        })
     }
 }

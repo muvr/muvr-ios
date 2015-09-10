@@ -206,7 +206,11 @@ struct MRDataModel {
 
         /// sets the server id value
         static func setSynchronised(id: NSUUID, serverId: NSUUID) -> Void {
-            MRDataModel.resistanceExerciseSessions.filter(MRDataModel.rowId == id).update(MRDataModel.serverId <- serverId)
+            do {
+                try database.run(MRDataModel.resistanceExerciseSessions.filter(MRDataModel.rowId == id).update(MRDataModel.serverId <- serverId))
+            } catch {
+                // pokemon!
+            }
         }
 
         /// Inserts a new ``session`` with the given row ``id``
