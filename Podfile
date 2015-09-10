@@ -4,7 +4,7 @@ use_frameworks!
 
 # TODO: When 2.4.11 is available, use it. Until then, skil 2.4.10; viz http://code.opencv.org/issues/4052
 pod 'OpenCV', '2.4.9'
-pod 'Alamofire'
+pod 'Alamofire', '1.3.1'
 pod 'Charts'
 pod 'JTCalendar', '~> 2'
 pod 'Reachability'
