@@ -55,34 +55,5 @@ class MRResistanceExerciseProgressView : UIView {
             }
         }
     }
-
-//    ///
-//    /// Expands the current view to fill the entire width of the screen.
-//    ///
-//    func expand() {
-//        if expanded { return }
-//        expanded = true
-//
-//        let superFrame = superview?.frame ?? UIScreen.mainScreen().bounds
-//        self.frame = CGRectMake(0, 0, superFrame.width, superFrame.width)
-//        self.layoutIfNeeded()
-//        
-//    }
-//    
-//    ///
-//    /// Collapses the current view 
-//    ///
-//    func collapse() {
-//        if !expanded { return }
-//        expanded = false
-//
-//        let superFrame = superview?.frame ?? UIScreen.mainScreen().bounds
-//        self.frame = CGRectMake(0, 0, superFrame.width, superFrame.width / 2)
-//        self.layoutIfNeeded()
-//        
-//        self.topLabel.font = UIFont.systemFontOfSize(self.frame.height / 10, weight: UIFontWeightUltraLight)
-//        self.time.progressLineWidth = frame.height / 25
-//        self.repetitions.progressLineWidth = frame.height / 25
-//    }
     
 }

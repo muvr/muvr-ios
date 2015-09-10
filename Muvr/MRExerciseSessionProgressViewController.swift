@@ -1,7 +1,7 @@
 import Foundation
 
 class MRExerciseSessionProgressViewController : UIViewController, UITableViewDelegate, UITableViewDataSource,
-    MRExerciseBlockDelegate, MRExercisingApplicationStateDelegate, MRClassificationPipelineDelegate, MRTrainingPipelineDelegate {
+    MRExerciseBlockDelegate, MRExercisingApplicationStateDelegate, MRClassificationPipelineDelegate, MRTrainingPipelineDelegate, MRDeviceDataDelegate {
     static let storyboardId: String = "MRExerciseSessionProgressViewController"
     private var resistanceExercises: [MRClassifiedResistanceExercise] = {
         #if (arch(i386) || arch(x86_64)) && os(iOS)
@@ -18,6 +18,7 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     private var started: Bool = false
     private var timer: NSTimer?
     private var startTime: NSDate?
+    private var collectedData: [[Double]] = [[], [], []]
     
     required init?(coder aDecoder: NSCoder) {
         sessionProgressView = MRResistanceExerciseSessionProgressView(coder: aDecoder)!
@@ -38,6 +39,7 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
         exerciseProgressView.setText("")
 
         started = true
+        collectedData = [[], [], []]
         timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "update", userInfo: nil, repeats: true)
         startTime = NSDate()
         tableView.reloadData()
@@ -55,13 +57,11 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     func update() -> Void {
         if let elapsed = startTime?.timeIntervalSinceDate(NSDate()) {
             let time = Int(-elapsed) % 60
-
             #if (arch(i386) || arch(x86_64)) && os(iOS)
                 if time > 10 { stop() }
             #endif
 
             exerciseProgressView.setTime(time, max: 60)
-            exerciseProgressView.setRepetitions(time / 3, max: 20)
         }
     }
 
@@ -90,6 +90,25 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
         } else {
             return sessionProgressView
         }
+    }
+    
+    func deviceDataDecoded3D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+        let threed = rows as! [Threed]
+        for e in threed {
+            collectedData[0].append(Double(e.x))
+            collectedData[1].append(Double(e.y))
+            collectedData[2].append(Double(e.z))
+        }
+        
+        let estimator = MRRepetitionsEstimator()
+        let repetitions = estimator.numberOfRepetitions(collectedData) ?? 0
+        if(exerciseProgressView.repetitions.value < CGFloat(repetitions)){
+            exerciseProgressView.setRepetitions(repetitions, max: 20)
+        }
+    }
+    
+    func deviceDataDecoded1D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+        // TODO: not implemented
     }
     
     func exerciseEnded() {
