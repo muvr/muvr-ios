@@ -12,7 +12,7 @@ struct MRApplicationState {
     
     static var deviceToken: NSData?
     
-    static let anonymousUserId: MRUserId = UIDevice.currentDevice().identifierForVendor
+    static let anonymousUserId: MRUserId = UIDevice.currentDevice().identifierForVendor!
     
     private static var loggedInStateInstance: MRLoggedInApplicationState? = nil
     
@@ -42,7 +42,7 @@ struct MRApplicationState {
     }
 
     /// Logs in the user with the given email and password
-    static func login(#email: String, password: String, f: Result<MRLoggedInApplicationState> -> Void) -> Void {
+    static func login(email email: String, password: String, f: Result<MRLoggedInApplicationState> -> Void) -> Void {
         MRMuvrServer.sharedInstance.apply(MRMuvrServerURLs.UserLogin(),
             body: MRMuvrServer.Body.Json(params: ["email": email, "password": password]),
             unmarshaller: MRUserId.unmarshal,
@@ -50,7 +50,7 @@ struct MRApplicationState {
     }
 
     /// Registers a new user with the given username and password
-    static func register(#email: String, password: String, f: Result<MRLoggedInApplicationState> -> Void) -> Void {
+    static func register(email email: String, password: String, f: Result<MRLoggedInApplicationState> -> Void) -> Void {
         MRMuvrServer.sharedInstance.apply(MRMuvrServerURLs.UserRegister(),
             body: MRMuvrServer.Body.Json(params: ["email": email, "password": password]),
             unmarshaller: MRUserId.unmarshal,

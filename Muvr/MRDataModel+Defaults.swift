@@ -15,7 +15,7 @@ extension MRDataModel {
             if let data = NSData(contentsOfFile: x) {
                 NSLog("Loading data from json file %@", x)
                 // NSLog("%@", NSString(data: data, encoding: NSUTF8StringEncoding)!)
-                if let jo: AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) {
+                if let jo: AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) {
                     return (l, JSON(jo).arrayValue.map(unmarshal))
                 }
             }

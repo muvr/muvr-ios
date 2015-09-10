@@ -1,7 +1,7 @@
 import Foundation
 
 class MRExerciseSessionProgressViewController : UIViewController, UITableViewDelegate, UITableViewDataSource,
-    MRExerciseBlockDelegate, MRExercisingApplicationStateDelegate, MRClassificationPipelineDelegate, MRTrainingPipelineDelegate {
+    MRExerciseBlockDelegate, MRExercisingApplicationStateDelegate, MRClassificationPipelineDelegate, MRTrainingPipelineDelegate, MRDeviceDataDelegate {
     static let storyboardId: String = "MRExerciseSessionProgressViewController"
     private var resistanceExercises: [MRClassifiedResistanceExercise] = {
         #if (arch(i386) || arch(x86_64)) && os(iOS)
@@ -19,9 +19,9 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     private var timer: NSTimer?
     private var startTime: NSDate?
     
-    required init(coder aDecoder: NSCoder) {
-        sessionProgressView = MRResistanceExerciseSessionProgressView(coder: aDecoder)
-        exerciseProgressView = MRResistanceExerciseProgressView(coder: aDecoder)
+    required init?(coder aDecoder: NSCoder) {
+        sessionProgressView = MRResistanceExerciseSessionProgressView(coder: aDecoder)!
+        exerciseProgressView = MRResistanceExerciseProgressView(coder: aDecoder)!
         super.init(coder: aDecoder)
     }
     
@@ -55,13 +55,11 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     func update() -> Void {
         if let elapsed = startTime?.timeIntervalSinceDate(NSDate()) {
             let time = Int(-elapsed) % 60
-
             #if (arch(i386) || arch(x86_64)) && os(iOS)
                 if time > 10 { stop() }
             #endif
 
             exerciseProgressView.setTime(time, max: 60)
-            exerciseProgressView.setRepetitions(time / 3, max: 20)
         }
     }
 
@@ -71,7 +69,7 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let exercise = resistanceExercises[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("resistanceExercise") as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("resistanceExercise") as UITableViewCell!
         cell.textLabel?.text = exercise.resistanceExercise.title
         cell.detailTextLabel?.text = "Detail"
         return cell
@@ -90,6 +88,13 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
         } else {
             return sessionProgressView
         }
+    }
+    
+    func deviceDataDecoded3D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+    }
+    
+    func deviceDataDecoded1D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+        // TODO: not implemented
     }
     
     func exerciseEnded() {
@@ -122,6 +127,13 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     func classificationEstimated(result: [AnyObject]!) {
         exerciseProgressView.setText("Estimated")
     }
+    
+    func repetitionsEstimated(repetitions: uint) {
+        if (exerciseProgressView.repetitions.value < CGFloat(repetitions)) {
+            exerciseProgressView.setRepetitions(Int(repetitions), max: 20)
+        }
+    }
+    
     
     func trainingCompleted(exercise: MRResistanceExercise!, fromData data: NSData!) {
         exerciseProgressView.setText("Trained")

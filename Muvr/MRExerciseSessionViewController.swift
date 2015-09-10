@@ -70,7 +70,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
             let origin = CGPoint(x: navBarSize.width / 2, y: navBarSize.height / 2 + navBarSize.height / 4)
             pageControl = UIPageControl(frame: CGRect(x: origin.x, y: origin.y, width: 0, height: 0))
             pageControl!.numberOfPages = pageViewControllers.count
-            pageControl!.autoresizingMask = UIViewAutoresizing.FlexibleLeftMargin | UIViewAutoresizing.FlexibleRightMargin
+            pageControl!.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin]
             nc.navigationBar.addSubview(pageControl!)
         }
         
@@ -171,8 +171,8 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     // MARK: UIPageViewControllerDelegate
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
-        if let x = (pageViewControllers.indexOf { $0 === pageViewController.viewControllers.first! }) {
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if let x = (pageViewControllers.indexOf { $0 === pageViewController.viewControllers!.first! }) {
             pageControl?.currentPage = x
         }
     }
@@ -277,6 +277,10 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     func classificationEstimated(result: [AnyObject]!) {
         if let x: MRClassificationPipelineDelegate = currentPageViewController() { x.classificationEstimated(result) }
+    }
+    
+    func repetitionsEstimated(repetitions: uint) {
+        if let x: MRClassificationPipelineDelegate = currentPageViewController() { x.repetitionsEstimated(repetitions) }
     }
     
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {

@@ -8,6 +8,7 @@
 #import "MuvrPreclassification/include/export.h"
 #import "MuvrPreclassification/include/ensemble_classifier.h"
 #import "MRMultilayerPerceptron.h"
+#import "MRRepetitionEstimator.h"
 
 using namespace muvr;
 
@@ -54,7 +55,7 @@ public:
     std::unique_ptr<sensor_data_fuser> fuser;
     
     MRResistanceExercise *trainingExercise;
-    
+    MRRepetitionEstimator *repetitionEstimator;
     MRMultilayerPerceptron * classifier;
 }
 
@@ -73,6 +74,8 @@ public:
     fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(movementDecider, exerciseDecider));
     
     classifier = [[MRMultilayerPerceptron alloc] initWithModel:model];
+    repetitionEstimator = [[MRRepetitionEstimator alloc] init];
+    
     return self;
 }
 
@@ -144,6 +147,12 @@ public:
         }
         
         // TODO: Put classification right here using windows of fused data
+        
+        if (self.classificationPipelineDelegate != nil) {
+            auto fusedSoFar = fuser->buffer();
+            auto repetitions = [repetitionEstimator estimate:fusedSoFar.fused_exercise_data()];
+            [self.classificationPipelineDelegate repetitionsEstimated:repetitions];
+        }
     } catch (std::exception &ex) {
         std::cerr << ex.what() << std::endl;
     } catch (...) {
@@ -155,7 +164,8 @@ public:
     if (self.classificationPipelineDelegate == nil) return;
     assert(trainingExercise == nil); // "trainingExercise == nil failed. [trainingStarted:] not caled.");
     
-    auto result = fuser->completed();
+    auto result = fuser->buffer();
+    fuser->clear();
     NSData *data = [self formatFusedSensorData:result];
     
     // --- Move classification to pushBack
@@ -167,7 +177,8 @@ public:
     if (self.trainingPipelineDelegate == nil) return;
     assert(trainingExercise != nil); // "trainingExercise != nil failed. [trainingStarted:] not caled.");
     
-    auto result = fuser->completed();
+    auto result = fuser->buffer();
+    fuser->clear();
     NSData *data = [self formatFusedSensorData:result];
     
     // --- End classification

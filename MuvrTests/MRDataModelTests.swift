@@ -6,7 +6,7 @@ class MRDataModelTests: XCTestCase {
     /// Generates random string of the given ``length``
     private func randomString(length: Int) -> String {
         let charSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        var c = Array(charSet)
+        var c = Array(charSet.characters)
         var s: String = ""
         for n in (1...length) {
             let randomIndex = Int(arc4random_uniform(UInt32(c.count)))

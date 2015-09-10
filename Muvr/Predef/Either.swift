@@ -101,7 +101,7 @@ public func <*><L, RA, RB>(f: Either<L, RA -> RB>, a: Either<L, RA>) -> Either<L
     switch (a, f) {
     case let (.Left(l), _):
         return .Left(l)
-    case let (.Right(r), .Left(m)):
+    case let (.Right(_), .Left(m)):
         return .Left(m)
     case let (.Right(r), .Right(g)):
         return Either<L, RB>.Right(Box(g.value(r.value)))

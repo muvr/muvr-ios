@@ -3,7 +3,7 @@ import Charts
 
 class MRResistanceExerciseIntensityView : BarChartView {
     
-    private class func colorFor(#intensity: NSNumber) -> UIColor {
+    private class func colorFor(intensity intensity: NSNumber) -> UIColor {
         if intensity <= 0.3 {
             // very light -> #59ABE3
             // was return UIColor.grayColor()
@@ -31,7 +31,7 @@ class MRResistanceExerciseIntensityView : BarChartView {
     }
 
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         legend.enabled = false
         leftAxis.enabled = false
         rightAxis.enabled = false

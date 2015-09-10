@@ -123,6 +123,7 @@
 		548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 548225531AC57A3500EEEFCB /* MRPreclassification.mm */; };
 		5488F39D1AFF8C960086BF7B /* exercise_plan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5488F39B1AFF8C960086BF7B /* exercise_plan.cc */; };
 		5488F39E1AFF8C960086BF7B /* simple_exercise_plan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5488F39C1AFF8C960086BF7B /* simple_exercise_plan.cc */; };
+		54A1A1C91BA1DCD500C2EFEB /* MRRepetitionEstimator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54A1A1C81BA1DCD500C2EFEB /* MRRepetitionEstimator.mm */; settings = {ASSET_TAGS = (); }; };
 		54B610851AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610841AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift */; };
 		54B610871AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610861AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift */; };
 		54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */; };
@@ -142,6 +143,7 @@
 		54D527611B94D79F00B56719 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D5275B1B94D79F00B56719 /* SQLite.framework */; };
 		54D527621B94D79F00B56719 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D5275C1B94D79F00B56719 /* sqlite3.framework */; };
 		54DBE36B1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54DBE36A1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm */; };
+		54E3A21E1BA21482001D9EA5 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E3A21D1BA21482001D9EA5 /* Pods.framework */; };
 		54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */; };
 		54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC361AC57E8D0061EC5D /* exercise_decider.cc */; };
 		54F0DC531AC57E8D0061EC5D /* kalman_smooth.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC371AC57E8D0061EC5D /* kalman_smooth.cc */; };
@@ -155,6 +157,7 @@
 		791024C419A5636E8BA52C85 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3AA10F80ED661B9AC5A823 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		9D3037971B94F69700426C70 /* MRMultilayerPerceptron.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
+		9DF2EF4D1BA17034007794CF /* MRRepetitionsEstimatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF2EF4C1BA17034007794CF /* MRRepetitionsEstimatorTests.swift */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 		FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */; };
 		FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705E1AEA6CC900829357 /* svm_classifier.cc */; };
@@ -279,6 +282,8 @@
 		5488F39B1AFF8C960086BF7B /* exercise_plan.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = exercise_plan.cc; path = "../../../../../muvr-preclassification/core/main/cc/exercise_plan.cc"; sourceTree = "<group>"; };
 		5488F39C1AFF8C960086BF7B /* simple_exercise_plan.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = simple_exercise_plan.cc; path = "../../../../../muvr-preclassification/core/main/cc/simple_exercise_plan.cc"; sourceTree = "<group>"; };
 		5488F39F1AFF8CA00086BF7B /* exercise_plan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = exercise_plan.h; path = "../../../../muvr-preclassification/core/include/exercise_plan.h"; sourceTree = "<group>"; };
+		54A1A1C81BA1DCD500C2EFEB /* MRRepetitionEstimator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRRepetitionEstimator.mm; sourceTree = "<group>"; };
+		54A1A1CA1BA1DCE000C2EFEB /* MRRepetitionEstimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRRepetitionEstimator.h; sourceTree = "<group>"; };
 		54B610841AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSetIntensityView.swift; sourceTree = "<group>"; };
 		54B610861AF3B7A80034F2DD /* MRResistanceExerciseSetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSetTableViewCell.swift; sourceTree = "<group>"; };
 		54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSession.swift; sourceTree = "<group>"; };
@@ -300,6 +305,7 @@
 		54D5275C1B94D79F00B56719 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = "Pods/../build/Debug-iphoneos/sqlite3.framework"; sourceTree = "<group>"; };
 		54DBE3691B05DABA00BD76CD /* MRPreclassificationScaffolding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRPreclassificationScaffolding.h; sourceTree = "<group>"; };
 		54DBE36A1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRPreclassificationScaffolding.mm; sourceTree = "<group>"; };
+		54E3A21D1BA21482001D9EA5 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		54F0DC251AC57E8D0061EC5D /* device_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data.h; sourceTree = "<group>"; };
 		54F0DC261AC57E8D0061EC5D /* device_data_decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data_decoder.h; sourceTree = "<group>"; };
@@ -330,6 +336,7 @@
 		9D3037951B94F67100426C70 /* MRMultilayerPerceptron.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRMultilayerPerceptron.h; sourceTree = "<group>"; };
 		9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRMultilayerPerceptron.mm; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
+		9DF2EF4C1BA17034007794CF /* MRRepetitionsEstimatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRRepetitionsEstimatorTests.swift; sourceTree = "<group>"; };
 		A04E9B04EE1C27607A68F65A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRUserDefaults.swift; sourceTree = "<group>"; };
@@ -371,6 +378,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54E3A21E1BA21482001D9EA5 /* Pods.framework in Frameworks */,
 				5410C8441B9DCB30005C57C1 /* MobileCoreServices.framework in Frameworks */,
 				5410C8301B9DC9EA005C57C1 /* Alamofire.framework in Frameworks */,
 				5410C8311B9DC9EA005C57C1 /* MLPNeuralNet.framework in Frameworks */,
@@ -385,6 +393,7 @@
 		288CCE5D5AB7F6FBE827B7C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				54E3A21D1BA21482001D9EA5 /* Pods.framework */,
 				5410C8341B9DCA09005C57C1 /* Pods.framework */,
 				5410C82C1B9DC9EA005C57C1 /* Alamofire.framework */,
 				5410C82D1B9DC9EA005C57C1 /* MLPNeuralNet.framework */,
@@ -503,6 +512,7 @@
 		541ABBB61AC577E00056A81B /* MuvrTests */ = {
 			isa = PBXGroup;
 			children = (
+				9DF2EF4B1BA1701C007794CF /* Repetitions */,
 				541ABBB91AC577E00056A81B /* MuvrTests.swift */,
 				546241151B9DBA3700339998 /* DataModel */,
 				541ABBB71AC577E00056A81B /* Supporting Files */,
@@ -771,8 +781,18 @@
 				54BF09131B9B736900A3E6C7 /* MRModelParameters.h */,
 				5410C8281B9DC578005C57C1 /* MRClassifiedResistanceExercise.m */,
 				5410C82A1B9DC59A005C57C1 /* MRClassifiedResistanceExercise.h */,
+				54A1A1C81BA1DCD500C2EFEB /* MRRepetitionEstimator.mm */,
+				54A1A1CA1BA1DCE000C2EFEB /* MRRepetitionEstimator.h */,
 			);
 			name = Classification;
+			sourceTree = "<group>";
+		};
+		9DF2EF4B1BA1701C007794CF /* Repetitions */ = {
+			isa = PBXGroup;
+			children = (
+				9DF2EF4C1BA17034007794CF /* MRRepetitionsEstimatorTests.swift */,
+			);
+			name = Repetitions;
 			sourceTree = "<group>";
 		};
 		FC39706A1AEA78E200829357 /* config */ = {
@@ -865,7 +885,9 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MR;
-				LastUpgradeCheck = 0620;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Muvr;
 				TargetAttributes = {
 					541ABB9D1AC577E00056A81B = {
@@ -1058,6 +1080,7 @@
 				54005C9E1B07D43100BF0732 /* MRProfileViewController.swift in Sources */,
 				540381611AED2F85000C8B15 /* MRResistanceExerciseExample.swift in Sources */,
 				54820DF91AF2811300E3AEC2 /* MRApplicationState.swift in Sources */,
+				54A1A1C91BA1DCD500C2EFEB /* MRRepetitionEstimator.mm in Sources */,
 				5455E7241AFA2D440049BB6B /* MRDataModel+DD.swift in Sources */,
 				FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */,
 				542AB2191ACC4FD100F20299 /* symbolic_aggregate_approximation.cc in Sources */,
@@ -1101,6 +1124,7 @@
 				5410C8391B9DCAFF005C57C1 /* NSError+Convenience.swift in Sources */,
 				5410C83C1B9DCAFF005C57C1 /* Array.swift in Sources */,
 				5410C8381B9DCAD3005C57C1 /* MRModelParameters.m in Sources */,
+				9DF2EF4D1BA17034007794CF /* MRRepetitionsEstimatorTests.swift in Sources */,
 				5410C83B1B9DCAFF005C57C1 /* String+Localisation.swift in Sources */,
 				5410C8361B9DCA64005C57C1 /* Alamofire+SwiftyJSON.swift in Sources */,
 				5410C81C1B9DC44A005C57C1 /* NSDate+Marshalling.swift in Sources */,
@@ -1181,6 +1205,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1195,7 +1220,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1231,7 +1256,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -1247,13 +1272,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Muvr/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1311,6 +1336,7 @@
 					"\"MessageUI\"",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.muvr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Muvr/Muvr-Bridging-Header.h";
@@ -1327,13 +1353,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Muvr/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1391,6 +1417,7 @@
 					"\"MessageUI\"",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.muvr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Muvr/Muvr-Bridging-Header.h";
@@ -1409,9 +1436,11 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"COCOAPODS=1",
 				);
 				INFOPLIST_FILE = MuvrTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.muvr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MuvrTests/MuvrTests-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Muvr.app/Muvr";
@@ -1427,8 +1456,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = "COCOAPODS=1";
 				INFOPLIST_FILE = MuvrTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.muvr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MuvrTests/MuvrTests-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Muvr.app/Muvr";

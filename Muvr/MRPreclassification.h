@@ -83,6 +83,11 @@
 ///
 - (void)classificationEstimated:(NSArray *)result;
 
+///
+/// Called when the classifier has estimated the number of repetitions.
+///
+- (void)repetitionsEstimated:(uint)repetitions;
+
 @end
 
 ///

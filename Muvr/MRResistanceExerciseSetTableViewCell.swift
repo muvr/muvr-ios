@@ -3,7 +3,7 @@ import Foundation
 class MRResistanceExerciseTableViewCell : UITableViewCell {
     @IBOutlet var title: UILabel!
     @IBOutlet var detail: UILabel!
-    @IBOutlet var chart: MRResistanceExerciseIntensityView!
+    var chart: MRResistanceExerciseIntensityView!
     
     private struct Consts {
         static let dateFormatter: NSDateFormatter = {

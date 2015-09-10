@@ -16,7 +16,7 @@ struct MRExerciseSessionUserClassification {
     
     init(session: MRResistanceExerciseSession, data: NSData, result: [AnyObject]) {
         let rd = result as! [MRClassifiedResistanceExercise]
-        self.classified = rd.sorted { x, y in return x.confidence > y.confidence }
+        self.classified = rd.sort { x, y in return x.confidence > y.confidence }
         // TODO: Fixme
         self.other = []
         self.data = data

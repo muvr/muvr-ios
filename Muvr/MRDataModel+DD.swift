@@ -6,25 +6,25 @@ import SQLite
 ///
 extension MRDataModel.MRResistanceExerciseSessionDataModel {
     
-    private static func createExamples(t: SchemaBuilder) -> Void {
+    private static func createExamples(t: TableBuilder) -> Void {
         let fk = MRDataModel.resistanceExerciseSessions.namespace(MRDataModel.rowId)
         t.column(MRDataModel.rowId, primaryKey: true)
         t.column(sessionId)
         t.column(MRDataModel.json)
-        
-        t.foreignKey(sessionId, references: fk, update: SchemaBuilder.Dependency.Restrict, delete: SchemaBuilder.Dependency.Cascade)
+
+        //t.foreignKey(sessionId, references: fk, update: TableBuilder.Dependency.Restrict, delete: TableBuilder.Dependency.Cascade)
     }
     
-    private static func createExamplesData(t: SchemaBuilder) -> Void {
+    private static func createExamplesData(t: TableBuilder) -> Void {
         let fk = MRDataModel.resistanceExerciseExamples.namespace(MRDataModel.rowId)
         t.column(MRDataModel.rowId, primaryKey: true)
         t.column(exampleId)
         t.column(fusedSensorData)
         
-        t.foreignKey(exampleId, references: fk, update: SchemaBuilder.Dependency.Restrict, delete: SchemaBuilder.Dependency.Cascade)
+        //t.foreignKey(exampleId, references: fk, update: TableBuilder.Dependency.Restrict, delete: TableBuilder.Dependency.Cascade)
     }
 
-    private static func create(t: SchemaBuilder) -> Void {
+    private static func create(t: TableBuilder) -> Void {
         t.column(MRDataModel.rowId, primaryKey: true)
         t.column(MRDataModel.serverId)
         t.column(MRDataModel.timestamp)
@@ -39,7 +39,7 @@ extension MRDataModel.MRResistanceExerciseSessionDataModel {
 ///
 extension MRDataModel.MRExerciseModelDataModel {
     
-    private static func create(t: SchemaBuilder) -> Void {
+    private static func create(t: TableBuilder) -> Void {
         t.column(MRDataModel.json)
     }
     
@@ -47,7 +47,7 @@ extension MRDataModel.MRExerciseModelDataModel {
 
 extension MRDataModel.MRExerciseDataModel {
 
-    private static func create(t: SchemaBuilder) -> Void {
+    private static func create(t: TableBuilder) -> Void {
         t.column(MRDataModel.locid)
         t.column(MRDataModel.MRExerciseDataModel.exerciseId)
         t.column(MRDataModel.MRExerciseDataModel.title)
@@ -70,28 +70,39 @@ extension MRDataModel {
         let dictionary = NSBundle.mainBundle().infoDictionary!
         let version = dictionary["CFBundleShortVersionString"] as! String
         
-        let nums = split(version) { $0 == "." }
+        let nums = version.characters.split { $0 == "." }.map { String($0) }
         assert(nums.count == 2)
         
-        return 10 * nums[0].toInt()! + nums[1].toInt()!
+        return 10 * Int(nums[0])! + Int(nums[1])!
     }
     
     internal static func create() -> CreateResult {
         func create() {
-            database.create(table: resistanceExerciseSessions,    temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.create)
-            database.create(table: resistanceExerciseExamples,    temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.createExamples)
-            database.create(table: resistanceExerciseExamplesData,temporary: false, ifNotExists: true, MRDataModel.MRResistanceExerciseSessionDataModel.createExamplesData)
-            database.create(table: exerciseModels,                temporary: false, ifNotExists: true, MRDataModel.MRExerciseModelDataModel.create)
-            database.create(table: exercises,                     temporary: false, ifNotExists: true, MRDataModel.MRExerciseDataModel.create)
-            database.userVersion = version()
+            do {
+                try database.run(resistanceExerciseSessions.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.create))
+                try database.run(resistanceExerciseExamples.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.createExamples))
+                try database.run(resistanceExerciseExamplesData.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.createExamplesData))
+                
+                try database.run(exerciseModels.create(ifNotExists: true, block: MRDataModel.MRExerciseModelDataModel.create))
+                try database.run(exercises.create(ifNotExists: true, block: MRDataModel.MRExerciseDataModel.create))
+            } catch {
+                NSLog("Pokemon")
+            }
+            // TODO: resolve me
+            //database.userVersion = version()
         }
         
         func drop() {
-            database.drop(table: resistanceExerciseExamplesData,ifExists: true)
-            database.drop(table: resistanceExerciseExamples,    ifExists: true)
-            database.drop(table: resistanceExerciseSessions,    ifExists: true)
-            database.drop(index: exercises,                     ifExists: true)
-            database.drop(index: exerciseModels,                ifExists: true)
+            do {
+                try database.run(resistanceExerciseExamplesData.drop(ifExists: true))
+                try database.run(resistanceExerciseExamples.drop(ifExists: true))
+                try database.run(resistanceExerciseSessions.drop(ifExists: true))
+                
+                try database.run(exercises.drop(ifExists: true))
+                try database.run(exerciseModels.drop(ifExists: true))
+            } catch _ {
+                
+            }
         }
         
         func setDefaultData() {
@@ -103,7 +114,7 @@ extension MRDataModel {
             }
         }
         
-        let needsUpgrade = database.userVersion < version() && database.userVersion > 0
+        let needsUpgrade = false // TODO: Resolve me database.userVersion < version() && database.userVersion > 0
         
         if needsUpgrade {
             drop()
@@ -111,8 +122,8 @@ extension MRDataModel {
             setDefaultData()
             return .Recreated()
         }
+
         create()
-        setDefaultData()
         return .Created()
     }
     

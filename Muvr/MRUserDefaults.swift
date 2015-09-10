@@ -80,10 +80,10 @@ struct MRUserDefaults {
     ///
     static var isRunningTests: Bool {
         get {
-            let environment = NSProcessInfo.processInfo().environment
-            if let injectBundle = environment["XCInjectBundle"] as? String {
-                return injectBundle.pathExtension == "xctest"
-            }
+//            let environment = NSProcessInfo.processInfo().environment
+//            if let injectBundle = environment["XCInjectBundle"] as String? {
+//                return false //injectBundle.pathExtension == "xctest"
+//            }
             return false
         }
     }

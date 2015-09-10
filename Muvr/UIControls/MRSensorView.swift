@@ -4,7 +4,7 @@ import Charts
 ///
 /// Holds the key to the sensor view structure
 ///
-struct MRSensorViewDataKey : Equatable, Hashable, Printable {
+struct MRSensorViewDataKey : Equatable, Hashable, CustomStringConvertible {
     var sensorId: UInt8
     var deviceId: UInt8
 
@@ -49,7 +49,7 @@ class MRSensorView : LineChartView, MRDeviceDataDelegate {
     }
     
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         initialize()
     }
     

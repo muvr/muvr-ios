@@ -5,7 +5,7 @@ import Foundation
 ///
 class MRButton : UIButton {
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         if let x = titleLabel?.textColor {

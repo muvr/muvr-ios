@@ -3,9 +3,9 @@ import MBCircularProgressBar
 
 class MRResistanceExerciseSessionProgressView : UIView {
     @IBOutlet var view: UIView!
-    @IBOutlet var intensities: MRResistanceExerciseIntensityView!
+    var intensities: MRResistanceExerciseIntensityView!
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         NSBundle.mainBundle().loadNibNamed("MRResistanceExerciseSessionProgressView", owner: self, options: nil)
         addSubview(view)

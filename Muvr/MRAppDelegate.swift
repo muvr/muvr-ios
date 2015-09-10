@@ -10,12 +10,12 @@ import UIKit
 
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
     var deviceToken: NSData?
 
     private func registerSettingsAndDelegates() {
-        let settings = UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, categories: nil)
+        let settings = UIUserNotificationSettings(forTypes: [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound], categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
         // LiftServer.sharedInstance.setDelegate(self, delegateQueue: dispatch_get_main_queue())
     }
@@ -23,7 +23,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
     private func startWithStoryboardId(storyboard: UIStoryboard, id: String) {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window!.makeKeyAndVisible()
-        window!.rootViewController = storyboard.instantiateViewControllerWithIdentifier(id) as? UIViewController!
+        window!.rootViewController = storyboard.instantiateViewControllerWithIdentifier(id)
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {

@@ -4,7 +4,7 @@ extension Array {
     
     mutating func removeObject<U: Equatable>(object: U) {
         var index: Int?
-        for (idx, objectToCompare) in enumerate(self) {
+        for (idx, objectToCompare) in self.enumerate() {
             if let to = objectToCompare as? U {
                 if object == to {
                     index = idx
@@ -77,7 +77,7 @@ extension Array {
     /// Returns the index of the first element that satisfies ``predicate``
     ///
     func indexOf(predicate: Element -> Bool) -> Int? {
-        for (i, e) in enumerate(self) {
+        for (i, e) in self.enumerate() {
             if predicate(e) { return i }
         }
         return nil

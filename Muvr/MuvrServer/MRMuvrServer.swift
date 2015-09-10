@@ -49,6 +49,7 @@ extension Request {
                     // we have a valid response
                     let statusCodeFamily = x.statusCode / 100
                     if statusCodeFamily == 1 || statusCodeFamily == 2 || statusCodeFamily == 3 {
+                        NSLog("2xx %@ -> %@", request.show(), x)
                         // 1xx, 2xx, 3xx responses are success responses
                         let val = completionHandler(json)
                         f(Result.value(val))
@@ -74,13 +75,13 @@ extension Request {
                         // just server failure
                     }
                     
-                    tryCompleteFromCache(x, request, f, completionHandler)
+                    tryCompleteFromCache(x, request: request, f: f, completionHandler: completionHandler)
                 }
                 
                 NSLog("%@", request.show())
             }
         } else {
-            tryCompleteFromCache(NSError.errorWithMessage("Server unavailable", code: 999), request, f, completionHandler)
+            tryCompleteFromCache(NSError.errorWithMessage("Server unavailable", code: 999), request: request!, f: f, completionHandler: completionHandler)
         }
     }
     
@@ -131,7 +132,7 @@ class MRMuvrServer {
             // Accept-Language HTTP Header; see http://tools.ietf.org/html/rfc7231#section-5.3.5
             let acceptLanguage: String = {
                 var components: [String] = []
-                for (index, languageCode) in enumerate(NSLocale.preferredLanguages()) {
+                for (index, languageCode) in NSLocale.preferredLanguages().enumerate() {
                     let q = 1.0 - (Double(index) * 0.1)
                     components.append("\(languageCode);q=\(q)")
                     if q <= 0.5 {
@@ -139,11 +140,11 @@ class MRMuvrServer {
                     }
                 }
                 
-                return join(",", components)
+                return components.joinWithSeparator(",")
                 }()
             
             // User-Agent Header; see http://tools.ietf.org/html/rfc7231#section-5.5.3
-            let userAgent: String = "org.eigengo.Lift (iOS)"
+            let userAgent: String = "io.muvr (iOS)"
             
             return ["Accept-Encoding": acceptEncoding,
                 "Accept-Language": acceptLanguage,
@@ -202,8 +203,8 @@ class MRMuvrServer {
                         onComplete(Result.error(NSError.errorWithMessage("No body", code: x.statusCode)))
                     }
                 }
-            } else if let e = err {
-                onComplete(Result.error(e))
+            } else if let _ = err {
+                onComplete(Result.error(NSError(domain: "io.muvr", code: 999, userInfo: [:])))
             }
         }
     }
