@@ -60,7 +60,6 @@ class MRRepetitionsEstimator {
     }
     
     func findPeaks(data: [Double], nDowns: Int = 1, nUps: Int = 1) -> [Int]{
-        let windowSize = nDowns + nUps + 1
         var peaks = [Int]()
         
         for index in nDowns...data.count - nUps - 1 {

@@ -10,7 +10,7 @@ import UIKit
 
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
     var deviceToken: NSData?
 

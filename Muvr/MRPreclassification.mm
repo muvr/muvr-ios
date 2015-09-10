@@ -55,7 +55,7 @@ public:
     std::unique_ptr<sensor_data_fuser> fuser;
     
     MRResistanceExercise *trainingExercise;
-    MRRepetitionsEstimator *repetitionEstimator;
+    MRRepetitionEstimator *repetitionEstimator;
     MRMultilayerPerceptron * classifier;
 }
 
@@ -74,7 +74,10 @@ public:
     fuser = std::unique_ptr<sensor_data_fuser>(new sensor_data_fuser(movementDecider, exerciseDecider));
     
     classifier = [[MRMultilayerPerceptron alloc] initWithModel:model];
-    repetitionEstimator = [[MRRepetitionsEstimator alloc] init];
+    repetitionEstimator = [[MRRepetitionEstimator alloc] init];
+    
+    [repetitionEstimator foo];
+    
     return self;
 }
 

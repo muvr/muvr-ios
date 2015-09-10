@@ -4,7 +4,7 @@
 #import <vector>
 #import <experimental/optional>
 
-@implementation MRRepetitionsEstimator
+@implementation MRRepetitionEstimator
 
 - (std::vector<double>)autocorrelation:(const std::vector<double>&)data {
     /*
@@ -56,13 +56,13 @@
 }
 
 - (std::vector<uint>)findPeaks:(const std::vector<double>&)data {
-    const uint nDowns = 1;
-    const uint nUps = 1;
+    const int nDowns = 1;
+    const int nUps = 1;
     std::vector<uint> peaks;
 
-    for (uint i = nDowns; i < data.size() - nUps - 1; ++i) {
+    for (uint i = nDowns; i < data.size() - nUps; ++i) {
         bool isPeak = true;
-        for (int j = -nDowns; j < nUps - 1; ++j) {
+        for (int j = -nDowns; j < nUps; ++j) {
             if (j < 0) isPeak = isPeak && data[i + j] <  data[i + j + 1];
             else       isPeak = isPeak && data[i + j] >= data[i + j + 1];
         }
@@ -73,7 +73,7 @@
 }
 
 - (uint)guessNumberOfRepetitions:(std::vector<uint>&)peakLocations withMinPeakDistance:(uint)distance {
-    if (peakLocations.empty()) return 0;
+    if (peakLocations.size() <= 1) return 0;
     for (uint i = 0; i < peakLocations.size() - 2; ++i) {
         if (peakLocations[i + 1] - peakLocations[i] < distance) return i + 1;
     }
@@ -81,6 +81,7 @@
 }
 
 - (uint)estimate:(const std::vector<muvr::fused_sensor_data>&)data {
+    if (data.empty()) return 0;
     auto firstData = data.front();
     return [self numberOfRepetitions:firstData.data];
 }

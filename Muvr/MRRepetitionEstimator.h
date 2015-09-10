@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 #import "MuvrPreclassification/include/sensor_data.h"
 
-@interface MRRepetitionsEstimator : NSObject
+@interface MRRepetitionEstimator : NSObject
 
 - (uint)estimate:(const std::vector<muvr::fused_sensor_data>&)data;
 
