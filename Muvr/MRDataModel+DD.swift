@@ -122,8 +122,8 @@ extension MRDataModel {
             setDefaultData()
             return .Recreated()
         }
+
         create()
-        setDefaultData()
         return .Created()
     }
     

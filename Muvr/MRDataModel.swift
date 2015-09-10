@@ -162,7 +162,7 @@ struct MRDataModel {
                 .filter(deleted == false &&
                         resistanceExerciseSessions.namespace(timestamp) >= midnight && resistanceExerciseSessions.namespace(timestamp) < midnight.addDays(1))
                 .order(resistanceExerciseSessions.namespace(timestamp).desc)
-            
+                .select(resistanceExerciseSessions.namespace(rowId), resistanceExerciseSessions.namespace(json), resistanceExerciseExamples.namespace(json))
             return mapDetail(query) { row in
                 return (
                     row.get(resistanceExerciseSessions.namespace(rowId)),
@@ -179,9 +179,9 @@ struct MRDataModel {
                 .join(resistanceExerciseExamplesData, on: exampleId == resistanceExerciseExamples.namespace(rowId))
                 .filter(deleted == false && resistanceExerciseSessions.namespace(serverId) == nil)
                 .order(resistanceExerciseSessions.namespace(timestamp).desc)
+                .select(resistanceExerciseSessions.namespace(rowId), resistanceExerciseSessions.namespace(json), resistanceExerciseExamples.namespace(json), resistanceExerciseExamplesData.namespace(fusedSensorData))
             
             return mapDetail(query) { row in
-                row.get(resistanceExerciseSessions.namespace(json))
                 return (
                     row.get(resistanceExerciseSessions.namespace(rowId)),
                     MRResistanceExerciseSession.unmarshal(row.get(resistanceExerciseSessions.namespace(json))),
