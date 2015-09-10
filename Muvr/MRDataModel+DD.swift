@@ -85,8 +85,8 @@ extension MRDataModel {
                 
                 try database.run(exerciseModels.create(ifNotExists: true, block: MRDataModel.MRExerciseModelDataModel.create))
                 try database.run(exercises.create(ifNotExists: true, block: MRDataModel.MRExerciseDataModel.create))
-            } catch _ {
-                
+            } catch {
+                NSLog("Pokemon")
             }
             // TODO: resolve me
             //database.userVersion = version()
