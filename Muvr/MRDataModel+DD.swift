@@ -70,10 +70,10 @@ extension MRDataModel {
         let dictionary = NSBundle.mainBundle().infoDictionary!
         let version = dictionary["CFBundleShortVersionString"] as! String
         
-        let nums = split(version) { $0 == "." }
+        let nums = version.characters.split { $0 == "." }.map { String($0) }
         assert(nums.count == 2)
         
-        return 10 * nums[0].toInt()! + nums[1].toInt()!
+        return 10 * Int(nums[0])! + Int(nums[1])!
     }
     
     internal static func create() -> CreateResult {

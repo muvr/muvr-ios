@@ -199,7 +199,7 @@ struct MRDataModel {
             resistanceExerciseSessions.filter(rowId == id).limit(1).update(deleted <- true)
         }
         
-        private static func findChildren<A>(#from: Query, sessionId: MRSessionId, unmarshal: JSON -> A) -> [A] {
+        private static func findChildren<A>(from from: Query, sessionId: MRSessionId, unmarshal: JSON -> A) -> [A] {
             var r: [A] = []
             for row in from {
                 r.append(unmarshal(row.get(json)))

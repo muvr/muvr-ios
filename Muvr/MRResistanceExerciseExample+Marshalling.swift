@@ -3,7 +3,7 @@ import Foundation
 extension MRResistanceExercise {
     
     func marshal() -> [String : AnyObject] {
-        var params: [String : AnyObject] = ["id": id]
+        let params: [String : AnyObject] = ["id": id]
         return params
     }
     

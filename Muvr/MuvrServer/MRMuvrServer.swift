@@ -74,7 +74,7 @@ extension Request {
                         // just server failure
                     }
                     
-                    tryCompleteFromCache(x, request, f, completionHandler)
+                    tryCompleteFromCache(x, request: request, f: f, completionHandler: completionHandler)
                 }
                 
                 NSLog("%@", request.show())
@@ -131,7 +131,7 @@ class MRMuvrServer {
             // Accept-Language HTTP Header; see http://tools.ietf.org/html/rfc7231#section-5.3.5
             let acceptLanguage: String = {
                 var components: [String] = []
-                for (index, languageCode) in enumerate(NSLocale.preferredLanguages()) {
+                for (index, languageCode) in NSLocale.preferredLanguages().enumerate() {
                     let q = 1.0 - (Double(index) * 0.1)
                     components.append("\(languageCode);q=\(q)")
                     if q <= 0.5 {
@@ -139,7 +139,7 @@ class MRMuvrServer {
                     }
                 }
                 
-                return join(",", components)
+                return components.joinWithSeparator(",")
                 }()
             
             // User-Agent Header; see http://tools.ietf.org/html/rfc7231#section-5.5.3

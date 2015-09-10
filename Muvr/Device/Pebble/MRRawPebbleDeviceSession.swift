@@ -9,10 +9,10 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         static func formatMRResistanceExercises(exercises: [MRClassifiedResistanceExercise]) -> NSData {
             assert(exercises.count < 5, "The sets must be < 5")
             
-            var data = NSMutableData()
+            let data = NSMutableData()
             // (#define APP_MESSAGE_INBOX_SIZE_MINIMUM 124) / 29 == 4
             exercises.take(4).forEach { ce -> Void in
-                var re = NSMutableData(length: sizeof(resistance_exercise_t))!
+                let re = NSMutableData(length: sizeof(resistance_exercise_t))!
                 let name = UnsafePointer<Int8>(ce.resistanceExercise.title.cStringUsingEncoding(NSASCIIStringEncoding)!)
                 mk_resistance_exercise(re.mutableBytes, name, UInt8(ce.confidence * 100), 0, 0, 0)
                 data.appendData(re)
@@ -54,9 +54,9 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         mutating func decode(dict: [NSObject : AnyObject]) -> DecodedKey {
             
             if let msgCount = dict[MessageKeyDecoder.countKey] as? NSNumber {
-                println("reported count = \(msgCount), our count = \(count)");
+                print("reported count = \(msgCount), our count = \(count)");
                 if msgCount.unsignedIntValue == count {
-                    println("Duplicate")
+                    print("Duplicate")
                     count = msgCount.unsignedIntValue
                     return DecodedKey.Duplicate
                 }
@@ -104,10 +104,10 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
         private func appMessagesReceiveUpdateHandler(watch: PBWatch!, data: [NSObject : AnyObject]!) -> Bool {
             switch mkd.decode(data) {
             case .Duplicate:
-                println("Duplicate")
+                print("Duplicate")
                 break
             case .Undefined:
-                println("Undefined")
+                print("Undefined")
                 break
             case .AccelerometerData(data: let data):
                 delegate.deviceSession(sessionId, sensorDataReceivedFrom: deviceId, atDeviceTime: CACurrentMediaTime(), data: data)
@@ -241,7 +241,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     
     func notifySimpleCurrent(ec: (MRResistanceExercise, Double)) {
         let (exercise, confidence) = ec
-        var data = NSMutableData(length: sizeof(resistance_exercise_t))!
+        let data = NSMutableData(length: sizeof(resistance_exercise_t))!
         let name = UnsafePointer<Int8>(exercise.title.cStringUsingEncoding(NSASCIIStringEncoding)!)
         mk_resistance_exercise(data.mutableBytes, name, UInt8(confidence * 100), 0, 0, 0)
 

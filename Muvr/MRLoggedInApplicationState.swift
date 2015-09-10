@@ -61,7 +61,7 @@ struct MRLoggedInApplicationState {
     /// Returns the 100 most recent resistance exercise sessions, ordered by descending startDate
     ///
     func getResistanceExerciseSessions() -> [MRResistanceExerciseSession] {
-        return MRDataModel.MRResistanceExerciseSessionDataModel.findAll(limit: 100)
+        return MRDataModel.MRResistanceExerciseSessionDataModel.findAll(100)
     }
     
     ///

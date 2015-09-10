@@ -15,7 +15,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
     var deviceToken: NSData?
 
     private func registerSettingsAndDelegates() {
-        let settings = UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, categories: nil)
+        let settings = UIUserNotificationSettings(forTypes: [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound], categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
         // LiftServer.sharedInstance.setDelegate(self, delegateQueue: dispatch_get_main_queue())
     }

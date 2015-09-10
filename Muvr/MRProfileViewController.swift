@@ -50,7 +50,7 @@ class MRProfileViewController : UITableViewController, UITextFieldDelegate, UIIm
     }
     
     @IBAction func save() {
-        let pp = MRPublicProfile(firstName: firstName.text, lastName: lastName.text, weight: weight.text.toInt(), age: age.text.toInt())
+        let pp = MRPublicProfile(firstName: firstName.text, lastName: lastName.text, weight: Int(weight.text), age: Int(age.text))
         MRApplicationState.loggedInState!.setPublicProfile(pp) { _ in
             self.navigationController?.popViewControllerAnimated(true)
         }

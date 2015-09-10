@@ -10,7 +10,7 @@ class MRExerciseSessionDeviceDataViewController: UIViewController, MRExerciseBlo
     
     @IBOutlet var statusLabel: UILabel!
     @IBOutlet var exerciseLabel: UILabel!
-    @IBOutlet var sensorView: MRSensorView!
+    var sensorView: MRSensorView!
             
     // MARK: MRExerciseBlockDelegate implementation
     func exerciseEnded() {

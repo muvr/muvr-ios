@@ -7,7 +7,7 @@ extension NSUUID : Value {
         return String.declaredDatatype
     }
     public class func fromDatatypeValue(value: String) -> Self {
-        return self(UUIDString: value)!
+        return self.init(UUIDString: value)!
     }
     public var datatypeValue: String {
         return UUIDString
@@ -20,7 +20,7 @@ extension NSDate : Value {
         return Int.declaredDatatype
     }
     public class func fromDatatypeValue(intValue: Int) -> Self {
-        return self(timeIntervalSince1970: NSTimeInterval(intValue))
+        return self.init(timeIntervalSince1970: NSTimeInterval(intValue))
     }
     public var datatypeValue: Int {
         return Int(timeIntervalSince1970)

@@ -19,7 +19,7 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     private var timer: NSTimer?
     private var startTime: NSDate?
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         sessionProgressView = MRResistanceExerciseSessionProgressView(coder: aDecoder)
         exerciseProgressView = MRResistanceExerciseProgressView(coder: aDecoder)
         super.init(coder: aDecoder)
