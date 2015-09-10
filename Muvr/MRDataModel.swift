@@ -179,7 +179,9 @@ struct MRDataModel {
                 .join(resistanceExerciseExamplesData, on: exampleId == resistanceExerciseExamples.namespace(rowId))
                 .filter(deleted == false && resistanceExerciseSessions.namespace(serverId) == nil)
                 .order(resistanceExerciseSessions.namespace(timestamp).desc)
+            
             return mapDetail(query) { row in
+                row.get(resistanceExerciseSessions.namespace(json))
                 return (
                     row.get(resistanceExerciseSessions.namespace(rowId)),
                     MRResistanceExerciseSession.unmarshal(row.get(resistanceExerciseSessions.namespace(json))),

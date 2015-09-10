@@ -114,7 +114,7 @@ extension MRDataModel {
             }
         }
         
-        let needsUpgrade = true // TODO: Resolve me database.userVersion < version() && database.userVersion > 0
+        let needsUpgrade = false // TODO: Resolve me database.userVersion < version() && database.userVersion > 0
         
         if needsUpgrade {
             drop()
