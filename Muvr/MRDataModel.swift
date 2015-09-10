@@ -62,7 +62,13 @@ struct MRDataModel {
         
         static func set(models: [MRExerciseModel]) {
             exerciseModels.delete()
-            models.forEach { exerciseModels.insert(json <- JSON($0.marshal())) }
+            models.forEach {
+                do {
+                    try database.run(exerciseModels.insert(json <- JSON($0.marshal())))
+                } catch {
+                    
+                }
+            }
         }
         
         static func get() -> [MRExerciseModel] {
@@ -88,7 +94,10 @@ struct MRDataModel {
             let l = locale.localeIdentifier
             exercises.filter(locid == l).delete()
             values.forEach { x in
-                exercises.insert(locid <- l, exerciseId <- x.0, title <- x.1)
+                do {
+                    try database.run(exercises.insert(locid <- l, exerciseId <- x.0, title <- x.1))
+                } catch {
+                }
             }
             cache[locale.localeIdentifier] = values
         }
@@ -184,9 +193,13 @@ struct MRDataModel {
         
         /// Removes all sessions and their sets
         static func deleteAll() -> Void {
-            resistanceExerciseExamplesData.delete()
-            resistanceExerciseExamples.delete()
-            resistanceExerciseSessions.delete()
+            do {
+                try database.run(resistanceExerciseExamplesData.delete())
+                try database.run(resistanceExerciseExamples.delete())
+                try database.run(resistanceExerciseSessions.delete())
+            } catch {
+                
+            }
         }
 
         /// sets the server id value
@@ -196,12 +209,19 @@ struct MRDataModel {
 
         /// Inserts a new ``session`` with the given row ``id``
         static func insert(id: NSUUID, session: MRResistanceExerciseSession) -> Void {
-            resistanceExerciseSessions.insert(rowId <- id, timestamp <- session.startDate, deleted <- false, json <- JSON(session.marshal()))
+            do {
+                try database.run(resistanceExerciseSessions.insert(rowId <- id, timestamp <- session.startDate, deleted <- false, json <- JSON(session.marshal())))
+            } catch {
+            }
         }
         
         /// removes a row identified by row ``id``
         static func delete(id: NSUUID) -> Void {
-            resistanceExerciseSessions.filter(rowId == id).limit(1).update(deleted <- true)
+            do {
+                try database.run(resistanceExerciseSessions.filter(rowId == id).limit(1).update(deleted <- true))
+            } catch {
+                
+            }
         }
         
         private static func findChildren<A>(from from: QueryType, sessionId: MRSessionId, unmarshal: JSON -> A) -> [A] {
@@ -214,8 +234,12 @@ struct MRDataModel {
         
         /// add an example to this session
         static func insertResistanceExerciseExample(id: NSUUID, sessionId: NSUUID, example: MRResistanceExerciseExample, fusedSensorData: NSData) -> Void{
-            MRDataModel.resistanceExerciseExamples.insert(rowId <- id, self.sessionId <- sessionId, json <- JSON(example.marshal()))
-            MRDataModel.resistanceExerciseExamplesData.insert(rowId <- id, exampleId <- id, self.fusedSensorData <- fusedSensorData)
+            do {
+                try database.run(MRDataModel.resistanceExerciseExamples.insert(rowId <- id, self.sessionId <- sessionId, json <- JSON(example.marshal())))
+                try database.run(MRDataModel.resistanceExerciseExamplesData.insert(rowId <- id, exampleId <- id, self.fusedSensorData <- fusedSensorData))
+            } catch {
+                
+            }
         }
         
         /// find the EES as array of JSONs to be synchronized
