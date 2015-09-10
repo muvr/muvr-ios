@@ -12,7 +12,7 @@ struct MRApplicationState {
     
     static var deviceToken: NSData?
     
-    static let anonymousUserId: MRUserId = UIDevice.currentDevice().identifierForVendor
+    static let anonymousUserId: MRUserId = UIDevice.currentDevice().identifierForVendor!
     
     private static var loggedInStateInstance: MRLoggedInApplicationState? = nil
     

@@ -80,7 +80,7 @@ extension Request {
                 NSLog("%@", request.show())
             }
         } else {
-            tryCompleteFromCache(NSError.errorWithMessage("Server unavailable", code: 999), request, f, completionHandler)
+            tryCompleteFromCache(NSError.errorWithMessage("Server unavailable", code: 999), request: request!, f: f, completionHandler: completionHandler)
         }
     }
     
@@ -202,8 +202,8 @@ class MRMuvrServer {
                         onComplete(Result.error(NSError.errorWithMessage("No body", code: x.statusCode)))
                     }
                 }
-            } else if let e = err {
-                onComplete(Result.error(e))
+            } else if let _ = err {
+                onComplete(Result.error(NSError(domain: "io.muvr", code: 999, userInfo: [:])))
             }
         }
     }

@@ -172,7 +172,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     // MARK: UIPageViewControllerDelegate
     func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if let x = (pageViewControllers.indexOf { $0 === pageViewController.viewControllers.first! }) {
+        if let x = (pageViewControllers.indexOf { $0 === pageViewController.viewControllers!.first! }) {
             pageControl?.currentPage = x
         }
     }

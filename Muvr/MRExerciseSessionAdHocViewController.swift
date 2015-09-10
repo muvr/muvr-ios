@@ -29,7 +29,7 @@ class MRExerciseSessionAdHocViewController : UIViewController, UITableViewDelega
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell  {
         let data = MRApplicationState.exerciseModels[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("default") as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("default") as UITableViewCell!
         
         cell.textLabel!.text = data.title
         cell.detailTextLabel!.text = data.exerciseTitles.joinWithSeparator(", ")

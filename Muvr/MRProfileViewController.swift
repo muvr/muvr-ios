@@ -39,8 +39,6 @@ class MRProfileViewController : UITableViewController, UITextFieldDelegate, UIIm
     private func setProfilePicture() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-        //imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
-        imagePicker.mediaTypes = [kUTTypeImage]
         imagePicker.allowsEditing = true
         presentViewController(imagePicker, animated: true, completion: nil)
     }
@@ -50,7 +48,7 @@ class MRProfileViewController : UITableViewController, UITextFieldDelegate, UIIm
     }
     
     @IBAction func save() {
-        let pp = MRPublicProfile(firstName: firstName.text, lastName: lastName.text, weight: Int(weight.text), age: Int(age.text))
+        let pp = MRPublicProfile(firstName: firstName.text!, lastName: lastName.text!, weight: Int(weight.text!), age: Int(age.text!))
         MRApplicationState.loggedInState!.setPublicProfile(pp) { _ in
             self.navigationController?.popViewControllerAnimated(true)
         }
@@ -77,9 +75,9 @@ class MRProfileViewController : UITableViewController, UITextFieldDelegate, UIIm
             image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
             let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
-            profileImage = UIImageJPEGRepresentation(scaledImage, 0.6)
+            profileImage = UIImageJPEGRepresentation(scaledImage, 0.6)!
         } else {
-            profileImage = UIImageJPEGRepresentation(image, 0.6)
+            profileImage = UIImageJPEGRepresentation(image, 0.6)!
         }
         
         MRApplicationState.loggedInState!.setProfileImage(profileImage)

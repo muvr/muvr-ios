@@ -18,13 +18,13 @@ class MRLoginViewController : UIViewController {
     @IBAction
     func login() {
         view.endEditing(true)
-        MRApplicationState.login(email: username.text, password: password.text) { $0.getOrUnit(self.showAccount) }
+        MRApplicationState.login(email: username.text!, password: password.text!) { $0.getOrUnit(self.showAccount) }
     }
     
     @IBAction
     func register() {
         view.endEditing(true)
-        MRApplicationState.register(email: username.text, password: password.text) { $0.getOrUnit(self.showAccount) }
+        MRApplicationState.register(email: username.text!, password: password.text!) { $0.getOrUnit(self.showAccount) }
     }
     
     @IBAction

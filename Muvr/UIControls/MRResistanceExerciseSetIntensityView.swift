@@ -31,7 +31,7 @@ class MRResistanceExerciseIntensityView : BarChartView {
     }
 
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         legend.enabled = false
         leftAxis.enabled = false
         rightAxis.enabled = false

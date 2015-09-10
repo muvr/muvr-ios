@@ -23,7 +23,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
     private func startWithStoryboardId(storyboard: UIStoryboard, id: String) {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window!.makeKeyAndVisible()
-        window!.rootViewController = storyboard.instantiateViewControllerWithIdentifier(id) as? UIViewController!
+        window!.rootViewController = storyboard.instantiateViewControllerWithIdentifier(id)
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {

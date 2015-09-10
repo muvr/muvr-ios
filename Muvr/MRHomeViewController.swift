@@ -53,7 +53,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
             cancelButtonTitle: "Cancel".localized(),
             destructiveButtonTitle: accountActionTitle.localized(),
             otherButtonTitles: "Synchronize".localized(), "Reset Training Data".localized())
-        menu.showFromTabBar(tabBarController?.tabBar)
+        menu.showFromTabBar((tabBarController?.tabBar)!)
     }
     
     // MARK: UIActionSheetDelegate

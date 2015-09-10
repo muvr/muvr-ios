@@ -20,8 +20,8 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     private var startTime: NSDate?
     
     required init?(coder aDecoder: NSCoder) {
-        sessionProgressView = MRResistanceExerciseSessionProgressView(coder: aDecoder)
-        exerciseProgressView = MRResistanceExerciseProgressView(coder: aDecoder)
+        sessionProgressView = MRResistanceExerciseSessionProgressView(coder: aDecoder)!
+        exerciseProgressView = MRResistanceExerciseProgressView(coder: aDecoder)!
         super.init(coder: aDecoder)
     }
     
@@ -71,7 +71,7 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let exercise = resistanceExercises[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("resistanceExercise") as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("resistanceExercise") as UITableViewCell!
         cell.textLabel?.text = exercise.resistanceExercise.title
         cell.detailTextLabel?.text = "Detail"
         return cell
