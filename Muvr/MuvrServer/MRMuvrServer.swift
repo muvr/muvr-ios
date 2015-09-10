@@ -143,7 +143,7 @@ class MRMuvrServer {
                 }()
             
             // User-Agent Header; see http://tools.ietf.org/html/rfc7231#section-5.5.3
-            let userAgent: String = "org.eigengo.Lift (iOS)"
+            let userAgent: String = "io.muvr (iOS)"
             
             return ["Accept-Encoding": acceptEncoding,
                 "Accept-Language": acceptLanguage,

@@ -23,7 +23,9 @@ extension MRLoggedInApplicationState {
             
             MRMuvrServer.sharedInstance.apply(
                 MRMuvrServerURLs.SubmitEntireResistanceExerciseSession(userId: userId, sessionId: detail.id), body: .Json(params: params), unmarshaller: MRSessionId.unmarshal) {
-                    $0.cata(constUnit(), r: { MRDataModel.MRResistanceExerciseSessionDataModel.setSynchronised(detail.id, serverId: $0) })
+                    $0.cata( { x in
+                        print(x)
+                    }, r: { MRDataModel.MRResistanceExerciseSessionDataModel.setSynchronised(detail.id, serverId: $0) })
                 }
         }
     }
