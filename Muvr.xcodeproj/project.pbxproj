@@ -143,6 +143,7 @@
 		54D527611B94D79F00B56719 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D5275B1B94D79F00B56719 /* SQLite.framework */; };
 		54D527621B94D79F00B56719 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D5275C1B94D79F00B56719 /* sqlite3.framework */; };
 		54DBE36B1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54DBE36A1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm */; };
+		54E3A21E1BA21482001D9EA5 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E3A21D1BA21482001D9EA5 /* Pods.framework */; };
 		54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */; };
 		54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC361AC57E8D0061EC5D /* exercise_decider.cc */; };
 		54F0DC531AC57E8D0061EC5D /* kalman_smooth.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC371AC57E8D0061EC5D /* kalman_smooth.cc */; };
@@ -306,6 +307,7 @@
 		54D5275C1B94D79F00B56719 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = "Pods/../build/Debug-iphoneos/sqlite3.framework"; sourceTree = "<group>"; };
 		54DBE3691B05DABA00BD76CD /* MRPreclassificationScaffolding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRPreclassificationScaffolding.h; sourceTree = "<group>"; };
 		54DBE36A1B05DC2900BD76CD /* MRPreclassificationScaffolding.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRPreclassificationScaffolding.mm; sourceTree = "<group>"; };
+		54E3A21D1BA21482001D9EA5 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		54F0DC251AC57E8D0061EC5D /* device_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data.h; sourceTree = "<group>"; };
 		54F0DC261AC57E8D0061EC5D /* device_data_decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data_decoder.h; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54E3A21E1BA21482001D9EA5 /* Pods.framework in Frameworks */,
 				5410C8441B9DCB30005C57C1 /* MobileCoreServices.framework in Frameworks */,
 				5410C8301B9DC9EA005C57C1 /* Alamofire.framework in Frameworks */,
 				5410C8311B9DC9EA005C57C1 /* MLPNeuralNet.framework in Frameworks */,
@@ -393,6 +396,7 @@
 		288CCE5D5AB7F6FBE827B7C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				54E3A21D1BA21482001D9EA5 /* Pods.framework */,
 				5410C8341B9DCA09005C57C1 /* Pods.framework */,
 				5410C82C1B9DC9EA005C57C1 /* Alamofire.framework */,
 				5410C82D1B9DC9EA005C57C1 /* MLPNeuralNet.framework */,

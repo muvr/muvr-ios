@@ -18,7 +18,6 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     private var started: Bool = false
     private var timer: NSTimer?
     private var startTime: NSDate?
-    private var collectedData: [[Double]] = [[], [], []]
     
     required init?(coder aDecoder: NSCoder) {
         sessionProgressView = MRResistanceExerciseSessionProgressView(coder: aDecoder)!
@@ -39,7 +38,6 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
         exerciseProgressView.setText("")
 
         started = true
-        collectedData = [[], [], []]
         timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "update", userInfo: nil, repeats: true)
         startTime = NSDate()
         tableView.reloadData()
@@ -93,18 +91,6 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     }
     
     func deviceDataDecoded3D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
-        let threed = rows as! [Threed]
-        for e in threed {
-            collectedData[0].append(Double(e.x))
-            collectedData[1].append(Double(e.y))
-            collectedData[2].append(Double(e.z))
-        }
-        
-        let estimator = MRRepetitionsEstimator()
-        let repetitions = estimator.numberOfRepetitions(collectedData) ?? 0
-        if(exerciseProgressView.repetitions.value < CGFloat(repetitions)){
-            exerciseProgressView.setRepetitions(repetitions, max: 20)
-        }
     }
     
     func deviceDataDecoded1D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
@@ -141,6 +127,13 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     func classificationEstimated(result: [AnyObject]!) {
         exerciseProgressView.setText("Estimated")
     }
+    
+    func repetitionsEstimated(repetitions: uint) {
+        if (exerciseProgressView.repetitions.value < CGFloat(repetitions)) {
+            exerciseProgressView.setRepetitions(Int(repetitions), max: 20)
+        }
+    }
+    
     
     func trainingCompleted(exercise: MRResistanceExercise!, fromData data: NSData!) {
         exerciseProgressView.setText("Trained")

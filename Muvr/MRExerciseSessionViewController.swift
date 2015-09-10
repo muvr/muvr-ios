@@ -279,6 +279,10 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         if let x: MRClassificationPipelineDelegate = currentPageViewController() { x.classificationEstimated(result) }
     }
     
+    func repetitionsEstimated(repetitions: uint) {
+        if let x: MRClassificationPipelineDelegate = currentPageViewController() { x.repetitionsEstimated(repetitions) }
+    }
+    
     func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
         if waitingForUser { return }
         

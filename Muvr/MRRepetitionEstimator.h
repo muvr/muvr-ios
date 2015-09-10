@@ -6,7 +6,7 @@
 
 @interface MRRepetitionsEstimator : NSObject
 
-- (NSNumber *)estimate:(const muvr::fused_sensor_data&)data;
+- (uint)estimate:(const std::vector<muvr::fused_sensor_data>&)data;
 
 @end
 
