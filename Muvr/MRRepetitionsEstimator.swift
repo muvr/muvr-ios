@@ -14,7 +14,6 @@ class MRRepetitionsEstimator {
      func autocorrelation(data: [Double]) -> [Double] {
         let filterLength = data.count
         let resultLength = filterLength
-        let lenSignal = 2*filterLength - 1
         var correlation = [Double](count:resultLength, repeatedValue: 0)
         let signal = data + [Double](count:filterLength - 1, repeatedValue: 0)
         
@@ -28,9 +27,8 @@ class MRRepetitionsEstimator {
         return correlation
     }
     
+    // [[xs], [ys], [zs]]
     func numberOfRepetitions(data: [[Double]]) -> Int? {
-        var repetitionsInDimenstion = [Int]()
-        var peaksInDimenstion = [Int]()
         let N = data[0].count
         
         NSLog("Data size: %d", data[0].count)
