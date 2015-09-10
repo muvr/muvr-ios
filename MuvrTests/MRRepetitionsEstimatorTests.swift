@@ -21,7 +21,7 @@ class MRRepetitionsEstimatorTests: XCTestCase {
         var result = estimator.autocorrelation([1, 2, 3, 5, 3, 1])
         let target = [1.0, 0.673469387755102, 0.102040816326531, -0.428571428571429, -0.795918367346939, -0.959183673469388]
         for r in 0...target.count-1 {
-            XCTAssertEqualWithAccuracy(result[r], target[r], 0.001)
+            XCTAssertEqualWithAccuracy(result[r], target[r], accuracy: 0.001)
         }
     }
 }
