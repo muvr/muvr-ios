@@ -8,6 +8,7 @@
 #import "MuvrPreclassification/include/export.h"
 #import "MuvrPreclassification/include/ensemble_classifier.h"
 #import "MRMultilayerPerceptron.h"
+#import "MRRepetitionEstimator.h"
 
 using namespace muvr;
 
