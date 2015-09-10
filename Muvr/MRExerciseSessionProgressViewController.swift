@@ -18,6 +18,7 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     private var started: Bool = false
     private var timer: NSTimer?
     private var startTime: NSDate?
+    private var collectedData: [[Double]] = [[], [], []]
     
     required init(coder aDecoder: NSCoder) {
         sessionProgressView = MRResistanceExerciseSessionProgressView(coder: aDecoder)
@@ -38,6 +39,7 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
         exerciseProgressView.setText("")
 
         started = true
+        collectedData = [[], [], []]
         timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "update", userInfo: nil, repeats: true)
         startTime = NSDate()
         tableView.reloadData()
@@ -60,7 +62,6 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
             #endif
 
             exerciseProgressView.setTime(time, max: 60)
-            exerciseProgressView.setRepetitions(time / 3, max: 20)
         }
     }
 
@@ -93,15 +94,14 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     
     func deviceDataDecoded3D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
         let threed = rows as! [Threed]
-        var converted: [[Double]] = [[], [], []]
         for e in threed {
-            converted[0].append(Double(e.x))
-            converted[1].append(Double(e.y))
-            converted[2].append(Double(e.z))
+            collectedData[0].append(Double(e.x))
+            collectedData[1].append(Double(e.y))
+            collectedData[2].append(Double(e.z))
         }
         
         let estimator = MRRepetitionsEstimator()
-        let repetitions = estimator.numberOfRepetitions(converted)
+        let repetitions = estimator.numberOfRepetitions(collectedData)
         exerciseProgressView.setRepetitions(repetitions!, max: 20)
     }
     
