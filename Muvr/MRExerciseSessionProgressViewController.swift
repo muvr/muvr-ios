@@ -1,7 +1,7 @@
 import Foundation
 
 class MRExerciseSessionProgressViewController : UIViewController, UITableViewDelegate, UITableViewDataSource,
-    MRExerciseBlockDelegate, MRExercisingApplicationStateDelegate, MRClassificationPipelineDelegate, MRTrainingPipelineDelegate {
+    MRExerciseBlockDelegate, MRExercisingApplicationStateDelegate, MRClassificationPipelineDelegate, MRTrainingPipelineDelegate, MRDeviceDataDelegate {
     static let storyboardId: String = "MRExerciseSessionProgressViewController"
     private var resistanceExercises: [MRClassifiedResistanceExercise] = {
         #if (arch(i386) || arch(x86_64)) && os(iOS)
@@ -55,7 +55,6 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
     func update() -> Void {
         if let elapsed = startTime?.timeIntervalSinceDate(NSDate()) {
             let time = Int(-elapsed) % 60
-
             #if (arch(i386) || arch(x86_64)) && os(iOS)
                 if time > 10 { stop() }
             #endif
@@ -90,6 +89,32 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
         } else {
             return sessionProgressView
         }
+    }
+    
+    func deviceDataDecoded3D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+        let threed = rows as! [Threed]
+        var converted: [[Double]] = [[], [], []]
+        for e in threed {
+            converted[0].append(Double(e.x))
+            converted[1].append(Double(e.y))
+            converted[2].append(Double(e.z))
+        }
+        
+        let estimator = MRRepetitionsEstimator()
+        let repetitions = estimator.numberOfRepetitions(converted)
+        exerciseProgressView.setRepetitions(repetitions!, max: 20)
+    }
+    
+    func deviceDataDecoded1D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+        let oned = rows as! [NSNumber]
+        var converted: [Double] = []
+        for e in oned {
+            converted.append(Double(e))
+        }
+        
+        let estimator = MRRepetitionsEstimator()
+        let repetitions = estimator.numberOfRepetitions([converted])
+        exerciseProgressView.setRepetitions(repetitions!, max: 20)
     }
     
     func exerciseEnded() {
