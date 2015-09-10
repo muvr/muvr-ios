@@ -101,20 +101,14 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
         }
         
         let estimator = MRRepetitionsEstimator()
-        let repetitions = estimator.numberOfRepetitions(collectedData)
-        exerciseProgressView.setRepetitions(repetitions!, max: 20)
+        let repetitions = estimator.numberOfRepetitions(collectedData) ?? 0
+        if(exerciseProgressView.repetitions.value < CGFloat(repetitions)){
+            exerciseProgressView.setRepetitions(repetitions, max: 20)
+        }
     }
     
     func deviceDataDecoded1D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
-        let oned = rows as! [NSNumber]
-        var converted: [Double] = []
-        for e in oned {
-            converted.append(Double(e))
-        }
-        
-        let estimator = MRRepetitionsEstimator()
-        let repetitions = estimator.numberOfRepetitions([converted])
-        exerciseProgressView.setRepetitions(repetitions!, max: 20)
+        // TODO: not implemented
     }
     
     func exerciseEnded() {
