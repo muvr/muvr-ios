@@ -1,6 +1,6 @@
 # Muvr
 
-[muvr](https://github.com/muvr) is a demonstration of an application that uses _wearable devices_ (Pebble)—in combination with a mobile app—to submit physical (i.e. accelerometer, compass) and biological (i.e. heart rate) information to a CQRS/ES cluster to be analysed.
+[muvr](http://www.muvr.io/) is a demonstration of an application that uses _wearable devices_ (Pebble)—in combination with a mobile app—to submit physical (i.e. accelerometer, compass) and biological (i.e. heart rate) information to a CQRS/ES cluster to be analysed.
 
 #### muvr-ios
 `muvr-ios` is a fitness app showcasing the possibilities of mobile analytics. The app collects data from sensors (e.g. a pebble watch) and uses the information to classify your movements to keep track of your workout.
@@ -29,7 +29,7 @@ Build and run the project using Xcode.
 For any bugs or feature requests please:
 
 1. Search the open and closed
-   [issues list](https://github.com/muvr/muvr-ios) to see if we're
+   [issues list](https://github.com/muvr/muvr-ios/issues) to see if we're
    already working on what you have uncovered.
 2. Make sure the issue / feature gets filed in the relevant components (e.g. server, analytics, ios)
 3. File a new [issue](https://github.com/muvr/muvr-ios/issues) or contribute a 
