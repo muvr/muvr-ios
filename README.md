@@ -19,6 +19,10 @@ Basic information to get started is below. Please also have a look at the other 
 Make sure your Xcode is up to date (>= 7.0) and you got [cocoapots](https://cocoapods.org/) installed .
 ```
 git clone git@github.com:muvr/muvr-ios.git
+
+# To compile the ios app you will also need the preclassification project
+git clone git@github.com:muvr/muvr-preclassification.git
+
 cd muvr-ios
 pod install
 ```
