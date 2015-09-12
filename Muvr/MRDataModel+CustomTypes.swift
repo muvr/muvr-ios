@@ -31,6 +31,7 @@ extension JSON : Value {
         }
         return JSON.null
     }
+    
     public var datatypeValue: Blob {
         let os = NSOutputStream.outputStreamToMemory()
         os.open()
