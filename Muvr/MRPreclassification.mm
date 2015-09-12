@@ -156,7 +156,7 @@ public:
     } catch (std::exception &ex) {
         std::cerr << ex.what() << std::endl;
     } catch (...) {
-        std::cerr << "Something is fucked up" << std::endl;
+        std::cerr << "Something is f***ed up" << std::endl;
     }
 }
 
