@@ -47,27 +47,31 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
         performSegueWithIdentifier("profile", sender: nil)
     }
     
-    @IBAction func settings() -> Void {
-        let accountActionTitle = MRApplicationState.loggedInState!.isAnonymous ? "Register" : "Logout"
-        let menu = UIActionSheet(title: nil, delegate: self,
-            cancelButtonTitle: "Cancel".localized(),
-            destructiveButtonTitle: accountActionTitle.localized(),
-            otherButtonTitles: "Synchronize".localized(), "Reset Training Data".localized())
-        menu.showFromTabBar((tabBarController?.tabBar)!)
+    private func logout(_: UIAlertAction) -> Void {
+        performSegueWithIdentifier("logout", sender: self)
     }
     
-    // MARK: UIActionSheetDelegate
-    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
-        switch buttonIndex {
-        case 0: // Destructive: logout or register
-            performSegueWithIdentifier("logout", sender: self)
-        case 2: // Synchronize
-            MRApplicationState.loggedInState!.sync()
-        case 3: // Reset training
-            MRApplicationState.clearTrainingData()
-        default: // noop
-            return
+    private func synchronize(_: UIAlertAction) -> Void {
+        MRApplicationState.loggedInState!.sync()
+    }
+    
+    private func resetTrainingData(_: UIAlertAction) -> Void {
+        MRApplicationState.clearTrainingData()
+    }
+    
+
+    @IBAction func settings() -> Void {
+        let ac = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        if MRApplicationState.loggedInState!.isAnonymous {
+            ac.addAction(UIAlertAction(title: "Register".localized(), style: UIAlertActionStyle.Destructive, handler: logout))
+        } else {
+            ac.addAction(UIAlertAction(title: "Logout".localized(), style: UIAlertActionStyle.Default, handler: logout))
         }
+        ac.addAction(UIAlertAction(title: "Synchronize".localized(), style: UIAlertActionStyle.Default, handler: synchronize))
+        ac.addAction(UIAlertAction(title: "Reset Training Data".localized(), style: UIAlertActionStyle.Default, handler: resetTrainingData))
+        ac.addAction(UIAlertAction(title: "Cancel".localized(), style: UIAlertActionStyle.Cancel, handler: nil))
+        
+        presentViewController(ac, animated: true, completion: nil)
     }
     
     // MARK: UITableViewDataSource
