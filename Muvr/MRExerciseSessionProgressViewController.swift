@@ -90,10 +90,10 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
         }
     }
     
-    func deviceDataDecoded3D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+    func deviceDataDecoded3D(rows: [Threed]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
     }
     
-    func deviceDataDecoded1D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+    func deviceDataDecoded1D(rows: [NSNumber]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
         // TODO: not implemented
     }
     
@@ -120,11 +120,11 @@ class MRExerciseSessionProgressViewController : UIViewController, UITableViewDel
         tableView.reloadData()
     }
     
-    func classificationCompleted(result: [AnyObject]!, fromData data: NSData!) {
+    func classificationCompleted(result: [MRClassifiedResistanceExercise]!, fromData data: NSData!) {
         exerciseProgressView.setText("Classified")
     }
     
-    func classificationEstimated(result: [AnyObject]!) {
+    func classificationEstimated(result: [MRClassifiedResistanceExercise]!) {
         exerciseProgressView.setText("Estimated")
     }
     

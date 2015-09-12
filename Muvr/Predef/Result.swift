@@ -132,7 +132,7 @@ public func <*><VA, VB>(f: Result<VA -> VB>, a: Result<VA>) -> Result<VB> {
     switch (a, f) {
     case let (.Error(l), _):
         return .Error(l)
-    case let (.Value(r), .Error(m)):
+    case let (.Value(_), .Error(m)):
         return .Error(m)
     case let (.Value(r), .Value(g)):
         return Result<VB>.Value(Box(g.value(r.value)))

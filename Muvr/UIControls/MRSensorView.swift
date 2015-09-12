@@ -32,18 +32,16 @@ class MRSensorView : LineChartView, MRDeviceDataDelegate {
     /// map of 1D values (heart rate, glucose levels, ...)
     private var onedData: [MRSensorViewDataKey : [NSNumber]] = [:]
     
-    func deviceDataDecoded1D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
-        let rn = rows as! [NSNumber]
+    func deviceDataDecoded1D(rows: [NSNumber]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
         let key = MRSensorViewDataKey(sensorId: sensor, deviceId: deviceId)
-        self.onedData.updated(key, notFound: rn, update: { $0 + rn })
+        self.onedData.updated(key, notFound: rows, update: { $0 + rows })
         self.onedData.updated(key, update: { self.trimTo(1000, values: $0) })
         refreshData(self.onedData, dataSets: onedLineChartDataSet)
     }
     
-    func deviceDataDecoded3D(rows: [AnyObject]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
-        let rt = rows as! [Threed]
+    func deviceDataDecoded3D(rows: [Threed]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
         let key = MRSensorViewDataKey(sensorId: sensor, deviceId: deviceId)
-        self.threedData.updated(key, notFound: rt, update: { $0 + rt })
+        self.threedData.updated(key, notFound: rows, update: { $0 + rows })
         self.threedData.updated(key, update: { self.trimTo(1000, values: $0) })
         refreshData(self.threedData, dataSets: threedLineChartDataSet)
     }
