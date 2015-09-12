@@ -62,47 +62,39 @@ extension MRDataModel {
     
     enum CreateResult {
         case Created()
-        case Recreated()
-        case UpgradedFrom(version: String)
+        case Migrated(from: Int64)
+        case NotChanged()
     }
 
-    private static func version() -> Int {
+    private static func version() -> Int64 {
         let dictionary = NSBundle.mainBundle().infoDictionary!
         let version = dictionary["CFBundleShortVersionString"] as! String
         
         let nums = version.characters.split { $0 == "." }.map { String($0) }
         assert(nums.count == 2)
         
-        return 10 * Int(nums[0])! + Int(nums[1])!
+        return 10 * Int64(nums[0])! + Int64(nums[1])!
     }
     
     internal static func create() -> CreateResult {
-        func create() {
-            do {
-                try database.run(resistanceExerciseSessions.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.create))
-                try database.run(resistanceExerciseExamples.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.createExamples))
-                try database.run(resistanceExerciseExamplesData.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.createExamplesData))
+        func create(schemaVersion: Int64) {
+            try! database.run(resistanceExerciseSessions.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.create))
+            try! database.run(resistanceExerciseExamples.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.createExamples))
+            try! database.run(resistanceExerciseExamplesData.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.createExamplesData))
                 
-                try database.run(exerciseModels.create(ifNotExists: true, block: MRDataModel.MRExerciseModelDataModel.create))
-                try database.run(exercises.create(ifNotExists: true, block: MRDataModel.MRExerciseDataModel.create))
-            } catch {
-                NSLog("Pokemon")
-            }
-            // TODO: resolve me
-            //database.userVersion = version()
+            try! database.run(exerciseModels.create(ifNotExists: true, block: MRDataModel.MRExerciseModelDataModel.create))
+            try! database.run(exercises.create(ifNotExists: true, block: MRDataModel.MRExerciseDataModel.create))
+            
+            try! database.run("PRAGMA schema_version = \(schemaVersion)")
         }
         
         func drop() {
-            do {
-                try database.run(resistanceExerciseExamplesData.drop(ifExists: true))
-                try database.run(resistanceExerciseExamples.drop(ifExists: true))
-                try database.run(resistanceExerciseSessions.drop(ifExists: true))
-                
-                try database.run(exercises.drop(ifExists: true))
-                try database.run(exerciseModels.drop(ifExists: true))
-            } catch _ {
-                
-            }
+            try! database.run(resistanceExerciseExamplesData.drop(ifExists: true))
+            try! database.run(resistanceExerciseExamples.drop(ifExists: true))
+            try! database.run(resistanceExerciseSessions.drop(ifExists: true))
+            
+            try! database.run(exercises.drop(ifExists: true))
+            try! database.run(exerciseModels.drop(ifExists: true))
         }
         
         func setDefaultData() {
@@ -114,17 +106,24 @@ extension MRDataModel {
             }
         }
         
-        let needsUpgrade = false // TODO: Resolve me database.userVersion < version() && database.userVersion > 0
+        let existingSchemaVersion = database.scalar("PRAGMA schema_version") as! Int64
+        let expectedSchemaVersion = version()
         
-        if needsUpgrade {
-            drop()
-            create()
+        if existingSchemaVersion == 0 {
+            // empty
+            create(expectedSchemaVersion)
             setDefaultData()
-            return .Recreated()
+            return .Created()
+        } else if expectedSchemaVersion > existingSchemaVersion {
+            // old version => migrate
+            drop()
+            create(expectedSchemaVersion)
+            setDefaultData()
+            return .Migrated(from: existingSchemaVersion)
+        } else {
+            // current version
+            return .NotChanged()
         }
-
-        create()
-        return .Created()
     }
     
 }
