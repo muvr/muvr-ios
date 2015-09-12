@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
 
 // MARK: - Request for Swift JSON
 
@@ -39,7 +40,7 @@ extension Request {
                 var responseJSON: JSON
 
                 if object.isFailure {
-                    responseJSON = JSON.nullJSON
+                    responseJSON = JSON.null
                 } else {
                     responseJSON = JSON(object.value!)
                 }

@@ -43,7 +43,6 @@
 		5410C8321B9DC9EA005C57C1 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5410C82E1B9DC9EA005C57C1 /* SQLite.framework */; };
 		5410C8331B9DC9EA005C57C1 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5410C82F1B9DC9EA005C57C1 /* sqlite3.framework */; };
 		5410C8361B9DCA64005C57C1 /* Alamofire+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */; };
-		5410C8371B9DCA64005C57C1 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B41ADBE56400F235ED /* SwiftyJSON.swift */; };
 		5410C8381B9DCAD3005C57C1 /* MRModelParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 54BF09111B9B735B00A3E6C7 /* MRModelParameters.m */; };
 		5410C8391B9DCAFF005C57C1 /* NSError+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374241AD01104005864D7 /* NSError+Convenience.swift */; };
 		5410C83A1B9DCAFF005C57C1 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5433742E1AD01345005864D7 /* String+MD5.swift */; };
@@ -164,7 +163,6 @@
 		FC3970621AEA6CC900829357 /* svm.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705F1AEA6CC900829357 /* svm.cc */; };
 		FC3A4E8D1AF6E3DF00DABEC2 /* ensemble_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC3A4E8C1AF6E3DF00DABEC2 /* ensemble_classifier.cc */; };
 		FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */; };
-		FC5593B71ADBE56400F235ED /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B41ADBE56400F235ED /* SwiftyJSON.swift */; };
 		FCEFD5B61AF8B315007C840F /* device_data_encoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = FCEFD5B51AF8B315007C840F /* device_data_encoder.cc */; };
 /* End PBXBuildFile section */
 
@@ -350,8 +348,6 @@
 		FC3A4E8E1AF6E3EB00DABEC2 /* ensemble_classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ensemble_classifier.h; path = "../../../../muvr-preclassification/core/include/ensemble_classifier.h"; sourceTree = "<group>"; };
 		FC5593AF1ADBE56400F235ED /* Alamofire+SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Alamofire+SwiftyJSON.h"; sourceTree = "<group>"; };
 		FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alamofire+SwiftyJSON.swift"; sourceTree = "<group>"; };
-		FC5593B31ADBE56400F235ED /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyJSON.h; sourceTree = "<group>"; };
-		FC5593B41ADBE56400F235ED /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		FC5593C71ADD7E5400F235ED /* classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier.h; path = "../../../../muvr-preclassification/core/include/classifier.h"; sourceTree = "<group>"; };
 		FCEFD5B51AF8B315007C840F /* device_data_encoder.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = device_data_encoder.cc; path = "../../../../../muvr-preclassification/core/main/cc/device_data_encoder.cc"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -831,8 +827,6 @@
 			children = (
 				FC5593AF1ADBE56400F235ED /* Alamofire+SwiftyJSON.h */,
 				FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */,
-				FC5593B31ADBE56400F235ED /* SwiftyJSON.h */,
-				FC5593B41ADBE56400F235ED /* SwiftyJSON.swift */,
 			);
 			path = Alamofire;
 			sourceTree = "<group>";
@@ -1064,7 +1058,6 @@
 				5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */,
 				FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */,
 				5455E7261AFA30920049BB6B /* MRDataModel+CustomTypes.swift in Sources */,
-				FC5593B71ADBE56400F235ED /* SwiftyJSON.swift in Sources */,
 				FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */,
 				54005C961B07566900BF0732 /* MRDataModel+Housekeeping.swift in Sources */,
 				5443FA791AE69E1400CC229D /* sensor_data_fuser_rsde.cc in Sources */,
@@ -1114,7 +1107,6 @@
 				5410C8261B9DC451005C57C1 /* MRClassifiedResistanceExercise+Marshalling.swift in Sources */,
 				546241171B9DBA4500339998 /* MRDataModelTests.swift in Sources */,
 				5410C83F1B9DCAFF005C57C1 /* Either.swift in Sources */,
-				5410C8371B9DCA64005C57C1 /* SwiftyJSON.swift in Sources */,
 				5410C8431B9DCB0C005C57C1 /* NSDate+DateUtils.swift in Sources */,
 				5410C8401B9DCAFF005C57C1 /* Operators.swift in Sources */,
 				5410C8271B9DC451005C57C1 /* MRMode.swift in Sources */,

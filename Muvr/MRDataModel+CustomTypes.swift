@@ -1,5 +1,6 @@
 import Foundation
 import SQLite
+import SwiftyJSON
 
 /// Custom NSUUID type
 extension NSUUID : Value {
@@ -53,7 +54,7 @@ extension JSON : Value {
         } catch _ {
             
         }
-        return JSON.nullJSON
+        return JSON.null
     }
     public var datatypeValue: Blob {
         let os = NSOutputStream.outputStreamToMemory()
