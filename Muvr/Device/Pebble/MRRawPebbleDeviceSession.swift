@@ -175,7 +175,7 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     /// App launched callback from the watch
     ///
     private func appLaunched(deviceSessionDelegate: MRDeviceSessionDelegate, watch: PBWatch!, error: NSError!) {
-        let deviceId = watch.serialNumber.md5UUID()
+        // let deviceId = watch.serialNumber.md5UUID()
         if error != nil {
             // TODO: DeviceSessionDelegate.deviceSession:didNotStart;
             // deviceDelegate.deviceAppLaunchFailed(deviceId, error: error!)

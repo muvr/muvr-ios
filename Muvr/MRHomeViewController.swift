@@ -110,7 +110,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch (indexPath.section, indexPath.row) {
-        case (Consts.Sessions, let x):
+        case (Consts.Sessions, _):
             // TODO: view session
             return
         default: fatalError("Match error")

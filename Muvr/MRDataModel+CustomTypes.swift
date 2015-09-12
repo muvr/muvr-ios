@@ -1,5 +1,6 @@
 import Foundation
 import SQLite
+import SwiftyJSON
 
 /// Custom NSUUID type
 extension NSUUID : Value {
@@ -14,31 +15,6 @@ extension NSUUID : Value {
     }
 }
 
-/// Custom NSDate type
-//extension NSDate : Value {
-//    public class var declaredDatatype: String {
-//        return Int.declaredDatatype
-//    }
-//    public class func fromDatatypeValue(intValue: Int) -> NSDate {
-//        return self.init(timeIntervalSince1970: NSTimeInterval(intValue))
-//    }
-//    public var datatypeValue: Int {
-//        return Int(timeIntervalSince1970)
-//    }
-//}
-
-//extension NSData : Value {
-//    public class var declaredDatatype: String {
-//        return Blob.declaredDatatype
-//    }
-//    public class func fromDatatypeValue(blobValue: Blob) -> NSData {
-//        return self(bytes: blobValue.bytes, length: blobValue.length)
-//    }
-//    public var datatypeValue: Blob {
-//        return Blob(bytes: bytes, length: length)
-//    }
-//}
-//
 extension JSON : Value {
     public static var declaredDatatype: String {
         return Blob.declaredDatatype
@@ -53,8 +29,9 @@ extension JSON : Value {
         } catch _ {
             
         }
-        return JSON.nullJSON
+        return JSON.null
     }
+    
     public var datatypeValue: Blob {
         let os = NSOutputStream.outputStreamToMemory()
         os.open()

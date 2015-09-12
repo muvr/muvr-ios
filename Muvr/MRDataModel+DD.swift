@@ -12,7 +12,7 @@ extension MRDataModel.MRResistanceExerciseSessionDataModel {
         t.column(sessionId)
         t.column(MRDataModel.json)
 
-        //t.foreignKey(sessionId, references: fk, update: TableBuilder.Dependency.Restrict, delete: TableBuilder.Dependency.Cascade)
+        //t.foreignKey(sessionId, references: fk, other: MRDataModel.resistanceExerciseSessions, update: TableBuilder.Dependency.Restrict, delete: TableBuilder.Dependency.Cascade)
     }
     
     private static func createExamplesData(t: TableBuilder) -> Void {

@@ -64,7 +64,7 @@ enum MRMuvrServerURLs : MRMuvrServerRequestConvertible {
         get {
             let r: MRMuvrServerRequest = {
                 switch self {
-                case .SubmitEntireResistanceExerciseSession(let user, let session): return MRMuvrServerRequest(path: "/exercise/\(user.UUIDString)/resistance", method: Method.POST)
+                case .SubmitEntireResistanceExerciseSession(let user, _): return MRMuvrServerRequest(path: "/exercise/\(user.UUIDString)/resistance", method: Method.POST)
                 case .UserLogin: return MRMuvrServerRequest(path: "/user", method: Method.PUT)
                 case .UserRegister: return MRMuvrServerRequest(path: "/user", method: Method.POST)
                 case .GetPublicProfile(let user): return MRMuvrServerRequest(path: "/user/\(user.UUIDString)", method: Method.GET)

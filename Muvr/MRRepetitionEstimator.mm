@@ -7,22 +7,6 @@
 @implementation MRRepetitionEstimator
 
 - (std::vector<double>)autocorrelation:(const std::vector<double>&)data {
-    /*
-     let filterLength = data.count
-     let resultLength = filterLength
-     var correlation = [Double](count:resultLength, repeatedValue: 0)
-     let signal = data + [Double](count:filterLength - 1, repeatedValue: 0)
-     
-     vDSP_convD(signal, vDSP_Stride(1), data, vDSP_Stride(1), &correlation, vDSP_Stride(1), vDSP_Length(resultLength), vDSP_Length(filterLength))
-     
-     // Convert into [-1, 1]
-     var max: Double = 2 / correlation[0]
-     var shift: Double = -1
-     vDSP_vsmsaD(correlation, vDSP_Stride(1), &max, &shift, &correlation, vDSP_Stride(1), vDSP_Length(correlation.count))
-     
-     return correlation
-     */
-    
     size_t filterLength = data.size();
     size_t resultLength = filterLength;
     size_t signalLength = 2 * filterLength - 1;

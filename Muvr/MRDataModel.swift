@@ -1,5 +1,6 @@
 //import Foundation
 import SQLite
+import SwiftyJSON
 
 /// The session detail aggregate
 struct MRResistanceExerciseSessionDetail<A> {
@@ -25,12 +26,7 @@ struct MRDataModel {
         let dbPath = "\(path)/db.sqlite3"
         
         // NSFileManager.defaultManager().removeItemAtPath(dbPath, error: nil)
-        do {
-            let db = try Connection(dbPath)
-            return db
-        } catch _ {
-            fatalError("Cannot connect to DB")
-        }
+        return try! Connection(dbPath)
     }
         
     /// resistance exercise sessions table (1:N) to resistance exercise sets
@@ -63,11 +59,7 @@ struct MRDataModel {
         static func set(models: [MRExerciseModel]) {
             exerciseModels.delete()
             models.forEach {
-                do {
-                    try database.run(exerciseModels.insert(json <- JSON($0.marshal())))
-                } catch {
-                    
-                }
+                try! database.run(exerciseModels.insert(json <- JSON($0.marshal())))
             }
         }
         
@@ -94,10 +86,7 @@ struct MRDataModel {
             let l = locale.localeIdentifier
             exercises.filter(locid == l).delete()
             values.forEach { x in
-                do {
-                    try database.run(exercises.insert(locid <- l, exerciseId <- x.0, title <- x.1))
-                } catch {
-                }
+                try! database.run(exercises.insert(locid <- l, exerciseId <- x.0, title <- x.1))
             }
             cache[locale.localeIdentifier] = values
         }
@@ -195,39 +184,24 @@ struct MRDataModel {
         
         /// Removes all sessions and their sets
         static func deleteAll() -> Void {
-            do {
-                try database.run(resistanceExerciseExamplesData.delete())
-                try database.run(resistanceExerciseExamples.delete())
-                try database.run(resistanceExerciseSessions.delete())
-            } catch {
-                
-            }
+            try! database.run(resistanceExerciseExamplesData.delete())
+            try! database.run(resistanceExerciseExamples.delete())
+            try! database.run(resistanceExerciseSessions.delete())
         }
 
         /// sets the server id value
         static func setSynchronised(id: NSUUID, serverId: NSUUID) -> Void {
-            do {
-                try database.run(MRDataModel.resistanceExerciseSessions.filter(MRDataModel.rowId == id).update(MRDataModel.serverId <- serverId))
-            } catch {
-                // pokemon!
-            }
+            try! database.run(MRDataModel.resistanceExerciseSessions.filter(MRDataModel.rowId == id).update(MRDataModel.serverId <- serverId))
         }
 
         /// Inserts a new ``session`` with the given row ``id``
         static func insert(id: NSUUID, session: MRResistanceExerciseSession) -> Void {
-            do {
-                try database.run(resistanceExerciseSessions.insert(rowId <- id, timestamp <- session.startDate, deleted <- false, json <- JSON(session.marshal())))
-            } catch {
-            }
+            try! database.run(resistanceExerciseSessions.insert(rowId <- id, timestamp <- session.startDate, deleted <- false, json <- JSON(session.marshal())))
         }
         
         /// removes a row identified by row ``id``
         static func delete(id: NSUUID) -> Void {
-            do {
-                try database.run(resistanceExerciseSessions.filter(rowId == id).limit(1).update(deleted <- true))
-            } catch {
-                
-            }
+            try! database.run(resistanceExerciseSessions.filter(rowId == id).limit(1).update(deleted <- true))
         }
         
         private static func findChildren<A>(from from: QueryType, sessionId: MRSessionId, unmarshal: JSON -> A) -> [A] {
@@ -240,12 +214,8 @@ struct MRDataModel {
         
         /// add an example to this session
         static func insertResistanceExerciseExample(id: NSUUID, sessionId: NSUUID, example: MRResistanceExerciseExample, fusedSensorData: NSData) -> Void{
-            do {
-                try database.run(MRDataModel.resistanceExerciseExamples.insert(rowId <- id, self.sessionId <- sessionId, json <- JSON(example.marshal())))
-                try database.run(MRDataModel.resistanceExerciseExamplesData.insert(rowId <- id, exampleId <- id, self.fusedSensorData <- fusedSensorData))
-            } catch {
-                
-            }
+            try! database.run(MRDataModel.resistanceExerciseExamples.insert(rowId <- id, self.sessionId <- sessionId, json <- JSON(example.marshal())))
+            try! database.run(MRDataModel.resistanceExerciseExamplesData.insert(rowId <- id, exampleId <- id, self.fusedSensorData <- fusedSensorData))
         }
         
         /// find the EES as array of JSONs to be synchronized

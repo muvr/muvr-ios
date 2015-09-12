@@ -24,13 +24,13 @@
 /// Called when decoded 3D structure from the given ``sensor``, ``device`` at the ``location``. The ``rows`` is an array of
 /// ``Threed*`` instances
 ///
-- (void)deviceDataDecoded3D:(NSArray *)rows fromSensor:(uint8_t)sensor device:(uint8_t)deviceId andLocation:(uint8_t)location;
+- (void)deviceDataDecoded3D:(NSArray<Threed *> *)rows fromSensor:(uint8_t)sensor device:(uint8_t)deviceId andLocation:(uint8_t)location;
 
 ///
 /// Called when decoded 3D structure from the given ``sensor``, ``device`` at the ``location``. The ``rows`` is an array of
 /// ``NSNumber*`` instances holding ``int16_t``.
 ///
-- (void)deviceDataDecoded1D:(NSArray *)rows fromSensor:(uint8_t)sensor device:(uint8_t)deviceId andLocation:(uint8_t)location;
+- (void)deviceDataDecoded1D:(NSArray<NSNumber *> *)rows fromSensor:(uint8_t)sensor device:(uint8_t)deviceId andLocation:(uint8_t)location;
 
 @end
 
@@ -73,7 +73,7 @@
 /// the size of the array. The ``data`` value holds the exported ``muvr::fused_sensor_data`` that
 /// was used for the classification.
 ///
-- (void)classificationCompleted:(NSArray *)result fromData:(NSData *)data;
+- (void)classificationCompleted:(NSArray<MRClassifiedResistanceExercise *> *)result fromData:(NSData *)data;
 
 ///
 /// Classification made some decisions, but this is not the final decision. The final decision will
@@ -81,7 +81,7 @@
 ///
 /// This method provides a way to provide a view on the in-progress classification.
 ///
-- (void)classificationEstimated:(NSArray *)result;
+- (void)classificationEstimated:(NSArray<MRClassifiedResistanceExercise *> *)result;
 
 ///
 /// Called when the classifier has estimated the number of repetitions.
