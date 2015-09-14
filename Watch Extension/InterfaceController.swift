@@ -1,11 +1,3 @@
-//
-//  InterfaceController.swift
-//  Watch Extension
-//
-//  Created by Jan Machacek on 12/09/2015.
-//  Copyright © 2015 Muvr. All rights reserved.
-//
-
 import WatchKit
 import Foundation
 
