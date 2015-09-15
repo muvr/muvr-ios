@@ -263,7 +263,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     func notMoving() {
         if waitingForUser { return }
         if let x: MRExerciseBlockDelegate = currentPageViewController() { x.notMoving() }
-        if !mode!.reportMovementExercise { pcd.notifyNotMoving() }
+        if mode!.reportMovementExercise { pcd.notifyNotMoving() }
     }
     
     // MARK: MRTrainingPipelineDelegate
