@@ -9,7 +9,7 @@ This part of the project is mostly written using Swift 2. Some classes use Objec
 
 #### Other components of the system
 - [muvr-server](https://github.com/muvr/muvr-server) CQRS/ES cluster 
-- [muvr-pebble](https://github.com/muvr/muvr-pebble) Pebble application
+- [muvr-pebble](https://github.com/muvr/muvr-pebble) Pebble application, example implementation of a wearable device 
 - [muvr-preclassification](https://github.com/muvr/muvr-preclassification) mobile data processing and classification
 - [muvr-analytics](https://github.com/muvr/muvr-analytics) machine learning model generation for movement analytics
 
