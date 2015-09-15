@@ -113,6 +113,8 @@
 		547E6A8B1AF36938005DE00C /* MRExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A8A1AF36938005DE00C /* MRExerciseModel.swift */; };
 		547E6A8D1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A8C1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift */; };
 		547E6A911AF374FF005DE00C /* MRDataModel+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A901AF374FF005DE00C /* MRDataModel+Defaults.swift */; };
+		547F92831BA8BA1700A69295 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 547F92821BA8BA1700A69295 /* WatchConnectivity.framework */; };
+		547F92851BA8BA4A00A69295 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 547F92841BA8BA4A00A69295 /* WatchConnectivity.framework */; };
 		54820DF41AF27DC200E3AEC2 /* MRMuvrServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DF21AF27DC200E3AEC2 /* MRMuvrServer.swift */; };
 		54820DF51AF27DC200E3AEC2 /* MRMuvrServerURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DF31AF27DC200E3AEC2 /* MRMuvrServerURLs.swift */; };
 		54820DF91AF2811300E3AEC2 /* MRApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DF81AF2811300E3AEC2 /* MRApplicationState.swift */; };
@@ -314,6 +316,8 @@
 		547E6A8A1AF36938005DE00C /* MRExerciseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModel.swift; sourceTree = "<group>"; };
 		547E6A8C1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseModel+Marshalling.swift"; sourceTree = "<group>"; };
 		547E6A901AF374FF005DE00C /* MRDataModel+Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRDataModel+Defaults.swift"; sourceTree = "<group>"; };
+		547F92821BA8BA1700A69295 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
+		547F92841BA8BA4A00A69295 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
 		54820DF21AF27DC200E3AEC2 /* MRMuvrServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MRMuvrServer.swift; path = MuvrServer/MRMuvrServer.swift; sourceTree = "<group>"; };
 		54820DF31AF27DC200E3AEC2 /* MRMuvrServerURLs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MRMuvrServerURLs.swift; path = MuvrServer/MRMuvrServerURLs.swift; sourceTree = "<group>"; };
 		54820DF81AF2811300E3AEC2 /* MRApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRApplicationState.swift; sourceTree = "<group>"; };
@@ -411,6 +415,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				547F92831BA8BA1700A69295 /* WatchConnectivity.framework in Frameworks */,
 				54D5275D1B94D79F00B56719 /* Alamofire.framework in Frameworks */,
 				54D5275E1B94D79F00B56719 /* Charts.framework in Frameworks */,
 				54D5275F1B94D79F00B56719 /* JTCalendar.framework in Frameworks */,
@@ -441,6 +446,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				547F92851BA8BA4A00A69295 /* WatchConnectivity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,6 +456,8 @@
 		288CCE5D5AB7F6FBE827B7C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				547F92841BA8BA4A00A69295 /* WatchConnectivity.framework */,
+				547F92821BA8BA1700A69295 /* WatchConnectivity.framework */,
 				54E3A21D1BA21482001D9EA5 /* Pods.framework */,
 				5410C8341B9DCA09005C57C1 /* Pods.framework */,
 				5410C82C1B9DC9EA005C57C1 /* Alamofire.framework */,

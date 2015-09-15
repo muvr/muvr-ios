@@ -10,11 +10,15 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Watch" customModuleProvider="target">
                     <items>
-                        <button width="1" alignment="left" title="Go" id="qph-6j-6Ky"/>
+                        <button width="1" alignment="left" title="Go" id="qph-6j-6Ky">
+                            <connections>
+                                <action selector="sendData" destination="AgC-eL-Hgc" id="1aO-Uk-Vtn"/>
+                            </connections>
+                        </button>
                     </items>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="164" y="217"/>
+            <point key="canvasLocation" x="95" y="154"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">

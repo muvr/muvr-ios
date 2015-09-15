@@ -1,15 +1,8 @@
-//
-//  AppDelegate.swift
-//  Muvr
-//
-//  Created by Jan Machacek on 3/27/15.
-//  Copyright (c) 2015 Muvr. All rights reserved.
-//
-
 import UIKit
+import WatchConnectivity
 
 @UIApplicationMain
-class MRAppDelegate: UIResponder, UIApplicationDelegate {
+class MRAppDelegate: UIResponder, UIApplicationDelegate, WCSessionDelegate {
     
     var window: UIWindow?
     var deviceToken: NSData?
@@ -17,7 +10,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
     private func registerSettingsAndDelegates() {
         let settings = UIUserNotificationSettings(forTypes: [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound], categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-        // LiftServer.sharedInstance.setDelegate(self, delegateQueue: dispatch_get_main_queue())
+        if WCSession.isSupported() {
+            WCSession.defaultSession().delegate = self
+            WCSession.defaultSession().activateSession()
+        }
+    }
+    
+    func session(session: WCSession, didReceiveMessageData messageData: NSData) {
+        print("Got \(messageData)")
     }
 
     private func startWithStoryboardId(storyboard: UIStoryboard, id: String) {

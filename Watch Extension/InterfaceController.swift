@@ -1,13 +1,27 @@
 import WatchKit
 import Foundation
+import WatchConnectivity
 
+class InterfaceController: WKInterfaceController, WCSessionDelegate {
 
-class InterfaceController: WKInterfaceController {
-
+    @IBAction func sendData() {
+        if WCSession.isSupported() {
+            WCSession.defaultSession().delegate = self
+            WCSession.defaultSession().activateSession()
+            let x: NSString = "foofaff"
+            let d = x.dataUsingEncoding(NSASCIIStringEncoding)!
+            WCSession.defaultSession().sendMessageData(d, replyHandler: { _ -> Void in
+                    // noop
+                    print(":)")
+                }, errorHandler: { e -> Void in
+                    // noop
+                    print(":( \(e)")
+            })
+        }
+    }
+    
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        
-        // Configure interface objects here.
     }
 
     override func willActivate() {
