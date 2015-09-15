@@ -40,3 +40,5 @@ For any bugs or feature requests please:
   [pull request](https://github.com/muvr/muvr-ios/pulls) 
 
 ## License
+Please have a look at the [LICENSE](https://github.com/muvr/muvr-ios/blob/develop/LICENSE) file.
+
