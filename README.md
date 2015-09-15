@@ -8,7 +8,8 @@
 This part of the project is mostly written using Swift 2. Some classes use Objective-C / Objective-C++ for easier interfacing with external libraries.
 
 #### Other components of the system
-- [muvr-server](https://github.com/muvr/muvr-server) CQRS/ES cluster
+- [muvr-server](https://github.com/muvr/muvr-server) CQRS/ES cluster 
+- [muvr-pebble](https://github.com/muvr/muvr-pebble) Pebble application
 - [muvr-preclassification](https://github.com/muvr/muvr-preclassification) mobile data processing and classification
 - [muvr-analytics](https://github.com/muvr/muvr-analytics) machine learning model generation for movement analytics
 
