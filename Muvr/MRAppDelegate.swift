@@ -17,7 +17,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, WCSessionDelegate {
     }
     
     func session(session: WCSession, didReceiveMessageData messageData: NSData) {
-        print("Got \(messageData)")
+        let c = UIAlertController(title: "Watch", message: "Got data from watch", preferredStyle: UIAlertControllerStyle.Alert)
+        window!.rootViewController?.presentViewController(c, animated: true, completion: nil)
     }
 
     private func startWithStoryboardId(storyboard: UIStoryboard, id: String) {
