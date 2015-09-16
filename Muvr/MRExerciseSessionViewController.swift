@@ -288,7 +288,11 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         
         if let x: MRClassificationPipelineDelegate = currentPageViewController() { x.classificationCompleted(result, fromData: data) }
         userClassification = MRExerciseSessionUserClassification(session: state!.session, data: data, result: result)
-        if userClassification!.combined.isEmpty { return }
+        if userClassification!.combined.isEmpty {
+            let res = state!.session.exerciseModel.exercises.map { id in return MRResistanceExercise(id: id) }
+            let cres = res.map { MRClassifiedResistanceExercise($0) } as [MRClassifiedResistanceExercise]
+            userClassification = MRExerciseSessionUserClassification(session: state!.session, data: data, result: cres)
+        }
         
         waitingForUser = true
         classificationCompletedViewController?.presentClassificationResult(self, userClassification: userClassification!, onComplete: logExerciseExample)
