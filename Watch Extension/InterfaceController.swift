@@ -3,20 +3,16 @@ import Foundation
 import WatchConnectivity
 
 class InterfaceController: WKInterfaceController, WCSessionDelegate {
+    private var timer: NSTimer?
 
     @IBAction func sendData() {
-        if WCSession.isSupported() {
+        if let t = timer {
+            t.invalidate()
+            timer = nil
+        } else if WCSession.isSupported() {
+            timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "tick", userInfo: nil, repeats: true)
             WCSession.defaultSession().delegate = self
             WCSession.defaultSession().activateSession()
-            let x: NSString = "foofaff"
-            let d = x.dataUsingEncoding(NSASCIIStringEncoding)!
-            WCSession.defaultSession().sendMessageData(d, replyHandler: { _ -> Void in
-                    // noop
-                    print(":)")
-                }, errorHandler: { e -> Void in
-                    // noop
-                    print(":( \(e)")
-            })
         }
     }
     
@@ -32,6 +28,18 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
+    }
+    
+    func tick() {
+        let d = NSMutableData(length: 650)!
+        WCSession.defaultSession().sendMessageData(d,
+            replyHandler: { _ -> Void in
+                // noop
+                print(":)")
+            }, errorHandler: { e -> Void in
+                // noop
+                print(":( \(e)")
+        })
     }
 
 }

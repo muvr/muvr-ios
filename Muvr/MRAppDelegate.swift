@@ -1,8 +1,7 @@
 import UIKit
-import WatchConnectivity
 
 @UIApplicationMain
-class MRAppDelegate: UIResponder, UIApplicationDelegate, WCSessionDelegate {
+class MRAppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     var deviceToken: NSData?
@@ -10,17 +9,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, WCSessionDelegate {
     private func registerSettingsAndDelegates() {
         let settings = UIUserNotificationSettings(forTypes: [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound], categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-        if WCSession.isSupported() {
-            WCSession.defaultSession().delegate = self
-            WCSession.defaultSession().activateSession()
-        }
     }
     
-    func session(session: WCSession, didReceiveMessageData messageData: NSData) {
-        let c = UIAlertController(title: "Watch", message: "Got data from watch", preferredStyle: UIAlertControllerStyle.Alert)
-        window!.rootViewController?.presentViewController(c, animated: true, completion: nil)
-    }
-
     private func startWithStoryboardId(storyboard: UIStoryboard, id: String) {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window!.makeKeyAndVisible()
