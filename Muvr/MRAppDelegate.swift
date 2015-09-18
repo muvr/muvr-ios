@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  Muvr
-//
-//  Created by Jan Machacek on 3/27/15.
-//  Copyright (c) 2015 Muvr. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain
@@ -17,9 +9,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
     private func registerSettingsAndDelegates() {
         let settings = UIUserNotificationSettings(forTypes: [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound], categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-        // LiftServer.sharedInstance.setDelegate(self, delegateQueue: dispatch_get_main_queue())
     }
-
+    
     private func startWithStoryboardId(storyboard: UIStoryboard, id: String) {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window!.makeKeyAndVisible()

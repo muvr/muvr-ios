@@ -1,21 +1,23 @@
-//
-//  InterfaceController.swift
-//  Watch Extension
-//
-//  Created by Jan Machacek on 12/09/2015.
-//  Copyright © 2015 Muvr. All rights reserved.
-//
-
 import WatchKit
 import Foundation
+import WatchConnectivity
 
+class InterfaceController: WKInterfaceController, WCSessionDelegate {
+    private var timer: NSTimer?
 
-class InterfaceController: WKInterfaceController {
-
+    @IBAction func sendData() {
+        if let t = timer {
+            t.invalidate()
+            timer = nil
+        } else if WCSession.isSupported() {
+            timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "tick", userInfo: nil, repeats: true)
+            WCSession.defaultSession().delegate = self
+            WCSession.defaultSession().activateSession()
+        }
+    }
+    
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        
-        // Configure interface objects here.
     }
 
     override func willActivate() {
@@ -26,6 +28,18 @@ class InterfaceController: WKInterfaceController {
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
+    }
+    
+    func tick() {
+        let d = NSMutableData(length: 650)!
+        WCSession.defaultSession().sendMessageData(d,
+            replyHandler: { _ -> Void in
+                // noop
+                print(":)")
+            }, errorHandler: { e -> Void in
+                // noop
+                print(":( \(e)")
+        })
     }
 
 }

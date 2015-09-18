@@ -1,7 +1,8 @@
 import Foundation
 import JTCalendar
+import WatchConnectivity
 
-class MRHomeViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, JTCalendarDelegate, UIActionSheetDelegate {
+class MRHomeViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, JTCalendarDelegate, UIActionSheetDelegate, WCSessionDelegate {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var calendarContentView: JTHorizontalCalendarView!
     @IBOutlet var profileItem: UIBarItem!
@@ -9,6 +10,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     private let calendar = JTCalendarManager()
     private var resistanceExerciseSessions: [MRResistanceExerciseSession] = []
     private var resistanceExerciseSessionDetails: [MRResistanceExerciseSessionDetail<MRResistanceExerciseExample>] = []
+    private var lastReceived: NSDate?
     
     private struct Consts {
         static let Sessions = 0
@@ -22,6 +24,18 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
         calendar.contentView = calendarContentView
         calendar.settings.weekModeEnabled = true
         calendar.delegate = self
+
+        if WCSession.isSupported() {
+            WCSession.defaultSession().delegate = self
+            WCSession.defaultSession().activateSession()
+        }
+    }
+    
+    func session(session: WCSession, didReceiveMessageData messageData: NSData) {
+        let t = lastReceived?.timeIntervalSinceDate(NSDate()) ?? 0
+        lastReceived = NSDate()
+        // This is reliably called every 1 s
+        profileItem!.title = "Got \(messageData.length) B, \(-t)"
     }
     
     override func viewDidAppear(animated: Bool) {
