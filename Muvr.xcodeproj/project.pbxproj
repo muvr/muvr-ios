@@ -170,6 +170,10 @@
 		54DE16121BAD906D00F0752B /* MRSensorDataCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 54DE16111BAD906D00F0752B /* MRSensorDataCodec.h */; settings = {ASSET_TAGS = (); }; };
 		54DE16131BAD906D00F0752B /* MRSensorDataCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 54DE16111BAD906D00F0752B /* MRSensorDataCodec.h */; settings = {ASSET_TAGS = (); }; };
 		54DE16151BAD918E00F0752B /* SensorDataWatch-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 54DE16141BAD917600F0752B /* SensorDataWatch-Swift.h */; settings = {ASSET_TAGS = (); }; };
+		54DE161A1BAD940700F0752B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5442013A1B9384BE00354DB7 /* CoreMotion.framework */; };
+		54DE161C1BAD941000F0752B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54DE161B1BAD941000F0752B /* CoreMotion.framework */; };
+		54DE161E1BAD949E00F0752B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54DE161D1BAD949E00F0752B /* HealthKit.framework */; };
+		54DE16201BAD94A400F0752B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54DE161F1BAD94A400F0752B /* HealthKit.framework */; };
 		54E3A21E1BA21482001D9EA5 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E3A21D1BA21482001D9EA5 /* Pods.framework */; };
 		54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */; };
 		54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC361AC57E8D0061EC5D /* exercise_decider.cc */; };
@@ -444,6 +448,9 @@
 		54DE160A1BAD901300F0752B /* MRSensorData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSensorData.m; sourceTree = "<group>"; };
 		54DE16111BAD906D00F0752B /* MRSensorDataCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSensorDataCodec.h; sourceTree = "<group>"; };
 		54DE16141BAD917600F0752B /* SensorDataWatch-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SensorDataWatch-Swift.h"; sourceTree = "<group>"; };
+		54DE161B1BAD941000F0752B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
+		54DE161D1BAD949E00F0752B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		54DE161F1BAD94A400F0752B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		54E3A21D1BA21482001D9EA5 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		54F0DC251AC57E8D0061EC5D /* device_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data.h; sourceTree = "<group>"; };
@@ -539,6 +546,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54DE16201BAD94A400F0752B /* HealthKit.framework in Frameworks */,
+				54DE161A1BAD940700F0752B /* CoreMotion.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,6 +563,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54DE161E1BAD949E00F0752B /* HealthKit.framework in Frameworks */,
+				54DE161C1BAD941000F0752B /* CoreMotion.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,6 +574,9 @@
 		288CCE5D5AB7F6FBE827B7C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				54DE161F1BAD94A400F0752B /* HealthKit.framework */,
+				54DE161D1BAD949E00F0752B /* HealthKit.framework */,
+				54DE161B1BAD941000F0752B /* CoreMotion.framework */,
 				547F92841BA8BA4A00A69295 /* WatchConnectivity.framework */,
 				547F92821BA8BA1700A69295 /* WatchConnectivity.framework */,
 				54E3A21D1BA21482001D9EA5 /* Pods.framework */,
