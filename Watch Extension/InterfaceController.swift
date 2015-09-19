@@ -1,6 +1,7 @@
 import WatchKit
 import Foundation
 import WatchConnectivity
+import SensorData
 
 class InterfaceController: WKInterfaceController, WCSessionDelegate {
     private var timer: NSTimer?

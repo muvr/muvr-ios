@@ -1,11 +1,3 @@
-//
-//  SensorData.h
-//  SensorData
-//
-//  Created by Jan Machacek on 19/09/2015.
-//  Copyright © 2015 Muvr. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 
 //! Project version number for SensorData.
