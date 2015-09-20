@@ -71,6 +71,13 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
     
     private func resetTrainingData(_: UIAlertAction) -> Void {
         MRApplicationState.clearTrainingData()
+        reloadView()
+    }
+    
+    private func reloadView() -> Void {
+        refreshCalendar(on: calendar.date())
+        calendar.reload()
+        tableView.reloadData()
     }
     
 
@@ -150,9 +157,7 @@ class MRHomeViewController : UIViewController, UITableViewDataSource, UITableVie
                 MRApplicationState.loggedInState!.deleteSession(detail.id)
                 resistanceExerciseSessions = MRApplicationState.loggedInState!.getResistanceExerciseSessions()
                 
-                refreshCalendar(on: calendar.date())
-                calendar.reload()
-                tableView.reloadData()
+                reloadView()
             default:
                 // noop
                 return
