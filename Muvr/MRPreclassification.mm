@@ -166,11 +166,13 @@ public:
     
     auto result = fuser->buffer();
     fuser->clear();
-    NSData *data = [self formatFusedSensorData:result];
+    NSData *formattedData = [self formatFusedSensorData:result];
+    auto data = result.fused_exercise_data();
     
     // --- Move classification to pushBack
-    NSArray* classificationResult = [classifier classify:result.fused_exercise_data() withMaximumResults:3];
-    [self.classificationPipelineDelegate classificationCompleted:classificationResult fromData:data];
+    auto repetitions = [repetitionEstimator estimate:data];
+    NSArray* classificationResult = [classifier classify:data withMaximumResults:3 repetitionHint: [NSNumber numberWithInt:repetitions]];
+    [self.classificationPipelineDelegate classificationCompleted:classificationResult fromData:formattedData];
 }
 
 - (void)trainingCompleted {
