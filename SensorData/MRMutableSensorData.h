@@ -6,4 +6,6 @@
 
 - (void)append:(CMDeviceMotion *)data;
 
+- (uint)duration;
+
 @end
