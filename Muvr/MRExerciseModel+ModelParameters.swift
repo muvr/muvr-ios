@@ -1,4 +1,5 @@
 import Foundation
+import MuvrKit
 
 /// TODO: consider moving to MRMuscleGroupModel, which lives in its own table
 extension MRExerciseModel {

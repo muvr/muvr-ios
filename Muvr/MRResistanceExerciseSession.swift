@@ -1,4 +1,5 @@
 import Foundation
+import MuvrKit
 
 struct MRResistanceExerciseSession {
     var startDate: NSDate

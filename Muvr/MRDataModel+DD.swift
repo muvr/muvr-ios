@@ -1,5 +1,6 @@
 import Foundation
 import SQLite
+import MuvrKit
 
 ///
 /// The data definition for resistance exercise session
@@ -12,7 +13,7 @@ extension MRDataModel.MRResistanceExerciseSessionDataModel {
         t.column(sessionId)
         t.column(MRDataModel.json)
 
-        //t.foreignKey(sessionId, references: fk, other: MRDataModel.resistanceExerciseSessions, update: TableBuilder.Dependency.Restrict, delete: TableBuilder.Dependency.Cascade)
+        t.foreignKey(sessionId, references: MRDataModel.resistanceExerciseSessions, fk, update: TableBuilder.Dependency.Restrict, delete: TableBuilder.Dependency.Cascade)
     }
     
     private static func createExamplesData(t: TableBuilder) -> Void {
@@ -21,7 +22,7 @@ extension MRDataModel.MRResistanceExerciseSessionDataModel {
         t.column(exampleId)
         t.column(fusedSensorData)
         
-        //t.foreignKey(exampleId, references: fk, update: TableBuilder.Dependency.Restrict, delete: TableBuilder.Dependency.Cascade)
+        t.foreignKey(sessionId, references: MRDataModel.resistanceExerciseSessions, fk, update: TableBuilder.Dependency.Restrict, delete: TableBuilder.Dependency.Cascade)
     }
 
     private static func create(t: TableBuilder) -> Void {

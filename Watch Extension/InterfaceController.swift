@@ -1,7 +1,7 @@
 import WatchKit
 import Foundation
 import WatchConnectivity
-import SensorData
+import MuvrKit
 
 class InterfaceController: WKInterfaceController, WCSessionDelegate {
     

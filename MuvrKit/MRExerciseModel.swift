@@ -1,0 +1,31 @@
+import Foundation
+
+public typealias MRExerciseModelId = String
+
+public typealias MRExerciseId = String
+
+///
+/// MRExerciseModelId model.
+///
+/// In addition to driving the user interface elements, the ``id`` is a filter for the classifiers.
+/// When a user starts an exercise session, the application needs to build a list of classifiers that
+/// will be used to classify the incoming sensor data. It is likely that the same sensor patterns
+/// idenfity different exercises, and the only reasonable way to distinguish between them is to use
+/// the muscle group as additional context.
+///
+/// Moreover, not using all classifiers will improve the responsiveness of the app.
+///
+public struct MRExerciseModel {
+    /// the identifier of the muscle group
+    public var id: MRExerciseModelId
+    /// the title
+    public var title: String
+    /// the exercises
+    public var exercises: [MRExerciseId]
+    
+    public init(id: MRExerciseId, title: String, exercises: [MRExerciseId]) {
+        self.id = id
+        self.title = title
+        self.exercises = exercises
+    }
+}
