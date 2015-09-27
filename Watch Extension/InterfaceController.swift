@@ -4,6 +4,10 @@ import WatchConnectivity
 import SensorData
 
 class InterfaceController: WKInterfaceController, WCSessionDelegate {
+    
+    @IBOutlet var model: WKInterfacePicker!
+    @IBOutlet var intensity: WKInterfacePicker!
+    
     private var timer: NSTimer?
 
     @IBAction func sendData() {
@@ -22,12 +26,11 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     }
 
     override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+        model.setItems([])
     }
 
     override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
     

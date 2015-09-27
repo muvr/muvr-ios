@@ -10,15 +10,22 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Watch" customModuleProvider="target">
                     <items>
+                        <picker width="1" height="0.29999999999999999" alignment="left" focusStyle="stack" indicatorMode="shownWhileFocused" id="JBL-em-o3w"/>
+                        <picker width="1" height="0.29999999999999999" alignment="left" focusStyle="stack" indicatorMode="shownWhileFocused" id="vPB-03-r6L"/>
                         <button width="1" alignment="left" title="Go" id="qph-6j-6Ky">
+                            <color key="backgroundColor" red="0.25098040700000002" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="sendData" destination="AgC-eL-Hgc" id="1aO-Uk-Vtn"/>
                             </connections>
                         </button>
                     </items>
+                    <connections>
+                        <outlet property="intensity" destination="vPB-03-r6L" id="hBe-Z2-w85"/>
+                        <outlet property="model" destination="JBL-em-o3w" id="tr5-Tw-GOT"/>
+                    </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="95" y="154"/>
+            <point key="canvasLocation" x="95" y="134"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">

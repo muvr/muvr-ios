@@ -1,20 +1,18 @@
 //
-//  SensorDataTests.swift
-//  SensorDataTests
+//  MuvrKitTests.swift
+//  MuvrKitTests
 //
-//  Created by Jan Machacek on 19/09/2015.
+//  Created by Jan Machacek on 27/09/2015.
 //  Copyright © 2015 Muvr. All rights reserved.
 //
 
 import XCTest
-@testable import SensorData
+@testable import MuvrKit
 
-class SensorDataTests: XCTestCase {
+class MuvrKitTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        let x = MRMutableSensorData()
-    
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
