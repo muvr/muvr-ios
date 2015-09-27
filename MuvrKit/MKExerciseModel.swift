@@ -1,8 +1,8 @@
 import Foundation
 
-public typealias MRExerciseModelId = String
+public typealias MKExerciseModelId = String
 
-public typealias MRExerciseId = String
+public typealias MKExerciseId = String
 
 ///
 /// MRExerciseModelId model.
@@ -15,15 +15,15 @@ public typealias MRExerciseId = String
 ///
 /// Moreover, not using all classifiers will improve the responsiveness of the app.
 ///
-public struct MRExerciseModel {
+public struct MKExerciseModel {
     /// the identifier of the muscle group
-    public var id: MRExerciseModelId
+    public let id: MKExerciseModelId
     /// the title
-    public var title: String
+    public let title: String
     /// the exercises
-    public var exercises: [MRExerciseId]
+    public let exercises: [MKExerciseId]
     
-    public init(id: MRExerciseId, title: String, exercises: [MRExerciseId]) {
+    public init(id: MKExerciseId, title: String, exercises: [MKExerciseId]) {
         self.id = id
         self.title = title
         self.exercises = exercises

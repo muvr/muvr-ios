@@ -12,6 +12,6 @@ import MuvrKit
 ///
 /// Moreover, not using all classifiers will improve the responsiveness of the app.
 ///
-extension MRExerciseModel {
+extension MKExerciseModel {
     
 }

@@ -57,17 +57,17 @@ struct MRDataModel {
     ///
     struct MRExerciseModelDataModel {
         
-        static func set(models: [MRExerciseModel]) {
+        static func set(models: [MKExerciseModel]) {
             exerciseModels.delete()
             models.forEach {
                 try! database.run(exerciseModels.insert(json <- JSON($0.marshal())))
             }
         }
         
-        static func get() -> [MRExerciseModel] {
-            var ms: [MRExerciseModel] = []
+        static func get() -> [MKExerciseModel] {
+            var ms: [MKExerciseModel] = []
             for row in database.prepare(exerciseModels) {//.filter(locid == locale.localeIdentifier) {
-                ms.append(MRExerciseModel.unmarshal(row.get(json)))
+                ms.append(MKExerciseModel.unmarshal(row.get(json)))
             }
             return ms
         }

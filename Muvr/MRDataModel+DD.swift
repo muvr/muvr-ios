@@ -102,7 +102,7 @@ extension MRDataModel {
             if let exerciseTitles = (loadArray("exercises") { json in return (json["id"].stringValue, json["title"].stringValue) }) {
                 MRDataModel.MRExerciseDataModel.set(exerciseTitles.1, locale: exerciseTitles.0)
             }
-            if let exerciseModels = loadArray("exercisemodels", unmarshal: MRExerciseModel.unmarshal) {
+            if let exerciseModels = loadArray("exercisemodels", unmarshal: MKExerciseModel.unmarshal) {
                 MRDataModel.MRExerciseModelDataModel.set(exerciseModels.1)
             }
         }

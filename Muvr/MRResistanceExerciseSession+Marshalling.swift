@@ -11,7 +11,7 @@ extension MRResistanceExerciseSession {
     static func unmarshal(json: JSON) -> MRResistanceExerciseSession {
         return MRResistanceExerciseSession(startDate: NSDate.unmarshal(json["startDate"].stringValue),
                                            intendedIntensity: json["intendedIntensity"].doubleValue,
-                                           exerciseModel: MRExerciseModel.unmarshal(json["exerciseModel"]),
+                                           exerciseModel: MKExerciseModel.unmarshal(json["exerciseModel"]),
                                            title: json["title"].stringValue)
     }
     

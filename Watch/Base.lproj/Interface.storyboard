@@ -5,17 +5,18 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="8092"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--Muvr-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Watch" customModuleProvider="target">
+                <controller title="Muvr" id="AgC-eL-Hgc" customClass="MRMainController" customModule="Watch_Extension">
                     <items>
-                        <picker width="1" height="0.29999999999999999" alignment="left" focusStyle="stack" indicatorMode="shownWhileFocused" id="JBL-em-o3w"/>
-                        <picker width="1" height="0.29999999999999999" alignment="left" focusStyle="stack" indicatorMode="shownWhileFocused" id="vPB-03-r6L"/>
-                        <button width="1" alignment="left" title="Go" id="qph-6j-6Ky">
+                        <picker width="1" widthAdjustment="2" height="0.20000000000000001" alignment="left" focusStyle="stack" indicatorMode="shownWhileFocused" id="JBL-em-o3w"/>
+                        <picker width="1" height="0.20000000000000001" alignment="left" focusStyle="stack" indicatorMode="shownWhileFocused" id="vPB-03-r6L"/>
+                        <button width="1" alignment="left" title="Start" id="qph-6j-6Ky">
                             <color key="backgroundColor" red="0.25098040700000002" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="font" type="boldSystem" pointSize="15"/>
                             <connections>
-                                <action selector="sendData" destination="AgC-eL-Hgc" id="1aO-Uk-Vtn"/>
+                                <action selector="go" destination="AgC-eL-Hgc" id="cfd-97-B6J"/>
                             </connections>
                         </button>
                     </items>
@@ -25,12 +26,19 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="95" y="134"/>
+            <point key="canvasLocation" x="28" y="80"/>
+        </scene>
+        <!--Exercising-->
+        <scene sceneID="aWf-eg-4sI">
+            <objects>
+                <controller identifier="Exercising" title="Exercising" hidesWhenLoading="NO" id="IwV-9C-R6z"/>
+            </objects>
+            <point key="canvasLocation" x="302" y="80"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
             <objects>
-                <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="GlanceController" customModule="Watch" customModuleProvider="target">
+                <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="MRGlanceController" customModule="Watch_Extension">
                     <items>
                         <group alignment="left" id="gv7-I2-MZq"/>
                         <group alignment="left" id="eew-Gs-W6Y"/>

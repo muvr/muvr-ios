@@ -2,11 +2,11 @@ import Foundation
 import SwiftyJSON
 import MuvrKit
 
-extension MRExerciseModel {
+extension MKExerciseModel {
     
     /// Load MRMuscleGroup from JSON
-    static func unmarshal(json: JSON) -> MRExerciseModel {
-        return MRExerciseModel(
+    static func unmarshal(json: JSON) -> MKExerciseModel {
+        return MKExerciseModel(
             id: json["id"].stringValue,
             title: json["title"].stringValue,
             exercises: json["exercises"].arrayValue.map { $0.stringValue }

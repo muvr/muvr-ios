@@ -4,6 +4,6 @@ import MuvrKit
 struct MRResistanceExerciseSession {
     var startDate: NSDate
     var intendedIntensity: Double
-    var exerciseModel: MRExerciseModel
+    var exerciseModel: MKExerciseModel
     var title: String
 }

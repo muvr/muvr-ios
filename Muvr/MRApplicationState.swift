@@ -6,7 +6,7 @@ import MuvrKit
 ///
 struct MRApplicationState {
     
-    static var exerciseModels: [MRExerciseModel] {
+    static var exerciseModels: [MKExerciseModel] {
         return MRDataModel.MRExerciseModelDataModel.get()
     }
     

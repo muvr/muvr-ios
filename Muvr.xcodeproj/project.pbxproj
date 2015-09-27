@@ -109,10 +109,13 @@
 		5464EBCB1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC51AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds */; };
 		5464EBCC1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC61AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale */; };
 		547463531B9DE4BC0051F146 /* MRExercisingApplicationStateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547463521B9DE4BC0051F146 /* MRExercisingApplicationStateDelegate.swift */; };
-		547A44501BB8166C00C2CC06 /* MRExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A444F1BB8166C00C2CC06 /* MRExerciseModel.swift */; settings = {ASSET_TAGS = (); }; };
-		547A44511BB8166C00C2CC06 /* MRExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A444F1BB8166C00C2CC06 /* MRExerciseModel.swift */; settings = {ASSET_TAGS = (); }; };
-		547A44531BB817CD00C2CC06 /* MRConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A44521BB817CD00C2CC06 /* MRConnectivity.swift */; settings = {ASSET_TAGS = (); }; };
-		547A44541BB817CD00C2CC06 /* MRConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A44521BB817CD00C2CC06 /* MRConnectivity.swift */; settings = {ASSET_TAGS = (); }; };
+		547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */; settings = {ASSET_TAGS = (); }; };
+		547A44511BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */; settings = {ASSET_TAGS = (); }; };
+		547A44541BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */; settings = {ASSET_TAGS = (); }; };
+		547A445A1BB8585300C2CC06 /* MKWatchConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */; settings = {ASSET_TAGS = (); }; };
+		547A445C1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */; settings = {ASSET_TAGS = (); }; };
+		547A445E1BB8677700C2CC06 /* MKIntensity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A445D1BB8677700C2CC06 /* MKIntensity.swift */; settings = {ASSET_TAGS = (); }; };
+		547A445F1BB8677700C2CC06 /* MKIntensity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A445D1BB8677700C2CC06 /* MKIntensity.swift */; settings = {ASSET_TAGS = (); }; };
 		547E6A841AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A831AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift */; };
 		547E6A8B1AF36938005DE00C /* MRExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A8A1AF36938005DE00C /* MRExerciseModel.swift */; };
 		547E6A8D1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A8C1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift */; };
@@ -128,14 +131,13 @@
 		548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 548225531AC57A3500EEEFCB /* MRPreclassification.mm */; };
 		5488F39D1AFF8C960086BF7B /* exercise_plan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5488F39B1AFF8C960086BF7B /* exercise_plan.cc */; };
 		5488F39E1AFF8C960086BF7B /* simple_exercise_plan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5488F39C1AFF8C960086BF7B /* simple_exercise_plan.cc */; };
-		548D17D31BB8111B00A76C4E /* MRApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548D17D21BB8111B00A76C4E /* MRApplicationState.swift */; settings = {ASSET_TAGS = (); }; };
 		54A1A1C91BA1DCD500C2EFEB /* MRRepetitionEstimator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54A1A1C81BA1DCD500C2EFEB /* MRRepetitionEstimator.mm */; settings = {ASSET_TAGS = (); }; };
 		54A48ACB1BA474F300F4A81B /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54A48AC91BA474F300F4A81B /* Interface.storyboard */; };
 		54A48ACD1BA474F300F4A81B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54A48ACC1BA474F300F4A81B /* Assets.xcassets */; };
 		54A48AD41BA474F300F4A81B /* Watch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 54A48AD31BA474F300F4A81B /* Watch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		54A48AD91BA474F300F4A81B /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A48AD81BA474F300F4A81B /* InterfaceController.swift */; };
-		54A48ADB1BA474F300F4A81B /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A48ADA1BA474F300F4A81B /* ExtensionDelegate.swift */; };
-		54A48ADD1BA474F300F4A81B /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A48ADC1BA474F300F4A81B /* GlanceController.swift */; };
+		54A48AD91BA474F300F4A81B /* MRMainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A48AD81BA474F300F4A81B /* MRMainController.swift */; };
+		54A48ADB1BA474F300F4A81B /* MRExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A48ADA1BA474F300F4A81B /* MRExtensionDelegate.swift */; };
+		54A48ADD1BA474F300F4A81B /* MRGlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A48ADC1BA474F300F4A81B /* MRGlanceController.swift */; };
 		54A48AE41BA474F300F4A81B /* Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 54A48AC71BA474F300F4A81B /* Watch.app */; };
 		54A775F91BB81467001586DD /* MuvrKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 54A775F81BB81467001586DD /* MuvrKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54A776001BB81467001586DD /* MuvrKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A775F61BB81467001586DD /* MuvrKit.framework */; settings = {ASSET_TAGS = (); }; };
@@ -374,8 +376,11 @@
 		5464EBC51AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds */ = {isa = PBXFileReference; lastKnownFileType = file; path = "svm-model-triceps_pushdown-features.rds"; sourceTree = "<group>"; };
 		5464EBC61AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-triceps_pushdown-features.scale"; sourceTree = "<group>"; };
 		547463521B9DE4BC0051F146 /* MRExercisingApplicationStateDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisingApplicationStateDelegate.swift; sourceTree = "<group>"; };
-		547A444F1BB8166C00C2CC06 /* MRExerciseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModel.swift; sourceTree = "<group>"; };
-		547A44521BB817CD00C2CC06 /* MRConnectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRConnectivity.swift; sourceTree = "<group>"; };
+		547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseModel.swift; sourceTree = "<group>"; };
+		547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKWatchConnectivityDelegates.swift; sourceTree = "<group>"; };
+		547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKWatchConnectivity.swift; sourceTree = "<group>"; };
+		547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKWatchConnectivity+Defaults.swift"; sourceTree = "<group>"; };
+		547A445D1BB8677700C2CC06 /* MKIntensity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKIntensity.swift; sourceTree = "<group>"; };
 		547E6A831AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionAdHocViewController.swift; sourceTree = "<group>"; };
 		547E6A8A1AF36938005DE00C /* MRExerciseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModel.swift; sourceTree = "<group>"; };
 		547E6A8C1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseModel+Marshalling.swift"; sourceTree = "<group>"; };
@@ -394,7 +399,6 @@
 		5488F39B1AFF8C960086BF7B /* exercise_plan.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = exercise_plan.cc; path = "../../../../../muvr-preclassification/core/main/cc/exercise_plan.cc"; sourceTree = "<group>"; };
 		5488F39C1AFF8C960086BF7B /* simple_exercise_plan.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = simple_exercise_plan.cc; path = "../../../../../muvr-preclassification/core/main/cc/simple_exercise_plan.cc"; sourceTree = "<group>"; };
 		5488F39F1AFF8CA00086BF7B /* exercise_plan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = exercise_plan.h; path = "../../../../muvr-preclassification/core/include/exercise_plan.h"; sourceTree = "<group>"; };
-		548D17D21BB8111B00A76C4E /* MRApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRApplicationState.swift; sourceTree = "<group>"; };
 		54A1A1C81BA1DCD500C2EFEB /* MRRepetitionEstimator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRRepetitionEstimator.mm; sourceTree = "<group>"; };
 		54A1A1CA1BA1DCE000C2EFEB /* MRRepetitionEstimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRRepetitionEstimator.h; sourceTree = "<group>"; };
 		54A48AC71BA474F300F4A81B /* Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watch.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -402,9 +406,9 @@
 		54A48ACC1BA474F300F4A81B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54A48ACE1BA474F300F4A81B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54A48AD31BA474F300F4A81B /* Watch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Watch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		54A48AD81BA474F300F4A81B /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
-		54A48ADA1BA474F300F4A81B /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
-		54A48ADC1BA474F300F4A81B /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
+		54A48AD81BA474F300F4A81B /* MRMainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRMainController.swift; sourceTree = "<group>"; };
+		54A48ADA1BA474F300F4A81B /* MRExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRExtensionDelegate.swift; sourceTree = "<group>"; };
+		54A48ADC1BA474F300F4A81B /* MRGlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRGlanceController.swift; sourceTree = "<group>"; };
 		54A48AE01BA474F300F4A81B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54A775F61BB81467001586DD /* MuvrKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MuvrKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		54A775F81BB81467001586DD /* MuvrKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MuvrKit.h; sourceTree = "<group>"; };
@@ -805,10 +809,9 @@
 		54A48AD71BA474F300F4A81B /* Watch Extension */ = {
 			isa = PBXGroup;
 			children = (
-				54A48AD81BA474F300F4A81B /* InterfaceController.swift */,
-				54A48ADC1BA474F300F4A81B /* GlanceController.swift */,
-				54A48ADA1BA474F300F4A81B /* ExtensionDelegate.swift */,
-				548D17D21BB8111B00A76C4E /* MRApplicationState.swift */,
+				54A48AD81BA474F300F4A81B /* MRMainController.swift */,
+				54A48ADC1BA474F300F4A81B /* MRGlanceController.swift */,
+				54A48ADA1BA474F300F4A81B /* MRExtensionDelegate.swift */,
 				54A48AE01BA474F300F4A81B /* Info.plist */,
 			);
 			path = "Watch Extension";
@@ -820,8 +823,11 @@
 				54A775F81BB81467001586DD /* MuvrKit.h */,
 				54A775FA1BB81467001586DD /* Infoi.plist */,
 				54A7761E1BB81509001586DD /* Infow.plist */,
-				547A444F1BB8166C00C2CC06 /* MRExerciseModel.swift */,
-				547A44521BB817CD00C2CC06 /* MRConnectivity.swift */,
+				547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */,
+				547A445D1BB8677700C2CC06 /* MKIntensity.swift */,
+				547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */,
+				547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */,
+				547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */,
 			);
 			path = MuvrKit;
 			sourceTree = "<group>";
@@ -1538,10 +1544,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54A48ADB1BA474F300F4A81B /* ExtensionDelegate.swift in Sources */,
-				54A48AD91BA474F300F4A81B /* InterfaceController.swift in Sources */,
-				54A48ADD1BA474F300F4A81B /* GlanceController.swift in Sources */,
-				548D17D31BB8111B00A76C4E /* MRApplicationState.swift in Sources */,
+				54A48ADB1BA474F300F4A81B /* MRExtensionDelegate.swift in Sources */,
+				54A48AD91BA474F300F4A81B /* MRMainController.swift in Sources */,
+				54A48ADD1BA474F300F4A81B /* MRGlanceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1549,8 +1554,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				547A44501BB8166C00C2CC06 /* MRExerciseModel.swift in Sources */,
-				547A44531BB817CD00C2CC06 /* MRConnectivity.swift in Sources */,
+				547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */,
+				547A445E1BB8677700C2CC06 /* MKIntensity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1566,8 +1571,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				547A44511BB8166C00C2CC06 /* MRExerciseModel.swift in Sources */,
-				547A44541BB817CD00C2CC06 /* MRConnectivity.swift in Sources */,
+				547A44511BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */,
+				547A445A1BB8585300C2CC06 /* MKWatchConnectivity.swift in Sources */,
+				547A445C1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift in Sources */,
+				547A445F1BB8677700C2CC06 /* MKIntensity.swift in Sources */,
+				547A44541BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
