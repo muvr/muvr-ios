@@ -5,7 +5,8 @@ import Compression
 /// We have the
 ///
 /// ```
-/// struct MK_SENSOR_DATA_HEADER {
+/// uint32_t decompressedSize;
+/// compressed struct MK_SENSOR_DATA_HEADER {
 ///    uint8_t header = 0xd0;         
 ///    uint8_t version = 1;           
 ///    uint8_t typesCount;            
@@ -20,6 +21,12 @@ import Compression
 ///
 public extension MKSensorData {
     
+    ///
+    /// Encode the MKSensorData instance so that it can be transmitted to over a very low-bandwidth network.
+    /// It can throw ``MRCodecError.CompressionFailed`` if for some strange reason the data cannot be compressed.
+    ///
+    /// - returns: the compressed data that can be passed to ``MKSensorData.decode`` to get the same instance
+    ///
     public func encode() throws -> NSData {
         let d = NSMutableData()
         var header: UInt8  = 0xd0

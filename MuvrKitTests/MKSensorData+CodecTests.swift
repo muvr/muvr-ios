@@ -13,7 +13,7 @@ class MKSensorDataCodecTests : XCTestCase {
         )
         
         let encoded = try! d.encode()
-        let dx = try! MKSensorData.decode(encoded)
+        let dx = try! MKSensorData(decoding: encoded)
         XCTAssertEqual(d, dx)
     }
     

@@ -5,7 +5,8 @@ import Compression
 /// We have the
 ///
 /// ```
-/// struct MK_SENSOR_DATA_HEADER {
+/// uint32_t decompressedSize;
+/// compressed struct MK_SENSOR_DATA_HEADER {
 ///    uint8_t header = 0xd0;        
 ///    uint8_t version = 1;          
 ///    uint8_t typesCount;           
@@ -20,7 +21,12 @@ import Compression
 ///
 public extension MKSensorData {
     
-    public static func decode(data: NSData) throws -> MKSensorData {
+    ///
+    /// Initializes this instance by decoding the given ``data``.
+    ///
+    /// - parameter data: the data to be decoded
+    ///
+    public init(decoding data: NSData) throws {
         let destinationBufferSize: Int = Int(UnsafePointer<UInt32>(data.bytes).memory)
         let sourceBuffer: UnsafePointer<UInt8> = UnsafePointer<UInt8>(data.bytes.advancedBy(sizeof(UInt32)))
         let sourceBufferSize: Int = data.length
@@ -32,12 +38,9 @@ public extension MKSensorData {
         }
         
         let bytes = MKUnsafeBufferReader(bytes: destinationBuffer, totalLength: status)
-        return try decode0(bytes)
-    }
-    
-    private static func decode0(bytes: MKUnsafeBufferReader) throws -> MKSensorData {
-        if bytes.length < 5 { throw MKCodecError.NotEnoughInput }
 
+        if bytes.length < 5 { throw MKCodecError.NotEnoughInput }
+        
         try bytes.expect(UInt8(0xd0))
         try bytes.expect(UInt8(1))
         let typesCount: UInt8       = try bytes.next()
@@ -54,7 +57,7 @@ public extension MKSensorData {
             samples[i] = samplesData.advancedBy(i).memory
         }
         
-        return try MKSensorData(types: types, start: start, samplesPerSecond: UInt(samplesPerSecond), samples: samples)
+        try self.init(types: types, start: start, samplesPerSecond: UInt(samplesPerSecond), samples: samples)
     }
     
 }
