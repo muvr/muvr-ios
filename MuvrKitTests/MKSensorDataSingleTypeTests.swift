@@ -2,14 +2,14 @@ import Foundation
 import XCTest
 @testable import MuvrKit
 
-class MKSensorDataOneDTests : XCTestCase {
+class MKSensorDataSingleTypeTests : XCTestCase {
     let oneD   = try! MKSensorData(types: [.HeartRate], start: 0, samplesPerSecond: 1, samples: [100])
 
     ///
     /// Can't create MKSensorData with bad sample count for the dimension
     ///
     func testBadSampleCountForDimension() {
-        if let _ =  try? MKSensorData(types: [.Accelerometer], start: 0, samplesPerSecond: 1, samples: [10]) {
+        if let _ =  try? MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 1, samples: [10]) {
             XCTFail("Bad sample count for dimension not detected")
         }
     }
@@ -20,7 +20,7 @@ class MKSensorDataOneDTests : XCTestCase {
     func testAppendBadDimension() {
         var d = oneD
         do {
-            try d.append(try! MKSensorData(types: [.Accelerometer], start: 0, samplesPerSecond: 1, samples: [-1000, 0, 1000]))
+            try d.append(try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 1, samples: [-1000, 0, 1000]))
             XCTFail("Appended incorrect dimension")
         } catch MKSensorDataFailure.MismatchedDimension(1, 3) {
             

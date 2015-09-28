@@ -38,26 +38,52 @@ public enum MKSensorDataFailure : ErrorType {
     ///
     /// The data is empty
     ///
-    case Empty
+    case BadTypes
 }
 
 ///
 /// The sensor data type
 ///
-public enum MKSensorDataType {
-    case Accelerometer
-    case Gyroscope
+public enum MKSensorDataType : Equatable {
+    case Accelerometer(location: Location)
+    case Gyroscope(location: Location)
     case HeartRate
     
+    /// The enumeration of where a sensor data is coming from
+    public enum Location : Equatable {
+        /// the left wrist
+        case LeftWrist
+        /// the right wrist
+        case RightWrist
+    }
+    
+
     ///
     /// The required dimension of the data
     ///
     var dimension: Int {
         switch self {
-        case .Accelerometer: return 3
-        case .Gyroscope: return 3
+        case .Accelerometer(_): return 3
+        case .Gyroscope(_): return 3
         case .HeartRate: return 1
         }
+    }
+}
+
+public func ==(lhs: MKSensorDataType, rhs: MKSensorDataType) -> Bool {
+    switch (lhs, rhs) {
+    case (.Accelerometer(let ll), .Accelerometer(let rl)): return ll == rl
+    case (.Gyroscope(let ll), .Gyroscope(let rl)): return ll == rl
+    case (.HeartRate, .HeartRate): return true
+    default: return false
+    }
+}
+
+public func ==(lhs: MKSensorDataType.Location, rhs: MKSensorDataType.Location) -> Bool {
+    switch (lhs, rhs) {
+    case (.LeftWrist, .LeftWrist): return true
+    case (.RightWrist, .RightWrist): return true
+    default: return false
     }
 }
 
@@ -74,20 +100,11 @@ public struct MKSensorData {
     /// The start timestamp
     public let start: MKTimestamp
     
-    /// The enumeration of where a sensor data is coming from
-    public enum Location {
-        /// the left wrist
-        case LeftWrist
-        /// the right wrist
-        case RightWrist
-    }
-    
     ///
     /// Constructs a new instance of this struct, assigns the dimension and samples
     ///
     public init(types: [MKSensorDataType], start: MKTimestamp, samplesPerSecond: UInt, samples: [Float]) throws {
-        if samples.isEmpty { throw MKSensorDataFailure.Empty }
-        if types.isEmpty { throw MKSensorDataFailure.Empty }
+        if types.isEmpty { throw MKSensorDataFailure.BadTypes }
         self.types = types
         self.dimension = types.reduce(0) { r, e in return r + e.dimension }
         if samples.count % self.dimension != 0 { throw MKSensorDataFailure.InvalidSampleCountForDimension }
@@ -96,12 +113,17 @@ public struct MKSensorData {
         self.start = start
         self.samplesPerSecond = samplesPerSecond
     }
-
+    
     ///
     /// Computes the end timestamp
     ///
     public var end: MKTimestamp {
         return start + Double(samples.count / dimension) / Double(samplesPerSecond)
+    }
+    
+    // TODO
+    mutating func merge(that: MKSensorData) throws {
+        fatalError("This will merge self with that by placing the two matrices alongside each other")
     }
     
     ///
@@ -114,7 +136,7 @@ public struct MKSensorData {
         if that.samples.isEmpty { return }
         if self.samplesPerSecond != that.samplesPerSecond { throw MKSensorDataFailure.MismatchedSamplesPerSecond(expected: self.samplesPerSecond, actual: that.samplesPerSecond) }
         if self.dimension != that.dimension { throw MKSensorDataFailure.MismatchedDimension(expected: self.dimension, actual: that.dimension) }
-        
+
         let maxGap: MKDuration = 10
         let gap = that.start - self.end
     
@@ -142,8 +164,8 @@ public struct MKSensorData {
                 let selfDimCount = self.samples.count / dimension
                 let thatDimCount = that.samples.count / dimension
                 let gapDimCount  = gapSamples.count / dimension
-                let last  = self.samples[selfDimCount * (i + 1) - 1]
                 let first = that.samples[thatDimCount * i]
+                let last  = self.samples.isEmpty ? first : self.samples[selfDimCount * (i + 1) - 1]
                 let ds = Float(first - last) / Float(gapDimCount + 1)
                 for j in 0..<gapDimCount {
                     gapSamples[gapDimCount * i + j] = last + ds * Float(j + 1)

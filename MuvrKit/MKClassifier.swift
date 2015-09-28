@@ -7,7 +7,7 @@ final class MKClassifier {
         self.model = model
     }
     
-    func classify(block block: MKSensorDataBlock) -> [MKClassifiedExercise] {
+    func classify(block block: MKSensorData) -> [MKClassifiedExercise] {
         return []
     }
     
