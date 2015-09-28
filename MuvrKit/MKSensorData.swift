@@ -34,6 +34,11 @@ public enum MKSensorDataFailure : ErrorType {
     /// The sample count does not match the expected count for the given dimensionality
     ///
     case InvalidSampleCountForDimension
+    
+    ///
+    /// The data is empty
+    ///
+    case Empty
 }
 
 public struct MKSensorData {
@@ -47,10 +52,19 @@ public struct MKSensorData {
     /// The start timestamp
     let start: MKTimestamp
     
+    /// The enumeration of where a sensor data is coming from
+    public enum Location {
+        /// the left wrist
+        case LeftWrist
+        /// the right wrist
+        case RightWrist
+    }
+    
     ///
     /// Constructs a new instance of this struct, assigns the dimension and samples
     ///
     public init(dimension: Int, start: MKTimestamp, samplesPerSecond: UInt, samples: [Float]) throws {
+        if samples.isEmpty { throw MKSensorDataFailure.Empty }
         if samples.count % dimension != 0 { throw MKSensorDataFailure.InvalidSampleCountForDimension }
         
         self.dimension = dimension

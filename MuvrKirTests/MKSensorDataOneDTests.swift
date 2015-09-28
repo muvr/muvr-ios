@@ -43,19 +43,7 @@ class MKSensorDataOneDTests : XCTestCase {
             XCTFail("Bad error")
         }
     }
-    
-    /// ```
-    ///   S1
-    /// +  0
-    /// ====
-    ///   S1
-    /// ```
-    func testOneDAppendEmpty() {
-        var d = oneD
-        try! d.append(MKSensorData(dimension: 1, start: 0, samplesPerSecond: 1, samples: []))
-        XCTAssertEqual(d.end, 1)
-    }
-    
+        
     /// ```
     ///   S1
     /// + S2
