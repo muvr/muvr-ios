@@ -157,7 +157,7 @@
     return featureMatrix;
 }
 
-- (NSArray *)classify:(const std::vector<fused_sensor_data> &)data withMaximumResults:(uint)numberOfResults {
+- (NSArray *)classify:(const std::vector<fused_sensor_data> &)data withMaximumResults:(uint)numberOfResults repetitionHint:(NSNumber*)repetitions{
     NSDate *startTime = [NSDate date];
     if (data.size() == 0) {
         LOG(WARNING) << "Classification called, but no data passed!" << std::endl;
@@ -205,7 +205,7 @@
 
         MRResistanceExercise* re = [[MRResistanceExercise alloc] initWithId:exerciseName];
         MRClassifiedResistanceExercise *cre = [[MRClassifiedResistanceExercise alloc] initWithResistanceExercise:re
-                                                                                                     repetitions:0
+                                                                                                     repetitions:repetitions
                                                                                                           weight:0
                                                                                                        intensity:0
                                                                                                             time:time
