@@ -41,16 +41,38 @@ public enum MKSensorDataFailure : ErrorType {
     case Empty
 }
 
+///
+/// The sensor data type
+///
+public enum MKSensorDataType {
+    case Accelerometer
+    case Gyroscope
+    case HeartRate
+    
+    ///
+    /// The required dimension of the data
+    ///
+    var dimension: Int {
+        switch self {
+        case .Accelerometer: return 3
+        case .Gyroscope: return 3
+        case .HeartRate: return 1
+        }
+    }
+}
+
 public struct MKSensorData {
     /// The dimension of the samples; 1 for HR and such like, 3 for acceleraton, etc.
-    let dimension: Int
+    internal let dimension: Int
+    /// The actual samples
     internal var samples: [Float]
-    
+
+    /// The types of data contained in the column vectors (or spans of column vectors)
+    public let types: [MKSensorDataType]
     /// The samples per second
-    let samplesPerSecond: UInt
-    
+    public let samplesPerSecond: UInt
     /// The start timestamp
-    let start: MKTimestamp
+    public let start: MKTimestamp
     
     /// The enumeration of where a sensor data is coming from
     public enum Location {
@@ -63,11 +85,13 @@ public struct MKSensorData {
     ///
     /// Constructs a new instance of this struct, assigns the dimension and samples
     ///
-    public init(dimension: Int, start: MKTimestamp, samplesPerSecond: UInt, samples: [Float]) throws {
+    public init(types: [MKSensorDataType], start: MKTimestamp, samplesPerSecond: UInt, samples: [Float]) throws {
         if samples.isEmpty { throw MKSensorDataFailure.Empty }
-        if samples.count % dimension != 0 { throw MKSensorDataFailure.InvalidSampleCountForDimension }
+        if types.isEmpty { throw MKSensorDataFailure.Empty }
+        self.types = types
+        self.dimension = types.reduce(0) { r, e in return r + e.dimension }
+        if samples.count % self.dimension != 0 { throw MKSensorDataFailure.InvalidSampleCountForDimension }
         
-        self.dimension = dimension
         self.samples = samples
         self.start = start
         self.samplesPerSecond = samplesPerSecond
