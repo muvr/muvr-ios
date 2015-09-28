@@ -62,6 +62,15 @@
 		541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBAA1AC577E00056A81B /* Images.xcassets */; };
 		541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBAC1AC577E00056A81B /* LaunchScreen.xib */; };
 		541ABBBA1AC577E00056A81B /* MuvrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBB91AC577E00056A81B /* MuvrTests.swift */; };
+		54266B091BB92E25007A8A8A /* MuvrKirTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B081BB92E24007A8A8A /* MuvrKirTests.swift */; };
+		54266B0B1BB92E25007A8A8A /* MuvrKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A775F61BB81467001586DD /* MuvrKit.framework */; settings = {ASSET_TAGS = (); }; };
+		54266B141BB92F16007A8A8A /* MKSensorDataBlock+Decoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B131BB92F16007A8A8A /* MKSensorDataBlock+Decoding.swift */; settings = {ASSET_TAGS = (); }; };
+		54266B151BB92F22007A8A8A /* MKSensorDataBlock+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B111BB92ECC007A8A8A /* MKSensorDataBlock+Encoding.swift */; settings = {ASSET_TAGS = (); }; };
+		54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B161BB92F98007A8A8A /* MKSensorData.swift */; settings = {ASSET_TAGS = (); }; };
+		54266B181BB92F98007A8A8A /* MKSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B161BB92F98007A8A8A /* MKSensorData.swift */; settings = {ASSET_TAGS = (); }; };
+		54266B1D1BB94AC7007A8A8A /* MKSensorData+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B1C1BB94AC7007A8A8A /* MKSensorData+Samples.swift */; settings = {ASSET_TAGS = (); }; };
+		54266B1E1BB94AC7007A8A8A /* MKSensorData+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B1C1BB94AC7007A8A8A /* MKSensorData+Samples.swift */; settings = {ASSET_TAGS = (); }; };
+		54266B201BB94C8A007A8A8A /* MKSensorDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B1F1BB94C8A007A8A8A /* MKSensorDataTests.swift */; settings = {ASSET_TAGS = (); }; };
 		542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */; };
 		542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */; };
 		542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */; };
@@ -140,8 +149,6 @@
 		54A48ADD1BA474F300F4A81B /* MRGlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A48ADC1BA474F300F4A81B /* MRGlanceController.swift */; };
 		54A48AE41BA474F300F4A81B /* Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 54A48AC71BA474F300F4A81B /* Watch.app */; };
 		54A775F91BB81467001586DD /* MuvrKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 54A775F81BB81467001586DD /* MuvrKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		54A776001BB81467001586DD /* MuvrKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A775F61BB81467001586DD /* MuvrKit.framework */; settings = {ASSET_TAGS = (); }; };
-		54A776071BB81467001586DD /* MuvrKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A776061BB81467001586DD /* MuvrKitTests.swift */; };
 		54A7760B1BB81467001586DD /* MuvrKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A775F61BB81467001586DD /* MuvrKit.framework */; };
 		54A7760C1BB81467001586DD /* MuvrKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 54A775F61BB81467001586DD /* MuvrKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		54A776171BB8149E001586DD /* MuvrKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 54A775F81BB81467001586DD /* MuvrKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -159,6 +166,15 @@
 		54CC46561B08E684007B739A /* MRLoggedInApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC46551B08E684007B739A /* MRLoggedInApplicationState.swift */; };
 		54CC46581B08E691007B739A /* MRExercisingApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC46571B08E691007B739A /* MRExercisingApplicationState.swift */; };
 		54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CC46591B08FAD5007B739A /* MobileCoreServices.framework */; };
+		54D3457E1BB9232A00F65091 /* MKClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D3457D1BB9232A00F65091 /* MKClassifier.swift */; settings = {ASSET_TAGS = (); }; };
+		54D345801BB9245E00F65091 /* MKSensorDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D3457F1BB9245E00F65091 /* MKSensorDataDelegate.swift */; settings = {ASSET_TAGS = (); }; };
+		54D345821BB924A500F65091 /* MKClassificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D345811BB924A500F65091 /* MKClassificationDelegate.swift */; settings = {ASSET_TAGS = (); }; };
+		54D345841BB9251700F65091 /* MKClassifiedExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D345831BB9251700F65091 /* MKClassifiedExercise.swift */; settings = {ASSET_TAGS = (); }; };
+		54D345851BB9251700F65091 /* MKClassifiedExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D345831BB9251700F65091 /* MKClassifiedExercise.swift */; settings = {ASSET_TAGS = (); }; };
+		54D345881BB9260F00F65091 /* MKSensorDataBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D345871BB9260F00F65091 /* MKSensorDataBlock.swift */; settings = {ASSET_TAGS = (); }; };
+		54D345891BB9260F00F65091 /* MKSensorDataBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D345871BB9260F00F65091 /* MKSensorDataBlock.swift */; settings = {ASSET_TAGS = (); }; };
+		54D3458B1BB928B600F65091 /* MKClassificationPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D3458A1BB928B600F65091 /* MKClassificationPipeline.swift */; settings = {ASSET_TAGS = (); }; };
+		54D3458C1BB928B600F65091 /* MKClassificationPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D3458A1BB928B600F65091 /* MKClassificationPipeline.swift */; settings = {ASSET_TAGS = (); }; };
 		54D5275D1B94D79F00B56719 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D527571B94D79F00B56719 /* Alamofire.framework */; };
 		54D5275E1B94D79F00B56719 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D527581B94D79F00B56719 /* Charts.framework */; };
 		54D5275F1B94D79F00B56719 /* JTCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D527591B94D79F00B56719 /* JTCalendar.framework */; };
@@ -197,6 +213,13 @@
 			remoteGlobalIDString = 541ABB9D1AC577E00056A81B;
 			remoteInfo = Muvr;
 		};
+		54266B0C1BB92E25007A8A8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 541ABB961AC577E00056A81B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 54A775F51BB81467001586DD;
+			remoteInfo = "MuvrKit iOS";
+		};
 		54A48AD51BA474F300F4A81B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 541ABB961AC577E00056A81B /* Project object */;
@@ -210,20 +233,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 54A48AC61BA474F300F4A81B;
 			remoteInfo = Watch;
-		};
-		54A776011BB81467001586DD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 541ABB961AC577E00056A81B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 54A775F51BB81467001586DD;
-			remoteInfo = MuvrKit;
-		};
-		54A776031BB81467001586DD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 541ABB961AC577E00056A81B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 541ABB9D1AC577E00056A81B;
-			remoteInfo = Muvr;
 		};
 		54A776091BB81467001586DD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -321,6 +330,14 @@
 		541ABBB31AC577E00056A81B /* MuvrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MuvrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		541ABBB81AC577E00056A81B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		541ABBB91AC577E00056A81B /* MuvrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuvrTests.swift; sourceTree = "<group>"; };
+		54266B061BB92E24007A8A8A /* MuvrKirTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MuvrKirTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		54266B081BB92E24007A8A8A /* MuvrKirTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuvrKirTests.swift; sourceTree = "<group>"; };
+		54266B0A1BB92E25007A8A8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		54266B111BB92ECC007A8A8A /* MKSensorDataBlock+Encoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorDataBlock+Encoding.swift"; sourceTree = "<group>"; };
+		54266B131BB92F16007A8A8A /* MKSensorDataBlock+Decoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorDataBlock+Decoding.swift"; sourceTree = "<group>"; };
+		54266B161BB92F98007A8A8A /* MKSensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorData.swift; sourceTree = "<group>"; };
+		54266B1C1BB94AC7007A8A8A /* MKSensorData+Samples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Samples.swift"; sourceTree = "<group>"; };
+		54266B1F1BB94C8A007A8A8A /* MKSensorDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataTests.swift; sourceTree = "<group>"; };
 		542AB2081ACC4FC400F20299 /* piecewise_aggregate_approximation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = piecewise_aggregate_approximation.h; path = "../../../../muvr-preclassification/core/include/piecewise_aggregate_approximation.h"; sourceTree = "<group>"; };
 		542AB20A1ACC4FC400F20299 /* symbol_alphabet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = symbol_alphabet.h; path = "../../../../muvr-preclassification/core/include/symbol_alphabet.h"; sourceTree = "<group>"; };
 		542AB20B1ACC4FC400F20299 /* symbolic_aggregate_approximation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = symbolic_aggregate_approximation.h; path = "../../../../muvr-preclassification/core/include/symbolic_aggregate_approximation.h"; sourceTree = "<group>"; };
@@ -413,9 +430,6 @@
 		54A775F61BB81467001586DD /* MuvrKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MuvrKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		54A775F81BB81467001586DD /* MuvrKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MuvrKit.h; sourceTree = "<group>"; };
 		54A775FA1BB81467001586DD /* Infoi.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Infoi.plist; sourceTree = "<group>"; };
-		54A775FF1BB81467001586DD /* MuvrKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MuvrKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		54A776061BB81467001586DD /* MuvrKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuvrKitTests.swift; sourceTree = "<group>"; };
-		54A776081BB81467001586DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54A7761C1BB8149E001586DD /* MuvrKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MuvrKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		54A7761E1BB81509001586DD /* Infow.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Infow.plist; sourceTree = "<group>"; };
 		54B610841AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSetIntensityView.swift; sourceTree = "<group>"; };
@@ -431,6 +445,12 @@
 		54CC46551B08E684007B739A /* MRLoggedInApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRLoggedInApplicationState.swift; sourceTree = "<group>"; };
 		54CC46571B08E691007B739A /* MRExercisingApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisingApplicationState.swift; sourceTree = "<group>"; };
 		54CC46591B08FAD5007B739A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		54D3457D1BB9232A00F65091 /* MKClassifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKClassifier.swift; sourceTree = "<group>"; };
+		54D3457F1BB9245E00F65091 /* MKSensorDataDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataDelegate.swift; sourceTree = "<group>"; };
+		54D345811BB924A500F65091 /* MKClassificationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKClassificationDelegate.swift; sourceTree = "<group>"; };
+		54D345831BB9251700F65091 /* MKClassifiedExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKClassifiedExercise.swift; sourceTree = "<group>"; };
+		54D345871BB9260F00F65091 /* MKSensorDataBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataBlock.swift; sourceTree = "<group>"; };
+		54D3458A1BB928B600F65091 /* MKClassificationPipeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKClassificationPipeline.swift; sourceTree = "<group>"; };
 		54D527571B94D79F00B56719 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
 		54D527581B94D79F00B56719 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = "Pods/../build/Debug-iphoneos/Charts.framework"; sourceTree = "<group>"; };
 		54D527591B94D79F00B56719 /* JTCalendar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JTCalendar.framework; path = "Pods/../build/Debug-iphoneos/JTCalendar.framework"; sourceTree = "<group>"; };
@@ -522,6 +542,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		54266B031BB92E24007A8A8A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				54266B0B1BB92E25007A8A8A /* MuvrKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		54A48AD01BA474F300F4A81B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -535,14 +563,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		54A775FC1BB81467001586DD /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				54A776001BB81467001586DD /* MuvrKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,7 +647,7 @@
 				54A48AC81BA474F300F4A81B /* Watch */,
 				54A48AD71BA474F300F4A81B /* Watch Extension */,
 				54A775F71BB81467001586DD /* MuvrKit */,
-				54A776051BB81467001586DD /* MuvrKitTests */,
+				54266B071BB92E24007A8A8A /* MuvrKirTests */,
 				541ABB9F1AC577E00056A81B /* Products */,
 				87E693A6B954E9533DB1FC04 /* Pods */,
 				288CCE5D5AB7F6FBE827B7C7 /* Frameworks */,
@@ -642,8 +662,8 @@
 				54A48AC71BA474F300F4A81B /* Watch.app */,
 				54A48AD31BA474F300F4A81B /* Watch Extension.appex */,
 				54A775F61BB81467001586DD /* MuvrKit.framework */,
-				54A775FF1BB81467001586DD /* MuvrKitTests.xctest */,
 				54A7761C1BB8149E001586DD /* MuvrKit.framework */,
+				54266B061BB92E24007A8A8A /* MuvrKirTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -705,6 +725,16 @@
 				541ABBB81AC577E00056A81B /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		54266B071BB92E24007A8A8A /* MuvrKirTests */ = {
+			isa = PBXGroup;
+			children = (
+				54266B081BB92E24007A8A8A /* MuvrKirTests.swift */,
+				54266B1F1BB94C8A007A8A8A /* MKSensorDataTests.swift */,
+				54266B0A1BB92E25007A8A8A /* Info.plist */,
+			);
+			path = MuvrKirTests;
 			sourceTree = "<group>";
 		};
 		543374101AD01060005864D7 /* Device */ = {
@@ -820,25 +850,15 @@
 		54A775F71BB81467001586DD /* MuvrKit */ = {
 			isa = PBXGroup;
 			children = (
+				54D345861BB925B900F65091 /* SensorData */,
+				54D3457C1BB922FF00F65091 /* Classification */,
+				54D3457B1BB922F400F65091 /* Connectivity */,
+				54D3457A1BB922E800F65091 /* Model */,
 				54A775F81BB81467001586DD /* MuvrKit.h */,
 				54A775FA1BB81467001586DD /* Infoi.plist */,
 				54A7761E1BB81509001586DD /* Infow.plist */,
-				547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */,
-				547A445D1BB8677700C2CC06 /* MKIntensity.swift */,
-				547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */,
-				547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */,
-				547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */,
 			);
 			path = MuvrKit;
-			sourceTree = "<group>";
-		};
-		54A776051BB81467001586DD /* MuvrKitTests */ = {
-			isa = PBXGroup;
-			children = (
-				54A776061BB81467001586DD /* MuvrKitTests.swift */,
-				54A776081BB81467001586DD /* Info.plist */,
-			);
-			path = MuvrKitTests;
 			sourceTree = "<group>";
 		};
 		54CC464F1B08E582007B739A /* Exercise */ = {
@@ -866,6 +886,49 @@
 				54CC46531B08E5DE007B739A /* MRPublicProfile+Marshalling.swift */,
 			);
 			name = Profile;
+			sourceTree = "<group>";
+		};
+		54D3457A1BB922E800F65091 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */,
+				547A445D1BB8677700C2CC06 /* MKIntensity.swift */,
+				54D345831BB9251700F65091 /* MKClassifiedExercise.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		54D3457B1BB922F400F65091 /* Connectivity */ = {
+			isa = PBXGroup;
+			children = (
+				547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */,
+				547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */,
+				547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */,
+			);
+			name = Connectivity;
+			sourceTree = "<group>";
+		};
+		54D3457C1BB922FF00F65091 /* Classification */ = {
+			isa = PBXGroup;
+			children = (
+				54D3457D1BB9232A00F65091 /* MKClassifier.swift */,
+				54D3457F1BB9245E00F65091 /* MKSensorDataDelegate.swift */,
+				54D345811BB924A500F65091 /* MKClassificationDelegate.swift */,
+				54D3458A1BB928B600F65091 /* MKClassificationPipeline.swift */,
+			);
+			name = Classification;
+			sourceTree = "<group>";
+		};
+		54D345861BB925B900F65091 /* SensorData */ = {
+			isa = PBXGroup;
+			children = (
+				54D345871BB9260F00F65091 /* MKSensorDataBlock.swift */,
+				54266B111BB92ECC007A8A8A /* MKSensorDataBlock+Encoding.swift */,
+				54266B131BB92F16007A8A8A /* MKSensorDataBlock+Decoding.swift */,
+				54266B161BB92F98007A8A8A /* MKSensorData.swift */,
+				54266B1C1BB94AC7007A8A8A /* MKSensorData+Samples.swift */,
+			);
+			name = SensorData;
 			sourceTree = "<group>";
 		};
 		54F0DC221AC57E8D0061EC5D /* MuvrPreclassification */ = {
@@ -1122,6 +1185,24 @@
 			productReference = 541ABBB31AC577E00056A81B /* MuvrTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		54266B051BB92E24007A8A8A /* MuvrKirTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 54266B0E1BB92E25007A8A8A /* Build configuration list for PBXNativeTarget "MuvrKirTests" */;
+			buildPhases = (
+				54266B021BB92E24007A8A8A /* Sources */,
+				54266B031BB92E24007A8A8A /* Frameworks */,
+				54266B041BB92E24007A8A8A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				54266B0D1BB92E25007A8A8A /* PBXTargetDependency */,
+			);
+			name = MuvrKirTests;
+			productName = MuvrKirTests;
+			productReference = 54266B061BB92E24007A8A8A /* MuvrKirTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		54A48AC61BA474F300F4A81B /* Watch */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 54A48AEB1BA474F300F4A81B /* Build configuration list for PBXNativeTarget "Watch" */;
@@ -1176,25 +1257,6 @@
 			productReference = 54A775F61BB81467001586DD /* MuvrKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		54A775FE1BB81467001586DD /* MuvrKitTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 54A776121BB81467001586DD /* Build configuration list for PBXNativeTarget "MuvrKitTests" */;
-			buildPhases = (
-				54A775FB1BB81467001586DD /* Sources */,
-				54A775FC1BB81467001586DD /* Frameworks */,
-				54A775FD1BB81467001586DD /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				54A776021BB81467001586DD /* PBXTargetDependency */,
-				54A776041BB81467001586DD /* PBXTargetDependency */,
-			);
-			name = MuvrKitTests;
-			productName = MuvrKitTests;
-			productReference = 54A775FF1BB81467001586DD /* MuvrKitTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		54A776131BB8149E001586DD /* MuvrKit Watch */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 54A776191BB8149E001586DD /* Build configuration list for PBXNativeTarget "MuvrKit Watch" */;
@@ -1238,6 +1300,9 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 541ABB9D1AC577E00056A81B;
 					};
+					54266B051BB92E24007A8A8A = {
+						CreatedOnToolsVersion = 7.0;
+					};
 					54A48AC61BA474F300F4A81B = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = K5TCBGB2PR;
@@ -1249,10 +1314,6 @@
 					54A775F51BB81467001586DD = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = K5TCBGB2PR;
-					};
-					54A775FE1BB81467001586DD = {
-						CreatedOnToolsVersion = 7.0;
-						TestTargetID = 541ABB9D1AC577E00056A81B;
 					};
 					54A776131BB8149E001586DD = {
 						DevelopmentTeam = K5TCBGB2PR;
@@ -1278,7 +1339,7 @@
 				54A48AD21BA474F300F4A81B /* Watch Extension */,
 				54A775F51BB81467001586DD /* MuvrKit iOS */,
 				54A776131BB8149E001586DD /* MuvrKit Watch */,
-				54A775FE1BB81467001586DD /* MuvrKitTests */,
+				54266B051BB92E24007A8A8A /* MuvrKirTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1316,6 +1377,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		54266B041BB92E24007A8A8A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		54A48AC51BA474F300F4A81B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1333,13 +1401,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		54A775F41BB81467001586DD /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		54A775FD1BB81467001586DD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1540,6 +1601,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		54266B021BB92E24007A8A8A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				54266B091BB92E25007A8A8A /* MuvrKirTests.swift in Sources */,
+				54266B201BB94C8A007A8A8A /* MKSensorDataTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		54A48ACF1BA474F300F4A81B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1554,16 +1624,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54D345801BB9245E00F65091 /* MKSensorDataDelegate.swift in Sources */,
+				54D345881BB9260F00F65091 /* MKSensorDataBlock.swift in Sources */,
+				54266B141BB92F16007A8A8A /* MKSensorDataBlock+Decoding.swift in Sources */,
+				54D3457E1BB9232A00F65091 /* MKClassifier.swift in Sources */,
+				54D3458B1BB928B600F65091 /* MKClassificationPipeline.swift in Sources */,
+				54D345841BB9251700F65091 /* MKClassifiedExercise.swift in Sources */,
+				54D345821BB924A500F65091 /* MKClassificationDelegate.swift in Sources */,
+				54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */,
+				54266B1D1BB94AC7007A8A8A /* MKSensorData+Samples.swift in Sources */,
 				547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */,
 				547A445E1BB8677700C2CC06 /* MKIntensity.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		54A775FB1BB81467001586DD /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				54A776071BB81467001586DD /* MuvrKitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1572,8 +1643,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				547A44511BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */,
+				54D345891BB9260F00F65091 /* MKSensorDataBlock.swift in Sources */,
+				54266B151BB92F22007A8A8A /* MKSensorDataBlock+Encoding.swift in Sources */,
 				547A445A1BB8585300C2CC06 /* MKWatchConnectivity.swift in Sources */,
+				54D3458C1BB928B600F65091 /* MKClassificationPipeline.swift in Sources */,
+				54D345851BB9251700F65091 /* MKClassifiedExercise.swift in Sources */,
 				547A445C1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift in Sources */,
+				54266B181BB92F98007A8A8A /* MKSensorData.swift in Sources */,
+				54266B1E1BB94AC7007A8A8A /* MKSensorData+Samples.swift in Sources */,
 				547A445F1BB8677700C2CC06 /* MKIntensity.swift in Sources */,
 				547A44541BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift in Sources */,
 			);
@@ -1587,6 +1664,11 @@
 			target = 541ABB9D1AC577E00056A81B /* Muvr */;
 			targetProxy = 541ABBB41AC577E00056A81B /* PBXContainerItemProxy */;
 		};
+		54266B0D1BB92E25007A8A8A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 54A775F51BB81467001586DD /* MuvrKit iOS */;
+			targetProxy = 54266B0C1BB92E25007A8A8A /* PBXContainerItemProxy */;
+		};
 		54A48AD61BA474F300F4A81B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 54A48AD21BA474F300F4A81B /* Watch Extension */;
@@ -1596,16 +1678,6 @@
 			isa = PBXTargetDependency;
 			target = 54A48AC61BA474F300F4A81B /* Watch */;
 			targetProxy = 54A48AE11BA474F300F4A81B /* PBXContainerItemProxy */;
-		};
-		54A776021BB81467001586DD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 54A775F51BB81467001586DD /* MuvrKit iOS */;
-			targetProxy = 54A776011BB81467001586DD /* PBXContainerItemProxy */;
-		};
-		54A776041BB81467001586DD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 541ABB9D1AC577E00056A81B /* Muvr */;
-			targetProxy = 54A776031BB81467001586DD /* PBXContainerItemProxy */;
 		};
 		54A7760A1BB81467001586DD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1944,6 +2016,30 @@
 			};
 			name = Release;
 		};
+		54266B0F1BB92E25007A8A8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = MuvrKirTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.Muvr.MuvrKirTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		54266B101BB92E25007A8A8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = MuvrKirTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.Muvr.MuvrKirTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		54A48AE51BA474F300F4A81B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2083,32 +2179,6 @@
 			};
 			name = Release;
 		};
-		54A7760F1BB81467001586DD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = MuvrKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.Muvr.MuvrKitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Muvr.app/Muvr";
-			};
-			name = Debug;
-		};
-		54A776101BB81467001586DD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = MuvrKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.Muvr.MuvrKitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Muvr.app/Muvr";
-			};
-			name = Release;
-		};
 		54A7761A1BB8149E001586DD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2196,6 +2266,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		54266B0E1BB92E25007A8A8A /* Build configuration list for PBXNativeTarget "MuvrKirTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				54266B0F1BB92E25007A8A8A /* Debug */,
+				54266B101BB92E25007A8A8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		54A48AE91BA474F300F4A81B /* Build configuration list for PBXNativeTarget "Watch Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2219,15 +2297,6 @@
 			buildConfigurations = (
 				54A7760D1BB81467001586DD /* Debug */,
 				54A7760E1BB81467001586DD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		54A776121BB81467001586DD /* Build configuration list for PBXNativeTarget "MuvrKitTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				54A7760F1BB81467001586DD /* Debug */,
-				54A776101BB81467001586DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

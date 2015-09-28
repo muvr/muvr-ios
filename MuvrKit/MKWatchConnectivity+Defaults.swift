@@ -10,9 +10,9 @@ extension MKConnectivity {
     ///
     internal var defaultExerciseModels: [MKExerciseModel] {
         return [
-            MKExerciseModel(id: "arms",      title: "Arms",      exercises: ["arms/biceps-curl", "arms/triceps-extension"]),
-            MKExerciseModel(id: "shoulders", title: "Shoulders", exercises: ["shoulders/lateral-raise", "shoulders/press", "shoulders/pull-up"]),
-            MKExerciseModel(id: "chest",     title: "Chest",     exercises: ["chest/fly", "chest/press", "chest/cable-cross-over"])
+            MKExerciseModel(id: "arms",      title: "Arms",      exerciseIds: ["arms/biceps-curl", "arms/triceps-extension"]),
+            MKExerciseModel(id: "shoulders", title: "Shoulders", exerciseIds: ["shoulders/lateral-raise", "shoulders/press", "shoulders/pull-up"]),
+            MKExerciseModel(id: "chest",     title: "Chest",     exerciseIds: ["chest/fly", "chest/press", "chest/cable-cross-over"])
         ]
     }
 

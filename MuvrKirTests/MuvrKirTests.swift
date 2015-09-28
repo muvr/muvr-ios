@@ -1,15 +1,14 @@
 //
-//  MuvrKitTests.swift
-//  MuvrKitTests
+//  MuvrKirTests.swift
+//  MuvrKirTests
 //
-//  Created by Jan Machacek on 27/09/2015.
+//  Created by Jan Machacek on 28/09/2015.
 //  Copyright © 2015 Muvr. All rights reserved.
 //
 
 import XCTest
-@testable import MuvrKit
 
-class MuvrKitTests: XCTestCase {
+class MuvrKirTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

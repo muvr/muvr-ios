@@ -12,7 +12,7 @@ extension MKExerciseModel {
         get {
             if let weightsPath = NSBundle(path: MKExerciseModel.bundlePath)?.pathForResource(id, ofType: "raw") {
                 if let weights = NSData(contentsOfFile: weightsPath) {
-                    return MRModelParameters(weights: weights, andLabels: exercises)
+                    return MRModelParameters(weights: weights, andLabels: exerciseIds)
                 }
             }
             

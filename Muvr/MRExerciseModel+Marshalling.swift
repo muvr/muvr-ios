@@ -9,12 +9,12 @@ extension MKExerciseModel {
         return MKExerciseModel(
             id: json["id"].stringValue,
             title: json["title"].stringValue,
-            exercises: json["exercises"].arrayValue.map { $0.stringValue }
+            exerciseIds: json["exercises"].arrayValue.map { $0.stringValue }
         )
     }
     
     func marshal() -> [String : AnyObject] {
-        return ["id":id, "title":title, "exercises":exercises]
+        return ["id":id, "title":title, "exercises":exerciseIds]
     }
     
 }

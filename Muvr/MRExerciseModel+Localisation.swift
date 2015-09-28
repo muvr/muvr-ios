@@ -5,7 +5,7 @@ extension MKExerciseModel {
         
     var exerciseTitles: [String] {
         let exs = MRDataModel.MRExerciseDataModel.get(NSLocale.currentLocale())
-        return exercises.map { eid in return exs.find { $0.0 == eid }?.1 ?? eid }
+        return exerciseIds.map { eid in return exs.find { $0.0 == eid }?.1 ?? eid }
     }
     
 }

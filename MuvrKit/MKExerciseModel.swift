@@ -21,11 +21,11 @@ public struct MKExerciseModel {
     /// the title
     public let title: String
     /// the exercises
-    public let exercises: [MKExerciseId]
+    public let exerciseIds: [MKExerciseId]
     
-    public init(id: MKExerciseId, title: String, exercises: [MKExerciseId]) {
+    public init(id: MKExerciseId, title: String, exerciseIds: [MKExerciseId]) {
         self.id = id
         self.title = title
-        self.exercises = exercises
+        self.exerciseIds = exerciseIds
     }
 }
