@@ -40,6 +40,11 @@ public struct MKSensorData {
         return start + Double(samples.count / dimension) / Double(samplesPerSecond)
     }
     
+    ///
+    /// Appends ``that`` to this by filling in the gaps or resolving the overlaps if necessary
+    ///
+    /// - parameter that: the MKSensorData of the same dimension and sampling rate to append
+    ///
     mutating func append(that: MKSensorData) throws {
         // no need to add empty data
         if that.samples.isEmpty { return }
