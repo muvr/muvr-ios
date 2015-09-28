@@ -1,4 +1,4 @@
 [
-  {"id":"demo",      "title":"Demo",      "exercises":["shoulders/lateral-raise", "arms/triceps-extension", "arms/biceps-curl"]},
+  {"id":"demo",      "title":"Demo",      "exercises":["arms/biceps-curl", "arms/triceps-extension", "shoulders/lateral-raise"]},
 ]
 
