@@ -70,7 +70,8 @@
 		54266B181BB92F98007A8A8A /* MKSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B161BB92F98007A8A8A /* MKSensorData.swift */; settings = {ASSET_TAGS = (); }; };
 		54266B1D1BB94AC7007A8A8A /* MKSensorData+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B1C1BB94AC7007A8A8A /* MKSensorData+Samples.swift */; settings = {ASSET_TAGS = (); }; };
 		54266B1E1BB94AC7007A8A8A /* MKSensorData+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B1C1BB94AC7007A8A8A /* MKSensorData+Samples.swift */; settings = {ASSET_TAGS = (); }; };
-		54266B201BB94C8A007A8A8A /* MKSensorDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B1F1BB94C8A007A8A8A /* MKSensorDataTests.swift */; settings = {ASSET_TAGS = (); }; };
+		54266B201BB94C8A007A8A8A /* MKSensorDataOneDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B1F1BB94C8A007A8A8A /* MKSensorDataOneDTests.swift */; settings = {ASSET_TAGS = (); }; };
+		54266B221BB95C72007A8A8A /* MKSensorDataThreeDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B211BB95C72007A8A8A /* MKSensorDataThreeDTests.swift */; settings = {ASSET_TAGS = (); }; };
 		542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */; };
 		542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */; };
 		542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */; };
@@ -337,7 +338,8 @@
 		54266B131BB92F16007A8A8A /* MKSensorDataBlock+Decoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorDataBlock+Decoding.swift"; sourceTree = "<group>"; };
 		54266B161BB92F98007A8A8A /* MKSensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorData.swift; sourceTree = "<group>"; };
 		54266B1C1BB94AC7007A8A8A /* MKSensorData+Samples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Samples.swift"; sourceTree = "<group>"; };
-		54266B1F1BB94C8A007A8A8A /* MKSensorDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataTests.swift; sourceTree = "<group>"; };
+		54266B1F1BB94C8A007A8A8A /* MKSensorDataOneDTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataOneDTests.swift; sourceTree = "<group>"; };
+		54266B211BB95C72007A8A8A /* MKSensorDataThreeDTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataThreeDTests.swift; sourceTree = "<group>"; };
 		542AB2081ACC4FC400F20299 /* piecewise_aggregate_approximation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = piecewise_aggregate_approximation.h; path = "../../../../muvr-preclassification/core/include/piecewise_aggregate_approximation.h"; sourceTree = "<group>"; };
 		542AB20A1ACC4FC400F20299 /* symbol_alphabet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = symbol_alphabet.h; path = "../../../../muvr-preclassification/core/include/symbol_alphabet.h"; sourceTree = "<group>"; };
 		542AB20B1ACC4FC400F20299 /* symbolic_aggregate_approximation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = symbolic_aggregate_approximation.h; path = "../../../../muvr-preclassification/core/include/symbolic_aggregate_approximation.h"; sourceTree = "<group>"; };
@@ -731,7 +733,8 @@
 			isa = PBXGroup;
 			children = (
 				54266B081BB92E24007A8A8A /* MuvrKirTests.swift */,
-				54266B1F1BB94C8A007A8A8A /* MKSensorDataTests.swift */,
+				54266B1F1BB94C8A007A8A8A /* MKSensorDataOneDTests.swift */,
+				54266B211BB95C72007A8A8A /* MKSensorDataThreeDTests.swift */,
 				54266B0A1BB92E25007A8A8A /* Info.plist */,
 			);
 			path = MuvrKirTests;
@@ -1606,7 +1609,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				54266B091BB92E25007A8A8A /* MuvrKirTests.swift in Sources */,
-				54266B201BB94C8A007A8A8A /* MKSensorDataTests.swift in Sources */,
+				54266B201BB94C8A007A8A8A /* MKSensorDataOneDTests.swift in Sources */,
+				54266B221BB95C72007A8A8A /* MKSensorDataThreeDTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

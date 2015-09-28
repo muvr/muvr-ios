@@ -2,9 +2,8 @@ import Foundation
 import XCTest
 @testable import MuvrKit
 
-class MKSensorDataTests: XCTestCase {
+class MKSensorDataOneDTests : XCTestCase {
     let oneD   = try! MKSensorData(dimension: 1, start: 0, samplesPerSecond: 1, samples: [100])
-    let threeD = try! MKSensorData(dimension: 3, start: 0, samplesPerSecond: 1, samples: [-1000, 0, 1000])
 
     ///
     /// Can't create MKSensorData with bad sample count for the dimension
@@ -21,7 +20,7 @@ class MKSensorDataTests: XCTestCase {
     func testOneDAppendBadDimension() {
         var d = oneD
         do {
-            try d.append(threeD)
+            try d.append(try! MKSensorData(dimension: 3, start: 0, samplesPerSecond: 1, samples: [-1000, 0, 1000]))
             XCTFail("Appended incorrect dimension")
         } catch MKSensorDataFailure.MismatchedDimension(1, 3) {
             
@@ -76,9 +75,9 @@ class MKSensorDataTests: XCTestCase {
     ///   S1S2
     /// ```
     func testOneDAppendImmediatelyFollowing() {
-        var d = oneD
-        try! d.append(MKSensorData(dimension: 1, start: 1, samplesPerSecond: 1, samples: [130]))
-        try! d.append(MKSensorData(dimension: 1, start: 2, samplesPerSecond: 1, samples: [140, 140]))
+        var d = oneD    // end == 1
+        try! d.append(MKSensorData(dimension: 1, start: 1, samplesPerSecond: 1, samples: [130])) // end == 2
+        try! d.append(MKSensorData(dimension: 1, start: 2, samplesPerSecond: 1, samples: [140, 140])) // end == 4
         XCTAssertEqual(d.end, 4)
         XCTAssertEqual(try! d.samplesAsScalars(), [100, 130, 140, 140])
     }

@@ -3,10 +3,36 @@ import Foundation
 public typealias MKTimestamp = Double
 public typealias MKDuration = Double
 
+///
+/// Various failures that are thrown by the operations in the ``MKSensorData``
+///
 public enum MKSensorDataFailure : ErrorType {
+    ///
+    /// The dimensions do not match
+    ///
+    /// - parameter expected: the expected dimension count
+    /// - parameter actual: the actual dimension count
+    ///
     case MismatchedDimension(expected: Int, actual: Int)
+
+    ///
+    /// The sampling rates do not match
+    ///
+    /// - parameter expected: the expected sampling rate
+    /// - parameter actual: the actual sampling rate
+    ///
     case MismatchedSamplesPerSecond(expected: UInt, actual: UInt)
+    
+    ///
+    /// The gap is too long to pad
+    ///
+    /// - parameter gap: the duration of the gap
+    ///
     case TooDiscontinous(gap: MKDuration)
+    
+    ///
+    /// The sample count does not match the expected count for the given dimensionality
+    ///
     case InvalidSampleCountForDimension
 }
 
@@ -58,19 +84,21 @@ public struct MKSensorData {
         let samplesDelta = Int(gap * Double(samplesPerSecond)) * dimension
         
         if samplesDelta < 0 && -samplesDelta < samples.count {
-            // overlapping
+            // partially overlapping
             let x: Int = samples.count + samplesDelta
             samples.removeRange(x..<samples.count)
             samples.appendContentsOf(that.samples)
-        } else if samplesDelta < 0 /* && -samplesDelta >= samples.count */ {
+        } else if samplesDelta < 0 && -samplesDelta == samples.count {
+            // completely overlapping
             samples = that.samples
+        } else if -samplesDelta > samples.count {
+            // overshooting overlap
+            fatalError("Implement me")
+        } else if samplesDelta == 0 {
+            // no gap; simply append
+            samples.appendContentsOf(that.samples)
         } else /* if samplesDelta > 0 */ {
             // gapping
-            
-            // for dim = 3
-            //  x  x  x  y  y  y  z  z  z
-            // (0, 0, 0, 1, 1, 1, 5, 5, 5)
-            
             var gapSamples = [Float](count: samplesDelta, repeatedValue: 0)
             for i in 0..<dimension {
                 let selfDimCount = self.samples.count / dimension
@@ -78,7 +106,7 @@ public struct MKSensorData {
                 let gapDimCount  = gapSamples.count / dimension
                 let last  = self.samples[selfDimCount * (i + 1) - 1]
                 let first = that.samples[thatDimCount * i]
-                let ds = Float(first - last) / Float(samplesDelta + 1)
+                let ds = Float(first - last) / Float(gapDimCount + 1)
                 for j in 0..<gapDimCount {
                     gapSamples[gapDimCount * i + j] = last + ds * Float(j + 1)
                 }
