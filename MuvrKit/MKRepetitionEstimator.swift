@@ -11,6 +11,8 @@ public struct MKRepetitionEstimator {
     
     public func estimate(data data: MKSensorData) throws -> Estimate {
         let (d, v) = data.samples(along: [.Accelerometer(location: .LeftWrist), .Accelerometer(location: .RightWrist)])
+        if d == 0 { throw MKRepetitionEstimatorError.MissingAccelerometerType }
+
         fatalError()
     }
     
