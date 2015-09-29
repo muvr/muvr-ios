@@ -2,7 +2,7 @@ import Foundation
 import MuvrKit
 
 /// TODO: consider moving to MRMuscleGroupModel, which lives in its own table
-extension MKExerciseModel {
+extension MRExerciseModel {
     private static let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
  
     ///
@@ -10,9 +10,9 @@ extension MKExerciseModel {
     ///
     var modelParameters: MRModelParameters? {
         get {
-            if let weightsPath = NSBundle(path: MKExerciseModel.bundlePath)?.pathForResource(id, ofType: "raw") {
+            if let weightsPath = NSBundle(path: MRExerciseModel.bundlePath)?.pathForResource(id, ofType: "raw") {
                 if let weights = NSData(contentsOfFile: weightsPath) {
-                    return MRModelParameters(weights: weights, andLabels: exerciseIds)
+                    return MRModelParameters(weights: weights, andLabels: exercises)
                 }
             }
             

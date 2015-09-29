@@ -116,7 +116,6 @@
 		5469D3821BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3811BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift */; settings = {ASSET_TAGS = (); }; };
 		5469D3831BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3811BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift */; settings = {ASSET_TAGS = (); }; };
 		5469D3851BBA764900EE5ADB /* MKRepetitionEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */; settings = {ASSET_TAGS = (); }; };
-		5469D3861BBA764900EE5ADB /* MKRepetitionEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */; settings = {ASSET_TAGS = (); }; };
 		5469D3881BBA83D200EE5ADB /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5469D3871BBA83D200EE5ADB /* Accelerate.framework */; };
 		546E68521BB969DD00DC0FEF /* MKSensorData+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */; settings = {ASSET_TAGS = (); }; };
 		546E685C1BB98D0800DC0FEF /* MuvrKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546E685B1BB98D0800DC0FEF /* MuvrKitTests.swift */; };
@@ -1693,7 +1692,6 @@
 				547A445C1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift in Sources */,
 				54266B181BB92F98007A8A8A /* MKSensorData.swift in Sources */,
 				5469D3831BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift in Sources */,
-				5469D3861BBA764900EE5ADB /* MKRepetitionEstimator.swift in Sources */,
 				547A445F1BB8677700C2CC06 /* MKIntensity.swift in Sources */,
 				5487F5A01BB9B77E00ED2E97 /* MKCodec.swift in Sources */,
 				547A44541BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift in Sources */,

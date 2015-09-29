@@ -12,6 +12,17 @@ import MuvrKit
 ///
 /// Moreover, not using all classifiers will improve the responsiveness of the app.
 ///
-extension MKExerciseModel {
+public struct MRExerciseModel {
+    /// the identifier of the muscle group
+    public let id: MKExerciseModelId
+    /// the title
+    public let title: String
+    /// the exercises
+    public let exercises: [MKExerciseId]
     
+    public init(id: MKExerciseId, title: String, exercises: [MKExerciseId]) {
+        self.id = id
+        self.title = title
+        self.exercises = exercises
+    }
 }

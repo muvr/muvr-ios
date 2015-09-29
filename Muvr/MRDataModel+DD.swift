@@ -119,7 +119,7 @@ extension MRDataModel {
         }
         
         func setDefaultExerciseModels(){
-            if let exerciseModels = loadArray("exercisemodels", unmarshal: MKExerciseModel.unmarshal) {
+            if let exerciseModels = loadArray("exercisemodels", unmarshal: MRExerciseModel.unmarshal) {
                 MRDataModel.MRExerciseModelDataModel.set(exerciseModels.1)
             }
         }

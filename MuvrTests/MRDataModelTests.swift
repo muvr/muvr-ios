@@ -32,7 +32,7 @@ class MRDataModelTests: XCTestCase {
     ///
     private func insertSession(on date: NSDate, exampleCount: Int) -> (NSUUID, MRResistanceExerciseSession, [(MRResistanceExerciseExample, NSData)]) {
         let id = NSUUID()
-        let model = MKExerciseModel(id: randomString(10), title: randomString(20), exerciseIds: [])
+        let model = MRExerciseModel(id: randomString(10), title: randomString(20), exercises: [])
         let session = MRResistanceExerciseSession(startDate: NSDate(), intendedIntensity: 1, exerciseModel: model, title: randomString(20))
         
         let eds = (0..<exampleCount).map { x in return (self.example(), self.exampleData()) }
