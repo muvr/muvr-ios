@@ -10,6 +10,7 @@ public struct MKRepetitionEstimator {
     public typealias Estimate = (UInt8, Double)
     
     public func estimate(data data: MKSensorData) throws -> Estimate {
+        let (d, v) = data.samples(along: [.Accelerometer(location: .LeftWrist), .Accelerometer(location: .RightWrist)])
         fatalError()
     }
     

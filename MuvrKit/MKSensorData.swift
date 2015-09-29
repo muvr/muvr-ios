@@ -183,19 +183,20 @@ public struct MKSensorData {
     ///
     /// - parameter types: the types that should be returned
     ///
-    func samples(along types: [MKSensorDataType]) -> [Float] {
+    func samples(along types: [MKSensorDataType]) -> (Int, [Float]) {
         let bitmap = self.types.reduce([]) { r, t in
             return r + [Bool](count: t.dimension, repeatedValue: types.contains(t))
         }
         let rowCount = self.samples.count / dimension
-        return (0..<rowCount).flatMap { row in
+        let includedDimensions = bitmap.filter { $0 }.count
+        return (includedDimensions, (0..<rowCount).flatMap { row in
             return bitmap.enumerate().flatMap { (idx: Int, value: Bool) -> Float? in
                 if value {
                     return self.samples[row * self.dimension + idx]
                 }
                 return nil
             }
-        }
+        })
     }
 
 }
