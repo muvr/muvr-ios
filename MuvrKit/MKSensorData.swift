@@ -118,7 +118,14 @@ public struct MKSensorData {
     /// Computes the end timestamp
     ///
     public var end: MKTimestamp {
-        return start + Double(samples.count / dimension) / Double(samplesPerSecond)
+        return start + duration
+    }
+    
+    ///
+    /// Computes the duration
+    ///
+    public var duration: MKDuration {
+        return Double(samples.count / dimension) / Double(samplesPerSecond)
     }
     
     // TODO
@@ -184,6 +191,8 @@ public struct MKSensorData {
     /// - parameter types: the types that should be returned
     ///
     func samples(along types: [MKSensorDataType]) -> (Int, [Float]) {
+        if types == self.types { return (self.dimension, self.samples) }
+        
         let bitmap = self.types.reduce([]) { r, t in
             return r + [Bool](count: t.dimension, repeatedValue: types.contains(t))
         }

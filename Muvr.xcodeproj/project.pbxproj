@@ -113,10 +113,12 @@
 		5464EBCA1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC41AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm */; };
 		5464EBCB1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC51AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds */; };
 		5464EBCC1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC61AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale */; };
-		5469D3821BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3811BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift */; settings = {ASSET_TAGS = (); }; };
-		5469D3831BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3811BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift */; settings = {ASSET_TAGS = (); }; };
+		5469D3821BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */; settings = {ASSET_TAGS = (); }; };
+		5469D3831BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */; settings = {ASSET_TAGS = (); }; };
 		5469D3851BBA764900EE5ADB /* MKRepetitionEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */; settings = {ASSET_TAGS = (); }; };
 		5469D3881BBA83D200EE5ADB /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5469D3871BBA83D200EE5ADB /* Accelerate.framework */; };
+		5469D38B1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D38A1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift */; settings = {ASSET_TAGS = (); }; };
+		5469D38F1BBAD78E00EE5ADB /* MLPNeuralNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5469D38E1BBAD78E00EE5ADB /* MLPNeuralNet.framework */; };
 		546E68521BB969DD00DC0FEF /* MKSensorData+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */; settings = {ASSET_TAGS = (); }; };
 		546E685C1BB98D0800DC0FEF /* MuvrKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546E685B1BB98D0800DC0FEF /* MuvrKitTests.swift */; };
 		546E685E1BB98D0800DC0FEF /* MuvrKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A775F61BB81467001586DD /* MuvrKit.framework */; settings = {ASSET_TAGS = (); }; };
@@ -398,9 +400,11 @@
 		5464EBC41AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-triceps_pushdown-features.libsvm"; sourceTree = "<group>"; };
 		5464EBC51AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds */ = {isa = PBXFileReference; lastKnownFileType = file; path = "svm-model-triceps_pushdown-features.rds"; sourceTree = "<group>"; };
 		5464EBC61AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-triceps_pushdown-features.scale"; sourceTree = "<group>"; };
-		5469D3811BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseModelMetadata.swift; sourceTree = "<group>"; };
+		5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseModelTypes.swift; sourceTree = "<group>"; };
 		5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRepetitionEstimator.swift; sourceTree = "<group>"; };
 		5469D3871BBA83D200EE5ADB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		5469D38A1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseModelSourceDelegate.swift; sourceTree = "<group>"; };
+		5469D38E1BBAD78E00EE5ADB /* MLPNeuralNet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MLPNeuralNet.framework; path = "Pods/../build/Debug-iphoneos/MLPNeuralNet.framework"; sourceTree = "<group>"; };
 		546E68591BB98D0800DC0FEF /* MuvrKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MuvrKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		546E685B1BB98D0800DC0FEF /* MuvrKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuvrKitTests.swift; sourceTree = "<group>"; };
 		546E685D1BB98D0800DC0FEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -586,6 +590,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5469D38F1BBAD78E00EE5ADB /* MLPNeuralNet.framework in Frameworks */,
 				5469D3881BBA83D200EE5ADB /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -603,6 +608,7 @@
 		288CCE5D5AB7F6FBE827B7C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5469D38E1BBAD78E00EE5ADB /* MLPNeuralNet.framework */,
 				5469D3871BBA83D200EE5ADB /* Accelerate.framework */,
 				5487F5AC1BBA63C900ED2E97 /* libz.tbd */,
 				5487F5A91BB9CAB800ED2E97 /* libcompression.tbd */,
@@ -937,7 +943,8 @@
 			isa = PBXGroup;
 			children = (
 				547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */,
-				5469D3811BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift */,
+				5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */,
+				5469D38A1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift */,
 				547A445D1BB8677700C2CC06 /* MKIntensity.swift */,
 			);
 			name = Model;
@@ -1669,12 +1676,13 @@
 				54D3457E1BB9232A00F65091 /* MKClassifier.swift in Sources */,
 				54D3458B1BB928B600F65091 /* MKClassificationPipeline.swift in Sources */,
 				5487F5A61BB9C9AB00ED2E97 /* MKSensorData+Equatable.swift in Sources */,
+				5469D38B1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift in Sources */,
 				54D345841BB9251700F65091 /* MKClassifiedExercise.swift in Sources */,
 				54D345821BB924A500F65091 /* MKClassificationDelegate.swift in Sources */,
 				5469D3851BBA764900EE5ADB /* MKRepetitionEstimator.swift in Sources */,
 				54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */,
 				5487F59C1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift in Sources */,
-				5469D3821BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift in Sources */,
+				5469D3821BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */,
 				546E68521BB969DD00DC0FEF /* MKSensorData+Encoding.swift in Sources */,
 				547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */,
 				547A445E1BB8677700C2CC06 /* MKIntensity.swift in Sources */,
@@ -1691,7 +1699,7 @@
 				54D345851BB9251700F65091 /* MKClassifiedExercise.swift in Sources */,
 				547A445C1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift in Sources */,
 				54266B181BB92F98007A8A8A /* MKSensorData.swift in Sources */,
-				5469D3831BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift in Sources */,
+				5469D3831BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */,
 				547A445F1BB8677700C2CC06 /* MKIntensity.swift in Sources */,
 				5487F5A01BB9B77E00ED2E97 /* MKCodec.swift in Sources */,
 				547A44541BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift in Sources */,
@@ -2180,6 +2188,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MuvrKit/Infoi.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2207,6 +2219,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MuvrKit/Infoi.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
