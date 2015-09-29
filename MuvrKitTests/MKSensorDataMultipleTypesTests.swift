@@ -7,11 +7,11 @@ class MKSensorDataMultipleTypesTests : XCTestCase {
     
     func testSamplesAsTriples() {
         let threeD = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 1, samples: [-100, 0, 100, -90, 10, 110, -110, -10, 90])
-        XCTAssertEqual(threeD.samples(along: [.Accelerometer(location: .LeftWrist)]), [
-            [-100, 0,   100],
-            [-90,  10,  110],
-            [-110, -10, 90],
-        ])
+        XCTAssertEqual(threeD.samples(along: [.Accelerometer(location: .LeftWrist)]),
+            [-100, 0,   100,
+             -90,  10,  110,
+             -110, -10, 90]
+        )
     }
     
     /// ```
@@ -24,7 +24,7 @@ class MKSensorDataMultipleTypesTests : XCTestCase {
         var d = threeD
         try! d.append(threeD)
         XCTAssertEqual(d.end, 1)
-        XCTAssertEqual(d.samples(along: [.Accelerometer(location: .LeftWrist)]).first!, [-100, 0, 100])
+        XCTAssertEqual(d.samples(along: [.Accelerometer(location: .LeftWrist)]), [-100, 0, 100])
     }
     
     /// ```
@@ -39,11 +39,11 @@ class MKSensorDataMultipleTypesTests : XCTestCase {
         try! d.append(MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 2, samplesPerSecond: 1, samples: [0, 100, 200]))
         XCTAssertEqual(d.end, 3)
 
-        XCTAssertEqual(d.samples(along: [.Accelerometer(location: .LeftWrist)]), [
-            [-100, 0,   100],
-            [-50,  50,  150],
-            [0,    100, 200],
-        ])
+        XCTAssertEqual(d.samples(along: [.Accelerometer(location: .LeftWrist)]),
+            [-100, 0,   100,
+             -50,  50,  150,
+             0,    100, 200]
+        )
     }
     
     /// ```
@@ -57,11 +57,11 @@ class MKSensorDataMultipleTypesTests : XCTestCase {
         var d = threeD
         try! d.append(MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 2, samplesPerSecond: 1, samples: [100, 100, 200]))
         XCTAssertEqual(d.end, 3)
-        XCTAssertEqual(d.samples(along: [.Accelerometer(location: .LeftWrist)]), [
-            [-100, 0,   100],
-            [   0, 50,  150],
-            [ 100, 100, 200],
-        ])
+        XCTAssertEqual(d.samples(along: [.Accelerometer(location: .LeftWrist)]),
+            [-100, 0,   100,
+                0, 50,  150,
+              100, 100, 200]
+        )
     }
     
     func testAppendAllowableGapMulti() {
@@ -69,23 +69,23 @@ class MKSensorDataMultipleTypesTests : XCTestCase {
         try! d.append(MKSensorData(types: [.Accelerometer(location: .LeftWrist), .Gyroscope(location: .LeftWrist), .HeartRate], start: 2, samplesPerSecond: 1, samples: [3, 4, 7, 30, 40, 70, 80]))
         XCTAssertEqual(d.end, 3)
 
-        XCTAssertEqual(d.samples(along: [.Accelerometer(location: .LeftWrist)]), [
-            [1, 2, 3],
-            [2, 3, 5],
-            [3, 4, 7],
-        ])
+        XCTAssertEqual(d.samples(along: [.Accelerometer(location: .LeftWrist)]),
+            [1, 2, 3,
+             2, 3, 5,
+             3, 4, 7]
+        )
 
-        XCTAssertEqual(d.samples(along: [.Gyroscope(location: .LeftWrist)]), [
-            [10, 20, 30],
-            [20, 30, 50],
-            [30, 40, 70],
-        ])
+        XCTAssertEqual(d.samples(along: [.Gyroscope(location: .LeftWrist)]),
+            [10, 20, 30,
+             20, 30, 50,
+             30, 40, 70]
+        )
 
-        XCTAssertEqual(d.samples(along: [.HeartRate]), [
-            [40],
-            [60],
-            [80],
-        ])
+        XCTAssertEqual(d.samples(along: [.HeartRate]),
+            [40,
+             60,
+             80]
+        )
     }
     
     ///

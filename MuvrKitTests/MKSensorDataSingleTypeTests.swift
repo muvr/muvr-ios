@@ -67,7 +67,7 @@ class MKSensorDataSingleTypeTests : XCTestCase {
         try! d.append(MKSensorData(types: [.HeartRate], start: 1, samplesPerSecond: 1, samples: [130])) // end == 2
         try! d.append(MKSensorData(types: [.HeartRate], start: 2, samplesPerSecond: 1, samples: [140, 140])) // end == 4
         XCTAssertEqual(d.end, 4)
-        XCTAssertEqual(try! d.samplesAsScalars(along: .HeartRate), [100, 130, 140, 140])
+        XCTAssertEqual(d.samples(along: [.HeartRate]), [100, 130, 140, 140])
     }
     
     /// ```
@@ -81,11 +81,11 @@ class MKSensorDataSingleTypeTests : XCTestCase {
         var d = oneD
         try! d.append(MKSensorData(types: [.HeartRate], start: 2, samplesPerSecond: 1, samples: [200]))
         XCTAssertEqual(d.end, 3)
-        XCTAssertEqual(try! d.samplesAsScalars(along: .HeartRate), [100, 150, 200])
+        XCTAssertEqual(d.samples(along: [.HeartRate]), [100, 150, 200])
         
         try! d.append(MKSensorData(types: [.HeartRate], start: 6, samplesPerSecond: 1, samples: [400, 200, 200, 100]))
         XCTAssertEqual(d.end, 10)
-        XCTAssertEqual(try! d.samplesAsScalars(along: .HeartRate), [100, 150, 200, 250, 300, 350, 400, 200, 200, 100])
+        XCTAssertEqual(d.samples(along: [.HeartRate]), [100, 150, 200, 250, 300, 350, 400, 200, 200, 100])
     }
     
     ///

@@ -89,7 +89,7 @@ public func ==(lhs: MKSensorDataType.Location, rhs: MKSensorDataType.Location) -
 
 public struct MKSensorData {
     /// The dimension of the samples; 1 for HR and such like, 3 for acceleraton, etc.
-    internal let dimension: Int
+    private let dimension: Int
     /// The actual samples
     internal var samples: [Float]
 
@@ -176,5 +176,26 @@ public struct MKSensorData {
             samples.appendContentsOf(that.samples)
         }
     }
-    
+ 
+    ///
+    /// Returns samples along the given types; this is essentially a column slice
+    /// of the sensor data matrix
+    ///
+    /// - parameter types: the types that should be returned
+    ///
+    func samples(along types: [MKSensorDataType]) -> [Float] {
+        let bitmap = self.types.reduce([]) { r, t in
+            return r + [Bool](count: t.dimension, repeatedValue: types.contains(t))
+        }
+        let rowCount = self.samples.count / dimension
+        return (0..<rowCount).flatMap { row in
+            return bitmap.enumerate().flatMap { (idx: Int, value: Bool) -> Float? in
+                if value {
+                    return self.samples[row * self.dimension + idx]
+                }
+                return nil
+            }
+        }
+    }
+
 }
