@@ -154,6 +154,7 @@
 		5487F5AF1BBA640E00ED2E97 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5487F5AC1BBA63C900ED2E97 /* libz.tbd */; };
 		5488F39D1AFF8C960086BF7B /* exercise_plan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5488F39B1AFF8C960086BF7B /* exercise_plan.cc */; };
 		5488F39E1AFF8C960086BF7B /* simple_exercise_plan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5488F39C1AFF8C960086BF7B /* simple_exercise_plan.cc */; };
+		548CAB3D1BBAF72600A34D81 /* MKClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548CAB3C1BBAF72600A34D81 /* MKClassifierTests.swift */; settings = {ASSET_TAGS = (); }; };
 		54A1A1C91BA1DCD500C2EFEB /* MRRepetitionEstimator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54A1A1C81BA1DCD500C2EFEB /* MRRepetitionEstimator.mm */; settings = {ASSET_TAGS = (); }; };
 		54A48ACB1BA474F300F4A81B /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54A48AC91BA474F300F4A81B /* Interface.storyboard */; };
 		54A48ACD1BA474F300F4A81B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54A48ACC1BA474F300F4A81B /* Assets.xcassets */; };
@@ -442,6 +443,7 @@
 		5488F39B1AFF8C960086BF7B /* exercise_plan.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = exercise_plan.cc; path = "../../../../../muvr-preclassification/core/main/cc/exercise_plan.cc"; sourceTree = "<group>"; };
 		5488F39C1AFF8C960086BF7B /* simple_exercise_plan.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = simple_exercise_plan.cc; path = "../../../../../muvr-preclassification/core/main/cc/simple_exercise_plan.cc"; sourceTree = "<group>"; };
 		5488F39F1AFF8CA00086BF7B /* exercise_plan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = exercise_plan.h; path = "../../../../muvr-preclassification/core/include/exercise_plan.h"; sourceTree = "<group>"; };
+		548CAB3C1BBAF72600A34D81 /* MKClassifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKClassifierTests.swift; sourceTree = "<group>"; };
 		54A1A1C81BA1DCD500C2EFEB /* MRRepetitionEstimator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRRepetitionEstimator.mm; sourceTree = "<group>"; };
 		54A1A1CA1BA1DCE000C2EFEB /* MRRepetitionEstimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRRepetitionEstimator.h; sourceTree = "<group>"; };
 		54A48AC71BA474F300F4A81B /* Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watch.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -821,10 +823,8 @@
 		546E685A1BB98D0800DC0FEF /* MuvrKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				5487F5A31BB9C4C500ED2E97 /* MKSensorData+CodecTests.swift */,
-				546E68641BB98D1D00DC0FEF /* MKSensorDataSingleTypeTests.swift */,
-				546E68661BB98D1D00DC0FEF /* MKSensorDataMultipleTypesTests.swift */,
-				546E68651BB98D1D00DC0FEF /* MKSensorDataThreeDPerformanceTests.swift */,
+				548CAB3B1BBAF71400A34D81 /* Classification */,
+				548CAB3A1BBAF70700A34D81 /* SensorData */,
 				546E685B1BB98D0800DC0FEF /* MuvrKitTests.swift */,
 				546E685D1BB98D0800DC0FEF /* Info.plist */,
 			);
@@ -875,6 +875,25 @@
 				54005C951B07566900BF0732 /* MRDataModel+Housekeeping.swift */,
 			);
 			name = DataModel;
+			sourceTree = "<group>";
+		};
+		548CAB3A1BBAF70700A34D81 /* SensorData */ = {
+			isa = PBXGroup;
+			children = (
+				5487F5A31BB9C4C500ED2E97 /* MKSensorData+CodecTests.swift */,
+				546E68641BB98D1D00DC0FEF /* MKSensorDataSingleTypeTests.swift */,
+				546E68661BB98D1D00DC0FEF /* MKSensorDataMultipleTypesTests.swift */,
+				546E68651BB98D1D00DC0FEF /* MKSensorDataThreeDPerformanceTests.swift */,
+			);
+			name = SensorData;
+			sourceTree = "<group>";
+		};
+		548CAB3B1BBAF71400A34D81 /* Classification */ = {
+			isa = PBXGroup;
+			children = (
+				548CAB3C1BBAF72600A34D81 /* MKClassifierTests.swift */,
+			);
+			name = Classification;
 			sourceTree = "<group>";
 		};
 		54A48AC81BA474F300F4A81B /* Watch */ = {
@@ -1651,6 +1670,7 @@
 				546E68671BB98D1D00DC0FEF /* MKSensorDataSingleTypeTests.swift in Sources */,
 				5487F5A41BB9C4C500ED2E97 /* MKSensorData+CodecTests.swift in Sources */,
 				546E68681BB98D1D00DC0FEF /* MKSensorDataThreeDPerformanceTests.swift in Sources */,
+				548CAB3D1BBAF72600A34D81 /* MKClassifierTests.swift in Sources */,
 				546E68691BB98D1D00DC0FEF /* MKSensorDataMultipleTypesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
