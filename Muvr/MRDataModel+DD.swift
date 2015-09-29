@@ -8,21 +8,19 @@ import MuvrKit
 extension MRDataModel.MRResistanceExerciseSessionDataModel {
     
     private static func createExamples(t: TableBuilder) -> Void {
-        let fk = MRDataModel.resistanceExerciseSessions.namespace(MRDataModel.rowId)
         t.column(MRDataModel.rowId, primaryKey: true)
         t.column(sessionId)
         t.column(MRDataModel.json)
 
-        t.foreignKey(sessionId, references: MRDataModel.resistanceExerciseSessions, fk, update: TableBuilder.Dependency.Restrict, delete: TableBuilder.Dependency.Cascade)
+        t.foreignKey(sessionId, references: MRDataModel.resistanceExerciseSessions, MRDataModel.rowId, update: TableBuilder.Dependency.Restrict, delete: TableBuilder.Dependency.Cascade)
     }
     
     private static func createExamplesData(t: TableBuilder) -> Void {
-        let fk = MRDataModel.resistanceExerciseExamples.namespace(MRDataModel.rowId)
         t.column(MRDataModel.rowId, primaryKey: true)
         t.column(exampleId)
         t.column(fusedSensorData)
         
-        t.foreignKey(sessionId, references: MRDataModel.resistanceExerciseSessions, fk, update: TableBuilder.Dependency.Restrict, delete: TableBuilder.Dependency.Cascade)
+        t.foreignKey(exampleId, references: MRDataModel.resistanceExerciseExamples, MRDataModel.rowId, update: TableBuilder.Dependency.Restrict, delete: TableBuilder.Dependency.Cascade)
     }
 
     private static func create(t: TableBuilder) -> Void {
@@ -79,6 +77,8 @@ extension MRDataModel {
     
     internal static func create() -> CreateResult {
         func create(schemaVersion: Int64) {
+            try! database.run("PRAGMA foreign_keys = ON")
+            
             try! database.run(resistanceExerciseSessions.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.create))
             try! database.run(resistanceExerciseExamples.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.createExamples))
             try! database.run(resistanceExerciseExamplesData.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.createExamplesData))
