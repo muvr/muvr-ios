@@ -1,5 +1,4 @@
 import Foundation
-import Compression
 
 ///
 /// We have the
@@ -27,6 +26,7 @@ public extension MKSensorData {
     /// - parameter data: the data to be decoded
     ///
     public init(decoding data: NSData) throws {
+        /*
         let destinationBufferSize: Int = Int(UnsafePointer<UInt32>(data.bytes).memory)
         let sourceBuffer: UnsafePointer<UInt8> = UnsafePointer<UInt8>(data.bytes.advancedBy(sizeof(UInt32)))
         let sourceBufferSize: Int = data.length
@@ -38,6 +38,9 @@ public extension MKSensorData {
         }
         
         let bytes = MKUnsafeBufferReader(bytes: destinationBuffer, totalLength: status)
+        */
+        
+        let bytes = MKUnsafeBufferReader(data: data)
 
         if bytes.length < 5 { throw MKCodecError.NotEnoughInput }
         

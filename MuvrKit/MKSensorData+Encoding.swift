@@ -1,5 +1,4 @@
 import Foundation
-import Compression
 
 ///
 /// We have the
@@ -55,7 +54,8 @@ public extension MKSensorData {
         
         d.appendBytes(&types, length: types.count)
         d.appendBytes(&samples, length: sizeof(Float) * Int(samplesCount))
-        
+
+        /*
         let destinationBufferSize = d.length
         let destinationBuffer: UnsafeMutablePointer<UInt8> = UnsafeMutablePointer<UInt8>.alloc(d.length + sizeof(UInt32))
         let status = compression_encode_buffer(destinationBuffer.advancedBy(sizeof(UInt32)), destinationBufferSize, UnsafePointer<UInt8>(d.bytes), d.length, nil, COMPRESSION_LZFSE)
@@ -64,6 +64,9 @@ public extension MKSensorData {
         }
         UnsafeMutablePointer<UInt32>(destinationBuffer)[0] = UInt32(destinationBufferSize)
         return NSData(bytesNoCopy: destinationBuffer, length: status + sizeof(UInt32))
+        */
+        
+        return d
     }
     
 }

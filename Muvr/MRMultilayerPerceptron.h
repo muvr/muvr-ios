@@ -25,7 +25,7 @@ using namespace muvr;
 ///
 /// Classify the passed data, returns ``NSArray*`` of ``MRClassifiedResistanceExercise``.
 ///
--  (NSArray *)classify:(const std::vector<fused_sensor_data> &)data withMaximumResults:(uint)numberOfResults;
+-  (NSArray *)classify:(const std::vector<fused_sensor_data> &)data withMaximumResults:(uint)numberOfResults repetitionHint:(NSNumber*)repetitions;
 @end
 
 #endif

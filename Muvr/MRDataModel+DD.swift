@@ -82,11 +82,16 @@ extension MRDataModel {
             try! database.run(resistanceExerciseSessions.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.create))
             try! database.run(resistanceExerciseExamples.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.createExamples))
             try! database.run(resistanceExerciseExamplesData.create(ifNotExists: true, block: MRDataModel.MRResistanceExerciseSessionDataModel.createExamplesData))
-                
-            try! database.run(exerciseModels.create(ifNotExists: true, block: MRDataModel.MRExerciseModelDataModel.create))
+            
             try! database.run(exercises.create(ifNotExists: true, block: MRDataModel.MRExerciseDataModel.create))
             
+            createExerciseModelDB()
+            
             try! database.run("PRAGMA schema_version = \(schemaVersion)")
+        }
+        
+        func createExerciseModelDB() {
+            try! database.run(exerciseModels.create(ifNotExists: true, block: MRDataModel.MRExerciseModelDataModel.create))
         }
         
         func drop() {
@@ -95,13 +100,25 @@ extension MRDataModel {
             try! database.run(resistanceExerciseSessions.drop(ifExists: true))
             
             try! database.run(exercises.drop(ifExists: true))
+            dropExerciseModels()
+        }
+        
+        func dropExerciseModels() {
             try! database.run(exerciseModels.drop(ifExists: true))
         }
         
         func setDefaultData() {
+            setDefaultExerciseTitles()
+            setDefaultExerciseModels()
+        }
+        
+        func setDefaultExerciseTitles(){
             if let exerciseTitles = (loadArray("exercises") { json in return (json["id"].stringValue, json["title"].stringValue) }) {
                 MRDataModel.MRExerciseDataModel.set(exerciseTitles.1, locale: exerciseTitles.0)
             }
+        }
+        
+        func setDefaultExerciseModels(){
             if let exerciseModels = loadArray("exercisemodels", unmarshal: MKExerciseModel.unmarshal) {
                 MRDataModel.MRExerciseModelDataModel.set(exerciseModels.1)
             }
@@ -122,6 +139,10 @@ extension MRDataModel {
             setDefaultData()
             return .Migrated(from: existingSchemaVersion)
         } else {
+            // Lets make sure the label mapping of the model always fits!
+            dropExerciseModels()
+            createExerciseModelDB()
+            setDefaultExerciseModels()
             // current version
             return .NotChanged()
         }

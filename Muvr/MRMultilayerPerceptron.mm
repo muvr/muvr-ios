@@ -32,7 +32,7 @@
     assert(nrOfClasses > 0); // There should be at least one class for classification.
     
     // TODO: Load model from file and set attributes
-    NSArray *layers = [NSArray arrayWithObjects:@1200, @100, @50, @3, nil];
+    NSArray *layers = [NSArray arrayWithObjects:@1200, @250, @100, @3, nil];
     
     // Lets assume we loaded the data correctly
     // assert(weights.length / 8 == 370279);
@@ -134,7 +134,7 @@
     [class_ranking enumerateObjectsUsingBlock:^(NSNumber* classId, NSUInteger idx, BOOL *stop) {
         NSNumber *prob = [probabilities objectAtIndex: classId.integerValue];
         NSString * exerciseName = [self exerciseName:classId.intValue];
-        LOG(TRACE) << "Prediction: " << [NSString stringWithFormat:@"%.2f", prob.doubleValue].UTF8String <<  " for " << exerciseName.UTF8String << std::endl;
+        LOG(TRACE) << "Prediction[" << classId.intValue << "]: " << [NSString stringWithFormat:@"%.2f", prob.doubleValue].UTF8String <<  " for " << exerciseName.UTF8String << std::endl;
     }];
 }
 
@@ -157,7 +157,7 @@
     return featureMatrix;
 }
 
-- (NSArray *)classify:(const std::vector<fused_sensor_data> &)data withMaximumResults:(uint)numberOfResults {
+- (NSArray *)classify:(const std::vector<fused_sensor_data> &)data withMaximumResults:(uint)numberOfResults repetitionHint:(NSNumber*)repetitions{
     NSDate *startTime = [NSDate date];
     if (data.size() == 0) {
         LOG(WARNING) << "Classification called, but no data passed!" << std::endl;
@@ -205,7 +205,7 @@
 
         MRResistanceExercise* re = [[MRResistanceExercise alloc] initWithId:exerciseName];
         MRClassifiedResistanceExercise *cre = [[MRClassifiedResistanceExercise alloc] initWithResistanceExercise:re
-                                                                                                     repetitions:0
+                                                                                                     repetitions:repetitions
                                                                                                           weight:0
                                                                                                        intensity:0
                                                                                                             time:time
