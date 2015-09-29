@@ -8,11 +8,11 @@ extension MKConnectivity {
     ///
     /// Default exercise models that will be reported in case no models are found from the app
     ///
-    internal var defaultExerciseModels: [MKExerciseModel] {
+    internal var defaultExerciseModelMetadata: [MKExerciseModelMetadata] {
         return [
-            MKExerciseModel(id: "arms",      title: "Arms",      exerciseIds: ["arms/biceps-curl", "arms/triceps-extension"]),
-            MKExerciseModel(id: "shoulders", title: "Shoulders", exerciseIds: ["shoulders/lateral-raise", "shoulders/press", "shoulders/pull-up"]),
-            MKExerciseModel(id: "chest",     title: "Chest",     exerciseIds: ["chest/fly", "chest/press", "chest/cable-cross-over"])
+            ("arms",      "Arms"),
+            ("shoulders", "Shoulders"),
+            ("chest",     "Chest")
         ]
     }
 

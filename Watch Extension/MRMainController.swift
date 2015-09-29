@@ -9,8 +9,8 @@ class MRMainController: WKInterfaceController {
     
     override func willActivate() {
         super.willActivate()
-        model.setItems(MRExtensionDelegate.sharedDelegate().models.map { $0.pickerItem })
-        intensity.setItems(MRExtensionDelegate.sharedDelegate().intensities.map { $0.pickerItem })
+        model.setItems(MRExtensionDelegate.sharedDelegate().modelMetadata.map { _, title in return WKPickerItem.withTitle(title) })
+        intensity.setItems(MRExtensionDelegate.sharedDelegate().intensities.map { x in WKPickerItem.withTitle(x.title) })
     }
     
     @IBAction func go() {
@@ -18,23 +18,12 @@ class MRMainController: WKInterfaceController {
     }
 }
 
-extension MKExerciseModel {
+extension WKPickerItem {
     
-    var pickerItem: WKPickerItem {
+    static func withTitle(title: String) -> WKPickerItem {
         let i = WKPickerItem()
         i.title = title
         return i
     }
     
 }
-
-extension MKIntensity {
-    
-    var pickerItem: WKPickerItem {
-        let i = WKPickerItem()
-        i.title = title
-        return i
-    }
-    
-}
-

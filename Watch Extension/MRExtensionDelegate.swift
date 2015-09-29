@@ -4,7 +4,7 @@ import MuvrKit
 
 class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivityDelegate {
     private var connectivity: MKConnectivity?
-    var models: [MKExerciseModel] = []
+    var modelMetadata: [MKExerciseModelMetadata] = []
     var intensities: [MKIntensity] = []
     
     static func sharedDelegate() -> MRExtensionDelegate {
@@ -26,8 +26,8 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     
     // MARK: MKMetadataConnectivityDelegate
 
-    func metadataConnectivityDidReceiveExerciseModels(models: [MKExerciseModel]) {
-        self.models = models
+    func metadataConnectivityDidReceiveExerciseModelMetadata(modelMetadata: [MKExerciseModelMetadata]) {
+        self.modelMetadata = modelMetadata
     }
     
     func metadataConnectivityDidReceiveIntensities(intensities: [MKIntensity]) {

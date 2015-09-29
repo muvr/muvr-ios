@@ -11,7 +11,7 @@ public protocol MKMetadataConnectivityDelegate {
     ///
     /// - parameter models: the new models
     ///
-    func metadataConnectivityDidReceiveExerciseModels(models: [MKExerciseModel])
+    func metadataConnectivityDidReceiveExerciseModelMetadata(modelMetadata: [MKExerciseModelMetadata])
     
     ///
     /// Called when the application receives new intensities

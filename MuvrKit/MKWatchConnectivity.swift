@@ -18,7 +18,7 @@ public class MKConnectivity : NSObject {
         self.session = MKConnectivitySession(metadata: metadata)
         super.init()
         
-        metadata.metadataConnectivityDidReceiveExerciseModels(defaultExerciseModels)
+        metadata.metadataConnectivityDidReceiveExerciseModelMetadata(defaultExerciseModelMetadata)
         metadata.metadataConnectivityDidReceiveIntensities(defaultIntensities)
     }
     
