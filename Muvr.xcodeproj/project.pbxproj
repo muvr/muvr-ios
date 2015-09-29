@@ -940,7 +940,6 @@
 				547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */,
 				5469D3811BBA6ECD00EE5ADB /* MKExerciseModelMetadata.swift */,
 				547A445D1BB8677700C2CC06 /* MKIntensity.swift */,
-				54D345831BB9251700F65091 /* MKClassifiedExercise.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -958,6 +957,7 @@
 		54D3457C1BB922FF00F65091 /* Classification */ = {
 			isa = PBXGroup;
 			children = (
+				54D345831BB9251700F65091 /* MKClassifiedExercise.swift */,
 				54D3457D1BB9232A00F65091 /* MKClassifier.swift */,
 				54D3457F1BB9245E00F65091 /* MKSensorDataDelegate.swift */,
 				54D345811BB924A500F65091 /* MKClassificationDelegate.swift */,
