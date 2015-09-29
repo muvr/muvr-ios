@@ -89,7 +89,7 @@ public func ==(lhs: MKSensorDataType.Location, rhs: MKSensorDataType.Location) -
 
 public struct MKSensorData {
     /// The dimension of the samples; 1 for HR and such like, 3 for acceleraton, etc.
-    private let dimension: Int
+    public let dimension: Int
     /// The actual samples
     internal var samples: [Float]
 
