@@ -6,6 +6,15 @@ class MKSensorDataSingleTypeTests : XCTestCase {
     let oneD   = try! MKSensorData(types: [.HeartRate], start: 0, samplesPerSecond: 1, samples: [100])
 
     ///
+    /// Tests that bad types are discovered
+    ///
+    func testBadTypes() {
+        if let _ =  try? MKSensorData(types: [], start: 0, samplesPerSecond: 1, samples: []) {
+            XCTFail("Bad types not detected")
+        }
+    }
+    
+    ///
     /// Can't create MKSensorData with bad sample count for the dimension
     ///
     func testBadSampleCountForDimension() {

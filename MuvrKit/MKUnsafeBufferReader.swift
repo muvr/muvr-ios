@@ -5,11 +5,13 @@ class MKUnsafeBufferReader {
     private var offset: Int
     private let bytes: UnsafePointer<UInt8>
     
+    /*
     init(bytes: UnsafePointer<UInt8>, totalLength: Int) {
         self.bytes = bytes
         self.totalLength = totalLength
         self.offset = 0
     }
+    */
     
     init(data: NSData) {
         self.bytes = UnsafePointer<UInt8>(data.bytes)

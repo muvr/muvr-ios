@@ -48,7 +48,7 @@ struct MKClassifier {
     }
     
     private func featureMatrixFrom(inputData: [Double], dimension: Int, numWindows: Int) -> NSData {
-        let featureMatrix = NSMutableData(length: numInputs * numWindows * sizeof(Double))!
+        let featureMatrix = NSMutableData(capacity: numInputs * numWindows * sizeof(Double))!
         
         for i in 0..<numWindows {
             let start  = i * windowStepSize * dimension
