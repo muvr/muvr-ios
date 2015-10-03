@@ -10,7 +10,7 @@ import Foundation
 ///    uint8_t version = 1;          
 ///    uint8_t typesCount;           
 ///    double  start;                
-///    uint8   samplesPerSecod;      
+///    uint8_t samplesPerSecod;
 ///    uint32  samplesCount;         
 ///
 ///    uint8_t types[typesCount];    
@@ -42,7 +42,7 @@ public extension MKSensorData {
         
         let bytes = MKUnsafeBufferReader(data: data)
 
-        if bytes.length < 5 { throw MKCodecError.NotEnoughInput }
+        if bytes.length < 16 { throw MKCodecError.NotEnoughInput }
         
         try bytes.expect(UInt8(0xd0))
         try bytes.expect(UInt8(1))

@@ -128,10 +128,10 @@ public struct MKSensorData {
         return Double(samples.count / dimension) / Double(samplesPerSecond)
     }
     
-    // TODO
+    /* TODO
     mutating func merge(that: MKSensorData) throws {
-        fatalError("This will merge self with that by placing the two matrices alongside each other")
     }
+    */
     
     ///
     /// Appends ``that`` to this by filling in the gaps or resolving the overlaps if necessary
