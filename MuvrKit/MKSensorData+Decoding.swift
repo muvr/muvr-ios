@@ -44,8 +44,8 @@ public extension MKSensorData {
 
         if bytes.length < 16 { throw MKCodecError.NotEnoughInput }
         
-        try bytes.expect(UInt8(0xd0))
-        try bytes.expect(UInt8(1))
+        try bytes.expect(UInt8(0x61), throwing: MKCodecError.BadHeader)
+        try bytes.expect(UInt8(0x64), throwing: MKCodecError.BadHeader)
         let typesCount: UInt8       = try bytes.next()
         let start: Double           = try bytes.next()
         let samplesPerSecond: UInt8 = try bytes.next()

@@ -128,7 +128,7 @@ public struct MKRepetitionEstimator {
             let (count, _) = (0..<mostSignificantPeaks.count).reduce((0, 0)) { x, i in
                 let (count, previousPeakLocation) = x
                 let msp = mostSignificantPeaks[i]
-                if msp - previousPeakLocation >= minimumPeakDistance && profiles[i].roughlyEquals(meanProfile, margin: 0.5) {
+                if msp - previousPeakLocation >= minimumPeakDistance && profiles[i].roughlyEquals(meanProfile, margin: 50) {
                     return (count + 1, msp)
                 } else {
                     return (count, msp)

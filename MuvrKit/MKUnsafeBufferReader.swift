@@ -19,14 +19,14 @@ class MKUnsafeBufferReader {
         self.offset = 0
     }
     
-    func expect(value: UInt8) throws {
+    func expect(value: UInt8, throwing e: ErrorType) throws {
         if try next() != value {
-            throw MKCodecError.UnexpectedValue
+            throw e
         }
     }
     
     func next<A>() throws -> A {
-        return try nexts(1)[0]
+        return try nexts(1).memory
     }
     
     func nexts<A>(count: Int) throws -> UnsafePointer<A> {
@@ -36,7 +36,7 @@ class MKUnsafeBufferReader {
             offset += countBytes
             return ptr
         }
-        return nil
+        throw MKCodecError.NotEnoughInput
     }
         
     /// The readable length

@@ -28,8 +28,8 @@ public extension MKSensorData {
     ///
     public func encode() throws -> NSData {
         let d = NSMutableData()
-        var header: UInt8  = 0xd0
-        var version: UInt8 = 0x01
+        var header: UInt8  = 0x61
+        var version: UInt8 = 0x64
         var typesCount: UInt8 = UInt8(self.types.count)
         var samplesPerSecond: UInt8 = UInt8(self.samplesPerSecond)
         var samplesCount: UInt32 = UInt32(self.samples.count)
@@ -37,11 +37,11 @@ public extension MKSensorData {
         var samples: [Float] = self.samples
         var types = self.types.flatMap { (type: MKSensorDataType) -> [UInt8] in
             switch type {
-            case .Accelerometer(location: MKSensorDataType.Location.LeftWrist):  return [UInt8(0xf0), UInt8(0x01), UInt8(0x01)]
-            case .Accelerometer(location: MKSensorDataType.Location.RightWrist): return [UInt8(0xf0), UInt8(0x01), UInt8(0x02)]
-            case .Gyroscope(location: MKSensorDataType.Location.LeftWrist):      return [UInt8(0xf0), UInt8(0x02), UInt8(0x01)]
-            case .Gyroscope(location: MKSensorDataType.Location.RightWrist):     return [UInt8(0xf0), UInt8(0x02), UInt8(0x02)]
-            case .HeartRate:                                                     return [UInt8(0xf0), UInt8(0x03), UInt8(0x00)]
+            case .Accelerometer(location: MKSensorDataType.Location.LeftWrist):  return [UInt8(0x74), UInt8(0x61), UInt8(0x6c)]
+            case .Accelerometer(location: MKSensorDataType.Location.RightWrist): return [UInt8(0x74), UInt8(0x61), UInt8(0x72)]
+            case .Gyroscope(location: MKSensorDataType.Location.LeftWrist):      return [UInt8(0x74), UInt8(0x67), UInt8(0x6c)]
+            case .Gyroscope(location: MKSensorDataType.Location.RightWrist):     return [UInt8(0x74), UInt8(0x67), UInt8(0x72)]
+            case .HeartRate:                                                     return [UInt8(0x74), UInt8(0x68), UInt8(0x2d)]
             }
         }
                 

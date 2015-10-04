@@ -14,6 +14,16 @@ class MKSensorDataCodecTests : XCTestCase {
         }
     }
     
+    func testMalicious() {
+        do {
+            _ = try MKSensorData(decoding: "ad~~~~~~~~~~~~tar".dataUsingEncoding(NSASCIIStringEncoding)!)
+            XCTFail("Not caught")
+        } catch MKCodecError.NotEnoughInput {
+        } catch {
+            XCTFail("Bad exception")
+        }
+    }
+    
     func testEncodeDecode() {
         let d = try! MKSensorData(
             types: [.Accelerometer(location: .RightWrist), .Accelerometer(location: .LeftWrist),
@@ -29,7 +39,13 @@ class MKSensorDataCodecTests : XCTestCase {
     }
     
     func testMalformedHeader() {
-        
+        do {
+            _ = try MKSensorData(decoding: "123456789abcdef10".dataUsingEncoding(NSASCIIStringEncoding)!)
+            XCTFail("Not caught")
+        } catch MKCodecError.BadHeader {
+        } catch {
+            XCTFail("Bad exception")
+        }
     }
 
     func testTruncatedInput() {
