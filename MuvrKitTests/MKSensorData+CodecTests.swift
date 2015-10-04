@@ -16,11 +16,11 @@ class MKSensorDataCodecTests : XCTestCase {
     
     func testMalicious() {
         do {
-            _ = try MKSensorData(decoding: "ad~~~~~~~~~~~~tar".dataUsingEncoding(NSASCIIStringEncoding)!)
+            _ = try MKSensorData(decoding: "ad\u{01}ssssssssfcccctar.".dataUsingEncoding(NSASCIIStringEncoding)!)
             XCTFail("Not caught")
         } catch MKCodecError.NotEnoughInput {
         } catch {
-            XCTFail("Bad exception")
+            XCTFail("Bad exception \(error)")
         }
     }
     
