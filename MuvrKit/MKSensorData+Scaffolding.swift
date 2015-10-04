@@ -1,12 +1,7 @@
 import Foundation
-@testable import MuvrKit
 
-enum MKSensorDataIOError : ErrorType {
-    case ResourceMissing(resourceName: String)
-}
-
-extension MKSensorData {
-
+public extension MKSensorData {
+    
     ///
     /// Loads the ``MKSensorData`` from the CSV file that must contain the raw data for it
     ///
@@ -16,21 +11,17 @@ extension MKSensorData {
     /// - returns: the loaded ``MKSensorData``
     /// - throws: one of ``MKSensorDataIOError``
     ///
-    static func sensorData(types types: [MKSensorDataType], samplesPerSecond: UInt, loading resourceName: String) throws -> MKSensorData {
-        if let fileName = NSBundle(forClass: MuvrKitTests.self).pathForResource(resourceName, ofType: "csv") {
-            let contents = try NSString(contentsOfFile: fileName, encoding: NSASCIIStringEncoding)
-            
-            let nums = contents.componentsSeparatedByString(",").map { x in return Float(x.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))! }
-            return try MKSensorData(types: types, start: 0, samplesPerSecond: samplesPerSecond, samples: nums)
-        } else {
-            throw MKSensorDataIOError.ResourceMissing(resourceName: resourceName)
-        }
+    public static func sensorData(types types: [MKSensorDataType], samplesPerSecond: UInt, loading resourceName: String) throws -> MKSensorData {
+        let contents = try NSString(contentsOfFile: resourceName, encoding: NSASCIIStringEncoding)
+        
+        let nums = contents.componentsSeparatedByString(",").map { x in return Float(x.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))! }
+        return try MKSensorData(types: types, start: 0, samplesPerSecond: samplesPerSecond, samples: nums)
     }
     
     ///
     /// The generator value
     ///
-    enum Value {
+    public enum Value {
         /// A specified constant
         /// - parameter value: the constant value
         case Constant(value: Float)
@@ -41,16 +32,16 @@ extension MKSensorData {
     }
     
     ///
-    /// Generated ``MKSensorData`` of the specified ``types``, ``samplesPerSecond``, containing the given ``numRows``, each row with 
+    /// Generated ``MKSensorData`` of the specified ``types``, ``samplesPerSecond``, containing the given ``numRows``, each row with
     /// samples generated using the "recipe" specified by ``value``.
-    /// 
+    ///
     /// - parameter types: the types that should be included
     /// - parameter samplesPerSecond: the sampling rate
     /// - parameter numRows: the number of rows to generate
     /// - parameter value: the value to be set to every row
     /// - returns: the generated ``MKSensorData``
     ///
-    static func sensorData(types types: [MKSensorDataType], samplesPerSecond: UInt, generating numRows: Int, withValue value: Value) -> MKSensorData {
+    public static func sensorData(types types: [MKSensorDataType], samplesPerSecond: UInt, generating numRows: Int, withValue value: Value) -> MKSensorData {
         func generateValue(value: Value, index: Int) -> Float {
             switch value {
             case .Constant(let x): return x

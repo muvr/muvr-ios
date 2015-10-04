@@ -41,7 +41,8 @@ class MKClassifierTests : XCTestCase {
     /// Tests that class 1 is correctly identified
     ///
     func testClassA() {
-        let block = try! MKSensorData.sensorData(types: [MKSensorDataType.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, loading: "class-1")
+        let fileName = NSBundle(forClass: MuvrKitTests.self).pathForResource("class-1", ofType: "csv")!
+        let block = try! MKSensorData.sensorData(types: [MKSensorDataType.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, loading: fileName)
         let cls = try! classifier.classify(block: block, maxResults: 100)
         XCTAssertEqual(cls.first!.exerciseId, "1")
         XCTAssertGreaterThan(cls.first!.confidence, 0.99)
