@@ -10,7 +10,6 @@
 		54005C941B07560400BF0732 /* MRApplicationState+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54005C931B07560400BF0732 /* MRApplicationState+Sync.swift */; };
 		54005C961B07566900BF0732 /* MRDataModel+Housekeeping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54005C951B07566900BF0732 /* MRDataModel+Housekeeping.swift */; };
 		54005C9E1B07D43100BF0732 /* MRProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54005C9D1B07D43100BF0732 /* MRProfileViewController.swift */; };
-		5403814C1AEBBE45000C8B15 /* export.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5403814B1AEBBE45000C8B15 /* export.cc */; };
 		540381511AEC2B5A000C8B15 /* MRButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381501AEC2B5A000C8B15 /* MRButton.swift */; };
 		540381531AEC3567000C8B15 /* MRTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381521AEC3567000C8B15 /* MRTypes.swift */; };
 		540381551AECFB05000C8B15 /* MRExerciseSessionClassificationCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381541AECFB05000C8B15 /* MRExerciseSessionClassificationCompletedViewController.swift */; };
@@ -66,10 +65,6 @@
 		54266B151BB92F22007A8A8A /* MKSensorData+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */; settings = {ASSET_TAGS = (); }; };
 		54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B161BB92F98007A8A8A /* MKSensorData.swift */; settings = {ASSET_TAGS = (); }; };
 		54266B181BB92F98007A8A8A /* MKSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B161BB92F98007A8A8A /* MKSensorData.swift */; settings = {ASSET_TAGS = (); }; };
-		542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */; };
-		542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */; };
-		542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */; };
-		542AB2191ACC4FD100F20299 /* symbolic_aggregate_approximation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */; };
 		542E630A1B9B009A00BA6B26 /* MRMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E63091B9B009A00BA6B26 /* MRMode.swift */; };
 		542F83E71B9C5A4500CD5986 /* MRClassifiedResistanceExercise+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542F83E61B9C5A4500CD5986 /* MRClassifiedResistanceExercise+Marshalling.swift */; };
 		543374131AD01060005864D7 /* MRRawPebbleDeviceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374121AD01060005864D7 /* MRRawPebbleDeviceSession.swift */; };
@@ -89,10 +84,6 @@
 		543ED4831B0DBCCE00D12768 /* MRExerciseSessionStartable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543ED4821B0DBCCE00D12768 /* MRExerciseSessionStartable.swift */; };
 		544201371B93847100354DB7 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 544201361B93847100354DB7 /* ExternalAccessory.framework */; };
 		544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 544201381B9384B500354DB7 /* CoreBluetooth.framework */; };
-		5443FA791AE69E1400CC229D /* sensor_data_fuser_rsde.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA751AE69E1400CC229D /* sensor_data_fuser_rsde.cc */; };
-		5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */; };
-		5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */; };
-		5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */; };
 		544757071B9F34F0001E00BF /* MRResistanceExerciseProgressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 544757061B9F34F0001E00BF /* MRResistanceExerciseProgressView.xib */; };
 		544757091B9F360C001E00BF /* MRResistanceExerciseProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544757081B9F360C001E00BF /* MRResistanceExerciseProgressView.swift */; };
 		54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 54477CFB1AF4E82E00F502EC /* Localizable.strings */; };
@@ -107,13 +98,6 @@
 		5455E7301AFA73C70049BB6B /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */; };
 		5460BD2D1BBFF35B00E24E89 /* class-1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 5460BD2C1BBFF35B00E24E89 /* class-1.csv */; settings = {ASSET_TAGS = (); }; };
 		546241171B9DBA4500339998 /* MRDataModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546241161B9DBA4500339998 /* MRDataModelTests.swift */; };
-		5464EBBF1AF4E1FD00B5317B /* classifier_loader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */; };
-		5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */; };
-		5464EBC81AF4E24F00B5317B /* svm-model-bicep_curl-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC21AF4E24F00B5317B /* svm-model-bicep_curl-features.rds */; };
-		5464EBC91AF4E24F00B5317B /* svm-model-bicep_curl-features.scale in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC31AF4E24F00B5317B /* svm-model-bicep_curl-features.scale */; };
-		5464EBCA1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC41AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm */; };
-		5464EBCB1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC51AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds */; };
-		5464EBCC1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale in Resources */ = {isa = PBXBuildFile; fileRef = 5464EBC61AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale */; };
 		5469D3821BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */; settings = {ASSET_TAGS = (); }; };
 		5469D3831BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */; settings = {ASSET_TAGS = (); }; };
 		5469D3851BBA764900EE5ADB /* MKRepetitionEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */; settings = {ASSET_TAGS = (); }; };
@@ -155,12 +139,9 @@
 		5487F5AE1BBA640500ED2E97 /* libcompression.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5487F5A91BB9CAB800ED2E97 /* libcompression.tbd */; };
 		5487F5AF1BBA640E00ED2E97 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5487F5AC1BBA63C900ED2E97 /* libz.tbd */; };
 		54880CAD1BC048A800349C2E /* MKRepetitionEstimatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54880CAC1BC048A800349C2E /* MKRepetitionEstimatorTests.swift */; settings = {ASSET_TAGS = (); }; };
-		5488F39D1AFF8C960086BF7B /* exercise_plan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5488F39B1AFF8C960086BF7B /* exercise_plan.cc */; };
-		5488F39E1AFF8C960086BF7B /* simple_exercise_plan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5488F39C1AFF8C960086BF7B /* simple_exercise_plan.cc */; };
 		548CAB3D1BBAF72600A34D81 /* MKClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548CAB3C1BBAF72600A34D81 /* MKClassifierTests.swift */; settings = {ASSET_TAGS = (); }; };
 		548CAB3F1BBAF94500A34D81 /* model-3.raw in Resources */ = {isa = PBXBuildFile; fileRef = 548CAB3E1BBAF94500A34D81 /* model-3.raw */; settings = {ASSET_TAGS = (); }; };
 		548CAB411BBB0FCA00A34D81 /* XCTestCase+Exceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548CAB401BBB0FCA00A34D81 /* XCTestCase+Exceptions.swift */; settings = {ASSET_TAGS = (); }; };
-		54A1A1C91BA1DCD500C2EFEB /* MRRepetitionEstimator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54A1A1C81BA1DCD500C2EFEB /* MRRepetitionEstimator.mm */; settings = {ASSET_TAGS = (); }; };
 		54A48ACB1BA474F300F4A81B /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54A48AC91BA474F300F4A81B /* Interface.storyboard */; };
 		54A48ACD1BA474F300F4A81B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54A48ACC1BA474F300F4A81B /* Assets.xcassets */; };
 		54A48AD41BA474F300F4A81B /* Watch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 54A48AD31BA474F300F4A81B /* Watch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -200,27 +181,15 @@
 		54D527611B94D79F00B56719 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D5275B1B94D79F00B56719 /* SQLite.framework */; };
 		54D527621B94D79F00B56719 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D5275C1B94D79F00B56719 /* sqlite3.framework */; };
 		54E3A21E1BA21482001D9EA5 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E3A21D1BA21482001D9EA5 /* Pods.framework */; };
-		54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */; };
-		54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC361AC57E8D0061EC5D /* exercise_decider.cc */; };
-		54F0DC531AC57E8D0061EC5D /* kalman_smooth.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC371AC57E8D0061EC5D /* kalman_smooth.cc */; };
-		54F0DC541AC57E8D0061EC5D /* nomovement_decider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC381AC57E8D0061EC5D /* nomovement_decider.cc */; };
-		54F0DC551AC57E8D0061EC5D /* raw_sensor_data.cc in Sources */ = {isa = PBXBuildFile; fileRef = 54F0DC391AC57E8D0061EC5D /* raw_sensor_data.cc */; };
-		54F0DC561AC57E8D0061EC5D /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 54F0DC3B1AC57E8D0061EC5D /* CMakeLists.txt */; };
 		54F288121B00A6F300E4D591 /* MRExerciseSessionUserClassification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F288111B00A6F300E4D591 /* MRExerciseSessionUserClassification.swift */; };
 		54F2881B1B00BBAA00E4D591 /* default-exercises.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F288191B00BBAA00E4D591 /* default-exercises.json */; };
 		54F2881C1B00BBAA00E4D591 /* default-exercisemodels.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F2881A1B00BBAA00E4D591 /* default-exercisemodels.json */; };
 		54F2881E1B00BD0100E4D591 /* MRExerciseModel+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F2881D1B00BD0100E4D591 /* MRExerciseModel+Localisation.swift */; };
 		791024C419A5636E8BA52C85 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3AA10F80ED661B9AC5A823 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		9D3037971B94F69700426C70 /* MRMultilayerPerceptron.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
 		9DF2EF4D1BA17034007794CF /* MRRepetitionsEstimatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF2EF4C1BA17034007794CF /* MRRepetitionsEstimatorTests.swift */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
-		FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */; };
-		FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705E1AEA6CC900829357 /* svm_classifier.cc */; };
-		FC3970621AEA6CC900829357 /* svm.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC39705F1AEA6CC900829357 /* svm.cc */; };
-		FC3A4E8D1AF6E3DF00DABEC2 /* ensemble_classifier.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC3A4E8C1AF6E3DF00DABEC2 /* ensemble_classifier.cc */; };
 		FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */; };
-		FCEFD5B61AF8B315007C840F /* device_data_encoder.cc in Sources */ = {isa = PBXBuildFile; fileRef = FCEFD5B51AF8B315007C840F /* device_data_encoder.cc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -320,8 +289,6 @@
 		54005C931B07560400BF0732 /* MRApplicationState+Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRApplicationState+Sync.swift"; sourceTree = "<group>"; };
 		54005C951B07566900BF0732 /* MRDataModel+Housekeeping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRDataModel+Housekeeping.swift"; sourceTree = "<group>"; };
 		54005C9D1B07D43100BF0732 /* MRProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRProfileViewController.swift; sourceTree = "<group>"; };
-		5403814A1AEBBE3B000C8B15 /* export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = export.h; path = "../../../../muvr-preclassification/core/include/export.h"; sourceTree = "<group>"; };
-		5403814B1AEBBE45000C8B15 /* export.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = export.cc; path = "../../../../../muvr-preclassification/core/main/cc/export.cc"; sourceTree = "<group>"; };
 		540381501AEC2B5A000C8B15 /* MRButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRButton.swift; sourceTree = "<group>"; };
 		540381521AEC3567000C8B15 /* MRTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRTypes.swift; sourceTree = "<group>"; };
 		540381541AECFB05000C8B15 /* MRExerciseSessionClassificationCompletedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionClassificationCompletedViewController.swift; sourceTree = "<group>"; };
@@ -351,13 +318,6 @@
 		54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Encoding.swift"; sourceTree = "<group>"; };
 		54266B131BB92F16007A8A8A /* MKSensorData+Decoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Decoding.swift"; sourceTree = "<group>"; };
 		54266B161BB92F98007A8A8A /* MKSensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorData.swift; sourceTree = "<group>"; };
-		542AB2081ACC4FC400F20299 /* piecewise_aggregate_approximation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = piecewise_aggregate_approximation.h; path = "../../../../muvr-preclassification/core/include/piecewise_aggregate_approximation.h"; sourceTree = "<group>"; };
-		542AB20A1ACC4FC400F20299 /* symbol_alphabet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = symbol_alphabet.h; path = "../../../../muvr-preclassification/core/include/symbol_alphabet.h"; sourceTree = "<group>"; };
-		542AB20B1ACC4FC400F20299 /* symbolic_aggregate_approximation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = symbolic_aggregate_approximation.h; path = "../../../../muvr-preclassification/core/include/symbolic_aggregate_approximation.h"; sourceTree = "<group>"; };
-		542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = piecewise_aggregate_approximation.cc; path = "../../../../../muvr-preclassification/core/main/cc/piecewise_aggregate_approximation.cc"; sourceTree = "<group>"; };
-		542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser.cc"; sourceTree = "<group>"; };
-		542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = symbol_alphabet.cc; path = "../../../../../muvr-preclassification/core/main/cc/symbol_alphabet.cc"; sourceTree = "<group>"; };
-		542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = symbolic_aggregate_approximation.cc; path = "../../../../../muvr-preclassification/core/main/cc/symbolic_aggregate_approximation.cc"; sourceTree = "<group>"; };
 		542E63091B9B009A00BA6B26 /* MRMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRMode.swift; sourceTree = "<group>"; };
 		542F83E61B9C5A4500CD5986 /* MRClassifiedResistanceExercise+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRClassifiedResistanceExercise+Marshalling.swift"; sourceTree = "<group>"; };
 		543374121AD01060005864D7 /* MRRawPebbleDeviceSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRRawPebbleDeviceSession.swift; sourceTree = "<group>"; };
@@ -379,11 +339,6 @@
 		544201381B9384B500354DB7 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		5442013A1B9384BE00354DB7 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		5442013C1B9384CA00354DB7 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		5443FA741AE69DC900CC229D /* easylogging++.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "easylogging++.h"; path = "../../../../muvr-preclassification/core/include/easylogging++.h"; sourceTree = "<group>"; };
-		5443FA751AE69E1400CC229D /* sensor_data_fuser_rsde.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_rsde.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_rsde.cc"; sourceTree = "<group>"; };
-		5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_rsdt.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_rsdt.cc"; sourceTree = "<group>"; };
-		5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_sce.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_sce.cc"; sourceTree = "<group>"; };
-		5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sensor_data_fuser_sct.cc; path = "../../../../../muvr-preclassification/core/main/cc/sensor_data_fuser_sct.cc"; sourceTree = "<group>"; };
 		544757061B9F34F0001E00BF /* MRResistanceExerciseProgressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRResistanceExerciseProgressView.xib; sourceTree = "<group>"; };
 		544757081B9F360C001E00BF /* MRResistanceExerciseProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseProgressView.swift; sourceTree = "<group>"; };
 		54477CFC1AF4E82E00F502EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -399,14 +354,6 @@
 		5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+DateUtils.swift"; path = "../NSDate+DateUtils.swift"; sourceTree = "<group>"; };
 		5460BD2C1BBFF35B00E24E89 /* class-1.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "class-1.csv"; sourceTree = "<group>"; };
 		546241161B9DBA4500339998 /* MRDataModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDataModelTests.swift; sourceTree = "<group>"; };
-		5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = classifier_loader.cc; path = "../../../../../muvr-preclassification/core/main/cc/classifier_loader.cc"; sourceTree = "<group>"; };
-		5464EBC01AF4E21400B5317B /* classifier_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier_loader.h; path = "../../../../muvr-preclassification/core/include/classifier_loader.h"; sourceTree = "<group>"; };
-		5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-bicep_curl-features.libsvm"; sourceTree = "<group>"; };
-		5464EBC21AF4E24F00B5317B /* svm-model-bicep_curl-features.rds */ = {isa = PBXFileReference; lastKnownFileType = file; path = "svm-model-bicep_curl-features.rds"; sourceTree = "<group>"; };
-		5464EBC31AF4E24F00B5317B /* svm-model-bicep_curl-features.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-bicep_curl-features.scale"; sourceTree = "<group>"; };
-		5464EBC41AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-triceps_pushdown-features.libsvm"; sourceTree = "<group>"; };
-		5464EBC51AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds */ = {isa = PBXFileReference; lastKnownFileType = file; path = "svm-model-triceps_pushdown-features.rds"; sourceTree = "<group>"; };
-		5464EBC61AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "svm-model-triceps_pushdown-features.scale"; sourceTree = "<group>"; };
 		5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseModelTypes.swift; sourceTree = "<group>"; };
 		5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRepetitionEstimator.swift; sourceTree = "<group>"; };
 		5469D3871BBA83D200EE5ADB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -449,14 +396,9 @@
 		5487F5A91BB9CAB800ED2E97 /* libcompression.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcompression.tbd; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/usr/lib/libcompression.tbd; sourceTree = DEVELOPER_DIR; };
 		5487F5AC1BBA63C900ED2E97 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		54880CAC1BC048A800349C2E /* MKRepetitionEstimatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRepetitionEstimatorTests.swift; sourceTree = "<group>"; };
-		5488F39B1AFF8C960086BF7B /* exercise_plan.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = exercise_plan.cc; path = "../../../../../muvr-preclassification/core/main/cc/exercise_plan.cc"; sourceTree = "<group>"; };
-		5488F39C1AFF8C960086BF7B /* simple_exercise_plan.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = simple_exercise_plan.cc; path = "../../../../../muvr-preclassification/core/main/cc/simple_exercise_plan.cc"; sourceTree = "<group>"; };
-		5488F39F1AFF8CA00086BF7B /* exercise_plan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = exercise_plan.h; path = "../../../../muvr-preclassification/core/include/exercise_plan.h"; sourceTree = "<group>"; };
 		548CAB3C1BBAF72600A34D81 /* MKClassifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKClassifierTests.swift; sourceTree = "<group>"; };
 		548CAB3E1BBAF94500A34D81 /* model-3.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "model-3.raw"; sourceTree = "<group>"; };
 		548CAB401BBB0FCA00A34D81 /* XCTestCase+Exceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Exceptions.swift"; sourceTree = "<group>"; };
-		54A1A1C81BA1DCD500C2EFEB /* MRRepetitionEstimator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRRepetitionEstimator.mm; sourceTree = "<group>"; };
-		54A1A1CA1BA1DCE000C2EFEB /* MRRepetitionEstimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRRepetitionEstimator.h; sourceTree = "<group>"; };
 		54A48AC71BA474F300F4A81B /* Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54A48ACA1BA474F300F4A81B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		54A48ACC1BA474F300F4A81B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -499,52 +441,17 @@
 		54DE161D1BAD949E00F0752B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		54DE161F1BAD94A400F0752B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		54E3A21D1BA21482001D9EA5 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
-		54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		54F0DC251AC57E8D0061EC5D /* device_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data.h; sourceTree = "<group>"; };
-		54F0DC261AC57E8D0061EC5D /* device_data_decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_data_decoder.h; sourceTree = "<group>"; };
-		54F0DC271AC57E8D0061EC5D /* raw_sensor_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = raw_sensor_data.h; sourceTree = "<group>"; };
-		54F0DC281AC57E8D0061EC5D /* sensor_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sensor_data.h; sourceTree = "<group>"; };
-		54F0DC291AC57E8D0061EC5D /* sensor_symbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sensor_symbol.h; sourceTree = "<group>"; };
-		54F0DC2B1AC57E8D0061EC5D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device_data_decoder.cc; sourceTree = "<group>"; };
-		54F0DC361AC57E8D0061EC5D /* exercise_decider.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = exercise_decider.cc; sourceTree = "<group>"; };
-		54F0DC371AC57E8D0061EC5D /* kalman_smooth.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kalman_smooth.cc; sourceTree = "<group>"; };
-		54F0DC381AC57E8D0061EC5D /* nomovement_decider.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nomovement_decider.cc; sourceTree = "<group>"; };
-		54F0DC391AC57E8D0061EC5D /* raw_sensor_data.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = raw_sensor_data.cc; sourceTree = "<group>"; };
-		54F0DC3B1AC57E8D0061EC5D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		54F0DC3D1AC57E8D0061EC5D /* device_data_decoder_test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device_data_decoder_test.cc; sourceTree = "<group>"; };
-		54F0DC3E1AC57E8D0061EC5D /* device_data_generator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device_data_generator.cc; sourceTree = "<group>"; };
-		54F0DC3F1AC57E8D0061EC5D /* exercise_decider_perf_test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = exercise_decider_perf_test.cc; sourceTree = "<group>"; };
-		54F0DC401AC57E8D0061EC5D /* exercise_decider_test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = exercise_decider_test.cc; sourceTree = "<group>"; };
-		54F0DC411AC57E8D0061EC5D /* movement_decider_test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = movement_decider_test.cc; sourceTree = "<group>"; };
-		54F0DC421AC57E8D0061EC5D /* raw_sensor_data_generator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = raw_sensor_data_generator.cc; sourceTree = "<group>"; };
-		54F0DC431AC57E8D0061EC5D /* raw_sensor_data_loader.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = raw_sensor_data_loader.cc; sourceTree = "<group>"; };
-		54F0DC441AC57E8D0061EC5D /* sigfft_test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sigfft_test.cc; sourceTree = "<group>"; };
-		54F0DC451AC57E8D0061EC5D /* test_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test_data.h; sourceTree = "<group>"; };
-		54F0DC471AC57E8D0061EC5D /* all_4.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all_4.csv; sourceTree = "<group>"; };
 		54F288111B00A6F300E4D591 /* MRExerciseSessionUserClassification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionUserClassification.swift; sourceTree = "<group>"; };
 		54F288191B00BBAA00E4D591 /* default-exercises.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "default-exercises.json"; sourceTree = "<group>"; };
 		54F2881A1B00BBAA00E4D591 /* default-exercisemodels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "default-exercisemodels.json"; sourceTree = "<group>"; };
 		54F2881D1B00BD0100E4D591 /* MRExerciseModel+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseModel+Localisation.swift"; sourceTree = "<group>"; };
-		9D3037951B94F67100426C70 /* MRMultilayerPerceptron.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRMultilayerPerceptron.h; sourceTree = "<group>"; };
-		9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRMultilayerPerceptron.mm; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
 		9DF2EF4C1BA17034007794CF /* MRRepetitionsEstimatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRRepetitionsEstimatorTests.swift; sourceTree = "<group>"; };
 		A04E9B04EE1C27607A68F65A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRUserDefaults.swift; sourceTree = "<group>"; };
-		FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = svm_classifier_factory.cc; path = "../../../../../muvr-preclassification/core/main/cc/svm_classifier_factory.cc"; sourceTree = "<group>"; };
-		FC39705E1AEA6CC900829357 /* svm_classifier.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = svm_classifier.cc; path = "../../../../../muvr-preclassification/core/main/cc/svm_classifier.cc"; sourceTree = "<group>"; };
-		FC39705F1AEA6CC900829357 /* svm.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = svm.cc; path = "../../../../../muvr-preclassification/core/main/cc/svm.cc"; sourceTree = "<group>"; };
-		FC3970631AEA6CEB00829357 /* svm_classifier_factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm_classifier_factory.h; path = "../../../../muvr-preclassification/core/include/svm_classifier_factory.h"; sourceTree = "<group>"; };
-		FC3970641AEA6CEC00829357 /* svm_classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm_classifier.h; path = "../../../../muvr-preclassification/core/include/svm_classifier.h"; sourceTree = "<group>"; };
-		FC3970651AEA6CEC00829357 /* svm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svm.h; path = "../../../../muvr-preclassification/core/include/svm.h"; sourceTree = "<group>"; };
-		FC3A4E8C1AF6E3DF00DABEC2 /* ensemble_classifier.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ensemble_classifier.cc; path = "../../../../../muvr-preclassification/core/main/cc/ensemble_classifier.cc"; sourceTree = "<group>"; };
-		FC3A4E8E1AF6E3EB00DABEC2 /* ensemble_classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ensemble_classifier.h; path = "../../../../muvr-preclassification/core/include/ensemble_classifier.h"; sourceTree = "<group>"; };
 		FC5593AF1ADBE56400F235ED /* Alamofire+SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Alamofire+SwiftyJSON.h"; sourceTree = "<group>"; };
 		FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alamofire+SwiftyJSON.swift"; sourceTree = "<group>"; };
-		FC5593C71ADD7E5400F235ED /* classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classifier.h; path = "../../../../muvr-preclassification/core/include/classifier.h"; sourceTree = "<group>"; };
-		FCEFD5B51AF8B315007C840F /* device_data_encoder.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = device_data_encoder.cc; path = "../../../../../muvr-preclassification/core/main/cc/device_data_encoder.cc"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -736,7 +643,6 @@
 				541ABBA71AC577E00056A81B /* Main.storyboard */,
 				541ABBAC1AC577E00056A81B /* LaunchScreen.xib */,
 				541ABBA11AC577E00056A81B /* Supporting Files */,
-				54F0DC221AC57E8D0061EC5D /* MuvrPreclassification */,
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
 				FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */,
 				5403815E1AED28A0000C8B15 /* Settings.bundle */,
@@ -1017,122 +923,6 @@
 			name = Classification;
 			sourceTree = "<group>";
 		};
-		54F0DC221AC57E8D0061EC5D /* MuvrPreclassification */ = {
-			isa = PBXGroup;
-			children = (
-				54F0DC231AC57E8D0061EC5D /* CMakeLists.txt */,
-				FC39706A1AEA78E200829357 /* config */,
-				54F0DC241AC57E8D0061EC5D /* include */,
-				54F0DC2A1AC57E8D0061EC5D /* main */,
-				54F0DC3A1AC57E8D0061EC5D /* test */,
-			);
-			path = MuvrPreclassification;
-			sourceTree = "<group>";
-		};
-		54F0DC241AC57E8D0061EC5D /* include */ = {
-			isa = PBXGroup;
-			children = (
-				5488F39F1AFF8CA00086BF7B /* exercise_plan.h */,
-				FC3A4E8E1AF6E3EB00DABEC2 /* ensemble_classifier.h */,
-				5464EBC01AF4E21400B5317B /* classifier_loader.h */,
-				FC3970631AEA6CEB00829357 /* svm_classifier_factory.h */,
-				5403814A1AEBBE3B000C8B15 /* export.h */,
-				FC3970641AEA6CEC00829357 /* svm_classifier.h */,
-				FC3970651AEA6CEC00829357 /* svm.h */,
-				5443FA741AE69DC900CC229D /* easylogging++.h */,
-				542AB2081ACC4FC400F20299 /* piecewise_aggregate_approximation.h */,
-				FC5593C71ADD7E5400F235ED /* classifier.h */,
-				542AB20A1ACC4FC400F20299 /* symbol_alphabet.h */,
-				542AB20B1ACC4FC400F20299 /* symbolic_aggregate_approximation.h */,
-				54F0DC251AC57E8D0061EC5D /* device_data.h */,
-				54F0DC261AC57E8D0061EC5D /* device_data_decoder.h */,
-				54F0DC271AC57E8D0061EC5D /* raw_sensor_data.h */,
-				54F0DC281AC57E8D0061EC5D /* sensor_data.h */,
-				54F0DC291AC57E8D0061EC5D /* sensor_symbol.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		54F0DC2A1AC57E8D0061EC5D /* main */ = {
-			isa = PBXGroup;
-			children = (
-				54F0DC2B1AC57E8D0061EC5D /* CMakeLists.txt */,
-				54F0DC2C1AC57E8D0061EC5D /* M */,
-				54F0DC341AC57E8D0061EC5D /* cc */,
-			);
-			path = main;
-			sourceTree = "<group>";
-		};
-		54F0DC2C1AC57E8D0061EC5D /* M */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = M;
-			sourceTree = "<group>";
-		};
-		54F0DC341AC57E8D0061EC5D /* cc */ = {
-			isa = PBXGroup;
-			children = (
-				5488F39B1AFF8C960086BF7B /* exercise_plan.cc */,
-				5488F39C1AFF8C960086BF7B /* simple_exercise_plan.cc */,
-				FCEFD5B51AF8B315007C840F /* device_data_encoder.cc */,
-				FC3A4E8C1AF6E3DF00DABEC2 /* ensemble_classifier.cc */,
-				5464EBBE1AF4E1FD00B5317B /* classifier_loader.cc */,
-				FC39705D1AEA6CC900829357 /* svm_classifier_factory.cc */,
-				5403814B1AEBBE45000C8B15 /* export.cc */,
-				FC39705E1AEA6CC900829357 /* svm_classifier.cc */,
-				FC39705F1AEA6CC900829357 /* svm.cc */,
-				542AB20C1ACC4FD100F20299 /* piecewise_aggregate_approximation.cc */,
-				542AB2101ACC4FD100F20299 /* sensor_data_fuser.cc */,
-				5443FA751AE69E1400CC229D /* sensor_data_fuser_rsde.cc */,
-				5443FA761AE69E1400CC229D /* sensor_data_fuser_rsdt.cc */,
-				5443FA771AE69E1400CC229D /* sensor_data_fuser_sce.cc */,
-				5443FA781AE69E1400CC229D /* sensor_data_fuser_sct.cc */,
-				542AB2111ACC4FD100F20299 /* symbol_alphabet.cc */,
-				542AB2121ACC4FD100F20299 /* symbolic_aggregate_approximation.cc */,
-				54F0DC351AC57E8D0061EC5D /* device_data_decoder.cc */,
-				54F0DC361AC57E8D0061EC5D /* exercise_decider.cc */,
-				54F0DC371AC57E8D0061EC5D /* kalman_smooth.cc */,
-				54F0DC381AC57E8D0061EC5D /* nomovement_decider.cc */,
-				54F0DC391AC57E8D0061EC5D /* raw_sensor_data.cc */,
-			);
-			path = cc;
-			sourceTree = "<group>";
-		};
-		54F0DC3A1AC57E8D0061EC5D /* test */ = {
-			isa = PBXGroup;
-			children = (
-				54F0DC3B1AC57E8D0061EC5D /* CMakeLists.txt */,
-				54F0DC3C1AC57E8D0061EC5D /* cc */,
-				54F0DC461AC57E8D0061EC5D /* resources */,
-			);
-			path = test;
-			sourceTree = "<group>";
-		};
-		54F0DC3C1AC57E8D0061EC5D /* cc */ = {
-			isa = PBXGroup;
-			children = (
-				54F0DC3D1AC57E8D0061EC5D /* device_data_decoder_test.cc */,
-				54F0DC3E1AC57E8D0061EC5D /* device_data_generator.cc */,
-				54F0DC3F1AC57E8D0061EC5D /* exercise_decider_perf_test.cc */,
-				54F0DC401AC57E8D0061EC5D /* exercise_decider_test.cc */,
-				54F0DC411AC57E8D0061EC5D /* movement_decider_test.cc */,
-				54F0DC421AC57E8D0061EC5D /* raw_sensor_data_generator.cc */,
-				54F0DC431AC57E8D0061EC5D /* raw_sensor_data_loader.cc */,
-				54F0DC441AC57E8D0061EC5D /* sigfft_test.cc */,
-				54F0DC451AC57E8D0061EC5D /* test_data.h */,
-			);
-			path = cc;
-			sourceTree = "<group>";
-		};
-		54F0DC461AC57E8D0061EC5D /* resources */ = {
-			isa = PBXGroup;
-			children = (
-				54F0DC471AC57E8D0061EC5D /* all_4.csv */,
-			);
-			path = resources;
-			sourceTree = "<group>";
-		};
 		87E693A6B954E9533DB1FC04 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1147,14 +937,10 @@
 			children = (
 				548225521AC57A3500EEEFCB /* MRPreclassification.h */,
 				548225531AC57A3500EEEFCB /* MRPreclassification.mm */,
-				9D3037961B94F69700426C70 /* MRMultilayerPerceptron.mm */,
-				9D3037951B94F67100426C70 /* MRMultilayerPerceptron.h */,
 				54BF09111B9B735B00A3E6C7 /* MRModelParameters.m */,
 				54BF09131B9B736900A3E6C7 /* MRModelParameters.h */,
 				5410C8281B9DC578005C57C1 /* MRClassifiedResistanceExercise.m */,
 				5410C82A1B9DC59A005C57C1 /* MRClassifiedResistanceExercise.h */,
-				54A1A1C81BA1DCD500C2EFEB /* MRRepetitionEstimator.mm */,
-				54A1A1CA1BA1DCE000C2EFEB /* MRRepetitionEstimator.h */,
 			);
 			name = Classification;
 			sourceTree = "<group>";
@@ -1165,28 +951,6 @@
 				9DF2EF4C1BA17034007794CF /* MRRepetitionsEstimatorTests.swift */,
 			);
 			name = Repetitions;
-			sourceTree = "<group>";
-		};
-		FC39706A1AEA78E200829357 /* config */ = {
-			isa = PBXGroup;
-			children = (
-				FC39706B1AEA78E200829357 /* svm */,
-			);
-			name = config;
-			path = "../../../muvr-preclassification/core/config";
-			sourceTree = "<group>";
-		};
-		FC39706B1AEA78E200829357 /* svm */ = {
-			isa = PBXGroup;
-			children = (
-				5464EBC11AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm */,
-				5464EBC21AF4E24F00B5317B /* svm-model-bicep_curl-features.rds */,
-				5464EBC31AF4E24F00B5317B /* svm-model-bicep_curl-features.scale */,
-				5464EBC41AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm */,
-				5464EBC51AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds */,
-				5464EBC61AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale */,
-			);
-			path = svm;
 			sourceTree = "<group>";
 		};
 		FC5593AB1ADBE05300F235ED /* MuvrServer */ = {
@@ -1438,21 +1202,14 @@
 				5403815F1AED28A0000C8B15 /* Settings.bundle in Resources */,
 				54F2881B1B00BBAA00E4D591 /* default-exercises.json in Resources */,
 				541ABBA91AC577E00056A81B /* Main.storyboard in Resources */,
-				5464EBCA1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.libsvm in Resources */,
-				54F0DC561AC57E8D0061EC5D /* CMakeLists.txt in Resources */,
 				54B610931AF3C6010034F2DD /* Exercise.storyboard in Resources */,
-				5464EBC81AF4E24F00B5317B /* svm-model-bicep_curl-features.rds in Resources */,
-				5464EBCB1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.rds in Resources */,
 				544757071B9F34F0001E00BF /* MRResistanceExerciseProgressView.xib in Resources */,
-				5464EBC71AF4E24F00B5317B /* svm-model-bicep_curl-features.libsvm in Resources */,
 				9D30379C1B95CCC500426C70 /* Models.bundle in Resources */,
 				54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */,
 				541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */,
 				54F2881C1B00BBAA00E4D591 /* default-exercisemodels.json in Resources */,
 				5433DFA31BA0A237000BFE3A /* MRResistanceExerciseSessionProgressView.xib in Resources */,
 				541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */,
-				5464EBC91AF4E24F00B5317B /* svm-model-bicep_curl-features.scale in Resources */,
-				5464EBCC1AF4E24F00B5317B /* svm-model-triceps_pushdown-features.scale in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1559,13 +1316,11 @@
 			files = (
 				5455E7221AF90FF80049BB6B /* MRDataModel.swift in Sources */,
 				54F288121B00A6F300E4D591 /* MRExerciseSessionUserClassification.swift in Sources */,
-				FC3970621AEA6CC900829357 /* svm.cc in Sources */,
 				548225541AC57A3500EEEFCB /* MRPreclassification.mm in Sources */,
 				547E6A8D1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift in Sources */,
 				547463531B9DE4BC0051F146 /* MRExercisingApplicationStateDelegate.swift in Sources */,
 				54CC46541B08E5DE007B739A /* MRPublicProfile+Marshalling.swift in Sources */,
 				543374201AD010B1005864D7 /* Operators.swift in Sources */,
-				5488F39E1AFF8C960086BF7B /* simple_exercise_plan.cc in Sources */,
 				542F83E71B9C5A4500CD5986 /* MRClassifiedResistanceExercise+Marshalling.swift in Sources */,
 				54CC46561B08E684007B739A /* MRLoggedInApplicationState.swift in Sources */,
 				54B610851AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift in Sources */,
@@ -1576,26 +1331,19 @@
 				FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */,
 				54CC46521B08E5B6007B739A /* MRPublicProfile.swift in Sources */,
 				5433DFA51BA0A245000BFE3A /* MRResistanceExerciseSessionProgressView.swift in Sources */,
-				5403814C1AEBBE45000C8B15 /* export.cc in Sources */,
-				5443FA7B1AE69E1400CC229D /* sensor_data_fuser_sce.cc in Sources */,
 				5433741F1AD010B1005864D7 /* Either.swift in Sources */,
 				54F2881E1B00BD0100E4D591 /* MRExerciseModel+Localisation.swift in Sources */,
 				54BF09151B9B74F300A3E6C7 /* MRExerciseModel+ModelParameters.swift in Sources */,
 				54820DFB1AF2895100E3AEC2 /* MRLoginViewController.swift in Sources */,
-				5464EBBF1AF4E1FD00B5317B /* classifier_loader.cc in Sources */,
 				5410C8291B9DC578005C57C1 /* MRClassifiedResistanceExercise.m in Sources */,
 				54CC46581B08E691007B739A /* MRExercisingApplicationState.swift in Sources */,
-				FC3A4E8D1AF6E3DF00DABEC2 /* ensemble_classifier.cc in Sources */,
 				5433741C1AD010B1005864D7 /* Array.swift in Sources */,
 				5455E72E1AFA6E6D0049BB6B /* NSDate+Marshalling.swift in Sources */,
-				9D3037971B94F69700426C70 /* MRMultilayerPerceptron.mm in Sources */,
-				5488F39D1AFF8C960086BF7B /* exercise_plan.cc in Sources */,
 				543374251AD01104005864D7 /* NSError+Convenience.swift in Sources */,
 				54BF09121B9B735B00A3E6C7 /* MRModelParameters.m in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
 				54B610911AF3C5B00034F2DD /* MRExerciseSessionViewController.swift in Sources */,
 				543374131AD01060005864D7 /* MRRawPebbleDeviceSession.swift in Sources */,
-				542AB2181ACC4FD100F20299 /* symbol_alphabet.cc in Sources */,
 				547E6A8B1AF36938005DE00C /* MRExerciseModel.swift in Sources */,
 				540381551AECFB05000C8B15 /* MRExerciseSessionClassificationCompletedViewController.swift in Sources */,
 				543ED4831B0DBCCE00D12768 /* MRExerciseSessionStartable.swift in Sources */,
@@ -1605,15 +1353,9 @@
 				543374291AD011A3005864D7 /* MRDeviceSessionDelegate.swift in Sources */,
 				54005C941B07560400BF0732 /* MRApplicationState+Sync.swift in Sources */,
 				5433741D1AD010B1005864D7 /* Box.swift in Sources */,
-				5443FA7A1AE69E1400CC229D /* sensor_data_fuser_rsdt.cc in Sources */,
-				FC3970611AEA6CC900829357 /* svm_classifier.cc in Sources */,
 				5455E7261AFA30920049BB6B /* MRDataModel+CustomTypes.swift in Sources */,
-				FC3970601AEA6CC900829357 /* svm_classifier_factory.cc in Sources */,
 				54005C961B07566900BF0732 /* MRDataModel+Housekeeping.swift in Sources */,
-				5443FA791AE69E1400CC229D /* sensor_data_fuser_rsde.cc in Sources */,
 				543374221AD010B1005864D7 /* Result.swift in Sources */,
-				54F0DC521AC57E8D0061EC5D /* exercise_decider.cc in Sources */,
-				54F0DC511AC57E8D0061EC5D /* device_data_decoder.cc in Sources */,
 				542E630A1B9B009A00BA6B26 /* MRMode.swift in Sources */,
 				5455E72A1AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift in Sources */,
 				540381571AECFB25000C8B15 /* MRSensorView.swift in Sources */,
@@ -1623,28 +1365,19 @@
 				54005C9E1B07D43100BF0732 /* MRProfileViewController.swift in Sources */,
 				540381611AED2F85000C8B15 /* MRResistanceExerciseExample.swift in Sources */,
 				54820DF91AF2811300E3AEC2 /* MRApplicationState.swift in Sources */,
-				54A1A1C91BA1DCD500C2EFEB /* MRRepetitionEstimator.mm in Sources */,
 				5455E7241AFA2D440049BB6B /* MRDataModel+DD.swift in Sources */,
 				FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */,
-				542AB2191ACC4FD100F20299 /* symbolic_aggregate_approximation.cc in Sources */,
 				540381531AEC3567000C8B15 /* MRTypes.swift in Sources */,
 				540381631AED2FD1000C8B15 /* MRResistanceExerciseExample+Marshalling.swift in Sources */,
 				547E6A841AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift in Sources */,
 				54820DFF1AF2971900E3AEC2 /* MRTypes+Marshalling.swift in Sources */,
-				54F0DC541AC57E8D0061EC5D /* nomovement_decider.cc in Sources */,
 				5455E7301AFA73C70049BB6B /* NSDate+DateUtils.swift in Sources */,
 				54820DF51AF27DC200E3AEC2 /* MRMuvrServerURLs.swift in Sources */,
 				543374211AD010B1005864D7 /* Predef.swift in Sources */,
 				54820DF41AF27DC200E3AEC2 /* MRMuvrServer.swift in Sources */,
 				54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */,
-				FCEFD5B61AF8B315007C840F /* device_data_encoder.cc in Sources */,
-				542AB2131ACC4FD100F20299 /* piecewise_aggregate_approximation.cc in Sources */,
-				54F0DC551AC57E8D0061EC5D /* raw_sensor_data.cc in Sources */,
-				5443FA7C1AE69E1400CC229D /* sensor_data_fuser_sct.cc in Sources */,
-				542AB2171ACC4FD100F20299 /* sensor_data_fuser.cc in Sources */,
 				543374271AD0111B005864D7 /* String+Localisation.swift in Sources */,
 				544757091B9F360C001E00BF /* MRResistanceExerciseProgressView.swift in Sources */,
-				54F0DC531AC57E8D0061EC5D /* kalman_smooth.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1970,8 +1703,6 @@
 					"-framework",
 					"\"UIKit\"",
 					"-framework",
-					"\"opencv2\"",
-					"-framework",
 					"\"sqlite3\"",
 					"-weak_framework",
 					"\"CoreBluetooth\"",
@@ -2051,8 +1782,6 @@
 					"\"SQLite\"",
 					"-framework",
 					"\"UIKit\"",
-					"-framework",
-					"\"opencv2\"",
 					"-framework",
 					"\"sqlite3\"",
 					"-weak_framework",

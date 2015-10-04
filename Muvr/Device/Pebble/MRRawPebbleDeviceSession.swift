@@ -12,10 +12,10 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
             let data = NSMutableData()
             // (#define APP_MESSAGE_INBOX_SIZE_MINIMUM 124) / 29 == 4
             exercises.take(4).forEach { ce -> Void in
-                let re = NSMutableData(length: sizeof(resistance_exercise_t))!
-                let name = UnsafePointer<Int8>(ce.resistanceExercise.title.cStringUsingEncoding(NSASCIIStringEncoding)!)
-                mk_resistance_exercise(re.mutableBytes, name, UInt8(ce.confidence * 100), 0, 0, 0)
-                data.appendData(re)
+                //let re = NSMutableData(length: sizeof(resistance_exercise_t))!
+                //let name = UnsafePointer<Int8>(ce.resistanceExercise.title.cStringUsingEncoding(NSASCIIStringEncoding)!)
+                //mk_resistance_exercise(re.mutableBytes, name, UInt8(ce.confidence * 100), 0, 0, 0)
+                //data.appendData(re)
             }
             
             assert(data.length <= 124, "Too much data to send over BLE.")
@@ -228,12 +228,11 @@ class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDel
     
     func notifySimpleCurrent(ec: (MRResistanceExercise, Double)) {
         let (exercise, confidence) = ec
-        let data = NSMutableData(length: sizeof(resistance_exercise_t))!
-        let name = UnsafePointer<Int8>(exercise.title.cStringUsingEncoding(NSASCIIStringEncoding)!)
-        mk_resistance_exercise(data.mutableBytes, name, UInt8(confidence * 100), 0, 0, 0)
-
-        assert(data.length <= 124, "Too much data to send over BLE.")
-        currentSession?.send(0xa0000004, data: data)
+//        let data = NSMutableData(length: sizeof(resistance_exercise_t))!
+//        let name = UnsafePointer<Int8>(exercise.title.cStringUsingEncoding(NSASCIIStringEncoding)!)
+//        mk_resistance_exercise(data.mutableBytes, name, UInt8(confidence * 100), 0, 0, 0)
+//        assert(data.length <= 124, "Too much data to send over BLE.")
+//        currentSession?.send(0xa0000004, data: data)
     }
     
     ///
