@@ -233,11 +233,11 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     // MARK: MRDeviceDataDelegate implementation
-    func deviceDataDecoded1D(rows: [NSNumber]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+    func deviceDataDecoded1D(rows: [NSNumber], fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
         if let x: MRDeviceDataDelegate = currentPageViewController() { x.deviceDataDecoded1D(rows, fromSensor: sensor, device: deviceId, andLocation: location) }
     }
     
-    func deviceDataDecoded3D(rows: [Threed]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+    func deviceDataDecoded3D(rows: [Threed], fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
         if let x: MRDeviceDataDelegate = currentPageViewController() { x.deviceDataDecoded3D(rows, fromSensor: sensor, device: deviceId, andLocation: location) }
     }
     
@@ -267,7 +267,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     }
     
     // MARK: MRTrainingPipelineDelegate
-    func trainingCompleted(exercise: MRResistanceExercise!, fromData data: NSData!) {
+    func trainingCompleted(exercise: MRResistanceExercise, fromData data: NSData) {
         let example = MRResistanceExerciseExample(classified: [], correct: MRClassifiedResistanceExercise(exercise))
         if let x: MRTrainingPipelineDelegate = currentPageViewController() { x.trainingCompleted(exercise, fromData: data) }
         logExerciseExample(example, data: data)
@@ -275,7 +275,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
     
     // MARK: MRClassificationPipelineDelegate
     
-    func classificationEstimated(result: [MRClassifiedResistanceExercise]!) {
+    func classificationEstimated(result: [MRClassifiedResistanceExercise]) {
         if let x: MRClassificationPipelineDelegate = currentPageViewController() { x.classificationEstimated(result) }
     }
     
@@ -283,7 +283,7 @@ class MRExerciseSessionViewController : UIPageViewController, UIPageViewControll
         if let x: MRClassificationPipelineDelegate = currentPageViewController() { x.repetitionsEstimated(repetitions) }
     }
     
-    func classificationCompleted(result: [MRClassifiedResistanceExercise]!, fromData data: NSData!) {
+    func classificationCompleted(result: [MRClassifiedResistanceExercise], fromData data: NSData) {
         if waitingForUser { return }
         
         if let x: MRClassificationPipelineDelegate = currentPageViewController() { x.classificationCompleted(result, fromData: data) }

@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+import MuvrKit
 
 class MRDataModelTests: XCTestCase {
     
@@ -8,7 +9,7 @@ class MRDataModelTests: XCTestCase {
         let charSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         var c = Array(charSet.characters)
         var s: String = ""
-        for n in (1...length) {
+        for _ in (1...length) {
             let randomIndex = Int(arc4random_uniform(UInt32(c.count)))
             s.append(c[randomIndex])
         }
@@ -48,8 +49,8 @@ class MRDataModelTests: XCTestCase {
     func testSessionMerging() {
         let midnight = NSDate().dateOnly
         MRDataModel.MRResistanceExerciseSessionDataModel.deleteAll()
-        let (id1, session1, examples1) = insertSession(on: midnight.addDays(0), exampleCount: 1)
-        let (id2, session2, examples2) = insertSession(on: midnight.addDays(0), exampleCount: 2)
+        let (id1, session1, _) = insertSession(on: midnight.addDays(0), exampleCount: 1)
+        let (id2, _, _) = insertSession(on: midnight.addDays(0), exampleCount: 2)
         
         let res = MRDataModel.MRResistanceExerciseSessionDataModel.find(on: session1.startDate)
         XCTAssertEqual([id1, id2], res.map { $0.id })

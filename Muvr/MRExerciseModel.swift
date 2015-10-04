@@ -1,4 +1,5 @@
 import Foundation
+import MuvrKit
 
 ///
 /// MRMuscleGroup model. 
@@ -11,11 +12,17 @@ import Foundation
 ///
 /// Moreover, not using all classifiers will improve the responsiveness of the app.
 ///
-struct MRExerciseModel {
+public struct MRExerciseModel {
     /// the identifier of the muscle group
-    var id: MRExerciseModelId
+    public let id: MKExerciseModelId
     /// the title
-    var title: String
+    public let title: String
     /// the exercises
-    var exercises: [MRExerciseId]
+    public let exercises: [MKExerciseId]
+    
+    public init(id: MKExerciseId, title: String, exercises: [MKExerciseId]) {
+        self.id = id
+        self.title = title
+        self.exercises = exercises
+    }
 }

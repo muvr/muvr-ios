@@ -1,6 +1,7 @@
 //import Foundation
 import SQLite
 import SwiftyJSON
+import MuvrKit
 
 /// The session detail aggregate
 struct MRResistanceExerciseSessionDetail<A> {

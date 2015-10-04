@@ -30,11 +30,11 @@ class MRExerciseSessionDeviceDataViewController: UIViewController, MRExerciseBlo
     }
     
     // MARK: MRDeviceDataDelegate implementation
-    func deviceDataDecoded1D(rows: [NSNumber]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+    func deviceDataDecoded1D(rows: [NSNumber], fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
         sensorView.deviceDataDecoded1D(rows, fromSensor: sensor, device: deviceId, andLocation: location)
     }
     
-    func deviceDataDecoded3D(rows: [Threed]!, fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
+    func deviceDataDecoded3D(rows: [Threed], fromSensor sensor: UInt8, device deviceId: UInt8, andLocation location: UInt8) {
         sensorView.deviceDataDecoded3D(rows, fromSensor: sensor, device: deviceId, andLocation: location)
     }
     

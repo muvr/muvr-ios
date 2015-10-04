@@ -24,13 +24,13 @@
 /// Called when decoded 3D structure from the given ``sensor``, ``device`` at the ``location``. The ``rows`` is an array of
 /// ``Threed*`` instances
 ///
-- (void)deviceDataDecoded3D:(NSArray<Threed *> *)rows fromSensor:(uint8_t)sensor device:(uint8_t)deviceId andLocation:(uint8_t)location;
+- (void)deviceDataDecoded3D:(nonnull NSArray<Threed *> *)rows fromSensor:(uint8_t)sensor device:(uint8_t)deviceId andLocation:(uint8_t)location;
 
 ///
 /// Called when decoded 3D structure from the given ``sensor``, ``device`` at the ``location``. The ``rows`` is an array of
 /// ``NSNumber*`` instances holding ``int16_t``.
 ///
-- (void)deviceDataDecoded1D:(NSArray<NSNumber *> *)rows fromSensor:(uint8_t)sensor device:(uint8_t)deviceId andLocation:(uint8_t)location;
+- (void)deviceDataDecoded1D:(nonnull NSArray<NSNumber *> *)rows fromSensor:(uint8_t)sensor device:(uint8_t)deviceId andLocation:(uint8_t)location;
 
 @end
 
@@ -73,7 +73,7 @@
 /// the size of the array. The ``data`` value holds the exported ``muvr::fused_sensor_data`` that
 /// was used for the classification.
 ///
-- (void)classificationCompleted:(NSArray<MRClassifiedResistanceExercise *> *)result fromData:(NSData *)data;
+- (void)classificationCompleted:(nonnull NSArray<MRClassifiedResistanceExercise *> *)result fromData:(nonnull NSData *)data;
 
 ///
 /// Classification made some decisions, but this is not the final decision. The final decision will
@@ -81,7 +81,7 @@
 ///
 /// This method provides a way to provide a view on the in-progress classification.
 ///
-- (void)classificationEstimated:(NSArray<MRClassifiedResistanceExercise *> *)result;
+- (void)classificationEstimated:(nonnull NSArray<MRClassifiedResistanceExercise *> *)result;
 
 ///
 /// Called when the classifier has estimated the number of repetitions.
@@ -101,7 +101,7 @@
 /// the size of the array. The ``data`` value holds the exported ``muvr::fused_sensor_data`` that
 /// was used for the classification.
 ///
-- (void)trainingCompleted:(MRResistanceExercise *)exercise fromData:(NSData *)data;
+- (void)trainingCompleted:(nonnull MRResistanceExercise *)exercise fromData:(nonnull NSData *)data;
 
 @end
 
@@ -114,22 +114,22 @@
 ///
 /// Constructs an instance, sets up the underlying native structures
 ///
-+ (instancetype)training;
++ (nonnull instancetype)training;
 
 ///
 /// Constructs an instance, sets up the underlying native structures
 ///
-+ (instancetype)classifying:(MRModelParameters *)model;
++ (nonnull instancetype)classifying:(nonnull MRModelParameters *)model;
 
 ///
 /// Push back the data received from the device at the given location and time
 ///
-- (void)pushBack:(NSData *)data from:(uint8_t)location withHint:(MRResistanceExercise *)plannedExercise;
+- (void)pushBack:(nonnull NSData *)data from:(uint8_t)location withHint:(nullable MRResistanceExercise *)plannedExercise;
 
 ///
 /// Marks the start of the training session for the given exercise
 ///
-- (void)trainingStarted:(MRResistanceExercise *)exercise;
+- (void)trainingStarted:(nonnull MRResistanceExercise *)exercise;
 
 ///
 /// Marks the end of the training block
@@ -144,20 +144,20 @@
 ///
 /// exercise block delegate, whose methods get called when entire exercise block is detected.
 ///
-@property id<MRExerciseBlockDelegate> exerciseBlockDelegate;
+@property (nullable) id<MRExerciseBlockDelegate> exerciseBlockDelegate;
 
 ///
 /// provides hooks to be notified of device data arriving / decoding progress
 ///
-@property id<MRDeviceDataDelegate> deviceDataDelegate;
+@property (nullable) id<MRDeviceDataDelegate> deviceDataDelegate;
 
 ///
 /// provides hooks into the classification pipeline
 ///
-@property id<MRClassificationPipelineDelegate> classificationPipelineDelegate;
+@property (nullable) id<MRClassificationPipelineDelegate> classificationPipelineDelegate;
 
 ///
 /// provides hooks into the training pipeline
 ///
-@property id<MRTrainingPipelineDelegate> trainingPipelineDelegate;
+@property (nullable) id<MRTrainingPipelineDelegate> trainingPipelineDelegate;
 @end
