@@ -4,11 +4,30 @@ import XCTest
 
 class MKClassifiedExerciseEncodingTests : XCTestCase {
     
-    func testEncodeSimple() {
-        let e = MKClassifiedExercise.Resistance(confidence: 0.65, exerciseId: "foo/bar", duration: 1, repetitions: 64, intensity: 0.64, weight: 64).encode(.Pebble) { _ in return "Foobar" }
+    func testEncodeSimplePebble() {
         
-        print(e)
+        func testWithTitle(title: String, nullIndex: Int) {
+            let e = MKClassifiedExercise.Resistance(confidence: 1, exerciseId: "foo/bar", duration: 1, repetitions: 10, intensity: 0.5, weight: 47)
+                .encode(.Pebble) { _ in return title }
+            
+            XCTAssertEqual(e.length, 29)
+            
+            let ptr = UnsafePointer<UInt8>(e.bytes)
+            
+            XCTAssertEqual(97, ptr[0])             // 'a'
+            XCTAssertEqual(98, ptr[1])             // 'b'
+            XCTAssertEqual(0,  ptr[nullIndex])     // NULL
+            
+            XCTAssertEqual(100,  ptr[24])   // confidence * 100
+            XCTAssertEqual(10,   ptr[25])   // repetitions
+            XCTAssertEqual(50,   ptr[26])   // intensity * 100
+            XCTAssertEqual(47,   ptr[27])   // weight
+            
+        }
         
+        testWithTitle("abcd1efgh2ijkl3mnop4qrs", nullIndex: 23)            // exact length
+        testWithTitle("abcd1efgh2ijkl3mnop4qrs********", nullIndex: 23)    // over
+        testWithTitle("ab", nullIndex: 3)                                  // under
     }
     
 }

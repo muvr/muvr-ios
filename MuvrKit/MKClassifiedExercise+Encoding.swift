@@ -34,11 +34,19 @@ public extension MKClassifiedExercise {
     }
     
     private func encode(string s: String, maximumLength: Int, encoding: NSStringEncoding, into data: NSMutableData) {
-        if let encoded = s.dataUsingEncoding(encoding) {
-            data.appendData(encoded)
-            if data.length > maximumLength { data.subdataWithRange(NSRange(location: 0, length: maximumLength - 1)) }
-        }
         var zero: UInt8 = 0
+        if let encoded = s.dataUsingEncoding(encoding) {
+            if encoded.length > maximumLength {
+                data.appendData(encoded.subdataWithRange(NSRange(location: 0, length: maximumLength)))
+            } else {
+                data.appendData(encoded)
+            }
+
+            let padding = maximumLength - encoded.length
+            if padding > 0 {
+                (0..<padding).forEach { _ in data.appendBytes(&zero, length: 1) }
+            }
+        }
         data.appendBytes(&zero, length: 1)
     }
 
