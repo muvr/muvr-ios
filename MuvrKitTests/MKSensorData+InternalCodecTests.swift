@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 @testable import MuvrKit
 
-class MKSensorDataCodecTests : XCTestCase {
+class MKSensorDataInternalCodecTests : XCTestCase {
     
     func testNotEnoughInput() {
         do {
