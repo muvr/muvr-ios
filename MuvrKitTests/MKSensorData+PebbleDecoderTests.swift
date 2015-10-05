@@ -15,6 +15,23 @@ class MKSensorDataPebbleCodecTests : XCTestCase {
         }
     }
     
+    ///
+    /// Tests that not enough input is caught
+    ///
+    func testDecodeNotEnoughInput() {
+        do {
+            try MKSensorData(decodingPebble: NSData())
+            XCTFail("Not thrown")
+        } catch MKCodecError.NotEnoughInput {
+            // OK
+        } catch {
+            XCTFail("Bad exception")
+        }
+    }
+    
+    ///
+    /// We can decode each block
+    ///
     func testDecode() {
         mapBlockFrom(resourceName: "pebble-1") { blockData in
             let sd = try! MKSensorData(decodingPebble: blockData)
@@ -26,6 +43,9 @@ class MKSensorDataPebbleCodecTests : XCTestCase {
         }
     }
     
+    ///
+    /// We can decode and append entire Pebble session
+    ///
     func testDecodeAndAppend() {
         let blocks = mapBlockFrom(resourceName: "pebble-1") { try! MKSensorData(decodingPebble: $0) }
         var sd = blocks.first!
