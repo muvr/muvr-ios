@@ -21,7 +21,14 @@ import Foundation
 public extension MKSensorData {
     
     ///
-    /// Initializes this instance by decoding the given ``data``.
+    /// Initializes this instance by decoding the given ``data``. This is the inverse function
+    /// of ``MKSensorData.encode()``: given enough memory, this always holds.
+    ///
+    /// ```
+    /// let a = MKSensorData(...)
+    /// let b = MKSensorData(decoding: a.encode())
+    /// assert(a == b)
+    /// ```
     ///
     /// - parameter data: the data to be decoded
     ///
@@ -62,5 +69,17 @@ public extension MKSensorData {
         
         try self.init(types: types, start: start, samplesPerSecond: UInt(samplesPerSecond), samples: samples)
     }
+    
+    // MARK: Pebble Integration
+    
+    ///
+    /// Initializes this instance by decoding the given ``data`` in the Pebble format.
+    ///
+    /// - parameter data: the data to be decoded
+    ///
+    public init(decodingPebble data: NSData) throws {
+        
+    }
+    
     
 }
