@@ -18,49 +18,12 @@
 		540381611AED2F85000C8B15 /* MRResistanceExerciseExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381601AED2F85000C8B15 /* MRResistanceExerciseExample.swift */; };
 		540381631AED2FD1000C8B15 /* MRResistanceExerciseExample+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381621AED2FD1000C8B15 /* MRResistanceExerciseExample+Marshalling.swift */; };
 		5403A87A1AF3B3D000FB8381 /* MRHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403A8791AF3B3D000FB8381 /* MRHomeViewController.swift */; };
-		5410C8151B9DC436005C57C1 /* MRDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7211AF90FF80049BB6B /* MRDataModel.swift */; };
-		5410C8161B9DC436005C57C1 /* MRDataModel+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A901AF374FF005DE00C /* MRDataModel+Defaults.swift */; };
-		5410C8171B9DC436005C57C1 /* MRDataModel+DD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7231AFA2D440049BB6B /* MRDataModel+DD.swift */; };
-		5410C8181B9DC436005C57C1 /* MRDataModel+CustomTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7251AFA30920049BB6B /* MRDataModel+CustomTypes.swift */; };
-		5410C81A1B9DC44A005C57C1 /* MRTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381521AEC3567000C8B15 /* MRTypes.swift */; };
-		5410C81B1B9DC44A005C57C1 /* MRTypes+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DFE1AF2971900E3AEC2 /* MRTypes+Marshalling.swift */; };
-		5410C81C1B9DC44A005C57C1 /* NSDate+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72D1AFA6E6D0049BB6B /* NSDate+Marshalling.swift */; };
-		5410C81D1B9DC451005C57C1 /* MRResistanceExerciseExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381601AED2F85000C8B15 /* MRResistanceExerciseExample.swift */; };
-		5410C81E1B9DC451005C57C1 /* MRResistanceExerciseExample+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381621AED2FD1000C8B15 /* MRResistanceExerciseExample+Marshalling.swift */; };
-		5410C81F1B9DC451005C57C1 /* MRExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A8A1AF36938005DE00C /* MRExerciseModel.swift */; };
-		5410C8201B9DC451005C57C1 /* MRExerciseModel+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A8C1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift */; };
-		5410C8211B9DC451005C57C1 /* MRExerciseModel+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F2881D1B00BD0100E4D591 /* MRExerciseModel+Localisation.swift */; };
-		5410C8221B9DC451005C57C1 /* MRExerciseModel+ModelParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BF09141B9B74F300A3E6C7 /* MRExerciseModel+ModelParameters.swift */; };
-		5410C8231B9DC451005C57C1 /* MRResistanceExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */; };
-		5410C8241B9DC451005C57C1 /* MRResistanceExerciseSession+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7291AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift */; };
-		5410C8251B9DC451005C57C1 /* MRResistanceExercise+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5447E7FE1B0114170003C0A0 /* MRResistanceExercise+Localisation.swift */; };
-		5410C8261B9DC451005C57C1 /* MRClassifiedResistanceExercise+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542F83E61B9C5A4500CD5986 /* MRClassifiedResistanceExercise+Marshalling.swift */; };
-		5410C8271B9DC451005C57C1 /* MRMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E63091B9B009A00BA6B26 /* MRMode.swift */; };
 		5410C8291B9DC578005C57C1 /* MRClassifiedResistanceExercise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5410C8281B9DC578005C57C1 /* MRClassifiedResistanceExercise.m */; };
-		5410C8301B9DC9EA005C57C1 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5410C82C1B9DC9EA005C57C1 /* Alamofire.framework */; };
-		5410C8311B9DC9EA005C57C1 /* MLPNeuralNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5410C82D1B9DC9EA005C57C1 /* MLPNeuralNet.framework */; };
-		5410C8321B9DC9EA005C57C1 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5410C82E1B9DC9EA005C57C1 /* SQLite.framework */; };
-		5410C8331B9DC9EA005C57C1 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5410C82F1B9DC9EA005C57C1 /* sqlite3.framework */; };
-		5410C8361B9DCA64005C57C1 /* Alamofire+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */; };
-		5410C8381B9DCAD3005C57C1 /* MRModelParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 54BF09111B9B735B00A3E6C7 /* MRModelParameters.m */; };
-		5410C8391B9DCAFF005C57C1 /* NSError+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374241AD01104005864D7 /* NSError+Convenience.swift */; };
-		5410C83A1B9DCAFF005C57C1 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5433742E1AD01345005864D7 /* String+MD5.swift */; };
-		5410C83B1B9DCAFF005C57C1 /* String+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374261AD0111B005864D7 /* String+Localisation.swift */; };
-		5410C83C1B9DCAFF005C57C1 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374151AD010B1005864D7 /* Array.swift */; };
-		5410C83D1B9DCAFF005C57C1 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374161AD010B1005864D7 /* Box.swift */; };
-		5410C83E1B9DCAFF005C57C1 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374171AD010B1005864D7 /* Dictionary.swift */; };
-		5410C83F1B9DCAFF005C57C1 /* Either.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374181AD010B1005864D7 /* Either.swift */; };
-		5410C8401B9DCAFF005C57C1 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543374191AD010B1005864D7 /* Operators.swift */; };
-		5410C8411B9DCAFF005C57C1 /* Predef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5433741A1AD010B1005864D7 /* Predef.swift */; };
-		5410C8421B9DCAFF005C57C1 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5433741B1AD010B1005864D7 /* Result.swift */; };
-		5410C8431B9DCB0C005C57C1 /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */; };
-		5410C8441B9DCB30005C57C1 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CC46591B08FAD5007B739A /* MobileCoreServices.framework */; };
 		541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA31AC577E00056A81B /* MRAppDelegate.swift */; };
 		541ABBA61AC577E00056A81B /* MRExerciseSessionDeviceDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA51AC577E00056A81B /* MRExerciseSessionDeviceDataViewController.swift */; };
 		541ABBA91AC577E00056A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBA71AC577E00056A81B /* Main.storyboard */; };
 		541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBAA1AC577E00056A81B /* Images.xcassets */; };
 		541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBAC1AC577E00056A81B /* LaunchScreen.xib */; };
-		541ABBBA1AC577E00056A81B /* MuvrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBB91AC577E00056A81B /* MuvrTests.swift */; };
 		54266B141BB92F16007A8A8A /* MKSensorData+Decoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B131BB92F16007A8A8A /* MKSensorData+Decoding.swift */; settings = {ASSET_TAGS = (); }; };
 		54266B151BB92F22007A8A8A /* MKSensorData+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */; settings = {ASSET_TAGS = (); }; };
 		54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B161BB92F98007A8A8A /* MKSensorData.swift */; settings = {ASSET_TAGS = (); }; };
@@ -102,7 +65,6 @@
 		5455E72A1AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7291AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift */; };
 		5455E72E1AFA6E6D0049BB6B /* NSDate+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72D1AFA6E6D0049BB6B /* NSDate+Marshalling.swift */; };
 		5455E7301AFA73C70049BB6B /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */; };
-		546241171B9DBA4500339998 /* MRDataModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546241161B9DBA4500339998 /* MRDataModelTests.swift */; };
 		5469D3821BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */; settings = {ASSET_TAGS = (); }; };
 		5469D3831BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */; settings = {ASSET_TAGS = (); }; };
 		5469D3851BBA764900EE5ADB /* MKRepetitionEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */; settings = {ASSET_TAGS = (); }; };
@@ -184,7 +146,6 @@
 		54D527601B94D79F00B56719 /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D5275A1B94D79F00B56719 /* Reachability.framework */; };
 		54D527611B94D79F00B56719 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D5275B1B94D79F00B56719 /* SQLite.framework */; };
 		54D527621B94D79F00B56719 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D5275C1B94D79F00B56719 /* sqlite3.framework */; };
-		54E3A21E1BA21482001D9EA5 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E3A21D1BA21482001D9EA5 /* Pods.framework */; };
 		54E913151BC3063600B7F9F0 /* MKSensorData+PebbleDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E913141BC3063600B7F9F0 /* MKSensorData+PebbleDecoderTests.swift */; settings = {ASSET_TAGS = (); }; };
 		54E9131B1BC306A500B7F9F0 /* class-1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54E913181BC306A500B7F9F0 /* class-1.csv */; settings = {ASSET_TAGS = (); }; };
 		54E9131C1BC306A500B7F9F0 /* model-3.raw in Resources */ = {isa = PBXBuildFile; fileRef = 54E913191BC306A500B7F9F0 /* model-3.raw */; settings = {ASSET_TAGS = (); }; };
@@ -195,19 +156,11 @@
 		54F2881E1B00BD0100E4D591 /* MRExerciseModel+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F2881D1B00BD0100E4D591 /* MRExerciseModel+Localisation.swift */; };
 		791024C419A5636E8BA52C85 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3AA10F80ED661B9AC5A823 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
-		9DF2EF4D1BA17034007794CF /* MRRepetitionsEstimatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF2EF4C1BA17034007794CF /* MRRepetitionsEstimatorTests.swift */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 		FC5593B51ADBE56400F235ED /* Alamofire+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5593B01ADBE56400F235ED /* Alamofire+SwiftyJSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		541ABBB41AC577E00056A81B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 541ABB961AC577E00056A81B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 541ABB9D1AC577E00056A81B;
-			remoteInfo = Muvr;
-		};
 		5450C2A31BC3FFF100B257E7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 541ABB961AC577E00056A81B /* Project object */;
@@ -314,7 +267,6 @@
 		5403A8791AF3B3D000FB8381 /* MRHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRHomeViewController.swift; sourceTree = "<group>"; };
 		5410C8281B9DC578005C57C1 /* MRClassifiedResistanceExercise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRClassifiedResistanceExercise.m; sourceTree = "<group>"; };
 		5410C82A1B9DC59A005C57C1 /* MRClassifiedResistanceExercise.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRClassifiedResistanceExercise.h; sourceTree = "<group>"; };
-		5410C82B1B9DC8AF005C57C1 /* MuvrTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MuvrTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		5410C82C1B9DC9EA005C57C1 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
 		5410C82D1B9DC9EA005C57C1 /* MLPNeuralNet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MLPNeuralNet.framework; path = "Pods/../build/Debug-iphoneos/MLPNeuralNet.framework"; sourceTree = "<group>"; };
 		5410C82E1B9DC9EA005C57C1 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
@@ -327,9 +279,6 @@
 		541ABBA81AC577E00056A81B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		541ABBAA1AC577E00056A81B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		541ABBAD1AC577E00056A81B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		541ABBB31AC577E00056A81B /* MuvrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MuvrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		541ABBB81AC577E00056A81B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		541ABBB91AC577E00056A81B /* MuvrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuvrTests.swift; sourceTree = "<group>"; };
 		54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Encoding.swift"; sourceTree = "<group>"; };
 		54266B131BB92F16007A8A8A /* MKSensorData+Decoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Decoding.swift"; sourceTree = "<group>"; };
 		54266B161BB92F98007A8A8A /* MKSensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorData.swift; sourceTree = "<group>"; };
@@ -375,7 +324,6 @@
 		5455E7291AFA3DD60049BB6B /* MRResistanceExerciseSession+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRResistanceExerciseSession+Marshalling.swift"; sourceTree = "<group>"; };
 		5455E72D1AFA6E6D0049BB6B /* NSDate+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Marshalling.swift"; sourceTree = "<group>"; };
 		5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+DateUtils.swift"; path = "../NSDate+DateUtils.swift"; sourceTree = "<group>"; };
-		546241161B9DBA4500339998 /* MRDataModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDataModelTests.swift; sourceTree = "<group>"; };
 		5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseModelTypes.swift; sourceTree = "<group>"; };
 		5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRepetitionEstimator.swift; sourceTree = "<group>"; };
 		5469D3871BBA83D200EE5ADB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -470,7 +418,6 @@
 		54F2881A1B00BBAA00E4D591 /* default-exercisemodels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "default-exercisemodels.json"; sourceTree = "<group>"; };
 		54F2881D1B00BD0100E4D591 /* MRExerciseModel+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseModel+Localisation.swift"; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
-		9DF2EF4C1BA17034007794CF /* MRRepetitionsEstimatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRRepetitionsEstimatorTests.swift; sourceTree = "<group>"; };
 		A04E9B04EE1C27607A68F65A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRUserDefaults.swift; sourceTree = "<group>"; };
@@ -496,19 +443,6 @@
 				544201371B93847100354DB7 /* ExternalAccessory.framework in Frameworks */,
 				54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */,
 				791024C419A5636E8BA52C85 /* Pods.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		541ABBB01AC577E00056A81B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				54E3A21E1BA21482001D9EA5 /* Pods.framework in Frameworks */,
-				5410C8441B9DCB30005C57C1 /* MobileCoreServices.framework in Frameworks */,
-				5410C8301B9DC9EA005C57C1 /* Alamofire.framework in Frameworks */,
-				5410C8311B9DC9EA005C57C1 /* MLPNeuralNet.framework in Frameworks */,
-				5410C8321B9DC9EA005C57C1 /* SQLite.framework in Frameworks */,
-				5410C8331B9DC9EA005C57C1 /* sqlite3.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -629,7 +563,6 @@
 			isa = PBXGroup;
 			children = (
 				541ABBA01AC577E00056A81B /* Muvr */,
-				541ABBB61AC577E00056A81B /* MuvrTests */,
 				54A48AC81BA474F300F4A81B /* Watch */,
 				54A48AD71BA474F300F4A81B /* Watch Extension */,
 				54A775F71BB81467001586DD /* MuvrKit */,
@@ -645,7 +578,6 @@
 			isa = PBXGroup;
 			children = (
 				541ABB9E1AC577E00056A81B /* Muvr.app */,
-				541ABBB31AC577E00056A81B /* MuvrTests.xctest */,
 				54A48AC71BA474F300F4A81B /* Watch.app */,
 				54A48AD31BA474F300F4A81B /* Watch Extension.appex */,
 				54A775F61BB81467001586DD /* MuvrKit.framework */,
@@ -695,26 +627,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		541ABBB61AC577E00056A81B /* MuvrTests */ = {
-			isa = PBXGroup;
-			children = (
-				9DF2EF4B1BA1701C007794CF /* Repetitions */,
-				541ABBB91AC577E00056A81B /* MuvrTests.swift */,
-				546241151B9DBA3700339998 /* DataModel */,
-				541ABBB71AC577E00056A81B /* Supporting Files */,
-				5410C82B1B9DC8AF005C57C1 /* MuvrTests-Bridging-Header.h */,
-			);
-			path = MuvrTests;
-			sourceTree = "<group>";
-		};
-		541ABBB71AC577E00056A81B /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				541ABBB81AC577E00056A81B /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		543374101AD01060005864D7 /* Device */ = {
 			isa = PBXGroup;
 			children = (
@@ -757,14 +669,6 @@
 				5450C2A21BC3FFF100B257E7 /* Info.plist */,
 			);
 			path = MuvrUITests;
-			sourceTree = "<group>";
-		};
-		546241151B9DBA3700339998 /* DataModel */ = {
-			isa = PBXGroup;
-			children = (
-				546241161B9DBA4500339998 /* MRDataModelTests.swift */,
-			);
-			name = DataModel;
 			sourceTree = "<group>";
 		};
 		5469D3801BBA6E1000EE5ADB /* SensorData */ = {
@@ -995,14 +899,6 @@
 			name = Classification;
 			sourceTree = "<group>";
 		};
-		9DF2EF4B1BA1701C007794CF /* Repetitions */ = {
-			isa = PBXGroup;
-			children = (
-				9DF2EF4C1BA17034007794CF /* MRRepetitionsEstimatorTests.swift */,
-			);
-			name = Repetitions;
-			sourceTree = "<group>";
-		};
 		FC5593AB1ADBE05300F235ED /* MuvrServer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1066,24 +962,6 @@
 			productName = Muvr;
 			productReference = 541ABB9E1AC577E00056A81B /* Muvr.app */;
 			productType = "com.apple.product-type.application";
-		};
-		541ABBB21AC577E00056A81B /* MuvrTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 541ABBC01AC577E00056A81B /* Build configuration list for PBXNativeTarget "MuvrTests" */;
-			buildPhases = (
-				541ABBAF1AC577E00056A81B /* Sources */,
-				541ABBB01AC577E00056A81B /* Frameworks */,
-				541ABBB11AC577E00056A81B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				541ABBB51AC577E00056A81B /* PBXTargetDependency */,
-			);
-			name = MuvrTests;
-			productName = MuvrTests;
-			productReference = 541ABBB31AC577E00056A81B /* MuvrTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		5450C29D1BC3FFF100B257E7 /* MuvrUITests */ = {
 			isa = PBXNativeTarget;
@@ -1217,10 +1095,6 @@
 							};
 						};
 					};
-					541ABBB21AC577E00056A81B = {
-						CreatedOnToolsVersion = 6.2;
-						TestTargetID = 541ABB9D1AC577E00056A81B;
-					};
 					5450C29D1BC3FFF100B257E7 = {
 						CreatedOnToolsVersion = 7.0.1;
 						TestTargetID = 541ABB9D1AC577E00056A81B;
@@ -1264,7 +1138,6 @@
 			projectRoot = "";
 			targets = (
 				541ABB9D1AC577E00056A81B /* Muvr */,
-				541ABBB21AC577E00056A81B /* MuvrTests */,
 				54A48AC61BA474F300F4A81B /* Watch */,
 				54A48AD21BA474F300F4A81B /* Watch Extension */,
 				54A775F51BB81467001586DD /* MuvrKit iOS */,
@@ -1291,13 +1164,6 @@
 				54F2881C1B00BBAA00E4D591 /* default-exercisemodels.json in Resources */,
 				5433DFA31BA0A237000BFE3A /* MRResistanceExerciseSessionProgressView.xib in Resources */,
 				541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		541ABBB11AC577E00056A81B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1470,47 +1336,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		541ABBAF1AC577E00056A81B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5410C8151B9DC436005C57C1 /* MRDataModel.swift in Sources */,
-				5410C83D1B9DCAFF005C57C1 /* Box.swift in Sources */,
-				5410C8261B9DC451005C57C1 /* MRClassifiedResistanceExercise+Marshalling.swift in Sources */,
-				546241171B9DBA4500339998 /* MRDataModelTests.swift in Sources */,
-				5410C83F1B9DCAFF005C57C1 /* Either.swift in Sources */,
-				5410C8431B9DCB0C005C57C1 /* NSDate+DateUtils.swift in Sources */,
-				5410C8401B9DCAFF005C57C1 /* Operators.swift in Sources */,
-				5410C8271B9DC451005C57C1 /* MRMode.swift in Sources */,
-				5410C81D1B9DC451005C57C1 /* MRResistanceExerciseExample.swift in Sources */,
-				5410C8221B9DC451005C57C1 /* MRExerciseModel+ModelParameters.swift in Sources */,
-				5410C83A1B9DCAFF005C57C1 /* String+MD5.swift in Sources */,
-				5410C8391B9DCAFF005C57C1 /* NSError+Convenience.swift in Sources */,
-				5410C83C1B9DCAFF005C57C1 /* Array.swift in Sources */,
-				5410C8381B9DCAD3005C57C1 /* MRModelParameters.m in Sources */,
-				9DF2EF4D1BA17034007794CF /* MRRepetitionsEstimatorTests.swift in Sources */,
-				5410C83B1B9DCAFF005C57C1 /* String+Localisation.swift in Sources */,
-				5410C8361B9DCA64005C57C1 /* Alamofire+SwiftyJSON.swift in Sources */,
-				5410C81C1B9DC44A005C57C1 /* NSDate+Marshalling.swift in Sources */,
-				5410C8201B9DC451005C57C1 /* MRExerciseModel+Marshalling.swift in Sources */,
-				5410C81F1B9DC451005C57C1 /* MRExerciseModel.swift in Sources */,
-				5410C8211B9DC451005C57C1 /* MRExerciseModel+Localisation.swift in Sources */,
-				5410C8231B9DC451005C57C1 /* MRResistanceExerciseSession.swift in Sources */,
-				5410C8421B9DCAFF005C57C1 /* Result.swift in Sources */,
-				5410C8251B9DC451005C57C1 /* MRResistanceExercise+Localisation.swift in Sources */,
-				5410C83E1B9DCAFF005C57C1 /* Dictionary.swift in Sources */,
-				5410C8161B9DC436005C57C1 /* MRDataModel+Defaults.swift in Sources */,
-				541ABBBA1AC577E00056A81B /* MuvrTests.swift in Sources */,
-				5410C81E1B9DC451005C57C1 /* MRResistanceExerciseExample+Marshalling.swift in Sources */,
-				5410C8241B9DC451005C57C1 /* MRResistanceExerciseSession+Marshalling.swift in Sources */,
-				5410C8171B9DC436005C57C1 /* MRDataModel+DD.swift in Sources */,
-				5410C81B1B9DC44A005C57C1 /* MRTypes+Marshalling.swift in Sources */,
-				5410C8411B9DCAFF005C57C1 /* Predef.swift in Sources */,
-				5410C8181B9DC436005C57C1 /* MRDataModel+CustomTypes.swift in Sources */,
-				5410C81A1B9DC44A005C57C1 /* MRTypes.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5450C29A1BC3FFF100B257E7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1593,11 +1418,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		541ABBB51AC577E00056A81B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 541ABB9D1AC577E00056A81B /* Muvr */;
-			targetProxy = 541ABBB41AC577E00056A81B /* PBXContainerItemProxy */;
-		};
 		5450C2A41BC3FFF100B257E7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 541ABB9D1AC577E00056A81B /* Muvr */;
@@ -1909,50 +1729,6 @@
 			};
 			name = Release;
 		};
-		541ABBC11AC577E00056A81B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-					"COCOAPODS=1",
-				);
-				INFOPLIST_FILE = MuvrTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.muvr.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "MuvrTests/MuvrTests-Bridging-Header.h";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Muvr.app/Muvr";
-			};
-			name = Debug;
-		};
-		541ABBC21AC577E00056A81B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = "COCOAPODS=1";
-				INFOPLIST_FILE = MuvrTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.muvr.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "MuvrTests/MuvrTests-Bridging-Header.h";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Muvr.app/Muvr";
-			};
-			name = Release;
-		};
 		5450C2A51BC3FFF100B257E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2230,15 +2006,6 @@
 			buildConfigurations = (
 				541ABBBE1AC577E00056A81B /* Debug */,
 				541ABBBF1AC577E00056A81B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		541ABBC01AC577E00056A81B /* Build configuration list for PBXNativeTarget "MuvrTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				541ABBC11AC577E00056A81B /* Debug */,
-				541ABBC21AC577E00056A81B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
