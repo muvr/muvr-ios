@@ -94,6 +94,7 @@
 		5447E7FF1B0114170003C0A0 /* MRResistanceExercise+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5447E7FE1B0114170003C0A0 /* MRResistanceExercise+Localisation.swift */; };
 		544DFB331B9C6DD70027EBCF /* MRExerciseSessionProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544DFB321B9C6DD70027EBCF /* MRExerciseSessionProgressViewController.swift */; };
 		5450C2A11BC3FFF100B257E7 /* MuvrUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5450C2A01BC3FFF100B257E7 /* MuvrUITests.swift */; };
+		5450C2AA1BC42A6800B257E7 /* MRExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5450C2A91BC42A6800B257E7 /* MRExerciseSession.swift */; settings = {ASSET_TAGS = (); }; };
 		545269051BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545269031BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift */; settings = {ASSET_TAGS = (); }; };
 		5455E7221AF90FF80049BB6B /* MRDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7211AF90FF80049BB6B /* MRDataModel.swift */; };
 		5455E7241AFA2D440049BB6B /* MRDataModel+DD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7231AFA2D440049BB6B /* MRDataModel+DD.swift */; };
@@ -365,6 +366,7 @@
 		5450C29E1BC3FFF100B257E7 /* MuvrUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MuvrUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5450C2A01BC3FFF100B257E7 /* MuvrUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuvrUITests.swift; sourceTree = "<group>"; };
 		5450C2A21BC3FFF100B257E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5450C2A91BC42A6800B257E7 /* MRExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSession.swift; sourceTree = "<group>"; };
 		545269031BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorDataType+Decoding.swift"; sourceTree = "<group>"; };
 		5455E71F1AF9022A0049BB6B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		5455E7211AF90FF80049BB6B /* MRDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDataModel.swift; sourceTree = "<group>"; };
@@ -876,6 +878,7 @@
 			isa = PBXGroup;
 			children = (
 				54430EC21BC2CF5900541979 /* Watch Extension.entitlements */,
+				5450C2A91BC42A6800B257E7 /* MRExerciseSession.swift */,
 				54A48AD81BA474F300F4A81B /* MRMainController.swift */,
 				54A48ADC1BA474F300F4A81B /* MRGlanceController.swift */,
 				54A48ADA1BA474F300F4A81B /* MRExtensionDelegate.swift */,
@@ -1538,6 +1541,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				54A48ADB1BA474F300F4A81B /* MRExtensionDelegate.swift in Sources */,
+				5450C2AA1BC42A6800B257E7 /* MRExerciseSession.swift in Sources */,
 				54A48AD91BA474F300F4A81B /* MRMainController.swift in Sources */,
 				54A48ADD1BA474F300F4A81B /* MRGlanceController.swift in Sources */,
 			);
@@ -2107,6 +2111,7 @@
 				INFOPLIST_FILE = MuvrKit/Infoi.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D Pebble";
 				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.Muvr.MuvrKit;
 				PRODUCT_NAME = MuvrKit;
 				PROVISIONING_PROFILE = "";
@@ -2138,6 +2143,7 @@
 				INFOPLIST_FILE = MuvrKit/Infoi.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D Pebble";
 				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.Muvr.MuvrKit;
 				PRODUCT_NAME = MuvrKit;
 				PROVISIONING_PROFILE = "";

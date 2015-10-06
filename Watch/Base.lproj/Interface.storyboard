@@ -10,23 +10,53 @@
             <objects>
                 <controller title="Muvr" id="AgC-eL-Hgc" customClass="MRMainController" customModule="Watch_Extension">
                     <items>
-                        <picker width="1" widthAdjustment="2" height="0.20000000000000001" alignment="left" focusStyle="stack" indicatorMode="shownWhileFocused" id="JBL-em-o3w"/>
-                        <picker width="1" height="0.20000000000000001" alignment="left" focusStyle="stack" indicatorMode="shownWhileFocused" id="vPB-03-r6L"/>
-                        <button width="1" alignment="left" title="Start" id="qph-6j-6Ky">
-                            <color key="backgroundColor" red="0.25098040700000002" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="font" type="boldSystem" pointSize="15"/>
-                            <connections>
-                                <action selector="go" destination="AgC-eL-Hgc" id="cfd-97-B6J"/>
-                            </connections>
-                        </button>
+                        <group width="1" height="116" alignment="left" layout="vertical" id="ys7-T7-jXZ">
+                            <items>
+                                <picker width="1" widthAdjustment="2" height="32" alignment="left" focusStyle="stack" id="JBL-em-o3w">
+                                    <connections>
+                                        <action selector="modelPickerAction:" destination="AgC-eL-Hgc" id="DIR-jE-bdE"/>
+                                    </connections>
+                                </picker>
+                                <picker width="1" height="34" alignment="left" focusStyle="stack" id="vPB-03-r6L">
+                                    <connections>
+                                        <action selector="intensityPickerAction:" destination="AgC-eL-Hgc" id="Qil-HQ-hyj"/>
+                                    </connections>
+                                </picker>
+                                <button width="1" alignment="left" title="Start" id="qph-6j-6Ky">
+                                    <color key="backgroundColor" red="0.25098040700000002" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="font" type="boldSystem" pointSize="15"/>
+                                    <connections>
+                                        <action selector="go" destination="AgC-eL-Hgc" id="cfd-97-B6J"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                        <group width="1" height="1" alignment="center" id="U8c-fr-ind">
+                            <items>
+                                <group alignment="left" layout="vertical" id="RNf-yC-kXu">
+                                    <items>
+                                        <label width="136" alignment="left" text="--Arms" id="g7i-Qj-f79">
+                                            <fontDescription key="font" type="system" weight="light" pointSize="20"/>
+                                        </label>
+                                        <label alignment="left" text="--Moderate" id="bug-ec-Y65">
+                                            <fontDescription key="font" type="system" weight="thin" pointSize="14"/>
+                                        </label>
+                                    </items>
+                                </group>
+                            </items>
+                        </group>
                     </items>
                     <connections>
                         <outlet property="intensity" destination="vPB-03-r6L" id="hBe-Z2-w85"/>
+                        <outlet property="intensityLabel" destination="bug-ec-Y65" id="qZl-pp-mo8"/>
                         <outlet property="model" destination="JBL-em-o3w" id="tr5-Tw-GOT"/>
+                        <outlet property="modelLabel" destination="g7i-Qj-f79" id="Cs9-bD-KdO"/>
+                        <outlet property="progressGroup" destination="U8c-fr-ind" id="NHD-H5-fF9"/>
+                        <outlet property="startGroup" destination="ys7-T7-jXZ" id="mSK-xj-l8g"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="28" y="80"/>
+            <point key="canvasLocation" x="-2" y="76"/>
         </scene>
         <!--Exercising-->
         <scene sceneID="aWf-eg-4sI">
@@ -40,7 +70,16 @@
             <objects>
                 <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="MRGlanceController" customModule="Watch_Extension">
                     <items>
-                        <group alignment="left" id="gv7-I2-MZq"/>
+                        <group alignment="left" layout="vertical" id="gv7-I2-MZq">
+                            <items>
+                                <label width="136" alignment="left" text="Arms" id="BI0-zu-H9t">
+                                    <fontDescription key="font" type="system" weight="light" pointSize="20"/>
+                                </label>
+                                <label alignment="left" text="Moderate" id="RrX-1I-ybd">
+                                    <fontDescription key="font" type="system" weight="thin" pointSize="14"/>
+                                </label>
+                            </items>
+                        </group>
                         <group alignment="left" id="eew-Gs-W6Y"/>
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>

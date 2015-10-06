@@ -1,13 +1,18 @@
 import WatchKit
 import Foundation
 
-
 class MRGlanceController: WKInterfaceController {
+    @IBOutlet weak var modelLabel: WKInterfaceLabel!
+    @IBOutlet weak var intensityLabel: WKInterfaceLabel!
 
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
         // Configure interface objects here.
+        if let session = MRExtensionDelegate.sharedDelegate().getCurrentSession() {
+            modelLabel.setText(session.modelTitle)
+            intensityLabel.setText(session.intensityTitle)
+        }
     }
 
     override func willActivate() {

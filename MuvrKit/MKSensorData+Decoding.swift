@@ -70,6 +70,7 @@ public extension MKSensorData {
         try self.init(types: types, start: start, samplesPerSecond: UInt(samplesPerSecond), samples: samples)
     }
     
+    #if Pebble
     // MARK: Pebble Integration
     
     ///
@@ -103,6 +104,6 @@ public extension MKSensorData {
         let types = [MKSensorDataType.Accelerometer(location: .LeftWrist)]
         let start: MKTimestamp = MKTimestamp(timestamp) / MKTimestamp(1000.0)
         try self.init(types: types, start: start, samplesPerSecond: UInt(samplesPerSecond), samples: samples)
-    }    
-    
+    }
+    #endif
 }

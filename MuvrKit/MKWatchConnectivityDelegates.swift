@@ -22,16 +22,16 @@ public protocol MKMetadataConnectivityDelegate {
     
 }
 
-///
-/// Delegate that is typically used in the ``MRSensorDataConnectivitySession`` to
-/// control the sensor data flow
-///
-public protocol MKSensorDataConnectivityDelegate: class {
- 
-    func sensorDataConnectivityPause()
-    
-    func sensorDataConnectivityBegin(samplingFrequency: UInt)
-    
-    func sensorDataConnectivityEnd()
-    
-}
+/////
+///// Delegate that is typically used in the ``MRSensorDataConnectivitySession`` to
+///// control the sensor data flow
+/////
+//public protocol MKSensorDataConnectivityDelegate: class {
+// 
+//    func sensorDataConnectivityPause()
+//    
+//    func sensorDataConnectivityBegin(samplingFrequency: UInt)
+//    
+//    func sensorDataConnectivityEnd()
+//    
+//}

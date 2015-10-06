@@ -14,31 +14,21 @@ public class MKConnectivity : NSObject {
     /// -parameter metadata: the metadata delegate
     /// -parameter sensorData: the sensor data delegate
     ///
-    public init(metadata: MKMetadataConnectivityDelegate) {
-        self.session = MKConnectivitySession(metadata: metadata)
+    public init(delegate: MKMetadataConnectivityDelegate) {
+        self.session = MKConnectivitySession(delegate: delegate)
         super.init()
         
-        metadata.metadataConnectivityDidReceiveExerciseModelMetadata(defaultExerciseModelMetadata)
-        metadata.metadataConnectivityDidReceiveIntensities(defaultIntensities)
-    }
-    
-    ///
-    /// Sets the ``MKSensorDataConnectivityDelegate`` for the currently running session
-    ///
-    /// -parameter delegate: the new delegate or ``nil`` to clear
-    ///
-    func setSensorDataConnectivityDelegate(delegate: MKSensorDataConnectivityDelegate?) {
-        session.sensorData = delegate
+        delegate.metadataConnectivityDidReceiveExerciseModelMetadata(defaultExerciseModelMetadata)
+        delegate.metadataConnectivityDidReceiveIntensities(defaultIntensities)
     }
     
 }
 
 class MKConnectivitySession : NSObject, WCSessionDelegate {
-    private let metadata: MKMetadataConnectivityDelegate
-    internal weak var sensorData: MKSensorDataConnectivityDelegate?
+    private let delegate: MKMetadataConnectivityDelegate
 
-    init(metadata: MKMetadataConnectivityDelegate) {
-        self.metadata = metadata
+    init(delegate: MKMetadataConnectivityDelegate) {
+        self.delegate = delegate
         super.init()
         
         WCSession.defaultSession().delegate = self
