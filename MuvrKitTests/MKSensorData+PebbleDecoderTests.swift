@@ -20,7 +20,7 @@ class MKSensorDataPebbleCodecTests : XCTestCase {
     ///
     func testDecodeNotEnoughInput() {
         do {
-            try MKSensorData(decodingPebble: NSData())
+            try _ = MKSensorData(decodingPebble: NSData())
             XCTFail("Not thrown")
         } catch MKCodecError.NotEnoughInput {
             // OK
