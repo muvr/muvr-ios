@@ -1,4 +1,5 @@
 import UIKit
+import HealthKit
 
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +19,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        let typesToShare: Set<HKSampleType> = [HKSampleType.workoutType()]
+        let typesToRead: Set<HKSampleType> = [HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)!]
+
+        HKHealthStore().requestAuthorizationToShareTypes(typesToShare, readTypes: typesToRead) { (x, y) -> Void in
+            print(x)
+            print(y)
+        }
+
         // if LiftUserDefaults.isRunningTests { return true }
         
         // notifications et al
