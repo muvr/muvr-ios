@@ -19,6 +19,7 @@
 		540381631AED2FD1000C8B15 /* MRResistanceExerciseExample+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381621AED2FD1000C8B15 /* MRResistanceExerciseExample+Marshalling.swift */; };
 		5403A87A1AF3B3D000FB8381 /* MRHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403A8791AF3B3D000FB8381 /* MRHomeViewController.swift */; };
 		5410C8291B9DC578005C57C1 /* MRClassifiedResistanceExercise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5410C8281B9DC578005C57C1 /* MRClassifiedResistanceExercise.m */; };
+		5417C4021BC45EBB001C9491 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5417C4011BC45EBB001C9491 /* HealthKit.framework */; };
 		541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA31AC577E00056A81B /* MRAppDelegate.swift */; };
 		541ABBA61AC577E00056A81B /* MRExerciseSessionDeviceDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA51AC577E00056A81B /* MRExerciseSessionDeviceDataViewController.swift */; };
 		541ABBA91AC577E00056A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBA71AC577E00056A81B /* Main.storyboard */; };
@@ -272,6 +273,7 @@
 		5410C82E1B9DC9EA005C57C1 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
 		5410C82F1B9DC9EA005C57C1 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = "Pods/../build/Debug-iphoneos/sqlite3.framework"; sourceTree = "<group>"; };
 		5410C8341B9DCA09005C57C1 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
+		5417C4011BC45EBB001C9491 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		541ABB9E1AC577E00056A81B /* Muvr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Muvr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		541ABBA21AC577E00056A81B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		541ABBA31AC577E00056A81B /* MRAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAppDelegate.swift; sourceTree = "<group>"; };
@@ -468,6 +470,7 @@
 				54430EC01BC2CF5200541979 /* CoreMotion.framework in Frameworks */,
 				5487F5AF1BBA640E00ED2E97 /* libz.tbd in Frameworks */,
 				5487F5AE1BBA640500ED2E97 /* libcompression.tbd in Frameworks */,
+				5417C4021BC45EBB001C9491 /* HealthKit.framework in Frameworks */,
 				547F92851BA8BA4A00A69295 /* WatchConnectivity.framework in Frameworks */,
 				54A776211BB81562001586DD /* MuvrKit.framework in Frameworks */,
 			);
@@ -495,6 +498,7 @@
 		288CCE5D5AB7F6FBE827B7C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5417C4011BC45EBB001C9491 /* HealthKit.framework */,
 				5469D38E1BBAD78E00EE5ADB /* MLPNeuralNet.framework */,
 				5469D3871BBA83D200EE5ADB /* Accelerate.framework */,
 				5487F5AC1BBA63C900ED2E97 /* libz.tbd */,
@@ -1111,7 +1115,7 @@
 						DevelopmentTeam = K5TCBGB2PR;
 						SystemCapabilities = {
 							com.apple.HealthKit = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -1830,6 +1834,7 @@
 		54A48AE71BA474F300F4A81B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Watch Extension/Watch Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1837,7 +1842,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Watch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.Muvr.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.Muvr.watchkitapp.wkextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
@@ -1850,6 +1855,7 @@
 		54A48AE81BA474F300F4A81B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Watch Extension/Watch Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1857,7 +1863,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Watch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.Muvr.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.Muvr.watchkitapp.wkextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
