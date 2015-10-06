@@ -6,7 +6,7 @@ public typealias MKDuration = Double
 ///
 /// Various failures that are thrown by the operations in the ``MKSensorData``
 ///
-public enum MKSensorDataFailure : ErrorType {
+public enum MKSensorDataError : ErrorType {
     ///
     /// The dimensions do not match
     ///
@@ -104,10 +104,10 @@ public struct MKSensorData {
     /// Constructs a new instance of this struct, assigns the dimension and samples
     ///
     public init(types: [MKSensorDataType], start: MKTimestamp, samplesPerSecond: UInt, samples: [Float]) throws {
-        if types.isEmpty { throw MKSensorDataFailure.BadTypes }
+        if types.isEmpty { throw MKSensorDataError.BadTypes }
         self.types = types
         self.dimension = types.reduce(0) { r, e in return r + e.dimension }
-        if samples.count % self.dimension != 0 { throw MKSensorDataFailure.InvalidSampleCountForDimension }
+        if samples.count % self.dimension != 0 { throw MKSensorDataError.InvalidSampleCountForDimension }
         
         self.samples = samples
         self.start = start
@@ -141,13 +141,13 @@ public struct MKSensorData {
     mutating func append(that: MKSensorData) throws {
         // no need to add empty data
         if that.samples.isEmpty { return }
-        if self.samplesPerSecond != that.samplesPerSecond { throw MKSensorDataFailure.MismatchedSamplesPerSecond(expected: self.samplesPerSecond, actual: that.samplesPerSecond) }
-        if self.dimension != that.dimension { throw MKSensorDataFailure.MismatchedDimension(expected: self.dimension, actual: that.dimension) }
+        if self.samplesPerSecond != that.samplesPerSecond { throw MKSensorDataError.MismatchedSamplesPerSecond(expected: self.samplesPerSecond, actual: that.samplesPerSecond) }
+        if self.dimension != that.dimension { throw MKSensorDataError.MismatchedDimension(expected: self.dimension, actual: that.dimension) }
 
         let maxGap: MKDuration = 10
         let gap = that.start - self.end
     
-        if gap > maxGap { throw MKSensorDataFailure.TooDiscontinous(gap: gap) }
+        if gap > maxGap { throw MKSensorDataError.TooDiscontinous(gap: gap) }
         let samplesDelta = Int(gap * Double(samplesPerSecond)) * dimension
         
         if samplesDelta < 0 && -samplesDelta < samples.count {

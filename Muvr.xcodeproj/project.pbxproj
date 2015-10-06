@@ -93,6 +93,7 @@
 		54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 54477CFB1AF4E82E00F502EC /* Localizable.strings */; };
 		5447E7FF1B0114170003C0A0 /* MRResistanceExercise+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5447E7FE1B0114170003C0A0 /* MRResistanceExercise+Localisation.swift */; };
 		544DFB331B9C6DD70027EBCF /* MRExerciseSessionProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544DFB321B9C6DD70027EBCF /* MRExerciseSessionProgressViewController.swift */; };
+		5450C2A11BC3FFF100B257E7 /* MuvrUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5450C2A01BC3FFF100B257E7 /* MuvrUITests.swift */; };
 		545269051BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545269031BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift */; settings = {ASSET_TAGS = (); }; };
 		5455E7221AF90FF80049BB6B /* MRDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7211AF90FF80049BB6B /* MRDataModel.swift */; };
 		5455E7241AFA2D440049BB6B /* MRDataModel+DD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455E7231AFA2D440049BB6B /* MRDataModel+DD.swift */; };
@@ -200,6 +201,13 @@
 
 /* Begin PBXContainerItemProxy section */
 		541ABBB41AC577E00056A81B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 541ABB961AC577E00056A81B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 541ABB9D1AC577E00056A81B;
+			remoteInfo = Muvr;
+		};
+		5450C2A31BC3FFF100B257E7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 541ABB961AC577E00056A81B /* Project object */;
 			proxyType = 1;
@@ -354,6 +362,9 @@
 		54477CFC1AF4E82E00F502EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5447E7FE1B0114170003C0A0 /* MRResistanceExercise+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRResistanceExercise+Localisation.swift"; sourceTree = "<group>"; };
 		544DFB321B9C6DD70027EBCF /* MRExerciseSessionProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionProgressViewController.swift; sourceTree = "<group>"; };
+		5450C29E1BC3FFF100B257E7 /* MuvrUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MuvrUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5450C2A01BC3FFF100B257E7 /* MuvrUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuvrUITests.swift; sourceTree = "<group>"; };
+		5450C2A21BC3FFF100B257E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		545269031BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorDataType+Decoding.swift"; sourceTree = "<group>"; };
 		5455E71F1AF9022A0049BB6B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		5455E7211AF90FF80049BB6B /* MRDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDataModel.swift; sourceTree = "<group>"; };
@@ -499,6 +510,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5450C29B1BC3FFF100B257E7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		546E68561BB98D0800DC0FEF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -614,6 +632,7 @@
 				54A48AD71BA474F300F4A81B /* Watch Extension */,
 				54A775F71BB81467001586DD /* MuvrKit */,
 				546E685A1BB98D0800DC0FEF /* MuvrKitTests */,
+				5450C29F1BC3FFF100B257E7 /* MuvrUITests */,
 				541ABB9F1AC577E00056A81B /* Products */,
 				87E693A6B954E9533DB1FC04 /* Pods */,
 				288CCE5D5AB7F6FBE827B7C7 /* Frameworks */,
@@ -630,6 +649,7 @@
 				54A775F61BB81467001586DD /* MuvrKit.framework */,
 				54A7761C1BB8149E001586DD /* MuvrKit.framework */,
 				546E68591BB98D0800DC0FEF /* MuvrKitTests.xctest */,
+				5450C29E1BC3FFF100B257E7 /* MuvrUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -726,6 +746,15 @@
 				5455E72F1AFA73C70049BB6B /* NSDate+DateUtils.swift */,
 			);
 			path = Predef;
+			sourceTree = "<group>";
+		};
+		5450C29F1BC3FFF100B257E7 /* MuvrUITests */ = {
+			isa = PBXGroup;
+			children = (
+				5450C2A01BC3FFF100B257E7 /* MuvrUITests.swift */,
+				5450C2A21BC3FFF100B257E7 /* Info.plist */,
+			);
+			path = MuvrUITests;
 			sourceTree = "<group>";
 		};
 		546241151B9DBA3700339998 /* DataModel */ = {
@@ -1053,6 +1082,24 @@
 			productReference = 541ABBB31AC577E00056A81B /* MuvrTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		5450C29D1BC3FFF100B257E7 /* MuvrUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5450C2A71BC3FFF100B257E7 /* Build configuration list for PBXNativeTarget "MuvrUITests" */;
+			buildPhases = (
+				5450C29A1BC3FFF100B257E7 /* Sources */,
+				5450C29B1BC3FFF100B257E7 /* Frameworks */,
+				5450C29C1BC3FFF100B257E7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5450C2A41BC3FFF100B257E7 /* PBXTargetDependency */,
+			);
+			name = MuvrUITests;
+			productName = MuvrUITests;
+			productReference = 5450C29E1BC3FFF100B257E7 /* MuvrUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		546E68581BB98D0800DC0FEF /* MuvrKitTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 546E68611BB98D0800DC0FEF /* Build configuration list for PBXNativeTarget "MuvrKitTests" */;
@@ -1171,6 +1218,10 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 541ABB9D1AC577E00056A81B;
 					};
+					5450C29D1BC3FFF100B257E7 = {
+						CreatedOnToolsVersion = 7.0.1;
+						TestTargetID = 541ABB9D1AC577E00056A81B;
+					};
 					546E68581BB98D0800DC0FEF = {
 						CreatedOnToolsVersion = 7.0;
 					};
@@ -1216,6 +1267,7 @@
 				54A775F51BB81467001586DD /* MuvrKit iOS */,
 				54A776131BB8149E001586DD /* MuvrKit Watch */,
 				546E68581BB98D0800DC0FEF /* MuvrKitTests */,
+				5450C29D1BC3FFF100B257E7 /* MuvrUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -1240,6 +1292,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		541ABBB11AC577E00056A81B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5450C29C1BC3FFF100B257E7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1449,6 +1508,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5450C29A1BC3FFF100B257E7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5450C2A11BC3FFF100B257E7 /* MuvrUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		546E68551BB98D0800DC0FEF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1526,6 +1593,11 @@
 			isa = PBXTargetDependency;
 			target = 541ABB9D1AC577E00056A81B /* Muvr */;
 			targetProxy = 541ABBB41AC577E00056A81B /* PBXContainerItemProxy */;
+		};
+		5450C2A41BC3FFF100B257E7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 541ABB9D1AC577E00056A81B /* Muvr */;
+			targetProxy = 5450C2A31BC3FFF100B257E7 /* PBXContainerItemProxy */;
 		};
 		546E68601BB98D0800DC0FEF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1877,6 +1949,34 @@
 			};
 			name = Release;
 		};
+		5450C2A51BC3FFF100B257E7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = MuvrUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.MuvrUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Muvr;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		5450C2A61BC3FFF100B257E7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = MuvrUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.MuvrUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Muvr;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
 		546E68621BB98D0800DC0FEF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2136,6 +2236,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		5450C2A71BC3FFF100B257E7 /* Build configuration list for PBXNativeTarget "MuvrUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5450C2A51BC3FFF100B257E7 /* Debug */,
+				5450C2A61BC3FFF100B257E7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		546E68611BB98D0800DC0FEF /* Build configuration list for PBXNativeTarget "MuvrKitTests" */ = {
 			isa = XCConfigurationList;

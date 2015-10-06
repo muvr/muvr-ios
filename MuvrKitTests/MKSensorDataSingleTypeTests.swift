@@ -31,7 +31,7 @@ class MKSensorDataSingleTypeTests : XCTestCase {
         do {
             try d.append(try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 1, samples: [-1000, 0, 1000]))
             XCTFail("Appended incorrect dimension")
-        } catch MKSensorDataFailure.MismatchedDimension(1, 3) {
+        } catch MKSensorDataError.MismatchedDimension(1, 3) {
             
         } catch {
             XCTFail("Bad error")
@@ -46,7 +46,7 @@ class MKSensorDataSingleTypeTests : XCTestCase {
         do {
             try d.append(MKSensorData(types: [.HeartRate], start: 1, samplesPerSecond: 2, samples: [100]))
             XCTFail("Appended incorrect sampling rate")
-        } catch MKSensorDataFailure.MismatchedSamplesPerSecond(1, 2) {
+        } catch MKSensorDataError.MismatchedSamplesPerSecond(1, 2) {
             
         } catch {
             XCTFail("Bad error")
@@ -105,7 +105,7 @@ class MKSensorDataSingleTypeTests : XCTestCase {
         do {
             try d.append(MKSensorData(types: [.HeartRate], start: 12, samplesPerSecond: 1, samples: [200]))
             XCTFail("Gap too big got in")
-        } catch MKSensorDataFailure.TooDiscontinous(11) {
+        } catch MKSensorDataError.TooDiscontinous(11) {
             
         } catch {
             XCTFail("Bad exception")

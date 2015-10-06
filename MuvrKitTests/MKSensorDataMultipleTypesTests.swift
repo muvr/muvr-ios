@@ -96,7 +96,7 @@ class MKSensorDataMultipleTypesTests : XCTestCase {
         do {
             try d.append(MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 12, samplesPerSecond: 1, samples: [200, 200, 200]))
             XCTFail("Gap too big got in")
-        } catch MKSensorDataFailure.TooDiscontinous(11) {
+        } catch MKSensorDataError.TooDiscontinous(11) {
             
         } catch {
             XCTFail("Bad exception")
