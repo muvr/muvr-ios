@@ -2250,6 +2250,7 @@
 				5450C2A61BC3FFF100B257E7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		546E68611BB98D0800DC0FEF /* Build configuration list for PBXNativeTarget "MuvrKitTests" */ = {
 			isa = XCConfigurationList;
