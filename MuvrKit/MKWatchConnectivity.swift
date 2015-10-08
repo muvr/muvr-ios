@@ -5,8 +5,9 @@ import WatchConnectivity
 /// The iOS -> Watch connectivity
 ///
 public class MKConnectivity : NSObject, WCSessionDelegate {
+    public typealias OnFileTransferDone = SendDataResult -> Void
     
-    private var sensorDataTransferOnDone: (SendDataResult -> Void)? = nil
+    private var onFileTransferDone: OnFileTransferDone?
     
     ///
     /// Initializes this instance, assigninf the metadata ans sensorData delegates.
@@ -49,29 +50,31 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter data: the sensor data to be sent
     /// - parameter onDone: the function to be executed on completion (success or error)
     ///
-    public func beginTransferSensorData(data: MKSensorData, onDone: SendDataResult -> Void) {
-        if sensorDataTransferOnDone == nil {
-            sensorDataTransferOnDone = onDone
-            
+    public func transferSensorData(data: MKSensorData, onDone: OnFileTransferDone?) {
+        if onFileTransferDone == nil {
+            onFileTransferDone = onDone
             let encoded = data.encode()
-            let fileUrl = NSURL(fileURLWithPath: "/tmp/sensordata.raw")
+            let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
+            let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.raw")
+            
             if encoded.writeToURL(fileUrl, atomically: true) {
                 WCSession.defaultSession().transferFile(fileUrl, metadata: nil)
             }
         }
     }
-        
+    
     public func session(session: WCSession, didFinishFileTransfer fileTransfer: WCSessionFileTransfer, error: NSError?) {
-        if let onDone = sensorDataTransferOnDone {
+        if let onDone = onFileTransferDone {
             if let e = error {
                 onDone(.Error(error: e))
             } else {
                 onDone(.Success)
             }
-            sensorDataTransferOnDone = nil
+            
+            onFileTransferDone = nil
         }
     }
-
+    
     ///
     /// Starts the exercise session with the given 
     ///

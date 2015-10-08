@@ -38,14 +38,16 @@ class MRExerciseSession {
     ///
     func sendImmediately() {
         let now = NSDate()
-        var sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSinceNow, samplesPerSecond: 100, samples: [])
+        // 24 kiB OK
+        let samples = (0..<300000).map { Float($0) }
+        var sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSinceNow, samplesPerSecond: 100, samples: samples)
         if let recordedData = sensorRecorder!.accelerometerDataFromDate(lastSentStartTime, toDate: now) {
             for (_, data) in recordedData.enumerate() {
                 
             }
         }
         
-        connectivity.beginTransferSensorData(sd) {
+        connectivity.transferSensorData(sd) {
             switch $0 {
             case .Error(error: _): return
             case .Success: self.lastSentStartTime = now

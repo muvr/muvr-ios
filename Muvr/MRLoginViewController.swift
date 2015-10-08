@@ -4,6 +4,7 @@ import WatchConnectivity
 class MRLoginViewController : UIViewController, WCSessionDelegate  {
     @IBOutlet var username: UITextField!
     @IBOutlet var password: UITextField!
+    @IBOutlet var log: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,42 +25,45 @@ class MRLoginViewController : UIViewController, WCSessionDelegate  {
     
     func session(session: WCSession, didReceiveMessageData messageData: NSData) {
         dispatch_async(dispatch_get_main_queue(), {
-            self.username.text = __FUNCTION__
+            self.log.text = self.log.text + "\n" + __FUNCTION__
         })
     }
     
     func session(session: WCSession, didReceiveFile file: WCSessionFile) {
         dispatch_async(dispatch_get_main_queue(), {
-            self.username.text = __FUNCTION__
+            self.log.text = self.log.text + "\n" + __FUNCTION__
         })
     }
     
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         dispatch_async(dispatch_get_main_queue(), {
-            self.username.text = __FUNCTION__
+            self.log.text = self.log.text + "\n" + __FUNCTION__
         })
     }
     
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject], replyHandler: ([String : AnyObject]) -> Void) {
         dispatch_async(dispatch_get_main_queue(), {
-            self.username.text = __FUNCTION__
+            self.log.text = self.log.text + "\n" + __FUNCTION__
         })
     }
     
     func session(session: WCSession, didReceiveMessageData messageData: NSData, replyHandler: (NSData) -> Void) {
         dispatch_async(dispatch_get_main_queue(), {
-            self.username.text = __FUNCTION__
+            self.log.text = self.log.text + "\ndidReceiveMessageData \(messageData.length) B"
+            replyHandler("A".dataUsingEncoding(NSASCIIStringEncoding)!)
         })
     }
     
     func sessionReachabilityDidChange(session: WCSession) {
         dispatch_async(dispatch_get_main_queue(), {
-            self.username.text = __FUNCTION__
+            self.log.text = self.log.text + "\n" + __FUNCTION__
         })
     }
     
     func sessionWatchStateDidChange(session: WCSession) {
-        username.text = __FUNCTION__
+        dispatch_async(dispatch_get_main_queue(), {
+            self.log.text = self.log.text + "\n" + __FUNCTION__
+        })
     }
     
     @IBAction
