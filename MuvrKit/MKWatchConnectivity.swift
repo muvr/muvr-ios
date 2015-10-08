@@ -5,9 +5,10 @@ import WatchConnectivity
 /// The iOS -> Watch connectivity
 ///
 public class MKConnectivity : NSObject, WCSessionDelegate {
-    public typealias OnFileTransferDone = SendDataResult -> Void
+    typealias OnFileTransferDone = SendDataResult -> Void
     
     private var onFileTransferDone: OnFileTransferDone?
+    private var currentSession: MKExerciseSession?
     
     ///
     /// Initializes this instance, assigninf the metadata ans sensorData delegates.
@@ -27,11 +28,13 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     /// The response to data transmission
     ///
-    public enum SendDataResult {
+    enum SendDataResult {
         ///
         /// The data was received by the receiver
         ///
         case Success
+        
+        case NoSession
         
         ///
         /// The sending operation failed
@@ -50,7 +53,9 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter data: the sensor data to be sent
     /// - parameter onDone: the function to be executed on completion (success or error)
     ///
-    public func transferSensorData(data: MKSensorData, onDone: OnFileTransferDone?) {
+    func transferSensorData(data: MKSensorData, onDone: OnFileTransferDone) {
+        guard let currentSession = currentSession else { return onDone(.NoSession) }
+        
         if onFileTransferDone == nil {
             onFileTransferDone = onDone
             let encoded = data.encode()
@@ -58,11 +63,14 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
             let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.raw")
             
             if encoded.writeToURL(fileUrl, atomically: true) {
-                WCSession.defaultSession().transferFile(fileUrl, metadata: nil)
+                WCSession.defaultSession().transferFile(fileUrl, metadata: ["sessionId" : currentSession.id])
             }
         }
     }
     
+    ///
+    /// Called when the file transfer completes.
+    ///
     public func session(session: WCSession, didFinishFileTransfer fileTransfer: WCSessionFileTransfer, error: NSError?) {
         if let onDone = onFileTransferDone {
             if let e = error {
@@ -76,16 +84,32 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     }
     
     ///
+    /// Ends the current session
+    ///
+    public func endSession() {
+        if let currentSession = currentSession {
+            let message: [String : AnyObject] = [ "action" : "end", "sessionId" : currentSession.id ]
+            WCSession.defaultSession().transferUserInfo(message)
+        }
+        currentSession = nil
+    }
+    
+    ///
+    /// Returns the current session
+    ///
+    public func getCurrentSession() -> MKExerciseSession? {
+        return currentSession
+    }
+    
+    ///
     /// Starts the exercise session with the given 
     ///
-    public func startSession(exerciseModelId exerciseModelId: MKExerciseModelId) {
-        let message: [String : AnyObject] = [ "action" : "start", "exerciseModelId" : exerciseModelId ]
-        print(__FUNCTION__)
-        WCSession.defaultSession().sendMessage(message, replyHandler: { _ -> Void in
-            print("Reply")
-            }) { (err) -> Void in
-            print(err)
-        }
+    public func startSession(exerciseModelMetadata exerciseModelMetadata: MKExerciseModelMetadata) {
+        if currentSession != nil { endSession() }
+        
+        currentSession = MKExerciseSession(connectivity: self, exerciseModelMetadata: exerciseModelMetadata)
+        let message: [String : AnyObject] = [ "action" : "start", "exerciseModelId" : exerciseModelMetadata.0, "sessionId" : currentSession!.id ]
+        WCSession.defaultSession().transferUserInfo(message)
     }
 
 }

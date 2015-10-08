@@ -6,7 +6,6 @@ import HealthKit
 class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivityDelegate {
     private var connectivity: MKConnectivity!
     private var exerciseModelMetadata: [MKExerciseModelMetadata] = []
-    private var currentSession: MRExerciseSession?
 
     ///
     /// Convenience method that returns properly typed reference to this instance
@@ -22,24 +21,22 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     ///
     /// - returns: the running session or ``nil``
     ///
-    func getCurrentSession() -> MRExerciseSession? {
-        return currentSession
+    func getCurrentSession() -> MKExerciseSession? {
+        return connectivity.getCurrentSession()
     }
     
     ///
     /// Starts the session
     ///
     func startSession(exerciseModelMetadataIndex exerciseModelMetadataIndex: Int) {
-        currentSession = nil
-        connectivity.startSession(exerciseModelId: exerciseModelMetadata[exerciseModelMetadataIndex].0)
-        currentSession = MRExerciseSession(connectivity: connectivity, exerciseModelMetadata: exerciseModelMetadata[exerciseModelMetadataIndex])
+        connectivity.startSession(exerciseModelMetadata: exerciseModelMetadata[exerciseModelMetadataIndex])
     }
     
     ///
     /// Ends the session
     ///
     func endSession() {
-        currentSession = nil
+        connectivity.endSession()
     }
     
     ///

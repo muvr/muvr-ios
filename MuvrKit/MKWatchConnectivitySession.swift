@@ -1,11 +1,11 @@
 import Foundation
 import CoreMotion
-import HealthKit
-import MuvrKit
+import WatchConnectivity
 
-class MRExerciseSession {
+public class MKExerciseSession {
     private unowned let connectivity: MKConnectivity
-
+    
+    let id: String
     private var sensorRecorder: CMSensorRecorder?
     private let startTime: NSDate
     private var lastSentStartTime: NSDate
@@ -17,26 +17,27 @@ class MRExerciseSession {
         self.startTime = NSDate()
         self.lastSentStartTime = startTime
         self.sensorRecorder = CMSensorRecorder()
+        self.id = NSUUID().UUIDString
         
         // TODO: Sort out recording duration
         self.sensorRecorder!.recordAccelerometerForDuration(NSTimeInterval(3600 * 2))
     }
     
     deinit {
-//        self.sensorRecorder = nil
+        //        self.sensorRecorder = nil
     }
     
     ///
     /// The session title
     ///
-    var exerciseModelTitle: String {
+    public var exerciseModelTitle: String {
         return exerciseModelMetadata.1
     }
     
     ///
     /// Send the data collected so far to the Phone
     ///
-    func sendImmediately() {
+    public func sendImmediately() {
         let now = NSDate()
         // 24 kiB OK
         let samples = (0..<300000).map { Float($0) }
@@ -49,16 +50,20 @@ class MRExerciseSession {
         
         connectivity.transferSensorData(sd) {
             switch $0 {
-            case .Error(error: _): return
-            case .Success: self.lastSentStartTime = now
+            case .Error(error: _):
+                return
+            case .NoSession:
+                return
+            case .Success:
+                self.lastSentStartTime = now
             }
         }
     }
-
+    
     ///
     /// Gets the session length
     ///
-    func getSessionLength() -> NSTimeInterval {
+    public func getSessionLength() -> NSTimeInterval {
         return NSDate().timeIntervalSinceDate(self.startTime)
     }
     

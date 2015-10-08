@@ -23,46 +23,19 @@ class MRLoginViewController : UIViewController, WCSessionDelegate  {
         performSegueWithIdentifier("main", sender: nil)
     }
     
-    func session(session: WCSession, didReceiveMessageData messageData: NSData) {
+    func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
         dispatch_async(dispatch_get_main_queue(), {
-            self.log.text = self.log.text + "\n" + __FUNCTION__
+            self.log.text = self.log.text + "\n\(userInfo)"
         })
     }
     
     func session(session: WCSession, didReceiveFile file: WCSessionFile) {
-        dispatch_async(dispatch_get_main_queue(), {
-            self.log.text = self.log.text + "\n" + __FUNCTION__
-        })
-    }
-    
-    func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
-        dispatch_async(dispatch_get_main_queue(), {
-            self.log.text = self.log.text + "\n" + __FUNCTION__
-        })
-    }
-    
-    func session(session: WCSession, didReceiveMessage message: [String : AnyObject], replyHandler: ([String : AnyObject]) -> Void) {
-        dispatch_async(dispatch_get_main_queue(), {
-            self.log.text = self.log.text + "\n" + __FUNCTION__
-        })
-    }
-    
-    func session(session: WCSession, didReceiveMessageData messageData: NSData, replyHandler: (NSData) -> Void) {
-        dispatch_async(dispatch_get_main_queue(), {
-            self.log.text = self.log.text + "\ndidReceiveMessageData \(messageData.length) B"
-            replyHandler("A".dataUsingEncoding(NSASCIIStringEncoding)!)
-        })
-    }
-    
-    func sessionReachabilityDidChange(session: WCSession) {
-        dispatch_async(dispatch_get_main_queue(), {
-            self.log.text = self.log.text + "\n" + __FUNCTION__
-        })
-    }
-    
-    func sessionWatchStateDidChange(session: WCSession) {
-        dispatch_async(dispatch_get_main_queue(), {
-            self.log.text = self.log.text + "\n" + __FUNCTION__
+        let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
+        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.raw")
+        _ = try? NSFileManager.defaultManager().moveItemAtURL(file.fileURL, toURL: fileUrl)
+
+        dispatch_async(dispatch_get_main_queue(), {            
+            self.log.text = self.log.text + "\n\(file.metadata)"
         })
     }
     
