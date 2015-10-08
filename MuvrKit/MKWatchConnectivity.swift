@@ -54,9 +54,10 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
             sensorDataTransferOnDone = onDone
             
             let encoded = data.encode()
-            let fileUrl = NSURL(fileURLWithPath: "sensordata.raw")
-            encoded.writeToURL(fileUrl, atomically: true)
-            WCSession.defaultSession().transferFile(fileUrl, metadata: nil)
+            let fileUrl = NSURL(fileURLWithPath: "/tmp/sensordata.raw")
+            if encoded.writeToURL(fileUrl, atomically: true) {
+                WCSession.defaultSession().transferFile(fileUrl, metadata: nil)
+            }
         }
     }
     

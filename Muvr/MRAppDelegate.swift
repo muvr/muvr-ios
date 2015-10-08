@@ -1,9 +1,8 @@
 import UIKit
 import HealthKit
-import WatchConnectivity
 
 @UIApplicationMain
-class MRAppDelegate: UIResponder, UIApplicationDelegate, WCSessionDelegate {
+class MRAppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     var deviceToken: NSData?
@@ -20,9 +19,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, WCSessionDelegate {
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        WCSession.defaultSession().delegate = self
-        WCSession.defaultSession().activateSession()
-        
         let typesToShare: Set<HKSampleType> = [HKSampleType.workoutType()]
         let typesToRead: Set<HKSampleType> = [HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)!]
 
@@ -83,22 +79,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, WCSessionDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         MRMuvrServer.sharedInstance.setBaseUrlString(MRUserDefaults.muvrServerUrl)
     }
-    
-    func session(session: WCSession, didReceiveMessageData messageData: NSData) {
-        print("Received \(messageData.length) bytes")
-    }
-    
-    func session(session: WCSession, didReceiveFile file: WCSessionFile) {
-        print("Received file")
-    }
-    
-    func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
-        print(message)
-    }
-    
-    func session(session: WCSession, didReceiveMessage message: [String : AnyObject], replyHandler: ([String : AnyObject]) -> Void) {
-        print(message)
-    }
-
+        
 }
 
