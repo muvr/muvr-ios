@@ -13,25 +13,4 @@ public protocol MKMetadataConnectivityDelegate {
     ///
     func metadataConnectivityDidReceiveExerciseModelMetadata(modelMetadata: [MKExerciseModelMetadata])
     
-    ///
-    /// Called when the application receives new intensities
-    ///
-    /// - parameter intensities: the new intensities
-    ///
-    func metadataConnectivityDidReceiveIntensities(intensities: [MKIntensity])
-    
 }
-
-/////
-///// Delegate that is typically used in the ``MRSensorDataConnectivitySession`` to
-///// control the sensor data flow
-/////
-//public protocol MKSensorDataConnectivityDelegate: class {
-// 
-//    func sensorDataConnectivityPause()
-//    
-//    func sensorDataConnectivityBegin(samplingFrequency: UInt)
-//    
-//    func sensorDataConnectivityEnd()
-//    
-//}

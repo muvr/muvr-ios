@@ -5,8 +5,7 @@ import HealthKit
 
 class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivityDelegate {
     private var connectivity: MKConnectivity!
-    private var modelMetadata: [MKExerciseModelMetadata] = []
-    private var intensities: [MKIntensity] = []
+    private var exerciseModelMetadata: [MKExerciseModelMetadata] = []
     private var currentSession: MRExerciseSession?
 
     ///
@@ -30,9 +29,10 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     ///
     /// Starts the session
     ///
-    func startSession(modelMetadataIndex modelMetadataIndex: Int, intensityIndex: Int) {
+    func startSession(exerciseModelMetadataIndex exerciseModelMetadataIndex: Int) {
         currentSession = nil
-        currentSession = MRExerciseSession(connectivity: connectivity, modelMetadata: modelMetadata[modelMetadataIndex], intensity: intensities[intensityIndex])
+        connectivity.startSession(exerciseModelId: exerciseModelMetadata[exerciseModelMetadataIndex].0)
+        currentSession = MRExerciseSession(connectivity: connectivity, exerciseModelMetadata: exerciseModelMetadata[exerciseModelMetadataIndex])
     }
     
     ///
@@ -43,21 +43,12 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     }
     
     ///
-    /// Returns currently known intensities
-    ///
-    /// - returns: the intensities
-    ///
-    func getIntensities() -> [MKIntensity] {
-        return intensities
-    }
-    
-    ///
     /// Returns currenrly known models
     ///
     /// - returns: the model metadata
     ///
-    func getModelMetadata() -> [MKExerciseModelMetadata] {
-        return modelMetadata
+    func getExerciseModelMetadata() -> [MKExerciseModelMetadata] {
+        return exerciseModelMetadata
     }
     
 
@@ -80,11 +71,8 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     
     // MARK: MKMetadataConnectivityDelegate
 
-    func metadataConnectivityDidReceiveExerciseModelMetadata(modelMetadata: [MKExerciseModelMetadata]) {
-        self.modelMetadata = modelMetadata
+    func metadataConnectivityDidReceiveExerciseModelMetadata(exerciseModelMetadata: [MKExerciseModelMetadata]) {
+        self.exerciseModelMetadata = exerciseModelMetadata
     }
-    
-    func metadataConnectivityDidReceiveIntensities(intensities: [MKIntensity]) {
-        self.intensities = intensities
-    }
+
 }

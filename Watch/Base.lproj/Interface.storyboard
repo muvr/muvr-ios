@@ -14,12 +14,7 @@
                             <items>
                                 <picker width="1" widthAdjustment="2" height="32" alignment="left" focusStyle="stack" id="JBL-em-o3w">
                                     <connections>
-                                        <action selector="modelPickerAction:" destination="AgC-eL-Hgc" id="DIR-jE-bdE"/>
-                                    </connections>
-                                </picker>
-                                <picker width="1" height="34" alignment="left" focusStyle="stack" id="vPB-03-r6L">
-                                    <connections>
-                                        <action selector="intensityPickerAction:" destination="AgC-eL-Hgc" id="Qil-HQ-hyj"/>
+                                        <action selector="exerciseModelPickerAction:" destination="AgC-eL-Hgc" id="t0O-ON-9dO"/>
                                     </connections>
                                 </picker>
                                 <button width="1" alignment="left" title="Start" id="qph-6j-6Ky">
@@ -38,25 +33,20 @@
                                         <label width="136" alignment="left" text="--Arms" id="g7i-Qj-f79">
                                             <fontDescription key="font" type="system" weight="light" pointSize="20"/>
                                         </label>
-                                        <label alignment="left" text="--Moderate" id="bug-ec-Y65">
-                                            <fontDescription key="font" type="system" weight="thin" pointSize="14"/>
-                                        </label>
                                     </items>
                                 </group>
                             </items>
                         </group>
                     </items>
                     <connections>
-                        <outlet property="intensity" destination="vPB-03-r6L" id="hBe-Z2-w85"/>
-                        <outlet property="intensityLabel" destination="bug-ec-Y65" id="qZl-pp-mo8"/>
-                        <outlet property="model" destination="JBL-em-o3w" id="tr5-Tw-GOT"/>
-                        <outlet property="modelLabel" destination="g7i-Qj-f79" id="Cs9-bD-KdO"/>
+                        <outlet property="exerciseModel" destination="JBL-em-o3w" id="zdN-1a-r3P"/>
+                        <outlet property="exerciseModelLabel" destination="g7i-Qj-f79" id="dk2-He-Q7i"/>
                         <outlet property="progressGroup" destination="U8c-fr-ind" id="NHD-H5-fF9"/>
                         <outlet property="startGroup" destination="ys7-T7-jXZ" id="mSK-xj-l8g"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="-2" y="76"/>
+            <point key="canvasLocation" x="106" y="67"/>
         </scene>
         <!--Exercising-->
         <scene sceneID="aWf-eg-4sI">
@@ -72,20 +62,39 @@
                     <items>
                         <group alignment="left" layout="vertical" id="gv7-I2-MZq">
                             <items>
-                                <label width="136" alignment="left" text="Arms" id="BI0-zu-H9t">
+                                <label width="136" alignment="left" text="Today" id="BI0-zu-H9t">
                                     <fontDescription key="font" type="system" weight="light" pointSize="20"/>
-                                </label>
-                                <label alignment="left" text="Moderate" id="RrX-1I-ybd">
-                                    <fontDescription key="font" type="system" weight="thin" pointSize="14"/>
                                 </label>
                             </items>
                         </group>
-                        <group alignment="left" id="eew-Gs-W6Y"/>
+                        <group alignment="left" layout="vertical" id="eew-Gs-W6Y">
+                            <items>
+                                <group width="1" alignment="left" id="j2I-R1-yQZ">
+                                    <items>
+                                        <imageView width="38" height="37" alignment="left" image="week" id="ZFw-xJ-gza"/>
+                                        <label alignment="left" text="Arms" id="d8E-QR-qe6">
+                                            <fontDescription key="font" type="system" weight="thin" pointSize="30"/>
+                                        </label>
+                                    </items>
+                                </group>
+                                <group width="1" alignment="left" layout="vertical" id="91U-IO-zLZ">
+                                    <items>
+                                        <group width="1" alignment="left" id="rWY-LL-2PJ">
+                                            <items>
+                                                <label alignment="left" text="42 minutes" id="JHs-xB-3KP"/>
+                                            </items>
+                                        </group>
+                                        <label alignment="left" text="12 sets" id="nfp-ux-xHd"/>
+                                        <label alignment="left" text="9 reps each" id="ikB-18-3rF" userLabel="9 reps each"/>
+                                    </items>
+                                </group>
+                            </items>
+                        </group>
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                 </glanceController>
             </objects>
-            <point key="canvasLocation" x="164" y="514"/>
+            <point key="canvasLocation" x="-221" y="172"/>
         </scene>
     </scenes>
 </document>

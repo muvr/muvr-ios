@@ -6,14 +6,12 @@ import MuvrKit
 class MRExerciseSession {
     private let motionManager: CMMotionManager
     private let startTime: NSDate
-    private let modelMetadata: MKExerciseModelMetadata
-    private let intensity: MKIntensity
+    private let exerciseModelMetadata: MKExerciseModelMetadata
     private unowned let connectivity: MKConnectivity
     
-    init(connectivity: MKConnectivity, modelMetadata: MKExerciseModelMetadata, intensity: MKIntensity) {
+    init(connectivity: MKConnectivity, exerciseModelMetadata: MKExerciseModelMetadata) {
         self.connectivity = connectivity
-        self.modelMetadata = modelMetadata
-        self.intensity = intensity
+        self.exerciseModelMetadata = exerciseModelMetadata
         self.startTime = NSDate()
         motionManager = CMMotionManager()
         motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler: deviceMotionHandler)
@@ -30,15 +28,8 @@ class MRExerciseSession {
     ///
     /// The session title
     ///
-    var modelTitle: String {
-        return modelMetadata.1
+    var exerciseModelTitle: String {
+        return exerciseModelMetadata.1
     }
 
-    ///
-    /// The intensity title
-    ///
-    var intensityTitle: String {
-        return intensity.title
-    }
-    
 }

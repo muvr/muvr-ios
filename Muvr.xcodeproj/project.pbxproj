@@ -84,8 +84,6 @@
 		547A44541BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */; settings = {ASSET_TAGS = (); }; };
 		547A445A1BB8585300C2CC06 /* MKWatchConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */; settings = {ASSET_TAGS = (); }; };
 		547A445C1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */; settings = {ASSET_TAGS = (); }; };
-		547A445E1BB8677700C2CC06 /* MKIntensity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A445D1BB8677700C2CC06 /* MKIntensity.swift */; settings = {ASSET_TAGS = (); }; };
-		547A445F1BB8677700C2CC06 /* MKIntensity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A445D1BB8677700C2CC06 /* MKIntensity.swift */; settings = {ASSET_TAGS = (); }; };
 		547E6A841AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A831AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift */; };
 		547E6A8B1AF36938005DE00C /* MRExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A8A1AF36938005DE00C /* MRExerciseModel.swift */; };
 		547E6A8D1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547E6A8C1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift */; };
@@ -127,6 +125,8 @@
 		54B6108B1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */; };
 		54B610911AF3C5B00034F2DD /* MRExerciseSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */; };
 		54B610931AF3C6010034F2DD /* Exercise.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54B610921AF3C6010034F2DD /* Exercise.storyboard */; };
+		54BD57B71BC53137008B5BC4 /* MKPhoneConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BD57B61BC53137008B5BC4 /* MKPhoneConnectivity.swift */; settings = {ASSET_TAGS = (); }; };
+		54BD57B91BC546EE008B5BC4 /* UI.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54BD57B81BC546EE008B5BC4 /* UI.xcassets */; settings = {ASSET_TAGS = (); }; };
 		54BF09121B9B735B00A3E6C7 /* MRModelParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 54BF09111B9B735B00A3E6C7 /* MRModelParameters.m */; };
 		54BF09151B9B74F300A3E6C7 /* MRExerciseModel+ModelParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BF09141B9B74F300A3E6C7 /* MRExerciseModel+ModelParameters.swift */; };
 		54CC46521B08E5B6007B739A /* MRPublicProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC46511B08E5B6007B739A /* MRPublicProfile.swift */; };
@@ -344,7 +344,6 @@
 		547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKWatchConnectivityDelegates.swift; sourceTree = "<group>"; };
 		547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKWatchConnectivity.swift; sourceTree = "<group>"; };
 		547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKWatchConnectivity+Defaults.swift"; sourceTree = "<group>"; };
-		547A445D1BB8677700C2CC06 /* MKIntensity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKIntensity.swift; sourceTree = "<group>"; };
 		547E6A831AF356C0005DE00C /* MRExerciseSessionAdHocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionAdHocViewController.swift; sourceTree = "<group>"; };
 		547E6A8A1AF36938005DE00C /* MRExerciseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModel.swift; sourceTree = "<group>"; };
 		547E6A8C1AF36A10005DE00C /* MRExerciseModel+Marshalling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseModel+Marshalling.swift"; sourceTree = "<group>"; };
@@ -389,6 +388,8 @@
 		54B6108A1AF3B9C40034F2DD /* MRResistanceExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRResistanceExerciseSession.swift; sourceTree = "<group>"; };
 		54B610901AF3C5B00034F2DD /* MRExerciseSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionViewController.swift; sourceTree = "<group>"; };
 		54B610921AF3C6010034F2DD /* Exercise.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Exercise.storyboard; sourceTree = "<group>"; };
+		54BD57B61BC53137008B5BC4 /* MKPhoneConnectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneConnectivity.swift; sourceTree = "<group>"; };
+		54BD57B81BC546EE008B5BC4 /* UI.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = UI.xcassets; sourceTree = "<group>"; };
 		54BF09111B9B735B00A3E6C7 /* MRModelParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRModelParameters.m; sourceTree = "<group>"; };
 		54BF09131B9B736900A3E6C7 /* MRModelParameters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRModelParameters.h; sourceTree = "<group>"; };
 		54BF09141B9B74F300A3E6C7 /* MRExerciseModel+ModelParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseModel+ModelParameters.swift"; sourceTree = "<group>"; };
@@ -775,8 +776,8 @@
 		54A48AC81BA474F300F4A81B /* Watch */ = {
 			isa = PBXGroup;
 			children = (
-				54A48AC91BA474F300F4A81B /* Interface.storyboard */,
 				54A48ACC1BA474F300F4A81B /* Assets.xcassets */,
+				54A48AC91BA474F300F4A81B /* Interface.storyboard */,
 				54A48ACE1BA474F300F4A81B /* Info.plist */,
 			);
 			path = Watch;
@@ -791,6 +792,7 @@
 				54A48ADC1BA474F300F4A81B /* MRGlanceController.swift */,
 				54A48ADA1BA474F300F4A81B /* MRExtensionDelegate.swift */,
 				54A48AE01BA474F300F4A81B /* Info.plist */,
+				54BD57B81BC546EE008B5BC4 /* UI.xcassets */,
 			);
 			path = "Watch Extension";
 			sourceTree = "<group>";
@@ -842,7 +844,6 @@
 				547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */,
 				5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */,
 				5469D38A1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift */,
-				547A445D1BB8677700C2CC06 /* MKIntensity.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -850,9 +851,10 @@
 		54D3457B1BB922F400F65091 /* Connectivity */ = {
 			isa = PBXGroup;
 			children = (
-				547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */,
 				547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */,
 				547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */,
+				547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */,
+				54BD57B61BC53137008B5BC4 /* MKPhoneConnectivity.swift */,
 			);
 			name = Connectivity;
 			sourceTree = "<group>";
@@ -1201,6 +1203,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54BD57B91BC546EE008B5BC4 /* UI.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1390,6 +1393,7 @@
 				5487F5A61BB9C9AB00ED2E97 /* MKSensorData+Equatable.swift in Sources */,
 				5469D38B1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift in Sources */,
 				54D345841BB9251700F65091 /* MKClassifiedExercise.swift in Sources */,
+				54BD57B71BC53137008B5BC4 /* MKPhoneConnectivity.swift in Sources */,
 				54D345821BB924A500F65091 /* MKClassificationDelegate.swift in Sources */,
 				5469D3851BBA764900EE5ADB /* MKRepetitionEstimator.swift in Sources */,
 				54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */,
@@ -1398,7 +1402,6 @@
 				546E68521BB969DD00DC0FEF /* MKSensorData+Encoding.swift in Sources */,
 				547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */,
 				54430EC81BC2D1FF00541979 /* MKClassifiedExercise+Encoding.swift in Sources */,
-				547A445E1BB8677700C2CC06 /* MKIntensity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1413,7 +1416,6 @@
 				547A445C1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift in Sources */,
 				54266B181BB92F98007A8A8A /* MKSensorData.swift in Sources */,
 				5469D3831BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */,
-				547A445F1BB8677700C2CC06 /* MKIntensity.swift in Sources */,
 				5487F5A01BB9B77E00ED2E97 /* MKCodec.swift in Sources */,
 				547A44541BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift in Sources */,
 			);
@@ -1736,6 +1738,7 @@
 		5450C2A51BC3FFF100B257E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MuvrUITests/Info.plist;
@@ -1750,6 +1753,7 @@
 		5450C2A61BC3FFF100B257E7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MuvrUITests/Info.plist;
@@ -1764,6 +1768,7 @@
 		546E68621BB98D0800DC0FEF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MuvrKitTests/Info.plist;
@@ -1776,6 +1781,7 @@
 		546E68631BB98D0800DC0FEF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MuvrKitTests/Info.plist;

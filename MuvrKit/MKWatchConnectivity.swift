@@ -4,8 +4,7 @@ import WatchConnectivity
 ///
 /// The iOS -> Watch connectivity
 ///
-public class MKConnectivity : NSObject {
-    private let session: MKConnectivitySession
+public class MKConnectivity : NSObject, WCSessionDelegate {
     
     ///
     /// Initializes this instance, assigninf the metadata ans sensorData delegates.
@@ -15,23 +14,23 @@ public class MKConnectivity : NSObject {
     /// -parameter sensorData: the sensor data delegate
     ///
     public init(delegate: MKMetadataConnectivityDelegate) {
-        self.session = MKConnectivitySession(delegate: delegate)
         super.init()
+        WCSession.defaultSession().delegate = self
+        WCSession.defaultSession().activateSession()
         
         delegate.metadataConnectivityDidReceiveExerciseModelMetadata(defaultExerciseModelMetadata)
-        delegate.metadataConnectivityDidReceiveIntensities(defaultIntensities)
     }
     
-}
-
-class MKConnectivitySession : NSObject, WCSessionDelegate {
-    private let delegate: MKMetadataConnectivityDelegate
-
-    init(delegate: MKMetadataConnectivityDelegate) {
-        self.delegate = delegate
-        super.init()
-        
-        WCSession.defaultSession().delegate = self
+    ///
+    /// Starts the exercise session with the given 
+    ///
+    public func startSession(exerciseModelId exerciseModelId: MKExerciseModelId) {
+        let message: [String : AnyObject] = [ "action" : "start", "exerciseModelId" : exerciseModelId ]
+        WCSession.defaultSession().sendMessage(message, replyHandler: { _ -> Void in
+            print("Reply")
+            }) { (err) -> Void in
+            print(err)
+        }
     }
-    
+
 }

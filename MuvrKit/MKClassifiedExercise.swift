@@ -16,7 +16,7 @@ public enum MKClassifiedExercise {
     /// - parameter weight: the weight
     ///
     case Resistance(confidence: Double, exerciseId: MKExerciseId, duration: NSTimeInterval,
-        repetitions: UInt?, intensity: Double?, weight: Double?)
+        repetitions: UInt?, intensity: MKExerciseIntensity?, weight: Double?)
     
     // case Aerobic(exerciseId: MKExerciseId, duration: NSTimeInterval, intensity: Double?)
     // case Pyhisiotherapy(exerciseId: MKExerciseId, duration: NSTimeInterval, accuracy: Double?)
