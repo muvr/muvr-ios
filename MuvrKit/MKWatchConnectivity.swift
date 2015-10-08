@@ -60,7 +60,7 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
             }
         }
     }
-    
+        
     public func session(session: WCSession, didFinishFileTransfer fileTransfer: WCSessionFileTransfer, error: NSError?) {
         if let onDone = sensorDataTransferOnDone {
             if let e = error {
