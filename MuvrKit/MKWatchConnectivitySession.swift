@@ -2,7 +2,7 @@ import Foundation
 import CoreMotion
 import WatchConnectivity
 
-public class MKExerciseSession {
+final public class MKExerciseSession {
     private unowned let connectivity: MKConnectivity
     
     let id: String
@@ -24,7 +24,7 @@ public class MKExerciseSession {
     }
     
     deinit {
-        //        self.sensorRecorder = nil
+        self.sensorRecorder = nil
     }
     
     ///
@@ -38,25 +38,35 @@ public class MKExerciseSession {
     /// Send the data collected so far to the Phone
     ///
     public func sendImmediately() {
-        let now = NSDate()
-        // 24 kiB OK
-        let samples = (0..<300000).map { Float($0) }
-        var sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSinceNow, samplesPerSecond: 100, samples: samples)
-        if let recordedData = sensorRecorder!.accelerometerDataFromDate(lastSentStartTime, toDate: now) {
-            for (_, data) in recordedData.enumerate() {
-                
-            }
-        }
+        /*
+        WCSession.sendData is OK for ~24 kiB blocks
+        anything bigger needs something more efficient
+        here, we use the recorded acceleration data
+        */
         
-        connectivity.transferSensorData(sd) {
-            switch $0 {
-            case .Error(error: _):
-                return
-            case .NoSession:
-                return
-            case .Success:
-                self.lastSentStartTime = now
+        let now = NSDate()
+        if let recordedData = sensorRecorder!.accelerometerDataFromDate(lastSentStartTime, toDate: now) {
+            let samples = recordedData.enumerate().flatMap { (_, e) -> [Float] in
+                if let data = e as? CMRecordedAccelerometerData {
+                    return [Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)]
+                    
+                }
+                return []
             }
+            let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSinceNow, samplesPerSecond: 100, samples: samples)
+            print("Sending \(samples.count)")
+
+            connectivity.transferSensorData(sd) {
+                switch $0 {
+                case .Error(error: _):
+                    return
+                case .NoSession:
+                    return
+                case .Success:
+                    self.lastSentStartTime = now
+                }
+            }
+            
         }
     }
     
@@ -69,7 +79,9 @@ public class MKExerciseSession {
     
 }
 
-extension CMSensorDataList: SequenceType {
+///
+extension CMSensorDataList : SequenceType {
+    
     public func generate() -> NSFastGenerator {
         return NSFastGenerator(self)
     }

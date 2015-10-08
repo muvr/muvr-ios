@@ -2,7 +2,7 @@ import Foundation
 import WatchConnectivity
 
 ///
-/// The iOS -> Watch connectivity
+/// The Watch -> iOS connectivity
 ///
 public class MKConnectivity : NSObject, WCSessionDelegate {
     typealias OnFileTransferDone = SendDataResult -> Void
