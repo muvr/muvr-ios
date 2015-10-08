@@ -16,6 +16,7 @@ class MRMainController: WKInterfaceController {
         super.willActivate()
         let sd = MRExtensionDelegate.sharedDelegate()
         exerciseModel.setItems(sd.getExerciseModelMetadata().map { _, title in return WKPickerItem.withTitle(title) })
+        sd.getCurrentSession()?.sendImmediately()
         
         updateUI()
     }

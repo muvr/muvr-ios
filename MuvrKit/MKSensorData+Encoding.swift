@@ -26,7 +26,7 @@ public extension MKSensorData {
     ///
     /// - returns: the compressed data that can be passed to ``MKSensorData.decode`` to get the same instance
     ///
-    public func encode() throws -> NSData {
+    public func encode() -> NSData {
         let d = NSMutableData()
         var header: UInt8  = 0x61
         var version: UInt8 = 0x64

@@ -32,8 +32,10 @@ class MRGlanceController: WKInterfaceController {
     override func willActivate() {
         super.willActivate()
         if let session = MRExtensionDelegate.sharedDelegate().getCurrentSession() {
-            sampleCounterLabel.setText(String(session.getSampleCount()))
-            titleLable.setText(String(session.getSessionLength()))
+            let text = NSDateComponentsFormatter().stringFromTimeInterval(session.getSessionLength())
+            titleLable.setText(text!)
+        } else {
+            titleLable.setText("Today")
         }
     }
 

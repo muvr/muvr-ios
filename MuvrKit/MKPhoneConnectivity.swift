@@ -1,7 +1,9 @@
 import Foundation
+import WatchConnectivity
 
-public class MKConnectivity : NSObject {
-
-    
+///
+/// The iOS counterpart of the connectivity interface
+///
+public class MKConnectivity : NSObject, WCSessionDelegate {
 
 }

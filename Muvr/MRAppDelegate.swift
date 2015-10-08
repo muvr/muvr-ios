@@ -84,6 +84,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, WCSessionDelegate {
         MRMuvrServer.sharedInstance.setBaseUrlString(MRUserDefaults.muvrServerUrl)
     }
     
+    func session(session: WCSession, didReceiveMessageData messageData: NSData) {
+        print("Received \(messageData.length) bytes")
+    }
+    
+    func session(session: WCSession, didReceiveFile file: WCSessionFile) {
+        print("Received file")
+    }
+    
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         print(message)
     }

@@ -4,20 +4,20 @@ import HealthKit
 import MuvrKit
 
 class MRExerciseSession {
+    private unowned let connectivity: MKConnectivity
+
     private var sensorRecorder: CMSensorRecorder?
     private let startTime: NSDate
-    private var recordedSensorStart: NSDate
+    private var lastSentStartTime: NSDate
     private let exerciseModelMetadata: MKExerciseModelMetadata
-    private unowned let connectivity: MKConnectivity
-    private var sampleCount: Int
     
     init(connectivity: MKConnectivity, exerciseModelMetadata: MKExerciseModelMetadata) {
         self.connectivity = connectivity
         self.exerciseModelMetadata = exerciseModelMetadata
         self.startTime = NSDate()
-        self.recordedSensorStart = startTime
-        self.sampleCount = 0
+        self.lastSentStartTime = startTime
         self.sensorRecorder = CMSensorRecorder()
+        
         // TODO: Sort out recording duration
         self.sensorRecorder!.recordAccelerometerForDuration(NSTimeInterval(3600 * 2))
     }
@@ -32,20 +32,27 @@ class MRExerciseSession {
     var exerciseModelTitle: String {
         return exerciseModelMetadata.1
     }
-
-    ///
-    /// The sample count
-    ///
-    func getSampleCount() -> Int {
-        let now = NSDate()
-        if let c = (sensorRecorder!.accelerometerDataFromDate(recordedSensorStart, toDate: now).map { $0.enumerate().reduce(0) { r, x in return r + 1 } }) {
-            sampleCount += c
-        }
-        recordedSensorStart = now
-        
-        return sampleCount
-    }
     
+    ///
+    /// Send the data collected so far to the Phone
+    ///
+    func sendImmediately() {
+        let now = NSDate()
+        var sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSinceNow, samplesPerSecond: 100, samples: [])
+        if let recordedData = sensorRecorder!.accelerometerDataFromDate(lastSentStartTime, toDate: now) {
+            for (_, data) in recordedData.enumerate() {
+                
+            }
+        }
+        
+        connectivity.beginTransferSensorData(sd) {
+            switch $0 {
+            case .Error(error: _): return
+            case .Success: self.lastSentStartTime = now
+            }
+        }
+    }
+
     ///
     /// Gets the session length
     ///
