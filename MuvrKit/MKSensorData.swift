@@ -138,7 +138,7 @@ public struct MKSensorData {
     ///
     /// - parameter that: the MKSensorData of the same dimension and sampling rate to append
     ///
-    mutating func append(that: MKSensorData) throws {
+    public mutating func append(that: MKSensorData) throws {
         // no need to add empty data
         if that.samples.isEmpty { return }
         if self.samplesPerSecond != that.samplesPerSecond { throw MKSensorDataError.MismatchedSamplesPerSecond(expected: self.samplesPerSecond, actual: that.samplesPerSecond) }

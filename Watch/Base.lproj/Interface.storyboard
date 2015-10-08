@@ -69,29 +69,42 @@
                         </group>
                         <group alignment="left" layout="vertical" id="eew-Gs-W6Y">
                             <items>
-                                <group width="1" alignment="left" id="j2I-R1-yQZ">
+                                <group width="1" alignment="left" hidden="YES" layout="vertical" id="HSj-EV-b8i">
                                     <items>
-                                        <imageView width="38" height="37" alignment="left" image="week" id="ZFw-xJ-gza"/>
-                                        <label alignment="left" text="Arms" id="d8E-QR-qe6">
-                                            <fontDescription key="font" type="system" weight="thin" pointSize="30"/>
-                                        </label>
-                                    </items>
-                                </group>
-                                <group width="1" alignment="left" layout="vertical" id="91U-IO-zLZ">
-                                    <items>
-                                        <group width="1" alignment="left" id="rWY-LL-2PJ">
+                                        <group width="1" alignment="left" id="j2I-R1-yQZ">
                                             <items>
-                                                <label alignment="left" text="42 minutes" id="JHs-xB-3KP"/>
+                                                <imageView width="38" height="37" alignment="left" image="week" id="ZFw-xJ-gza"/>
+                                                <label alignment="left" text="Arms" id="d8E-QR-qe6">
+                                                    <fontDescription key="font" type="system" weight="thin" pointSize="30"/>
+                                                </label>
                                             </items>
                                         </group>
-                                        <label alignment="left" text="12 sets" id="nfp-ux-xHd"/>
-                                        <label alignment="left" text="9 reps each" id="ikB-18-3rF" userLabel="9 reps each"/>
+                                        <group width="1" alignment="left" layout="vertical" id="91U-IO-zLZ">
+                                            <items>
+                                                <group width="1" alignment="left" id="rWY-LL-2PJ">
+                                                    <items>
+                                                        <label alignment="left" text="42 minutes" id="JHs-xB-3KP"/>
+                                                    </items>
+                                                </group>
+                                                <label alignment="left" text="12 sets" id="nfp-ux-xHd"/>
+                                                <label alignment="left" text="9 reps each" id="ikB-18-3rF" userLabel="9 reps each"/>
+                                            </items>
+                                        </group>
+                                    </items>
+                                </group>
+                                <group width="1" alignment="left" layout="vertical" id="ZdV-ef-Veb">
+                                    <items>
+                                        <label alignment="left" text="50 samples" id="C7v-lb-EWk"/>
                                     </items>
                                 </group>
                             </items>
                         </group>
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
+                    <connections>
+                        <outlet property="sampleCounterLabel" destination="C7v-lb-EWk" id="Oll-kI-gKd"/>
+                        <outlet property="titleLable" destination="BI0-zu-H9t" id="lZ7-H1-8Zo"/>
+                    </connections>
                 </glanceController>
             </objects>
             <point key="canvasLocation" x="-221" y="172"/>

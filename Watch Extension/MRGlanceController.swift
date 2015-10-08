@@ -3,6 +3,8 @@ import Foundation
 import HealthKit
 
 class MRGlanceController: WKInterfaceController {
+    @IBOutlet weak var titleLable: WKInterfaceLabel!
+    @IBOutlet weak var sampleCounterLabel: WKInterfaceLabel!
 
     private func workoutPredicate() -> NSPredicate {
         
@@ -28,8 +30,11 @@ class MRGlanceController: WKInterfaceController {
     }
 
     override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+        if let session = MRExtensionDelegate.sharedDelegate().getCurrentSession() {
+            sampleCounterLabel.setText(String(session.getSampleCount()))
+            titleLable.setText(String(session.getSessionLength()))
+        }
     }
 
     override func didDeactivate() {

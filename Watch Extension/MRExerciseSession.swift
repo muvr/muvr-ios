@@ -4,25 +4,26 @@ import HealthKit
 import MuvrKit
 
 class MRExerciseSession {
-    private let motionManager: CMMotionManager
+    private var sensorRecorder: CMSensorRecorder?
     private let startTime: NSDate
+    private var recordedSensorStart: NSDate
     private let exerciseModelMetadata: MKExerciseModelMetadata
     private unowned let connectivity: MKConnectivity
+    private var sampleCount: Int
     
     init(connectivity: MKConnectivity, exerciseModelMetadata: MKExerciseModelMetadata) {
         self.connectivity = connectivity
         self.exerciseModelMetadata = exerciseModelMetadata
         self.startTime = NSDate()
-        motionManager = CMMotionManager()
-        motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler: deviceMotionHandler)
+        self.recordedSensorStart = startTime
+        self.sampleCount = 0
+        self.sensorRecorder = CMSensorRecorder()
+        // TODO: Sort out recording duration
+        self.sensorRecorder!.recordAccelerometerForDuration(NSTimeInterval(3600 * 2))
     }
     
     deinit {
-        motionManager.stopDeviceMotionUpdates()
-    }
-    
-    private func deviceMotionHandler(motion: CMDeviceMotion?, error: NSError?) {
-        //
+//        self.sensorRecorder = nil
     }
     
     ///
@@ -32,4 +33,30 @@ class MRExerciseSession {
         return exerciseModelMetadata.1
     }
 
+    ///
+    /// The sample count
+    ///
+    func getSampleCount() -> Int {
+        let now = NSDate()
+        if let c = (sensorRecorder!.accelerometerDataFromDate(recordedSensorStart, toDate: now).map { $0.enumerate().reduce(0) { r, x in return r + 1 } }) {
+            sampleCount += c
+        }
+        recordedSensorStart = now
+        
+        return sampleCount
+    }
+    
+    ///
+    /// Gets the session length
+    ///
+    func getSessionLength() -> NSTimeInterval {
+        return NSDate().timeIntervalSinceDate(self.startTime)
+    }
+    
+}
+
+extension CMSensorDataList: SequenceType {
+    public func generate() -> NSFastGenerator {
+        return NSFastGenerator(self)
+    }
 }
