@@ -2,6 +2,20 @@ import Foundation
 import CoreMotion
 import WatchConnectivity
 
+///
+/// Implements the exercise session in the Watch, all the way down to scheduling sensor data delivery.
+/// You cannot create instances of this class explicitly, you must use the appropriate functions in
+/// the ``MKConnectivity``.
+///
+/// During the lifetime of the session, the watch application should call ``sendImmediately`` whenever
+/// it is awake. This delivers the recorded sensor data to the mobile counterpart, which will classify
+/// the incoming data as soon as possible, delivering results back to the watch app.
+///
+/// If you do not get a chance to explicitly call ``sendImmediately``, it will be called on ``deinit``.
+/// In this scenario, the watch app is closing, and so the watch app will send the *entire* recorded
+/// block to the mobile counterpart, and will not get the opportunity to process the results until
+/// it starts the next time.
+///
 final public class MKExerciseSession {
     private unowned let connectivity: MKConnectivity
     
@@ -35,7 +49,7 @@ final public class MKExerciseSession {
     }
     
     ///
-    /// Send the data collected so far to the Phone
+    /// Send the data collected so far to the mobile counterpart
     ///
     public func sendImmediately() {
         
@@ -92,6 +106,9 @@ final public class MKExerciseSession {
     
 }
 
+///
+/// Allows the ``CMSensorDataList`` to be iterated over; unfortunately, the iteration
+/// is not specifically-typed.
 ///
 extension CMSensorDataList : SequenceType {
     
