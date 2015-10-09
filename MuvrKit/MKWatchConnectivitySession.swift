@@ -38,6 +38,29 @@ final public class MKExerciseSession {
     /// Send the data collected so far to the Phone
     ///
     public func sendImmediately() {
+        
+    #if __arm__ || __thumb__
+        func getSamples(toDate: NSDate) -> MKSensorData? {
+            return sensorRecorder!.accelerometerDataFromDate(lastSentStartTime, toDate: toDate).map { (recordedData: CMSensorDataList) -> MKSensorData in
+                let samples = recordedData.enumerate().flatMap { (_, e) -> [Float] in
+                    if let data = e as? CMRecordedAccelerometerData {
+                        return [Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)]
+                    }
+                    return []
+                }
+                
+                return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSinceNow, samplesPerSecond: 100, samples: samples)
+            }
+        }
+    #else
+        func getSamples(toDate: NSDate) -> MKSensorData? {
+            // assume 100 samples per second
+            let sampleCount = Int(toDate.timeIntervalSinceDate(lastSentStartTime) * 100)
+            let samples = (0..<sampleCount * 3).map { _ in return Float(0) }
+            return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSinceNow, samplesPerSecond: 100, samples: samples)
+        }
+    #endif
+        
         /*
         WCSession.sendData is OK for ~24 kiB blocks
         anything bigger needs something more efficient
@@ -45,18 +68,8 @@ final public class MKExerciseSession {
         */
         
         let now = NSDate()
-        if let recordedData = sensorRecorder!.accelerometerDataFromDate(lastSentStartTime, toDate: now) {
-            let samples = recordedData.enumerate().flatMap { (_, e) -> [Float] in
-                if let data = e as? CMRecordedAccelerometerData {
-                    return [Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)]
-                    
-                }
-                return []
-            }
-            let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSinceNow, samplesPerSecond: 100, samples: samples)
-            print("Sending \(samples.count)")
-
-            connectivity.transferSensorData(sd) {
+        if let samples = getSamples(now) {
+            connectivity.transferSensorData(samples) {
                 switch $0 {
                 case .Error(error: _):
                     return
