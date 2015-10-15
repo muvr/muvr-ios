@@ -4,7 +4,7 @@ import MuvrKit
 import HealthKit
 
 class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivityDelegate {
-    private var connectivity: MKConnectivity!
+    private var connectivity: MKConnectivity?
     private var exerciseModelMetadata: [MKExerciseModelMetadata] = []
 
     ///
@@ -22,21 +22,21 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     /// - returns: the running session or ``nil``
     ///
     func getCurrentSession() -> MKExerciseSession? {
-        return connectivity.getCurrentSession()
+        return connectivity?.getCurrentSession()
     }
     
     ///
     /// Starts the session
     ///
     func startSession(exerciseModelMetadataIndex exerciseModelMetadataIndex: Int) {
-        connectivity.startSession(exerciseModelMetadata: exerciseModelMetadata[exerciseModelMetadataIndex])
+        connectivity!.startSession(exerciseModelMetadata: exerciseModelMetadata[exerciseModelMetadataIndex])
     }
     
     ///
     /// Ends the session
     ///
     func endSession() {
-        connectivity.endSession()
+        connectivity!.endSession()
     }
     
     ///
