@@ -13,17 +13,6 @@ class MRLoginViewController : UIViewController, WCSessionDelegate  {
         WCSession.defaultSession().activateSession()
     }
     
-    private func showAccount(user: MRLoggedInApplicationState) {
-        /*
-        let deviceToken = (UIApplication.sharedApplication().delegate! as AppDelegate).deviceToken
-        if deviceToken != nil {
-            LiftServer.sharedInstance.userRegisterDeviceToken(user.id, deviceToken: deviceToken!)
-        }
-        CurrentLiftUser.userId = user.id
-        */
-        performSegueWithIdentifier("main", sender: nil)
-    }
-    
     func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
         dispatch_async(dispatch_get_main_queue(), {
             self.log.text = self.log.text + "\n\(userInfo)"
@@ -51,18 +40,19 @@ class MRLoginViewController : UIViewController, WCSessionDelegate  {
     @IBAction
     func login() {
         view.endEditing(true)
-        MRApplicationState.login(email: username.text!, password: password.text!) { $0.getOrUnit(self.showAccount) }
+        // TODO: Complete me
     }
     
     @IBAction
     func register() {
         view.endEditing(true)
-        MRApplicationState.register(email: username.text!, password: password.text!) { $0.getOrUnit(self.showAccount) }
+        // TODO: Complete me
     }
     
     @IBAction
     func skip() {
         view.endEditing(true)
-        MRApplicationState.skip { $0.getOrUnit(self.showAccount) }
+        
+        performSegueWithIdentifier("main", sender: nil)
     }
 }

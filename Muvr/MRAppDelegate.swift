@@ -32,26 +32,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
         // notifications et al
         registerSettingsAndDelegates()
         
-        // initialize the data models
-        MRDataModel.create()
-        
         // main initialization
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let lis = MRApplicationState.loggedInState {
-            lis.checkAccount { r in
-                if let x = self.deviceToken { lis.registerDeviceToken(x) }
-                
-                //self.startWithStoryboardId(storyboard, id: r.cata({ err in if err.code == 404 { return "login" } else { return "offline" } }, { x in return "main" }))
-                
-                // notice that we have no concept of "offline": if the server is unreachable, we'll
-                // give the user the benefit of doubt.
-                
-                self.startWithStoryboardId(storyboard, id: r.cata({ err in if err.code == 404 { return "login" } else { return "main" } }, r: { x in return "main" }))
-            }
-        } else {
-            self.startWithStoryboardId(storyboard, id: "login")
-        }
-                
+        self.startWithStoryboardId(storyboard, id: "login")
+        
         return true
     }
     
@@ -77,7 +61,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        MRMuvrServer.sharedInstance.setBaseUrlString(MRUserDefaults.muvrServerUrl)
+        // MRMuvrServer.sharedInstance.setBaseUrlString(MRUserDefaults.muvrServerUrl)
     }
         
 }

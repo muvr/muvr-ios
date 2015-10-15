@@ -1,9 +1,10 @@
 import Foundation
 import Charts
+import MuvrKit
 
 class MRResistanceExerciseIntensityView : BarChartView {
     
-    private class func colorFor(intensity intensity: NSNumber) -> UIColor {
+    private class func colorFor(intensity intensity: MKExerciseIntensity) -> UIColor {
         if intensity <= 0.3 {
             // very light -> #59ABE3
             // was return UIColor.grayColor()
@@ -41,15 +42,18 @@ class MRResistanceExerciseIntensityView : BarChartView {
         descriptionText = ""
     }
 
-    func setResistenceExercises(exercises: [MRClassifiedResistanceExercise]) -> Void {
-        let ewi = exercises.zipWithIndex()
-        let repetitions = ewi.map { (i, exercise) -> (ChartDataEntry, UIColor) in
-            let color = MRResistanceExerciseIntensityView.colorFor(intensity: exercise.intensity ?? 0.5)
-            let repetitions = exercise.repetitions ?? 10
-            return (BarChartDataEntry(value: Double(repetitions), xIndex: i), color)
+    func setResistenceExercises(exercises: [MKClassifiedExercise]) -> Void {
+
+        let repetitions = exercises.enumerate().map { (i: Int, exercise: MKClassifiedExercise) -> (ChartDataEntry, UIColor) in
+            switch exercise {
+            case .Resistance(confidence: _, exerciseId: _, duration: _, let repetitions, let intensity, weight: _):
+                let color = MRResistanceExerciseIntensityView.colorFor(intensity: intensity ?? 0.5)
+                let repetitions = repetitions ?? 10
+                return (BarChartDataEntry(value: Double(repetitions), xIndex: i), color)
+            }
         }
         
-        let xs = ewi.map { (i, _) in return String(i + 1) }
+        let xs = exercises.enumerate().map { (i, _) in return String(i + 1) }
         
         let repetitionsAndIntensities = BarChartDataSet(yVals: repetitions.map { $0.0 }, label: "")
         repetitionsAndIntensities.colors = repetitions.map { $0.1 }
