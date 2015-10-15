@@ -2,9 +2,8 @@ import Foundation
 import WatchConnectivity
 import MuvrKit
 
-class MRLoginViewController : UIViewController, WCSessionDelegate  {
-    @IBOutlet var username: UITextField!
-    @IBOutlet var password: UITextField!
+class MRScaffoldingViewController : UIViewController, WCSessionDelegate  {
+    @IBOutlet var tag: UITextField!
     @IBOutlet var log: UITextView!
     
     override func viewDidLoad() {
@@ -22,7 +21,8 @@ class MRLoginViewController : UIViewController, WCSessionDelegate  {
     func session(session: WCSession, didReceiveFile file: WCSessionFile) {
         let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
         let counter = NSDate().timeIntervalSince1970
-        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata-\(counter).raw")
+        let suffix = String(counter) + "-" + (tag.text ?? "")
+        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata-\(suffix).raw")
         
         do {
             try NSFileManager.defaultManager().moveItemAtURL(file.fileURL, toURL: fileUrl)
@@ -36,23 +36,5 @@ class MRLoginViewController : UIViewController, WCSessionDelegate  {
             })
         }
     }
-    
-    @IBAction
-    func login() {
-        view.endEditing(true)
-        // TODO: Complete me
-    }
-    
-    @IBAction
-    func register() {
-        view.endEditing(true)
-        // TODO: Complete me
-    }
-    
-    @IBAction
-    func skip() {
-        view.endEditing(true)
-        
-        performSegueWithIdentifier("main", sender: nil)
-    }
+
 }

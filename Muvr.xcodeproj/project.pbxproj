@@ -47,7 +47,7 @@
 		547A445C1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */; settings = {ASSET_TAGS = (); }; };
 		547F92831BA8BA1700A69295 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 547F92821BA8BA1700A69295 /* WatchConnectivity.framework */; };
 		547F92851BA8BA4A00A69295 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 547F92841BA8BA4A00A69295 /* WatchConnectivity.framework */; };
-		54820DFB1AF2895100E3AEC2 /* MRLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DFA1AF2895100E3AEC2 /* MRLoginViewController.swift */; };
+		54820DFB1AF2895100E3AEC2 /* MRScaffoldingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54820DFA1AF2895100E3AEC2 /* MRScaffoldingViewController.swift */; };
 		5487F59C1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5487F59B1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift */; settings = {ASSET_TAGS = (); }; };
 		5487F59F1BB9B77E00ED2E97 /* MKCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5487F59E1BB9B77E00ED2E97 /* MKCodec.swift */; settings = {ASSET_TAGS = (); }; };
 		5487F5A01BB9B77E00ED2E97 /* MKCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5487F59E1BB9B77E00ED2E97 /* MKCodec.swift */; settings = {ASSET_TAGS = (); }; };
@@ -240,7 +240,7 @@
 		547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKWatchConnectivity+Defaults.swift"; sourceTree = "<group>"; };
 		547F92821BA8BA1700A69295 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
 		547F92841BA8BA4A00A69295 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
-		54820DFA1AF2895100E3AEC2 /* MRLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRLoginViewController.swift; sourceTree = "<group>"; };
+		54820DFA1AF2895100E3AEC2 /* MRScaffoldingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRScaffoldingViewController.swift; sourceTree = "<group>"; };
 		548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Muvr-Bridging-Header.h"; sourceTree = "<group>"; };
 		5487F59B1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKUnsafeBufferReader.swift; sourceTree = "<group>"; };
 		5487F59E1BB9B77E00ED2E97 /* MKCodec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKCodec.swift; sourceTree = "<group>"; };
@@ -441,7 +441,7 @@
 				5403814F1AEC2B47000C8B15 /* UIControls */,
 				547E6A821AF35680005DE00C /* Exercise */,
 				541ABBA31AC577E00056A81B /* MRAppDelegate.swift */,
-				54820DFA1AF2895100E3AEC2 /* MRLoginViewController.swift */,
+				54820DFA1AF2895100E3AEC2 /* MRScaffoldingViewController.swift */,
 				541ABBAA1AC577E00056A81B /* Images.xcassets */,
 				541ABBA71AC577E00056A81B /* Main.storyboard */,
 				541ABBAC1AC577E00056A81B /* LaunchScreen.xib */,
@@ -975,7 +975,7 @@
 			files = (
 				54B610851AF3B6020034F2DD /* MRResistanceExerciseSetIntensityView.swift in Sources */,
 				FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */,
-				54820DFB1AF2895100E3AEC2 /* MRLoginViewController.swift in Sources */,
+				54820DFB1AF2895100E3AEC2 /* MRScaffoldingViewController.swift in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
 				540381511AEC2B5A000C8B15 /* MRButton.swift in Sources */,
 			);

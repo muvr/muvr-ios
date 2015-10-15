@@ -28,11 +28,13 @@ class MRGlanceController: WKInterfaceController {
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)        
     }
-
+    
     override func willActivate() {
         super.willActivate()
+
         if let session = MRExtensionDelegate.sharedDelegate().getCurrentSession() {
             let text = NSDateComponentsFormatter().stringFromTimeInterval(session.getSessionLength())
+            session.sendImmediately()
             titleLable.setText(text!)
         } else {
             titleLable.setText("Today")
@@ -40,7 +42,6 @@ class MRGlanceController: WKInterfaceController {
     }
 
     override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
 
