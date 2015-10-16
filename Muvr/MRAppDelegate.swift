@@ -34,7 +34,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
         
         // main initialization
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        self.startWithStoryboardId(storyboard, id: "login")
+        self.startWithStoryboardId(storyboard, id: "initial")
         
         return true
     }

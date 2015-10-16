@@ -36,8 +36,10 @@ class MRGlanceController: WKInterfaceController {
             let text = NSDateComponentsFormatter().stringFromTimeInterval(session.getSessionLength())
             session.sendImmediately()
             titleLable.setText(text!)
+            sampleCounterLabel.setText("R \(session.getRecordedSampleCount()), S \(session.getSentSampleCount())")
         } else {
             titleLable.setText("Today")
+            sampleCounterLabel.setText(buildDate())
         }
     }
 

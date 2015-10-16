@@ -33,7 +33,7 @@ class MKSensorDataInternalCodecTests : XCTestCase {
             samples: [Float](count: 1300, repeatedValue: 0)
         )
         
-        let encoded = try! d.encode()
+        let encoded = d.encode()
         let dx = try! MKSensorData(decoding: encoded)
         XCTAssertEqual(d, dx)
     }
@@ -56,7 +56,7 @@ class MKSensorDataInternalCodecTests : XCTestCase {
             samples: [Float](count: 100, repeatedValue: 0)
         )
         
-        let encoded = try! d.encode()
+        let encoded = d.encode()
 
         do {
             _ = try MKSensorData(decoding: encoded.subdataWithRange(NSRange(location: 0, length: 17)))

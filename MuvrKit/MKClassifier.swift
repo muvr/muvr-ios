@@ -51,8 +51,8 @@ struct MKClassifier {
         let featureMatrix = NSMutableData(capacity: numInputs * numWindows * sizeof(Double))!
         
         for i in 0..<numWindows {
-            let start  = i * windowStepSize * dimension
-            let end    = i * windowStepSize + windowSize * dimension
+            let start  = (i * windowStepSize) * dimension
+            let end    = (i * windowStepSize + windowSize) * dimension
             var window = Array(inputData[start..<end])
             #if false
             cblas_dscal(Int32(window.count), 1 / 4000, &window, 1)

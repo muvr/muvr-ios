@@ -24,6 +24,8 @@ final public class MKExerciseSession {
     private let startTime: NSDate
     private var lastSentStartTime: NSDate
     private let exerciseModelMetadata: MKExerciseModelMetadata
+    private var sentSampleCount: Int = 0
+    private var recordedSampleCount: Int = 0
     
     init(connectivity: MKConnectivity, exerciseModelMetadata: MKExerciseModelMetadata) {
         self.connectivity = connectivity
@@ -53,7 +55,6 @@ final public class MKExerciseSession {
     ///
     public func sendImmediately() {
         
-    #if __arm__ || __thumb__
         func getSamples(toDate: NSDate) -> MKSensorData? {
             return sensorRecorder!.accelerometerDataFromDate(lastSentStartTime, toDate: toDate).map { (recordedData: CMSensorDataList) -> MKSensorData in
                 let samples = recordedData.enumerate().flatMap { (_, e) -> [Float] in
@@ -63,17 +64,9 @@ final public class MKExerciseSession {
                     return []
                 }
                 
-                return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSinceNow, samplesPerSecond: 100, samples: samples)
+                return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSinceNow, samplesPerSecond: 50, samples: samples)
             }
         }
-    #else
-        func getSamples(toDate: NSDate) -> MKSensorData? {
-            // assume 100 samples per second
-            let sampleCount = Int(toDate.timeIntervalSinceDate(lastSentStartTime) * 100)
-            let samples = (0..<sampleCount * 3).map { _ in return Float(0) }
-            return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSinceNow, samplesPerSecond: 100, samples: samples)
-        }
-    #endif
         
         /*
         WCSession.sendData is OK for ~24 kiB blocks
@@ -83,6 +76,7 @@ final public class MKExerciseSession {
         
         let now = NSDate()
         if let samples = getSamples(now) {
+            recordedSampleCount += samples.samples.count / samples.dimension
             connectivity.transferSensorData(samples) {
                 switch $0 {
                 case .Error(error: _):
@@ -90,11 +84,20 @@ final public class MKExerciseSession {
                 case .NoSession:
                     return
                 case .Success:
+                    self.sentSampleCount += samples.samples.count / samples.dimension
                     self.lastSentStartTime = now
                 }
             }
             
         }
+    }
+    
+    public func getRecordedSampleCount() -> Int {
+        return recordedSampleCount
+    }
+    
+    public func getSentSampleCount() -> Int {
+        return sentSampleCount
     }
     
     ///
