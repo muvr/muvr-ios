@@ -1,4 +1,4 @@
-import Foundation
+import WatchKit
 import CoreMotion
 import WatchConnectivity
 
