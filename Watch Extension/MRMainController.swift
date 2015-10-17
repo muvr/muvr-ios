@@ -3,14 +3,17 @@ import Foundation
 import WatchConnectivity
 import MuvrKit
 
-class MRMainController: WKInterfaceController {
+class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     @IBOutlet weak var exerciseModel: WKInterfacePicker!
     @IBOutlet weak var startGroup: WKInterfaceGroup!
     @IBOutlet weak var progressGroup: WKInterfaceGroup!
     
-    @IBOutlet weak var exerciseStartStopButton: WKInterfaceButton!
-    @IBOutlet weak var exerciseModelLabel: WKInterfaceLabel!
-    
+    @IBOutlet weak var titleLabel: WKInterfaceLabel!
+    @IBOutlet weak var timeLabel: WKInterfaceLabel!
+    @IBOutlet weak var statsLabel: WKInterfaceLabel!
+
+    private var renderer: MRSessionProgressGroupRenderer?
+
     private var exerciseModelMetadataIndex: Int = 0
     
     override func willActivate() {
@@ -20,30 +23,21 @@ class MRMainController: WKInterfaceController {
         sd.getCurrentSession()?.beginSendBatch()
         
         updateUI()
+        renderer = MRSessionProgressGroupRenderer(group: self)
     }
     
-    private func updateExerciseStartStopButton() {
-        if let session = MRExtensionDelegate.sharedDelegate().getCurrentSession() {
-            if session.isRealTime {
-                exerciseStartStopButton.setTitle("Stop")
-                exerciseStartStopButton.setBackgroundImageNamed("stop")
-            } else {
-                exerciseStartStopButton.setTitle("Go")
-                exerciseStartStopButton.setBackgroundImageNamed("go")
-            }
-        }
+    override func didDeactivate() {
+        renderer = nil
+        super.didDeactivate()
     }
     
     private func updateUI() {
         let sd = MRExtensionDelegate.sharedDelegate()
         clearAllMenuItems()
-        if let session = sd.getCurrentSession() {
-            exerciseModelLabel.setText(session.exerciseModelTitle)
+        if sd.getCurrentSession() != nil {
             addMenuItemWithItemIcon(WKMenuItemIcon.Pause, title: "Pause", action: "pause")
             addMenuItemWithItemIcon(WKMenuItemIcon.Trash, title: "Stop",  action: "stop")
         }
-        
-        updateExerciseStartStopButton()
         
         progressGroup.setHidden(sd.getCurrentSession() == nil)
         startGroup.setHidden(sd.getCurrentSession() != nil)
@@ -64,19 +58,6 @@ class MRMainController: WKInterfaceController {
     @IBAction func beginSession() {
         MRExtensionDelegate.sharedDelegate().startSession(exerciseModelMetadataIndex: exerciseModelMetadataIndex)
         updateUI()
-    }
-    
-    ///
-    /// Called when the user clicks the exercise start or stop button
-    ///
-    @IBAction func beginOrEndExercise() {
-        if let session = MRExtensionDelegate.sharedDelegate().getCurrentSession() {
-            if session.isRealTime {
-                session.endSendRealTime(updateExerciseStartStopButton)
-            } else {
-                session.beginSendRealTime(updateExerciseStartStopButton)
-            }
-        }
     }
     
     @IBAction func exerciseModelPickerAction(index: Int) {

@@ -9,6 +9,7 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     
     private var onFileTransferDone: OnFileTransferDone?
     private var currentSession: MKExerciseSession?
+    internal var transferringRealTime: Bool = false
     
     ///
     /// Initializes this instance, assigninf the metadata ans sensorData delegates.
@@ -92,8 +93,13 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter onDone: the function to be executed on success
     ///
     func transferSensorDataRealTime(data: MKSensorData, onDone: (() -> Void)?) {
-        let encoded = data.encode()
-        WCSession.defaultSession().sendMessageData(encoded, replyHandler: { _ in if let f = onDone { f() } }, errorHandler: nil)
+        if !transferringRealTime {
+            transferringRealTime = true
+            let encoded = data.encode()
+            WCSession.defaultSession().sendMessageData(encoded,
+                replyHandler: { [unowned self] _ in self.transferringRealTime = false; if let f = onDone { f() } },
+                errorHandler: { [unowned self] _ in self.transferringRealTime = false } )
+        }
     }
     
     ///

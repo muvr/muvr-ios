@@ -30,15 +30,11 @@
                             <items>
                                 <group height="133" alignment="center" layout="vertical" id="RNf-yC-kXu">
                                     <items>
-                                        <label width="136" alignment="left" text="--Arms" id="g7i-Qj-f79">
+                                        <label width="136" alignment="left" text="Title" id="g7i-Qj-f79">
                                             <fontDescription key="font" type="system" weight="light" pointSize="20"/>
                                         </label>
-                                        <button width="105" height="103" alignment="center" title="Go" backgroundImage="go" id="ybd-W6-35W">
-                                            <fontDescription key="font" type="system" pointSize="20"/>
-                                            <connections>
-                                                <action selector="beginOrEndExercise" destination="AgC-eL-Hgc" id="VeC-T9-EL2"/>
-                                            </connections>
-                                        </button>
+                                        <label alignment="left" text="Time" id="gfN-Vo-zov"/>
+                                        <label alignment="left" text="Stats" id="RKG-1P-IR2"/>
                                     </items>
                                 </group>
                             </items>
@@ -46,10 +42,11 @@
                     </items>
                     <connections>
                         <outlet property="exerciseModel" destination="JBL-em-o3w" id="zdN-1a-r3P"/>
-                        <outlet property="exerciseModelLabel" destination="g7i-Qj-f79" id="dk2-He-Q7i"/>
-                        <outlet property="exerciseStartStopButton" destination="ybd-W6-35W" id="jp2-P8-DCt"/>
                         <outlet property="progressGroup" destination="U8c-fr-ind" id="NHD-H5-fF9"/>
                         <outlet property="startGroup" destination="ys7-T7-jXZ" id="mSK-xj-l8g"/>
+                        <outlet property="statsLabel" destination="RKG-1P-IR2" id="HGp-jw-GQx"/>
+                        <outlet property="timeLabel" destination="gfN-Vo-zov" id="5xH-Ng-4HT"/>
+                        <outlet property="titleLabel" destination="g7i-Qj-f79" id="291-bf-bpe"/>
                     </connections>
                 </controller>
             </objects>
@@ -60,7 +57,7 @@
             <objects>
                 <controller identifier="Exercising" title="Exercising" hidesWhenLoading="NO" id="IwV-9C-R6z"/>
             </objects>
-            <point key="canvasLocation" x="302" y="80"/>
+            <point key="canvasLocation" x="473" y="4"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
@@ -69,7 +66,7 @@
                     <items>
                         <group alignment="left" layout="vertical" id="gv7-I2-MZq">
                             <items>
-                                <label width="136" alignment="left" text="Today" id="BI0-zu-H9t">
+                                <label width="136" alignment="left" text="Title" id="BI0-zu-H9t">
                                     <fontDescription key="font" type="system" weight="light" pointSize="20"/>
                                 </label>
                             </items>
@@ -101,8 +98,8 @@
                                 </group>
                                 <group width="1" alignment="left" layout="vertical" id="ZdV-ef-Veb">
                                     <items>
-                                        <label alignment="left" text="Batch counter" id="C7v-lb-EWk"/>
-                                        <label alignment="left" text="Real Time counter" id="49x-el-UyS"/>
+                                        <label alignment="left" text="Time" id="C7v-lb-EWk"/>
+                                        <label alignment="left" text="Stats" id="II9-Zb-NiH"/>
                                     </items>
                                 </group>
                             </items>
@@ -110,9 +107,9 @@
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                     <connections>
-                        <outlet property="batchCounterLabel" destination="C7v-lb-EWk" id="wnS-Bf-tSz"/>
-                        <outlet property="realTimeCounterLabel" destination="49x-el-UyS" id="dKv-JE-tQe"/>
-                        <outlet property="titleLable" destination="BI0-zu-H9t" id="lZ7-H1-8Zo"/>
+                        <outlet property="statsLabel" destination="II9-Zb-NiH" id="pC1-w4-y9C"/>
+                        <outlet property="timeLabel" destination="C7v-lb-EWk" id="g0t-mw-xP6"/>
+                        <outlet property="titleLabel" destination="BI0-zu-H9t" id="fsg-kQ-N4Z"/>
                     </connections>
                 </glanceController>
             </objects>

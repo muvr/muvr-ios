@@ -11,14 +11,14 @@ enum MKClassifierError : ErrorType {
     ///
     /// - parameter required: the required types
     ///
-    case NoSensorDataType(required: [MKSensorDataType])
+    case NoSensorDataType(received: [MKSensorDataType], required: [MKSensorDataType])
     
     ///
     /// The sensor data does not contain enough data for the classification
     ///
     /// - parameter required: the required number of rows
     ///
-    case NotEnoughRows(required: Int)
+    case NotEnoughRows(received: Int, required: Int)
 }
 
 ///
@@ -86,13 +86,13 @@ public struct MKClassifier {
         let (dimension, m) = block.samples(along: model.sensorDataTypes)
         if dimension == 0 {
             // we could not find any slice that the model requires
-            throw MKClassifierError.NoSensorDataType(required: model.sensorDataTypes)
+            throw MKClassifierError.NoSensorDataType(received: block.types, required: model.sensorDataTypes)
         }
         
         let rowCount = m.count / dimension
         if (rowCount < windowSize) {
             // not enough input for classification
-            throw MKClassifierError.NotEnoughRows(required: windowSize)
+            throw MKClassifierError.NotEnoughRows(received: block.rowCount, required: windowSize)
         }
         
         let doubleM = m.map { Double($0) }

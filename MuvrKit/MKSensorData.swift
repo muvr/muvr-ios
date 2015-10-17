@@ -150,6 +150,11 @@ public struct MKSensorData {
         if that.samples.isEmpty { return }
         if self.samplesPerSecond != that.samplesPerSecond { throw MKSensorDataError.MismatchedSamplesPerSecond(expected: self.samplesPerSecond, actual: that.samplesPerSecond) }
         if self.dimension != that.dimension { throw MKSensorDataError.MismatchedDimension(expected: self.dimension, actual: that.dimension) }
+        
+        if start == 0 && that.start == 0 {
+            samples.appendContentsOf(that.samples)
+            return
+        }
 
         let maxGap: MKDuration = 10
         let gap = that.start - self.end

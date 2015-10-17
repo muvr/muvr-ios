@@ -59,19 +59,19 @@ class MRScaffoldingViewController : UIViewController, WCSessionDelegate, UITextF
     
     func session(session: WCSession, didReceiveMessageData messageData: NSData, replyHandler: (NSData) -> Void) {
         do {
+            replyHandler("Ack".dataUsingEncoding(NSASCIIStringEncoding)!)
+
             let blockSensorData = try MKSensorData(decoding: messageData)
-            if var sensorData = sensorData {
-                try sensorData.append(blockSensorData)
+            if sensorData != nil {
+                try sensorData!.append(blockSensorData)
             } else {
                 sensorData = blockSensorData
             }
             
             let classified = try classifier.classify(block: sensorData!, maxResults: 5)
             dispatch_async(dispatch_get_main_queue(), {
-                self.log.text = self.log.text + "\nClassified \(classified.first) for \(blockSensorData.duration)"
+                self.log.text = self.log.text + "\n~> \(self.sensorData!.duration): \(classified.first)"
             })
-            
-            replyHandler("Ack".dataUsingEncoding(NSASCIIStringEncoding)!)
         } catch {
             dispatch_async(dispatch_get_main_queue(), {
                 self.log.text = self.log.text + "\n\(error)"
