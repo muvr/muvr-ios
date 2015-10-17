@@ -49,17 +49,6 @@ class MKClassifierTests : XCTestCase {
     }
 
     ///
-    /// Tests that class 1 is correctly identified
-    ///
-    func testClassAFromAppleWatch() {
-        let fileName = NSBundle(forClass: MuvrKitTests.self).pathForResource("single-biceps-curl-1", ofType: "raw")!
-        let block = try! MKSensorData(decoding: NSData(contentsOfFile: fileName)!)
-        let cls = try! classifier.classify(block: block, maxResults: 100)
-        XCTAssertEqual(cls.first!.exerciseId, "1")
-        XCTAssertGreaterThan(cls.first!.confidence, 0.99)
-    }
-
-    ///
     /// Tests that all zeros does not classify the right value
     ///
     func testZeros() {

@@ -126,7 +126,7 @@ final public class MKExerciseSession : NSObject {
             
             motionManager.stopAccelerometerUpdates()
             if realTimeSamples.count > 0 {
-                let samples = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: realTimeSamples)
+                let samples = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: -1, samplesPerSecond: 50, samples: realTimeSamples)
                 connectivity.transferSensorDataRealTime(samples, onDone: nil)
             }
         }
@@ -168,7 +168,7 @@ final public class MKExerciseSession : NSObject {
 
         // we send 100 samples at a time
         if realTimeSamples.count >= 300 && !connectivity.transferringRealTime {
-            let samples = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: realTimeSamples)
+            let samples = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: -1, samplesPerSecond: 50, samples: realTimeSamples)
             connectivity.transferSensorDataRealTime(samples) {
                 self.realTimeSamples = []
                 self.stats.realTimeCounter?.sent += self.realTimeSamples.count / 3
