@@ -64,6 +64,7 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     }
 
     func applicationWillResignActive() {
+        // connectivity?.getCurrentSession()?.endSendRealTime(nil)
     }
     
     // MARK: MKMetadataConnectivityDelegate

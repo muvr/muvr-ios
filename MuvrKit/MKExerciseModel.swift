@@ -10,4 +10,11 @@ public struct MKExerciseModel {
     /// the exercises as labels
     public let exerciseIds: [MKExerciseId]
     
+    public init(layerConfig: [Int], weights: NSData, sensorDataTypes: [MKSensorDataType], exerciseIds: [MKExerciseId]) {
+        self.layerConfig = layerConfig
+        self.sensorDataTypes = sensorDataTypes
+        self.weights = weights
+        self.exerciseIds = exerciseIds
+    }
+    
 }

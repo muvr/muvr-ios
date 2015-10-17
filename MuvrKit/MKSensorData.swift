@@ -128,6 +128,13 @@ public struct MKSensorData {
         return Double(samples.count / dimension) / Double(samplesPerSecond)
     }
     
+    ///
+    /// The number of complete rows
+    ///
+    public var rowCount: Int {
+        return samples.count / dimension
+    }
+    
     /* TODO
     mutating func merge(that: MKSensorData) throws {
     }

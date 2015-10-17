@@ -3,6 +3,22 @@ import CoreMotion
 import WatchConnectivity
 
 ///
+/// Collects statistics about the current exercise session
+///
+public struct MKExerciseSessionStats {
+    
+    /// Sample counter struct
+    public struct SampleCounter {
+        public var recorded: Int = 0
+        public var sent: Int = 0
+    }
+    
+    public var batchCounter: SampleCounter = SampleCounter()
+    public var realTimeCounter: SampleCounter?
+
+}
+
+///
 /// Implements the exercise session in the Watch, all the way down to scheduling sensor data delivery.
 /// You cannot create instances of this class explicitly, you must use the appropriate functions in
 /// the ``MKConnectivity``.
@@ -21,11 +37,17 @@ final public class MKExerciseSession {
     
     let id: String
     private var sensorRecorder: CMSensorRecorder?
+    private var motionManager: CMMotionManager?
+    
     private let startTime: NSDate
     private var lastSentStartTime: NSDate
     private let exerciseModelMetadata: MKExerciseModelMetadata
-    private var sentSampleCount: Int = 0
-    private var recordedSampleCount: Int = 0
+    
+    private var stats: MKExerciseSessionStats
+    
+    private var lastAccelerometerUpdateTime: NSDate?
+    private var realTimeStartTime: NSDate?
+    private var realTimeSamples: [Float] = []
     
     init(connectivity: MKConnectivity, exerciseModelMetadata: MKExerciseModelMetadata) {
         self.connectivity = connectivity
@@ -34,6 +56,7 @@ final public class MKExerciseSession {
         self.lastSentStartTime = startTime
         self.sensorRecorder = CMSensorRecorder()
         self.id = NSUUID().UUIDString
+        self.stats = MKExerciseSessionStats()
         
         // TODO: Sort out recording duration
         self.sensorRecorder!.recordAccelerometerForDuration(NSTimeInterval(3600 * 2))
@@ -44,16 +67,85 @@ final public class MKExerciseSession {
     }
     
     ///
+    /// Indicates whether this session is sending data in real-time
+    ///
+    public var isRealTime: Bool {
+        return motionManager != nil
+    }
+    
+    ///
     /// The session title
     ///
     public var exerciseModelTitle: String {
         return exerciseModelMetadata.1
     }
     
+    public func beginSendRealTime(onDone: () -> Void) {
+        if motionManager == nil {
+            connectivity.beginRealTime() {
+                self.motionManager = CMMotionManager()
+                self.motionManager!.accelerometerUpdateInterval = 1.0 / 50.0
+                self.motionManager!.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: self.accelerometerHandler)
+                self.stats.realTimeCounter = MKExerciseSessionStats.SampleCounter()
+                self.realTimeSamples = []
+                self.realTimeStartTime = NSDate()
+                onDone()
+            }
+        }
+    }
+    
+    public func endSendRealTime(onDone: (() -> Void)?) {
+        if let motionManager = motionManager, realTimeStartTime = realTimeStartTime {
+            motionManager.stopAccelerometerUpdates()
+            if realTimeSamples.count > 0 {
+                let samples = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: realTimeStartTime.timeIntervalSince1970, samplesPerSecond: 50, samples: realTimeSamples)
+                connectivity.transferSensorDataRealTime(samples, onDone: nil)
+            }
+        }
+        connectivity.endRealTime() {
+            self.motionManager = nil
+            self.stats.realTimeCounter = nil
+            self.realTimeStartTime = nil
+            self.realTimeSamples = []
+            if let f = onDone { f() }
+        }
+    }
+    
+    private func accelerometerHandler(data: CMAccelerometerData?, error: NSError?) {
+        let now = NSDate()
+        if let lastAccelerometerUpdateTime = lastAccelerometerUpdateTime {
+            let interval = now.timeIntervalSinceDate(lastAccelerometerUpdateTime)
+            
+            if interval > 1 {
+                // the thread got suspended while running ~> we end RT updates
+                self.endSendRealTime(nil)
+                return
+            }
+        }
+        lastAccelerometerUpdateTime = now
+        
+        if let data = data {
+            realTimeSamples.append(Float(data.acceleration.x))
+            realTimeSamples.append(Float(data.acceleration.y))
+            realTimeSamples.append(Float(data.acceleration.z))
+        }
+        
+        // we send 100 samples at a time
+        if let realTimeStartTime = realTimeStartTime {
+            if realTimeSamples.count > 300 {
+                let samples = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: realTimeStartTime.timeIntervalSince1970, samplesPerSecond: 50, samples: realTimeSamples)
+                connectivity.transferSensorDataRealTime(samples) {
+                    self.realTimeSamples = []
+                    self.realTimeStartTime = NSDate()
+                }
+            }
+        }
+    }
+    
     ///
     /// Send the data collected so far to the mobile counterpart
     ///
-    public func sendImmediately() {
+    public func beginSendBatch() {
         
         func getSamples(toDate: NSDate) -> MKSensorData? {
             return sensorRecorder!.accelerometerDataFromDate(lastSentStartTime, toDate: toDate).map { (recordedData: CMSensorDataList) -> MKSensorData in
@@ -64,7 +156,7 @@ final public class MKExerciseSession {
                     return []
                 }
                 
-                return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSinceNow, samplesPerSecond: 50, samples: samples)
+                return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
             }
         }
         
@@ -76,15 +168,15 @@ final public class MKExerciseSession {
         
         let now = NSDate()
         if let samples = getSamples(now) {
-            recordedSampleCount += samples.samples.count / samples.dimension
-            connectivity.transferSensorData(samples) {
+            stats.batchCounter.recorded += samples.rowCount
+            connectivity.transferSensorDataBatch(samples) {
                 switch $0 {
                 case .Error(error: _):
                     return
                 case .NoSession:
                     return
                 case .Success:
-                    self.sentSampleCount += samples.samples.count / samples.dimension
+                    self.stats.batchCounter.sent += samples.rowCount
                     self.lastSentStartTime = now
                 }
             }
@@ -92,18 +184,17 @@ final public class MKExerciseSession {
         }
     }
     
-    public func getRecordedSampleCount() -> Int {
-        return recordedSampleCount
-    }
-    
-    public func getSentSampleCount() -> Int {
-        return sentSampleCount
+    ///
+    /// The session stats
+    ///
+    public var sessionStats: MKExerciseSessionStats {
+        return stats
     }
     
     ///
-    /// Gets the session length
+    /// Gets the session duration
     ///
-    public func getSessionLength() -> NSTimeInterval {
+    public var sessionDuration: NSTimeInterval {
         return NSDate().timeIntervalSinceDate(self.startTime)
     }
     

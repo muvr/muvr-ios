@@ -53,7 +53,7 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter data: the sensor data to be sent
     /// - parameter onDone: the function to be executed on completion (success or error)
     ///
-    func transferSensorData(data: MKSensorData, onDone: OnFileTransferDone) {
+    func transferSensorDataBatch(data: MKSensorData, onDone: OnFileTransferDone) {
         guard let currentSession = currentSession else { return onDone(.NoSession) }
         
         if onFileTransferDone == nil {
@@ -66,6 +66,34 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
                 WCSession.defaultSession().transferFile(fileUrl, metadata: ["sessionId" : currentSession.id])
             }
         }
+    }
+    
+    ///
+    /// Messages the counterpart that real-time data is about to begin
+    ///
+    func beginRealTime(onDone: () -> Void) {
+        let message: [String : AnyObject] = [ "action" : "begin-real-time" ]
+        WCSession.defaultSession().sendMessage(message, replyHandler: { _ in onDone() }, errorHandler: nil)
+    }
+    
+    ///
+    /// Messages the counterpart that real-time data has ended
+    ///
+    func endRealTime(onDone: () -> Void) {
+        let message: [String : AnyObject] = [ "action" : "end-real-time" ]
+        WCSession.defaultSession().sendMessage(message, replyHandler: { _ in onDone() }, errorHandler: nil)
+    }
+    
+    ///
+    /// Sends the sensor data ``data`` invoking ``onDone`` when the operation completes. This function is intended
+    /// to be used on small batches of data (units of seconds).
+    ///
+    /// - parameter data: the sensor data to be sent
+    /// - parameter onDone: the function to be executed on success
+    ///
+    func transferSensorDataRealTime(data: MKSensorData, onDone: (() -> Void)?) {
+        let encoded = data.encode()
+        WCSession.defaultSession().sendMessageData(encoded, replyHandler: { _ in if let f = onDone { f() } }, errorHandler: nil)
     }
     
     ///

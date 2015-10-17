@@ -24,7 +24,7 @@ enum MKClassifierError : ErrorType {
 ///
 /// Classifies the input data according to the model
 ///
-struct MKClassifier {
+public struct MKClassifier {
     private let model: MKExerciseModel
     private let neuralNet: MLPNeuralNet
     private let windowSize = 400
@@ -37,7 +37,7 @@ struct MKClassifier {
     ///
     /// - parameter model: the model
     ///
-    init(model: MKExerciseModel) {
+    public init(model: MKExerciseModel) {
         self.model = model
         self.neuralNet = MLPNeuralNet(layerConfig: model.layerConfig, weights: model.weights, outputMode: MLPClassification)
         self.neuralNet.hiddenActivationFunction = MLPReLU
@@ -82,7 +82,7 @@ struct MKClassifier {
     ///
     /// - parameter block: the received sensor data
     ///
-    func classify(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExercise] {
+    public func classify(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExercise] {
         let (dimension, m) = block.samples(along: model.sensorDataTypes)
         if dimension == 0 {
             // we could not find any slice that the model requires

@@ -21,18 +21,24 @@
                                     <color key="backgroundColor" red="0.25098040700000002" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <fontDescription key="font" type="boldSystem" pointSize="15"/>
                                     <connections>
-                                        <action selector="go" destination="AgC-eL-Hgc" id="cfd-97-B6J"/>
+                                        <action selector="beginSession" destination="AgC-eL-Hgc" id="ddT-ri-yoG"/>
                                     </connections>
                                 </button>
                             </items>
                         </group>
                         <group width="1" height="1" alignment="center" id="U8c-fr-ind">
                             <items>
-                                <group alignment="left" layout="vertical" id="RNf-yC-kXu">
+                                <group height="133" alignment="center" layout="vertical" id="RNf-yC-kXu">
                                     <items>
                                         <label width="136" alignment="left" text="--Arms" id="g7i-Qj-f79">
                                             <fontDescription key="font" type="system" weight="light" pointSize="20"/>
                                         </label>
+                                        <button width="105" height="103" alignment="center" title="Go" backgroundImage="go" id="ybd-W6-35W">
+                                            <fontDescription key="font" type="system" pointSize="20"/>
+                                            <connections>
+                                                <action selector="beginOrEndExercise" destination="AgC-eL-Hgc" id="VeC-T9-EL2"/>
+                                            </connections>
+                                        </button>
                                     </items>
                                 </group>
                             </items>
@@ -41,6 +47,7 @@
                     <connections>
                         <outlet property="exerciseModel" destination="JBL-em-o3w" id="zdN-1a-r3P"/>
                         <outlet property="exerciseModelLabel" destination="g7i-Qj-f79" id="dk2-He-Q7i"/>
+                        <outlet property="exerciseStartStopButton" destination="ybd-W6-35W" id="jp2-P8-DCt"/>
                         <outlet property="progressGroup" destination="U8c-fr-ind" id="NHD-H5-fF9"/>
                         <outlet property="startGroup" destination="ys7-T7-jXZ" id="mSK-xj-l8g"/>
                     </connections>
@@ -94,7 +101,8 @@
                                 </group>
                                 <group width="1" alignment="left" layout="vertical" id="ZdV-ef-Veb">
                                     <items>
-                                        <label alignment="left" text="50 samples" id="C7v-lb-EWk"/>
+                                        <label alignment="left" text="Batch counter" id="C7v-lb-EWk"/>
+                                        <label alignment="left" text="Real Time counter" id="49x-el-UyS"/>
                                     </items>
                                 </group>
                             </items>
@@ -102,7 +110,8 @@
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                     <connections>
-                        <outlet property="sampleCounterLabel" destination="C7v-lb-EWk" id="Oll-kI-gKd"/>
+                        <outlet property="batchCounterLabel" destination="C7v-lb-EWk" id="wnS-Bf-tSz"/>
+                        <outlet property="realTimeCounterLabel" destination="49x-el-UyS" id="dKv-JE-tQe"/>
                         <outlet property="titleLable" destination="BI0-zu-H9t" id="lZ7-H1-8Zo"/>
                     </connections>
                 </glanceController>
