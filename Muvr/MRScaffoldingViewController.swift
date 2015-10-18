@@ -26,8 +26,9 @@ class MRScaffoldingViewController : UIViewController, MKSensorDataConnectivityDe
     func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData) {
         log.text = log.text + "\nReceived data... "
         do {
-            let classified = try classifier.classify(block: accumulated, maxResults: 10)
-            log.text = log.text + "classified.\n\(classified)."
+            //let classified = try classifier.classify(block: accumulated, maxResults: 10)
+            //log.text = log.text + "classified.\n\(classified)."
+            log.text = log.text + "not yet classified.\n"
         } catch {
             log.text = log.text + "failed.\n\(error)"
         }

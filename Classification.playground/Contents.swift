@@ -21,7 +21,7 @@ func model(named name: String) -> MKExerciseModel {
     let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: weightsData,
         sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
         exerciseIds: ["biceps-curl", "lateral-raise", "triceps-extension"],
-        minimumDuration: 8)
+        minimumDuration: 5)
     return model
 }
 
