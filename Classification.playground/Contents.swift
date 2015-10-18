@@ -20,7 +20,8 @@ func model(named name: String) -> MKExerciseModel {
     let weightsData = NSData(contentsOfFile: demoModelPath)!
     let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: weightsData,
         sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
-        exerciseIds: ["biceps-curl", "lateral-raise", "triceps-extension"])
+        exerciseIds: ["biceps-curl", "lateral-raise", "triceps-extension"],
+        minimumDuration: 8)
     return model
 }
 
@@ -36,5 +37,5 @@ let sd = try! MKSensorData(decoding: NSData(contentsOfFile: exerciseData)!)
 //: ### Now run the sliding windows
 // classify
 let cls = try! classifier.classify(block: sd, maxResults: 10)
-cls.forEach { wcls in print("\(wcls.time): \(wcls.classifiedExercises.first)") }
+cls.forEach { wcls in print(wcls) }
 
