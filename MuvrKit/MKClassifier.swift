@@ -21,6 +21,16 @@ enum MKClassifierError : ErrorType {
     case NotEnoughRows(received: Int, required: Int)
 }
 
+public struct MKClassifiedExerciseWindow {
+    public let window: Int
+    public let classifiedExercises: [MKClassifiedExercise]
+    
+    public init(window: Int, classifiedExercises: [MKClassifiedExercise]) {
+        self.window = window
+        self.classifiedExercises = classifiedExercises
+    }
+}
+
 ///
 /// Classifies the input data according to the model
 ///
@@ -46,34 +56,7 @@ public struct MKClassifier {
         self.numInputs = self.model.layerConfig.first!
         self.numClasses = self.model.exerciseIds.count
     }
-    
-    private func featureMatrixFrom(inputData: [Double], dimension: Int, numWindows: Int) -> NSData {
-        let featureMatrix = NSMutableData(capacity: numInputs * numWindows * sizeof(Double))!
         
-        for i in 0..<numWindows {
-            let start  = (i * windowStepSize) * dimension
-            let end    = (i * windowStepSize + windowSize) * dimension
-            var window = Array(inputData[start..<end])
-            #if false
-            cblas_dscal(Int32(window.count), 1 / 4000, &window, 1)
-            #endif
-            
-            featureMatrix.appendBytes(&window, length: window.count * sizeof(Double))
-        }
-        
-        return featureMatrix
-    }
-    
-    private func calculateClassProbabilities(predictions: UnsafePointer<Double>, numWindows: Int) -> [Double] {
-        return (0..<numClasses).map { cls in
-            var sumForClass: Double = 0
-            for w in 0..<numWindows {
-                sumForClass += predictions[cls * numWindows + w]
-            }
-            return sumForClass
-        }
-    }
-    
     ///
     /// Classifies the data in the ``block``, returning up to ``maxResults`` results. The classifier will
     /// take an appropriate slice of the data from the given block; ideally, the slice is the exact data set.
@@ -82,7 +65,8 @@ public struct MKClassifier {
     ///
     /// - parameter block: the received sensor data
     ///
-    public func classify(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExercise] {
+    public func classify(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExerciseWindow] {
+        // in the outer function, we perform the common decoding and basic checking
         let (dimension, m) = block.samples(along: model.sensorDataTypes)
         if dimension == 0 {
             // we could not find any slice that the model requires
@@ -90,30 +74,36 @@ public struct MKClassifier {
         }
         
         let rowCount = m.count / dimension
-        if (rowCount < windowSize) {
+        if rowCount < windowSize {
             // not enough input for classification
             throw MKClassifierError.NotEnoughRows(received: block.rowCount, required: windowSize)
         }
-        
-        let doubleM = m.map { Double($0) }
-        let numWindows = (rowCount - windowSize) / windowStepSize + 1
 
-        let featureMatrix = featureMatrixFrom(doubleM, dimension: dimension, numWindows: numWindows)
-        let windowPrediction = NSMutableData(length: numClasses * numWindows * sizeof(Double))!
-        neuralNet.predictByFeatureMatrix(featureMatrix, intoPredictionMatrix: windowPrediction)
-        let probabilities = calculateClassProbabilities(UnsafePointer<Double>(windowPrediction.bytes), numWindows: numWindows)
-        let classRanking = (0..<numClasses).sort { x, y in
-            return probabilities[x] > probabilities[y]
+        var doubleM = m.map { Double($0) }
+        let numWindows = (rowCount - windowSize) / windowStepSize + 1
+        
+        return (0..<numWindows).map { window in
+            let offset = windowSize * window
+            let featureMatrix = NSData(bytes: &doubleM + offset, length: dimension * windowSize * sizeof(Double))
+            let windowPrediction = NSMutableData(length: numClasses * sizeof(Double))!
+            neuralNet.predictByFeatureMatrix(featureMatrix, intoPredictionMatrix: windowPrediction)
+            let probabilities = UnsafePointer<Double>(windowPrediction.bytes)
+            let classRanking = (0..<numClasses).sort { x, y in
+                return probabilities[x] > probabilities[y]
+            }
+            let resultCount = min(maxResults, numClasses)
+            let classifiedExercises = (0..<resultCount).flatMap { (i: Int) -> MKClassifiedExercise? in
+                let labelIndex = classRanking[i]
+                
+                let labelName = self.model.exerciseIds[labelIndex]
+                let probability = probabilities[labelIndex]
+                if probability > 0.7 {
+                    return MKClassifiedExercise.Resistance(confidence: probability, exerciseId: labelName, duration: 0, repetitions: nil, intensity: nil, weight: nil)
+                }
+                
+                return nil
+            }
+            return MKClassifiedExerciseWindow(window: window, classifiedExercises: classifiedExercises)
         }
-        let resultCount = min(maxResults, numClasses)
-        return (0..<resultCount).map { i in
-            let labelIndex = classRanking[i]
-            
-            let labelName = self.model.exerciseIds[labelIndex]
-            let probability = probabilities[labelIndex]
-            return MKClassifiedExercise.Resistance(confidence: probability, exerciseId: labelName, duration: block.duration, repetitions: nil, intensity: nil, weight: nil)
-            
-        }
-    }
-    
+    }    
 }

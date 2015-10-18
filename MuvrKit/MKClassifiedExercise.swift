@@ -20,23 +20,5 @@ public enum MKClassifiedExercise {
     
     // case Aerobic(exerciseId: MKExerciseId, duration: NSTimeInterval, intensity: Double?)
     // case Pyhisiotherapy(exerciseId: MKExerciseId, duration: NSTimeInterval, accuracy: Double?)
-
-    ///
-    /// Gets the exercise id
-    ///
-    var exerciseId: MKExerciseId {
-        switch self {
-        case .Resistance(confidence: _, let exerciseId, duration: _, repetitions: _, intensity: _, weight: _): return exerciseId
-        }
-    }
-
-    ///
-    /// Gets the classification confidence
-    ///
-    var confidence: Double {
-        switch self {
-        case .Resistance(let confidence, exerciseId: _, duration: _, repetitions: _, intensity: _, weight: _): return confidence
-        }
-    }
     
 }

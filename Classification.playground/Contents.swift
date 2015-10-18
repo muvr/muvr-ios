@@ -28,18 +28,7 @@ let mostlyExerciseData = NSBundle.mainBundle().pathForResource("mostly-exercise"
 let sd = try! MKSensorData(decoding: NSData(contentsOfFile: mostlyExerciseData)!)
 
 //: ### Now run the sliding windows
-let windowSize = 50
-(0..<900).forEach { wi in
-    let windowSamples = sd.samples(along: [.Accelerometer(location: .LeftWrist)], range: Range<Int>(start: windowSize * wi, end: windowSize * wi + 400)).1
-
-    // display window data
-    // windowSamples.enumerate().forEach { i, x in if i % 3 == 0 { x } }
-
-    // compute the window
-    let window = try! MKSensorData(types: sd.types, start: sd.start, samplesPerSecond: sd.samplesPerSecond, samples: windowSamples)
-    
-    // classify
-    let windowClassification = try! classifier.classify(block: window, maxResults: 10)
-    windowClassification.first.map { x in print(x) }
-}
+// classify
+let cls = try! classifier.classify(block: sd, maxResults: 10)
+cls.forEach { wcls in print("\(wcls.window): \(wcls.classifiedExercises.first)") }
 
