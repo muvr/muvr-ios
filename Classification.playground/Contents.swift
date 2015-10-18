@@ -8,13 +8,19 @@ import UIKit
 import XCPlayground
 @testable import MuvrKit
 
+extension MKClassifiedExerciseWindow {
+    var time: Double {
+        return Double(window) * 0.2
+    }
+}
+
 //: ### Helper functions
 func model(named name: String) -> MKExerciseModel {
     let demoModelPath = NSBundle.mainBundle().pathForResource(name, ofType: "raw")!
     let weightsData = NSData(contentsOfFile: demoModelPath)!
     let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: weightsData,
         sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
-        exerciseIds: ["biceps-curl", "triceps-extension", "lateral-raise"])
+        exerciseIds: ["biceps-curl", "lateral-raise", "triceps-extension"])
     return model
 }
 
@@ -22,13 +28,13 @@ func model(named name: String) -> MKExerciseModel {
 let classifier = MKClassifier(model: model(named: "demo"))
 
 //: ### Load the data from the session
-let mostlyExerciseData = NSBundle.mainBundle().pathForResource("mostly-exercise", ofType: "raw")!
+let exerciseData = NSBundle.mainBundle().pathForResource("bc-te-bc-bc-te", ofType: "raw")!
 
 //: ### Decode the sensor data
-let sd = try! MKSensorData(decoding: NSData(contentsOfFile: mostlyExerciseData)!)
+let sd = try! MKSensorData(decoding: NSData(contentsOfFile: exerciseData)!)
 
 //: ### Now run the sliding windows
 // classify
 let cls = try! classifier.classify(block: sd, maxResults: 10)
-cls.forEach { wcls in print("\(wcls.window): \(wcls.classifiedExercises.first)") }
+cls.forEach { wcls in print("\(wcls.time): \(wcls.classifiedExercises.first)") }
 

@@ -56,7 +56,7 @@ public struct MKClassifier {
         self.numInputs = self.model.layerConfig.first!
         self.numClasses = self.model.exerciseIds.count
     }
-        
+    
     ///
     /// Classifies the data in the ``block``, returning up to ``maxResults`` results. The classifier will
     /// take an appropriate slice of the data from the given block; ideally, the slice is the exact data set.
