@@ -64,11 +64,12 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
             let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.raw")
             
             if encoded.writeToURL(fileUrl, atomically: true) {
-                WCSession.defaultSession().transferFile(fileUrl, metadata: ["sessionId" : currentSession.id])
+                WCSession.defaultSession().transferFile(fileUrl, metadata: ["sessionId" : currentSession.id, "timestamp" : NSDate().timeIntervalSince1970 ])
             }
         }
     }
     
+    #if WITH_RT
     ///
     /// Messages the counterpart that real-time data is about to begin
     ///
@@ -101,6 +102,7 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
                 errorHandler: { [unowned self] _ in self.transferringRealTime = false } )
         }
     }
+    #endif
     
     ///
     /// Called when the file transfer completes.

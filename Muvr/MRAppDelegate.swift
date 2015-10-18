@@ -1,11 +1,19 @@
 import UIKit
 import HealthKit
+import MuvrKit
 
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate {
-    
     var window: UIWindow?
-    var deviceToken: NSData?
+    let connectivity: MKConnectivity = MKConnectivity()
+    private var deviceToken: NSData?
+    
+    ///
+    /// Returns this shared delegate
+    ///
+    static func sharedDelegate() -> MRAppDelegate {
+        return UIApplication.sharedApplication().delegate as! MRAppDelegate
+    }
 
     private func registerSettingsAndDelegates() {
         let settings = UIUserNotificationSettings(forTypes: [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound], categories: nil)
@@ -27,8 +35,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
             print(y)
         }
 
-        // if LiftUserDefaults.isRunningTests { return true }
-        
         // notifications et al
         registerSettingsAndDelegates()
         

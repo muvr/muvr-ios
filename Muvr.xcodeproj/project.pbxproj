@@ -85,6 +85,7 @@
 		54D3458C1BB928B600F65091 /* MKClassificationPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D3458A1BB928B600F65091 /* MKClassificationPipeline.swift */; settings = {ASSET_TAGS = (); }; };
 		54D5275E1B94D79F00B56719 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D527581B94D79F00B56719 /* Charts.framework */; };
 		54D5275F1B94D79F00B56719 /* JTCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D527591B94D79F00B56719 /* JTCalendar.framework */; };
+		54D5E9721BD3C6F70002CDB5 /* MKPhoneConnectivityDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D5E9711BD3C6F70002CDB5 /* MKPhoneConnectivityDelegates.swift */; settings = {ASSET_TAGS = (); }; };
 		54E913151BC3063600B7F9F0 /* MKSensorData+PebbleDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E913141BC3063600B7F9F0 /* MKSensorData+PebbleDecoderTests.swift */; settings = {ASSET_TAGS = (); }; };
 		54E9131B1BC306A500B7F9F0 /* class-1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54E913181BC306A500B7F9F0 /* class-1.csv */; settings = {ASSET_TAGS = (); }; };
 		54E9131C1BC306A500B7F9F0 /* model-3.raw in Resources */ = {isa = PBXBuildFile; fileRef = 54E913191BC306A500B7F9F0 /* model-3.raw */; settings = {ASSET_TAGS = (); }; };
@@ -282,6 +283,7 @@
 		54D5275A1B94D79F00B56719 /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = "Pods/../build/Debug-iphoneos/Reachability.framework"; sourceTree = "<group>"; };
 		54D5275B1B94D79F00B56719 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
 		54D5275C1B94D79F00B56719 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = "Pods/../build/Debug-iphoneos/sqlite3.framework"; sourceTree = "<group>"; };
+		54D5E9711BD3C6F70002CDB5 /* MKPhoneConnectivityDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneConnectivityDelegates.swift; sourceTree = "<group>"; };
 		54DE161B1BAD941000F0752B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		54DE161F1BAD94A400F0752B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		54E3A21D1BA21482001D9EA5 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
@@ -587,6 +589,7 @@
 				546908191BC701BC00BA1047 /* MKWatchConnectivitySession.swift */,
 				547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */,
 				54BD57B61BC53137008B5BC4 /* MKPhoneConnectivity.swift */,
+				54D5E9711BD3C6F70002CDB5 /* MKPhoneConnectivityDelegates.swift */,
 			);
 			name = Connectivity;
 			sourceTree = "<group>";
@@ -1022,6 +1025,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5487F59F1BB9B77E00ED2E97 /* MKCodec.swift in Sources */,
+				54D5E9721BD3C6F70002CDB5 /* MKPhoneConnectivityDelegates.swift in Sources */,
 				54D345801BB9245E00F65091 /* MKSensorDataDelegate.swift in Sources */,
 				5471DD3A1BC13911007D1034 /* MKSensorData+Scaffolding.swift in Sources */,
 				54266B141BB92F16007A8A8A /* MKSensorData+Decoding.swift in Sources */,

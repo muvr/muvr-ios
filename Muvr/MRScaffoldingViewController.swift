@@ -2,21 +2,15 @@ import Foundation
 import WatchConnectivity
 import MuvrKit
 
-class MRScaffoldingViewController : UIViewController, WCSessionDelegate, UITextFieldDelegate  {
-    @IBOutlet var tag: UITextField!
+class MRScaffoldingViewController : UIViewController, MKSensorDataConnectivityDelegate {
     @IBOutlet var log: UITextView!
 
     /// classifier for RT classification
     private var classifier: MKClassifier!
     
-    /// accumulated sensor data
-    private var sensorData: MKSensorData?
-
-    /// batch session files
-    private var sessionFiles: [NSURL] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        MRAppDelegate.sharedDelegate().connectivity.setDataConnectivityDelegate(delegate: self, on: dispatch_get_main_queue())
         
         // setup the classifier
         let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
@@ -26,94 +20,28 @@ class MRScaffoldingViewController : UIViewController, WCSessionDelegate, UITextF
             exerciseIds: ["biceps-curl", "lateral-raise", "triceps-extension"],
             minimumDuration: 8)
         classifier = MKClassifier(model: model)
-        
-        // setup watch communication
-        WCSession.defaultSession().delegate = self
-        WCSession.defaultSession().activateSession()
     }
     
-    func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
-        dispatch_async(dispatch_get_main_queue(), {
-            self.log.text = self.log.text + "\n\(userInfo)"
-        })
-    }
-    
-    func session(session: WCSession, didReceiveFile file: WCSessionFile) {
-        let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
-        let counter = NSDate().timeIntervalSince1970
-        let suffix = String(counter) + "-" + (tag.text ?? "")
-        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata-\(suffix).raw")
-        sessionFiles.append(fileUrl)
-        
+    func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData) {
+        log.text = log.text + "\nReceived data."
         do {
-            try NSFileManager.defaultManager().moveItemAtURL(file.fileURL, toURL: fileUrl)
-            let sensorData = try MKSensorData(decoding: NSData(contentsOfURL: fileUrl)!)
-            dispatch_async(dispatch_get_main_queue(), {
-                self.log.text = self.log.text + "\n\(file.metadata!) for \(sensorData.duration)"
-            })
+            let classified = try classifier.classify(block: accumulated, maxResults: 10)
+            log.text = log.text + "\nClassified \(classified)"
         } catch {
-            dispatch_async(dispatch_get_main_queue(), {
-                self.log.text = self.log.text + "\n\(error)"
-            })
+            log.text = log.text + "\n\(error)"
         }
-    }
-    
-    func session(session: WCSession, didReceiveMessageData messageData: NSData, replyHandler: (NSData) -> Void) {
-        do {
-            replyHandler("Ack".dataUsingEncoding(NSASCIIStringEncoding)!)
-
-            let blockSensorData = try MKSensorData(decoding: messageData)
-            if sensorData != nil {
-                try sensorData!.append(blockSensorData)
-            } else {
-                sensorData = blockSensorData
-            }
-            
-            let classified = try classifier.classify(block: sensorData!, maxResults: 5)
-            dispatch_async(dispatch_get_main_queue(), {
-                self.log.text = self.log.text + "\n~> \(self.sensorData!.duration): \(classified.first)"
-            })
-        } catch {
-            dispatch_async(dispatch_get_main_queue(), {
-                self.log.text = self.log.text + "\n\(error)"
-            })
-        }
-    }
-    
-    func session(session: WCSession, didReceiveMessage message: [String : AnyObject], replyHandler: ([String : AnyObject]) -> Void) {
-        replyHandler(["ack" : "bar"])
-
-        switch (message["action"] as? String) ?? "" {
-        case "begin-real-time":
-            dispatch_async(dispatch_get_main_queue(), {
-                self.log.text = self.log.text + "\nBegin RT"
-            })
-
-            return
-        case "end-real-time":
-            dispatch_async(dispatch_get_main_queue(), {
-                self.log.text = self.log.text + "\nEnd RT"
-            })
-            sensorData = nil
-        default:
-            return
-        }
-    }
-
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
     
     @IBAction func clear(sender: AnyObject) {
-        sessionFiles = []
+        MRAppDelegate.sharedDelegate().connectivity.clear()
         log.text = ""
     }
     
     @IBAction func share(sender: AnyObject) {
-        if sessionFiles.count == 0 { return }
+        let files = MRAppDelegate.sharedDelegate().connectivity.getSensorDataFiles()
+        if  files.count == 0 { return }
         
-        let controller = UIActivityViewController(activityItems: sessionFiles, applicationActivities: nil)
+        let controller = UIActivityViewController(activityItems: files, applicationActivities: nil)
         let excludedActivities = [UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,
                                     UIActivityTypePostToWeibo,
                                     UIActivityTypeMessage, UIActivityTypeMail,
