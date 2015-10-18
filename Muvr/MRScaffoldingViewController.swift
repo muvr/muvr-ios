@@ -23,7 +23,8 @@ class MRScaffoldingViewController : UIViewController, WCSessionDelegate, UITextF
         let data = NSData(contentsOfFile: NSBundle(path: bundlePath)!.pathForResource("demo", ofType: "raw")!)!
         let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: data,
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
-            exerciseIds: ["1", "2", "3"])
+            exerciseIds: ["biceps-curl", "lateral-raise", "triceps-extension"],
+            minimumDuration: 8)
         classifier = MKClassifier(model: model)
         
         // setup watch communication
