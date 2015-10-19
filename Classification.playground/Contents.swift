@@ -29,11 +29,12 @@ func model(named name: String) -> MKExerciseModel {
 let classifier = MKClassifier(model: model(named: "demo"))
 
 //: ### Load the data from the session
-let exerciseData = NSBundle.mainBundle().pathForResource("bc-te-bc-bc-te", ofType: "raw")!
+let resourceName = "no-movement-face-up"
+let exerciseData = NSBundle.mainBundle().pathForResource(resourceName, ofType: "raw")!
 
 //: ### Decode the sensor data
 let sd = try! MKSensorData(decoding: NSData(contentsOfFile: exerciseData)!)
-sd.duration
+(0..<300).forEach { idx in sd.samples[idx * 3] }
 sd.rowCount
 //: ### Now run the sliding windows
 // classify

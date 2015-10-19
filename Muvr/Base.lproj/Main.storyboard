@@ -27,10 +27,10 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="rV6-WA-hwr" firstAttribute="centerX" secondItem="lEE-Gh-72N" secondAttribute="centerX" id="EVR-hl-yTZ"/>
-                            <constraint firstItem="rV6-WA-hwr" firstAttribute="leading" secondItem="lEE-Gh-72N" secondAttribute="leadingMargin" constant="-11" id="JMf-f2-AWw"/>
-                            <constraint firstAttribute="bottom" secondItem="rV6-WA-hwr" secondAttribute="bottom" constant="20" symbolic="YES" id="lQ3-iv-51j"/>
-                            <constraint firstItem="rV6-WA-hwr" firstAttribute="top" secondItem="Rqa-AL-fl3" secondAttribute="bottom" constant="8" symbolic="YES" id="xnl-TR-mcd"/>
+                            <constraint firstItem="rV6-WA-hwr" firstAttribute="top" secondItem="Rqa-AL-fl3" secondAttribute="bottom" constant="8" symbolic="YES" id="IW6-Vu-Gfd"/>
+                            <constraint firstItem="rV6-WA-hwr" firstAttribute="leading" secondItem="lEE-Gh-72N" secondAttribute="leadingMargin" constant="-11" id="jpQ-c0-agK"/>
+                            <constraint firstAttribute="bottom" secondItem="rV6-WA-hwr" secondAttribute="bottom" constant="20" symbolic="YES" id="rVs-Mo-lc5"/>
+                            <constraint firstItem="rV6-WA-hwr" firstAttribute="centerX" secondItem="lEE-Gh-72N" secondAttribute="centerX" id="ydv-7b-D2S"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
