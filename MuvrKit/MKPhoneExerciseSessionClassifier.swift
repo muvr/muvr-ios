@@ -84,7 +84,17 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     }
     
     public func exerciseConnectivitySessionDidEnd(session session: MKExerciseConnectivitySession) {
-        // ?
+        // TODO: Improve me? The ``session`` is the whole thing, presumably, we can just add instead of needing the last element
+        if sessions.count == 0 { return }
+
+        dispatch_async(summaryQueue) {
+            if let exerciseSession = self.summarize(session: session) {
+                self.sessions[self.sessions.count - 1] = exerciseSession
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate.sessionClassifierDidSummarise(exerciseSession)
+                }
+            }
+        }
     }
     
     public func exerciseConnectivitySessionDidStart(session session: MKExerciseConnectivitySession) {
