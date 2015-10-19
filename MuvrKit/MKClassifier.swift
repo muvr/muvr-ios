@@ -70,10 +70,13 @@ public struct MKClassifier {
         }
 
         var doubleM = m.map { Double($0) }
-        let numWindows = rowCount / windowStepSize
-        
+        let numWindows = (rowCount - windowSize) / windowStepSize + 1
+                
         let cews: [MKClassifiedExerciseWindow] = (0..<numWindows).map { window in
-            let offset = windowStepSize * window
+            let offset = dimension * windowStepSize * window * sizeof(Double)
+            
+            // NSLog("bytes \(offset)-\(offset + windowSize * sizeof(Double)); length \(doubleM.count * sizeof(Double))")
+
             let featureMatrix = NSData(bytes: &doubleM + offset, length: dimension * windowSize * sizeof(Double))
             let windowPrediction = NSMutableData(length: numClasses * sizeof(Double))!
             neuralNet.predictByFeatureMatrix(featureMatrix, intoPredictionMatrix: windowPrediction)
@@ -95,7 +98,7 @@ public struct MKClassifier {
             return MKClassifiedExerciseWindow(window: window, classifiedExerciseBlocks: classifiedExerciseBlocks)
         }
         
-        print(cews)
+        // NSLog("\(cews)")
         
         let nonEmptyCews = cews.filter { !$0.classifiedExerciseBlocks.isEmpty }
         if nonEmptyCews.isEmpty { return [] }

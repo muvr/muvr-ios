@@ -33,7 +33,8 @@ let exerciseData = NSBundle.mainBundle().pathForResource("bc-te-bc-bc-te", ofTyp
 
 //: ### Decode the sensor data
 let sd = try! MKSensorData(decoding: NSData(contentsOfFile: exerciseData)!)
-
+sd.duration
+sd.rowCount
 //: ### Now run the sliding windows
 // classify
 let cls = try! classifier.classify(block: sd, maxResults: 10)

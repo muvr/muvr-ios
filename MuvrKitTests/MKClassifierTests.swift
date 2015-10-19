@@ -55,8 +55,8 @@ class MKClassifierTests : XCTestCase {
     ///
     /// Tests that all zeros does not classify the right value
     ///
-    func testZeros() {
-        let block = MKSensorData.sensorData(types: [MKSensorDataType.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, generating: 400, withValue: .Constant(value: 0))
+    func testLargeZeros() {
+        let block = MKSensorData.sensorData(types: [MKSensorDataType.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, generating: 50000, withValue: .Constant(value: 0))
         let cls = try! classifier.classify(block: block, maxResults: 100).first
         XCTAssertTrue(cls == nil)
     }
