@@ -10,6 +10,8 @@ class MRScaffoldingViewController : UIViewController, MKSensorDataConnectivityDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // TODO: the connectivity delegate, and thus the classification, wants to run on a separate queue.
+        // TODO: move to a queue with USER_INITIATED QoS
         MRAppDelegate.sharedDelegate().connectivity.setDataConnectivityDelegate(delegate: self, on: dispatch_get_main_queue())
         MRAppDelegate.sharedDelegate().connectivity.setExerciseSessionDelegate(delegate: self, on: dispatch_get_main_queue())
         
@@ -26,9 +28,14 @@ class MRScaffoldingViewController : UIViewController, MKSensorDataConnectivityDe
     func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData) {
         log.text = log.text + "\nReceived data... "
         do {
-            //let classified = try classifier.classify(block: accumulated, maxResults: 10)
-            //log.text = log.text + "classified.\n\(classified)."
-            log.text = log.text + "not yet classified.\n"
+            // TODO: Run the classification on the last window of the accumulated data + new,
+            // TODO: not just on the new data
+            
+            // However, for now this will suffice:
+            let classified = try classifier.classify(block: new, maxResults: 10)
+            log.text = log.text + "classified.\n\(classified)."
+            
+            // log.text = log.text + "not yet classified.\n"
         } catch {
             log.text = log.text + "failed.\n\(error)"
         }
