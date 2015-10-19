@@ -2,7 +2,7 @@ import Foundation
 import WatchConnectivity
 import MuvrKit
 
-class MRScaffoldingViewController : UIViewController, MKSensorDataConnectivityDelegate, MKExerciseSessionDelegate {
+class MRScaffoldingViewController : UIViewController, MKSensorDataConnectivityDelegate, MKExerciseConnectivitySessionDelegate {
     @IBOutlet var log: UITextView!
 
     /// classifier for RT classification
@@ -13,7 +13,11 @@ class MRScaffoldingViewController : UIViewController, MKSensorDataConnectivityDe
         // TODO: the connectivity delegate, and thus the classification, wants to run on a separate queue.
         // TODO: move to a queue with USER_INITIATED QoS
         MRAppDelegate.sharedDelegate().connectivity.setDataConnectivityDelegate(delegate: self, on: dispatch_get_main_queue())
-        MRAppDelegate.sharedDelegate().connectivity.setExerciseSessionDelegate(delegate: self, on: dispatch_get_main_queue())
+        MRAppDelegate.sharedDelegate().connectivity.setExerciseConnectivitySessionDelegate(delegate: self, on: dispatch_get_main_queue())
+        
+        MRAppDelegate.sharedDelegate().connectivity.sessions.forEach { session in
+            log.text = log.text + "\n\(session)"
+        }
         
         // setup the classifier
         let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
@@ -41,11 +45,11 @@ class MRScaffoldingViewController : UIViewController, MKSensorDataConnectivityDe
         }
     }
     
-    func exerciseSessionDidEnd(sessionId sessionId: String) {
+    func exerciseConnectivitySessionDidEnd(sessionId sessionId: String) {
         log.text = log.text + "\nEnded \(sessionId)"
     }
     
-    func exerciseSessionDidStart(sessionId sessionId: String, exerciseModelId: MKExerciseModelId) {
+    func exerciseConnectivitySessionDidStart(sessionId sessionId: String, exerciseModelId: MKExerciseModelId) {
         log.text = log.text + "\nStarted \(sessionId) for \(exerciseModelId)"
     }
     
@@ -55,20 +59,22 @@ class MRScaffoldingViewController : UIViewController, MKSensorDataConnectivityDe
     }
     
     @IBAction func share(sender: AnyObject) {
-        let files = MRAppDelegate.sharedDelegate().connectivity.getSensorDataFiles()
-        if  files.count == 0 { return }
-        
-        let controller = UIActivityViewController(activityItems: files, applicationActivities: nil)
-        let excludedActivities = [UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,
-                                    UIActivityTypePostToWeibo,
-                                    UIActivityTypeMessage, UIActivityTypeMail,
-                                    UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
-                                    UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll,
-                                    UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr,
-                                    UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo];
-        
-        controller.excludedActivityTypes = excludedActivities;
-        presentViewController(controller, animated: true, completion: nil)
+        if let session = MRAppDelegate.sharedDelegate().connectivity.session {
+            let files = session.sensorDataFiles
+            if  files.count == 0 { return }
+            
+            let controller = UIActivityViewController(activityItems: files, applicationActivities: nil)
+            let excludedActivities = [UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,
+                                        UIActivityTypePostToWeibo,
+                                        UIActivityTypeMessage, UIActivityTypeMail,
+                                        UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
+                                        UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll,
+                                        UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr,
+                                        UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo];
+            
+            controller.excludedActivityTypes = excludedActivities;
+            presentViewController(controller, animated: true, completion: nil)
+        }
     }
     
 }

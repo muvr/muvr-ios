@@ -14,7 +14,7 @@ public protocol MKSensorDataConnectivityDelegate {
 }
 
 ///
-public protocol MKExerciseSessionDelegate {
+public protocol MKExerciseConnectivitySessionDelegate {
    
     ///
     /// Called with the watch starts the session with the selected ``exerciseModelId``.
@@ -22,11 +22,11 @@ public protocol MKExerciseSessionDelegate {
     /// - parameter exerciseModelId: the exercise model id
     /// - parameter session: the session identity
     ///
-    func exerciseSessionDidStart(sessionId sessionId: String, exerciseModelId: MKExerciseModelId)
+    func exerciseConnectivitySessionDidStart(sessionId sessionId: String, exerciseModelId: MKExerciseModelId)
     
     ///
     /// Called when the watch ends the session
     ///
-    func exerciseSessionDidEnd(sessionId sessionId: String)
+    func exerciseConnectivitySessionDidEnd(sessionId sessionId: String)
     
 }

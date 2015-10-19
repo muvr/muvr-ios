@@ -38,17 +38,8 @@ final public class MKExerciseSession : NSObject {
     let id: String
     private var sensorRecorder: CMSensorRecorder?
     
-    #if WITH_RT
-    
-    private var motionManager: CMMotionManager?
-    #if (arch(i386) || arch(x86_64))
-    private var timer: NSTimer?
-    #endif
     private var lastAccelerometerUpdateTime: NSDate?
     private var realTimeSamples: [Float] = []
-    private let accelerometerQueue: NSOperationQueue
-
-    #endif
     
     private let startTime: NSDate
     private var lastSentStartTime: NSDate
@@ -65,10 +56,6 @@ final public class MKExerciseSession : NSObject {
         self.sensorRecorder = CMSensorRecorder()
         self.id = NSUUID().UUIDString
         self.stats = MKExerciseSessionStats()
-        #if WITH_RT
-        self.accelerometerQueue = NSOperationQueue()
-        self.accelerometerQueue.qualityOfService = NSQualityOfService.UserInitiated
-        #endif
         
         // TODO: Sort out recording duration
         self.sensorRecorder!.recordAccelerometerForDuration(NSTimeInterval(3600 * 2))
@@ -84,98 +71,6 @@ final public class MKExerciseSession : NSObject {
     public var exerciseModelTitle: String {
         return exerciseModelMetadata.1
     }
-    
-    #if WITH_RT
-    ///
-    /// Indicates whether this session is sending data in real-time
-    ///
-    public var isRealTime: Bool {
-        return motionManager != nil
-    }
-    
-    public func beginSendRealTime(onDone: () -> Void) {
-        if motionManager != nil {
-            motionManager!.stopAccelerometerUpdates()
-        }
-
-        self.lastAccelerometerUpdateTime = nil
-        self.stats.realTimeCounter = MKExerciseSessionStats.SampleCounter()
-        self.realTimeSamples = []
-        
-        
-
-        #if (arch(i386) || arch(x86_64))
-            self.timer = NSTimer.scheduledTimerWithTimeInterval(1.0 / 50.0, target: self, selector: "fakeAccelerometerHandler", userInfo: nil, repeats: true)
-        #endif
-        connectivity.beginRealTime() {
-            self.motionManager = CMMotionManager()
-            self.motionManager!.accelerometerUpdateInterval = 1.0 / 50.0
-            self.motionManager!.startAccelerometerUpdatesToQueue(self.accelerometerQueue, withHandler: self.accelerometerHandler)
-            
-            onDone()
-        }
-    }
-    
-    public func endSendRealTime(onDone: (() -> Void)?) {
-        if let motionManager = motionManager {
-            
-            #if (arch(i386) || arch(x86_64))
-                timer?.invalidate()
-                timer = nil
-            #endif
-            
-            motionManager.stopAccelerometerUpdates()
-            if realTimeSamples.count > 0 {
-                let samples = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: -1, samplesPerSecond: 50, samples: realTimeSamples)
-                connectivity.transferSensorDataRealTime(samples, onDone: nil)
-            }
-        }
-        connectivity.endRealTime() {
-            self.stats.realTimeCounter = nil
-            self.realTimeSamples = []
-            if let f = onDone { f() }
-        }
-        self.motionManager = nil
-    }
-    
-    #if (arch(i386) || arch(x86_64))
-    public func fakeAccelerometerHandler() {
-        accelerometerHandler(CMFakeAccelerometerData(), error: nil)
-    }
-    #endif
-
-    private func accelerometerHandler(data: CMAccelerometerData?, error: NSError?) {
-        let now = NSDate()
-        if let lat = lastAccelerometerUpdateTime {
-            let interval = now.timeIntervalSinceDate(lat)
-            
-            if interval > 1 {
-                // the thread got suspended while running ~> we end RT updates
-                self.endSendRealTime(nil)
-                return
-            }
-        }
-        lastAccelerometerUpdateTime = now
-        
-        // accumulate data
-        if let data = data {
-            realTimeSamples.append(Float(data.acceleration.x))
-            realTimeSamples.append(Float(data.acceleration.y))
-            realTimeSamples.append(Float(data.acceleration.z))
-        }
-        
-        stats.realTimeCounter?.recorded += 1
-
-        // we send 100 samples at a time
-        if realTimeSamples.count >= 300 && !connectivity.transferringRealTime {
-            let samples = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: -1, samplesPerSecond: 50, samples: realTimeSamples)
-            connectivity.transferSensorDataRealTime(samples) {
-                self.realTimeSamples = []
-                self.stats.realTimeCounter?.sent += self.realTimeSamples.count / 3
-            }
-        }
-    }
-    #endif
     
     ///
     /// Send the data collected so far to the mobile counterpart

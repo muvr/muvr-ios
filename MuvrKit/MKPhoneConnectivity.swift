@@ -5,15 +5,13 @@ import WatchConnectivity
 /// The iOS counterpart of the connectivity interface
 ///
 public final class MKConnectivity : NSObject, WCSessionDelegate {
-    /// accumulated sensor data
-    private var sensorData: MKSensorData?
-    /// batch session files
-    private var sensorDataFiles: [NSURL] = []
-    private var sensorDataFileTimestamps = Set<NSTimeInterval>()
-    
+    private(set) public var sessions: [MKExerciseConnectivitySession] = []
+    public var session: MKExerciseConnectivitySession? {
+        return sessions.last
+    }
     /// The delegate that will receive the sensor data
     private var sensorDataConnectivityDelegate: (MKSensorDataConnectivityDelegate, dispatch_queue_t)?
-    private var exerciseSessionDelegate: (MKExerciseSessionDelegate, dispatch_queue_t)?
+    private var exerciseConnectivitySessionDelegate: (MKExerciseConnectivitySessionDelegate, dispatch_queue_t)?
 
     public override init() {
         super.init()
@@ -32,41 +30,42 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     /// XXX
     ///
-    public func setExerciseSessionDelegate(delegate delegate: MKExerciseSessionDelegate, on queue: dispatch_queue_t) {
-        self.exerciseSessionDelegate = (delegate, queue)
+    public func setExerciseConnectivitySessionDelegate(delegate delegate: MKExerciseConnectivitySessionDelegate, on queue: dispatch_queue_t) {
+        self.exerciseConnectivitySessionDelegate = (delegate, queue)
     }
     
     ///
     /// Clears the currently-running session
     ///
     public func clear() {
-        sensorData = nil
-        sensorDataFileTimestamps = Set<NSTimeInterval>()
-        sensorDataFiles = []
-    }
-    
-    ///
-    /// Returns the array of ``NSURL``s with the session files
-    ///
-    public func getSensorDataFiles() -> [NSURL] {
-        return sensorDataFiles
+        sessions = []
     }
     
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
         switch userInfo["action"] as? String {
         case .Some("start"):
             if let exerciseModelId = userInfo["exerciseModelId"] as? MKExerciseModelId,
-                   sessionId = userInfo["sessionId"] as? String,
-                   (delegate, queue) = exerciseSessionDelegate {
-                dispatch_async(queue) {
-                    delegate.exerciseSessionDidStart(sessionId: sessionId, exerciseModelId: exerciseModelId)
+                sessionId = userInfo["sessionId"] as? String {
+                    
+                if let (delegate, queue) = exerciseConnectivitySessionDelegate {
+                    dispatch_async(queue) {
+                        delegate.exerciseConnectivitySessionDidStart(sessionId: sessionId, exerciseModelId: exerciseModelId)
+                    }
                 }
+                sessions.append(MKExerciseConnectivitySession(id: sessionId))
             }
         case .Some("end"):
-            if let sessionId = userInfo["sessionId"] as? String,
-                   (delegate, queue) = exerciseSessionDelegate {
-                dispatch_async(queue) {
-                    delegate.exerciseSessionDidEnd(sessionId: sessionId)
+            if let sessionId = userInfo["sessionId"] as? String {
+                if let (delegate, queue) = exerciseConnectivitySessionDelegate {
+                    dispatch_async(queue) {
+                        delegate.exerciseConnectivitySessionDidEnd(sessionId: sessionId)
+                    }
+                }
+                if var last = sessions.last {
+                    if last.id == sessionId {
+                        last.running = false
+                    }
+                    sessions[sessions.count - 1] = last
                 }
             }
         default:
@@ -75,79 +74,40 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     }
     
     public func session(session: WCSession, didReceiveFile file: WCSessionFile) {
+        guard var last = sessions.last else { return }
+        
         if let metadata = file.metadata, timestamp = metadata["timestamp"] as? NSTimeInterval {
-            if sensorDataFileTimestamps.contains(timestamp) {
+            if last.sensorDataFileTimestamps.contains(timestamp) {
                 NSLog("Received duplicate timestamp file. Ignoring")
                 return
             }
-            sensorDataFileTimestamps.insert(timestamp)
+            last.sensorDataFileTimestamps.insert(timestamp)
         }
         
         let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
         let timestamp = String(NSDate().timeIntervalSince1970)
         let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata-\(timestamp).raw")
-        sensorDataFiles.append(fileUrl)
+        last.sensorDataFiles.append(fileUrl)
         
         do {
             try NSFileManager.defaultManager().moveItemAtURL(file.fileURL, toURL: fileUrl)
             let data = NSData(contentsOfURL: fileUrl)!
             let new = try MKSensorData(decoding: data)
-            if sensorData != nil {
-                try sensorData!.append(new)
+            if last.sensorData != nil {
+                try last.sensorData!.append(new)
             } else {
-                sensorData = new
+                last.sensorData = new
             }
             if let (delegate, queue) = sensorDataConnectivityDelegate {
                 dispatch_async(queue) {
-                    delegate.sensorDataConnectivityDidReceiveSensorData(accumulated: self.sensorData!, new: new)
+                    delegate.sensorDataConnectivityDidReceiveSensorData(accumulated: last.sensorData!, new: new)
                 }
             }
-            NSLog("\(file.metadata!) with \(new.duration); now accumulated \(sensorData!.duration)")
+            sessions[sessions.count - 1] = last
+            NSLog("\(file.metadata!) with \(new.duration); now accumulated \(last.sensorData!.duration)")
         } catch {
             NSLog("\(error)")
         }
     }
     
-//    public func session(session: WCSession, didReceiveMessageData messageData: NSData, replyHandler: (NSData) -> Void) {
-//        do {
-//            replyHandler("Ack".dataUsingEncoding(NSASCIIStringEncoding)!)
-//            
-//            let blockSensorData = try MKSensorData(decoding: messageData)
-//            if sensorData != nil {
-//                try sensorData!.append(blockSensorData)
-//            } else {
-//                sensorData = blockSensorData
-//            }
-//            
-//            let classified = try classifier.classify(block: sensorData!, maxResults: 5)
-//            dispatch_async(dispatch_get_main_queue(), {
-//                self.log.text = self.log.text + "\n~> \(self.sensorData!.duration): \(classified.first)"
-//            })
-//        } catch {
-//            dispatch_async(dispatch_get_main_queue(), {
-//                self.log.text = self.log.text + "\n\(error)"
-//            })
-//        }
-//    }
-//    
-//    func session(session: WCSession, didReceiveMessage message: [String : AnyObject], replyHandler: ([String : AnyObject]) -> Void) {
-//        replyHandler(["ack" : "bar"])
-//        
-//        switch (message["action"] as? String) ?? "" {
-//        case "begin-real-time":
-//            dispatch_async(dispatch_get_main_queue(), {
-//                self.log.text = self.log.text + "\nBegin RT"
-//            })
-//            
-//            return
-//        case "end-real-time":
-//            dispatch_async(dispatch_get_main_queue(), {
-//                self.log.text = self.log.text + "\nEnd RT"
-//            })
-//            sensorData = nil
-//        default:
-//            return
-//        }
-//    }
-
 }

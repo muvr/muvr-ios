@@ -99,23 +99,28 @@ public struct MKClassifier {
             return MKClassifiedExerciseWindow(window: window, classifiedExerciseBlocks: classifiedExerciseBlocks)
         }
         
-        // NSLog("\(cews)")
-        
-        let nonEmptyCews = cews.filter { !$0.classifiedExerciseBlocks.isEmpty }
-        if nonEmptyCews.isEmpty { return [] }
+        if cews.isEmpty { return [] }
         
         var result: [MKClassifiedExerciseBlock] = []
-        var accumulator: MKClassifiedExerciseBlock = nonEmptyCews.first!.classifiedExerciseBlocks.first!
-        for var i = 1; i < nonEmptyCews.count; ++i {
-            let current = nonEmptyCews[i].classifiedExerciseBlocks.first!
-            if current.isRoughlyEqual(accumulator) {
-                accumulator.extend(current)
+        var accumulator: MKClassifiedExerciseBlock? = nil
+        for var i = 0; i < cews.count; ++i {
+            let cew = cews[i]
+            NSLog("\(cew.window) -> \(cews[i].classifiedExerciseBlocks.first)")
+            if let current = cews[i].classifiedExerciseBlocks.first {
+                if accumulator == nil {
+                    accumulator = current
+                } else if current.isRoughlyEqual(accumulator!) {
+                    accumulator!.extend(current)
+                } else {
+                    result.append(accumulator!)
+                    accumulator = current
+                }
             } else {
-                result.append(accumulator)
-                accumulator = current
+                if let a = accumulator { result.append(a) }
+                accumulator = nil
             }
         }
-        result.append(accumulator)
+        if let a = accumulator { result.append(a) }
         
         return result.filter { $0.duration >= self.model.minimumDuration }.map { x in
             return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, repetitions: nil, intensity: nil, weight: nil)
