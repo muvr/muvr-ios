@@ -69,6 +69,7 @@ public struct MKClassifier {
             throw MKClassifierError.NotEnoughRows(received: block.rowCount, required: windowSize)
         }
 
+        // TODO: Use vDSP_vspdp
         var doubleM = m.map { Double($0) }
         let numWindows = (rowCount - windowSize) / windowStepSize + 1
                 
