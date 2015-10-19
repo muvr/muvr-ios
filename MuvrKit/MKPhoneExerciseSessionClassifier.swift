@@ -29,7 +29,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     }
     
     /// the classification result delegate
-    private let delegate: MKSessionClassifierDelegate
+    private let delegate: MKSessionClassifierDelegate     // Remember to call the delegate methods on ``dispatch_get_main_queue()``
     
     /// the queue for immediate classification, with high-priority QoS
     private let classificationQueue: dispatch_queue_t = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
@@ -47,14 +47,44 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     public init(exerciseModelSource: MKExerciseModelSource, delegate: MKSessionClassifierDelegate, unclassified: [MKExerciseConnectivitySession]) {
         self.exerciseModelSource = exerciseModelSource
         self.delegate = delegate
-        unclassified.forEach(exerciseConnectivitySessionDidEnd)
+        
+        dispatch_async(summaryQueue) {
+            let summarized = unclassified.flatMap(self.summarize)
+            dispatch_async(dispatch_get_main_queue()) {
+                summarized.forEach(delegate.sessionClassifierDidSummarise)
+            }
+            self.sessions.appendContentsOf(summarized)
+        }
+    }
+    
+    private func classify(exerciseModelId exerciseModelId: MKExerciseModelId, sensorData: MKSensorData) -> [MKClassifiedExercise]? {
+        let model = exerciseModelSource.getExerciseModel(id: exerciseModelId)
+        let classifier = MKClassifier(model: model)
+        return try? classifier.classify(block: sensorData, maxResults: 10)
+    }
+    
+    ///
+    /// Summarizes the entire session. It reclassifies all exercises and may do some magic in the
+    /// future. Remember to call this function on the ``summaryQueue``.
+    ///
+    /// - parameter session: the connectivity session to summarize
+    /// - returns: the summarized session, if possible
+    ///
+    private func summarize(session session: MKExerciseConnectivitySession) -> MKExerciseSession? {
+        if let sensorData = session.sensorData {
+            var exerciseSession = MKExerciseSession()
+            exerciseSession.sensorData = sensorData
+            if let classified = classify(exerciseModelId: session.exerciseModelId, sensorData: sensorData) {
+                exerciseSession.classifiedExercises.appendContentsOf(classified)
+            }
+            return exerciseSession
+        }
+        
+        return nil
     }
     
     public func exerciseConnectivitySessionDidEnd(session session: MKExerciseConnectivitySession) {
-        // TODO: check that ids match
-        guard let exerciseSession = sessions.last else { return }
-
-        dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidSummarise(exerciseSession) }
+        // ?
     }
     
     public func exerciseConnectivitySessionDidStart(session session: MKExerciseConnectivitySession) {
@@ -66,20 +96,13 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     public func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) {
         guard var exerciseSession = sessions.last else { return }
         
-        let model = exerciseModelSource.getExerciseModel(id: session.exerciseModelId)
-        let classifier = MKClassifier(model: model)
-        
         dispatch_async(classificationQueue) {
-            do {
-                let classified = try classifier.classify(block: new, maxResults: 10)
+            if let classified = self.classify(exerciseModelId: session.exerciseModelId, sensorData: new) {
                 exerciseSession.classifiedExercises.appendContentsOf(classified)
                 dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidClassify(exerciseSession) }
-            } catch {
-                // TODO: ???
             }
+            self.sessions[self.sessions.count - 1] = exerciseSession
         }
-        
-        sessions[sessions.count - 1] = exerciseSession
     }
     
 }
