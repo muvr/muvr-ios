@@ -36,6 +36,10 @@ class MRScaffoldingViewController : UIViewController, MKExerciseModelSource, MKS
         log.text = log.text + "\nSummarized \(session)"
     }
     
+    func sessionClassifierDidEnd(session: MKExerciseSession) {
+        log.text = log.text + "\nEnded \(session)"
+    }
+    
     func sessionClassifierDidStart(session: MKExerciseSession) {
         log.text = log.text + "\nStarted \(session)"
     }

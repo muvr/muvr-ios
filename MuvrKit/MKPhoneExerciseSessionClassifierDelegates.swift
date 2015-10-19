@@ -14,6 +14,13 @@ public protocol MKSessionClassifierDelegate {
     func sessionClassifierDidClassify(session: MKExerciseSession)
     
     ///
+    /// The session has ended
+    ///
+    /// - parameter session: the session that has just ended
+    ///
+    func sessionClassifierDidEnd(session: MKExerciseSession)
+    
+    ///
     /// Called when the session classification completes. The session will no longer
     /// change after this call
     ///
