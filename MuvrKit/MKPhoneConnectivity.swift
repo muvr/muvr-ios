@@ -5,33 +5,22 @@ import WatchConnectivity
 /// The iOS counterpart of the connectivity interface
 ///
 public final class MKConnectivity : NSObject, WCSessionDelegate {
+    /// all sessions
     private(set) public var sessions: [MKExerciseConnectivitySession] = []
+    /// the current session
     public var session: MKExerciseConnectivitySession? {
         return sessions.last
     }
     /// The delegate that will receive the sensor data
-    private var sensorDataConnectivityDelegate: (MKSensorDataConnectivityDelegate, dispatch_queue_t)?
-    private var exerciseConnectivitySessionDelegate: (MKExerciseConnectivitySessionDelegate, dispatch_queue_t)?
+    public var sensorDataConnectivityDelegate: MKSensorDataConnectivityDelegate?
+    /// The delegate that will receive session calls
+    public var exerciseConnectivitySessionDelegate: MKExerciseConnectivitySessionDelegate?
 
     public override init() {
         super.init()
         // setup watch communication
         WCSession.defaultSession().delegate = self
         WCSession.defaultSession().activateSession()
-    }
-    
-    ///
-    /// Sets the delegate that will...
-    ///
-    public func setDataConnectivityDelegate(delegate delegate: MKSensorDataConnectivityDelegate, on queue: dispatch_queue_t) {
-        self.sensorDataConnectivityDelegate = (delegate, queue)
-    }
-    
-    ///
-    /// XXX
-    ///
-    public func setExerciseConnectivitySessionDelegate(delegate delegate: MKExerciseConnectivitySessionDelegate, on queue: dispatch_queue_t) {
-        self.exerciseConnectivitySessionDelegate = (delegate, queue)
     }
     
     ///
@@ -46,27 +35,22 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         case .Some("start"):
             if let exerciseModelId = userInfo["exerciseModelId"] as? MKExerciseModelId,
                 sessionId = userInfo["sessionId"] as? String {
-                    
-                if let (delegate, queue) = exerciseConnectivitySessionDelegate {
-                    dispatch_async(queue) {
-                        delegate.exerciseConnectivitySessionDidStart(sessionId: sessionId, exerciseModelId: exerciseModelId)
-                    }
+                let session = MKExerciseConnectivitySession(id: sessionId, exerciseModelId: exerciseModelId)
+                sessions.append(session)
+                if let delegate = exerciseConnectivitySessionDelegate {
+                    delegate.exerciseConnectivitySessionDidStart(session: session)
                 }
-                sessions.append(MKExerciseConnectivitySession(id: sessionId))
             }
         case .Some("end"):
-            if let sessionId = userInfo["sessionId"] as? String {
-                if let (delegate, queue) = exerciseConnectivitySessionDelegate {
-                    dispatch_async(queue) {
-                        delegate.exerciseConnectivitySessionDidEnd(sessionId: sessionId)
-                    }
+            if let sessionId = userInfo["sessionId"] as? String, var last = sessions.last {
+                if last.id != sessionId {
+                    NSLog("last.id != sessionId. Don't know which session to end.")
                 }
-                if var last = sessions.last {
-                    if last.id == sessionId {
-                        last.running = false
-                    }
-                    sessions[sessions.count - 1] = last
+                last.running = false
+                if let delegate = exerciseConnectivitySessionDelegate {
+                    delegate.exerciseConnectivitySessionDidEnd(session: last)
                 }
+                sessions[sessions.count - 1] = last
             }
         default:
             NSLog("Unknown action in \(userInfo)")
@@ -98,10 +82,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             } else {
                 last.sensorData = new
             }
-            if let (delegate, queue) = sensorDataConnectivityDelegate {
-                dispatch_async(queue) {
-                    delegate.sensorDataConnectivityDidReceiveSensorData(accumulated: last.sensorData!, new: new)
-                }
+            if let delegate = sensorDataConnectivityDelegate {
+                delegate.sensorDataConnectivityDidReceiveSensorData(accumulated: last.sensorData!, new: new, session: last)
             }
             sessions[sessions.count - 1] = last
             NSLog("\(file.metadata!) with \(new.duration); now accumulated \(last.sensorData!.duration)")

@@ -2,23 +2,22 @@ import Foundation
 import WatchConnectivity
 import MuvrKit
 
-class MRScaffoldingViewController : UIViewController, MKSensorDataConnectivityDelegate, MKExerciseConnectivitySessionDelegate {
+class MRScaffoldingViewController : UIViewController, MKExerciseModelSource, MKSessionClassifierDelegate {
     @IBOutlet var log: UITextView!
 
     /// classifier for RT classification
-    private var classifier: MKClassifier!
+    private var classifier: MKSessionClassifier!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // TODO: the connectivity delegate, and thus the classification, wants to run on a separate queue.
-        // TODO: move to a queue with USER_INITIATED QoS
-        MRAppDelegate.sharedDelegate().connectivity.setDataConnectivityDelegate(delegate: self, on: dispatch_get_main_queue())
-        MRAppDelegate.sharedDelegate().connectivity.setExerciseConnectivitySessionDelegate(delegate: self, on: dispatch_get_main_queue())
-        
-        MRAppDelegate.sharedDelegate().connectivity.sessions.forEach { session in
-            log.text = log.text + "\n\(session)"
-        }
-        
+        classifier = MKSessionClassifier(exerciseModelSource: self,
+            delegate: self,
+            unclassified: MRAppDelegate.sharedDelegate().connectivity.sessions)
+        MRAppDelegate.sharedDelegate().connectivity.sensorDataConnectivityDelegate = classifier
+        MRAppDelegate.sharedDelegate().connectivity.exerciseConnectivitySessionDelegate = classifier
+    }
+    
+    func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
         // setup the classifier
         let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
         let data = NSData(contentsOfFile: NSBundle(path: bundlePath)!.pathForResource("demo", ofType: "raw")!)!
@@ -26,31 +25,19 @@ class MRScaffoldingViewController : UIViewController, MKSensorDataConnectivityDe
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
             exerciseIds: ["biceps-curl", "lateral-raise", "triceps-extension"],
             minimumDuration: 8)
-        classifier = MKClassifier(model: model)
+        return model
+    }
+
+    func sessionClassifierDidClassify(session: MKExerciseSession) {
+        log.text = log.text + "\nClassified: \(session.classifiedExercises)"
     }
     
-    func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData) {
-        log.text = log.text + "\nReceived data... "
-        do {
-            // TODO: Run the classification on the last window of the accumulated data + new,
-            // TODO: not just on the new data
-            
-            // However, for now this will suffice:
-            let classified = try classifier.classify(block: new, maxResults: 10)
-            log.text = log.text + "classified.\n\(classified)."
-            
-            // log.text = log.text + "not yet classified.\n"
-        } catch {
-            log.text = log.text + "failed.\n\(error)"
-        }
+    func sessionClassifierDidSummarise(session: MKExerciseSession) {
+        log.text = log.text + "\nSummarized \(session)"
     }
     
-    func exerciseConnectivitySessionDidEnd(sessionId sessionId: String) {
-        log.text = log.text + "\nEnded \(sessionId)"
-    }
-    
-    func exerciseConnectivitySessionDidStart(sessionId sessionId: String, exerciseModelId: MKExerciseModelId) {
-        log.text = log.text + "\nStarted \(sessionId) for \(exerciseModelId)"
+    func sessionClassifierDidStart(session: MKExerciseSession) {
+        log.text = log.text + "\nStarted \(session)"
     }
     
     @IBAction func clear(sender: AnyObject) {

@@ -2,7 +2,8 @@ import Foundation
 import WatchConnectivity
 
 ///
-/// The Watch -> iOS connectivity
+/// The Watch -> iOS connectivity; deals with the underlying mechanism of communication
+/// and maintains
 ///
 public class MKConnectivity : NSObject, WCSessionDelegate {
     typealias OnFileTransferDone = SendDataResult -> Void

@@ -37,10 +37,7 @@ final public class MKExerciseSession : NSObject {
     
     let id: String
     private var sensorRecorder: CMSensorRecorder?
-    
-    private var lastAccelerometerUpdateTime: NSDate?
-    private var realTimeSamples: [Float] = []
-    
+        
     private let startTime: NSDate
     private var lastSentStartTime: NSDate
     private let exerciseModelMetadata: MKExerciseModelMetadata
