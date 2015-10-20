@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A282b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="uAe-Tk-bVz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A282b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="RwV-Tz-f9S">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -34,6 +34,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <tabBarItem key="tabBarItem" title="Item" image="exercise" id="1bl-C3-HAt"/>
                     <navigationItem key="navigationItem" title="Scaffolding" id="nM9-A2-66K">
                         <barButtonItem key="leftBarButtonItem" systemItem="trash" id="PbP-ua-fW6">
                             <connections>
@@ -54,12 +55,33 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PRW-qL-C2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2652" y="-397"/>
+            <point key="canvasLocation" x="-3258" y="-394"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="Ihn-nG-DXd">
+            <objects>
+                <tabBarController id="RwV-Tz-f9S" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="h7S-LR-cAr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="xl4-18-EiY" kind="relationship" relationship="viewControllers" id="SFd-WA-XQt"/>
+                        <segue destination="uAe-Tk-bVz" kind="relationship" relationship="viewControllers" id="E6O-9y-TXV"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6uz-7k-yUR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3832" y="-1361"/>
         </scene>
         <!--initial-->
         <scene sceneID="MUk-QB-pHq">
             <objects>
                 <navigationController storyboardIdentifier="initial" title="initial" id="uAe-Tk-bVz" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" image="sessions" id="VdP-7A-r9Y"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="g5L-mJ-bsJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -72,7 +94,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jcg-Yv-LOZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2652" y="-1310"/>
+            <point key="canvasLocation" x="-2675" y="-1361"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="exercise" width="25" height="25"/>
+        <image name="sessions" width="25" height="25"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="SFd-WA-XQt"/>
+    </inferredMetricsTieBreakers>
 </document>

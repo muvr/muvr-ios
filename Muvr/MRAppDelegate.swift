@@ -20,12 +20,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
     }
     
-    private func startWithStoryboardId(storyboard: UIStoryboard, id: String) {
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window!.makeKeyAndVisible()
-        window!.rootViewController = storyboard.instantiateViewControllerWithIdentifier(id)
-    }
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         let typesToShare: Set<HKSampleType> = [HKSampleType.workoutType()]
         let typesToRead: Set<HKSampleType> = [HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)!]
@@ -40,7 +34,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
         
         // main initialization
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        self.startWithStoryboardId(storyboard, id: "initial")
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window!.makeKeyAndVisible()
+        window!.rootViewController = storyboard.instantiateInitialViewController()
         
         return true
     }
