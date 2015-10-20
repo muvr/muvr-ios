@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 ///
 /// Common replacement for UIButton with Muvr-wide properties

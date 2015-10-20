@@ -7,7 +7,8 @@ class MKClassifierTests : XCTestCase {
         let data = NSData(contentsOfFile: NSBundle(forClass: MKClassifierTests.self).pathForResource("model-3", ofType: "raw")!)!
         let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: data,
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
-            exerciseIds: ["1", "2", "3"])
+            exerciseIds: ["1", "2", "3"],
+            minimumDuration: 0)
         return MKClassifier(model: model)
     }()
     
@@ -43,18 +44,21 @@ class MKClassifierTests : XCTestCase {
     func testClassA() {
         let fileName = NSBundle(forClass: MuvrKitTests.self).pathForResource("class-1", ofType: "csv")!
         let block = try! MKSensorData.sensorData(types: [MKSensorDataType.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, loading: fileName)
-        let cls = try! classifier.classify(block: block, maxResults: 100)
-        XCTAssertEqual(cls.first!.exerciseId, "1")
-        XCTAssertGreaterThan(cls.first!.confidence, 0.99)
+        let cls = try! classifier.classify(block: block, maxResults: 100).first!
+        XCTAssertEqual(cls.exerciseId, "1")
+        XCTAssertGreaterThan(cls.confidence, 0.99)
+        
+        let bc = try! classifier.classify(block: block, maxResults: 100)
+        print(bc)
     }
-    
+
     ///
     /// Tests that all zeros does not classify the right value
     ///
-    func testZeros() {
-        let block = MKSensorData.sensorData(types: [MKSensorDataType.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, generating: 400, withValue: .Constant(value: 0))
-        let cls = try! classifier.classify(block: block, maxResults: 100)
-        XCTAssertLessThan(cls.first!.confidence, 0.5)
+    func testLargeZeros() {
+        let block = MKSensorData.sensorData(types: [MKSensorDataType.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, generating: 50000, withValue: .Constant(value: 0))
+        let cls = try! classifier.classify(block: block, maxResults: 100).first
+        XCTAssertTrue(cls == nil)
     }
     
     

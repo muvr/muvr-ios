@@ -10,43 +10,110 @@
             <objects>
                 <controller title="Muvr" id="AgC-eL-Hgc" customClass="MRMainController" customModule="Watch_Extension">
                     <items>
-                        <picker width="1" widthAdjustment="2" height="0.20000000000000001" alignment="left" focusStyle="stack" indicatorMode="shownWhileFocused" id="JBL-em-o3w"/>
-                        <picker width="1" height="0.20000000000000001" alignment="left" focusStyle="stack" indicatorMode="shownWhileFocused" id="vPB-03-r6L"/>
-                        <button width="1" alignment="left" title="Start" id="qph-6j-6Ky">
-                            <color key="backgroundColor" red="0.25098040700000002" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="font" type="boldSystem" pointSize="15"/>
-                            <connections>
-                                <action selector="go" destination="AgC-eL-Hgc" id="cfd-97-B6J"/>
-                            </connections>
-                        </button>
+                        <group width="1" height="116" alignment="left" layout="vertical" id="ys7-T7-jXZ">
+                            <items>
+                                <picker width="1" widthAdjustment="2" height="32" alignment="left" focusStyle="stack" id="JBL-em-o3w">
+                                    <connections>
+                                        <action selector="exerciseModelPickerAction:" destination="AgC-eL-Hgc" id="t0O-ON-9dO"/>
+                                    </connections>
+                                </picker>
+                                <button width="1" alignment="left" title="Start" id="qph-6j-6Ky">
+                                    <color key="backgroundColor" red="0.25098040700000002" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="font" type="boldSystem" pointSize="15"/>
+                                    <connections>
+                                        <action selector="beginSession" destination="AgC-eL-Hgc" id="ddT-ri-yoG"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                        <group width="1" height="1" alignment="center" id="U8c-fr-ind">
+                            <items>
+                                <group height="133" alignment="center" layout="vertical" id="RNf-yC-kXu">
+                                    <items>
+                                        <label width="136" alignment="left" text="Title" id="g7i-Qj-f79">
+                                            <fontDescription key="font" type="system" weight="light" pointSize="20"/>
+                                        </label>
+                                        <label alignment="left" text="Time" id="gfN-Vo-zov"/>
+                                        <label alignment="left" text="Stats" id="RKG-1P-IR2"/>
+                                    </items>
+                                </group>
+                            </items>
+                        </group>
                     </items>
                     <connections>
-                        <outlet property="intensity" destination="vPB-03-r6L" id="hBe-Z2-w85"/>
-                        <outlet property="model" destination="JBL-em-o3w" id="tr5-Tw-GOT"/>
+                        <outlet property="exerciseModel" destination="JBL-em-o3w" id="zdN-1a-r3P"/>
+                        <outlet property="progressGroup" destination="U8c-fr-ind" id="NHD-H5-fF9"/>
+                        <outlet property="startGroup" destination="ys7-T7-jXZ" id="mSK-xj-l8g"/>
+                        <outlet property="statsLabel" destination="RKG-1P-IR2" id="HGp-jw-GQx"/>
+                        <outlet property="timeLabel" destination="gfN-Vo-zov" id="5xH-Ng-4HT"/>
+                        <outlet property="titleLabel" destination="g7i-Qj-f79" id="291-bf-bpe"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="28" y="80"/>
+            <point key="canvasLocation" x="106" y="67"/>
         </scene>
         <!--Exercising-->
         <scene sceneID="aWf-eg-4sI">
             <objects>
                 <controller identifier="Exercising" title="Exercising" hidesWhenLoading="NO" id="IwV-9C-R6z"/>
             </objects>
-            <point key="canvasLocation" x="302" y="80"/>
+            <point key="canvasLocation" x="473" y="4"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
             <objects>
                 <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="MRGlanceController" customModule="Watch_Extension">
                     <items>
-                        <group alignment="left" id="gv7-I2-MZq"/>
-                        <group alignment="left" id="eew-Gs-W6Y"/>
+                        <group alignment="left" layout="vertical" id="gv7-I2-MZq">
+                            <items>
+                                <label width="136" alignment="left" text="Title" id="BI0-zu-H9t">
+                                    <fontDescription key="font" type="system" weight="light" pointSize="20"/>
+                                </label>
+                            </items>
+                        </group>
+                        <group alignment="left" layout="vertical" id="eew-Gs-W6Y">
+                            <items>
+                                <group width="1" alignment="left" hidden="YES" layout="vertical" id="HSj-EV-b8i">
+                                    <items>
+                                        <group width="1" alignment="left" id="j2I-R1-yQZ">
+                                            <items>
+                                                <imageView width="38" height="37" alignment="left" image="week" id="ZFw-xJ-gza"/>
+                                                <label alignment="left" text="Arms" id="d8E-QR-qe6">
+                                                    <fontDescription key="font" type="system" weight="thin" pointSize="30"/>
+                                                </label>
+                                            </items>
+                                        </group>
+                                        <group width="1" alignment="left" layout="vertical" id="91U-IO-zLZ">
+                                            <items>
+                                                <group width="1" alignment="left" id="rWY-LL-2PJ">
+                                                    <items>
+                                                        <label alignment="left" text="42 minutes" id="JHs-xB-3KP"/>
+                                                    </items>
+                                                </group>
+                                                <label alignment="left" text="12 sets" id="nfp-ux-xHd"/>
+                                                <label alignment="left" text="9 reps each" id="ikB-18-3rF" userLabel="9 reps each"/>
+                                            </items>
+                                        </group>
+                                    </items>
+                                </group>
+                                <group width="1" alignment="left" layout="vertical" id="ZdV-ef-Veb">
+                                    <items>
+                                        <label alignment="left" text="Time" id="C7v-lb-EWk"/>
+                                        <label alignment="left" text="Stats" id="II9-Zb-NiH"/>
+                                    </items>
+                                </group>
+                            </items>
+                        </group>
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
+                    <connections>
+                        <outlet property="statsLabel" destination="II9-Zb-NiH" id="pC1-w4-y9C"/>
+                        <outlet property="timeLabel" destination="C7v-lb-EWk" id="g0t-mw-xP6"/>
+                        <outlet property="titleLabel" destination="BI0-zu-H9t" id="fsg-kQ-N4Z"/>
+                    </connections>
                 </glanceController>
             </objects>
-            <point key="canvasLocation" x="164" y="514"/>
+            <point key="canvasLocation" x="-221" y="172"/>
         </scene>
     </scenes>
 </document>

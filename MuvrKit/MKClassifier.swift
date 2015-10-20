@@ -5,26 +5,26 @@ import MLPNeuralNet
 ///
 /// Possible classification errors
 ///
-enum MKClassifierError : ErrorType {
+public enum MKClassifierError : ErrorType {
     ///
     /// The sensor data does not contain any of the required sensor data types
     ///
     /// - parameter required: the required types
     ///
-    case NoSensorDataType(required: [MKSensorDataType])
+    case NoSensorDataType(received: [MKSensorDataType], required: [MKSensorDataType])
     
     ///
     /// The sensor data does not contain enough data for the classification
     ///
     /// - parameter required: the required number of rows
     ///
-    case NotEnoughRows(required: Int)
+    case NotEnoughRows(received: Int, required: Int)
 }
 
 ///
 /// Classifies the input data according to the model
 ///
-struct MKClassifier {
+public struct MKClassifier {
     private let model: MKExerciseModel
     private let neuralNet: MLPNeuralNet
     private let windowSize = 400
@@ -37,7 +37,7 @@ struct MKClassifier {
     ///
     /// - parameter model: the model
     ///
-    init(model: MKExerciseModel) {
+    public init(model: MKExerciseModel) {
         self.model = model
         self.neuralNet = MLPNeuralNet(layerConfig: model.layerConfig, weights: model.weights, outputMode: MLPClassification)
         self.neuralNet.hiddenActivationFunction = MLPReLU
@@ -45,33 +45,6 @@ struct MKClassifier {
         
         self.numInputs = self.model.layerConfig.first!
         self.numClasses = self.model.exerciseIds.count
-    }
-    
-    private func featureMatrixFrom(inputData: [Double], dimension: Int, numWindows: Int) -> NSData {
-        let featureMatrix = NSMutableData(capacity: numInputs * numWindows * sizeof(Double))!
-        
-        for i in 0..<numWindows {
-            let start  = i * windowStepSize * dimension
-            let end    = i * windowStepSize + windowSize * dimension
-            var window = Array(inputData[start..<end])
-            #if false
-            cblas_dscal(Int32(window.count), 1 / 4000, &window, 1)
-            #endif
-            
-            featureMatrix.appendBytes(&window, length: window.count * sizeof(Double))
-        }
-        
-        return featureMatrix
-    }
-    
-    private func calculateClassProbabilities(predictions: UnsafePointer<Double>, numWindows: Int) -> [Double] {
-        return (0..<numClasses).map { cls in
-            var sumForClass: Double = 0
-            for w in 0..<numWindows {
-                sumForClass += predictions[cls * numWindows + w]
-            }
-            return sumForClass
-        }
     }
     
     ///
@@ -82,38 +55,96 @@ struct MKClassifier {
     ///
     /// - parameter block: the received sensor data
     ///
-    func classify(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExercise] {
+    public func classify(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExercise] {
+        // in the outer function, we perform the common decoding and basic checking
         let (dimension, m) = block.samples(along: model.sensorDataTypes)
         if dimension == 0 {
             // we could not find any slice that the model requires
-            throw MKClassifierError.NoSensorDataType(required: model.sensorDataTypes)
+            throw MKClassifierError.NoSensorDataType(received: block.types, required: model.sensorDataTypes)
         }
         
         let rowCount = m.count / dimension
-        if (rowCount < windowSize) {
+        if rowCount < windowSize {
             // not enough input for classification
-            throw MKClassifierError.NotEnoughRows(required: windowSize)
+            throw MKClassifierError.NotEnoughRows(received: block.rowCount, required: windowSize)
+        }
+
+        // TODO: Use vDSP_vspdp
+        var doubleM = m.map { Double($0) }
+        let numWindows = (rowCount - windowSize) / windowStepSize + 1
+                
+        let cews: [MKClassifiedExerciseWindow] = (0..<numWindows).map { window in
+            let offset = dimension * windowStepSize * window * sizeof(Double)
+            
+            // NSLog("bytes \(offset)-\(offset + windowSize * sizeof(Double)); length \(doubleM.count * sizeof(Double))")
+
+            let featureMatrix = NSData(bytes: &doubleM + offset, length: dimension * windowSize * sizeof(Double))
+            let windowPrediction = NSMutableData(length: numClasses * sizeof(Double))!
+            neuralNet.predictByFeatureMatrix(featureMatrix, intoPredictionMatrix: windowPrediction)
+            let probabilities = UnsafePointer<Double>(windowPrediction.bytes)
+            let classRanking = (0..<numClasses).sort { x, y in
+                return probabilities[x] > probabilities[y]
+            }
+            let resultCount = min(maxResults, numClasses)
+            let classifiedExerciseBlocks: [MKClassifiedExerciseBlock] = (0..<resultCount).flatMap { i in
+                let labelIndex = classRanking[i]
+                
+                let labelName = self.model.exerciseIds[labelIndex]
+                let probability = probabilities[labelIndex]
+                if probability > 0.7 {
+                    return MKClassifiedExerciseBlock(confidence: probability, exerciseId: labelName, duration: Double(windowStepSize) / Double(block.samplesPerSecond))
+                }
+                return nil
+            }
+            return MKClassifiedExerciseWindow(window: window, classifiedExerciseBlocks: classifiedExerciseBlocks)
         }
         
-        let doubleM = m.map { Double($0) }
-        let numWindows = (rowCount - windowSize) / windowStepSize + 1
+        if cews.isEmpty { return [] }
+        
+        var result: [MKClassifiedExerciseBlock] = []
+        var accumulator: MKClassifiedExerciseBlock? = nil
+        for var i = 0; i < cews.count; ++i {
+            let cew = cews[i]
+            NSLog("\(cew.window) -> \(cews[i].classifiedExerciseBlocks.first)")
+            if let current = cews[i].classifiedExerciseBlocks.first {
+                if accumulator == nil {
+                    accumulator = current
+                } else if current.isRoughlyEqual(accumulator!) {
+                    accumulator!.extend(current)
+                } else {
+                    result.append(accumulator!)
+                    accumulator = current
+                }
+            } else {
+                if let a = accumulator { result.append(a) }
+                accumulator = nil
+            }
+        }
+        if let a = accumulator { result.append(a) }
+        
+        return result.filter { $0.duration >= self.model.minimumDuration }.map { x in
+            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, repetitions: nil, intensity: nil, weight: nil)
+        }
+    }    
+}
 
-        let featureMatrix = featureMatrixFrom(doubleM, dimension: dimension, numWindows: numWindows)
-        let windowPrediction = NSMutableData(length: numClasses * numWindows * sizeof(Double))!
-        neuralNet.predictByFeatureMatrix(featureMatrix, intoPredictionMatrix: windowPrediction)
-        let probabilities = calculateClassProbabilities(UnsafePointer<Double>(windowPrediction.bytes), numWindows: numWindows)
-        let classRanking = (0..<numClasses).sort { x, y in
-            return probabilities[x] > probabilities[y]
-        }
-        let resultCount = min(maxResults, numClasses)
-        return (0..<resultCount).map { i in
-            let labelIndex = classRanking[i]
-            
-            let labelName = self.model.exerciseIds[labelIndex]
-            let probability = probabilities[labelIndex]
-            return MKClassifiedExercise.Resistance(confidence: probability, exerciseId: labelName, duration: block.duration, repetitions: nil, intensity: nil, weight: nil)
-            
-        }
-    }
+struct MKClassifiedExerciseBlock {
+    var confidence: Double
+    let exerciseId: MKExerciseId
+    var duration: MKTimestamp
     
+    mutating func extend(by: MKClassifiedExerciseBlock) {
+        self.confidence = (self.confidence + by.confidence) / 2
+        self.duration = self.duration + by.duration
+    }
+
+    func isRoughlyEqual(to: MKClassifiedExerciseBlock) -> Bool {
+        return self.exerciseId == to.exerciseId && abs(self.confidence - to.confidence) < 0.1
+    }
+}
+
+
+struct MKClassifiedExerciseWindow {
+    let window: Int
+    let classifiedExerciseBlocks: [MKClassifiedExerciseBlock]
 }

@@ -6,7 +6,7 @@ public typealias MKDuration = Double
 ///
 /// Various failures that are thrown by the operations in the ``MKSensorData``
 ///
-public enum MKSensorDataFailure : ErrorType {
+public enum MKSensorDataError : ErrorType {
     ///
     /// The dimensions do not match
     ///
@@ -104,10 +104,10 @@ public struct MKSensorData {
     /// Constructs a new instance of this struct, assigns the dimension and samples
     ///
     public init(types: [MKSensorDataType], start: MKTimestamp, samplesPerSecond: UInt, samples: [Float]) throws {
-        if types.isEmpty { throw MKSensorDataFailure.BadTypes }
+        if types.isEmpty { throw MKSensorDataError.BadTypes }
         self.types = types
         self.dimension = types.reduce(0) { r, e in return r + e.dimension }
-        if samples.count % self.dimension != 0 { throw MKSensorDataFailure.InvalidSampleCountForDimension }
+        if samples.count % self.dimension != 0 { throw MKSensorDataError.InvalidSampleCountForDimension }
         
         self.samples = samples
         self.start = start
@@ -128,6 +128,13 @@ public struct MKSensorData {
         return Double(samples.count / dimension) / Double(samplesPerSecond)
     }
     
+    ///
+    /// The number of complete rows
+    ///
+    public var rowCount: Int {
+        return samples.count / dimension
+    }
+    
     /* TODO
     mutating func merge(that: MKSensorData) throws {
     }
@@ -138,16 +145,21 @@ public struct MKSensorData {
     ///
     /// - parameter that: the MKSensorData of the same dimension and sampling rate to append
     ///
-    mutating func append(that: MKSensorData) throws {
+    public mutating func append(that: MKSensorData) throws {
         // no need to add empty data
         if that.samples.isEmpty { return }
-        if self.samplesPerSecond != that.samplesPerSecond { throw MKSensorDataFailure.MismatchedSamplesPerSecond(expected: self.samplesPerSecond, actual: that.samplesPerSecond) }
-        if self.dimension != that.dimension { throw MKSensorDataFailure.MismatchedDimension(expected: self.dimension, actual: that.dimension) }
+        if self.samplesPerSecond != that.samplesPerSecond { throw MKSensorDataError.MismatchedSamplesPerSecond(expected: self.samplesPerSecond, actual: that.samplesPerSecond) }
+        if self.dimension != that.dimension { throw MKSensorDataError.MismatchedDimension(expected: self.dimension, actual: that.dimension) }
+        
+        if start == -1 && that.start == -1 {
+            samples.appendContentsOf(that.samples)
+            return
+        }
 
         let maxGap: MKDuration = 10
         let gap = that.start - self.end
     
-        if gap > maxGap { throw MKSensorDataFailure.TooDiscontinous(gap: gap) }
+        if gap > maxGap { throw MKSensorDataError.TooDiscontinous(gap: gap) }
         let samplesDelta = Int(gap * Double(samplesPerSecond)) * dimension
         
         if samplesDelta < 0 && -samplesDelta < samples.count {
@@ -190,15 +202,27 @@ public struct MKSensorData {
     ///
     /// - parameter types: the types that should be returned
     ///
-    func samples(along types: [MKSensorDataType]) -> (Int, [Float]) {
-        if types == self.types { return (self.dimension, self.samples) }
+    func samples(along types: [MKSensorDataType], range: Range<Int>? = nil) -> (Int, [Float]) {
+        
+        if types == self.types {
+            let elementRange = range.map { (r: Range<Int>) -> Range<Int> in
+                return Range<Int>(start: r.startIndex * dimension, end: r.endIndex * dimension)
+            }
+            if let elementRange = elementRange {
+                return (self.dimension, Array(self.samples[elementRange]))
+            }
+            return (self.dimension, self.samples)
+        }
         
         let bitmap = self.types.reduce([]) { r, t in
             return r + [Bool](count: t.dimension, repeatedValue: types.contains(t))
         }
+
         let rowCount = self.samples.count / dimension
+        let typesElementRange = range ?? Range<Int>(start: 0, end: rowCount)
+
         let includedDimensions = bitmap.filter { $0 }.count
-        return (includedDimensions, (0..<rowCount).flatMap { row in
+        return (includedDimensions, typesElementRange.flatMap { row in
             return bitmap.enumerate().flatMap { (idx: Int, value: Bool) -> Float? in
                 if value {
                     return self.samples[row * self.dimension + idx]

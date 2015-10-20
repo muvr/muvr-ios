@@ -1,10 +1,19 @@
 import UIKit
+import HealthKit
+import MuvrKit
 
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate {
-    
     var window: UIWindow?
-    var deviceToken: NSData?
+    let connectivity: MKConnectivity = MKConnectivity()
+    private var deviceToken: NSData?
+    
+    ///
+    /// Returns this shared delegate
+    ///
+    static func sharedDelegate() -> MRAppDelegate {
+        return UIApplication.sharedApplication().delegate as! MRAppDelegate
+    }
 
     private func registerSettingsAndDelegates() {
         let settings = UIUserNotificationSettings(forTypes: [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound], categories: nil)
@@ -18,31 +27,21 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // if LiftUserDefaults.isRunningTests { return true }
-        
+        let typesToShare: Set<HKSampleType> = [HKSampleType.workoutType()]
+        let typesToRead: Set<HKSampleType> = [HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)!]
+
+        HKHealthStore().requestAuthorizationToShareTypes(typesToShare, readTypes: typesToRead) { (x, y) -> Void in
+            print(x)
+            print(y)
+        }
+
         // notifications et al
         registerSettingsAndDelegates()
         
-        // initialize the data models
-        MRDataModel.create()
-        
         // main initialization
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let lis = MRApplicationState.loggedInState {
-            lis.checkAccount { r in
-                if let x = self.deviceToken { lis.registerDeviceToken(x) }
-                
-                //self.startWithStoryboardId(storyboard, id: r.cata({ err in if err.code == 404 { return "login" } else { return "offline" } }, { x in return "main" }))
-                
-                // notice that we have no concept of "offline": if the server is unreachable, we'll
-                // give the user the benefit of doubt.
-                
-                self.startWithStoryboardId(storyboard, id: r.cata({ err in if err.code == 404 { return "login" } else { return "main" } }, r: { x in return "main" }))
-            }
-        } else {
-            self.startWithStoryboardId(storyboard, id: "login")
-        }
-                
+        self.startWithStoryboardId(storyboard, id: "initial")
+        
         return true
     }
     
@@ -68,8 +67,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        MRMuvrServer.sharedInstance.setBaseUrlString(MRUserDefaults.muvrServerUrl)
+        // MRMuvrServer.sharedInstance.setBaseUrlString(MRUserDefaults.muvrServerUrl)
     }
-
+        
 }
 

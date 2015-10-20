@@ -1,22 +1,24 @@
 import WatchKit
 import Foundation
+import HealthKit
 
-
-class MRGlanceController: WKInterfaceController {
+class MRGlanceController: WKInterfaceController, MRSessionProgressGroup {
+    @IBOutlet weak var titleLabel: WKInterfaceLabel!
+    @IBOutlet weak var timeLabel: WKInterfaceLabel!
+    @IBOutlet weak var statsLabel: WKInterfaceLabel!
+    private var renderer: MRSessionProgressGroupRenderer?
 
     override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
-        
-        // Configure interface objects here.
+        super.awakeWithContext(context)        
     }
-
+    
     override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
+        renderer = MRSessionProgressGroupRenderer(group: self)
         super.willActivate()
     }
 
     override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
+        renderer = nil
         super.didDeactivate()
     }
 
