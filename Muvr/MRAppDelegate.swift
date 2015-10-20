@@ -37,7 +37,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window!.makeKeyAndVisible()
         window!.rootViewController = storyboard.instantiateInitialViewController()
-        
+                
         return true
     }
     
