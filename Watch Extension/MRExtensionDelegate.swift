@@ -21,8 +21,8 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     ///
     /// - returns: the running session or ``nil``
     ///
-    func getCurrentSession() -> MKExerciseSession? {
-        return connectivity?.getCurrentSession()
+    var currentSession: MKExerciseSession? {
+        return connectivity?.currentSession
     }
     
     ///

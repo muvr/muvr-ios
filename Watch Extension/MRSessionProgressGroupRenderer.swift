@@ -17,7 +17,7 @@ class MRSessionProgressGroupRenderer : NSObject {
     }
     
     func update() {
-        if let session = MRExtensionDelegate.sharedDelegate().getCurrentSession() {
+        if let session = MRExtensionDelegate.sharedDelegate().currentSession {
             let text = NSDateComponentsFormatter().stringFromTimeInterval(session.sessionDuration)!
             group.titleLabel.setText(session.title)
             group.timeLabel.setText(text)

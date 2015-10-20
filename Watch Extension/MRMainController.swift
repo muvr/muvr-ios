@@ -20,7 +20,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
         super.willActivate()
         let sd = MRExtensionDelegate.sharedDelegate()
         exerciseModel.setItems(sd.getExerciseModelMetadata().map { _, title in return WKPickerItem.withTitle(title) })
-        sd.getCurrentSession()?.beginSendBatch()
+        sd.currentSession?.beginSendBatch()
         
         updateUI()
         renderer = MRSessionProgressGroupRenderer(group: self)
@@ -34,13 +34,13 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     private func updateUI() {
         let sd = MRExtensionDelegate.sharedDelegate()
         clearAllMenuItems()
-        if sd.getCurrentSession() != nil {
+        if sd.currentSession != nil {
             addMenuItemWithItemIcon(WKMenuItemIcon.Pause, title: "Pause", action: "pause")
             addMenuItemWithItemIcon(WKMenuItemIcon.Trash, title: "Stop",  action: "stop")
         }
         
-        progressGroup.setHidden(sd.getCurrentSession() == nil)
-        startGroup.setHidden(sd.getCurrentSession() != nil)
+        progressGroup.setHidden(sd.currentSession == nil)
+        startGroup.setHidden(sd.currentSession != nil)
     }
     
     func pause() {

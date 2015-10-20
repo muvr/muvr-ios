@@ -34,8 +34,13 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         switch userInfo["action"] as? String {
         case .Some("start"):
             if let exerciseModelId = userInfo["exerciseModelId"] as? MKExerciseModelId,
-                sessionId = userInfo["sessionId"] as? String {
-                let session = MKExerciseConnectivitySession(id: sessionId, exerciseModelId: exerciseModelId)
+                sessionId = userInfo["sessionId"] as? String,
+                startTimestamp = userInfo["startDate"] as? Double {
+                let session = MKExerciseConnectivitySession(
+                    id: sessionId,
+                    exerciseModelId: exerciseModelId,
+                    startDate: NSDate(timeIntervalSince1970: startTimestamp)
+                )
                 sessions.append(session)
                 if let delegate = exerciseConnectivitySessionDelegate {
                     delegate.exerciseConnectivitySessionDidStart(session: session)
