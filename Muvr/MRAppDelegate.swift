@@ -3,15 +3,16 @@ import HealthKit
 import MuvrKit
 
 @UIApplicationMain
-class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource {
+class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, MKExerciseSessionStore, MKSessionClassifierDelegate {
+    
     var window: UIWindow?
+    
     private var connectivity: MKConnectivity!
     private var classifier: MKSessionClassifier!
-    private var deviceToken: NSData?
+    private var exerciseSessions: [MKExerciseSession] = []
+    private var currentSession: MKExerciseSession?
     
-    func setSessionClassifierDelegate(delegate: MKSessionClassifierDelegate) {
-        classifier.delegate = delegate
-    }
+    private var exerciseSessionStoreDelegate: MKExerciseSessionStoreDelegate?
     
     ///
     /// Returns this shared delegate
@@ -27,7 +28,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // set up the classification and connectivity
-        classifier = MKSessionClassifier(exerciseModelSource: self)
+        classifier = MKSessionClassifier(exerciseModelSource: self, delegate: self)
         connectivity = MKConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
         
         
@@ -51,33 +52,44 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource {
         return true
     }
     
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        self.deviceToken = deviceToken
-        NSLog("Token \(deviceToken)")
+    func getAllSessions() -> [MKExerciseSession] {
+        return exerciseSessions
     }
     
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        let data: [UInt8] = [0x5A, 0xB8, 0x48, 0x05, 0xF8, 0xD0, 0xCC, 0x63, 0x0A, 0x89, 0x90, 0xA8, 0x4D, 0x48, 0x08, 0x41, 0xC3, 0x68, 0x40, 0x03, 0x6C, 0x12, 0x2C, 0x8E, 0x52, 0xA8, 0xDC, 0xFD, 0x68, 0xA6, 0xF6, 0xF8]
-        let buf = UnsafePointer<[UInt8]>(data)
-        let deviceToken = NSData(bytes: buf, length: data.count)
-        self.deviceToken = deviceToken
-        NSLog("Not registered \(error)")
-    }
-    
-    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-        NSLog("settings %@", notificationSettings)
-    }
-    
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        NSLog("Got remote notification %@", userInfo)
-    }
-    
-    func applicationDidBecomeActive(application: UIApplication) {
-        // MRMuvrServer.sharedInstance.setBaseUrlString(MRUserDefaults.muvrServerUrl)
+    func getCurrentSession() -> MKExerciseSession? {
+        return currentSession
     }
     
     func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
         fatalError()
     }
+    
+    func sessionClassifierDidEnd(session: MKExerciseSession) {
+        currentSession = session
+        if let delegate = exerciseSessionStoreDelegate {
+            delegate.exerciseSessionStoreChanged(self)
+        }
+    }
+    
+    func sessionClassifierDidSummarise(session: MKExerciseSession) {
+        currentSession = nil
+        exerciseSessions.append(session)
+        if let delegate = exerciseSessionStoreDelegate {
+            delegate.exerciseSessionStoreChanged(self)
+        }
+    }
+    
+    func sessionClassifierDidClassify(session: MKExerciseSession) {
+        currentSession = session
+        if let delegate = exerciseSessionStoreDelegate {
+            delegate.exerciseSessionStoreChanged(self)
+        }
+    }
+    
+    func sessionClassifierDidStart(session: MKExerciseSession) {
+        currentSession = session
+        if let delegate = exerciseSessionStoreDelegate {
+            delegate.exerciseSessionStoreChanged(self)
+        }
+    }
 }
-
