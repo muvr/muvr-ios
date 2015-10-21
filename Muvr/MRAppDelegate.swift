@@ -3,10 +3,15 @@ import HealthKit
 import MuvrKit
 
 @UIApplicationMain
-class MRAppDelegate: UIResponder, UIApplicationDelegate {
+class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource {
     var window: UIWindow?
-    let connectivity: MKConnectivity = MKConnectivity()
+    private var connectivity: MKConnectivity!
+    private var classifier: MKSessionClassifier!
     private var deviceToken: NSData?
+    
+    func setSessionClassifierDelegate(delegate: MKSessionClassifierDelegate) {
+        classifier.delegate = delegate
+    }
     
     ///
     /// Returns this shared delegate
@@ -21,6 +26,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        // set up the classification and connectivity
+        classifier = MKSessionClassifier(exerciseModelSource: self)
+        connectivity = MKConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        
+        
         let typesToShare: Set<HKSampleType> = [HKSampleType.workoutType()]
         let typesToRead: Set<HKSampleType> = [HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)!]
 
@@ -65,6 +75,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         // MRMuvrServer.sharedInstance.setBaseUrlString(MRUserDefaults.muvrServerUrl)
     }
-        
+    
+    func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
+        fatalError()
+    }
 }
 

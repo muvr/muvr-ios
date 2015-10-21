@@ -7,16 +7,15 @@ import WatchConnectivity
 public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// all sessions
     private(set) public var sessions: [MKExerciseConnectivitySession] = []
-    /// the current session
-    public var session: MKExerciseConnectivitySession? {
-        return sessions.last
-    }
     /// The delegate that will receive the sensor data
-    public var sensorDataConnectivityDelegate: MKSensorDataConnectivityDelegate?
+    public let sensorDataConnectivityDelegate: MKSensorDataConnectivityDelegate
     /// The delegate that will receive session calls
-    public var exerciseConnectivitySessionDelegate: MKExerciseConnectivitySessionDelegate?
+    public let exerciseConnectivitySessionDelegate: MKExerciseConnectivitySessionDelegate
 
-    public override init() {
+    public init(sensorDataConnectivityDelegate: MKSensorDataConnectivityDelegate, exerciseConnectivitySessionDelegate: MKExerciseConnectivitySessionDelegate) {
+        self.sensorDataConnectivityDelegate = sensorDataConnectivityDelegate
+        self.exerciseConnectivitySessionDelegate = exerciseConnectivitySessionDelegate
+            
         super.init()
         // setup watch communication
         WCSession.defaultSession().delegate = self
@@ -42,20 +41,13 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                     startDate: NSDate(timeIntervalSince1970: startTimestamp)
                 )
                 sessions.append(session)
-                if let delegate = exerciseConnectivitySessionDelegate {
-                    delegate.exerciseConnectivitySessionDidStart(session: session)
-                }
+                exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidStart(session: session)
             }
         case .Some("end"):
-            if let sessionId = userInfo["sessionId"] as? String, var last = sessions.last {
-                if last.id != sessionId {
-                    NSLog("last.id != sessionId. Don't know which session to end.")
-                }
-                last.running = false
-                if let delegate = exerciseConnectivitySessionDelegate {
-                    delegate.exerciseConnectivitySessionDidEnd(session: last)
-                }
-                sessions[sessions.count - 1] = last
+            if let sessionId = userInfo["sessionId"] as? String, index = (sessions.indexOf { $0.id == sessionId }) {
+                let session = sessions[index]
+                sessions.removeAtIndex(index)
+                exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidEnd(session: session)
             }
         default:
             NSLog("Unknown action in \(userInfo)")
@@ -76,7 +68,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
         let timestamp = String(NSDate().timeIntervalSince1970)
         let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata-\(timestamp).raw")
-        last.sensorDataFiles.append(fileUrl)
         
         do {
             try NSFileManager.defaultManager().moveItemAtURL(file.fileURL, toURL: fileUrl)
@@ -87,9 +78,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             } else {
                 last.sensorData = new
             }
-            if let delegate = sensorDataConnectivityDelegate {
-                delegate.sensorDataConnectivityDidReceiveSensorData(accumulated: last.sensorData!, new: new, session: last)
-            }
+            sensorDataConnectivityDelegate.sensorDataConnectivityDidReceiveSensorData(accumulated: last.sensorData!, new: new, session: last)
             sessions[sessions.count - 1] = last
             NSLog("\(file.metadata!) with \(new.duration); now accumulated \(last.sensorData!.duration)")
         } catch {
