@@ -107,6 +107,9 @@
                                         <animations/>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="xl4-18-EiY" id="Peg-3M-hfz"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <animations/>

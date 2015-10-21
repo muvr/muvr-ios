@@ -12,7 +12,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     private var exerciseSessions: [MKExerciseSession] = []
     private var currentSession: MKExerciseSession?
     
-    private var exerciseSessionStoreDelegate: MKExerciseSessionStoreDelegate?
+    var exerciseSessionStoreDelegate: MKExerciseSessionStoreDelegate?
     
     ///
     /// Returns this shared delegate
@@ -61,7 +61,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     }
     
     func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
-        fatalError()
+        // setup the classifier
+        let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
+        let data = NSData(contentsOfFile: NSBundle(path: bundlePath)!.pathForResource("demo", ofType: "raw")!)!
+        let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: data,
+            sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
+            exerciseIds: ["biceps-curl", "lateral-raise", "triceps-extension"],
+            minimumDuration: 8)
+        return model
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession) {

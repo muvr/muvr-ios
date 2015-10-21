@@ -4,6 +4,10 @@ import MuvrKit
 class MRSessionsViewController : UIViewController, UITableViewDataSource, MKExerciseSessionStoreDelegate {
     @IBOutlet var tableView: UITableView!
     
+    override func viewDidAppear(animated: Bool) {
+        MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = self
+    }
+    
     @IBAction func showTrainingView(sender: AnyObject) {
         performSegueWithIdentifier("train", sender: nil)
     }
@@ -12,6 +16,10 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, MKExer
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return MRAppDelegate.sharedDelegate().getAllSessions().count
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "session \(section)"
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
