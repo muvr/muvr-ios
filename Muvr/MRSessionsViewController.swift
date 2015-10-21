@@ -4,12 +4,20 @@ import MuvrKit
 class MRSessionsViewController : UIViewController, UITableViewDataSource, MKExerciseSessionStoreDelegate {
     @IBOutlet var tableView: UITableView!
     
-    override func viewDidAppear(animated: Bool) {
-        MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = self
-    }
-    
     @IBAction func showTrainingView(sender: AnyObject) {
         performSegueWithIdentifier("train", sender: nil)
+    }
+    
+    @IBAction func clear(sender: UIBarButtonItem) {
+    }
+    
+    @IBAction func share(sender: UIBarButtonItem) {
+    }
+    
+    // MARK: UIViewController
+    
+    override func viewDidAppear(animated: Bool) {
+        MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = self
     }
     
     // MARK: UITableViewDataSource
