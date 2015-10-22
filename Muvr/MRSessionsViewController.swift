@@ -22,6 +22,10 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource,
         MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = self
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = nil
+    }
+    
     // MARK: UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
