@@ -1,7 +1,9 @@
 import UIKit
 import MuvrKit
 
-class MRSessionsViewController : UIViewController, UITableViewDataSource, MKExerciseSessionStoreDelegate {
+class MRSessionsViewController : UIViewController, UITableViewDataSource,
+    MKExerciseSessionStoreDelegate, MRLabelledExerciseDelegate {
+    
     @IBOutlet var tableView: UITableView!
     
     @IBAction func showTrainingView(sender: AnyObject) {
@@ -47,5 +49,12 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, MKExer
 
     func exerciseSessionStoreChanged(store: MKExerciseSessionStore) {
         tableView.reloadData()
+    }
+    
+    // MARK: MRLabelledExerciseDelegate
+    
+    func labelledExerciseDidAdd(labelledExercise: MKLabelledExercise) {
+        // TODO: complete me
+        NSLog("Added \(labelledExercise)")
     }
 }
