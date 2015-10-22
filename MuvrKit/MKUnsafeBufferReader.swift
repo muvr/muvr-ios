@@ -14,13 +14,9 @@ class MKUnsafeBufferReader {
     */
     
     init(data: NSData) {
-        //self.bytes = UnsafePointer<UInt8>(data.bytes)
+        self.bytes = UnsafePointer<UInt8>(data.bytes)
         self.totalLength = data.length
         self.offset = 0
-        
-        let tmpBytes = UnsafeMutablePointer<UInt8>.alloc(data.length)
-        memcpy(tmpBytes, data.bytes, data.length)
-        self.bytes = UnsafePointer<UInt8>(tmpBytes)
     }
     
     func expect(value: UInt8, throwing e: ErrorType) throws {
