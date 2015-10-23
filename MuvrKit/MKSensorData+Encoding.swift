@@ -37,20 +37,21 @@ public extension MKSensorData {
         var samples: [Float] = self.samples
         var types = self.types.flatMap { (type: MKSensorDataType) -> [UInt8] in
             switch type {
-            case .Accelerometer(location: MKSensorDataType.Location.LeftWrist):  return [UInt8(0x74), UInt8(0x61), UInt8(0x6c)]
-            case .Accelerometer(location: MKSensorDataType.Location.RightWrist): return [UInt8(0x74), UInt8(0x61), UInt8(0x72)]
-            case .Gyroscope(location: MKSensorDataType.Location.LeftWrist):      return [UInt8(0x74), UInt8(0x67), UInt8(0x6c)]
-            case .Gyroscope(location: MKSensorDataType.Location.RightWrist):     return [UInt8(0x74), UInt8(0x67), UInt8(0x72)]
-            case .HeartRate:                                                     return [UInt8(0x74), UInt8(0x68), UInt8(0x2d)]
+            case .Accelerometer(location: MKSensorDataType.Location.LeftWrist):  return [UInt8(0x74), UInt8(0x61), UInt8(0x6c), UInt8(0x0)]
+            case .Accelerometer(location: MKSensorDataType.Location.RightWrist): return [UInt8(0x74), UInt8(0x61), UInt8(0x72), UInt8(0x0)]
+            case .Gyroscope(location: MKSensorDataType.Location.LeftWrist):      return [UInt8(0x74), UInt8(0x67), UInt8(0x6c), UInt8(0x0)]
+            case .Gyroscope(location: MKSensorDataType.Location.RightWrist):     return [UInt8(0x74), UInt8(0x67), UInt8(0x72), UInt8(0x0)]
+            case .HeartRate:                                                     return [UInt8(0x74), UInt8(0x68), UInt8(0x2d), UInt8(0x0)]
             }
         }
                 
         d.appendBytes(&header,  length: sizeof(UInt8))
         d.appendBytes(&version, length: sizeof(UInt8))
         d.appendBytes(&typesCount, length: sizeof(UInt8))
-        d.appendBytes(&start, length: sizeof(Double))
         d.appendBytes(&samplesPerSecond, length: sizeof(UInt8))
+        d.appendBytes(&start, length: sizeof(Double))
         d.appendBytes(&samplesCount, length: sizeof(UInt32))
+        d.appendBytes(&header, length: sizeof(UInt8))
         
         d.appendBytes(&types, length: types.count)
         d.appendBytes(&samples, length: sizeof(Float) * Int(samplesCount))

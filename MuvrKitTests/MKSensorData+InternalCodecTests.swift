@@ -40,7 +40,7 @@ class MKSensorDataInternalCodecTests : XCTestCase {
     
     func testMalformedHeader() {
         do {
-            _ = try MKSensorData(decoding: "123456789abcdef10".dataUsingEncoding(NSASCIIStringEncoding)!)
+            _ = try MKSensorData(decoding: "123456789abcdef1011".dataUsingEncoding(NSASCIIStringEncoding)!)
             XCTFail("Not caught")
         } catch MKCodecError.BadHeader {
         } catch {
@@ -67,8 +67,8 @@ class MKSensorDataInternalCodecTests : XCTestCase {
         }
 
         do {
-            let wrongData = NSMutableData(data: encoded.subdataWithRange(NSRange(location: 0, length: 16)))
-            wrongData.appendData("...".dataUsingEncoding(NSASCIIStringEncoding)!)
+            let wrongData = NSMutableData(data: encoded.subdataWithRange(NSRange(location: 0, length: 18)))
+            wrongData.appendData("....".dataUsingEncoding(NSASCIIStringEncoding)!)
             _ = try MKSensorData(decoding: wrongData)
             XCTFail("Not caught")
         } catch MKCodecError.BadHeader {
