@@ -140,12 +140,35 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="tableView" destination="6cc-Qd-Qz5" id="sfz-sa-ppR"/>
-                        <segue destination="L5u-7f-GSQ" kind="show" identifier="train" id="6sw-Yc-MCj"/>
+                        <segue destination="R8z-14-vmd" kind="show" id="PkC-yg-omP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PRW-qL-C2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3607" y="-506"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="3Pe-4z-cY9">
+            <objects>
+                <viewController id="R8z-14-vmd" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Qrp-LO-leN"/>
+                        <viewControllerLayoutGuide type="bottom" id="kTC-FX-p69"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="HbP-gK-kGx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <segue destination="L5u-7f-GSQ" kind="show" id="7nF-i7-pNN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a0N-Im-PLJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3032" y="-506"/>
         </scene>
         <!--Train-->
         <scene sceneID="cgg-jn-fKF">
@@ -246,7 +269,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d10-RU-XfB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2900" y="-506"/>
+            <point key="canvasLocation" x="-2480" y="-506"/>
         </scene>
         <!--initial-->
         <scene sceneID="MUk-QB-pHq">
