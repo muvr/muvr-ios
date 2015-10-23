@@ -49,7 +49,7 @@ public extension MKSensorData {
         
         let bytes = MKUnsafeBufferReader(data: data)
 
-        if bytes.length < 16 { throw MKCodecError.NotEnoughInput }
+        if bytes.length < 18 { throw MKCodecError.NotEnoughInput }
         
         try bytes.expect(UInt8(0x61), throwing: MKCodecError.BadHeader) // 1
         try bytes.expect(UInt8(0x64), throwing: MKCodecError.BadHeader) // 2
