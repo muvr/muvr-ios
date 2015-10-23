@@ -76,5 +76,44 @@ class MKSensorDataInternalCodecTests : XCTestCase {
             XCTFail("Bad exception")
         }
     }
+    
+//TODO run on device
+    
+//    func test1() {
+//        let d = NSMutableData()
+//        
+//        var var1: UInt8  = 0x61
+//        var var2: UInt8 = 0x62
+//        var var3: UInt8 = 0x63
+//        var var4: UInt8 = 0x64
+//        var vardouble: Double = 0.0
+//        
+//        d.appendBytes(&var1,  length: sizeof(UInt8))
+//        d.appendBytes(&var2, length: sizeof(UInt8))
+//        d.appendBytes(&var3, length: sizeof(UInt8))
+//        //d.appendBytes(&var4, length: sizeof(UInt8))
+//        d.appendBytes(&vardouble, length: sizeof(Double))
+//        let bytes = MKUnsafeBufferReader(data: d)
+//        
+//        do {
+//            let res1: UInt8 = try bytes.next()
+//            XCTAssertEqual(UInt8(0x61), res1)
+//            
+//            let res2: UInt8 = try bytes.next()
+//            XCTAssertEqual(UInt8(0x62), res2)
+//            
+//            let res3: UInt8 = try bytes.next()
+//            XCTAssertEqual(UInt8(0x63), res3)
+//            
+////            let res4: UInt8 = try bytes.next()
+////            XCTAssertEqual(UInt8(0x64), res4)
+//            
+//            let res5: Double = try bytes.next()
+//            XCTAssertEqual(0.0, res5)
+//            
+//        } catch {
+//            XCTFail()
+//        }
+//    }
 
 }

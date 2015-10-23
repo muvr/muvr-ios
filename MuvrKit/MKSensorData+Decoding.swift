@@ -61,6 +61,15 @@ public extension MKSensorData {
         let types = try (0..<typesCount).map { _ in                     // 18
             return try MKSensorDataType.decode(bytes)
         }
+        let lenOfTypes = 3*typesCount
+        if lenOfTypes % 4 != 0 {
+            let numOfBytes = 4 - lenOfTypes % 4
+        
+            try (0..<numOfBytes).forEach { _ in
+                let _: UInt8 = try bytes.next()
+            }
+        }
+        
         let samplesData: UnsafePointer<Float> = try bytes.nexts(Int(samplesCount))
         var samples: [Float] = [Float](count: Int(samplesCount), repeatedValue: 0)
         for i in 0..<Int(samplesCount) {

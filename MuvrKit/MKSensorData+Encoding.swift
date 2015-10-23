@@ -53,7 +53,16 @@ public extension MKSensorData {
         d.appendBytes(&samplesCount, length: sizeof(UInt32))
         d.appendBytes(&header, length: sizeof(UInt8))
         
+        // length of types = 3 * typesCount bytes
         d.appendBytes(&types, length: types.count)
+        
+        // to fix the issue in 32bit ios, we need to add some byte so that the total length of types is multiple by 4
+        var align: UInt8 = 1
+        if types.count % 4 != 0 {
+            let numOfBytes = 4 - types.count % 4
+            (0..<numOfBytes).forEach { _ in d.appendBytes(&align, length: sizeof(UInt8)) }
+        }
+        
         d.appendBytes(&samples, length: sizeof(Float) * Int(samplesCount))
 
         /*
