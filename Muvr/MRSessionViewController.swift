@@ -32,7 +32,22 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerc
     
     // MARK: Share & label
     @IBAction func share(sender: UIBarButtonItem) {
+        guard let sensorData = session?.sensorData else { return }
         
+        let csvData = sensorData.exportAsCsv(labelledExercises: labelledExercises)
+        let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
+        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.csv")
+        if csvData.writeToURL(fileUrl, atomically: true) {
+            let controller = UIActivityViewController(activityItems: [fileUrl], applicationActivities: nil)
+            let excludedActivities = [UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,
+                UIActivityTypePostToWeibo, UIActivityTypeMessage, UIActivityTypeMail,
+                UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
+                UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr,
+                UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo]
+            controller.excludedActivityTypes = excludedActivities
+            
+            presentViewController(controller, animated: true, completion: nil)
+        }
     }
     
     @IBAction func label(sender: UIBarButtonItem) {

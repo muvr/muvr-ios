@@ -507,13 +507,13 @@
 			children = (
 				54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */,
 				54266B131BB92F16007A8A8A /* MKSensorData+Decoding.swift */,
+				54E4CB3F1BD8021C00E0B696 /* MKSensorData+Export.swift */,
+				5487F5A51BB9C9AB00ED2E97 /* MKSensorData+Equatable.swift */,
+				5471DD341BC13760007D1034 /* MKSensorData+Scaffolding.swift */,
 				545269031BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift */,
 				54266B161BB92F98007A8A8A /* MKSensorData.swift */,
 				5487F59B1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift */,
 				5487F59E1BB9B77E00ED2E97 /* MKCodec.swift */,
-				5487F5A51BB9C9AB00ED2E97 /* MKSensorData+Equatable.swift */,
-				5471DD341BC13760007D1034 /* MKSensorData+Scaffolding.swift */,
-				54E4CB3F1BD8021C00E0B696 /* MKSensorData+Export.swift */,
 			);
 			name = SensorData;
 			sourceTree = "<group>";
