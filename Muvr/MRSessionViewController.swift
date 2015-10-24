@@ -34,7 +34,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerc
     @IBAction func share(sender: UIBarButtonItem) {
         guard let sensorData = session?.sensorData else { return }
         
-        let csvData = sensorData.exportAsCsv(labelledExercises: labelledExercises)
+        let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
         let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
         let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.csv")
         if csvData.writeToURL(fileUrl, atomically: true) {

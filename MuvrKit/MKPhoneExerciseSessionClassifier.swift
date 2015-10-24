@@ -61,6 +61,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     private func summarise(session session: MKExerciseConnectivitySession) -> MKExerciseSession? {
         if let sensorData = session.sensorData {
             var exerciseSession = MKExerciseSession(exerciseConnectivitySession: session)
+            exerciseSession.sensorData = sensorData
             if let classified = classify(exerciseModelId: session.exerciseModelId, sensorData: sensorData) {
                 exerciseSession.classifiedExercises.appendContentsOf(classified)
             }
