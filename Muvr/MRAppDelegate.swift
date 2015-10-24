@@ -56,6 +56,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         return exerciseSessions
     }
     
+    func getSessionById(id: String) -> MKExerciseSession? {
+        return exerciseSessions.filter { $0.id == id }.first
+    }
+    
     func getCurrentSession() -> MKExerciseSession? {
         return currentSession
     }

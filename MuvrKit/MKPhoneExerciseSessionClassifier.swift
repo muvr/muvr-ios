@@ -60,8 +60,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     ///
     private func summarise(session session: MKExerciseConnectivitySession) -> MKExerciseSession? {
         if let sensorData = session.sensorData {
-            var exerciseSession = MKExerciseSession()
-            exerciseSession.sensorData = sensorData
+            var exerciseSession = MKExerciseSession(exerciseConnectivitySession: session)
             if let classified = classify(exerciseModelId: session.exerciseModelId, sensorData: sensorData) {
                 exerciseSession.classifiedExercises.appendContentsOf(classified)
             }
@@ -86,7 +85,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     }
     
     public func exerciseConnectivitySessionDidStart(session session: MKExerciseConnectivitySession) {
-        let exerciseSession = MKExerciseSession()
+        let exerciseSession = MKExerciseSession(exerciseConnectivitySession: session)
         sessions.append(exerciseSession)
         dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidStart(exerciseSession) }
     }

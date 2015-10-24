@@ -1,20 +1,8 @@
 import UIKit
 import MuvrKit
 
-class MRSessionsViewController : UIViewController, UITableViewDataSource,
-    MKExerciseSessionStoreDelegate, MRLabelledExerciseDelegate {
-    
+class MRSessionsViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, MKExerciseSessionStoreDelegate, MRLabelledExerciseDelegate {
     @IBOutlet var tableView: UITableView!
-    
-    @IBAction func showTrainingView(sender: AnyObject) {
-        performSegueWithIdentifier("train", sender: nil)
-    }
-    
-    @IBAction func clear(sender: UIBarButtonItem) {
-    }
-    
-    @IBAction func share(sender: UIBarButtonItem) {
-    }
     
     // MARK: UIViewController
     
@@ -26,27 +14,37 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource,
         MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = nil
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let sc = segue.destinationViewController as? MRSessionViewController {
+            let filter = (sender as? String)
+                .map { MRSessionViewController.ExerciseSessionFilter.Recorded(id: $0) } ?? MRSessionViewController.ExerciseSessionFilter.Current
+            sc.filter = filter
+        }
+    }
+    
     // MARK: UITableViewDataSource
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return MRAppDelegate.sharedDelegate().getAllSessions().count
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "session \(section)"
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MRAppDelegate.sharedDelegate().getAllSessions()[section].classifiedExercises.count
-    }
-    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let ces = MRAppDelegate.sharedDelegate().getAllSessions()[indexPath.section].classifiedExercises
-        let ce = ces[indexPath.row]
+        let session = MRAppDelegate.sharedDelegate().getAllSessions()[indexPath.section]
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise")!
-        cell.textLabel?.text = ce.exerciseId
+        let cell = tableView.dequeueReusableCellWithIdentifier("session")!
+        cell.textLabel?.text = session.exerciseModelId
         return cell
+    }
+    
+    // MARK: UITableViewDelegate
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let session = MRAppDelegate.sharedDelegate().getAllSessions()[indexPath.section]
+        performSegueWithIdentifier("session", sender: session.id)
+    }
+    
+    @IBAction func showCurrentSession() {
+        performSegueWithIdentifier("session", sender: nil)
     }
     
     // MARK: MKExerciseSessionStoreDelegate
