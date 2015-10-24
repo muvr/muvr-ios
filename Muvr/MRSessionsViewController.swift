@@ -2,12 +2,14 @@ import UIKit
 import MuvrKit
 
 class MRSessionsViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, MKExerciseSessionStoreDelegate, MRLabelledExerciseDelegate {
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var currentSessionButton: UIBarButtonItem!
     
     // MARK: UIViewController
     
     override func viewDidAppear(animated: Bool) {
         MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = self
+        exerciseSessionStoreChanged(MRAppDelegate.sharedDelegate())
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -50,6 +52,7 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     // MARK: MKExerciseSessionStoreDelegate
 
     func exerciseSessionStoreChanged(store: MKExerciseSessionStore) {
+        currentSessionButton.enabled = store.getCurrentSession() != nil
         tableView.reloadData()
     }
     

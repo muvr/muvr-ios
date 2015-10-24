@@ -1,13 +1,14 @@
 import UIKit
 import MuvrKit
 
-class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerciseSessionStoreDelegate {
+class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerciseSessionStoreDelegate, MRLabelledExerciseDelegate {
     @IBOutlet weak var tableView: UITableView!
     
+    private var labelledExercises: [MKLabelledExercise] = []
     private var session: MKExerciseSession?
     var filter: ExerciseSessionFilter? {
         didSet {
-            updateSession()
+            exerciseSessionStoreChanged(MRAppDelegate.sharedDelegate())
         }
     }
 
@@ -16,7 +17,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerc
         case Recorded(id: String)
     }
     
-    private func updateSession() {
+    func exerciseSessionStoreChanged(store: MKExerciseSessionStore) {
         switch filter {
         case .Some(.Current):
             session = MRAppDelegate.sharedDelegate().getCurrentSession()
@@ -25,15 +26,29 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerc
         default:
             session = nil
         }
+        
+        if tableView != nil { tableView.reloadData() }
     }
     
-    func exerciseSessionStoreChanged(store: MKExerciseSessionStore) {
-        updateSession()
+    // MARK: Share & label
+    @IBAction func share(sender: UIBarButtonItem) {
+        
+    }
+    
+    @IBAction func label(sender: UIBarButtonItem) {
+        performSegueWithIdentifier("label", sender: nil)
+    }
+    
+    // MARK: MRLabelledExerciseDelegate
+    func labelledExerciseDidAdd(labelledExercise: MKLabelledExercise) {
+        labelledExercises.append(labelledExercise)
+        tableView.reloadData()
     }
 
     // MARK: UIViewController
     override func viewDidAppear(animated: Bool) {
         MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = self
+        exerciseSessionStoreChanged(MRAppDelegate.sharedDelegate())
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -54,7 +69,11 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerc
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return session?.classifiedExercises.count ?? 0
+        switch section {
+        case 0: return session?.classifiedExercises.count ?? 0
+        case 1: return labelledExercises.count
+        default: return 0
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -64,7 +83,12 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerc
             let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise")!
             cell.textLabel!.text = ce.exerciseId
             return cell
-        case (1, _): fatalError("Fixme")
+        case (1, let row):
+            let le = labelledExercises[row]
+            let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise")!
+            cell.textLabel!.text = le.exerciseId
+            return cell
+
         default: fatalError("Fixme")
         }
     }
