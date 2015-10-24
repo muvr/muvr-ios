@@ -23,13 +23,9 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     
     /// all sessions
     private(set) public var sessions: [MKExerciseSession] = []
-    /// the current session
-    public var session: MKExerciseSession? {
-        return sessions.last
-    }
     
     /// the classification result delegate
-    private let delegate: MKSessionClassifierDelegate     // Remember to call the delegate methods on ``dispatch_get_main_queue()``
+    public let delegate: MKSessionClassifierDelegate    // Remember to call the delegate methods on ``dispatch_get_main_queue()``
     
     /// the queue for immediate classification, with high-priority QoS
     private let classificationQueue: dispatch_queue_t = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
@@ -44,17 +40,9 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     /// - parameter exerciseModelSource: implementation of the ``MKExerciseModelSource`` protocol
     /// - parameter unclassified: the list of not-yet-classified connectivity sessions
     ///
-    public init(exerciseModelSource: MKExerciseModelSource, delegate: MKSessionClassifierDelegate, unclassified: [MKExerciseConnectivitySession]) {
+    public init(exerciseModelSource: MKExerciseModelSource, delegate: MKSessionClassifierDelegate) {
         self.exerciseModelSource = exerciseModelSource
         self.delegate = delegate
-        
-        dispatch_async(summaryQueue) {
-            let summarized = unclassified.flatMap(self.summarise)
-            dispatch_async(dispatch_get_main_queue()) {
-                summarized.forEach(delegate.sessionClassifierDidSummarise)
-            }
-            self.sessions.appendContentsOf(summarized)
-        }
     }
     
     private func classify(exerciseModelId exerciseModelId: MKExerciseModelId, sensorData: MKSensorData) -> [MKClassifiedExercise]? {
@@ -72,8 +60,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     ///
     private func summarise(session session: MKExerciseConnectivitySession) -> MKExerciseSession? {
         if let sensorData = session.sensorData {
-            var exerciseSession = MKExerciseSession()
-            exerciseSession.sensorData = sensorData
+            var exerciseSession = MKExerciseSession(exerciseConnectivitySession: session)
             if let classified = classify(exerciseModelId: session.exerciseModelId, sensorData: sensorData) {
                 exerciseSession.classifiedExercises.appendContentsOf(classified)
             }
@@ -98,7 +85,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     }
     
     public func exerciseConnectivitySessionDidStart(session session: MKExerciseConnectivitySession) {
-        let exerciseSession = MKExerciseSession()
+        let exerciseSession = MKExerciseSession(exerciseConnectivitySession: session)
         sessions.append(exerciseSession)
         dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidStart(exerciseSession) }
     }
