@@ -21,14 +21,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         WCSession.defaultSession().delegate = self
         WCSession.defaultSession().activateSession()
     }
-    
-    ///
-    /// Clears the currently-running session
-    ///
-    public func clear() {
-        sessions = []
-    }
-    
+      
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
         switch userInfo["action"] as? String {
         case .Some("start"):

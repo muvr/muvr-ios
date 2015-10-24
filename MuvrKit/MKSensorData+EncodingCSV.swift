@@ -10,13 +10,14 @@ private extension NSMutableData {
 
 public extension MKSensorData {
     
-    public func exportAsCsv(labelledExercises labelledExercises: [MKLabelledExercise]) -> NSData {
-        // expord data in CSV format: alwx,alwy,alwz,...,hr,...[,L,I,W]
+    public func encodeAsCsv(labelledExercises labelledExercises: [MKLabelledExercise]) -> NSData {
+        // expord data in CSV format: alwx,alwy,alwz,...,hr,...[,L,I,W,R]
         // alw: Accelerometer left wrist
         // hr: Heart rate
         // L: label
         // I: Intensity
         // W: weight
+        // R: repetitions
         
         func findLabel(row: Int) -> MKLabelledExercise? {
             let now = start + (Double(row) / Double(samplesPerSecond))
@@ -44,8 +45,11 @@ public extension MKSensorData {
                 if let i = l.intensity { result.appendASCIIString("\(i)") }
                 result.appendASCIIString(",")
                 if let w = l.weight { result.appendASCIIString("\(w)") }
+                result.appendASCIIString(",")
+                if let r = l.repetitions { result.appendASCIIString("\(r)") }
+                result.appendASCIIString(",")
             } else {
-                result.appendASCIIString(",,")
+                result.appendASCIIString(",,,")
             }
             result.appendASCIIString("\n")
         }
