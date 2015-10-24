@@ -9,10 +9,6 @@ public struct MKExerciseConnectivitySession {
     internal(set) public var startDate: NSDate
     /// accumulated sensor data
     internal(set) public var sensorData: MKSensorData?
-    /// batch session files
-    internal(set) public var sensorDataFiles: [NSURL] = []
-    /// indicates whether the session is in progress
-    internal(set) public var running: Bool = true
     /// the file datastamps
     internal var sensorDataFileTimestamps = Set<NSTimeInterval>()
  
