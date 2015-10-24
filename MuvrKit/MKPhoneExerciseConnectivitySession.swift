@@ -12,6 +12,13 @@ public struct MKExerciseConnectivitySession {
     /// the file datastamps
     internal var sensorDataFileTimestamps = Set<NSTimeInterval>()
  
+    ///
+    /// Initialises this instance, assigning the fields
+    ///
+    /// - parameter id: the session identity
+    /// - parameter exerciseModelId: the exercise model identity
+    /// - parameter startDate: the start date
+    ///
     internal init(id: String, exerciseModelId: String, startDate: NSDate) {
         self.id = id
         self.exerciseModelId = exerciseModelId
