@@ -4,6 +4,10 @@ import XCTest
 
 class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource {
  
+    ///
+    /// Implementation of the ``MKSessionClassifierDelegate`` that fires the matching ``XCTestExpectation``s
+    /// so that the test can be executed asynchronously.
+    ///
     class Delegate : MKSessionClassifierDelegate {
         var classified: MKExerciseSession?
         var ended: MKExerciseSession?
@@ -13,6 +17,9 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource {
         private let summariseExpectation: XCTestExpectation
         private let classifyExpectation: XCTestExpectation
         
+        ///
+        /// Initialises this instance, assigning the ``classifyExpectation`` and ``summariseExpectation``.
+        ///
         init(onClassify classifyExpectation: XCTestExpectation, onSummarise summariseExpectation: XCTestExpectation) {
             self.classifyExpectation = classifyExpectation
             self.summariseExpectation = summariseExpectation
@@ -67,7 +74,7 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource {
         classifier.exerciseConnectivitySessionDidEnd(session: session.withData(sd))
         
         waitForExpectationsWithTimeout(10) { err in
-            
+            // TODO: add assertions here
         }
     }
     

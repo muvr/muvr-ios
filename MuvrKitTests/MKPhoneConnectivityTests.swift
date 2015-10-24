@@ -5,6 +5,10 @@ import WatchConnectivity
 
 class MKConnectivityTests : XCTestCase {
     
+    ///
+    /// A subclass of WCSessionFile that can be used to "transmit" only ``MKSensorData``. It handles
+    /// caching the file in a temporary location and encoding.
+    ///
     class WCMockSessionFile : WCSessionFile {
         private let _fileURL: NSURL
         private let _metadata: [String : AnyObject]?
@@ -21,6 +25,9 @@ class MKConnectivityTests : XCTestCase {
             }
         }
         
+        ///
+        /// Initializes this instance, encoding the ``sensorData`` to a temporary file; and passing-through the ``metadata``
+        ///
         init(sensorData: MKSensorData, metadata: [String : AnyObject]) {
             let encoded = sensorData.encode()
             let cachesUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
@@ -33,6 +40,9 @@ class MKConnectivityTests : XCTestCase {
         }
     }
     
+    ///
+    /// Implementation of the connectivity delegates
+    ///
     class Delegates : MKSensorDataConnectivityDelegate, MKExerciseConnectivitySessionDelegate {
         var accumulated: MKSensorData?
         var new: MKSensorData?
@@ -52,6 +62,9 @@ class MKConnectivityTests : XCTestCase {
         }
     }
     
+    ///
+    /// Tests that the delegate fires appropriately with *session start* -> *session end* events only
+    ///
     func testStartEnd() {
         let delegates = Delegates()
         let c = MKConnectivity(sensorDataConnectivityDelegate: delegates, exerciseConnectivitySessionDelegate: delegates)
@@ -65,6 +78,9 @@ class MKConnectivityTests : XCTestCase {
         XCTAssertTrue(delegates.session == nil)
     }
 
+    ///
+    /// Tests that the delegate fires appropriately with *session start* -> *data* -> *session end* events
+    ///
     func testSendSensorData() {
         let delegates = Delegates()
         let c = MKConnectivity(sensorDataConnectivityDelegate: delegates, exerciseConnectivitySessionDelegate: delegates)
