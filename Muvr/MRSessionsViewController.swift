@@ -50,7 +50,7 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     // MARK: MKExerciseSessionStoreDelegate
 
     func exerciseStoreChanged() {
-        currentSessionButton.enabled = MRAppDelegate.sharedDelegate().getCurrentSession() != nil
+        currentSessionButton.enabled = MRAppDelegate.sharedDelegate().currentSession != nil
         tableView.reloadData()
     }
     

@@ -16,7 +16,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MRExerc
         if let sessionId = sessionId {
             session = MRAppDelegate.sharedDelegate().getSessionById(sessionId)
         } else {
-            session = MRAppDelegate.sharedDelegate().getCurrentSession()
+            session = MRAppDelegate.sharedDelegate().currentSession
         }
         
         if session == nil {

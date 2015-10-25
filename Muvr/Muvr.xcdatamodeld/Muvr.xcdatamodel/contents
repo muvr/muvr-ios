@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Xcode 7.0">
+    <entity name="MKClassifiedExercise" representedClassName=".MKClassifiedExercise" syncable="YES">
+        <attribute name="confidence" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="duration" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="exerciseId" attributeType="String" syncable="YES"/>
+        <attribute name="intensity" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="repetitions" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="exerciseSession" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MKExerciseSession" inverseName="classifiedExercises" inverseEntity="MKExerciseSession" syncable="YES"/>
+    </entity>
+    <entity name="MKExerciseSession" representedClassName=".MKExerciseSession" syncable="YES">
+        <attribute name="exerciseModelId" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="sensorData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="startDate" attributeType="Date" indexed="YES" syncable="YES"/>
+        <relationship name="classifiedExercises" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MKClassifiedExercise" inverseName="exerciseSession" inverseEntity="MKClassifiedExercise" syncable="YES"/>
+        <relationship name="labelledExercises" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MKLabelledExercise" inverseName="exerciseSession" inverseEntity="MKLabelledExercise" syncable="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="MKLabelledExercise" representedClassName=".MKLabelledExercise" syncable="YES">
+        <attribute name="end" attributeType="Date" syncable="YES"/>
+        <attribute name="exerciseId" attributeType="String" syncable="YES"/>
+        <attribute name="intensity" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="repetitions" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="start" attributeType="Date" syncable="YES"/>
+        <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="exerciseSession" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MKExerciseSession" inverseName="labelledExercises" inverseEntity="MKExerciseSession" syncable="YES"/>
+    </entity>
+    <fetchRequest name="FetchRequest" entity="MKExerciseSession" predicateString="id == &quot;@id&quot;"/>
+    <elements>
+        <element name="MKClassifiedExercise" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="MKExerciseSession" positionX="-36" positionY="72" width="128" height="135"/>
+        <element name="MKLabelledExercise" positionX="-54" positionY="36" width="128" height="150"/>
+    </elements>
+</model>
