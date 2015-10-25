@@ -3,7 +3,7 @@ import HealthKit
 import MuvrKit
 
 @UIApplicationMain
-class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, MKExerciseSessionStore, MKSessionClassifierDelegate {
+class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, MKSessionClassifierDelegate {
     
     var window: UIWindow?
     
@@ -12,7 +12,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     private var exerciseSessions: [MKExerciseSession] = []
     private var currentSession: MKExerciseSession?
     
-    var exerciseSessionStoreDelegate: MKExerciseSessionStoreDelegate?
+    var exerciseStoreDelegate: MRExerciseStoreDelegate?
     
     ///
     /// Returns this shared delegate
@@ -85,30 +85,22 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     
     func sessionClassifierDidEnd(session: MKExerciseSession) {
         currentSession = session
-        if let delegate = exerciseSessionStoreDelegate {
-            delegate.exerciseSessionStoreChanged(self)
-        }
+        exerciseStoreDelegate?.exerciseStoreChanged()
     }
     
     func sessionClassifierDidSummarise(session: MKExerciseSession) {
         currentSession = nil
         exerciseSessions.append(session)
-        if let delegate = exerciseSessionStoreDelegate {
-            delegate.exerciseSessionStoreChanged(self)
-        }
+        exerciseStoreDelegate?.exerciseStoreChanged()
     }
     
     func sessionClassifierDidClassify(session: MKExerciseSession) {
         currentSession = session
-        if let delegate = exerciseSessionStoreDelegate {
-            delegate.exerciseSessionStoreChanged(self)
-        }
+        exerciseStoreDelegate?.exerciseStoreChanged()
     }
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
         currentSession = session
-        if let delegate = exerciseSessionStoreDelegate {
-            delegate.exerciseSessionStoreChanged(self)
-        }
+        exerciseStoreDelegate?.exerciseStoreChanged()
     }
 }

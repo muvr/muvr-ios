@@ -1,18 +1,18 @@
 import UIKit
 import MuvrKit
 
-class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerciseSessionStoreDelegate, MRLabelledExerciseDelegate {
+class MRSessionViewController : UIViewController, UITableViewDataSource, MRExerciseStoreDelegate, MRLabelledExerciseDelegate {
     @IBOutlet weak var tableView: UITableView!
     
     private var labelledExercises: [MKLabelledExercise] = []
     private var session: MKExerciseSession?
     var sessionId: String? {
         didSet {
-            exerciseSessionStoreChanged(MRAppDelegate.sharedDelegate())
+            exerciseStoreChanged()
         }
     }
 
-    func exerciseSessionStoreChanged(store: MKExerciseSessionStore) {
+    func exerciseStoreChanged() {
         if let sessionId = sessionId {
             session = MRAppDelegate.sharedDelegate().getSessionById(sessionId)
         } else {
@@ -44,15 +44,15 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerc
     
     // MARK: Share & label
     @IBAction func shareRaw() {
-        if let data = session?.sensorData?.encode() {
-            share(data, fileName: "sensordata.raw")
-        }
+//        if let data = session?.sensorData?.encode() {
+//            share(data, fileName: "sensordata.raw")
+//        }
     }
     
     @IBAction func shareCSV() {
-        if let data = session?.sensorData?.encodeAsCsv(labelledExercises: labelledExercises) {
-            share(data, fileName: "sensordata.csv")
-        }
+//        if let data = session?.sensorData?.encodeAsCsv(labelledExercises: labelledExercises) {
+//            share(data, fileName: "sensordata.csv")
+//        }
     }
     
     @IBAction func label(sender: UIBarButtonItem) {
@@ -67,12 +67,12 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerc
 
     // MARK: UIViewController
     override func viewDidAppear(animated: Bool) {
-        MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = self
-        exerciseSessionStoreChanged(MRAppDelegate.sharedDelegate())
+        MRAppDelegate.sharedDelegate().exerciseStoreDelegate = self
+        exerciseStoreChanged()
     }
     
     override func viewDidDisappear(animated: Bool) {
-        MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = nil
+        MRAppDelegate.sharedDelegate().exerciseStoreDelegate = nil
     }
 
     // MARK: UITableViewDataSource

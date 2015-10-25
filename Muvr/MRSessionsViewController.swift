@@ -1,19 +1,19 @@
 import UIKit
 import MuvrKit
 
-class MRSessionsViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, MKExerciseSessionStoreDelegate {
+class MRSessionsViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, MRExerciseStoreDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var currentSessionButton: UIBarButtonItem!
     
     // MARK: UIViewController
     
     override func viewDidAppear(animated: Bool) {
-        MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = self
-        exerciseSessionStoreChanged(MRAppDelegate.sharedDelegate())
+        MRAppDelegate.sharedDelegate().exerciseStoreDelegate = self
+        exerciseStoreChanged()
     }
     
     override func viewDidDisappear(animated: Bool) {
-        MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = nil
+        MRAppDelegate.sharedDelegate().exerciseStoreDelegate = nil
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -49,8 +49,8 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     
     // MARK: MKExerciseSessionStoreDelegate
 
-    func exerciseSessionStoreChanged(store: MKExerciseSessionStore) {
-        currentSessionButton.enabled = store.getCurrentSession() != nil
+    func exerciseStoreChanged() {
+        currentSessionButton.enabled = MRAppDelegate.sharedDelegate().getCurrentSession() != nil
         tableView.reloadData()
     }
     
