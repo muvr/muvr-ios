@@ -10,10 +10,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     
     private var connectivity: MKConnectivity!
     private var classifier: MKSessionClassifier!
-    // private var exerciseSessions: [MKExerciseSession] = []
-    private(set) internal var currentSession: MKExerciseSession?
-    
-    var exerciseStoreDelegate: MRExerciseStoreDelegate?
+    private var currentSession: MRManagedExerciseSession?
     
     ///
     /// Returns this shared delegate
@@ -73,26 +70,27 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
-        currentSession = session
-        save(session: session, sensorData: sensorData)
-        exerciseStoreDelegate?.exerciseStoreChanged()
+        currentSession = nil
+        saveContext()
     }
     
     func sessionClassifierDidSummarise(session: MKExerciseSession, sensorData: MKSensorData?) {
-        currentSession = nil
-        save(session: session, sensorData: sensorData)
-        exerciseStoreDelegate?.exerciseStoreChanged()
+        if let currentSession = currentSession {
+            if let sensorData = sensorData { currentSession.sensorData = sensorData.encode() }
+        }
+        saveContext()
     }
     
     func sessionClassifierDidClassify(session: MKExerciseSession, sensorData: MKSensorData) {
-        currentSession = session
-        save(session: session, sensorData: sensorData)
-        exerciseStoreDelegate?.exerciseStoreChanged()
+        if let currentSession = currentSession {
+            currentSession.sensorData = sensorData.encode()
+        }
+        saveContext()
     }
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
-        currentSession = session
-        exerciseStoreDelegate?.exerciseStoreChanged()
+        currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
+        saveContext()
     }
     
     // MARK: - Core Data stack

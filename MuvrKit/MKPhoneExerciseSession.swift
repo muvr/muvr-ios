@@ -12,16 +12,6 @@ public struct MKExerciseSession {
     private(set) public var classifiedExercises: [MKClassifiedExercise] = []
     
     ///
-    ///
-    ///
-    public init(id: String, exerciseModelId: MKExerciseModelId, startDate: NSDate, classifiedExercises: [MKClassifiedExercise]) {
-        self.id = id
-        self.exerciseModelId = exerciseModelId
-        self.startDate = startDate
-        self.classifiedExercises = classifiedExercises
-    }
-    
-    ///
     /// Constructs this instance from the values in ``exerciseConnectivitySession``
     ///
     /// - parameter exerciseConnectivitySession: the connectivity session

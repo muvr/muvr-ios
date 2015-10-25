@@ -1,30 +1,25 @@
 import UIKit
-import MuvrKit
+import CoreData
 
-class MRSessionViewController : UIViewController, UITableViewDataSource, MRExerciseStoreDelegate, MRLabelledExerciseDelegate {
+class MRSessionViewController : UIViewController, UITableViewDataSource, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var tableView: UITableView!
     
-    private var labelledExercises: [MKLabelledExercise] = []
-    private var session: MKExerciseSession?
-    var sessionId: String? {
-        didSet {
-            exerciseStoreChanged()
-        }
-    }
-
-    func exerciseStoreChanged() {
-        if let sessionId = sessionId {
-            session = MRAppDelegate.sharedDelegate().getSessionById(sessionId)
-        } else {
-            session = MRAppDelegate.sharedDelegate().currentSession
-        }
-        
-        if session == nil {
-            navigationController?.popViewControllerAnimated(true)
-        }
-        
-        if tableView != nil { tableView.reloadData() }
-    }
+    func setSessionId(sessionId: String) {
+        let fetchedResultsController: NSFetchedResultsController = {
+            let sessionFetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
+            sessionFetchRequest.predicate = NSPredicate(format: "(id = %@)", sessionId)
+            
+            let frc = NSFetchedResultsController(
+                fetchRequest: sessionFetchRequest,
+                managedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext,
+                sectionNameKeyPath: nil,
+                cacheName: nil)
+            
+            frc.delegate = self
+            
+            return frc
+        }()
+    }    
     
     func share(data: NSData, fileName: String) {
         let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
@@ -59,22 +54,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MRExerc
         performSegueWithIdentifier("label", sender: nil)
     }
     
-    // MARK: MRLabelledExerciseDelegate
-    func labelledExerciseDidAdd(labelledExercise: MKLabelledExercise) {
-        labelledExercises.append(labelledExercise)
-        tableView.reloadData()
-    }
-
-    // MARK: UIViewController
-    override func viewDidAppear(animated: Bool) {
-        MRAppDelegate.sharedDelegate().exerciseStoreDelegate = self
-        exerciseStoreChanged()
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        MRAppDelegate.sharedDelegate().exerciseStoreDelegate = nil
-    }
-
     // MARK: UITableViewDataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
@@ -90,27 +69,14 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MRExerc
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0: return session?.classifiedExercises.count ?? 0
-        case 1: return labelledExercises.count
+        case 0: return 0
+        case 1: return 0
         default: return 0
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch (indexPath.section, indexPath.row) {
-        case (0, let row):
-            let ce = session!.classifiedExercises[row]
-            let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise")!
-            cell.textLabel!.text = ce.exerciseId
-            return cell
-        case (1, let row):
-            let le = labelledExercises[row]
-            let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise")!
-            cell.textLabel!.text = le.exerciseId
-            return cell
-
-        default: fatalError("Fixme")
-        }
+        fatalError("Fixme")
     }
     
 }

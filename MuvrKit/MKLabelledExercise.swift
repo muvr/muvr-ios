@@ -6,36 +6,17 @@ import Foundation
 ///
 /// This is useful for training and training stages.
 ///
-public struct MKLabelledExercise {
+public protocol MKLabelledExercise {
     /// The exercise id—a classifier label, not localised
-    public let exerciseId: MKExerciseId
+    var exerciseId: MKExerciseId { get }
     /// The start date
-    public let start: NSDate
+    var start: NSDate { get }
     /// The end date
-    public let end: NSDate
+    var end: NSDate { get }
     /// # repetitions; > 0
-    public let repetitions: UInt?
+    var repetitions: UInt { get }
     /// The intensity; (0..1.0)
-    public let intensity: MKExerciseIntensity?
+    var intensity: MKExerciseIntensity { get }
     /// The weight in kg; > 0
-    public let weight: Double?
-    
-    ///
-    /// Initialises this instance by assigning the matching fields
-    ///
-    /// - parameter exerciseId: the exercise id—the label in the classifier, not localised
-    /// - parameter start: the start timestamp (wall clock)
-    /// - parameter end: the end timestamp (wall clock)
-    /// - parameter repetitions: the number of repetitions, if known
-    /// - parameter intensity: the intensity (0..1.0), if known
-    /// - parameter weight: the weight in kg, if known
-    ///
-    public init(exerciseId: MKExerciseId, start: NSDate, end: NSDate, repetitions: UInt?, intensity: MKExerciseIntensity?, weight: Double?) {
-        self.exerciseId = exerciseId
-        self.start = start
-        self.end = end
-        self.repetitions = repetitions
-        self.intensity = intensity
-        self.weight = weight
-    }
+    var weight: Double { get }
 }
