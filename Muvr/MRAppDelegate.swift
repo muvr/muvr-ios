@@ -78,13 +78,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         exerciseStoreDelegate?.exerciseStoreChanged()
     }
     
-    func sessionClassifierDidSummarise(session: MKExerciseSession) {
+    func sessionClassifierDidSummarise(session: MKExerciseSession, sensorData: MKSensorData?) {
         currentSession = nil
+        save(session: session, sensorData: sensorData)
         exerciseStoreDelegate?.exerciseStoreChanged()
     }
     
     func sessionClassifierDidClassify(session: MKExerciseSession, sensorData: MKSensorData) {
         currentSession = session
+        save(session: session, sensorData: sensorData)
         exerciseStoreDelegate?.exerciseStoreChanged()
     }
     

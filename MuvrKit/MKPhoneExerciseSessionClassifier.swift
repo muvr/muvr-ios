@@ -87,7 +87,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         dispatch_async(summaryQueue) {
             if let exerciseSession = self.summarise(session: session) {
                 self.sessions[self.sessions.count - 1] = exerciseSession
-                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidSummarise(exerciseSession) }
+                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidSummarise(exerciseSession, sensorData: session.sensorData) }
             }
         }
     }

@@ -28,7 +28,7 @@ public protocol MKSessionClassifierDelegate {
     ///
     /// - parameter session: the current snapshot of the session
     ///
-    func sessionClassifierDidSummarise(session: MKExerciseSession)
+    func sessionClassifierDidSummarise(session: MKExerciseSession, sensorData: MKSensorData?)
     
     ///
     /// Called when the session starts
