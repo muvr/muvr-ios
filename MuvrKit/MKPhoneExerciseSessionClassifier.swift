@@ -48,7 +48,15 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     private func classify(exerciseModelId exerciseModelId: MKExerciseModelId, sensorData: MKSensorData) -> [MKClassifiedExercise]? {
         let model = exerciseModelSource.getExerciseModel(id: exerciseModelId)
         let classifier = MKClassifier(model: model)
-        return try? classifier.classify(block: sensorData, maxResults: 10)
+        let result = try? classifier.classify(block: sensorData, maxResults: 10)
+        #if (arch(i386) || arch(x86_64))
+            if result?.isEmpty ?? true {
+                return [MKClassifiedExercise(confidence: 1, exerciseId: "demo/demo", duration: 10, repetitions: 10, intensity: 0.7, weight: 12.5)]
+            }
+            return result
+        #else
+            return result
+        #endif
     }
     
     ///
@@ -74,7 +82,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         // TODO: Improve me? The ``session`` is the whole thing, presumably, we can just add instead of needing the last element
         if sessions.count == 0 { return }
         
-        dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEnd(self.sessions.last!) }
+        dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEnd(self.sessions.last!, sensorData: session.sensorData) }
 
         dispatch_async(summaryQueue) {
             if let exerciseSession = self.summarise(session: session) {
@@ -96,7 +104,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         dispatch_async(classificationQueue) {
             if let classified = self.classify(exerciseModelId: session.exerciseModelId, sensorData: new) {
                 exerciseSession.addClassifiedExercises(classified)
-                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidClassify(exerciseSession) }
+                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidClassify(exerciseSession, sensorData: accumulated) }
             }
             self.sessions[self.sessions.count - 1] = exerciseSession
         }

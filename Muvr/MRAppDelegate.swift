@@ -83,7 +83,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         return model
     }
     
-    func sessionClassifierDidEnd(session: MKExerciseSession) {
+    func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
         currentSession = session
         exerciseStoreDelegate?.exerciseStoreChanged()
     }
@@ -94,7 +94,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         exerciseStoreDelegate?.exerciseStoreChanged()
     }
     
-    func sessionClassifierDidClassify(session: MKExerciseSession) {
+    func sessionClassifierDidClassify(session: MKExerciseSession, sensorData: MKSensorData) {
         currentSession = session
         exerciseStoreDelegate?.exerciseStoreChanged()
     }
