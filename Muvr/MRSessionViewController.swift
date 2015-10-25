@@ -6,38 +6,30 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerc
     
     private var labelledExercises: [MKLabelledExercise] = []
     private var session: MKExerciseSession?
-    var filter: ExerciseSessionFilter? {
+    var sessionId: String? {
         didSet {
             exerciseSessionStoreChanged(MRAppDelegate.sharedDelegate())
         }
     }
 
-    enum ExerciseSessionFilter {
-        case Current
-        case Recorded(id: String)
-    }
-    
     func exerciseSessionStoreChanged(store: MKExerciseSessionStore) {
-        switch filter {
-        case .Some(.Current):
+        if let sessionId = sessionId {
+            session = MRAppDelegate.sharedDelegate().getSessionById(sessionId)
+        } else {
             session = MRAppDelegate.sharedDelegate().getCurrentSession()
-        case .Some(.Recorded(let id)):
-            session = MRAppDelegate.sharedDelegate().getSessionById(id)
-        default:
-            session = nil
+        }
+        
+        if session == nil {
+            navigationController?.popViewControllerAnimated(true)
         }
         
         if tableView != nil { tableView.reloadData() }
     }
     
-    // MARK: Share & label
-    @IBAction func share(sender: UIBarButtonItem) {
-        guard let sensorData = session?.sensorData else { return }
-        
-        let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
+    func share(data: NSData, fileName: String) {
         let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
-        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.csv")
-        if csvData.writeToURL(fileUrl, atomically: true) {
+        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent(fileName)
+        if data.writeToURL(fileUrl, atomically: true) {
             let controller = UIActivityViewController(activityItems: [fileUrl], applicationActivities: nil)
             let excludedActivities = [UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,
                 UIActivityTypePostToWeibo, UIActivityTypeMessage, UIActivityTypeMail,
@@ -47,6 +39,19 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerc
             controller.excludedActivityTypes = excludedActivities
             
             presentViewController(controller, animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: Share & label
+    @IBAction func shareRaw() {
+        if let data = session?.sensorData?.encode() {
+            share(data, fileName: "sensordata.raw")
+        }
+    }
+    
+    @IBAction func shareCSV() {
+        if let data = session?.sensorData?.encodeAsCsv(labelledExercises: labelledExercises) {
+            share(data, fileName: "sensordata.csv")
         }
     }
     

@@ -1,7 +1,7 @@
 import UIKit
 import MuvrKit
 
-class MRSessionsViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, MKExerciseSessionStoreDelegate, MRLabelledExerciseDelegate {
+class MRSessionsViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, MKExerciseSessionStoreDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var currentSessionButton: UIBarButtonItem!
     
@@ -18,9 +18,7 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let sc = segue.destinationViewController as? MRSessionViewController {
-            let filter = (sender as? String)
-                .map { MRSessionViewController.ExerciseSessionFilter.Recorded(id: $0) } ?? MRSessionViewController.ExerciseSessionFilter.Current
-            sc.filter = filter
+            sc.sessionId = sender as? String
         }
     }
     
@@ -56,10 +54,4 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
         tableView.reloadData()
     }
     
-    // MARK: MRLabelledExerciseDelegate
-    
-    func labelledExerciseDidAdd(labelledExercise: MKLabelledExercise) {
-        // TODO: complete me
-        NSLog("Added \(labelledExercise)")
-    }
 }
