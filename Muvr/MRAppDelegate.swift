@@ -52,6 +52,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         return true
     }
     
+    func applicationDidBecomeActive(application: UIApplication) {
+        application.idleTimerDisabled = true
+    }
+    
+    func applicationWillResignActive(application: UIApplication) {
+        application.idleTimerDisabled = false
+    }
+    
     func getAllSessions() -> [MKExerciseSession] {
         return exerciseSessions
     }
