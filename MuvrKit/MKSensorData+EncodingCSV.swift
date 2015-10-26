@@ -11,7 +11,7 @@ private extension NSMutableData {
 public extension MKSensorData {
     
     public func encodeAsCsv(labelledExercises labelledExercises: [MKLabelledExercise]) -> NSData {
-        // expord data in CSV format: alwx,alwy,alwz,...,hr,...[,L,I,W,R]
+        // export data in CSV format: alwx,alwy,alwz,...,hr,...[,L,I,W,R]
         // alw: Accelerometer left wrist
         // hr: Heart rate
         // L: label
