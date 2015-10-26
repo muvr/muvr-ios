@@ -30,6 +30,16 @@ class MKUnsafeBufferReader {
     }
     
     func nexts<A>(count: Int) throws -> UnsafePointer<A> {
+        // 32 bit architecture check: Int overflows for suitably big ``count`` and ``sizeof(A)``        
+        #if !(arch(x86_64) || arch(arm64))
+        
+        let countBytes64: Int64 = Int64(sizeof(A)) * Int64(count)
+        if countBytes64 > Int64(INT32_MAX) {
+            throw MKCodecError.NotEnoughInput
+        }
+        
+        #endif
+        
         let countBytes: Int = sizeof(A) * count
         if offset + countBytes - 1 < totalLength {
             let ptr = UnsafePointer<A>(bytes.advancedBy(offset))
