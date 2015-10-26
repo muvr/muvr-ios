@@ -32,11 +32,16 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     override func viewDidAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: session!.objectID)
         tableView.reloadData()
     }
     
     func update() {
         tableView.reloadData()
+    }
+    
+    func sessionDidEnd() {
+        navigationController?.popViewControllerAnimated(true)
     }
     
     // MARK: Share & label

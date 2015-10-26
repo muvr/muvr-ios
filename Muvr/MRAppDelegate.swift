@@ -3,6 +3,10 @@ import HealthKit
 import MuvrKit
 import CoreData
 
+enum MRNotifications : String {
+    case CurrentSessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
+}
+
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, MKSessionClassifierDelegate {
     
@@ -28,7 +32,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         // set up the classification and connectivity
         classifier = MKSessionClassifier(exerciseModelSource: self, delegate: self)
         connectivity = MKConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
-        
         
         let typesToShare: Set<HKSampleType> = [HKSampleType.workoutType()]
         let typesToRead: Set<HKSampleType> = [HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)!]
@@ -70,7 +73,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
-        currentSession = nil
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: currentSession!.objectID)
         saveContext()
     }
     

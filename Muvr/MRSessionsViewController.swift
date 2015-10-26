@@ -22,6 +22,12 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     
     override func viewDidAppear(animated: Bool) {
         try! fetchedResultsController.performFetch()
+        currentSessionButton.enabled = MRAppDelegate.sharedDelegate().currentSession != nil
+        tableView.reloadData()
+    }
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        currentSessionButton.enabled = MRAppDelegate.sharedDelegate().currentSession != nil
         tableView.reloadData()
     }
     
@@ -29,11 +35,6 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
         if let sc = segue.destinationViewController as? MRSessionViewController, let sessionId = sender as? NSManagedObjectID {
             sc.setSessionId(sessionId)
         }
-    }
-    
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        currentSessionButton.enabled = MRAppDelegate.sharedDelegate().currentSession != nil
-        tableView.reloadData()
     }
     
     // MARK: UITableViewDataSource
