@@ -1,9 +1,9 @@
 import UIKit
 import CoreData
+import MuvrKit
 
 class MRSessionViewController : UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
-    //private var fetchedResultsController: NSFetchedResultsController?
     private var session: MRManagedExerciseSession?
     
     func setSessionId(sessionId: NSManagedObjectID) {
@@ -25,18 +25,34 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             presentViewController(controller, animated: true, completion: nil)
         }
     }
+
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
+        tableView.reloadData()
+    }
+    
+    func update() {
+        tableView.reloadData()
+    }
     
     // MARK: Share & label
     @IBAction func shareRaw() {
-//        if let data = session?.sensorData?.encode() {
-//            share(data, fileName: "sensordata.raw")
-//        }
+        if let data = session?.sensorData {
+            share(data, fileName: "sensordata.raw")
+        }
     }
     
     @IBAction func shareCSV() {
-//        if let data = session?.sensorData?.encodeAsCsv(labelledExercises: labelledExercises) {
-//            share(data, fileName: "sensordata.csv")
-//        }
+        if let data = session?.sensorData,
+            let labelledExercises = session?.labelledExercises.allObjects as? [MRManagedLabelledExercise],
+            let sensorData = try? MKSensorData(decoding: data) {
+            let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
+            share(csvData, fileName: "sensordata.csv")
+        }
     }
     
     @IBAction func label(sender: UIBarButtonItem) {
@@ -71,9 +87,22 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
-        cell.textLabel!.text = "some such"
-        return cell
+        switch indexPath.section {
+        case 0:
+            let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
+            let le = session!.classifiedExercises.allObjects[indexPath.row] as! MRManagedClassifiedExercise
+            cell.textLabel!.text = le.exerciseId
+            cell.detailTextLabel!.text = "Weight \(le.weight), intensity \(le.intensity)"
+            return cell
+        case 1:
+            let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
+            let le = session!.labelledExercises.allObjects[indexPath.row] as! MRManagedLabelledExercise
+            cell.textLabel!.text = le.exerciseId
+            cell.detailTextLabel!.text = "Weight \(le.weight), intensity \(le.intensity)"
+            return cell
+        default:
+            fatalError()
+        }
     }
     
 }

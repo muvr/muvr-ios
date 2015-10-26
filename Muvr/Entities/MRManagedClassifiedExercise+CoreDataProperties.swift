@@ -14,12 +14,12 @@ import CoreData
 
 extension MRManagedClassifiedExercise {
 
-    @NSManaged var confidence: String?
+    @NSManaged var confidence: Double
     @NSManaged var duration: Double
-    @NSManaged var exerciseId: String?
-    @NSManaged var intensity: Double
-    @NSManaged var repetitions: Int32
-    @NSManaged var weight: Double
+    @NSManaged var exerciseId: String
+    @NSManaged var intensity: NSNumber?
+    @NSManaged var repetitions: NSNumber?
+    @NSManaged var weight: NSNumber?
     @NSManaged var exerciseSession: MRManagedExerciseSession?
 
 }

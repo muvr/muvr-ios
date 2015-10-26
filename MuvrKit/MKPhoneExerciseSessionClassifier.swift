@@ -59,37 +59,21 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         #endif
     }
     
-    ///
-    /// Summarises the entire session. It reclassifies all exercises and may do some magic in the
-    /// future. Remember to call this function on the ``summaryQueue``.
-    ///
-    /// - parameter session: the connectivity session to summarize
-    /// - returns: the summarized session, if possible
-    ///
-    private func summarise(session session: MKExerciseConnectivitySession) -> MKExerciseSession? {
-        if let sensorData = session.sensorData {
-            var exerciseSession = MKExerciseSession(exerciseConnectivitySession: session)
-            if let classified = classify(exerciseModelId: session.exerciseModelId, sensorData: sensorData) {
-                exerciseSession.addClassifiedExercises(classified)
-            }
-            return exerciseSession
-        }
-        
-        return nil
-    }
-    
     public func exerciseConnectivitySessionDidEnd(session session: MKExerciseConnectivitySession) {
         // TODO: Improve me? The ``session`` is the whole thing, presumably, we can just add instead of needing the last element
         if sessions.count == 0 { return }
         
         dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEnd(self.sessions.last!, sensorData: session.sensorData) }
 
-        dispatch_async(summaryQueue) {
-            if let exerciseSession = self.summarise(session: session) {
-                self.sessions[self.sessions.count - 1] = exerciseSession
-                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidSummarise(exerciseSession, sensorData: session.sensorData) }
-            }
-        }
+// TODO: Re-think
+//
+//        dispatch_async(summaryQueue) {
+//            if let exerciseSession = self.summarise(session: session) {
+//                dispatch_async(dispatch_get_main_queue()) {
+//                    self.delegate.sessionClassifierDidSummarise(exerciseSession, sensorData: session.sensorData)
+//                }
+//            }
+//        }
     }
     
     public func exerciseConnectivitySessionDidStart(session session: MKExerciseConnectivitySession) {
@@ -99,14 +83,12 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     }
     
     public func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) {
-        guard var exerciseSession = sessions.last else { return }
+        guard let exerciseSession = sessions.last else { return }
         
         dispatch_async(classificationQueue) {
             if let classified = self.classify(exerciseModelId: session.exerciseModelId, sensorData: new) {
-                exerciseSession.addClassifiedExercises(classified)
-                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidClassify(exerciseSession, sensorData: accumulated) }
+                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidClassify(exerciseSession, classified: classified, sensorData: accumulated) }
             }
-            self.sessions[self.sessions.count - 1] = exerciseSession
         }
     }
     

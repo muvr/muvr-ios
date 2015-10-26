@@ -18,7 +18,7 @@ extension MRManagedLabelledExercise : MKLabelledExercise {
     @NSManaged var end: NSDate
     @NSManaged var exerciseId: String
     @NSManaged var intensity: Double
-    @NSManaged var repetitions: UInt
+    @NSManaged var repetitions: UInt32
     @NSManaged var start: NSDate
     @NSManaged var weight: Double
     @NSManaged var exerciseSession: MRManagedExerciseSession?

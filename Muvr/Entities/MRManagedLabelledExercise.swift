@@ -12,6 +12,10 @@ import MuvrKit
 
 class MRManagedLabelledExercise: NSManagedObject {
 
-// Insert code here to add functionality to your managed object subclass
+    static func insertNewObject(into session: MRManagedExerciseSession, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedLabelledExercise {
+        let mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedLabelledExercise", inManagedObjectContext: managedObjectContext) as! MRManagedLabelledExercise
+        mo.exerciseSession = session
+        return mo
+    }
 
 }

@@ -8,9 +8,6 @@ public struct MKExerciseSession {
     /// the start timestamp
     public let startDate: NSDate
     
-    /// The classified (so far or completely) exercises in this session
-    private(set) public var classifiedExercises: [MKClassifiedExercise] = []
-    
     ///
     /// Constructs this instance from the values in ``exerciseConnectivitySession``
     ///
@@ -21,14 +18,5 @@ public struct MKExerciseSession {
         self.exerciseModelId = exerciseConnectivitySession.exerciseModelId
         self.startDate = exerciseConnectivitySession.startDate
     }
-    
-    ///
-    /// Adds a new exercises to this instance
-    ///
-    /// - parameter classifiedExercises: the exercises to be added
-    ///
-    mutating func addClassifiedExercises(classifiedExercises: [MKClassifiedExercise]) {
-        self.classifiedExercises.appendContentsOf(classifiedExercises)
-    }
-    
+        
 }

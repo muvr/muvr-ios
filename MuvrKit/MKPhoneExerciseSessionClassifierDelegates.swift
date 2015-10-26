@@ -12,7 +12,7 @@ public protocol MKSessionClassifierDelegate {
     /// - parameter session: the current snapshot of the session
     /// - parameter sensorData: the sensor data collected so far
     ///
-    func sessionClassifierDidClassify(session: MKExerciseSession, sensorData: MKSensorData)
+    func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData)
     
     ///
     /// The session has ended
@@ -21,15 +21,7 @@ public protocol MKSessionClassifierDelegate {
     /// - parameter sensorData: the sensor data from the entire session
     ///
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?)
-    
-    ///
-    /// Called when the session classification completes. The session will no longer
-    /// change after this call
-    ///
-    /// - parameter session: the current snapshot of the session
-    ///
-    func sessionClassifierDidSummarise(session: MKExerciseSession, sensorData: MKSensorData?)
-    
+        
     ///
     /// Called when the session starts
     ///

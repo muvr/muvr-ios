@@ -1,5 +1,6 @@
 import UIKit
 import MuvrKit
+import CoreData
 
 class MRLabelViewController : UIViewController {
     private var start: NSDate?
@@ -27,13 +28,16 @@ class MRLabelViewController : UIViewController {
         func doStop() {
             // stop
             sender.tag = 0
-            // TODO: add MRManagedLabelledExercise to session?.labelledExercises
-            // TODO: save
-
-//            return MKLabelledExercise(exerciseId: exerciseId.text!, start: start!, end: NSDate(),
-//                    repetitions: repetitions.text.flatMap { UInt($0) },
-//                    intensity: MKExerciseIntensity(intensity.value / 10.0),
-//                    weight: weight.text.flatMap { Double($0) })
+            let l = MRManagedLabelledExercise.insertNewObject(into: session!, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+            
+            l.start = start!
+            l.end = NSDate()
+            l.exerciseId = exerciseId.text!
+            l.intensity = Double(intensity.value) / Double(intensity.maximumValue)
+            l.repetitions = repetitions.text.flatMap { UInt32($0) } ?? UInt32(0)
+            l.weight = weight.text.flatMap { Double($0) } ?? Double(0)
+                
+            MRAppDelegate.sharedDelegate().saveContext()
         }
         
         if sender.tag == 0 {

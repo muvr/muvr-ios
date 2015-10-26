@@ -74,16 +74,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         saveContext()
     }
     
-    func sessionClassifierDidSummarise(session: MKExerciseSession, sensorData: MKSensorData?) {
-        if let currentSession = currentSession {
-            if let sensorData = sensorData { currentSession.sensorData = sensorData.encode() }
-        }
-        saveContext()
-    }
-    
-    func sessionClassifierDidClassify(session: MKExerciseSession, sensorData: MKSensorData) {
+    func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData) {
         if let currentSession = currentSession {
             currentSession.sensorData = sensorData.encode()
+            classified.forEach { MRManagedClassifiedExercise.insertNewObject(from: $0, into: currentSession, inManagedObjectContext: managedObjectContext) }
         }
         saveContext()
     }

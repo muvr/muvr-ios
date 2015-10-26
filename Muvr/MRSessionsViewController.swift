@@ -5,7 +5,7 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var currentSessionButton: UIBarButtonItem!
     
-    lazy var fetchedResultsController: NSFetchedResultsController = {
+    private lazy var fetchedResultsController: NSFetchedResultsController = {
         let sessionsFetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
         sessionsFetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: false)]
         
@@ -14,9 +14,7 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
             managedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext,
             sectionNameKeyPath: nil,
             cacheName: nil)
-        
         frc.delegate = self
-        
         return frc
     }()
 

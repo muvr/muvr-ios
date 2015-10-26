@@ -8,10 +8,23 @@
 
 import Foundation
 import CoreData
-
+import MuvrKit
 
 class MRManagedClassifiedExercise: NSManagedObject {
 
-// Insert code here to add functionality to your managed object subclass
+    static func insertNewObject(from classifiedExercise: MKClassifiedExercise, into session: MRManagedExerciseSession, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedClassifiedExercise {
+        let mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedClassifiedExercise", inManagedObjectContext: managedObjectContext) as! MRManagedClassifiedExercise
+        
+        mo.exerciseSession = session
+        
+        mo.confidence = classifiedExercise.confidence
+        mo.duration = classifiedExercise.duration
+        mo.exerciseId = classifiedExercise.exerciseId
+        mo.repetitions = classifiedExercise.repetitions
+        mo.intensity = classifiedExercise.intensity
+        mo.weight = classifiedExercise.weight
+        
+        return mo
+    }
 
 }
