@@ -51,7 +51,6 @@ public extension MKSensorData {
         d.appendBytes(&samplesPerSecond, length: sizeof(UInt8))
         d.appendBytes(&start, length: sizeof(Double))
         d.appendBytes(&samplesCount, length: sizeof(UInt32))
-        d.appendBytes(&header, length: sizeof(UInt8))
         
         d.appendBytes(&types, length: types.count)
         d.appendBytes(&samples, length: sizeof(Float) * Int(samplesCount))
