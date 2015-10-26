@@ -109,6 +109,7 @@
 		54E9131F1BC30A6F00B7F9F0 /* pebble-1.raw in Resources */ = {isa = PBXBuildFile; fileRef = 54E9131E1BC30A2B00B7F9F0 /* pebble-1.raw */; };
 		54FD504E1BDBD27C0015771D /* MRSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
+		F0DE708793184E9D6F2A9CE1 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3AA10F80ED661B9AC5A823 /* Pods.framework */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 /* End PBXBuildFile section */
 
@@ -343,6 +344,7 @@
 				54A7760B1BB81467001586DD /* MuvrKit.framework in Frameworks */,
 				544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */,
 				54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */,
+				F0DE708793184E9D6F2A9CE1 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     
     private var connectivity: MKConnectivity!
     private var classifier: MKSessionClassifier!
-    private var currentSession: MRManagedExerciseSession?
+    private(set) internal var currentSession: MRManagedExerciseSession?
     
     ///
     /// Returns this shared delegate

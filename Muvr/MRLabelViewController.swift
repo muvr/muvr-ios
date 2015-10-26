@@ -3,6 +3,7 @@ import MuvrKit
 
 class MRLabelViewController : UIViewController {
     private var start: NSDate?
+    var session: MRManagedExerciseSession?
     
     @IBOutlet weak var exerciseId: UITextField!
     @IBOutlet weak var weight: UITextField!
@@ -23,10 +24,11 @@ class MRLabelViewController : UIViewController {
             sender.backgroundColor = UIColor.redColor()
         }
 
-        func doStop() -> MKLabelledExercise {
+        func doStop() {
             // stop
             sender.tag = 0
-            fatalError()
+            // TODO: add MRManagedLabelledExercise to session?.labelledExercises
+            // TODO: save
 
 //            return MKLabelledExercise(exerciseId: exerciseId.text!, start: start!, end: NSDate(),
 //                    repetitions: repetitions.text.flatMap { UInt($0) },
@@ -37,14 +39,9 @@ class MRLabelViewController : UIViewController {
         if sender.tag == 0 {
             doStart()
         } else {
-            let le = doStop()
-            
+            doStop()
             // Dismiss if presented in a navigation stack
-            if let n = self.navigationController?.viewControllers.count,
-               let parent = self.navigationController?.viewControllers[n - 2] {
-                
-                self.navigationController?.popViewControllerAnimated(true)
-            }
+            self.navigationController?.popViewControllerAnimated(true)
         }
     }
 }

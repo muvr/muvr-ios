@@ -7,7 +7,7 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
         let sessionsFetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
-        sessionsFetchRequest.sortDescriptors = []
+        sessionsFetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: false)]
         
         let frc = NSFetchedResultsController(
             fetchRequest: sessionsFetchRequest,
@@ -24,16 +24,18 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     
     override func viewDidAppear(animated: Bool) {
         try! fetchedResultsController.performFetch()
+        tableView.reloadData()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let sc = segue.destinationViewController as? MRSessionViewController, let sessionId = sender as? String {
+        if let sc = segue.destinationViewController as? MRSessionViewController, let sessionId = sender as? NSManagedObjectID {
             sc.setSessionId(sessionId)
         }
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        NSLog("Changed")
+        currentSessionButton.enabled = MRAppDelegate.sharedDelegate().currentSession != nil
+        tableView.reloadData()
     }
     
     // MARK: UITableViewDataSource
@@ -59,17 +61,15 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     // MARK: UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // TODO: What now?
+        if let session = fetchedResultsController.objectAtIndexPath(indexPath) as? MRManagedExerciseSession {
+            performSegueWithIdentifier("session", sender: session.objectID)
+        }
     }
     
     @IBAction func showCurrentSession() {
-        performSegueWithIdentifier("session", sender: nil)
+        if let session = MRAppDelegate.sharedDelegate().currentSession {
+            performSegueWithIdentifier("session", sender: session.objectID)
+        }
     }
-    
-//
-//    func exerciseStoreChanged() {
-//        currentSessionButton.enabled = MRAppDelegate.sharedDelegate().currentSession != nil
-//        tableView.reloadData()
-//    }
     
 }

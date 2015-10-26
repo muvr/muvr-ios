@@ -1,25 +1,14 @@
 import UIKit
 import CoreData
 
-class MRSessionViewController : UIViewController, UITableViewDataSource, NSFetchedResultsControllerDelegate {
+class MRSessionViewController : UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
+    //private var fetchedResultsController: NSFetchedResultsController?
+    private var session: MRManagedExerciseSession?
     
-    func setSessionId(sessionId: String) {
-        let fetchedResultsController: NSFetchedResultsController = {
-            let sessionFetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
-            sessionFetchRequest.predicate = NSPredicate(format: "(id = %@)", sessionId)
-            
-            let frc = NSFetchedResultsController(
-                fetchRequest: sessionFetchRequest,
-                managedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext,
-                sectionNameKeyPath: nil,
-                cacheName: nil)
-            
-            frc.delegate = self
-            
-            return frc
-        }()
-    }    
+    func setSessionId(sessionId: NSManagedObjectID) {
+        session = try? MRAppDelegate.sharedDelegate().managedObjectContext.existingObjectWithID(sessionId) as! MRManagedExerciseSession
+    }
     
     func share(data: NSData, fileName: String) {
         let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
@@ -51,7 +40,13 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, NSFetch
     }
     
     @IBAction func label(sender: UIBarButtonItem) {
-        performSegueWithIdentifier("label", sender: nil)
+        performSegueWithIdentifier("label", sender: session)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let lc = segue.destinationViewController as? MRLabelViewController, let session = sender as? MRManagedExerciseSession {
+            lc.session = session
+        }
     }
     
     // MARK: UITableViewDataSource
@@ -69,14 +64,16 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, NSFetch
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0: return 0
-        case 1: return 0
+        case 0: return session?.classifiedExercises.count ?? 0
+        case 1: return session?.labelledExercises.count ?? 0
         default: return 0
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        fatalError("Fixme")
+        let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
+        cell.textLabel!.text = "some such"
+        return cell
     }
     
 }
