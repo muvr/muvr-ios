@@ -57,7 +57,6 @@ public extension MKSensorData {
         let samplesPerSecond: UInt8 = try bytes.next()                  // 4
         let start: Double           = try bytes.next()                  // 12
         let samplesCount: UInt32    = try bytes.next()                  // 13
-        let _: UInt8                = try bytes.next()                  // 14
         let types = try (0..<typesCount).map { _ in                     // 18
             return try MKSensorDataType.decode(bytes)
         }
