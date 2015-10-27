@@ -25,7 +25,7 @@
                                         <action selector="beginSession" destination="AgC-eL-Hgc" id="ddT-ri-yoG"/>
                                     </connections>
                                 </button>
-                                <button width="1" alignment="left" title="Demo" id="0ll-Ya-1SS">
+                                <button width="1" alignment="left" title="Start demo" id="0ll-Ya-1SS">
                                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <fontDescription key="font" type="boldSystem" pointSize="15"/>
                                     <connections>
@@ -34,34 +34,32 @@
                                 </button>
                             </items>
                         </group>
-                        <group alignment="center" id="U8c-fr-ind">
+                        <group width="1" alignment="center" animationDuration="1" id="U8c-fr-ind">
                             <items>
-                                <group alignment="center" layout="vertical" id="RNf-yC-kXu">
+                                <group width="1" alignment="center" layout="vertical" id="RNf-yC-kXu">
                                     <items>
                                         <label width="136" alignment="left" text="Title" id="g7i-Qj-f79">
                                             <fontDescription key="font" type="system" weight="light" pointSize="20"/>
                                         </label>
                                         <label alignment="left" text="Time" id="gfN-Vo-zov"/>
                                         <label alignment="left" text="Stats" id="RKG-1P-IR2"/>
-                                        <group width="1" alignment="left" layout="vertical" id="NWL-p7-hku">
+                                        <table alignment="left" id="t9X-s3-pCm">
                                             <items>
-                                                <button width="1" alignment="left" title="Lateral raise" id="ZoT-9m-Y43">
-                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                                </button>
-                                                <button width="1" alignment="left" title="Triceps Extension" id="pL8-Td-jhu">
-                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                                </button>
-                                                <button width="1" alignment="left" title="Biceps Curl" id="KWm-Dk-KnO">
-                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                                </button>
+                                                <tableRow identifier="exercise" id="lX0-fg-QRi" customClass="MRExerciseRow" customModule="Watch_Extension">
+                                                    <group key="rootItem" width="1" alignment="left" id="P5h-pO-Z8k">
+                                                        <items>
+                                                            <label width="1" height="1" alignment="left" text="Label" id="Z4P-wI-HS8">
+                                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </label>
+                                                        </items>
+                                                        <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </group>
+                                                    <connections>
+                                                        <outlet property="textLabel" destination="Z4P-wI-HS8" id="mMT-OK-l7E"/>
+                                                    </connections>
+                                                </tableRow>
                                             </items>
-                                        </group>
+                                        </table>
                                     </items>
                                 </group>
                             </items>
@@ -69,6 +67,7 @@
                     </items>
                     <connections>
                         <outlet property="exerciseModel" destination="JBL-em-o3w" id="zdN-1a-r3P"/>
+                        <outlet property="exercisesTable" destination="t9X-s3-pCm" id="u4s-Pu-Rc2"/>
                         <outlet property="progressGroup" destination="U8c-fr-ind" id="NHD-H5-fF9"/>
                         <outlet property="startGroup" destination="ys7-T7-jXZ" id="mSK-xj-l8g"/>
                         <outlet property="statsLabel" destination="RKG-1P-IR2" id="HGp-jw-GQx"/>
@@ -77,7 +76,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="54" y="-68"/>
+            <point key="canvasLocation" x="54" y="-68.25"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
