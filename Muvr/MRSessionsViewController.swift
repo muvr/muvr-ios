@@ -4,12 +4,12 @@ import JTCalendar
 
 class MRSessionsViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UIPageViewControllerDataSource, NSFetchedResultsControllerDelegate, JTCalendarDelegate {
     
-    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var currentSessionButton: UIBarButtonItem!
     @IBOutlet weak var calendarContentView: JTHorizontalCalendarView!
     private var pageViewController: UIPageViewController!
    
     private let calendar = JTCalendarManager()
+    @IBOutlet weak var c: UIView!
     
     private var sessions: [MRManagedExerciseSession] = []
 
@@ -53,12 +53,10 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     override func viewDidAppear(animated: Bool) {
         try! fetchedResultsController.performFetch()
         currentSessionButton.enabled = MRAppDelegate.sharedDelegate().currentSession != nil
-        tableView.reloadData()
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         currentSessionButton.enabled = MRAppDelegate.sharedDelegate().currentSession != nil
-        tableView.reloadData()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -116,10 +114,12 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
         
         NSLog("Show \(sessions) on \(dayView.date)")
         
-        let startVC = viewControllerAtIndex(0)
-        let viewControllers = [startVC]
-        pageViewController.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: nil)
-        pageViewController.didMoveToParentViewController(self)
+        if !sessions.isEmpty {
+            let startVC = viewControllerAtIndex(0)
+            let viewControllers = [startVC]
+            pageViewController.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: nil)
+            pageViewController.didMoveToParentViewController(self)
+        }
     }
     
     func calendar(calendar: JTCalendarManager!, canDisplayPageWithDate date: NSDate!) -> Bool {
