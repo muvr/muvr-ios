@@ -42,7 +42,15 @@ final public class MKExerciseSession : NSObject {
     private var lastSentStartTime: NSDate
     private let exerciseModelMetadata: MKExerciseModelMetadata
     
-    private var stats: MKExerciseSessionStats
+    ///
+    /// Identifies whether this session is in demo mode
+    ///
+    public let demo: Bool
+
+    ///
+    /// The session stats
+    ///
+    private(set) public var stats: MKExerciseSessionStats
     
     
     init(connectivity: MKConnectivity, exerciseModelMetadata: MKExerciseModelMetadata, demo: Bool) {
@@ -53,6 +61,7 @@ final public class MKExerciseSession : NSObject {
         self.sensorRecorder = CMSensorRecorder()
         self.id = NSUUID().UUIDString
         self.stats = MKExerciseSessionStats()
+        self.demo = demo
         
         // TODO: Sort out recording duration
         if !demo {
@@ -132,13 +141,6 @@ final public class MKExerciseSession : NSObject {
     ///
     public var title: String {
         return self.exerciseModelMetadata.1
-    }
-    
-    ///
-    /// The session stats
-    ///
-    public var sessionStats: MKExerciseSessionStats {
-        return stats
     }
     
     ///
