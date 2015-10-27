@@ -1,4 +1,5 @@
 import UIKit
+import MuvrKit
 
 #if !RELEASE
 
@@ -10,6 +11,39 @@ import UIKit
 // *** DO NOT RUN UI TESTS ON A DEVICE THAT CONTAINS DATA YOU WANT TO KEEP ***
 //
 extension MRAppDelegate  {
+    
+    private func generateSessionData(date date: NSDate) {
+        let session = MRManagedExerciseSession.insertNewObject(inManagedObjectContext: managedObjectContext)
+        session.id = NSUUID().UUIDString
+        session.exerciseModelId = "arms"
+        session.startDate = date
+        
+        (0..<10).forEach { i in
+            let exercise = MRManagedClassifiedExercise.insertNewObject(inManagedObjectContext: managedObjectContext)
+            exercise.confidence = 1
+            exercise.exerciseId = "exercise \(i)"
+            exercise.exerciseSession = session
+            exercise.duration = 12
+            exercise.intensity = 1
+            exercise.repetitions = 10
+            exercise.weight = 10
+        }
+    }
+    
+    private func generateSessionDates() -> [NSDate] {
+        let today = NSDate()
+        let earlierToday = today.addHours(-2)
+        var dates = [today, earlierToday]
+        (1..<10).forEach { i in
+            dates.appendContentsOf([today.addDays(-i), earlierToday.addDays(-i)])
+        }
+        return dates
+    }
+    
+    private func generateData() {
+        generateSessionDates().forEach(generateSessionData)
+        saveContext()
+    }
 
     func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         if Process.arguments.contains("--reset-container") {
@@ -18,19 +52,12 @@ extension MRAppDelegate  {
                 try! NSFileManager.defaultManager().removeItemAtPath(docs)
                 try! NSFileManager.defaultManager().createDirectoryAtPath(docs, withIntermediateDirectories: false, attributes: nil)
             }
-        }
 
-        // TODO: some form of XPC
-        let port: mach_port_t = 9990
-        var header: mach_msg_header_t = mach_msg_header_t()
-        header.msgh_remote_port = port
-        let error = mach_msg_receive(&header)
-        if (error == MACH_MSG_SUCCESS) {
-            print(":(")
-        } else {
-            print(":)")
+            if Process.arguments.contains("--default-data") {
+                generateData()
+            }
         }
-
+        
         return true
     }
     
