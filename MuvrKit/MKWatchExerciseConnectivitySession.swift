@@ -103,20 +103,28 @@ final public class MKExerciseSession : NSObject {
         
         let now = NSDate()
         if let samples = getSamples(now) {
-            stats.batchCounter.recorded += samples.rowCount
-            connectivity.transferSensorDataBatch(samples) {
-                switch $0 {
-                case .Error(error: _):
-                    return
-                case .NoSession:
-                    return
-                case .Success:
-                    self.stats.batchCounter.sent += samples.rowCount
-                    self.lastSentStartTime = now
-                }
-            }
-            
+            beginSendSamples(samples)
         }
+    }
+
+    ///
+    /// Sends the data in ``samples`` to the mobile counterpart
+    ///
+    public func beginSendSamples(samples: MKSensorData) {
+        let now = NSDate()
+        stats.batchCounter.recorded += samples.rowCount
+        connectivity.transferSensorDataBatch(samples) {
+            switch $0 {
+            case .Error(error: _):
+                return
+            case .NoSession:
+                return
+            case .Success:
+                self.stats.batchCounter.sent += samples.rowCount
+                self.lastSentStartTime = now
+            }
+        }
+        
     }
     
     ///

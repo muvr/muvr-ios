@@ -67,7 +67,8 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     }
     
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
-        NSLog("Selected \(rowIndex)")
+        let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 300, repeatedValue: 0))
+        MRExtensionDelegate.sharedDelegate().currentSession?.beginSendSamples(sd)
     }
     
     func pause() {

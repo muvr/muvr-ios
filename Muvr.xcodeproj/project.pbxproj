@@ -602,9 +602,9 @@
 			isa = PBXGroup;
 			children = (
 				54430EC21BC2CF5900541979 /* Watch Extension.entitlements */,
+				54A48ADA1BA474F300F4A81B /* MRExtensionDelegate.swift */,
 				54A48AD81BA474F300F4A81B /* MRMainController.swift */,
 				54A48ADC1BA474F300F4A81B /* MRGlanceController.swift */,
-				54A48ADA1BA474F300F4A81B /* MRExtensionDelegate.swift */,
 				54C79CAF1BD2962A00FAE395 /* MRSessionProgressGroup.swift */,
 				54C79CB11BD2968600FAE395 /* MRSessionProgressGroupRenderer.swift */,
 				54B86D091BD196190016DDA0 /* BridgingHeader.h */,
