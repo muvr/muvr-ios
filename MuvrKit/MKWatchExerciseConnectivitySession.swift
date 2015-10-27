@@ -45,7 +45,7 @@ final public class MKExerciseSession : NSObject {
     private var stats: MKExerciseSessionStats
     
     
-    init(connectivity: MKConnectivity, exerciseModelMetadata: MKExerciseModelMetadata) {
+    init(connectivity: MKConnectivity, exerciseModelMetadata: MKExerciseModelMetadata, demo: Bool) {
         self.connectivity = connectivity
         self.exerciseModelMetadata = exerciseModelMetadata
         self.startTime = NSDate()
@@ -55,7 +55,9 @@ final public class MKExerciseSession : NSObject {
         self.stats = MKExerciseSessionStats()
         
         // TODO: Sort out recording duration
-        self.sensorRecorder!.recordAccelerometerForDuration(NSTimeInterval(3600 * 2))
+        if !demo {
+            self.sensorRecorder!.recordAccelerometerForDuration(NSTimeInterval(3600 * 2))
+        }
     }
     
     deinit {

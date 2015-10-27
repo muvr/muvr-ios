@@ -56,10 +56,18 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     /// Called when the user clicks the session start button
     ///
     @IBAction func beginSession() {
-        MRExtensionDelegate.sharedDelegate().startSession(exerciseModelMetadataIndex: exerciseModelMetadataIndex)
+        MRExtensionDelegate.sharedDelegate().startSession(exerciseModelMetadataIndex: exerciseModelMetadataIndex, demo: false)
         updateUI()
     }
     
+    @IBAction func beginDemo() {
+        MRExtensionDelegate.sharedDelegate().startSession(exerciseModelMetadataIndex: exerciseModelMetadataIndex, demo: true)
+        updateUI()
+    }
+    
+    ///
+    /// Updates the currently-selected box
+    ///
     @IBAction func exerciseModelPickerAction(index: Int) {
         exerciseModelMetadataIndex = index
     }
