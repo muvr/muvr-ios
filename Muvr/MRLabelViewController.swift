@@ -1,22 +1,10 @@
 import UIKit
 import MuvrKit
-
-///
-/// Implementations will receive exercise labels as they are added.
-///
-protocol MRLabelledExerciseDelegate {
-    
-    ///
-    /// Called when a new exercise label is available.
-    ///
-    /// - parameter labelledExercise: the completed LE
-    ///
-    func labelledExerciseDidAdd(labelledExercise: MKLabelledExercise)
-    
-}
+import CoreData
 
 class MRLabelViewController : UIViewController {
     private var start: NSDate?
+    var session: MRManagedExerciseSession?
     
     @IBOutlet weak var exerciseId: UITextField!
     @IBOutlet weak var weight: UITextField!
@@ -37,30 +25,27 @@ class MRLabelViewController : UIViewController {
             sender.backgroundColor = UIColor.redColor()
         }
 
-        func doStop() -> MKLabelledExercise {
+        func doStop() {
             // stop
             sender.tag = 0
+            let l = MRManagedLabelledExercise.insertNewObject(into: session!, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
             
-            return MKLabelledExercise(exerciseId: exerciseId.text!, start: start!, end: NSDate(),
-                    repetitions: repetitions.text.flatMap { UInt($0) },
-                    intensity: MKExerciseIntensity(intensity.value / 10.0),
-                    weight: weight.text.flatMap { Double($0) })
+            l.start = start!
+            l.end = NSDate()
+            l.exerciseId = exerciseId.text!
+            l.intensity = Double(intensity.value) / Double(intensity.maximumValue)
+            l.repetitions = repetitions.text.flatMap { UInt32($0) } ?? UInt32(0)
+            l.weight = weight.text.flatMap { Double($0) } ?? Double(0)
+                
+            MRAppDelegate.sharedDelegate().saveContext()
         }
         
         if sender.tag == 0 {
             doStart()
         } else {
-            let le = doStop()
-            
+            doStop()
             // Dismiss if presented in a navigation stack
-            if let n = self.navigationController?.viewControllers.count,
-               let parent = self.navigationController?.viewControllers[n - 2] {
-                
-                if let sink = parent as? MRLabelledExerciseDelegate {
-                    sink.labelledExerciseDidAdd(le)
-                }
-                self.navigationController?.popViewControllerAnimated(true)
-            }
+            self.navigationController?.popViewControllerAnimated(true)
         }
     }
 }

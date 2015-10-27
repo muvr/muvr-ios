@@ -7,14 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		540381511AEC2B5A000C8B15 /* MRButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540381501AEC2B5A000C8B15 /* MRButton.swift */; };
 		5403815F1AED28A0000C8B15 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5403815E1AED28A0000C8B15 /* Settings.bundle */; };
 		540AA44D1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA44C1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift */; };
 		540AA44F1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA44E1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift */; };
 		540AA4511BDBFF6B00908F4B /* MKSessionClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA4501BDBFF6B00908F4B /* MKSessionClassifierTests.swift */; };
 		540AA4541BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA4531BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift */; };
-		540CD97F1BD81A0E00782493 /* MKExerciseSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540CD97E1BD81A0E00782493 /* MKExerciseSessionStore.swift */; };
-		540CD9811BD81AC500782493 /* MKExerciseSessionStoreDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540CD9801BD81AC500782493 /* MKExerciseSessionStoreDelegates.swift */; };
 		5417C4021BC45EBB001C9491 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5417C4011BC45EBB001C9491 /* HealthKit.framework */; };
 		541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA31AC577E00056A81B /* MRAppDelegate.swift */; };
 		541ABBA91AC577E00056A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBA71AC577E00056A81B /* Main.storyboard */; };
@@ -24,6 +21,12 @@
 		54266B151BB92F22007A8A8A /* MKSensorData+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */; };
 		54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B161BB92F98007A8A8A /* MKSensorData.swift */; };
 		54266B181BB92F98007A8A8A /* MKSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B161BB92F98007A8A8A /* MKSensorData.swift */; };
+		543C9A161BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C9A101BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift */; };
+		543C9A171BDD439B00291EC5 /* MRManagedExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C9A111BDD439B00291EC5 /* MRManagedExerciseSession.swift */; };
+		543C9A181BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C9A121BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift */; };
+		543C9A191BDD439B00291EC5 /* MRManagedLabelledExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C9A131BDD439B00291EC5 /* MRManagedLabelledExercise.swift */; };
+		543C9A1A1BDD439B00291EC5 /* MRManagedClassifiedExercise+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C9A141BDD439B00291EC5 /* MRManagedClassifiedExercise+CoreDataProperties.swift */; };
+		543C9A1B1BDD439B00291EC5 /* MRManagedClassifiedExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C9A151BDD439B00291EC5 /* MRManagedClassifiedExercise.swift */; };
 		544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 544201381B9384B500354DB7 /* CoreBluetooth.framework */; };
 		54430EC01BC2CF5200541979 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54DE161B1BAD941000F0752B /* CoreMotion.framework */; };
 		54430EC51BC2CFD300541979 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54DE161F1BAD94A400F0752B /* HealthKit.framework */; };
@@ -69,6 +72,7 @@
 		54880CAD1BC048A800349C2E /* MKRepetitionEstimatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54880CAC1BC048A800349C2E /* MKRepetitionEstimatorTests.swift */; };
 		548CAB3D1BBAF72600A34D81 /* MKClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548CAB3C1BBAF72600A34D81 /* MKClassifierTests.swift */; };
 		548CAB411BBB0FCA00A34D81 /* XCTestCase+Exceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548CAB401BBB0FCA00A34D81 /* XCTestCase+Exceptions.swift */; };
+		549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 549A30081BDD0BC6006A70EB /* Muvr.xcdatamodeld */; };
 		54A48ACB1BA474F300F4A81B /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54A48AC91BA474F300F4A81B /* Interface.storyboard */; };
 		54A48ACD1BA474F300F4A81B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54A48ACC1BA474F300F4A81B /* Assets.xcassets */; };
 		54A48AD41BA474F300F4A81B /* Watch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 54A48AD31BA474F300F4A81B /* Watch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -103,6 +107,8 @@
 		54E9131B1BC306A500B7F9F0 /* class-1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54E913181BC306A500B7F9F0 /* class-1.csv */; };
 		54E9131C1BC306A500B7F9F0 /* model-3.raw in Resources */ = {isa = PBXBuildFile; fileRef = 54E913191BC306A500B7F9F0 /* model-3.raw */; };
 		54E9131F1BC30A6F00B7F9F0 /* pebble-1.raw in Resources */ = {isa = PBXBuildFile; fileRef = 54E9131E1BC30A2B00B7F9F0 /* pebble-1.raw */; };
+		54EFE97B1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EFE97A1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift */; };
+		54EFE9841BDECCF100AE190A /* MRTestConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EFE9831BDECCF100AE190A /* MRTestConnectivity.swift */; };
 		54FD504E1BDBD27C0015771D /* MRSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
@@ -202,14 +208,11 @@
 
 /* Begin PBXFileReference section */
 		2C3AA10F80ED661B9AC5A823 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		540381501AEC2B5A000C8B15 /* MRButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRButton.swift; sourceTree = "<group>"; };
 		5403815E1AED28A0000C8B15 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		540AA44C1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneConnectivityTests.swift; sourceTree = "<group>"; };
 		540AA44E1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+EncodingCSV.swift"; sourceTree = "<group>"; };
 		540AA4501BDBFF6B00908F4B /* MKSessionClassifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSessionClassifierTests.swift; sourceTree = "<group>"; };
 		540AA4531BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseConnectivitySession+SensorData.swift"; sourceTree = "<group>"; };
-		540CD97E1BD81A0E00782493 /* MKExerciseSessionStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseSessionStore.swift; sourceTree = "<group>"; };
-		540CD9801BD81AC500782493 /* MKExerciseSessionStoreDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseSessionStoreDelegates.swift; sourceTree = "<group>"; };
 		5410C82C1B9DC9EA005C57C1 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
 		5410C82D1B9DC9EA005C57C1 /* MLPNeuralNet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MLPNeuralNet.framework; path = "Pods/../build/Debug-iphoneos/MLPNeuralNet.framework"; sourceTree = "<group>"; };
 		5410C82E1B9DC9EA005C57C1 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
@@ -225,6 +228,12 @@
 		54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Encoding.swift"; sourceTree = "<group>"; };
 		54266B131BB92F16007A8A8A /* MKSensorData+Decoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Decoding.swift"; sourceTree = "<group>"; };
 		54266B161BB92F98007A8A8A /* MKSensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorData.swift; sourceTree = "<group>"; };
+		543C9A101BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedExerciseSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		543C9A111BDD439B00291EC5 /* MRManagedExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedExerciseSession.swift; sourceTree = "<group>"; };
+		543C9A121BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedLabelledExercise+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		543C9A131BDD439B00291EC5 /* MRManagedLabelledExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedLabelledExercise.swift; sourceTree = "<group>"; };
+		543C9A141BDD439B00291EC5 /* MRManagedClassifiedExercise+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedClassifiedExercise+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		543C9A151BDD439B00291EC5 /* MRManagedClassifiedExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedClassifiedExercise.swift; sourceTree = "<group>"; };
 		544201361B93847100354DB7 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		544201381B9384B500354DB7 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		5442013A1B9384BE00354DB7 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
@@ -275,6 +284,7 @@
 		54880CAC1BC048A800349C2E /* MKRepetitionEstimatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRepetitionEstimatorTests.swift; sourceTree = "<group>"; };
 		548CAB3C1BBAF72600A34D81 /* MKClassifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKClassifierTests.swift; sourceTree = "<group>"; };
 		548CAB401BBB0FCA00A34D81 /* XCTestCase+Exceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Exceptions.swift"; sourceTree = "<group>"; };
+		549A30091BDD0BC6006A70EB /* Muvr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Muvr.xcdatamodel; sourceTree = "<group>"; };
 		54A48AC71BA474F300F4A81B /* Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54A48ACA1BA474F300F4A81B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		54A48ACC1BA474F300F4A81B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -316,6 +326,8 @@
 		54E913181BC306A500B7F9F0 /* class-1.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "class-1.csv"; sourceTree = "<group>"; };
 		54E913191BC306A500B7F9F0 /* model-3.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "model-3.raw"; sourceTree = "<group>"; };
 		54E9131E1BC30A2B00B7F9F0 /* pebble-1.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pebble-1.raw"; sourceTree = "<group>"; };
+		54EFE97A1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRAppDelegate+UITesting.swift"; sourceTree = "<group>"; };
+		54EFE9831BDECCF100AE190A /* MRTestConnectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRTestConnectivity.swift; sourceTree = "<group>"; };
 		54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionViewController.swift; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
 		A04E9B04EE1C27607A68F65A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -421,15 +433,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5403814F1AEC2B47000C8B15 /* UIControls */ = {
-			isa = PBXGroup;
-			children = (
-				540381501AEC2B5A000C8B15 /* MRButton.swift */,
-			);
-			name = UIControls;
-			path = Muvr/UIControls;
-			sourceTree = SOURCE_ROOT;
-		};
 		540AA44B1BDBE66300908F4B /* Connectivity */ = {
 			isa = PBXGroup;
 			children = (
@@ -438,15 +441,6 @@
 				540AA4531BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift */,
 			);
 			name = Connectivity;
-			sourceTree = "<group>";
-		};
-		540CD97D1BD819FE00782493 /* Store */ = {
-			isa = PBXGroup;
-			children = (
-				540CD97E1BD81A0E00782493 /* MKExerciseSessionStore.swift */,
-				540CD9801BD81AC500782493 /* MKExerciseSessionStoreDelegates.swift */,
-			);
-			name = Store;
 			sourceTree = "<group>";
 		};
 		541ABB951AC577E00056A81B = {
@@ -483,10 +477,11 @@
 			children = (
 				54430EC61BC2CFD300541979 /* Muvr.entitlements */,
 				9D30379B1B95CCC500426C70 /* Models.bundle */,
-				5403814F1AEC2B47000C8B15 /* UIControls */,
+				543C9A031BDD425900291EC5 /* Entities */,
 				547E6A821AF35680005DE00C /* Exercise */,
 				541ABBA11AC577E00056A81B /* Supporting Files */,
 				541ABBA31AC577E00056A81B /* MRAppDelegate.swift */,
+				54EFE97A1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift */,
 				54706F6B1BD6D89F005BABF0 /* MRSessionsViewController.swift */,
 				54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */,
 				54706F6E1BD6E6D8005BABF0 /* MRLabelViewController.swift */,
@@ -497,6 +492,7 @@
 				FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */,
 				5403815E1AED28A0000C8B15 /* Settings.bundle */,
 				54477CFB1AF4E82E00F502EC /* Localizable.strings */,
+				549A30081BDD0BC6006A70EB /* Muvr.xcdatamodeld */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -509,11 +505,25 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		543C9A031BDD425900291EC5 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				543C9A101BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift */,
+				543C9A111BDD439B00291EC5 /* MRManagedExerciseSession.swift */,
+				543C9A121BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift */,
+				543C9A131BDD439B00291EC5 /* MRManagedLabelledExercise.swift */,
+				543C9A141BDD439B00291EC5 /* MRManagedClassifiedExercise+CoreDataProperties.swift */,
+				543C9A151BDD439B00291EC5 /* MRManagedClassifiedExercise.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
 		5450C29F1BC3FFF100B257E7 /* MuvrUITests */ = {
 			isa = PBXGroup;
 			children = (
 				5450C2A01BC3FFF100B257E7 /* MuvrUITests.swift */,
 				5450C2A21BC3FFF100B257E7 /* Info.plist */,
+				54EFE9831BDECCF100AE190A /* MRTestConnectivity.swift */,
 			);
 			path = MuvrUITests;
 			sourceTree = "<group>";
@@ -608,7 +618,6 @@
 		54A775F71BB81467001586DD /* MuvrKit */ = {
 			isa = PBXGroup;
 			children = (
-				540CD97D1BD819FE00782493 /* Store */,
 				5469D3801BBA6E1000EE5ADB /* SensorData */,
 				54D3457C1BB922FF00F65091 /* Classification */,
 				54D3457B1BB922F400F65091 /* Connectivity */,
@@ -1029,12 +1038,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54EFE97B1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift in Sources */,
+				543C9A1A1BDD439B00291EC5 /* MRManagedClassifiedExercise+CoreDataProperties.swift in Sources */,
 				FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */,
+				543C9A161BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift in Sources */,
+				543C9A181BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift in Sources */,
 				54706F6F1BD6E6D8005BABF0 /* MRLabelViewController.swift in Sources */,
+				543C9A1B1BDD439B00291EC5 /* MRManagedClassifiedExercise.swift in Sources */,
 				54706F6C1BD6D89F005BABF0 /* MRSessionsViewController.swift in Sources */,
+				549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
+				543C9A171BDD439B00291EC5 /* MRManagedExerciseSession.swift in Sources */,
 				54FD504E1BDBD27C0015771D /* MRSessionViewController.swift in Sources */,
-				540381511AEC2B5A000C8B15 /* MRButton.swift in Sources */,
+				543C9A191BDD439B00291EC5 /* MRManagedLabelledExercise.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1043,6 +1059,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5450C2A11BC3FFF100B257E7 /* MuvrUITests.swift in Sources */,
+				54EFE9841BDECCF100AE190A /* MRTestConnectivity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1086,7 +1103,6 @@
 				5487F59F1BB9B77E00ED2E97 /* MKCodec.swift in Sources */,
 				54D5E9721BD3C6F70002CDB5 /* MKPhoneConnectivityDelegates.swift in Sources */,
 				54D345801BB9245E00F65091 /* MKSensorDataDelegate.swift in Sources */,
-				540CD9811BD81AC500782493 /* MKExerciseSessionStoreDelegates.swift in Sources */,
 				5471DD3A1BC13911007D1034 /* MKSensorData+Scaffolding.swift in Sources */,
 				54266B141BB92F16007A8A8A /* MKSensorData+Decoding.swift in Sources */,
 				545269051BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift in Sources */,
@@ -1100,7 +1116,6 @@
 				54BD57B71BC53137008B5BC4 /* MKPhoneConnectivity.swift in Sources */,
 				54D345821BB924A500F65091 /* MKClassificationDelegate.swift in Sources */,
 				5469D3851BBA764900EE5ADB /* MKRepetitionEstimator.swift in Sources */,
-				540CD97F1BD81A0E00782493 /* MKExerciseSessionStore.swift in Sources */,
 				548808111BD57D7400419CD8 /* MKPhoneExerciseSessionClassifierDelegates.swift in Sources */,
 				54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */,
 				5487F59C1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift in Sources */,
@@ -1745,6 +1760,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		549A30081BDD0BC6006A70EB /* Muvr.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				549A30091BDD0BC6006A70EB /* Muvr.xcdatamodel */,
+			);
+			currentVersion = 549A30091BDD0BC6006A70EB /* Muvr.xcdatamodel */;
+			path = Muvr.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 541ABB961AC577E00056A81B /* Project object */;
 }

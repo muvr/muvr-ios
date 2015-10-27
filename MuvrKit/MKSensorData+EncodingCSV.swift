@@ -42,12 +42,9 @@ public extension MKSensorData {
             }
             if let l = findLabel(row) {
                 result.appendASCIIString("\(l.exerciseId),")
-                if let i = l.intensity { result.appendASCIIString("\(i)") }
-                result.appendASCIIString(",")
-                if let w = l.weight { result.appendASCIIString("\(w)") }
-                result.appendASCIIString(",")
-                if let r = l.repetitions { result.appendASCIIString("\(r)") }
-                result.appendASCIIString(",")
+                result.appendASCIIString("\(l.intensity),")
+                result.appendASCIIString("\(l.weight),")
+                result.appendASCIIString("\(l.repetitions)")
             } else {
                 result.appendASCIIString(",,,")
             }

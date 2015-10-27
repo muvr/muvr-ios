@@ -1,43 +1,19 @@
 import UIKit
+import CoreData
 import MuvrKit
 
-class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerciseSessionStoreDelegate, MRLabelledExerciseDelegate {
+class MRSessionViewController : UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
+    private var session: MRManagedExerciseSession?
     
-    private var labelledExercises: [MKLabelledExercise] = []
-    private var session: MKExerciseSession?
-    var filter: ExerciseSessionFilter? {
-        didSet {
-            exerciseSessionStoreChanged(MRAppDelegate.sharedDelegate())
-        }
-    }
-
-    enum ExerciseSessionFilter {
-        case Current
-        case Recorded(id: String)
+    func setSessionId(sessionId: NSManagedObjectID) {
+        session = try? MRAppDelegate.sharedDelegate().managedObjectContext.existingObjectWithID(sessionId) as! MRManagedExerciseSession
     }
     
-    func exerciseSessionStoreChanged(store: MKExerciseSessionStore) {
-        switch filter {
-        case .Some(.Current):
-            session = MRAppDelegate.sharedDelegate().getCurrentSession()
-        case .Some(.Recorded(let id)):
-            session = MRAppDelegate.sharedDelegate().getSessionById(id)
-        default:
-            session = nil
-        }
-        
-        if tableView != nil { tableView.reloadData() }
-    }
-    
-    // MARK: Share & label
-    @IBAction func share(sender: UIBarButtonItem) {
-        guard let sensorData = session?.sensorData else { return }
-        
-        let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
+    func share(data: NSData, fileName: String) {
         let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
-        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.csv")
-        if csvData.writeToURL(fileUrl, atomically: true) {
+        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent(fileName)
+        if data.writeToURL(fileUrl, atomically: true) {
             let controller = UIActivityViewController(activityItems: [fileUrl], applicationActivities: nil)
             let excludedActivities = [UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,
                 UIActivityTypePostToWeibo, UIActivityTypeMessage, UIActivityTypeMail,
@@ -49,27 +25,51 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerc
             presentViewController(controller, animated: true, completion: nil)
         }
     }
-    
-    @IBAction func label(sender: UIBarButtonItem) {
-        performSegueWithIdentifier("label", sender: nil)
+
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    // MARK: MRLabelledExerciseDelegate
-    func labelledExerciseDidAdd(labelledExercise: MKLabelledExercise) {
-        labelledExercises.append(labelledExercise)
+    override func viewDidAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: session!.objectID)
         tableView.reloadData()
     }
-
-    // MARK: UIViewController
-    override func viewDidAppear(animated: Bool) {
-        MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = self
-        exerciseSessionStoreChanged(MRAppDelegate.sharedDelegate())
+    
+    func update() {
+        tableView.reloadData()
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = nil
+    func sessionDidEnd() {
+        navigationController?.popViewControllerAnimated(true)
     }
-
+    
+    // MARK: Share & label
+    @IBAction func shareRaw() {
+        if let data = session?.sensorData {
+            share(data, fileName: "sensordata.raw")
+        }
+    }
+    
+    @IBAction func shareCSV() {
+        if let data = session?.sensorData,
+            let labelledExercises = session?.labelledExercises.allObjects as? [MRManagedLabelledExercise],
+            let sensorData = try? MKSensorData(decoding: data) {
+            let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
+            share(csvData, fileName: "sensordata.csv")
+        }
+    }
+    
+    @IBAction func label(sender: UIBarButtonItem) {
+        performSegueWithIdentifier("label", sender: session)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let lc = segue.destinationViewController as? MRLabelViewController, let session = sender as? MRManagedExerciseSession {
+            lc.session = session
+        }
+    }
+    
     // MARK: UITableViewDataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
@@ -86,25 +86,27 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, MKExerc
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0: return session?.classifiedExercises.count ?? 0
-        case 1: return labelledExercises.count
+        case 1: return session?.labelledExercises.count ?? 0
         default: return 0
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch (indexPath.section, indexPath.row) {
-        case (0, let row):
-            let ce = session!.classifiedExercises[row]
-            let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise")!
-            cell.textLabel!.text = ce.exerciseId
-            return cell
-        case (1, let row):
-            let le = labelledExercises[row]
-            let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise")!
+        switch indexPath.section {
+        case 0:
+            let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
+            let le = session!.classifiedExercises.allObjects[indexPath.row] as! MRManagedClassifiedExercise
             cell.textLabel!.text = le.exerciseId
+            cell.detailTextLabel!.text = "Weight \(le.weight), intensity \(le.intensity)"
             return cell
-
-        default: fatalError("Fixme")
+        case 1:
+            let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
+            let le = session!.labelledExercises.allObjects[indexPath.row] as! MRManagedLabelledExercise
+            cell.textLabel!.text = le.exerciseId
+            cell.detailTextLabel!.text = "Weight \(le.weight), intensity \(le.intensity)"
+            return cell
+        default:
+            fatalError()
         }
     }
     

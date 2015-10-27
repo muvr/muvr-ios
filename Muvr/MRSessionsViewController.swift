@@ -1,65 +1,74 @@
 import UIKit
-import MuvrKit
+import CoreData
 
-class MRSessionsViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, MKExerciseSessionStoreDelegate, MRLabelledExerciseDelegate {
+class MRSessionsViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var currentSessionButton: UIBarButtonItem!
     
+    private lazy var fetchedResultsController: NSFetchedResultsController = {
+        let sessionsFetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
+        sessionsFetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: false)]
+        
+        let frc = NSFetchedResultsController(
+            fetchRequest: sessionsFetchRequest,
+            managedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
+        frc.delegate = self
+        return frc
+    }()
+
     // MARK: UIViewController
     
     override func viewDidAppear(animated: Bool) {
-        MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = self
-        exerciseSessionStoreChanged(MRAppDelegate.sharedDelegate())
+        try! fetchedResultsController.performFetch()
+        currentSessionButton.enabled = MRAppDelegate.sharedDelegate().currentSession != nil
+        tableView.reloadData()
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        MRAppDelegate.sharedDelegate().exerciseSessionStoreDelegate = nil
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        currentSessionButton.enabled = MRAppDelegate.sharedDelegate().currentSession != nil
+        tableView.reloadData()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let sc = segue.destinationViewController as? MRSessionViewController {
-            let filter = (sender as? String)
-                .map { MRSessionViewController.ExerciseSessionFilter.Recorded(id: $0) } ?? MRSessionViewController.ExerciseSessionFilter.Current
-            sc.filter = filter
+        if let sc = segue.destinationViewController as? MRSessionViewController, let sessionId = sender as? NSManagedObjectID {
+            sc.setSessionId(sessionId)
         }
     }
     
     // MARK: UITableViewDataSource
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MRAppDelegate.sharedDelegate().getAllSessions().count
+        if let sections = fetchedResultsController.sections {
+            let currentSection = sections[section]
+            return currentSection.numberOfObjects
+        }
+        return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let session = MRAppDelegate.sharedDelegate().getAllSessions()[indexPath.section]
+        let cell = tableView.dequeueReusableCellWithIdentifier("session", forIndexPath: indexPath)
+        let session = fetchedResultsController.objectAtIndexPath(indexPath) as! MRManagedExerciseSession
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("session")!
         cell.textLabel?.text = session.exerciseModelId
+        cell.detailTextLabel?.text = "\(session.startDate)"
+        
         return cell
     }
     
     // MARK: UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let session = MRAppDelegate.sharedDelegate().getAllSessions()[indexPath.section]
-        performSegueWithIdentifier("session", sender: session.id)
+        if let session = fetchedResultsController.objectAtIndexPath(indexPath) as? MRManagedExerciseSession {
+            performSegueWithIdentifier("session", sender: session.objectID)
+        }
     }
     
     @IBAction func showCurrentSession() {
-        performSegueWithIdentifier("session", sender: nil)
+        if let session = MRAppDelegate.sharedDelegate().currentSession {
+            performSegueWithIdentifier("session", sender: session.objectID)
+        }
     }
     
-    // MARK: MKExerciseSessionStoreDelegate
-
-    func exerciseSessionStoreChanged(store: MKExerciseSessionStore) {
-        currentSessionButton.enabled = store.getCurrentSession() != nil
-        tableView.reloadData()
-    }
-    
-    // MARK: MRLabelledExerciseDelegate
-    
-    func labelledExerciseDidAdd(labelledExercise: MKLabelledExercise) {
-        // TODO: complete me
-        NSLog("Added \(labelledExercise)")
-    }
 }

@@ -1,20 +1,22 @@
 import Foundation
 
-public struct MKLabelledExercise {
-    public let exerciseId: MKExerciseId
-    public let start: NSDate
-    public let end: NSDate
-    public let repetitions: UInt?
-    public let intensity: MKExerciseIntensity?
-    public let weight: Double?
-    
-    public init(exerciseId: MKExerciseId, start: NSDate, end: NSDate,
-        repetitions: UInt?, intensity: MKExerciseIntensity?, weight: Double?) {
-        self.exerciseId = exerciseId
-        self.start = start
-        self.end = end
-        self.repetitions = repetitions
-        self.intensity = intensity
-        self.weight = weight
-    }
+///
+/// Represents a "range" in the matching ``MKSensorData`` that explicitly labels
+/// it with the given exercise.
+///
+/// This is useful for training and training stages.
+///
+@objc public protocol MKLabelledExercise {
+    /// The exercise id—a classifier label, not localised
+    var exerciseId: MKExerciseId { get }
+    /// The start date
+    var start: NSDate { get }
+    /// The end date
+    var end: NSDate { get }
+    /// # repetitions; > 0
+    var repetitions: UInt32 { get }
+    /// The intensity; (0..1.0)
+    var intensity: MKExerciseIntensity { get }
+    /// The weight in kg; > 0
+    var weight: Double { get }
 }
