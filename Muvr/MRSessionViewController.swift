@@ -5,9 +5,11 @@ import MuvrKit
 class MRSessionViewController : UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     private var session: MRManagedExerciseSession?
+    var index: Int?
     
-    func setSessionId(sessionId: NSManagedObjectID) {
+    func setSessionId(sessionId: NSManagedObjectID, sessionIndex: Int) {
         session = try? MRAppDelegate.sharedDelegate().managedObjectContext.existingObjectWithID(sessionId) as! MRManagedExerciseSession
+        index = sessionIndex
     }
     
     func share(data: NSData, fileName: String) {
@@ -32,7 +34,9 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     override func viewDidAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: session!.objectID)
+        if let objectId = session?.objectID {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
+        }
         tableView.reloadData()
     }
     
