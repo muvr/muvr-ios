@@ -1,12 +1,5 @@
-//
-//  MuvrUITests.swift
-//  MuvrUITests
-//
-//  Created by Jan Machacek on 10/6/15.
-//  Copyright © 2015 Muvr. All rights reserved.
-//
-
 import XCTest
+@testable import MuvrKit
 
 class MuvrUITests: XCTestCase {
         
@@ -18,33 +11,22 @@ class MuvrUITests: XCTestCase {
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
         // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-        XCUIApplication().launch()
+        let app = XCUIApplication()
+        
+        app.launchArguments = ["--reset-container"]
+        app.launch()
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
     
-    func testSkip() {
-        
-        let app = XCUIApplication()
-        let emailTextField = app.textFields["Email"]
-        emailTextField.tap()
-        emailTextField.typeText("jan@paycasso.com")
-        
-        let passwordSecureTextField = app.secureTextFields["Password"]
-        passwordSecureTextField.tap()
-        passwordSecureTextField.typeText("password")
-        app.buttons["Skip"].tap()
-        
+    func testStartSession() {
+        MKConnectivity.writeFoo()
+        NSThread.sleepForTimeInterval(5)
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
-    }
-    
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
     
 }

@@ -11,4 +11,3 @@ public struct MKClassifiedExercise {
     public let intensity: MKExerciseIntensity?
     public let weight: Double?
 }
-
