@@ -21,9 +21,15 @@ extension MRAppDelegate  {
         }
 
         // TODO: some form of XPC
-        var port: mach_port_t
+        let port: mach_port_t = 9990
         var header: mach_msg_header_t = mach_msg_header_t()
-        mach_msg_receive(&header)
+        header.msgh_remote_port = port
+        let error = mach_msg_receive(&header)
+        if (error == MACH_MSG_SUCCESS) {
+            print(":(")
+        } else {
+            print(":)")
+        }
 
         return true
     }
