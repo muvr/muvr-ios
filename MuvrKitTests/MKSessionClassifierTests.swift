@@ -12,37 +12,28 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource {
         var classified: MKExerciseSession?
         var ended: MKExerciseSession?
         var started: MKExerciseSession?
-        var summarised: MKExerciseSession?
         
-        private let summariseExpectation: XCTestExpectation
         private let classifyExpectation: XCTestExpectation
         
         ///
         /// Initialises this instance, assigning the ``classifyExpectation`` and ``summariseExpectation``.
         ///
-        init(onClassify classifyExpectation: XCTestExpectation, onSummarise summariseExpectation: XCTestExpectation) {
+        init(onClassify classifyExpectation: XCTestExpectation) {
             self.classifyExpectation = classifyExpectation
-            self.summariseExpectation = summariseExpectation
-        }
-        
-        func sessionClassifierDidClassify(session: MKExerciseSession) {
-            self.classified = session
-            self.classifyExpectation.fulfill()
-        }
-        
-        func sessionClassifierDidEnd(session: MKExerciseSession) {
-            self.ended = session
         }
         
         func sessionClassifierDidStart(session: MKExerciseSession) {
             self.started = session
         }
-        
-        func sessionClassifierDidSummarise(session: MKExerciseSession) {
-            self.summarised = session
-            self.summariseExpectation.fulfill()
+
+        func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData) {
+            self.classified = session
+            self.classifyExpectation.fulfill()
         }
         
+        func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
+            self.ended = session
+        }
     }
     
     func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
@@ -62,9 +53,8 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource {
     ///
     func testSimpleSessionFlow() {
         let classifyExpectation = expectationWithDescription("classify")
-        let summariseExpectation = expectationWithDescription("summarise")
         
-        let delegate = Delegate(onClassify: classifyExpectation, onSummarise: summariseExpectation)
+        let delegate = Delegate(onClassify: classifyExpectation)
         let classifier = MKSessionClassifier(exerciseModelSource: self, delegate: delegate)
         let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 1200, repeatedValue: 0.3))
         let session = MKExerciseConnectivitySession(id: "1234", exerciseModelId: "arms", startDate: NSDate())

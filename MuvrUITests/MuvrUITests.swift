@@ -20,7 +20,7 @@ class MuvrUITests: XCTestCase {
     }
     
     func testStartSession() {
-        MKConnectivity.writeFoo()
+        MKConnectivity.send()
         NSThread.sleepForTimeInterval(5)
     }
     

@@ -21,7 +21,10 @@ extension MRAppDelegate  {
         }
 
         // TODO: some form of XPC
-        
+        var port: mach_port_t
+        var header: mach_msg_header_t = mach_msg_header_t()
+        mach_msg_receive(&header)
+
         return true
     }
     
