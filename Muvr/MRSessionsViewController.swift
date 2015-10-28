@@ -2,7 +2,10 @@ import UIKit
 import CoreData
 import JTCalendar
 
-class MRSessionsViewController : UIViewController, UIPageViewControllerDataSource, NSFetchedResultsControllerDelegate, JTCalendarDelegate {
+///
+///
+///
+class MRSessionsViewController : UIViewController, UIPageViewControllerDataSource, JTCalendarDelegate {
     
     @IBOutlet weak var calendarContentView: JTHorizontalCalendarView!
     private var pageViewController: UIPageViewController!
@@ -11,19 +14,6 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     
     private var sessions: [MRManagedExerciseSession] = []
 
-    private lazy var fetchedResultsController: NSFetchedResultsController = {
-        let sessionsFetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
-        sessionsFetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: false)]
-        
-        let frc = NSFetchedResultsController(
-            fetchRequest: sessionsFetchRequest,
-            managedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext,
-            sectionNameKeyPath: nil,
-            cacheName: nil)
-        frc.delegate = self
-        return frc
-    }()
-    
     func showSessionsOn(date date: NSDate) {
         sessions = MRManagedExerciseSession.sessionsOnDate(date, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
         
@@ -67,16 +57,10 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
         addChildViewController(pageViewController)
         view.addSubview(pageViewController.view)
         
-        let pageControl = UIPageControl.appearance()
-        pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
-        pageControl.currentPageIndicatorTintColor = UIColor.blackColor()
-        pageControl.backgroundColor = UIColor.whiteColor()
-        
         showSessionsOn(date: today)
     }
     
     override func viewDidAppear(animated: Bool) {
-        try! fetchedResultsController.performFetch()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidStart", name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
     }
     
