@@ -42,6 +42,12 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
         }
         return vc
     }
+    
+    func sessionDidStart() {
+        let today = NSDate()
+        calendar.setDate(today)
+        showSessionsOn(date: today)
+    }
 
     // MARK: UIViewController
     
@@ -71,6 +77,11 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     
     override func viewDidAppear(animated: Bool) {
         try! fetchedResultsController.performFetch()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidStart", name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     // MARK: JTCalendarDelegate

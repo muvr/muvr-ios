@@ -5,6 +5,7 @@ import CoreData
 
 enum MRNotifications : String {
     case CurrentSessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
+    case CurrentSessionDidStart = "MRNotificationsCurrentSessionDidStart"
 }
 
 @UIApplicationMain
@@ -87,6 +88,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
         currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: currentSession!.objectID)
         saveContext()
     }
     
