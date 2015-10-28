@@ -49,16 +49,23 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     private func updateUI() {
         let sd = MRExtensionDelegate.sharedDelegate()
         clearAllMenuItems()
-        if sd.currentSession != nil {
+        if let session = sd.currentSession {
             addMenuItemWithItemIcon(WKMenuItemIcon.Pause, title: "Pause", action: "pause")
             addMenuItemWithItemIcon(WKMenuItemIcon.Trash, title: "Stop",  action: "stop")
 
-            exercisesTable.setNumberOfRows(exercises.count, withRowType: "exercise")
-            (0..<exercisesTable.numberOfRows).forEach { i in
-                let row = exercisesTable.rowControllerAtIndex(i) as! MRExerciseRow
-                row.setExercise(exercises[i])
+            if session.demo {
+                exercisesTable.setNumberOfRows(exercises.count, withRowType: "exercise")
+                (0..<exercisesTable.numberOfRows).forEach { i in
+                    let row = exercisesTable.rowControllerAtIndex(i) as! MRExerciseRow
+                    row.setExercise(exercises[i])
+                }
+            } else {
+                // TODO: real session will probably want to display plan or something
+                exercisesTable.setNumberOfRows(0, withRowType: "exercise")
             }
         } else {
+            // NB. this is correct; even though it looks exactly like the line above,
+            // NB. it will stay like this.
             exercisesTable.setNumberOfRows(0, withRowType: "exercise")
         }
         
