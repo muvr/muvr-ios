@@ -41,6 +41,12 @@
 		5469D3881BBA83D200EE5ADB /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5469D3871BBA83D200EE5ADB /* Accelerate.framework */; };
 		5469D38B1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D38A1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift */; };
 		5469D38F1BBAD78E00EE5ADB /* MLPNeuralNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5469D38E1BBAD78E00EE5ADB /* MLPNeuralNet.framework */; };
+		546D342A1BE0CF54005E614D /* demo-bc-only.raw in Resources */ = {isa = PBXBuildFile; fileRef = 546D34271BE0CF4F005E614D /* demo-bc-only.raw */; };
+		546D342B1BE0CF54005E614D /* demo-lr-only.raw in Resources */ = {isa = PBXBuildFile; fileRef = 546D34281BE0CF4F005E614D /* demo-lr-only.raw */; };
+		546D342C1BE0CF54005E614D /* demo-te-only.raw in Resources */ = {isa = PBXBuildFile; fileRef = 546D34291BE0CF4F005E614D /* demo-te-only.raw */; };
+		546D342D1BE0CFC7005E614D /* MKSensorData+Decoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B131BB92F16007A8A8A /* MKSensorData+Decoding.swift */; };
+		546D342E1BE0CFCF005E614D /* MKUnsafeBufferReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5487F59B1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift */; };
+		546D342F1BE0CFE7005E614D /* MKSensorDataType+Decoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545269031BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift */; };
 		546E68521BB969DD00DC0FEF /* MKSensorData+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */; };
 		546E685C1BB98D0800DC0FEF /* MKMuvrKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546E685B1BB98D0800DC0FEF /* MKMuvrKitTests.swift */; };
 		546E685E1BB98D0800DC0FEF /* MuvrKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A775F61BB81467001586DD /* MuvrKit.framework */; };
@@ -253,6 +259,9 @@
 		5469D3871BBA83D200EE5ADB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		5469D38A1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseModelSourceDelegate.swift; sourceTree = "<group>"; };
 		5469D38E1BBAD78E00EE5ADB /* MLPNeuralNet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MLPNeuralNet.framework; path = "Pods/../build/Debug-iphoneos/MLPNeuralNet.framework"; sourceTree = "<group>"; };
+		546D34271BE0CF4F005E614D /* demo-bc-only.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "demo-bc-only.raw"; sourceTree = "<group>"; };
+		546D34281BE0CF4F005E614D /* demo-lr-only.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "demo-lr-only.raw"; sourceTree = "<group>"; };
+		546D34291BE0CF4F005E614D /* demo-te-only.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "demo-te-only.raw"; sourceTree = "<group>"; };
 		546E68591BB98D0800DC0FEF /* MuvrKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MuvrKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		546E685B1BB98D0800DC0FEF /* MKMuvrKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKMuvrKitTests.swift; sourceTree = "<group>"; };
 		546E685D1BB98D0800DC0FEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -544,6 +553,16 @@
 			name = SensorData;
 			sourceTree = "<group>";
 		};
+		546D34261BE0CF3D005E614D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				546D34271BE0CF4F005E614D /* demo-bc-only.raw */,
+				546D34281BE0CF4F005E614D /* demo-lr-only.raw */,
+				546D34291BE0CF4F005E614D /* demo-te-only.raw */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		546E685A1BB98D0800DC0FEF /* MuvrKitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -601,6 +620,7 @@
 		54A48AD71BA474F300F4A81B /* Watch Extension */ = {
 			isa = PBXGroup;
 			children = (
+				546D34261BE0CF3D005E614D /* Resources */,
 				54430EC21BC2CF5900541979 /* Watch Extension.entitlements */,
 				54A48ADA1BA474F300F4A81B /* MRExtensionDelegate.swift */,
 				54A48AD81BA474F300F4A81B /* MRMainController.swift */,
@@ -965,7 +985,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				546D342A1BE0CF54005E614D /* demo-bc-only.raw in Resources */,
 				54BD57B91BC546EE008B5BC4 /* UI.xcassets in Resources */,
+				546D342C1BE0CF54005E614D /* demo-te-only.raw in Resources */,
+				546D342B1BE0CF54005E614D /* demo-lr-only.raw in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1134,6 +1157,7 @@
 			files = (
 				54266B151BB92F22007A8A8A /* MKSensorData+Encoding.swift in Sources */,
 				547A445A1BB8585300C2CC06 /* MKWatchConnectivity.swift in Sources */,
+				546D342F1BE0CFE7005E614D /* MKSensorDataType+Decoding.swift in Sources */,
 				54D3458C1BB928B600F65091 /* MKClassificationPipeline.swift in Sources */,
 				54D345851BB9251700F65091 /* MKClassifiedExercise.swift in Sources */,
 				547A445C1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift in Sources */,
@@ -1142,7 +1166,9 @@
 				54845AD31BD8D73500C33DBF /* MKLabelledExercise.swift in Sources */,
 				5469D3831BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */,
 				5487F5A01BB9B77E00ED2E97 /* MKCodec.swift in Sources */,
+				546D342D1BE0CFC7005E614D /* MKSensorData+Decoding.swift in Sources */,
 				547A44541BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift in Sources */,
+				546D342E1BE0CFCF005E614D /* MKUnsafeBufferReader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

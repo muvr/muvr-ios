@@ -48,15 +48,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     private func classify(exerciseModelId exerciseModelId: MKExerciseModelId, sensorData: MKSensorData) -> [MKClassifiedExercise]? {
         let model = exerciseModelSource.getExerciseModel(id: exerciseModelId)
         let classifier = MKClassifier(model: model)
-        let result = try? classifier.classify(block: sensorData, maxResults: 10)
-        #if (arch(i386) || arch(x86_64))
-            if result?.isEmpty ?? true {
-                return [MKClassifiedExercise(confidence: 1, exerciseId: "demo/demo", duration: 10, repetitions: 10, intensity: 0.7, weight: 12.5)]
-            }
-            return result
-        #else
-            return result
-        #endif
+        return try? classifier.classify(block: sensorData, maxResults: 10)
     }
     
     public func exerciseConnectivitySessionDidEnd(session session: MKExerciseConnectivitySession) {

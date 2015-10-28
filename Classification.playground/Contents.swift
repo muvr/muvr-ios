@@ -31,22 +31,27 @@ let classifier = MKClassifier(model: model(named: "demo"))
 
 //: ### Load the data from the session
 //let resourceName = "no-movement-face-up"
-let resourceName = "bc-te-bc-bc-te"
+let resourceName = "lr-only"
 let exerciseData = NSBundle.mainBundle().pathForResource(resourceName, ofType: "raw")!
 
 //: ### Decode the sensor data
 let sd = try! MKSensorData(decoding: NSData(contentsOfFile: exerciseData)!)
 
 let axis = 0
-let window = 10
+let window = 1
 let windowSize = 400
 (window * windowSize..<(window + 1) * windowSize).map { idx in  return sd.samples[idx * 3 + axis] }
 var mean: Float = 0
 var samples: [Float] = sd.samples
 let N = vDSP_Length(samples.count / 3)
 
+let sd2 = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: Array(sd.samples[300..<3600]))
+
+let p = NSBundle.mainBundle().resourceURL!.URLByAppendingPathComponent("demo-lr-only.raw")
+sd2.encode().writeToURL(p, atomically: true)
+
 //: ### Apply the classifier
 // classify
-let cls = try! classifier.classify(block: sd, maxResults: 10)
+let cls = try! classifier.classify(block: sd2, maxResults: 10)
 cls.forEach { wcls in print(wcls) }
 

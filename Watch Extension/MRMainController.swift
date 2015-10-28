@@ -22,9 +22,9 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     @IBOutlet weak var statsLabel: WKInterfaceLabel!
     
     private let exercises = [
-        ("arms/biceps-curl", "Biceps curl"),
-        ("arms/triceps-extension", "Triceps extension"),
-        ("arms/lateral-raise", "Lateral raise")
+        ("demo-bc-only", "Biceps curl"),
+        ("demo-te-only", "Triceps extension"),
+        ("demo-lr-only", "Lateral raise")
     ]
 
     private var renderer: MRSessionProgressGroupRenderer?
@@ -68,7 +68,10 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
         if MRExtensionDelegate.sharedDelegate().currentSession?.demo ?? false {
-            let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 300, repeatedValue: 0))
+            let (resourceName, _) = exercises[rowIndex]
+            let resourcePath = NSBundle.mainBundle().pathForResource(resourceName, ofType: "raw")!
+            let data = NSData(contentsOfFile: resourcePath)!
+            let sd = try! MKSensorData(decoding: data)
             MRExtensionDelegate.sharedDelegate().currentSession?.beginSendSamples(sd)
         }
     }
