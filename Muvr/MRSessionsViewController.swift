@@ -45,9 +45,14 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
         
         pageViewController = storyboard?.instantiateViewControllerWithIdentifier("sessionPageViewController") as! UIPageViewController
         pageViewController.dataSource = self
-        pageViewController.view.frame = CGRectMake(0, 200, view.frame.width, view.frame.size.height - 300)
+        pageViewController.view.frame = CGRectMake(0, 200, view.frame.width, view.frame.size.height - 200)
         addChildViewController(pageViewController)
         view.addSubview(pageViewController.view)
+        
+        let pageControl = UIPageControl.appearance()
+        pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
+        pageControl.currentPageIndicatorTintColor = UIColor.blackColor()
+        pageControl.backgroundColor = UIColor.whiteColor()
     }
     
     override func viewDidAppear(animated: Bool) {
