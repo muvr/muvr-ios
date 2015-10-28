@@ -3,8 +3,8 @@ import CoreData
 import MuvrKit
 
 ///
-/// To display the current session, you must call the ``setSessionId(session:)`` method and provide
-/// a valid ``MRManagedExerciseSesssion``.
+/// This class shows the exercises of the displayed session.
+/// To display a session, you must call the ``setSession(session:)`` method and provide a valid ``MRManagedExerciseSesssion``.
 ///
 class MRSessionViewController : UIViewController, UITableViewDataSource {
     
@@ -12,13 +12,15 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     @IBOutlet weak var addLabelBtn: UIBarButtonItem!
     @IBOutlet weak var navbar: UINavigationBar!
     
+    // the displayed session
     private var session: MRManagedExerciseSession?
+    // indicates if the displayed session is active (i.e. not finished)
     private var runningSession: Bool = false
     
     ///
+    /// Provides the session to display
     ///
-    ///
-    func setSessionId(session: MRManagedExerciseSession) {
+    func setSession(session: MRManagedExerciseSession) {
         self.session = session
         runningSession = MRAppDelegate.sharedDelegate().currentSession.map { s in s == session } ?? false
     }
@@ -38,6 +40,8 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             presentViewController(controller, animated: true, completion: nil)
         }
     }
+    
+    // MARK: UIViewController
 
     override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -53,12 +57,14 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         addLabelBtn.enabled = runningSession
-//        if let start = session?.startDate {
-//            navbar.topItem!.title = "\(start.formatTime()) - \(session!.exerciseModelId)"
-//        } else {
-//            navbar.topItem!.title = session?.exerciseModelId
-//        }
+        if let s = session {
+            navbar.topItem!.title = "\(s.startDate.formatTime()) - \(s.exerciseModelId)"
+        } else {
+            navbar.topItem!.title = nil
+        }
     }
+    
+    // MARK: notification callbacks
     
     func update() {
         tableView.reloadData()
@@ -69,6 +75,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     // MARK: Share & label
+    
     @IBAction func shareRaw() {
         if let data = session?.sensorData {
             share(data, fileName: "sensordata.raw")
@@ -95,6 +102,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     // MARK: UITableViewDataSource
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
@@ -119,15 +127,15 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
-            let ce = session!.classifiedExercises.allObjects[indexPath.row] as! MRManagedClassifiedExercise
+            let ce = session!.classifiedExercises.reverse()[indexPath.row] as! MRManagedClassifiedExercise
             cell.textLabel!.text = ce.exerciseId
-            cell.detailTextLabel!.text = "Weight \(ce.weight), intensity \(ce.intensity)"
+            cell.detailTextLabel!.text = "\(ce.start.formatTime()) Weight \(ce.weight), intensity \(ce.intensity)"
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
-            let le = session!.labelledExercises.allObjects[indexPath.row] as! MRManagedLabelledExercise
+            let le = session!.labelledExercises.reverse()[indexPath.row] as! MRManagedLabelledExercise
             cell.textLabel!.text = le.exerciseId
-            cell.detailTextLabel!.text = "Weight \(le.weight), intensity \(le.intensity)"
+            cell.detailTextLabel!.text = "\(le.start.formatTime()) Weight \(le.weight), intensity \(le.intensity)"
             return cell
         default:
             fatalError()
