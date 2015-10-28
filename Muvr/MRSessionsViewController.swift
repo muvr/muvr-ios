@@ -2,9 +2,8 @@ import UIKit
 import CoreData
 import JTCalendar
 
-class MRSessionsViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UIPageViewControllerDataSource, NSFetchedResultsControllerDelegate, JTCalendarDelegate {
+class MRSessionsViewController : UIViewController, UIPageViewControllerDataSource, NSFetchedResultsControllerDelegate, JTCalendarDelegate {
     
-    @IBOutlet weak var currentSessionButton: UIBarButtonItem!
     @IBOutlet weak var calendarContentView: JTHorizontalCalendarView!
     private var pageViewController: UIPageViewController!
    
@@ -73,50 +72,11 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     
     override func viewDidAppear(animated: Bool) {
         try! fetchedResultsController.performFetch()
-        currentSessionButton.enabled = MRAppDelegate.sharedDelegate().currentSession != nil
-    }
-    
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        currentSessionButton.enabled = MRAppDelegate.sharedDelegate().currentSession != nil
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let sc = segue.destinationViewController as? MRSessionViewController, let sessionId = sender as? NSManagedObjectID {
             sc.setSessionId(sessionId, sessionIndex: 0)
-        }
-    }
-    
-    // MARK: UITableViewDataSource
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let sections = fetchedResultsController.sections {
-            let currentSection = sections[section]
-            return currentSection.numberOfObjects
-        }
-        return 0
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("session", forIndexPath: indexPath)
-        let session = fetchedResultsController.objectAtIndexPath(indexPath) as! MRManagedExerciseSession
-        
-        cell.textLabel?.text = session.exerciseModelId
-        cell.detailTextLabel?.text = "\(session.startDate)"
-        
-        return cell
-    }
-    
-    // MARK: UITableViewDelegate
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let session = fetchedResultsController.objectAtIndexPath(indexPath) as? MRManagedExerciseSession {
-            performSegueWithIdentifier("session", sender: session.objectID)
-        }
-    }
-    
-    @IBAction func showCurrentSession() {
-        if let session = MRAppDelegate.sharedDelegate().currentSession {
-            performSegueWithIdentifier("session", sender: session.objectID)
         }
     }
     

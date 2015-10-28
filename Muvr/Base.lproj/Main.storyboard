@@ -27,18 +27,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" image="exercise" id="1bl-C3-HAt"/>
-                    <navigationItem key="navigationItem" title="Sessions" id="nM9-A2-66K">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Current &gt;" id="PYu-Y8-h48">
-                            <connections>
-                                <action selector="showCurrentSession" destination="xl4-18-EiY" id="Vn0-bd-7j1"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Sessions" id="nM9-A2-66K"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="calendarContentView" destination="AFJ-6W-tID" id="aCt-nU-nf1"/>
-                        <outlet property="currentSessionButton" destination="PYu-Y8-h48" id="OoZ-5d-RjU"/>
                         <segue destination="R8z-14-vmd" kind="show" identifier="session" id="PkC-yg-omP"/>
                     </connections>
                 </viewController>
