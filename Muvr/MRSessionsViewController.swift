@@ -14,22 +14,20 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     private var pageViewController: UIPageViewController!
     private let calendar = JTCalendarManager()
 
-    // the sessions of the selected date
-    private var sessionControllers: [UIViewController] = []
-    // the index of the displayed session
-    private var sessionIndex: Int?
+    // the session view controllers of the selected date
+    private var sessionViewControllers: [UIViewController] = []
 
     ///
-    /// fetched the sessions on the given date and displays the most recent one (the one at index = 0)
+    /// fetched the sessions on the given date and displays the most recent one
     ///
     func showSessionsOn(date date: NSDate) {
         let sessions = MRManagedExerciseSession.sessionsOnDate(date, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
-        sessionControllers = sessions.map { session in
+        sessionViewControllers = sessions.map { session in
             let vc: MRSessionViewController = storyboard?.instantiateViewControllerWithIdentifier("sessionViewController") as! MRSessionViewController
             vc.setSession(session)
             return vc
         }
-        pageViewController.setViewControllers([sessionControllers.first!], direction: .Forward, animated: true, completion: nil)
+        pageViewController.setViewControllers([sessionViewControllers.first!], direction: .Forward, animated: true, completion: nil)
         pageViewController.didMoveToParentViewController(self)
     }
     
@@ -94,21 +92,21 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     // MARK: UIPageViewControllerDataSource
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        if let x = (sessionControllers.indexOf { $0 === viewController }) {
-            if x > 0 { return sessionControllers[x - 1] }
+        if let x = (sessionViewControllers.indexOf { $0 === viewController }) {
+            if x > 0 { return sessionViewControllers[x - 1] }
         }
         return nil
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        if let x = (sessionControllers.indexOf { $0 === viewController }) {
-            if x < sessionControllers.count - 1 { return sessionControllers[x + 1] }
+        if let x = (sessionViewControllers.indexOf { $0 === viewController }) {
+            if x < sessionViewControllers.count - 1 { return sessionViewControllers[x + 1] }
         }
         return nil
     }
     
     func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return sessionControllers.count
+        return sessionViewControllers.count
     }
     
     func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
