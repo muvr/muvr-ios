@@ -27,7 +27,9 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
             vc.setSession(session)
             return vc
         }
-        pageViewController.setViewControllers([sessionViewControllers.first!], direction: .Forward, animated: true, completion: nil)
+        if !sessions.isEmpty {
+            pageViewController.setViewControllers([sessionViewControllers.first!], direction: .Forward, animated: true, completion: nil)
+        }
         pageViewController.didMoveToParentViewController(self)
     }
     
