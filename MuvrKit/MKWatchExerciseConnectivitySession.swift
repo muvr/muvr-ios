@@ -42,10 +42,18 @@ final public class MKExerciseSession : NSObject {
     private var lastSentStartTime: NSDate
     private let exerciseModelMetadata: MKExerciseModelMetadata
     
-    private var stats: MKExerciseSessionStats
+    ///
+    /// Identifies whether this session is in demo mode
+    ///
+    public let demo: Bool
+
+    ///
+    /// The session stats
+    ///
+    private(set) public var stats: MKExerciseSessionStats
     
     
-    init(connectivity: MKConnectivity, exerciseModelMetadata: MKExerciseModelMetadata) {
+    init(connectivity: MKConnectivity, exerciseModelMetadata: MKExerciseModelMetadata, demo: Bool) {
         self.connectivity = connectivity
         self.exerciseModelMetadata = exerciseModelMetadata
         self.startTime = NSDate()
@@ -53,9 +61,12 @@ final public class MKExerciseSession : NSObject {
         self.sensorRecorder = CMSensorRecorder()
         self.id = NSUUID().UUIDString
         self.stats = MKExerciseSessionStats()
+        self.demo = demo
         
         // TODO: Sort out recording duration
-        self.sensorRecorder!.recordAccelerometerForDuration(NSTimeInterval(3600 * 2))
+        if !demo {
+            self.sensorRecorder!.recordAccelerometerForDuration(NSTimeInterval(3600 * 2))
+        }
     }
     
     deinit {
@@ -101,20 +112,28 @@ final public class MKExerciseSession : NSObject {
         
         let now = NSDate()
         if let samples = getSamples(now) {
-            stats.batchCounter.recorded += samples.rowCount
-            connectivity.transferSensorDataBatch(samples) {
-                switch $0 {
-                case .Error(error: _):
-                    return
-                case .NoSession:
-                    return
-                case .Success:
-                    self.stats.batchCounter.sent += samples.rowCount
-                    self.lastSentStartTime = now
-                }
-            }
-            
+            beginSendSamples(samples)
         }
+    }
+
+    ///
+    /// Sends the data in ``samples`` to the mobile counterpart
+    ///
+    public func beginSendSamples(samples: MKSensorData) {
+        let now = NSDate()
+        stats.batchCounter.recorded += samples.rowCount
+        connectivity.transferSensorDataBatch(samples) {
+            switch $0 {
+            case .Error(error: _):
+                return
+            case .NoSession:
+                return
+            case .Success:
+                self.stats.batchCounter.sent += samples.rowCount
+                self.lastSentStartTime = now
+            }
+        }
+        
     }
     
     ///
@@ -122,13 +141,6 @@ final public class MKExerciseSession : NSObject {
     ///
     public var title: String {
         return self.exerciseModelMetadata.1
-    }
-    
-    ///
-    /// The session stats
-    ///
-    public var sessionStats: MKExerciseSessionStats {
-        return stats
     }
     
     ///

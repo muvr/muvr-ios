@@ -28,8 +28,8 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     ///
     /// Starts the session
     ///
-    func startSession(exerciseModelMetadataIndex exerciseModelMetadataIndex: Int) {
-        connectivity!.startSession(exerciseModelMetadata: exerciseModelMetadata[exerciseModelMetadataIndex])
+    func startSession(exerciseModelMetadataIndex exerciseModelMetadataIndex: Int, demo: Bool) {
+        connectivity!.startSession(exerciseModelMetadata: exerciseModelMetadata[exerciseModelMetadataIndex], demo: demo)
     }
     
     ///

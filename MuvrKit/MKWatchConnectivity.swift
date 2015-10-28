@@ -99,10 +99,10 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     /// Starts the exercise session with the given 
     ///
-    public func startSession(exerciseModelMetadata exerciseModelMetadata: MKExerciseModelMetadata) {
+    public func startSession(exerciseModelMetadata exerciseModelMetadata: MKExerciseModelMetadata, demo: Bool) {
         if currentSession != nil { endSession() }
         
-        currentSession = MKExerciseSession(connectivity: self, exerciseModelMetadata: exerciseModelMetadata)
+        currentSession = MKExerciseSession(connectivity: self, exerciseModelMetadata: exerciseModelMetadata, demo: demo)
         let message: [String : AnyObject] = [
             "action" : "start",
             "exerciseModelId" : exerciseModelMetadata.0,
