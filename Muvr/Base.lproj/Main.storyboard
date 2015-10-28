@@ -49,7 +49,7 @@
         <!--Page View Controller-->
         <scene sceneID="tQN-LW-y4W">
             <objects>
-                <pageViewController storyboardIdentifier="sessionPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="bxL-qn-acZ" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="sessionPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="bxL-qn-acZ" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M0T-jC-kXe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3032" y="-1347"/>
