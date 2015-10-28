@@ -3,13 +3,19 @@ import CoreData
 import MuvrKit
 
 class MRSessionViewController : UIViewController, UITableViewDataSource {
+    
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addLabelBtn: UIBarButtonItem!
+    @IBOutlet weak var navbar: UINavigationBar!
+    
     private var session: MRManagedExerciseSession?
+    private var runningSession: Bool = false
     var index: Int?
     
-    func setSessionId(sessionId: NSManagedObjectID, sessionIndex: Int) {
-        session = try? MRAppDelegate.sharedDelegate().managedObjectContext.existingObjectWithID(sessionId) as! MRManagedExerciseSession
+    func setSessionId(session: MRManagedExerciseSession, sessionIndex: Int) {
+        self.session = session
         index = sessionIndex
+        runningSession = MRAppDelegate.sharedDelegate().currentSession.map { s in s == session } ?? false
     }
     
     func share(data: NSData, fileName: String) {
@@ -38,6 +44,11 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
         }
         tableView.reloadData()
+    }
+    
+    override func viewDidLoad() {
+        addLabelBtn.enabled = runningSession
+        navbar.topItem!.title = session?.exerciseModelId
     }
     
     func update() {

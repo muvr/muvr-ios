@@ -32,7 +32,6 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="calendarContentView" destination="AFJ-6W-tID" id="aCt-nU-nf1"/>
-                        <segue destination="R8z-14-vmd" kind="show" identifier="session" id="PkC-yg-omP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PRW-qL-C2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -60,12 +59,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="2ll-3P-d5c">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="692"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="classifiedExercise" textLabel="dOT-nc-bE9" detailTextLabel="rPs-U4-Dlx" style="IBUITableViewCellStyleValue2" id="GI8-GD-9lg">
-                                        <rect key="frame" x="0.0" y="114" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="50" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GI8-GD-9lg" id="AFF-r8-vjI">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -93,7 +92,7 @@
                                         <animations/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="labelledExercise" textLabel="cZ6-Hv-PIt" detailTextLabel="LiM-7A-DEt" style="IBUITableViewCellStyleValue2" id="Nvq-Lh-Mq1">
-                                        <rect key="frame" x="0.0" y="158" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="94" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nvq-Lh-Mq1" id="TAK-vw-Nu0">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -126,45 +125,57 @@
                                     <outlet property="dataSource" destination="R8z-14-vmd" id="io3-a2-b7z"/>
                                 </connections>
                             </tableView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m9G-f1-TKk">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                <animations/>
+                                <items>
+                                    <navigationItem title="Session" id="jNZ-Gu-hkV">
+                                        <rightBarButtonItems>
+                                            <barButtonItem systemItem="add" id="wAH-mU-GD8">
+                                                <connections>
+                                                    <action selector="label:" destination="R8z-14-vmd" id="2pj-XP-7EF"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem systemItem="action" id="FWX-Gn-uaj">
+                                                <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <connections>
+                                                    <action selector="shareRaw" destination="R8z-14-vmd" id="q7L-fc-Ukj"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem systemItem="action" id="KQf-p0-6a9">
+                                                <connections>
+                                                    <action selector="shareCSV" destination="R8z-14-vmd" id="wgz-Zd-ICn"/>
+                                                </connections>
+                                            </barButtonItem>
+                                        </rightBarButtonItems>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="2ll-3P-d5c" firstAttribute="leading" secondItem="HbP-gK-kGx" secondAttribute="leading" id="8NV-NX-WR2"/>
-                            <constraint firstItem="2ll-3P-d5c" firstAttribute="top" secondItem="HbP-gK-kGx" secondAttribute="top" id="Ify-1C-B89"/>
-                            <constraint firstAttribute="trailing" secondItem="2ll-3P-d5c" secondAttribute="trailing" id="KM9-iC-9Vj"/>
-                            <constraint firstItem="2ll-3P-d5c" firstAttribute="bottom" secondItem="kTC-FX-p69" secondAttribute="top" id="QzM-vX-eqk"/>
+                            <constraint firstItem="2ll-3P-d5c" firstAttribute="leading" secondItem="m9G-f1-TKk" secondAttribute="leading" id="2Ig-t7-eVi"/>
+                            <constraint firstAttribute="trailing" secondItem="m9G-f1-TKk" secondAttribute="trailing" id="8UG-pX-Ni1"/>
+                            <constraint firstItem="2ll-3P-d5c" firstAttribute="trailing" secondItem="m9G-f1-TKk" secondAttribute="trailing" id="Vpu-lp-xeT"/>
+                            <constraint firstItem="m9G-f1-TKk" firstAttribute="top" secondItem="HbP-gK-kGx" secondAttribute="top" id="cK0-4T-koj"/>
+                            <constraint firstItem="2ll-3P-d5c" firstAttribute="bottom" secondItem="kTC-FX-p69" secondAttribute="top" id="cpa-SZ-4oz"/>
+                            <constraint firstItem="2ll-3P-d5c" firstAttribute="top" secondItem="m9G-f1-TKk" secondAttribute="bottom" id="iHr-b9-wmK"/>
+                            <constraint firstItem="m9G-f1-TKk" firstAttribute="leading" secondItem="HbP-gK-kGx" secondAttribute="leading" id="zWf-f1-Ks2"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Session" id="ZXu-xL-n0m">
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="wAH-mU-GD8">
-                                <connections>
-                                    <action selector="label:" destination="R8z-14-vmd" id="2pj-XP-7EF"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem systemItem="action" id="KQf-p0-6a9">
-                                <connections>
-                                    <action selector="shareCSV" destination="R8z-14-vmd" id="wgz-Zd-ICn"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem systemItem="action" id="FWX-Gn-uaj">
-                                <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <action selector="shareRaw" destination="R8z-14-vmd" id="q7L-fc-Ukj"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Session" id="ZXu-xL-n0m"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="addLabelBtn" destination="wAH-mU-GD8" id="sCp-Mv-CIE"/>
+                        <outlet property="navbar" destination="m9G-f1-TKk" id="3JV-wt-Gmx"/>
                         <outlet property="tableView" destination="2ll-3P-d5c" id="PZQ-21-pLA"/>
                         <segue destination="L5u-7f-GSQ" kind="show" identifier="label" id="7nF-i7-pNN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a0N-Im-PLJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3032" y="-506"/>
+            <point key="canvasLocation" x="-3097" y="-506"/>
         </scene>
         <!--Label-->
         <scene sceneID="cgg-jn-fKF">
@@ -250,6 +261,13 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dNS-vU-4Qj">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                <animations/>
+                                <items>
+                                    <navigationItem title="Label exercise" id="icl-It-jVS"/>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

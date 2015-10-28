@@ -8,7 +8,6 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     private var pageViewController: UIPageViewController!
    
     private let calendar = JTCalendarManager()
-    @IBOutlet weak var c: UIView!
     
     private var sessions: [MRManagedExerciseSession] = []
 
@@ -37,9 +36,9 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     }
     
     func viewControllerAtIndex(index: Int?) -> MRSessionViewController {
-        let vc: MRSessionViewController = self.storyboard?.instantiateViewControllerWithIdentifier("sessionViewController") as! MRSessionViewController
+        let vc: MRSessionViewController = storyboard?.instantiateViewControllerWithIdentifier("sessionViewController") as! MRSessionViewController
         if let index = index where index >= 0 && index < sessions.count {
-            vc.setSessionId(sessions[index].objectID, sessionIndex: index)
+            vc.setSessionId(sessions[index], sessionIndex: index)
         }
         return vc
     }
@@ -74,12 +73,6 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
         try! fetchedResultsController.performFetch()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let sc = segue.destinationViewController as? MRSessionViewController, let sessionId = sender as? NSManagedObjectID {
-            sc.setSessionId(sessionId, sessionIndex: 0)
-        }
-    }
-    
     // MARK: JTCalendarDelegate
     
     func calendar(calendar: JTCalendarManager!, prepareDayView dv: UIView!) {
@@ -103,13 +96,15 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     // MARK: UIPageViewControllerDataSource
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        guard let vc = viewController as? MRSessionViewController else { return nil }
-        return viewControllerAtIndex(vc.index.map { i in i - 1 })
+        guard let vc = viewController as? MRSessionViewController,
+              let i = vc.index where i > 0 else { return nil }
+        return viewControllerAtIndex(i - 1)
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        guard let vc = viewController as? MRSessionViewController else { return nil }
-        return viewControllerAtIndex(vc.index.map { i in i + 1 })
+        guard let vc = viewController as? MRSessionViewController,
+              let i = vc.index where i < sessions.count - 1 else { return nil }
+        return viewControllerAtIndex(i + 1)
     }
     
     func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
