@@ -21,6 +21,7 @@
 		54266B151BB92F22007A8A8A /* MKSensorData+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */; };
 		54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B161BB92F98007A8A8A /* MKSensorData.swift */; };
 		54266B181BB92F98007A8A8A /* MKSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B161BB92F98007A8A8A /* MKSensorData.swift */; };
+		5431545C1BE107F60031BE61 /* MKForwardPropagator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5431545B1BE107F60031BE61 /* MKForwardPropagator.swift */; };
 		543C9A161BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C9A101BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift */; };
 		543C9A171BDD439B00291EC5 /* MRManagedExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C9A111BDD439B00291EC5 /* MRManagedExerciseSession.swift */; };
 		543C9A181BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C9A121BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift */; };
@@ -234,6 +235,7 @@
 		54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Encoding.swift"; sourceTree = "<group>"; };
 		54266B131BB92F16007A8A8A /* MKSensorData+Decoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Decoding.swift"; sourceTree = "<group>"; };
 		54266B161BB92F98007A8A8A /* MKSensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorData.swift; sourceTree = "<group>"; };
+		5431545B1BE107F60031BE61 /* MKForwardPropagator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKForwardPropagator.swift; sourceTree = "<group>"; };
 		543C9A101BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedExerciseSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		543C9A111BDD439B00291EC5 /* MRManagedExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedExerciseSession.swift; sourceTree = "<group>"; };
 		543C9A121BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedLabelledExercise+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -686,6 +688,7 @@
 				54D345811BB924A500F65091 /* MKClassificationDelegate.swift */,
 				54D3458A1BB928B600F65091 /* MKClassificationPipeline.swift */,
 				5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */,
+				5431545B1BE107F60031BE61 /* MKForwardPropagator.swift */,
 			);
 			name = Classification;
 			sourceTree = "<group>";
@@ -1145,6 +1148,7 @@
 				54845AD21BD8D73500C33DBF /* MKLabelledExercise.swift in Sources */,
 				5469D3821BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */,
 				546E68521BB969DD00DC0FEF /* MKSensorData+Encoding.swift in Sources */,
+				5431545C1BE107F60031BE61 /* MKForwardPropagator.swift in Sources */,
 				54E4CB401BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift in Sources */,
 				5488080F1BD57BA500419CD8 /* MKPhoneExerciseSessionClassifier.swift in Sources */,
 				547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */,
