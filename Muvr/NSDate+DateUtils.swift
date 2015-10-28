@@ -24,4 +24,11 @@ extension NSDate {
         return NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Hour, value: hours, toDate: self, options: NSCalendarOptions.MatchFirst)!
     }
     
+    ///
+    /// Adds the specified number of seconds to this NSDate
+    ///
+    func addSeconds(seconds: Int) -> NSDate {
+        return NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Second, value: seconds, toDate: self, options: NSCalendarOptions.MatchFirst)!
+    }
+    
 }
