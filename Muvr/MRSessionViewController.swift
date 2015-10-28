@@ -25,6 +25,9 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         runningSession = MRAppDelegate.sharedDelegate().currentSession.map { s in s == session } ?? false
     }
     
+    ///
+    /// Find an activity to share the give file
+    ///
     func share(data: NSData, fileName: String) {
         let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
         let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent(fileName)
@@ -76,12 +79,14 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     // MARK: Share & label
     
+    /// share the raw session data
     @IBAction func shareRaw() {
         if let data = session?.sensorData {
             share(data, fileName: "sensordata.raw")
         }
     }
     
+    /// share the CSV session data
     @IBAction func shareCSV() {
         if let data = session?.sensorData,
             let labelledExercises = session?.labelledExercises.allObjects as? [MRManagedLabelledExercise],
@@ -91,6 +96,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         }
     }
     
+    /// display the ``Add label`` screen
     @IBAction func label(sender: UIBarButtonItem) {
         performSegueWithIdentifier("label", sender: session)
     }
