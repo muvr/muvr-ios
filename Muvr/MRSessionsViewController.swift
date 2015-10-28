@@ -107,7 +107,9 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     // MARK: JTCalendarDelegate
     func calendar(calendar: JTCalendarManager!, prepareDayView dv: UIView!) {
         JTCalendarHelper.calendar(calendar, prepareDayView: dv, on: calendar.date()) { date in
-            return true
+            let dayView = dv as! JTCalendarDayView
+            let sessions = MRManagedExerciseSession.sessionsOnDate(dayView.date, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+            return !sessions.isEmpty
         }
     }
     
