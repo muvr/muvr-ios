@@ -10,12 +10,22 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     private var session: MRManagedExerciseSession?
     private var runningSession: Bool = false
+    private var classifiedExercises = []
+    private var labelledExercises = []
+    
     var index: Int?
     
     func setSessionId(session: MRManagedExerciseSession, sessionIndex: Int) {
         self.session = session
         index = sessionIndex
         runningSession = MRAppDelegate.sharedDelegate().currentSession.map { s in s == session } ?? false
+        classifiedExercises = (session.classifiedExercises.allObjects as! [MRManagedClassifiedExercise]).sort({ (a, b)  in
+            b.isBefore(a)
+        })
+        labelledExercises = (session.classifiedExercises.allObjects as! [MRManagedClassifiedExercise]).sort({ (a, b)  in
+            b.isBefore(a)
+        })
+
     }
     
     func share(data: NSData, fileName: String) {
@@ -48,7 +58,11 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         addLabelBtn.enabled = runningSession
-        navbar.topItem!.title = session?.exerciseModelId
+        if let start = session?.startDate {
+            navbar.topItem!.title = "\(start.formatTime()) - \(session!.exerciseModelId)"
+        } else {
+            navbar.topItem!.title = session?.exerciseModelId
+        }
     }
     
     func update() {
@@ -110,13 +124,13 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
-            let le = session!.classifiedExercises.allObjects[indexPath.row] as! MRManagedClassifiedExercise
+            let le = classifiedExercises[indexPath.row]
             cell.textLabel!.text = le.exerciseId
             cell.detailTextLabel!.text = "Weight \(le.weight), intensity \(le.intensity)"
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
-            let le = session!.labelledExercises.allObjects[indexPath.row] as! MRManagedLabelledExercise
+            let le = labelledExercises[indexPath.row]
             cell.textLabel!.text = le.exerciseId
             cell.detailTextLabel!.text = "Weight \(le.weight), intensity \(le.intensity)"
             return cell

@@ -31,4 +31,12 @@ extension NSDate {
         return NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Second, value: seconds, toDate: self, options: NSCalendarOptions.MatchFirst)!
     }
     
+    ///
+    /// returns a string (HH:mm) representing the time of this NSDate
+    func formatTime() -> String {
+        let format = NSDateFormatter()
+        format.dateFormat = "HH:mm"
+        return format.stringFromDate(self)
+    }
+    
 }

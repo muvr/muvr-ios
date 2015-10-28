@@ -12,22 +12,24 @@ import MuvrKit
 //
 extension MRAppDelegate  {
     
+    
     private func generateClassifiedExercise(date date: NSDate, session: MRManagedExerciseSession, index: Int) {
         let exercise = MRManagedClassifiedExercise.insertNewObject(inManagedObjectContext: managedObjectContext)
         exercise.confidence = 1
-        exercise.exerciseId = "exercise \(index)"
+        exercise.exerciseId = ["Biceps curl", "Triceps extension", "Lateral raise"][index % 3]
         exercise.exerciseSession = session
         exercise.duration = 12
         exercise.intensity = 1
         exercise.repetitions = 10
         exercise.weight = 10
+        exercise.start = date.addSeconds(index * 60)
     }
     
     private func generateLabelledExercise(date date: NSDate, session: MRManagedExerciseSession, index: Int) {
         let exercise = MRManagedLabelledExercise.insertNewObject(into: session, inManagedObjectContext: managedObjectContext)
         exercise.start = date.addSeconds(index * 60)
         exercise.end = date.addSeconds(index * 60 + 30)
-        exercise.exerciseId = "biceps-curl"
+        exercise.exerciseId = ["Biceps curl", "Triceps extension", "Lateral raise"][index % 3]
         exercise.exerciseSession = session
         exercise.intensity = 1
         exercise.weight = 2
