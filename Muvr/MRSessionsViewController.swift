@@ -26,21 +26,35 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
         return frc
     }()
     
-    func viewControllerAtIndex(index: Int) -> MRSessionViewController {
+    func showSessionsOn(date date: NSDate) {
+        sessions = MRManagedExerciseSession.sessionsOnDate(date, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+        
+        NSLog("Show \(sessions) on \(date)")
+        
+        let startVC = viewControllerAtIndex(0)
+        let viewControllers = [startVC]
+        pageViewController.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: nil)
+        pageViewController.didMoveToParentViewController(self)
+    }
+    
+    func viewControllerAtIndex(index: Int?) -> MRSessionViewController {
         let vc: MRSessionViewController = self.storyboard?.instantiateViewControllerWithIdentifier("sessionViewController") as! MRSessionViewController
-        vc.setSessionId(sessions[index].objectID, sessionIndex: index)
+        if let index = index where index >= 0 && index < sessions.count {
+            vc.setSessionId(sessions[index].objectID, sessionIndex: index)
+        }
         return vc
     }
 
     // MARK: UIViewController
     
     override func viewDidLoad() {
+        let today = NSDate()
         calendar.menuView = JTCalendarMenuView()
         calendar.contentView = calendarContentView
         calendar.settings.weekModeEnabled = true
         calendar.delegate = self
 
-        calendar.setDate(NSDate())
+        calendar.setDate(today)
         calendar.reload()
         
         pageViewController = storyboard?.instantiateViewControllerWithIdentifier("sessionPageViewController") as! UIPageViewController
@@ -53,6 +67,8 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
         pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
         pageControl.currentPageIndicatorTintColor = UIColor.blackColor()
         pageControl.backgroundColor = UIColor.whiteColor()
+        
+        showSessionsOn(date: today)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -105,6 +121,7 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     }
     
     // MARK: JTCalendarDelegate
+    
     func calendar(calendar: JTCalendarManager!, prepareDayView dv: UIView!) {
         JTCalendarHelper.calendar(calendar, prepareDayView: dv, on: calendar.date()) { date in
             let dayView = dv as! JTCalendarDayView
@@ -116,17 +133,7 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     func calendar(calendar: JTCalendarManager!, didTouchDayView dv: UIView!) {
         let dayView = dv as! JTCalendarDayView
         calendar.setDate(dayView.date)
-        
-        sessions = MRManagedExerciseSession.sessionsOnDate(dayView.date, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
-        
-        NSLog("Show \(sessions) on \(dayView.date)")
-        
-        if !sessions.isEmpty {
-            let startVC = viewControllerAtIndex(0)
-            let viewControllers = [startVC]
-            pageViewController.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: nil)
-            pageViewController.didMoveToParentViewController(self)
-        }
+        showSessionsOn(date: dayView.date)
     }
     
     func calendar(calendar: JTCalendarManager!, canDisplayPageWithDate date: NSDate!) -> Bool {
@@ -137,16 +144,12 @@ class MRSessionsViewController : UIViewController, UITableViewDataSource, UITabl
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         guard let vc = viewController as? MRSessionViewController else { return nil }
-        guard let index = vc.index where index > 0 else { return nil }
-
-        return viewControllerAtIndex(index - 1)
+        return viewControllerAtIndex(vc.index.map { i in i - 1 })
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
         guard let vc = viewController as? MRSessionViewController else { return nil }
-        guard let index = vc.index where index < sessions.count - 1 else { return nil }
-        
-        return viewControllerAtIndex(index + 1)
+        return viewControllerAtIndex(vc.index.map { i in i + 1 })
     }
     
     func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
