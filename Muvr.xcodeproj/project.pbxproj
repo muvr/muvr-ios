@@ -111,6 +111,7 @@
 		54FD504E1BDBD27C0015771D /* MRSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */; };
 		6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
+		BEA35283EC30DDB614FEAAE1 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3AA10F80ED661B9AC5A823 /* Pods.framework */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 /* End PBXBuildFile section */
 
@@ -347,6 +348,7 @@
 				54A7760B1BB81467001586DD /* MuvrKit.framework in Frameworks */,
 				544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */,
 				54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */,
+				BEA35283EC30DDB614FEAAE1 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
