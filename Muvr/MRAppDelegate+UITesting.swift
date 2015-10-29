@@ -73,8 +73,10 @@ extension MRAppDelegate  {
         if Process.arguments.contains("--reset-container") {
             NSLog("Reset container.")
             if let docs = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first {
-                try! NSFileManager.defaultManager().removeItemAtPath(docs)
-                try! NSFileManager.defaultManager().createDirectoryAtPath(docs, withIntermediateDirectories: false, attributes: nil)
+                let fileManager = NSFileManager.defaultManager()
+                try! fileManager.contentsOfDirectoryAtPath(docs).forEach { file in
+                    try! fileManager.removeItemAtPath("\(docs)/\(file)")
+                }
             }
 
             if Process.arguments.contains("--default-data") {
