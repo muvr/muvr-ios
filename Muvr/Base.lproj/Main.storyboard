@@ -72,7 +72,7 @@
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="classifiedExercise" textLabel="dOT-nc-bE9" detailTextLabel="rPs-U4-Dlx" style="IBUITableViewCellStyleValue2" id="GI8-GD-9lg">
-                                        <rect key="frame" x="0.0" y="50" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GI8-GD-9lg" id="AFF-r8-vjI">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -100,7 +100,7 @@
                                         <animations/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="labelledExercise" textLabel="cZ6-Hv-PIt" detailTextLabel="LiM-7A-DEt" style="IBUITableViewCellStyleValue2" id="Nvq-Lh-Mq1">
-                                        <rect key="frame" x="0.0" y="94" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="93.5" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nvq-Lh-Mq1" id="TAK-vw-Nu0">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>

@@ -61,7 +61,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         addLabelBtn.enabled = runningSession
         if let s = session {
-            navbar.topItem!.title = "\(s.startDate.formatTime()) - \(s.exerciseModelId)"
+            navbar.topItem!.title = "\(s.start.formatTime()) - \(s.exerciseModelId)"
         } else {
             navbar.topItem!.title = nil
         }

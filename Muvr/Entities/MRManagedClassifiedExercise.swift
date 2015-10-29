@@ -22,7 +22,7 @@ class MRManagedClassifiedExercise: NSManagedObject {
         let mo = insertNewObject(inManagedObjectContext: managedObjectContext)
         
         mo.exerciseSession = session
-        mo.start = session.startDate.addSeconds(Int(classifiedExercise.offset))
+        mo.start = session.start.addSeconds(Int(classifiedExercise.offset))
         mo.confidence = classifiedExercise.confidence
         mo.duration = classifiedExercise.duration
         mo.exerciseId = classifiedExercise.exerciseId
