@@ -58,17 +58,36 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     func applicationWillResignActive(application: UIApplication) {
         application.idleTimerDisabled = false
     }
+
+    func loadTextFiles(path bundlePath: String, filename: String, ext: String, separator: NSCharacterSet) -> [String] {
+        let fullPath = NSBundle(path: bundlePath)!.pathForResource(filename, ofType: ext)!
+        func filterUsefulStr(arrStr: [String]) -> [String] {
+            return arrStr
+                .filter {$0 != ""}
+                .map {$0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())}
+        }
+        do {
+            let content = try String(contentsOfFile: fullPath, encoding: NSUTF8StringEncoding)
+            return filterUsefulStr(content.componentsSeparatedByCharactersInSet(separator))
+        } catch {
+            return []
+        }
+    }
     
     func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
+        // loading layer/label
+        let layerStr = loadTextFiles(path: bundlePath, filename: "layers", ext: "txt", separator: NSCharacterSet.whitespaceCharacterSet())
+        let layer = layerStr.map {Int($0)!}
+        let label = loadTextFiles(path: bundlePath, filename: "labels", ext: "txt", separator: NSCharacterSet.newlineCharacterSet())
+
         // setup the classifier
         let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
-        
         let modelPath = NSBundle(path: bundlePath)!.pathForResource("demo", ofType: "raw")!
         let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
-        
-        let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: weights,
+        let model = MKExerciseModel(layerConfig: layer, weights: weights,
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
-            exerciseIds: ["arms/biceps-curl", "arms/lateral-raise", "arms/triceps-extension"],
+            //exerciseIds: ["arms/biceps-curl", "arms/lateral-raise", "arms/triceps-extension"],
+            exerciseIds: label,
             minimumDuration: 8)
         return model
     }
