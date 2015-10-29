@@ -77,9 +77,15 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     public func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) {
         guard let exerciseSession = sessions.last else { return }
         
+        func shiftOffset(x: MKClassifiedExercise) -> MKClassifiedExercise {
+            // accumulated contains all sensor data (including new)
+            let offset = x.offset + accumulated.duration - new.duration
+            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: offset, repetitions: x.repetitions, intensity: x.intensity, weight: x.weight)
+        }
+        
         dispatch_async(classificationQueue) {
             if let classified = self.classify(exerciseModelId: session.exerciseModelId, sensorData: new) {
-                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidClassify(exerciseSession, classified: classified, sensorData: accumulated) }
+                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidClassify(exerciseSession, classified: classified.map(shiftOffset), sensorData: accumulated) }
             }
         }
     }
