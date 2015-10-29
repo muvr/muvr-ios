@@ -92,7 +92,8 @@ public struct MKClassifier {
                 let labelName = self.model.exerciseIds[labelIndex]
                 let probability = probabilities[labelIndex]
                 if probability > 0.7 {
-                    return MKClassifiedExerciseBlock(confidence: probability, exerciseId: labelName, duration: Double(windowStepSize) / Double(block.samplesPerSecond))
+                    let duration = Double(windowStepSize) / Double(block.samplesPerSecond)
+                    return MKClassifiedExerciseBlock(confidence: probability, exerciseId: labelName, duration: duration, offset: duration * Double(i))
                 }
                 return nil
             }
@@ -123,7 +124,7 @@ public struct MKClassifier {
         if let a = accumulator { result.append(a) }
         
         return result.filter { $0.duration >= self.model.minimumDuration }.map { x in
-            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, repetitions: nil, intensity: nil, weight: nil)
+            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset, repetitions: nil, intensity: nil, weight: nil)
         }
     }    
 }
@@ -132,14 +133,26 @@ struct MKClassifiedExerciseBlock {
     var confidence: Double
     let exerciseId: MKExerciseId
     var duration: MKTimestamp
+    let offset: MKTimestamp
+    private var blocks: Double // counts the number of single blocks accumulated into this block
     
     mutating func extend(by: MKClassifiedExerciseBlock) {
-        self.confidence = (self.confidence + by.confidence) / 2
+        // the new confidence the average confidence of both blocks
+        self.confidence = (self.confidence * self.blocks + by.confidence * by.blocks) / (self.blocks + by.blocks)
         self.duration = self.duration + by.duration
+        self.blocks = self.blocks + 1
     }
 
     func isRoughlyEqual(to: MKClassifiedExerciseBlock) -> Bool {
         return self.exerciseId == to.exerciseId && abs(self.confidence - to.confidence) < 0.1
+    }
+    
+    init(confidence: Double, exerciseId: MKExerciseId, duration: MKTimestamp, offset: MKTimestamp) {
+        self.confidence = confidence
+        self.exerciseId = exerciseId
+        self.duration = duration
+        self.offset = offset
+        self.blocks = 1.0
     }
 }
 
