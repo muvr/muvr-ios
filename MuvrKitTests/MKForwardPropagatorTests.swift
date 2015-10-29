@@ -84,4 +84,61 @@ class MKForwardPropagatorTests : XCTestCase {
     }
     
     
+    // MARK - Exception tests to make sure invalid input gets rejected
+    
+    ///
+    /// If challenged with data of a length that is not a multiple of the number of features the network 
+    /// should reject.
+    ///
+    func testInvalidFeatureMatrixSize() {
+        let features: [Float] = [0, 0, 0];
+        
+        let model = try! MKForwardPropagator.configured(baseConfiguration, weights: [-30.0, 20.0, 20.0])
+        
+        do {
+            try model.predictFeatureMatrix(features)
+            XCTFail("Expected invalid matrix size exception.")
+        } catch MKForwardPropagatorError.InvalidFeatureMatrixSize {
+            // OK
+        } catch {
+            XCTFail("Bad exception.")
+        }
+    }
+
+    ///
+    /// Test that we can handle if the feature matrix is empty.
+    ///
+    func testEmptyFeatureMatrix() {
+        let features: [Float] = [];
+        
+        let model = try! MKForwardPropagator.configured(baseConfiguration, weights: [-30.0, 20.0, 20.0])
+        
+        do {
+            try model.predictFeatureMatrix(features)
+            XCTFail("Expected invalid matrix size exception.")
+        } catch MKForwardPropagatorError.InvalidFeatureMatrixSize {
+            // OK
+        } catch {
+            XCTFail("Bad exception.")
+        }
+    }
+    
+    ///
+    /// If the number of weights doesn't conform with the layer configuration there should be an error.
+    ///
+    func testInvalidNumberOfWeights() {
+        let weights: [Float] = [3.0, 1.0, 2.0]
+        var conf = baseConfiguration
+        conf.layerConfiguration = [2, 3, 1]
+        
+        do {
+            try MKForwardPropagator.configured(conf, weights: weights)
+            XCTFail("Expected invalid weights size exception.")
+        } catch MKForwardPropagatorError.InvalidWeightsForLayerConfiguration {
+            // OK
+        } catch {
+            XCTFail("Bad exception.")
+        }
+    }
+
 }

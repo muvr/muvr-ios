@@ -188,7 +188,7 @@ public class MKForwardPropagator {
     private func checkInputSanity(matrix: [Element]) throws {
         let numExamples = matrix.count / self.featureVectorSize;
         
-        if (matrix.count != self.featureVectorSize * numExamples) {
+        if (matrix.count != self.featureVectorSize * numExamples || matrix.count == 0) {
             throw MKForwardPropagatorError.InvalidFeatureMatrixSize
         }
     }
