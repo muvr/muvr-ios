@@ -17,5 +17,9 @@ class MRManagedLabelledExercise: NSManagedObject {
         mo.exerciseSession = session
         return mo
     }
+    
+    func isBefore(other: MRManagedClassifiedExercise) -> Bool {
+        return start.compare(other.start) == .OrderedAscending
+    }
 
 }

@@ -14,6 +14,7 @@ import CoreData
 
 extension MRManagedClassifiedExercise {
 
+    @NSManaged var start: NSDate
     @NSManaged var confidence: Double
     @NSManaged var duration: Double
     @NSManaged var exerciseId: String

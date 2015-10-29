@@ -14,6 +14,17 @@ class MRManagedExerciseSession: NSManagedObject {
         return try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]
     }
     
+    static func hasSessionsOnDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> Bool {
+        let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
+        let midnightToday = date.dateOnly
+        let midnightTomorrow = midnightToday.addDays(1)
+        fetchRequest.predicate = NSPredicate(format: "(startDate >= %@ AND startDate < %@)", midnightToday, midnightTomorrow)
+        fetchRequest.fetchLimit = 1
+        
+        return managedObjectContext.countForFetchRequest(fetchRequest).map { count in count > 0 } ?? false
+        
+    }
+    
     static func insertNewObject(inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession {
         let mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExerciseSession", inManagedObjectContext: managedObjectContext) as! MRManagedExerciseSession
         
