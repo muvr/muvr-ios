@@ -58,7 +58,7 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
         calendar.setDate(today)
         calendar.reload()
         
-        pageViewController = storyboard?.instantiateViewControllerWithIdentifier("sessionPageViewController") as! UIPageViewController
+        pageViewController = UIPageViewController(transitionStyle: UIPageViewControllerTransitionStyle.Scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options: nil)
         pageViewController.dataSource = self
         pageViewController.view.frame = CGRectMake(0, 180, view.frame.width, view.frame.size.height - 180)
         addChildViewController(pageViewController)
