@@ -17,7 +17,7 @@ class MKForwardPropagatorTests : XCTestCase {
                                       0, 0]
     
     ///
-    /// AND matrix model test
+    /// AND matrix model test using sigmoid
     ///
     func testModelOfANDMatrix() {
         let model = try! MKForwardPropagator.configured(self.baseConfiguration, weights: [-30.0, 20.0, 20.0])
@@ -30,7 +30,7 @@ class MKForwardPropagatorTests : XCTestCase {
     }
     
     ///
-    /// OR matrix model test
+    /// OR matrix model test using sigmoid
     ///
     func testModelOfORMatrix() {
         let model = try! MKForwardPropagator.configured(self.baseConfiguration, weights: [-10.0, 20.0, 20.0])
@@ -43,7 +43,7 @@ class MKForwardPropagatorTests : XCTestCase {
     }
     
     ///
-    /// XNOR matrix model test
+    /// XNOR matrix model test using sigmoid
     ///
     func testModelOfXNORMatrix() {
         var conf = baseConfiguration
@@ -56,6 +56,23 @@ class MKForwardPropagatorTests : XCTestCase {
         XCTAssertEqualWithAccuracy(prediction[1], 0, accuracy: 0.0001);
         XCTAssertEqualWithAccuracy(prediction[2], 0, accuracy: 0.0001);
         XCTAssertEqualWithAccuracy(prediction[3], 1, accuracy: 0.0001);
+    }
+    
+    ///
+    /// (NAND) matrix model test using ReLU
+    ///
+    func testModelOfNANDMatrix() {
+        var conf = baseConfiguration
+        conf.hiddenActivation = reLUActivation
+        conf.outputActivation = reLUActivation
+        
+        let model = try! MKForwardPropagator.configured(conf, weights: [20, -17.5, -14.5])
+        let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures)
+        
+        XCTAssertEqualWithAccuracy(prediction[0], 0,   accuracy: 0.0001);
+        XCTAssertEqualWithAccuracy(prediction[1], 2.5, accuracy: 0.0001);
+        XCTAssertEqualWithAccuracy(prediction[2], 5.5, accuracy: 0.0001);
+        XCTAssertEqualWithAccuracy(prediction[3], 20,  accuracy: 0.0001);
     }
     
     ///
@@ -82,7 +99,6 @@ class MKForwardPropagatorTests : XCTestCase {
         XCTAssertEqualWithAccuracy(prediction[1], 0.999999999, accuracy: 0.000000001);
         XCTAssertEqualWithAccuracy(prediction[2], -1,          accuracy: 0.000000001);
     }
-    
     
     // MARK - Exception tests to make sure invalid input gets rejected
     
