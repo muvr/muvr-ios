@@ -5,6 +5,7 @@ struct MKForwardPropagatorLayer{
     let rowCount: Int
     let columnCount: Int
     let weights: [Float]
+    let isOutputLayer: Bool
 }
 
 typealias MKActivationFunction = (inout input: [Float], offset: Int, length: Int) -> ()
@@ -57,10 +58,12 @@ public class MKForwardPropagator {
     private static func buildLayers(configuration: MKForwardPropagatorConfiguration,
         weights: [Element]) -> [MKForwardPropagatorLayer] {
         var layers = [MKForwardPropagatorLayer]()
+            
+        let numLayers = configuration.layerConfiguration.count - 1
         
         // An offset between the weight matrices of different layers
         var crossLayerOffset = 0
-        for j in 0..<(configuration.layerConfiguration.count - 1) { // Recall we don't need a matrix for the input layer
+        for j in 0..<numLayers { // Recall we don't need a matrix for the input layer
             
             // If network has X units in layer j, and Y units in layer j+1, then weight matrix for layer j
             // will be of demension: [ Y x (X+1) ]
@@ -78,9 +81,12 @@ public class MKForwardPropagator {
                     layerWeights[crossRowOffset] = weights[totalOffset]
                 }
             }
-            let currentLayer =
-                MKForwardPropagatorLayer(rowCount: rowCount, columnCount: columnCount, weights: layerWeights)
-            layers.append(currentLayer)
+            
+            layers.append(MKForwardPropagatorLayer(
+                rowCount: rowCount,
+                columnCount: columnCount,
+                weights: layerWeights,
+                isOutputLayer: j == numLayers - 1))
             
             crossLayerOffset = totalOffset + 1; // Adjust offset to the next layer
         }
@@ -167,8 +173,7 @@ public class MKForwardPropagator {
             swap(&buffer, &currentInputs)
             
             // 3. Apply activation function, e.g. logistic func
-            let activation =
-                (j < self.numberOfLayers() - 1) ? conf.hiddenActivation : conf.outputActivation
+            let activation = layers[j].isOutputLayer ? conf.outputActivation : conf.hiddenActivation
             let feature_length = layers[j].rowCount * numExamples
             activation(input: &currentInputs, offset: numberOfBiasUnits, length: feature_length)
         }
