@@ -134,25 +134,16 @@ struct MKClassifiedExerciseBlock {
     let exerciseId: MKExerciseId
     var duration: MKTimestamp
     let offset: MKTimestamp
-    private var blocks: Double // counts the number of single blocks accumulated into this block
     
     mutating func extend(by: MKClassifiedExerciseBlock) {
-        // the new confidence the average confidence of both blocks
-        self.confidence = (self.confidence * self.blocks + by.confidence * by.blocks) / (self.blocks + by.blocks)
+        // the new confidence the average confidence of both blocks 
+        // use the duration to apply correct weights in average computation
+        self.confidence = (self.confidence * self.duration + by.confidence * by.duration) / (self.duration + by.duration)
         self.duration = self.duration + by.duration
-        self.blocks = self.blocks + by.blocks
     }
 
     func isRoughlyEqual(to: MKClassifiedExerciseBlock) -> Bool {
         return self.exerciseId == to.exerciseId && abs(self.confidence - to.confidence) < 0.1
-    }
-    
-    init(confidence: Double, exerciseId: MKExerciseId, duration: MKTimestamp, offset: MKTimestamp) {
-        self.confidence = confidence
-        self.exerciseId = exerciseId
-        self.duration = duration
-        self.offset = offset
-        self.blocks = 1.0
     }
 }
 
