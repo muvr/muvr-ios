@@ -48,7 +48,7 @@ extension MRAppDelegate  {
         let session = MRManagedExerciseSession.insertNewObject(inManagedObjectContext: managedObjectContext)
         session.id = NSUUID().UUIDString
         session.exerciseModelId = "arms"
-        session.startDate = date
+        session.start = date
         
         (0..<10).forEach { i in generateClassifiedExercise(date: date, session: session, index: i) }
         (0..<2).forEach { i in generateLabelledExercise(date: date, session: session, index: i) }

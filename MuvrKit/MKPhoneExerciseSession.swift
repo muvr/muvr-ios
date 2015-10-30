@@ -6,7 +6,7 @@ public struct MKExerciseSession {
     /// the model id
     public let exerciseModelId: MKExerciseModelId
     /// the start timestamp
-    public let startDate: NSDate
+    public let start: NSDate
     
     ///
     /// Constructs this instance from the values in ``exerciseConnectivitySession``
@@ -16,7 +16,7 @@ public struct MKExerciseSession {
     init(exerciseConnectivitySession: MKExerciseConnectivitySession) {
         self.id = exerciseConnectivitySession.id
         self.exerciseModelId = exerciseConnectivitySession.exerciseModelId
-        self.startDate = exerciseConnectivitySession.startDate
+        self.start = exerciseConnectivitySession.start
     }
         
 }

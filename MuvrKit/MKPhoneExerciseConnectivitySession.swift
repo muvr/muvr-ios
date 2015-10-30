@@ -6,7 +6,7 @@ public struct MKExerciseConnectivitySession {
     /// the model id
     internal(set) public var exerciseModelId: MKExerciseModelId
     /// the start timestamp
-    internal(set) public var startDate: NSDate
+    internal(set) public var start: NSDate
     /// accumulated sensor data
     internal(set) public var sensorData: MKSensorData?
     /// the file datastamps
@@ -19,9 +19,9 @@ public struct MKExerciseConnectivitySession {
     /// - parameter exerciseModelId: the exercise model identity
     /// - parameter startDate: the start date
     ///
-    internal init(id: String, exerciseModelId: String, startDate: NSDate) {
+    internal init(id: String, exerciseModelId: String, start: NSDate) {
         self.id = id
         self.exerciseModelId = exerciseModelId
-        self.startDate = startDate
+        self.start = start
     }
 }

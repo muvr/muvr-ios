@@ -72,10 +72,10 @@ public struct MKClassifier {
         // TODO: Use vDSP_vspdp
         var doubleM = m.map { Double($0) }
         let numWindows = (rowCount - windowSize) / windowStepSize + 1
-                
+        let duration = Double(windowStepSize) / Double(block.samplesPerSecond)
+        
         let cews: [MKClassifiedExerciseWindow] = (0..<numWindows).map { window in
             let offset = dimension * windowStepSize * window * sizeof(Double)
-            
             // NSLog("bytes \(offset)-\(offset + windowSize * sizeof(Double)); length \(doubleM.count * sizeof(Double))")
 
             let featureMatrix = NSData(bytes: &doubleM + offset, length: dimension * windowSize * sizeof(Double))
@@ -86,13 +86,14 @@ public struct MKClassifier {
                 return probabilities[x] > probabilities[y]
             }
             let resultCount = min(maxResults, numClasses)
+            let start = duration * Double(window)
             let classifiedExerciseBlocks: [MKClassifiedExerciseBlock] = (0..<resultCount).flatMap { i in
                 let labelIndex = classRanking[i]
                 
                 let labelName = self.model.exerciseIds[labelIndex]
                 let probability = probabilities[labelIndex]
                 if probability > 0.7 {
-                    return MKClassifiedExerciseBlock(confidence: probability, exerciseId: labelName, duration: Double(windowStepSize) / Double(block.samplesPerSecond))
+                    return MKClassifiedExerciseBlock(confidence: probability, exerciseId: labelName, duration: duration, offset: start)
                 }
                 return nil
             }
@@ -123,7 +124,7 @@ public struct MKClassifier {
         if let a = accumulator { result.append(a) }
         
         return result.filter { $0.duration >= self.model.minimumDuration }.map { x in
-            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, repetitions: nil, intensity: nil, weight: nil)
+            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset, repetitions: nil, intensity: nil, weight: nil)
         }
     }    
 }
@@ -132,9 +133,12 @@ struct MKClassifiedExerciseBlock {
     var confidence: Double
     let exerciseId: MKExerciseId
     var duration: MKTimestamp
+    let offset: MKTimestamp
     
     mutating func extend(by: MKClassifiedExerciseBlock) {
-        self.confidence = (self.confidence + by.confidence) / 2
+        // the new confidence the average confidence of both blocks 
+        // use the duration to apply correct weights in average computation
+        self.confidence = (self.confidence * self.duration + by.confidence * by.duration) / (self.duration + by.duration)
         self.duration = self.duration + by.duration
     }
 

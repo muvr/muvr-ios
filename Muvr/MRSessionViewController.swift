@@ -61,7 +61,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         addLabelBtn.enabled = runningSession
         if let s = session {
-            navbar.topItem!.title = "\(s.startDate.formatTime()) - \(s.exerciseModelId)"
+            navbar.topItem!.title = "\(s.start.formatTime()) - \(s.exerciseModelId)"
         } else {
             navbar.topItem!.title = nil
         }
@@ -135,15 +135,19 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
             let ce = session!.classifiedExercises.reverse()[indexPath.row] as! MRManagedClassifiedExercise
             cell.textLabel!.text = ce.exerciseId
-            let weight = ce.weight.map { w in "Weight: \(w)" } ?? ""
-            let intensity = ce.intensity.map { i in "Intensity: \(i)" } ?? ""
-            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(weight) \(intensity)"
+            let weight = ce.weight.map { w in "\(NSString(format: "%.2f", w)) kg" } ?? ""
+            let intensity = ce.intensity.map { i in "Intensity: \(NSString(format: "%.2f", i))" } ?? ""
+            let duration = "\(NSString(format: "%.0f", ce.duration))s"
+            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(duration) - \(weight) - \(intensity)"
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
             let le = session!.labelledExercises.reverse()[indexPath.row] as! MRManagedLabelledExercise
             cell.textLabel!.text = le.exerciseId
-            cell.detailTextLabel!.text = "\(le.start.formatTime()) - Weight: \(le.weight) Intensity: \(le.intensity)"
+            let weight = "\(NSString(format: "%.2f", le.weight)) kg"
+            let intensity = "Intensity: \(NSString(format: "%.2f", le.intensity))"
+            let duration = "\(NSString(format: "%.0f", le.end.timeIntervalSince1970 - le.start.timeIntervalSince1970))s"
+            cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(duration) - \(weight) - \(intensity)"
             return cell
         default:
             fatalError()
