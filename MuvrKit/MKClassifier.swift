@@ -93,7 +93,7 @@ public struct MKClassifier {
                 let probability = probabilities[labelIndex]
                 if probability > 0.7 {
                     let duration = Double(windowStepSize) / Double(block.samplesPerSecond)
-                    return MKClassifiedExerciseBlock(confidence: probability, exerciseId: labelName, duration: duration, offset: duration * Double(i))
+                    return MKClassifiedExerciseBlock(confidence: probability, exerciseId: labelName, duration: duration, offset: duration * Double(window))
                 }
                 return nil
             }
@@ -140,7 +140,7 @@ struct MKClassifiedExerciseBlock {
         // the new confidence the average confidence of both blocks
         self.confidence = (self.confidence * self.blocks + by.confidence * by.blocks) / (self.blocks + by.blocks)
         self.duration = self.duration + by.duration
-        self.blocks = self.blocks + 1
+        self.blocks = self.blocks + by.blocks
     }
 
     func isRoughlyEqual(to: MKClassifiedExerciseBlock) -> Bool {
