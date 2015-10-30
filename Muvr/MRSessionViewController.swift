@@ -137,13 +137,17 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             cell.textLabel!.text = ce.exerciseId
             let weight = ce.weight.map { w in "\(NSString(format: "%.2f", w)) kg" } ?? ""
             let intensity = ce.intensity.map { i in "Intensity: \(NSString(format: "%.2f", i))" } ?? ""
-            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(NSString(format: "%.0f", ce.duration))s - \(weight) - \(intensity)"
+            let duration = "\(NSString(format: "%.0f", ce.duration))s"
+            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(duration) - \(weight) - \(intensity)"
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
             let le = session!.labelledExercises.reverse()[indexPath.row] as! MRManagedLabelledExercise
             cell.textLabel!.text = le.exerciseId
-            cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(NSString(format: "%.2f", le.weight)) kg - Intensity: \(NSString(format: "%.2f", le.intensity))"
+            let weight = "\(NSString(format: "%.2f", le.weight)) kg"
+            let intensity = "Intensity: \(NSString(format: "%.2f", le.intensity))"
+            let duration = "\(NSString(format: "%.0f", le.end.timeIntervalSince1970 - le.start.timeIntervalSince1970))s"
+            cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(duration) - \(weight) - \(intensity)"
             return cell
         default:
             fatalError()
