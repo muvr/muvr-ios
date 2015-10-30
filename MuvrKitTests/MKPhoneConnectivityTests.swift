@@ -72,7 +72,7 @@ class MKConnectivityTests : XCTestCase {
         c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"start", "sessionId":"1234", "exerciseModelId":"arms", "startDate":start.timeIntervalSince1970])
         XCTAssertEqual(delegates.session!.id, "1234")
         XCTAssertEqual(delegates.session!.exerciseModelId, "arms")
-        XCTAssertEqual(delegates.session!.startDate, start)
+        XCTAssertEqual(delegates.session!.start, start)
         
         c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"end", "sessionId":"1234"])
         XCTAssertTrue(delegates.session == nil)
