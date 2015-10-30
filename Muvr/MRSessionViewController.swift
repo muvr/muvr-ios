@@ -135,15 +135,15 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
             let ce = session!.classifiedExercises.reverse()[indexPath.row] as! MRManagedClassifiedExercise
             cell.textLabel!.text = ce.exerciseId
-            let weight = ce.weight.map { w in "Weight: \(w)" } ?? ""
-            let intensity = ce.intensity.map { i in "Intensity: \(i)" } ?? ""
-            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(weight) \(intensity)"
+            let weight = ce.weight.map { w in "\(NSString(format: "%.2f", w)) kg" } ?? ""
+            let intensity = ce.intensity.map { i in "Intensity: \(NSString(format: "%.2f", i))" } ?? ""
+            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(NSString(format: "%.0f", ce.duration))s - \(weight) - \(intensity)"
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
             let le = session!.labelledExercises.reverse()[indexPath.row] as! MRManagedLabelledExercise
             cell.textLabel!.text = le.exerciseId
-            cell.detailTextLabel!.text = "\(le.start.formatTime()) - Weight: \(le.weight) Intensity: \(le.intensity)"
+            cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(NSString(format: "%.2f", le.weight)) kg - Intensity: \(NSString(format: "%.2f", le.intensity))"
             return cell
         default:
             fatalError()
