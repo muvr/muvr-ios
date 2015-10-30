@@ -6,6 +6,7 @@ import HealthKit
 class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivityDelegate {
     private var connectivity: MKConnectivity?
     private var exerciseModelMetadata: [MKExerciseModelMetadata] = []
+    private let recorder: MRSensorRecorder = MRSensorRecorder()
 
     ///
     /// Convenience method that returns properly typed reference to this instance
@@ -57,8 +58,14 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
             print(y)
         }
     }
+    
+    private func transfer(metadata: MRSensorRecorder.SessionMetadata, ended: Bool, sensorData: MKSensorData) -> MRSensorRecorder.SessionTransferResult {
+
+        return .NotTransferred
+    }
 
     func applicationDidBecomeActive() {
+        recorder.accelerometerDataForAllSessions(transfer)
         // Restart any tasks that were paused (or not yet started) while the application was inactive. 
         // If the application was previously in the background, optionally refresh the user interface.
     }
