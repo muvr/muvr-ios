@@ -61,5 +61,24 @@ class MKClassifierTests : XCTestCase {
         XCTAssertTrue(cls == nil)
     }
     
+    ///
+    /// Tests that computed offset are correct
+    ///
+    func testExerciseOffsets() {
+        var block = MKSensorData.sensorData(types: [MKSensorDataType.Accelerometer(location: .LeftWrist)], samplesPerSecond: 5, generating: 500, withValue: .Sin1(period: 2*5))
+        let block2 = MKSensorData.sensorData(types: [MKSensorDataType.Accelerometer(location: .LeftWrist)], samplesPerSecond: 5, generating: 500, withValue: .Constant(value: 0))
+        let block3 = MKSensorData.sensorData(types: [MKSensorDataType.Accelerometer(location: .LeftWrist)], samplesPerSecond: 5, generating: 500, withValue: .Sin1(period: 5*5))
+        try! block.append(block2)
+        try! block.append(block3)
+        let cls = try! classifier.classify(block: block, maxResults: 10)
+        XCTAssertEqual(cls.first!.offset, 0.0)
+        var end = 0.0
+        cls.forEach { x in
+            XCTAssertGreaterThanOrEqual(x.offset, end)
+            NSLog("Exercise \(x.exerciseId) starts on or after \(end)s: \(x.offset)s")
+            end = end + x.duration
+        }
+    }
+    
     
 }
