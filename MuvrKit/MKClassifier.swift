@@ -72,10 +72,10 @@ public struct MKClassifier {
         // TODO: Use vDSP_vspdp
         var doubleM = m.map { Double($0) }
         let numWindows = (rowCount - windowSize) / windowStepSize + 1
-                
+        let duration = Double(windowStepSize) / Double(block.samplesPerSecond)
+        
         let cews: [MKClassifiedExerciseWindow] = (0..<numWindows).map { window in
             let offset = dimension * windowStepSize * window * sizeof(Double)
-            
             // NSLog("bytes \(offset)-\(offset + windowSize * sizeof(Double)); length \(doubleM.count * sizeof(Double))")
 
             let featureMatrix = NSData(bytes: &doubleM + offset, length: dimension * windowSize * sizeof(Double))
@@ -86,14 +86,14 @@ public struct MKClassifier {
                 return probabilities[x] > probabilities[y]
             }
             let resultCount = min(maxResults, numClasses)
+            let start = duration * Double(window)
             let classifiedExerciseBlocks: [MKClassifiedExerciseBlock] = (0..<resultCount).flatMap { i in
                 let labelIndex = classRanking[i]
                 
                 let labelName = self.model.exerciseIds[labelIndex]
                 let probability = probabilities[labelIndex]
                 if probability > 0.7 {
-                    let duration = Double(windowStepSize) / Double(block.samplesPerSecond)
-                    return MKClassifiedExerciseBlock(confidence: probability, exerciseId: labelName, duration: duration, offset: duration * Double(window))
+                    return MKClassifiedExerciseBlock(confidence: probability, exerciseId: labelName, duration: duration, offset: start)
                 }
                 return nil
             }
