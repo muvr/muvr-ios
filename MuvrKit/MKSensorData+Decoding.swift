@@ -68,41 +68,4 @@ public extension MKSensorData {
         
         try self.init(types: types, start: start, samplesPerSecond: UInt(samplesPerSecond), samples: samples)
     }
-    
-    #if Pebble
-    // MARK: Pebble Integration
-    
-    ///
-    /// Initializes this instance by decoding the given ``data`` in the Pebble format.
-    ///
-    /// - parameter data: the data to be decoded
-    ///
-    public init(decodingPebble data: NSData) throws {
-        
-        func decodeThreed(bytes: MKUnsafeBufferReader) throws -> [Float] {
-            let _: UnsafePointer<UInt8> = try bytes.nexts(5)
-            
-            return [0, 0, 0]
-        }
-        
-        let bytes = MKUnsafeBufferReader(data: data)
-        
-        if bytes.length < 16 { throw MKCodecError.NotEnoughInput }
-        
-        let _: UInt8 = try bytes.next()
-        let count: UInt8 = try bytes.next()              // number of samples
-        let samplesPerSecond: UInt8 = try bytes.next()   // samples per second
-        let _: UInt8 = try bytes.next()                  // sample size
-        let _: UInt8 = try bytes.next()                  // deviceId
-        let _: UInt8 = try bytes.next()                  // sequence number
-        let timestamp: UInt64 = try bytes.next()         // 64bit Unix timestamp
-        let _: UInt16 = try bytes.next()                 // duration in milliseconds
-        let samples = try (0..<count).flatMap { _ in return try decodeThreed(bytes) }
-        
-        // now we have the raw data out, we can decode
-        let types = [MKSensorDataType.Accelerometer(location: .LeftWrist)]
-        let start: MKTimestamp = MKTimestamp(timestamp) / MKTimestamp(1000.0)
-        try self.init(types: types, start: start, samplesPerSecond: UInt(samplesPerSecond), samples: samples)
-    }
-    #endif
 }

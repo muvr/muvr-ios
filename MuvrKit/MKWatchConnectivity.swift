@@ -115,7 +115,7 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
                 let samples = (0..<3 * 50 * Int(duration)).map { _ in return Float(0) }
                 return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
             #else
-                return sensorRecorder!.accelerometerDataFromDate(lastSentStartTime, toDate: toDate).map { (recordedData: CMSensorDataList) -> MKSensorData in
+                return recorder.accelerometerDataFromDate(from, toDate: to).map { (recordedData: CMSensorDataList) -> MKSensorData in
                     let samples = recordedData.enumerate().flatMap { (_, e) -> [Float] in
                         if let data = e as? CMRecordedAccelerometerData {
                             return [Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)]
@@ -123,7 +123,7 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
                         return []
                     }
                     
-                    return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
+                    return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
                 }
             #endif
         }
