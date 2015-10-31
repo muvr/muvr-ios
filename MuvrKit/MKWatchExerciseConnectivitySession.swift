@@ -19,158 +19,54 @@ public struct MKExerciseSessionStats {
 }
 
 ///
-/// Implements the exercise session in the Watch, all the way down to scheduling sensor data delivery.
-/// You cannot create instances of this class explicitly, you must use the appropriate functions in
-/// the ``MKConnectivity``.
+/// Tracks the data sent and session end date
 ///
-/// During the lifetime of the session, the watch application should call ``sendImmediately`` whenever
-/// it is awake. This delivers the recorded sensor data to the mobile counterpart, which will classify
-/// the incoming data as soon as possible, delivering results back to the watch app.
-///
-/// If you do not get a chance to explicitly call ``sendImmediately``, it will be called on ``deinit``.
-/// In this scenario, the watch app is closing, and so the watch app will send the *entire* recorded
-/// block to the mobile counterpart, and will not get the opportunity to process the results until
-/// it starts the next time.
-///
-final public class MKExerciseSession : NSObject {
-    private unowned let connectivity: MKConnectivity
+public struct MKExerciseSessionProperties {
+    public let accelerometerStart: NSDate?
+    public let end: NSDate?
     
+    /// Copies this instance assigning the ``end`` field
+    func with(end end: NSDate) -> MKExerciseSessionProperties {
+        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end)
+    }
+    
+    /// Copies this instance assigning the ``accelerometerStart`` field
+    func with(accelerometerStart accelerometerStart: NSDate) -> MKExerciseSessionProperties {
+        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end)
+    }
+}
+
+///
+/// Session metadata; when transferred to the mobile counterpart, this is everything that's
+/// needed to then process the data files.
+///
+public struct MKExerciseSession: Hashable, Equatable {
+    /// the session identity
     let id: String
-    private var sensorRecorder: CMSensorRecorder?
-        
-    private let startTime: NSDate
-    private var lastSentStartTime: NSDate
-    private let exerciseModelMetadata: MKExerciseModelMetadata
-    
-    ///
-    /// Identifies whether this session is in demo mode
-    ///
+    /// the start date
+    public let start: NSDate
+    /// indicates that this is a demo session
     public let demo: Bool
-
-    ///
-    /// The session stats
-    ///
-    private(set) public var stats: MKExerciseSessionStats
+    /// the model id
+    public let modelId: MKExerciseModelId
+    /// the session's duration
+    public var duration: NSTimeInterval {
+        return NSDate().timeIntervalSinceDate(start)
+    }
     
-    
-    init(connectivity: MKConnectivity, exerciseModelMetadata: MKExerciseModelMetadata, demo: Bool) {
-        self.connectivity = connectivity
-        self.exerciseModelMetadata = exerciseModelMetadata
-        self.startTime = NSDate()
-        self.lastSentStartTime = startTime
-        self.sensorRecorder = CMSensorRecorder()
-        self.id = NSUUID().UUIDString
-        self.stats = MKExerciseSessionStats()
-        self.demo = demo
-        
-        // TODO: Sort out recording duration
-        if !demo {
-            self.sensorRecorder!.recordAccelerometerForDuration(NSTimeInterval(3600 * 2))
+    /// implmenetation of Hashable.hashValue
+    public var hashValue: Int {
+        get {
+            return id.hashValue
         }
-    }
-    
-    deinit {
-        self.sensorRecorder = nil
-    }
-    
-    ///
-    /// The session title
-    ///
-    public var exerciseModelTitle: String {
-        return exerciseModelMetadata.1
-    }
-    
-    ///
-    /// Send the data collected so far to the mobile counterpart
-    ///
-    public func beginSendBatch() {
-        
-        func getSamples(toDate: NSDate) -> MKSensorData? {
-            #if (arch(i386) || arch(x86_64))
-                let duration = toDate.timeIntervalSinceDate(lastSentStartTime)
-                let samples = (0..<3 * 50 * Int(duration)).map { _ in return Float(0) }
-                return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
-            #else
-                return sensorRecorder!.accelerometerDataFromDate(lastSentStartTime, toDate: toDate).map { (recordedData: CMSensorDataList) -> MKSensorData in
-                    let samples = recordedData.enumerate().flatMap { (_, e) -> [Float] in
-                        if let data = e as? CMRecordedAccelerometerData {
-                            return [Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)]
-                        }
-                        return []
-                    }
-                    
-                    return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: lastSentStartTime.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
-                }
-            #endif
-        }
-        
-        /*
-        WCSession.sendData is OK for ~24 kiB blocks
-        anything bigger needs something more efficient
-        here, we use the recorded acceleration data
-        */
-        
-        let now = NSDate()
-        if let samples = getSamples(now) {
-            beginSendSamples(samples)
-        }
-    }
-
-    ///
-    /// Sends the data in ``samples`` to the mobile counterpart
-    ///
-    public func beginSendSamples(samples: MKSensorData) {
-        let now = NSDate()
-        stats.batchCounter.recorded += samples.rowCount
-        connectivity.transferSensorDataBatch(samples) {
-            switch $0 {
-            case .Error(error: _):
-                return
-            case .NoSession:
-                return
-            case .Success:
-                self.stats.batchCounter.sent += samples.rowCount
-                self.lastSentStartTime = now
-            }
-        }
-        
-    }
-    
-    ///
-    /// Session model metadata
-    ///
-    public var title: String {
-        return self.exerciseModelMetadata.1
-    }
-    
-    ///
-    /// Gets the session duration
-    ///
-    public var sessionDuration: NSTimeInterval {
-        return NSDate().timeIntervalSinceDate(self.startTime)
     }
     
 }
 
 ///
-/// Allows the ``CMSensorDataList`` to be iterated over; unfortunately, the iteration
-/// is not specifically-typed.
+/// Implementation of Equatable for MRSessionRecorder.SessionProperties
 ///
-extension CMSensorDataList : SequenceType {
-    
-    public func generate() -> NSFastGenerator {
-        return NSFastGenerator(self)
-    }
+public func ==(lhs: MKExerciseSession, rhs: MKExerciseSession) -> Bool {
+    return lhs.id == rhs.id
 }
 
-#if (arch(i386) || arch(x86_64))
-
-    class CMFakeAccelerometerData : CMAccelerometerData {
-        override internal var acceleration: CMAcceleration {
-            get {
-                return CMAcceleration(x: 0, y: 0, z: 0)
-            }
-        }
-    }
-    
-#endif

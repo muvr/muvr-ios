@@ -34,8 +34,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     override func willActivate() {
         super.willActivate()
         let sd = MRExtensionDelegate.sharedDelegate()
-        exerciseModel.setItems(sd.getExerciseModelMetadata().map { _, title in return WKPickerItem.withTitle(title) })
-        sd.currentSession?.beginSendBatch()
+        exerciseModel.setItems(sd.exerciseModelMetadata.map { _, title in return WKPickerItem.withTitle(title) })
         
         updateUI()
         renderer = MRSessionProgressGroupRenderer(group: self)
@@ -79,7 +78,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
             let resourcePath = NSBundle.mainBundle().pathForResource(resourceName, ofType: "raw")!
             let data = NSData(contentsOfFile: resourcePath)!
             let sd = try! MKSensorData(decoding: data)
-            MRExtensionDelegate.sharedDelegate().currentSession?.beginSendSamples(sd)
+            MRExtensionDelegate.sharedDelegate().sendSamples(sd)
         }
     }
     
@@ -88,7 +87,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     }
     
     func stop() {
-        MRExtensionDelegate.sharedDelegate().endSession()
+        MRExtensionDelegate.sharedDelegate().endLastSession()
         updateUI()
     }
     

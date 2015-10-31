@@ -80,7 +80,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: currentSession!.objectID)
-        saveContext()
+        currentSession = nil
     }
     
     func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData) {

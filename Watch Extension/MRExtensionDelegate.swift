@@ -4,9 +4,8 @@ import MuvrKit
 import HealthKit
 
 class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivityDelegate {
-    private var connectivity: MKConnectivity?
-    private var exerciseModelMetadata: [MKExerciseModelMetadata] = []
-    private let recorder: MRSensorRecorder = MRSensorRecorder()
+    private var connectivity: MKConnectivity!
+    private(set) internal var exerciseModelMetadata: [MKExerciseModelMetadata] = []
 
     ///
     /// Convenience method that returns properly typed reference to this instance
@@ -16,40 +15,35 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     static func sharedDelegate() -> MRExtensionDelegate {
         return WKExtension.sharedExtension().delegate! as! MRExtensionDelegate
     }
-
-    ///
-    /// Returns the currently running session
-    ///
-    /// - returns: the running session or ``nil``
-    ///
+    
+    /// The current session
     var currentSession: MKExerciseSession? {
-        return connectivity?.currentSession
+        return connectivity.currentSession
     }
     
     ///
     /// Starts the session
     ///
     func startSession(exerciseModelMetadataIndex exerciseModelMetadataIndex: Int, demo: Bool) {
-        connectivity!.startSession(exerciseModelMetadata: exerciseModelMetadata[exerciseModelMetadataIndex], demo: demo)
+        let (modelId, _) = exerciseModelMetadata[exerciseModelMetadataIndex]
+        connectivity.startSession(modelId, demo: demo)
     }
     
     ///
     /// Ends the session
     ///
-    func endSession() {
-        connectivity!.endSession()
+    func endLastSession() {
+        connectivity.endLastSession()
     }
     
-    ///
-    /// Returns currenrly known models
-    ///
-    /// - returns: the model metadata
-    ///
-    func getExerciseModelMetadata() -> [MKExerciseModelMetadata] {
-        return exerciseModelMetadata
+    func sendSamples(data: MKSensorData) {
+        if let session = connectivity.currentSession {
+            connectivity.transferSensorDataBatch(data, session: session) { _ in
+                
+            }
+        }
     }
     
-
     func applicationDidFinishLaunching() {
         connectivity = MKConnectivity(delegate: self)
         let typesToShare: Set<HKSampleType> = [HKWorkoutType.workoutType()]
@@ -59,19 +53,12 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
         }
     }
     
-    private func transfer(metadata: MRSensorRecorder.SessionMetadata, ended: Bool, sensorData: MKSensorData) -> MRSensorRecorder.SessionTransferResult {
-
-        return .NotTransferred
-    }
-
     func applicationDidBecomeActive() {
-        recorder.accelerometerDataForAllSessions(transfer)
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. 
-        // If the application was previously in the background, optionally refresh the user interface.
+        connectivity.beginTransfer()
     }
 
     func applicationWillResignActive() {
-        // connectivity?.getCurrentSession()?.endSendRealTime(nil)
+
     }
     
     // MARK: MKMetadataConnectivityDelegate

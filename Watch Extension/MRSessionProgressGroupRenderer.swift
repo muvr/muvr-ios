@@ -18,11 +18,9 @@ class MRSessionProgressGroupRenderer : NSObject {
     
     func update() {
         if let session = MRExtensionDelegate.sharedDelegate().currentSession {
-            let text = NSDateComponentsFormatter().stringFromTimeInterval(session.sessionDuration)!
-            group.titleLabel.setText(session.title)
+            let text = NSDateComponentsFormatter().stringFromTimeInterval(session.duration)!
+            group.titleLabel.setText(session.modelId)
             group.timeLabel.setText(text)
-            let batch = session.stats.batchCounter
-            group.statsLabel.setText("R \(batch.recorded), S \(batch.sent)")
         } else {
             group.titleLabel.setText("Idle")
             group.timeLabel.setText("")
