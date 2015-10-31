@@ -48,7 +48,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     private func updateUI() {
         let sd = MRExtensionDelegate.sharedDelegate()
         clearAllMenuItems()
-        if let session = sd.currentSession {
+        if let (session, _) = sd.currentSession {
             addMenuItemWithItemIcon(WKMenuItemIcon.Pause, title: "Pause", action: "pause")
             addMenuItemWithItemIcon(WKMenuItemIcon.Trash, title: "Stop",  action: "stop")
 
@@ -73,7 +73,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     }
     
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
-        if MRExtensionDelegate.sharedDelegate().currentSession?.demo ?? false {
+        if MRExtensionDelegate.sharedDelegate().currentSession?.0.demo ?? false {
             let (resourceName, _) = exercises[rowIndex]
             let resourcePath = NSBundle.mainBundle().pathForResource(resourceName, ofType: "raw")!
             let data = NSData(contentsOfFile: resourcePath)!

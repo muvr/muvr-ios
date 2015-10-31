@@ -24,15 +24,21 @@ public struct MKExerciseSessionStats {
 public struct MKExerciseSessionProperties {
     public let accelerometerStart: NSDate?
     public let end: NSDate?
+    public let recorded: Int
+    public let sent: Int
+    
+    func with(recordedDelta rd: Int, sentDelta sd: Int) -> MKExerciseSessionProperties {
+        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded + rd, sent: sent + sd)
+    }
     
     /// Copies this instance assigning the ``end`` field
     func with(end end: NSDate) -> MKExerciseSessionProperties {
-        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end)
+        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent)
     }
     
     /// Copies this instance assigning the ``accelerometerStart`` field
     func with(accelerometerStart accelerometerStart: NSDate) -> MKExerciseSessionProperties {
-        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end)
+        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent)
     }
 }
 

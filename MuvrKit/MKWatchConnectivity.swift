@@ -53,9 +53,9 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     /// Returns the first encountered un-ended session
     ///
-    public var currentSession: MKExerciseSession? {
+    public var currentSession: (MKExerciseSession, MKExerciseSessionProperties)? {
         for (session, props) in sessions where props.end == nil {
-            return session
+            return (session, props)
         }
         
         return nil
@@ -128,13 +128,15 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
             #endif
         }
         
+        recorder.recordAccelerometerForDuration(43200)
+        
         for (session, props) in sessions {
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
             if let sensorData = getSamples(from: from, to: to) {
                 transferSensorDataBatch(sensorData, session: session) {
                     switch $0 {
-                    case .Success: self.sessions[session] = props.with(accelerometerStart: from)
+                    case .Success: self.sessions[session] = props.with(accelerometerStart: from).with(recordedDelta: sensorData.rowCount, sentDelta: sensorData.rowCount)
                     default: return
                     }
                 }
@@ -154,7 +156,7 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func startSession(modelId: MKExerciseModelId, demo: Bool) {
         let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), demo: demo, modelId: modelId)
-        sessions[session] = MKExerciseSessionProperties(accelerometerStart: nil, end: nil)
+        sessions[session] = MKExerciseSessionProperties(accelerometerStart: nil, end: nil, recorded: 0, sent: 0)
         let message = session.metadata(["action": "start"])
         WCSession.defaultSession().transferUserInfo(message)
     }
