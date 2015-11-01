@@ -4,7 +4,10 @@ import MuvrKit
 import HealthKit
 
 class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivityDelegate {
-    private var connectivity: MKConnectivity!
+    private lazy var connectivity: MKConnectivity = {
+        return MKConnectivity(delegate: self)
+    }()
+    
     private(set) internal var exerciseModelMetadata: [MKExerciseModelMetadata] = []
 
     ///
@@ -46,9 +49,7 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     }
     
     func applicationDidFinishLaunching() {
-        if connectivity == nil {
-            connectivity = MKConnectivity(delegate: self)
-        }
+        connectivity = MKConnectivity(delegate: self)
         let typesToShare: Set<HKSampleType> = [HKWorkoutType.workoutType()]
         HKHealthStore().requestAuthorizationToShareTypes(typesToShare, readTypes: nil) { (x, y) -> Void in
             print(x)
