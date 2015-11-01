@@ -170,7 +170,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
             if let sensorData = getSamples(from: from, to: to, requireAll: props.end != nil, demo: session.demo) {
-                let newProps = props.with(accelerometerStart: to, recorded: sensorData.rowCount)
+                let newProps = props.with(accelerometerStart: from.dateByAddingTimeInterval(sensorData.duration), recorded: sensorData.rowCount)
                 self.sessions[session] = newProps
                 transferSensorDataBatch(sensorData, session: session, props: props) {
                     self.sessions[session] = newProps.with(sent: sensorData.rowCount)
