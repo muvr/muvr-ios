@@ -6,8 +6,8 @@ import WatchConnectivity
 /// The Watch -> iOS connectivity; deals with the underlying mechanism of communication
 /// and maintains
 ///
-public class MKConnectivity : NSObject, WCSessionDelegate {
-    public typealias OnFileTransferDone = SendDataResult -> Void
+public final class MKConnectivity : NSObject, WCSessionDelegate {
+    public typealias OnFileTransferDone = () -> Void
     
     private var onFileTransferDone: OnFileTransferDone?
     internal var transferringRealTime: Bool = false
@@ -92,10 +92,7 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
         if let (session, props) = sessions.first {
             self.sessions[session] = props.with(accelerometerStart: NSDate(), recorded: sensorData.rowCount)
             transferSensorDataBatch(sensorData, session: session, props: props) {
-                switch $0 {
-                case .Success: self.sessions[session] = props.with(sent: sensorData.rowCount)
-                default: return
-                }
+                self.sessions[session] = props.with(sent: sensorData.rowCount)
             }
         }
     }
@@ -105,11 +102,12 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func session(session: WCSession, didFinishFileTransfer fileTransfer: WCSessionFileTransfer, error: NSError?) {
         if let onDone = onFileTransferDone {
-            if let e = error {
-                onDone(.Error(error: e))
-            } else {
-                onDone(.Success)
-            }
+            onDone()
+//            if let e = error {
+//                onDone(.Error(error: e))
+//            } else {
+//                onDone(.Success)
+//            }
             
             onFileTransferDone = nil
         }
@@ -154,7 +152,13 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
             NSLog("Not reachable; not sending.")
             return
         }
-        NSLog("Reachable; sending.")
+        
+        if sessions.count == 0 {
+            NSLog("Reachable; no active sessions.")
+            return
+        }
+        
+        NSLog("Reachable; with \(sessions.count) active sessions.")
         
         for (session, props) in sessions {
             let from = props.accelerometerStart ?? session.start
@@ -162,17 +166,15 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
             if let sensorData = getSamples(from: from, to: to) {
                 self.sessions[session] = props.with(accelerometerStart: from, recorded: sensorData.rowCount)
                 transferSensorDataBatch(sensorData, session: session, props: props) {
-                    switch $0 {
-                    case .Success: self.sessions[session] = props.with(sent: sensorData.rowCount)
-                    default: return
+                    self.sessions[session] = props.with(sent: sensorData.rowCount)
+                    for (session, props) in self.sessions where props.end != nil {
+                        self.sessions.removeValueForKey(session)
                     }
                 }
             }
         }
         
-        for (session, props) in sessions where props.end != nil {
-            sessions.removeValueForKey(session)
-        }
+        NSLog("Done; with \(sessions.count) active sessions.")
     }
 
         
@@ -187,7 +189,10 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     
     /// The debug description
     public override var description: String {
-        return "\(sessions.count)"
+        if let (s, p) = sessions.first {
+            return "\(sessions.count): \(s.id.characters.first!): \(s.start)-\(p.end)"
+        }
+        return "0"
     }
 
 }

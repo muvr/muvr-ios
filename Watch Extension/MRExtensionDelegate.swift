@@ -46,7 +46,9 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     }
     
     func applicationDidFinishLaunching() {
-        connectivity = MKConnectivity(delegate: self)
+        if connectivity == nil {
+            connectivity = MKConnectivity(delegate: self)
+        }
         let typesToShare: Set<HKSampleType> = [HKWorkoutType.workoutType()]
         HKHealthStore().requestAuthorizationToShareTypes(typesToShare, readTypes: nil) { (x, y) -> Void in
             print(x)
