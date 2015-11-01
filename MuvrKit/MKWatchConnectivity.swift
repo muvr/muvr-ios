@@ -27,6 +27,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     
     private let recorder: CMSensorRecorder = CMSensorRecorder()
     private(set) public var sessions: [MKExerciseSession: MKExerciseSessionProperties] = [:]
+    private let transferQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
 
     ///
     /// Initializes this instance, assigninf the metadata ans sensorData delegates.
@@ -149,7 +150,49 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 }
             }
         }
-
+        
+        ///
+        /// Returns the most important session for processing, if available
+        ///
+        func mostImportantSessionsEntry() -> (MKExerciseSession, MKExerciseSessionProperties)? {
+            // pick the not-yet-ended session first
+            for (session, props) in sessions {
+                if props.end == nil {
+                    return (session, props)
+                }
+            }
+            
+            // then whichever one remains
+            return sessions.first
+        }
+        
+        ///
+        /// We process the first session in our ``sessions`` map; if the sensor data is accessible
+        /// we will transmit the data to the counterpart. If, as a result of processing this session,
+        /// we remove it, we move on to the next session.
+        ///
+        func processFirstSession() {
+            if let (session, props) = mostImportantSessionsEntry() {
+                let from = props.accelerometerStart ?? session.start
+                let to = props.end ?? NSDate()
+                if let sensorData = getSamples(from: from, to: to, requireAll: props.end != nil, demo: session.demo) {
+                    // set the expected range of samples on the next call
+                    let updatedProps = props.with(accelerometerStart: from.dateByAddingTimeInterval(sensorData.duration), recorded: sensorData.rowCount)
+                    self.sessions[session] = updatedProps
+                    // transfer what we have so far
+                    transferSensorDataBatch(sensorData, session: session, props: props) {
+                        // update the session with incremented sent counter
+                        if props.end == nil {
+                            self.sessions[session] = updatedProps.with(sent: sensorData.rowCount)
+                        } else {
+                            self.sessions.removeValueForKey(session)
+                            dispatch_async(self.transferQueue, processFirstSession)
+                        }
+                        NSLog("Transferred \(sensorData.rowCount) samples; with \(self.sessions.count) active sessions.")
+                    }
+                }
+            }
+        }
         // ask the SDR to record for another 12 hours just in case.
         recorder.recordAccelerometerForDuration(43200)
 
@@ -166,21 +209,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         
         // it makes sense to continue the work.
         NSLog("Reachable; with \(sessions.count) active sessions.")
-        for (session, props) in sessions {
-            let from = props.accelerometerStart ?? session.start
-            let to = props.end ?? NSDate()
-            if let sensorData = getSamples(from: from, to: to, requireAll: props.end != nil, demo: session.demo) {
-                let newProps = props.with(accelerometerStart: from.dateByAddingTimeInterval(sensorData.duration), recorded: sensorData.rowCount)
-                self.sessions[session] = newProps
-                transferSensorDataBatch(sensorData, session: session, props: props) {
-                    self.sessions[session] = newProps.with(sent: sensorData.rowCount)
-                    for (session, props) in self.sessions where props.end != nil {
-                        self.sessions.removeValueForKey(session)
-                    }
-                    NSLog("Transferred \(sensorData.rowCount) samples; with \(self.sessions.count) active sessions.")
-                }
-            }
-        }
+        
+        // TODO: It would be nice to be able to flush the sensor data recorder
+        // recorder.flush()
+        dispatch_async(transferQueue, processFirstSession)
         
         NSLog("Done; with \(sessions.count) active sessions.")
     }

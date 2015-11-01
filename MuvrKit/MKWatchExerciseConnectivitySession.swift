@@ -32,6 +32,7 @@ public struct MKExerciseSessionProperties {
         return end != nil
     }
     
+    /// Copies this instance incrementing the ``sent`` field
     internal func with(sent sd: Int) -> MKExerciseSessionProperties {
         return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent + sd)
     }
@@ -41,7 +42,7 @@ public struct MKExerciseSessionProperties {
         return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent)
     }
     
-    /// Copies this instance assigning the ``accelerometerStart`` field
+    /// Copies this instance assigning the ``accelerometerStart`` field and incrementing the ``recorded`` field.
     internal func with(accelerometerStart accelerometerStart: NSDate, recorded rd: Int) -> MKExerciseSessionProperties {
         return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded + rd, sent: sent)
     }
