@@ -172,25 +172,38 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         /// we remove it, we move on to the next session.
         ///
         func processFirstSession() {
-            if let (session, props) = mostImportantSessionsEntry() {
-                let from = props.accelerometerStart ?? session.start
-                let to = props.end ?? NSDate()
-                if let sensorData = getSamples(from: from, to: to, requireAll: props.end != nil, demo: session.demo) {
-                    // set the expected range of samples on the next call
-                    let updatedProps = props.with(accelerometerStart: from.dateByAddingTimeInterval(sensorData.duration), recorded: sensorData.rowCount)
-                    self.sessions[session] = updatedProps
-                    // transfer what we have so far
-                    transferSensorDataBatch(sensorData, session: session, props: props) {
-                        // update the session with incremented sent counter
-                        if props.end == nil {
-                            self.sessions[session] = updatedProps.with(sent: sensorData.rowCount)
-                        } else {
-                            self.sessions.removeValueForKey(session)
-                            dispatch_async(self.transferQueue, processFirstSession)
-                        }
-                        NSLog("Transferred \(sensorData.rowCount) samples; with \(self.sessions.count) active sessions.")
-                    }
+            // pick the most important entry
+            guard let (session, props) = mostImportantSessionsEntry() else {
+                NSLog("No session")
+                return
+            }
+            
+            // compute the dates
+            let from = props.accelerometerStart ?? session.start
+            let to = props.end ?? NSDate()
+            
+            // if this session is meant to end, we require all sensor data to be available.
+            // there is a neater way, but this saves memory
+            guard let sensorData = getSamples(from: from, to: to, requireAll: props.end != nil, demo: session.demo) else {
+                NSLog("Not enough sensor data in \(from) - \(to)")
+                return
+            }
+
+            // set the expected range of samples on the next call
+            let updatedProps = props.with(accelerometerStart: from.dateByAddingTimeInterval(sensorData.duration), recorded: sensorData.rowCount)
+            self.sessions[session] = updatedProps
+            
+            // transfer what we have so far
+            transferSensorDataBatch(sensorData, session: session, props: props) {
+                // update the session with incremented sent counter
+                if props.end == nil {
+                    self.sessions[session] = updatedProps.with(sent: sensorData.rowCount)
+                } else {
+                    self.sessions.removeValueForKey(session)
+                    // we're done with this session, we can move on to the next one
+                    dispatch_async(self.transferQueue, processFirstSession)
                 }
+                NSLog("Transferred \(sensorData.rowCount) samples; with \(self.sessions.count) active sessions.")
             }
         }
         // ask the SDR to record for another 12 hours just in case.
