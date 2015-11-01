@@ -130,9 +130,6 @@
                                 <animations/>
                                 <items>
                                     <navigationItem title="Session" id="jNZ-Gu-hkV">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="3k1-2m-ioD">
-                                            <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        </barButtonItem>
                                         <rightBarButtonItems>
                                             <barButtonItem systemItem="add" id="wAH-mU-GD8">
                                                 <connections>
