@@ -103,12 +103,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     public func session(session: WCSession, didFinishFileTransfer fileTransfer: WCSessionFileTransfer, error: NSError?) {
         if let onDone = onFileTransferDone {
             onDone()
-//            if let e = error {
-//                onDone(.Error(error: e))
-//            } else {
-//                onDone(.Success)
-//            }
-            
             onFileTransferDone = nil
         }
     }
@@ -124,24 +118,35 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     }
     
     public func beginTransfer() {
-        func getSamples(from from: NSDate, to: NSDate) -> MKSensorData? {
+        func getSamples(from from: NSDate, to: NSDate, demo: Bool) -> MKSensorData? {
+            var simulatedSamples = demo
+            
             #if (arch(i386) || arch(x86_64))
-                let duration = to.timeIntervalSinceDate(from)
-                let samples = (0..<3 * 50 * Int(duration)).map { _ in return Float(0) }
+                simulatedSamples = true
+            #endif
+            
+            let duration = to.timeIntervalSinceDate(from)
+            let sampleCount = 3 * 50 * Int(duration)
+            
+            if simulatedSamples {
+                let samples = (0..<sampleCount).map { _ in return Float(0) }
                 return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
-            #else
-                // TODO: Check complete block
-                return recorder.accelerometerDataFromDate(from, toDate: to).map { (recordedData: CMSensorDataList) -> MKSensorData in
+            } else {
+                return recorder.accelerometerDataFromDate(from, toDate: to).flatMap { (recordedData: CMSensorDataList) -> MKSensorData? in
                     let samples = recordedData.enumerate().flatMap { (_, e) -> [Float] in
                         if let data = e as? CMRecordedAccelerometerData {
                             return [Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)]
                         }
                         return []
                     }
-                    
+                    // remember to check for truly complete block
+                    if samples.count < sampleCount {
+                        NSLog("Not yet flushed buffer. Expected \(sampleCount), got \(samples.count)")
+                        return nil
+                    }
                     return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
                 }
-            #endif
+            }
         }
 
         recorder.recordAccelerometerForDuration(43200)
@@ -163,13 +168,14 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         for (session, props) in sessions {
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
-            if let sensorData = getSamples(from: from, to: to) {
+            if let sensorData = getSamples(from: from, to: to, demo: session.demo) {
                 self.sessions[session] = props.with(accelerometerStart: from, recorded: sensorData.rowCount)
                 transferSensorDataBatch(sensorData, session: session, props: props) {
                     self.sessions[session] = props.with(sent: sensorData.rowCount)
                     for (session, props) in self.sessions where props.end != nil {
                         self.sessions.removeValueForKey(session)
                     }
+                    NSLog("Transferred \(sensorData.rowCount) samples; with \(self.sessions.count) active sessions.")
                 }
             }
         }
