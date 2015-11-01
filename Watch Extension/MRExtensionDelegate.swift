@@ -21,6 +21,11 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
         return connectivity.currentSession
     }
     
+    /// The description
+    override var description: String {
+        return connectivity.description
+    }
+    
     ///
     /// Starts the session
     ///

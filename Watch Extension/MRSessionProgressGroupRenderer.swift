@@ -24,7 +24,7 @@ class MRSessionProgressGroupRenderer : NSObject {
             group.statsLabel.setText("R \(props.recorded), S \(props.sent)")
         } else {
             group.titleLabel.setText("Idle")
-            group.timeLabel.setText("")
+            group.timeLabel.setText(MRExtensionDelegate.sharedDelegate().description)
             group.statsLabel.setText(buildDate())
         }
     }

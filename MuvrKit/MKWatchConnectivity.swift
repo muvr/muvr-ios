@@ -13,7 +13,7 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     internal var transferringRealTime: Bool = false
     
     private let recorder: CMSensorRecorder = CMSensorRecorder()
-    private var sessions: [MKExerciseSession: MKExerciseSessionProperties] = [:]
+    private(set) public var sessions: [MKExerciseSession: MKExerciseSessionProperties] = [:]
 
     ///
     /// Initializes this instance, assigninf the metadata ans sensorData delegates.
@@ -121,7 +121,6 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     public func endLastSession() {
         for (session, props) in sessions where props.end == nil {
             sessions[session] = props.with(end: NSDate())
-            break
         }
         beginTransfer()
     }
@@ -184,6 +183,11 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
         let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), demo: demo, modelId: modelId)
         sessions[session] = MKExerciseSessionProperties(accelerometerStart: nil, end: nil, recorded: 0, sent: 0)
         WCSession.defaultSession().transferUserInfo(session.metadata)
+    }
+    
+    /// The debug description
+    public override var description: String {
+        return "\(sessions.count)"
     }
 
 }
