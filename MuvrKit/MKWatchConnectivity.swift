@@ -109,10 +109,25 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Ends the current session
     ///
     public func endLastSession() {
-        for (session, props) in sessions where props.end == nil {
+        if let (session, props) = mostImportantSessionsEntry() {
             sessions[session] = props.with(end: NSDate())
+            execute()
         }
-        execute()
+    }
+    
+    ///
+    /// Returns the most important session for processing, if available
+    ///
+    private func mostImportantSessionsEntry() -> (MKExerciseSession, MKExerciseSessionProperties)? {
+        // pick the not-yet-ended session first
+        for (session, props) in sessions {
+            if props.end == nil {
+                return (session, props)
+            }
+        }
+        
+        // then whichever one remains
+        return sessions.first
     }
     
     ///
@@ -149,21 +164,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                     return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
                 }
             }
-        }
-        
-        ///
-        /// Returns the most important session for processing, if available
-        ///
-        func mostImportantSessionsEntry() -> (MKExerciseSession, MKExerciseSessionProperties)? {
-            // pick the not-yet-ended session first
-            for (session, props) in sessions {
-                if props.end == nil {
-                    return (session, props)
-                }
-            }
-            
-            // then whichever one remains
-            return sessions.first
         }
         
         ///
@@ -211,10 +211,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
 
         // check whether there is something to be done at all.
         NSLog("beginTransfer(); sessions = \(sessions)")
-        if !WCSession.defaultSession().reachable {
-            NSLog("Not reachable; not sending.")
-            return
-        }
+//        if !WCSession.defaultSession().reachable {
+//            NSLog("Not reachable; not sending.")
+//            return
+//        }
         if sessions.count == 0 {
             NSLog("Reachable; no active sessions.")
             return
