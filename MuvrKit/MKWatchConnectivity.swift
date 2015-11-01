@@ -119,7 +119,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// constructing the messages and dealing with session clean-up.
     ///
     public func execute() {
-        func getSamples(from from: NSDate, to: NSDate, demo: Bool) -> MKSensorData? {
+        func getSamples(from from: NSDate, to: NSDate, requireAll: Bool, demo: Bool) -> MKSensorData? {
             var simulatedSamples = demo
             
             #if (arch(i386) || arch(x86_64))
@@ -141,7 +141,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                         return []
                     }
                     // remember to check for truly complete block
-                    if samples.count < sampleCount {
+                    if samples.count < sampleCount && requireAll {
                         NSLog("Not yet flushed buffer. Expected \(sampleCount), got \(samples.count)")
                         return nil
                     }
@@ -169,10 +169,11 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         for (session, props) in sessions {
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
-            if let sensorData = getSamples(from: from, to: to, demo: session.demo) {
-                self.sessions[session] = props.with(accelerometerStart: from, recorded: sensorData.rowCount)
+            if let sensorData = getSamples(from: from, to: to, requireAll: props.end != nil, demo: session.demo) {
+                let newProps = props.with(accelerometerStart: to, recorded: sensorData.rowCount)
+                self.sessions[session] = newProps
                 transferSensorDataBatch(sensorData, session: session, props: props) {
-                    self.sessions[session] = props.with(sent: sensorData.rowCount)
+                    self.sessions[session] = newProps.with(sent: sensorData.rowCount)
                     for (session, props) in self.sessions where props.end != nil {
                         self.sessions.removeValueForKey(session)
                     }

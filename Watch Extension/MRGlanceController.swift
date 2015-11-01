@@ -14,6 +14,7 @@ class MRGlanceController: WKInterfaceController, MRSessionProgressGroup {
     
     override func willActivate() {
         renderer = MRSessionProgressGroupRenderer(group: self)
+        MRExtensionDelegate.sharedDelegate().applicationDidBecomeActive()
         super.willActivate()
     }
 
