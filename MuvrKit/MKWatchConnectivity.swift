@@ -69,7 +69,7 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter data: the sensor data to be sent
     /// - parameter onDone: the function to be executed on completion (success or error)
     ///
-    public func transferSensorDataBatch(data: MKSensorData, session: MKExerciseSession, onDone: OnFileTransferDone) {
+    func transferSensorDataBatch(data: MKSensorData, session: MKExerciseSession, props: MKExerciseSessionProperties?, onDone: OnFileTransferDone) {
         if onFileTransferDone == nil {
             onFileTransferDone = onDone
             let encoded = data.encode()
@@ -77,7 +77,25 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
             let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.raw")
             
             if encoded.writeToURL(fileUrl, atomically: true) {
-                WCSession.defaultSession().transferFile(fileUrl, metadata: session.metadata(["timestamp": NSDate().timeIntervalSince1970]))
+                var metadata = session.metadata
+                if let props = props { metadata = metadata.plus(props.metadata) }
+                metadata["timestamp"] = NSDate().timeIntervalSince1970
+                WCSession.defaultSession().transferFile(fileUrl, metadata: metadata)
+            }
+        }
+    }
+    
+    ///
+    /// Transfer ``sensorData`` immediately
+    ///
+    public func beginTransferSampleForLastSession(sensorData: MKSensorData) {
+        if let (session, props) = sessions.first {
+            self.sessions[session] = props.with(accelerometerStart: NSDate(), recorded: sensorData.rowCount)
+            transferSensorDataBatch(sensorData, session: session, props: props) {
+                switch $0 {
+                case .Success: self.sessions[session] = props.with(sent: sensorData.rowCount)
+                default: return
+                }
             }
         }
     }
@@ -115,6 +133,7 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
                 let samples = (0..<3 * 50 * Int(duration)).map { _ in return Float(0) }
                 return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
             #else
+                // TODO: Check complete block
                 return recorder.accelerometerDataFromDate(from, toDate: to).map { (recordedData: CMSensorDataList) -> MKSensorData in
                     let samples = recordedData.enumerate().flatMap { (_, e) -> [Float] in
                         if let data = e as? CMRecordedAccelerometerData {
@@ -127,16 +146,25 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
                 }
             #endif
         }
-        
+
         recorder.recordAccelerometerForDuration(43200)
+
+        NSLog("beginTransfer(); sessions = \(sessions)")
+        
+        if !WCSession.defaultSession().reachable {
+            NSLog("Not reachable; not sending.")
+            return
+        }
+        NSLog("Reachable; sending.")
         
         for (session, props) in sessions {
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
             if let sensorData = getSamples(from: from, to: to) {
-                transferSensorDataBatch(sensorData, session: session) {
+                self.sessions[session] = props.with(accelerometerStart: from, recorded: sensorData.rowCount)
+                transferSensorDataBatch(sensorData, session: session, props: props) {
                     switch $0 {
-                    case .Success: self.sessions[session] = props.with(accelerometerStart: from).with(recordedDelta: sensorData.rowCount, sentDelta: sensorData.rowCount)
+                    case .Success: self.sessions[session] = props.with(sent: sensorData.rowCount)
                     default: return
                     }
                 }
@@ -144,9 +172,7 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
         }
         
         for (session, props) in sessions where props.end != nil {
-            let message = session.metadata(["action": "end"])
-            WCSession.defaultSession().transferUserInfo(message)
-            sessions[session] = nil
+            sessions.removeValueForKey(session)
         }
     }
 
@@ -157,25 +183,46 @@ public class MKConnectivity : NSObject, WCSessionDelegate {
     public func startSession(modelId: MKExerciseModelId, demo: Bool) {
         let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), demo: demo, modelId: modelId)
         sessions[session] = MKExerciseSessionProperties(accelerometerStart: nil, end: nil, recorded: 0, sent: 0)
-        let message = session.metadata(["action": "start"])
-        WCSession.defaultSession().transferUserInfo(message)
+        WCSession.defaultSession().transferUserInfo(session.metadata)
     }
 
 }
 
+private extension Dictionary {
+    
+    func plus(dict: [Key : Value]) -> [Key : Value] {
+        var result = self
+        for (k, v) in dict {
+            result.updateValue(v, forKey: k)
+        }
+        return result
+    }
+    
+}
+
 private extension MKExerciseSession {
 
-    func metadata(extra: [String : AnyObject] = [:]) -> [String : AnyObject] {
-        var metadata: [String : AnyObject] = [
+    var metadata: [String : AnyObject] {
+        return [
             "exerciseModelId" : modelId,
             "sessionId" : id,
-            "startDate" : start.timeIntervalSince1970
+            "start" : start.timeIntervalSince1970
         ]
-        for (k, v) in extra {
-            metadata[k] = v
-        }
+    }
+    
+}
+
+private extension MKExerciseSessionProperties {
+    
+    var metadata: [String : AnyObject] {
+        var md: [String : AnyObject] = [
+            "recorded" : recorded,
+            "sent" : sent,
+        ]
+        if let end = end { md["end"] = end.timeIntervalSince1970 }
+        if let accelerometerStart = accelerometerStart { md["accelerometerStart"] = accelerometerStart.timeIntervalSince1970 }
         
-        return metadata
+        return md
     }
     
 }

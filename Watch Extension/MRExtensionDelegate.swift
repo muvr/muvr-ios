@@ -37,11 +37,7 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     }
     
     func sendSamples(data: MKSensorData) {
-        if let (session, _) = connectivity.currentSession {
-            connectivity.transferSensorDataBatch(data, session: session) { _ in
-                
-            }
-        }
+        connectivity.beginTransferSampleForLastSession(data)
     }
     
     func applicationDidFinishLaunching() {

@@ -27,18 +27,23 @@ public struct MKExerciseSessionProperties {
     public let recorded: Int
     public let sent: Int
     
-    func with(recordedDelta rd: Int, sentDelta sd: Int) -> MKExerciseSessionProperties {
-        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded + rd, sent: sent + sd)
+    /// Indicates whether the props represent ended session
+    internal var ended: Bool {
+        return end != nil
+    }
+    
+    internal func with(sent sd: Int) -> MKExerciseSessionProperties {
+        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent + sd)
     }
     
     /// Copies this instance assigning the ``end`` field
-    func with(end end: NSDate) -> MKExerciseSessionProperties {
+    internal func with(end end: NSDate) -> MKExerciseSessionProperties {
         return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent)
     }
     
     /// Copies this instance assigning the ``accelerometerStart`` field
-    func with(accelerometerStart accelerometerStart: NSDate) -> MKExerciseSessionProperties {
-        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent)
+    internal func with(accelerometerStart accelerometerStart: NSDate, recorded rd: Int) -> MKExerciseSessionProperties {
+        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded + rd, sent: sent)
     }
 }
 
