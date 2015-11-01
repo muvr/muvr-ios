@@ -94,8 +94,8 @@
                             <items>
                                 <group width="1" alignment="left" layout="vertical" id="ZdV-ef-Veb">
                                     <items>
-                                        <label alignment="left" text="Time" id="C7v-lb-EWk"/>
-                                        <label alignment="left" text="Stats" id="II9-Zb-NiH"/>
+                                        <label alignment="left" text="Time" numberOfLines="3" id="C7v-lb-EWk"/>
+                                        <label alignment="left" text="Stats" numberOfLines="3" id="II9-Zb-NiH"/>
                                     </items>
                                 </group>
                             </items>
