@@ -3,8 +3,21 @@ import CoreMotion
 import WatchConnectivity
 
 ///
-/// The Watch -> iOS connectivity; deals with the underlying mechanism of communication
-/// and maintains
+/// The Watch -> iOS connectivity; deals with the underlying mechanism of data transfer and sensor
+/// data recording.
+///
+/// The main key concept in communication is that it is possible to record multiple sessions even
+/// with the counterpart missing. (The data gets lost after 3 days, though.)
+///
+/// The communication proceeds as follows:
+/// - *begin* as simple app message so that the phone can modify its UI if it is
+///    reachable at the start of the session.
+/// - *file* as file with metadata that contains all information contained in the
+///   begin message. This allows the phone to pick up running sessions if it were
+///   not reachable at the start.
+///
+/// Additionally, the *file* message's metadata may include the ``end`` property, which indicates
+/// that the file being received is the last file in the session, and that the session should finish.
 ///
 public final class MKConnectivity : NSObject, WCSessionDelegate {
     public typealias OnFileTransferDone = () -> Void
@@ -28,26 +41,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         WCSession.defaultSession().activateSession()
         
         delegate.metadataConnectivityDidReceiveExerciseModelMetadata(defaultExerciseModelMetadata)
-    }
-    
-    ///
-    /// The response to data transmission
-    ///
-    public enum SendDataResult {
-        ///
-        /// The data was received by the receiver
-        ///
-        case Success
-        
-        case NoSession
-        
-        ///
-        /// The sending operation failed
-        ///
-        /// - parameter error: the reason for the error
-        ///
-        case Error(error: NSError)
-        
     }
     
     ///
@@ -86,14 +79,18 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     }
     
     ///
-    /// Transfer ``sensorData`` immediately
+    /// Transfer sensor data if there is a not-yet-ended demo session
     ///
-    public func beginTransferSampleForLastSession(sensorData: MKSensorData) {
-        if let (session, props) = sessions.first {
+    /// - parameter sensorData: the sensor data to be transferred
+    ///
+    public func transferDemoSensorDataForCurrentSession(sensorData: MKSensorData) {
+        for (session, props) in sessions where props.end == nil && session.demo {
             self.sessions[session] = props.with(accelerometerStart: NSDate(), recorded: sensorData.rowCount)
             transferSensorDataBatch(sensorData, session: session, props: props) {
                 self.sessions[session] = props.with(sent: sensorData.rowCount)
             }
+            NSLog("Transferred.")
+            return
         }
     }
     
@@ -114,10 +111,14 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         for (session, props) in sessions where props.end == nil {
             sessions[session] = props.with(end: NSDate())
         }
-        beginTransfer()
+        execute()
     }
     
-    public func beginTransfer() {
+    ///
+    /// Implements the protocol for the W -> P communication by collecting the data from the sensor recorder,
+    /// constructing the messages and dealing with session clean-up.
+    ///
+    public func execute() {
         func getSamples(from from: NSDate, to: NSDate, demo: Bool) -> MKSensorData? {
             var simulatedSamples = demo
             
@@ -149,22 +150,22 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             }
         }
 
+        // ask the SDR to record for another 12 hours just in case.
         recorder.recordAccelerometerForDuration(43200)
 
+        // check whether there is something to be done at all.
         NSLog("beginTransfer(); sessions = \(sessions)")
-        
         if !WCSession.defaultSession().reachable {
             NSLog("Not reachable; not sending.")
             return
         }
-        
         if sessions.count == 0 {
             NSLog("Reachable; no active sessions.")
             return
         }
         
+        // it makes sense to continue the work.
         NSLog("Reachable; with \(sessions.count) active sessions.")
-        
         for (session, props) in sessions {
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
@@ -185,7 +186,11 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
 
         
     ///
-    /// Starts the exercise session with the given 
+    /// Starts the exercise session with the given ``modelId`` and ``demo`` mode. In demo mode,
+    /// the caller should explicitly call ``transferDemoSensorDataForCurrentSession``.
+    ///
+    /// - parameter modelId: the model id so that the phone can properly classify the data
+    /// - parameter demo: set for demo mode
     ///
     public func startSession(modelId: MKExerciseModelId, demo: Bool) {
         let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), demo: demo, modelId: modelId)
@@ -203,8 +208,17 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
 
 }
 
+///
+/// Convenience addition to ``[K:V]``
+///
 private extension Dictionary {
     
+    ///
+    /// Returns a new ``[K:V]`` by appending ``dict``
+    ///
+    /// - parameter dict: the dictionary to append
+    /// - returns: self + dict
+    ///
     func plus(dict: [Key : Value]) -> [Key : Value] {
         var result = self
         for (k, v) in dict {
@@ -215,6 +229,10 @@ private extension Dictionary {
     
 }
 
+///
+/// Adds the ``metadata`` property that can be used in P -> W comms
+/// See ``MKExerciseConnectivitySession`` for the phone counterpart.
+///
 private extension MKExerciseSession {
 
     var metadata: [String : AnyObject] {
@@ -227,6 +245,10 @@ private extension MKExerciseSession {
     
 }
 
+///
+/// Adds the ``metadata`` property that can be used in P -> W comms
+/// See ``MKExerciseConnectivitySession`` for the phone counterpart.
+///
 private extension MKExerciseSessionProperties {
     
     var metadata: [String : AnyObject] {

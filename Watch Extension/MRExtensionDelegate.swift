@@ -42,7 +42,7 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     }
     
     func sendSamples(data: MKSensorData) {
-        connectivity.beginTransferSampleForLastSession(data)
+        connectivity.transferDemoSensorDataForCurrentSession(data)
     }
     
     func applicationDidFinishLaunching() {
@@ -57,7 +57,7 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     }
     
     func applicationDidBecomeActive() {
-        connectivity.beginTransfer()
+        connectivity.execute()
     }
 
     func applicationWillResignActive() {
