@@ -59,22 +59,22 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         application.idleTimerDisabled = false
     }
 
-    func loadTextFiles(path bundlePath: String, filename: String, ext: String, separator: NSCharacterSet) -> [String] {
-        let fullPath = NSBundle(path: bundlePath)!.pathForResource(filename, ofType: ext)!
-        func filterUsefulStr(arrStr: [String]) -> [String] {
-            return arrStr
-                .filter {$0 != ""}
-                .map {$0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())}
-        }
-        do {
-            let content = try String(contentsOfFile: fullPath, encoding: NSUTF8StringEncoding)
-            return filterUsefulStr(content.componentsSeparatedByCharactersInSet(separator))
-        } catch {
-            return []
-        }
-    }
-
     func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
+        func loadTextFiles(path bundlePath: String, filename: String, ext: String, separator: NSCharacterSet) -> [String] {
+            let fullPath = NSBundle(path: bundlePath)!.pathForResource(filename, ofType: ext)!
+            func removeEmptyStr(arrStr: [String]) -> [String] {
+                return arrStr
+                    .filter {$0 != ""}
+                    .map {$0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())}
+            }
+            do {
+                let content = try String(contentsOfFile: fullPath, encoding: NSUTF8StringEncoding)
+                return removeEmptyStr(content.componentsSeparatedByCharactersInSet(separator))
+            } catch {
+                return []
+            }
+        }
+
         // setup the classifier
         let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
 
