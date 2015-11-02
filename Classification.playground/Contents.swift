@@ -43,26 +43,18 @@ let window = 1
 let windowSize = 400
 (window * windowSize..<(window + 1) * windowSize).map { idx in  return sd.samples[idx * 3 + axis] }
 
-/*
-let sd2 = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: Array(sd.samples[300..<3600]))
-
-let p = NSBundle.mainBundle().resourceURL!.URLByAppendingPathComponent("demo-lr-only.raw")
-sd2.encode().writeToURL(p, atomically: true)
-*/
 //: ### Apply the classifier
 // classify
-//let cls = try! exerciseClassifier.classify(block: sd, maxResults: 10)
+let cls = try! exerciseClassifier.classify(block: sd, maxResults: 10)
 let en = try! activityClassifier.classify(block: sd, maxResults: 2)
 en.forEach { wcls in print(wcls) }
-// cls.forEach { wcls in print(wcls) }
+cls.forEach { wcls in print(wcls) }
 
 var floats = [Float](count: 40, repeatedValue: 2)
 var len = Int32(floats.count)
 var x: UnsafeMutablePointer<Float> = UnsafeMutablePointer(floats)
 vvexpf(x, x, &len)
 
-//var x: UnsafeMutablePointer<Float> = UnsafeMutablePointer(from: &floats)
-//vvexpf(&result, x, &len)
 floats
 
 
