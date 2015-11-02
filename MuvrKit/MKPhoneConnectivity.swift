@@ -36,16 +36,11 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             return
         }
         
-        // get the session matching the received metadata
-        // if the session is known return it otherwise return a new session instance
-        func resolveSession(metadata: [String : AnyObject]) -> MKExerciseConnectivitySession? {
-            guard let receivedSession = MKExerciseConnectivitySession.fromMetadata(metadata) else { return nil}
-            return sessions.indexOf({$0.id == receivedSession.id}).map({sessions[$0]}) ?? receivedSession
-        }
-
         // the metadata must be convertible to a session
-        guard var connectivitySession = resolveSession(metadata) else { return }
-        if (!sessions.contains { $0.id == connectivitySession.id }) {
+        guard var connectivitySession = MKExerciseConnectivitySession.fromMetadata(metadata) else { return }
+        if let index = (sessions.indexOf { $0.id == connectivitySession.id }) {
+            sessions[index] = connectivitySession
+        } else {
             // this is the first time we're seeing the file for a session. issue a session start.
             sessions.append(connectivitySession)
             exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidStart(session: connectivitySession)
