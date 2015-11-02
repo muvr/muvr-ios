@@ -16,22 +16,23 @@ extension MKClassifiedExerciseWindow {
 }
 
 //: ### Helper functions
-func model(named name: String) -> MKExerciseModel {
+func model(named name: String, layerConfig: [Int], labels: [String]) -> MKExerciseModel {
     let demoModelPath = NSBundle.mainBundle().pathForResource(name, ofType: "raw")!
     let weightsData = NSData(contentsOfFile: demoModelPath)!
-    let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: weightsData,
+    let model = MKExerciseModel(layerConfig: layerConfig, weights: weightsData,
         sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
-        exerciseIds: ["biceps-curl", "lateral-raise", "triceps-extension"],
+        exerciseIds: labels,
         minimumDuration: 5)
     return model
 }
 
 //: ### Construct a classifier
-let classifier = MKClassifier(model: model(named: "demo"))
+let exerciseClassifier = MKClassifier(model: model(named: "demo", layerConfig: [1200, 250, 100, 3], labels: ["biceps-curl", "lateral-raise", "triceps-extension"]))
+let activityClassifier = MKClassifier(model: model(named: "activity", layerConfig: [1200, 500, 100, 25, 2], labels: ["E", "-"]))
 
 //: ### Load the data from the session
 //let resourceName = "no-movement-face-up"
-let resourceName = "lr-only"
+let resourceName = "bc-only"
 let exerciseData = NSBundle.mainBundle().pathForResource(resourceName, ofType: "raw")!
 
 //: ### Decode the sensor data
@@ -41,17 +42,27 @@ let axis = 0
 let window = 1
 let windowSize = 400
 (window * windowSize..<(window + 1) * windowSize).map { idx in  return sd.samples[idx * 3 + axis] }
-var mean: Float = 0
-var samples: [Float] = sd.samples
-let N = vDSP_Length(samples.count / 3)
 
+/*
 let sd2 = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: Array(sd.samples[300..<3600]))
 
 let p = NSBundle.mainBundle().resourceURL!.URLByAppendingPathComponent("demo-lr-only.raw")
 sd2.encode().writeToURL(p, atomically: true)
-
+*/
 //: ### Apply the classifier
 // classify
-let cls = try! classifier.classify(block: sd2, maxResults: 10)
-cls.forEach { wcls in print(wcls) }
+//let cls = try! exerciseClassifier.classify(block: sd, maxResults: 10)
+let en = try! activityClassifier.classify(block: sd, maxResults: 2)
+en.forEach { wcls in print(wcls) }
+// cls.forEach { wcls in print(wcls) }
+
+var floats = [Float](count: 40, repeatedValue: 2)
+var len = Int32(floats.count)
+var x: UnsafeMutablePointer<Float> = UnsafeMutablePointer(floats)
+vvexpf(x, x, &len)
+
+//var x: UnsafeMutablePointer<Float> = UnsafeMutablePointer(from: &floats)
+//vvexpf(&result, x, &len)
+floats
+
 

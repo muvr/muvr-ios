@@ -31,7 +31,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 let session = MKExerciseConnectivitySession(
                     id: sessionId,
                     exerciseModelId: exerciseModelId,
-                    startDate: NSDate(timeIntervalSince1970: startTimestamp)
+                    start: NSDate(timeIntervalSince1970: startTimestamp)
                 )
                 sessions.append(session)
                 exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidStart(session: session)

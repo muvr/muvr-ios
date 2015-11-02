@@ -2,14 +2,32 @@ import UIKit
 import CoreData
 import MuvrKit
 
+///
+/// This class shows the exercises of the displayed session.
+/// To display a session, you must call the ``setSession(session:)`` method and provide a valid ``MRManagedExerciseSesssion``.
+///
 class MRSessionViewController : UIViewController, UITableViewDataSource {
-    @IBOutlet weak var tableView: UITableView!
-    private var session: MRManagedExerciseSession?
     
-    func setSessionId(sessionId: NSManagedObjectID) {
-        session = try? MRAppDelegate.sharedDelegate().managedObjectContext.existingObjectWithID(sessionId) as! MRManagedExerciseSession
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addLabelBtn: UIBarButtonItem!
+    @IBOutlet weak var navbar: UINavigationBar!
+    
+    // the displayed session
+    private var session: MRManagedExerciseSession?
+    // indicates if the displayed session is active (i.e. not finished)
+    private var runningSession: Bool = false
+    
+    ///
+    /// Provides the session to display
+    ///
+    func setSession(session: MRManagedExerciseSession) {
+        self.session = session
+        runningSession = MRAppDelegate.sharedDelegate().currentSession.map { s in s == session } ?? false
     }
     
+    ///
+    /// Find an activity to share the give file
+    ///
     func share(data: NSData, fileName: String) {
         let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
         let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent(fileName)
@@ -25,6 +43,8 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             presentViewController(controller, animated: true, completion: nil)
         }
     }
+    
+    // MARK: UIViewController
 
     override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -32,9 +52,22 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     override func viewDidAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: session!.objectID)
+        if let objectId = session?.objectID {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
+        }
         tableView.reloadData()
     }
+    
+    override func viewDidLoad() {
+        addLabelBtn.enabled = runningSession
+        if let s = session {
+            navbar.topItem!.title = "\(s.start.formatTime()) - \(s.exerciseModelId)"
+        } else {
+            navbar.topItem!.title = nil
+        }
+    }
+    
+    // MARK: notification callbacks
     
     func update() {
         tableView.reloadData()
@@ -45,12 +78,15 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     // MARK: Share & label
+    
+    /// share the raw session data
     @IBAction func shareRaw() {
         if let data = session?.sensorData {
             share(data, fileName: "sensordata.raw")
         }
     }
     
+    /// share the CSV session data
     @IBAction func shareCSV() {
         if let data = session?.sensorData,
             let labelledExercises = session?.labelledExercises.allObjects as? [MRManagedLabelledExercise],
@@ -60,6 +96,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         }
     }
     
+    /// display the ``Add label`` screen
     @IBAction func label(sender: UIBarButtonItem) {
         performSegueWithIdentifier("label", sender: session)
     }
@@ -71,6 +108,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     // MARK: UITableViewDataSource
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
@@ -95,15 +133,21 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
-            let le = session!.classifiedExercises.allObjects[indexPath.row] as! MRManagedClassifiedExercise
-            cell.textLabel!.text = le.exerciseId
-            cell.detailTextLabel!.text = "Weight \(le.weight), intensity \(le.intensity)"
+            let ce = session!.classifiedExercises.reverse()[indexPath.row] as! MRManagedClassifiedExercise
+            cell.textLabel!.text = ce.exerciseId
+            let weight = ce.weight.map { w in "\(NSString(format: "%.2f", w)) kg" } ?? ""
+            let intensity = ce.intensity.map { i in "Intensity: \(NSString(format: "%.2f", i))" } ?? ""
+            let duration = "\(NSString(format: "%.0f", ce.duration))s"
+            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(duration) - \(weight) - \(intensity)"
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
-            let le = session!.labelledExercises.allObjects[indexPath.row] as! MRManagedLabelledExercise
+            let le = session!.labelledExercises.reverse()[indexPath.row] as! MRManagedLabelledExercise
             cell.textLabel!.text = le.exerciseId
-            cell.detailTextLabel!.text = "Weight \(le.weight), intensity \(le.intensity)"
+            let weight = "\(NSString(format: "%.2f", le.weight)) kg"
+            let intensity = "Intensity: \(NSString(format: "%.2f", le.intensity))"
+            let duration = "\(NSString(format: "%.0f", le.end.timeIntervalSince1970 - le.start.timeIntervalSince1970))s"
+            cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(duration) - \(weight) - \(intensity)"
             return cell
         default:
             fatalError()

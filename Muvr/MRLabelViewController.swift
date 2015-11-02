@@ -11,10 +11,6 @@ class MRLabelViewController : UIViewController {
     @IBOutlet weak var repetitions: UITextField!
     @IBOutlet weak var intensity: UISlider!
 
-    override func viewDidLoad() {
-        self.navigationItem.hidesBackButton = true
-    }
-    
     @IBAction func startStop(sender: UIButton) {
         func doStart() {
             // start
