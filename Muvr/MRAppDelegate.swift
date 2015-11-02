@@ -71,14 +71,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         // setup the classifier
         let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
         
-        let data = NSData(contentsOfFile: NSBundle(path: bundlePath)!.pathForResource("demo", ofType: "raw")!)!
-        let count = data.length / sizeof(Double)
-        // create array of appropriate length:
-        var weights = [Double](count: count, repeatedValue: 0)
-        // copy bytes into array
-        data.getBytes(&weights, length:count * sizeof(Double))
+        let modelPath = NSBundle(path: bundlePath)!.pathForResource("demo", ofType: "raw")!
+        let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
         
-        let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: weights.map{Float($0)},
+        let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: weights,
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
             exerciseIds: ["arms/biceps-curl", "arms/lateral-raise", "arms/triceps-extension"],
             minimumDuration: 8)

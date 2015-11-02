@@ -37,8 +37,9 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource {
     }
     
     func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
-        let data = NSData(contentsOfFile: NSBundle(forClass: MKClassifierTests.self).pathForResource("model-3", ofType: "raw")!)!
-        let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: data,
+        let modelPath = NSBundle(forClass: MKClassifierTests.self).pathForResource("model-3", ofType: "raw")!
+        let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
+        let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: weights,
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
             exerciseIds: ["1", "2", "3"],
             minimumDuration: 0)
