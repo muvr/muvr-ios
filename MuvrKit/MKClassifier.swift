@@ -1,6 +1,5 @@
 import Foundation
 import Accelerate
-import MLPNeuralNet
 
 ///
 /// Possible classification errors

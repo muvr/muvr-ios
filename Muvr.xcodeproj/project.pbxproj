@@ -41,7 +41,6 @@
 		5469D3851BBA764900EE5ADB /* MKRepetitionEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */; };
 		5469D3881BBA83D200EE5ADB /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5469D3871BBA83D200EE5ADB /* Accelerate.framework */; };
 		5469D38B1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D38A1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift */; };
-		5469D38F1BBAD78E00EE5ADB /* MLPNeuralNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5469D38E1BBAD78E00EE5ADB /* MLPNeuralNet.framework */; };
 		546D342A1BE0CF54005E614D /* demo-bc-only.raw in Resources */ = {isa = PBXBuildFile; fileRef = 546D34271BE0CF4F005E614D /* demo-bc-only.raw */; };
 		546D342B1BE0CF54005E614D /* demo-lr-only.raw in Resources */ = {isa = PBXBuildFile; fileRef = 546D34281BE0CF4F005E614D /* demo-lr-only.raw */; };
 		546D342C1BE0CF54005E614D /* demo-te-only.raw in Resources */ = {isa = PBXBuildFile; fileRef = 546D34291BE0CF4F005E614D /* demo-te-only.raw */; };
@@ -122,6 +121,7 @@
 		9D4A51491BE77BE70065BEF8 /* MKActivationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */; };
 		9D6D27AF1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27AE1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift */; };
 		9D6D27B11BE25F9800F4E4A7 /* MKActivationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */; };
+		B6FB639A96C0DE788ECADC73 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3AA10F80ED661B9AC5A823 /* Pods.framework */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 /* End PBXBuildFile section */
 
@@ -225,7 +225,6 @@
 		540AA4501BDBFF6B00908F4B /* MKSessionClassifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSessionClassifierTests.swift; sourceTree = "<group>"; };
 		540AA4531BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseConnectivitySession+SensorData.swift"; sourceTree = "<group>"; };
 		5410C82C1B9DC9EA005C57C1 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
-		5410C82D1B9DC9EA005C57C1 /* MLPNeuralNet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MLPNeuralNet.framework; path = "Pods/../build/Debug-iphoneos/MLPNeuralNet.framework"; sourceTree = "<group>"; };
 		5410C82E1B9DC9EA005C57C1 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
 		5410C82F1B9DC9EA005C57C1 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = "Pods/../build/Debug-iphoneos/sqlite3.framework"; sourceTree = "<group>"; };
 		5410C8341B9DCA09005C57C1 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
@@ -264,7 +263,6 @@
 		5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRepetitionEstimator.swift; sourceTree = "<group>"; };
 		5469D3871BBA83D200EE5ADB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		5469D38A1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseModelSourceDelegate.swift; sourceTree = "<group>"; };
-		5469D38E1BBAD78E00EE5ADB /* MLPNeuralNet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MLPNeuralNet.framework; path = "Pods/../build/Debug-iphoneos/MLPNeuralNet.framework"; sourceTree = "<group>"; };
 		546D34271BE0CF4F005E614D /* demo-bc-only.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "demo-bc-only.raw"; sourceTree = "<group>"; };
 		546D34281BE0CF4F005E614D /* demo-lr-only.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "demo-lr-only.raw"; sourceTree = "<group>"; };
 		546D34291BE0CF4F005E614D /* demo-te-only.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "demo-te-only.raw"; sourceTree = "<group>"; };
@@ -365,6 +363,7 @@
 				54A7760B1BB81467001586DD /* MuvrKit.framework in Frameworks */,
 				544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */,
 				54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */,
+				B6FB639A96C0DE788ECADC73 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,7 +399,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5469D38F1BBAD78E00EE5ADB /* MLPNeuralNet.framework in Frameworks */,
 				5469D3881BBA83D200EE5ADB /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -419,7 +417,6 @@
 			isa = PBXGroup;
 			children = (
 				5417C4011BC45EBB001C9491 /* HealthKit.framework */,
-				5469D38E1BBAD78E00EE5ADB /* MLPNeuralNet.framework */,
 				5469D3871BBA83D200EE5ADB /* Accelerate.framework */,
 				5487F5AC1BBA63C900ED2E97 /* libz.tbd */,
 				5487F5A91BB9CAB800ED2E97 /* libcompression.tbd */,
@@ -431,7 +428,6 @@
 				54E3A21D1BA21482001D9EA5 /* Pods.framework */,
 				5410C8341B9DCA09005C57C1 /* Pods.framework */,
 				5410C82C1B9DC9EA005C57C1 /* Alamofire.framework */,
-				5410C82D1B9DC9EA005C57C1 /* MLPNeuralNet.framework */,
 				5410C82E1B9DC9EA005C57C1 /* SQLite.framework */,
 				5410C82F1B9DC9EA005C57C1 /* sqlite3.framework */,
 				54D527571B94D79F00B56719 /* Alamofire.framework */,
