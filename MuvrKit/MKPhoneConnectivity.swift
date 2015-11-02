@@ -35,9 +35,14 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             NSLog("Missing metadata in \(file)")
             return
         }
+        
+        func resolveSession(metadata: [String : AnyObject]) -> MKExerciseConnectivitySession? {
+            guard let receivedSession = MKExerciseConnectivitySession.fromMetadata(metadata) else { return nil}
+            return sessions.indexOf({$0.id == receivedSession.id}).map({sessions[$0]}) ?? receivedSession
+        }
 
         // the metadata must be convertible to a session
-        guard var connectivitySession = MKExerciseConnectivitySession.fromMetadata(metadata) else { return }
+        guard var connectivitySession = resolveSession(metadata) else { return }
         if (!sessions.contains { $0.id == connectivitySession.id }) {
             // this is the first time we're seeing the file for a session. issue a session start.
             sessions.append(connectivitySession)
