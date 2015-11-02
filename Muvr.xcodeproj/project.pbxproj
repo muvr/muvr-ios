@@ -122,7 +122,6 @@
 		9D4A514A1BE796BD0065BEF8 /* MKActivationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */; };
 		9D4A514B1BE7976B0065BEF8 /* MKForwardPropagator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5431545B1BE107F60031BE61 /* MKForwardPropagator.swift */; };
 		9D6D27AF1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27AE1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift */; };
-		B6FB639A96C0DE788ECADC73 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3AA10F80ED661B9AC5A823 /* Pods.framework */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 /* End PBXBuildFile section */
 
@@ -364,7 +363,6 @@
 				54A7760B1BB81467001586DD /* MuvrKit.framework in Frameworks */,
 				544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */,
 				54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */,
-				B6FB639A96C0DE788ECADC73 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
