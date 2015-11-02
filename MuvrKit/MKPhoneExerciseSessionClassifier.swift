@@ -47,7 +47,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     
     private func classify(exerciseModelId exerciseModelId: MKExerciseModelId, sensorData: MKSensorData) -> [MKClassifiedExercise]? {
         let model = exerciseModelSource.getExerciseModel(id: exerciseModelId)
-        let classifier = MKClassifier(model: model)
+        let classifier = try! MKClassifier(model: model)
         return try? classifier.classify(block: sensorData, maxResults: 10)
     }
     

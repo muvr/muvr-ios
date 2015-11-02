@@ -6,8 +6,8 @@ class MKForwardPropagatorTests : XCTestCase {
     
     var baseConfiguration = MKForwardPropagatorConfiguration(
         layerConfiguration: [2, 1],
-        hiddenActivation: sigmoidActivation,
-        outputActivation: sigmoidActivation,
+        hiddenActivation: SigmoidActivation(),
+        outputActivation: SigmoidActivation(),
         biasValue: 1.0,
         biasUnits: 1)
     
@@ -63,8 +63,8 @@ class MKForwardPropagatorTests : XCTestCase {
     ///
     func testModelOfNANDMatrix() {
         var conf = baseConfiguration
-        conf.hiddenActivation = reLUActivation
-        conf.outputActivation = reLUActivation
+        conf.hiddenActivation = ReLUActivation()
+        conf.outputActivation = ReLUActivation()
         
         let model = try! MKForwardPropagator.configured(conf, weights: [20, -17.5, -14.5])
         let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures)
@@ -82,8 +82,8 @@ class MKForwardPropagatorTests : XCTestCase {
         let features: [Float] = [4.8,  3.3,  1.3,  0.2]
         let conf = MKForwardPropagatorConfiguration(
             layerConfiguration: [4, 2, 3],
-            hiddenActivation: tangentActivation,
-            outputActivation: tangentActivation,
+            hiddenActivation: TangentActivation(),
+            outputActivation: TangentActivation(),
             biasValue: 1.0,
             biasUnits: 1)
 

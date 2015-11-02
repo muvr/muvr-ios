@@ -8,8 +8,6 @@ struct MKForwardPropagatorLayer{
     let isOutputLayer: Bool
 }
 
-typealias MKActivationFunction = (inout input: [Float], offset: Int, length: Int) -> ()
-
 public struct MKForwardPropagatorConfiguration{
     /// Configuration of the network layers
     var layerConfiguration: MKForwardPropagator.LayerConfiguration
@@ -133,12 +131,12 @@ public class MKForwardPropagator {
     /// Feed the input data through the neural network using forward propagation. The passed
     /// matrix should contain the feature values for one or multiple examples.
     ///
-    public func predictFeatureMatrix(matrix: [Element]) throws -> [Element] {
-        let numExamples = matrix.count / self.featureVectorSize;
+    public func predictFeatureMatrix(matrix: UnsafePointer<Float>, length: Int) throws -> [Element] {
+        let numExamples = length / self.featureVectorSize;
         var biasValue = conf.biasValue
         let numberOfBiasUnits = conf.biasUnits * numExamples
         
-        try checkInputSanity(matrix)
+        try checkInputSanity(matrix, length: length)
         
         var currentInputs = [Element](count: self.maxNumberOfHiddenFeatures*numExamples, repeatedValue: 0)
         var buffer = [Element](count: self.maxNumberOfHiddenFeatures*numExamples, repeatedValue: 0)
@@ -173,9 +171,9 @@ public class MKForwardPropagator {
             swap(&buffer, &currentInputs)
             
             // 3. Apply activation function, e.g. logistic func
-            let activation = layers[j].isOutputLayer ? conf.outputActivation : conf.hiddenActivation
+            let activationFunction = layers[j].isOutputLayer ? conf.outputActivation : conf.hiddenActivation
             let feature_length = layers[j].rowCount * numExamples
-            activation(input: &currentInputs, offset: numberOfBiasUnits, length: feature_length)
+            activationFunction.applyOn(&currentInputs, offset: numberOfBiasUnits, length: feature_length)
         }
         
         return Array(currentInputs[numberOfBiasUnits..<numberOfBiasUnits+(self.predictionVectorSize * numExamples)])
@@ -185,10 +183,10 @@ public class MKForwardPropagator {
     /// Make sure the input we received to do the forward propagation with is correctly formated, e.g.
     /// contains the expected number of features.
     ///
-    private func checkInputSanity(matrix: [Element]) throws {
-        let numExamples = matrix.count / self.featureVectorSize;
+    private func checkInputSanity(matrix: UnsafePointer<Float>, length: Int) throws {
+        let numExamples = length / self.featureVectorSize;
         
-        if (matrix.count != self.featureVectorSize * numExamples || matrix.count == 0) {
+        if (length != self.featureVectorSize * numExamples || length == 0) {
             throw MKForwardPropagatorError.InvalidFeatureMatrixSize
         }
     }
