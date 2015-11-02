@@ -1,6 +1,5 @@
 import Foundation
 import Accelerate
-import MLPNeuralNet
 
 ///
 /// Possible classification errors
@@ -26,7 +25,7 @@ public enum MKClassifierError : ErrorType {
 ///
 public struct MKClassifier {
     private let model: MKExerciseModel
-    private let neuralNet: MLPNeuralNet
+    private let neuralNet: MKForwardPropagator
     private let windowSize = 400
     private let windowStepSize = 10
     private let numInputs: Int
@@ -37,11 +36,15 @@ public struct MKClassifier {
     ///
     /// - parameter model: the model
     ///
-    public init(model: MKExerciseModel) {
+    public init(model: MKExerciseModel) throws {
         self.model = model
-        self.neuralNet = MLPNeuralNet(layerConfig: model.layerConfig, weights: model.weights, outputMode: MLPClassification)
-        self.neuralNet.hiddenActivationFunction = MLPReLU
-        self.neuralNet.outputActivationFunction = MLPSigmoid
+        let netConfig = MKForwardPropagatorConfiguration(
+            layerConfiguration: model.layerConfig,
+            hiddenActivation: ReLUActivation(),
+            outputActivation: SigmoidActivation(),
+            biasValue: 1.0,
+            biasUnits: 1)
+        self.neuralNet = try MKForwardPropagator.configured(netConfig, weights: model.weights)
         
         self.numInputs = self.model.layerConfig.first!
         self.numClasses = self.model.exerciseIds.count
@@ -69,21 +72,16 @@ public struct MKClassifier {
             throw MKClassifierError.NotEnoughRows(received: block.rowCount, required: windowSize)
         }
 
-        // TODO: Use vDSP_vspdp
-        var doubleM = m.map { Double($0) }
         let numWindows = (rowCount - windowSize) / windowStepSize + 1
         let duration = Double(windowStepSize) / Double(block.samplesPerSecond)
         
-        let cews: [MKClassifiedExerciseWindow] = (0..<numWindows).map { window in
-            let offset = dimension * windowStepSize * window * sizeof(Double)
+        let cews: [MKClassifiedExerciseWindow] = try (0..<numWindows).map { window in
+            let offset = dimension * windowStepSize * window
             // NSLog("bytes \(offset)-\(offset + windowSize * sizeof(Double)); length \(doubleM.count * sizeof(Double))")
-
-            let featureMatrix = NSData(bytes: &doubleM + offset, length: dimension * windowSize * sizeof(Double))
-            let windowPrediction = NSMutableData(length: numClasses * sizeof(Double))!
-            neuralNet.predictByFeatureMatrix(featureMatrix, intoPredictionMatrix: windowPrediction)
-            let probabilities = UnsafePointer<Double>(windowPrediction.bytes)
+            let featureMatrix: UnsafePointer<Float> = UnsafePointer(m).advancedBy(offset)
+            let windowPrediction = try neuralNet.predictFeatureMatrix(featureMatrix, length: dimension * windowSize)
             let classRanking = (0..<numClasses).sort { x, y in
-                return probabilities[x] > probabilities[y]
+                return windowPrediction[x] > windowPrediction[y]
             }
             let resultCount = min(maxResults, numClasses)
             let start = duration * Double(window)
@@ -91,9 +89,9 @@ public struct MKClassifier {
                 let labelIndex = classRanking[i]
                 
                 let labelName = self.model.exerciseIds[labelIndex]
-                let probability = probabilities[labelIndex]
+                let probability = windowPrediction[labelIndex]
                 if probability > 0.7 {
-                    return MKClassifiedExerciseBlock(confidence: probability, exerciseId: labelName, duration: duration, offset: start)
+                    return MKClassifiedExerciseBlock(confidence: Double(probability), exerciseId: labelName, duration: duration, offset: start)
                 }
                 return nil
             }
