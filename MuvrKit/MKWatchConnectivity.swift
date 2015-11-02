@@ -157,7 +157,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                         return []
                     }
                     // remember to check for truly complete block
-                    if samples.count < sampleCount && requireAll {
+                    // it's OK to leave out the very last window
+                    if samples.count < (sampleCount - 1200) && requireAll {
                         NSLog("Not yet flushed buffer. Expected \(sampleCount), got \(samples.count)")
                         return nil
                     }
