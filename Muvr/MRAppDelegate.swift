@@ -75,13 +75,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     }
 
     func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
+        // setup the classifier
+        let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
+
         // loading layer/label
         let layerStr = loadTextFiles(path: bundlePath, filename: "demo.layers", ext: "txt", separator: NSCharacterSet.whitespaceCharacterSet())
         let layer = layerStr.map {Int($0)!}
         let label = loadTextFiles(path: bundlePath, filename: "demo.labels", ext: "txt", separator: NSCharacterSet.newlineCharacterSet())
 
-        // setup the classifier
-        let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
         let modelPath = NSBundle(path: bundlePath)!.pathForResource("demo.weights", ofType: "raw")!
         let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
         let model = MKExerciseModel(layerConfig: layer, weights: weights,
