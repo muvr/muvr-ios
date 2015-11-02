@@ -75,7 +75,11 @@ extension MRAppDelegate  {
             if let docs = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first {
                 let fileManager = NSFileManager.defaultManager()
                 try! fileManager.contentsOfDirectoryAtPath(docs).forEach { file in
-                    try! fileManager.removeItemAtPath("\(docs)/\(file)")
+                    do {
+                        try fileManager.removeItemAtPath("\(docs)/\(file)")
+                    } catch {
+                        // do nothing
+                    }
                 }
             }
 

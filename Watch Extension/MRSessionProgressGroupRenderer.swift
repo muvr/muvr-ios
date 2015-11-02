@@ -17,15 +17,14 @@ class MRSessionProgressGroupRenderer : NSObject {
     }
     
     func update() {
-        if let session = MRExtensionDelegate.sharedDelegate().currentSession {
-            let text = NSDateComponentsFormatter().stringFromTimeInterval(session.sessionDuration)!
-            group.titleLabel.setText(session.title)
+        if let (session, props) = MRExtensionDelegate.sharedDelegate().currentSession {
+            let text = NSDateComponentsFormatter().stringFromTimeInterval(session.duration)!
+            group.titleLabel.setText(session.modelId)
             group.timeLabel.setText(text)
-            let batch = session.stats.batchCounter
-            group.statsLabel.setText("R \(batch.recorded), S \(batch.sent)")
+            group.statsLabel.setText("R \(props.recorded), S \(props.sent)")
         } else {
             group.titleLabel.setText("Idle")
-            group.timeLabel.setText("")
+            group.timeLabel.setText(MRExtensionDelegate.sharedDelegate().description)
             group.statsLabel.setText(buildDate())
         }
     }

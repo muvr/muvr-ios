@@ -34,8 +34,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     override func willActivate() {
         super.willActivate()
         let sd = MRExtensionDelegate.sharedDelegate()
-        exerciseModel.setItems(sd.getExerciseModelMetadata().map { _, title in return WKPickerItem.withTitle(title) })
-        sd.currentSession?.beginSendBatch()
+        exerciseModel.setItems(sd.exerciseModelMetadata.map { _, title in return WKPickerItem.withTitle(title) })
         
         updateUI()
         renderer = MRSessionProgressGroupRenderer(group: self)
@@ -49,7 +48,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     private func updateUI() {
         let sd = MRExtensionDelegate.sharedDelegate()
         clearAllMenuItems()
-        if let session = sd.currentSession {
+        if let (session, _) = sd.currentSession {
             addMenuItemWithItemIcon(WKMenuItemIcon.Pause, title: "Pause", action: "pause")
             addMenuItemWithItemIcon(WKMenuItemIcon.Trash, title: "Stop",  action: "stop")
 
@@ -74,12 +73,12 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     }
     
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
-        if MRExtensionDelegate.sharedDelegate().currentSession?.demo ?? false {
+        if MRExtensionDelegate.sharedDelegate().currentSession?.0.demo ?? false {
             let (resourceName, _) = exercises[rowIndex]
             let resourcePath = NSBundle.mainBundle().pathForResource(resourceName, ofType: "raw")!
             let data = NSData(contentsOfFile: resourcePath)!
             let sd = try! MKSensorData(decoding: data)
-            MRExtensionDelegate.sharedDelegate().currentSession?.beginSendSamples(sd)
+            MRExtensionDelegate.sharedDelegate().sendSamples(sd)
         }
     }
     
@@ -88,7 +87,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     }
     
     func stop() {
-        MRExtensionDelegate.sharedDelegate().endSession()
+        MRExtensionDelegate.sharedDelegate().endLastSession()
         updateUI()
     }
     

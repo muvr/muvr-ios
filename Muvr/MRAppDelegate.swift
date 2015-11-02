@@ -24,11 +24,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         return UIApplication.sharedApplication().delegate as! MRAppDelegate
     }
 
-    private func registerSettingsAndDelegates() {
-        let settings = UIUserNotificationSettings(forTypes: [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound], categories: nil)
-        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-    }
-    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // set up the classification and connectivity
         classifier = MKSessionClassifier(exerciseModelSource: self, delegate: self)
@@ -41,9 +36,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
             print(x)
             print(y)
         }
-
-        // notifications et al
-        registerSettingsAndDelegates()
         
         // main initialization
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -82,8 +74,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: currentSession!.objectID)
-        saveContext()
+        let objectId = currentSession!.objectID
+        currentSession = nil
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
     }
     
     func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData) {

@@ -22,7 +22,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     ///
     func setSession(session: MRManagedExerciseSession) {
         self.session = session
-        runningSession = MRAppDelegate.sharedDelegate().currentSession.map { s in s == session } ?? false
+        runningSession = MRAppDelegate.sharedDelegate().currentSession.map { $0 == session } ?? false
     }
     
     ///
@@ -74,7 +74,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     func sessionDidEnd() {
-        navigationController?.popViewControllerAnimated(true)
+        addLabelBtn.enabled = false
     }
     
     // MARK: Share & label
