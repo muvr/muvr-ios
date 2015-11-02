@@ -4,7 +4,6 @@ use_frameworks!
 
 pod 'Charts', '~> 2'
 pod 'JTCalendar', '~> 2'
-pod 'MLPNeuralNet', '~> 1'
 pod 'MBCircularProgressBar'
 
 # pod 'Alamofire', '~> 2'

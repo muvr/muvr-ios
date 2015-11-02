@@ -21,6 +21,7 @@
 		54266B151BB92F22007A8A8A /* MKSensorData+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */; };
 		54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B161BB92F98007A8A8A /* MKSensorData.swift */; };
 		54266B181BB92F98007A8A8A /* MKSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B161BB92F98007A8A8A /* MKSensorData.swift */; };
+		5431545C1BE107F60031BE61 /* MKForwardPropagator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5431545B1BE107F60031BE61 /* MKForwardPropagator.swift */; };
 		543C9A161BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C9A101BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift */; };
 		543C9A171BDD439B00291EC5 /* MRManagedExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C9A111BDD439B00291EC5 /* MRManagedExerciseSession.swift */; };
 		543C9A181BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C9A121BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift */; };
@@ -40,7 +41,6 @@
 		5469D3851BBA764900EE5ADB /* MKRepetitionEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */; };
 		5469D3881BBA83D200EE5ADB /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5469D3871BBA83D200EE5ADB /* Accelerate.framework */; };
 		5469D38B1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D38A1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift */; };
-		5469D38F1BBAD78E00EE5ADB /* MLPNeuralNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5469D38E1BBAD78E00EE5ADB /* MLPNeuralNet.framework */; };
 		546D342A1BE0CF54005E614D /* demo-bc-only.raw in Resources */ = {isa = PBXBuildFile; fileRef = 546D34271BE0CF4F005E614D /* demo-bc-only.raw */; };
 		546D342B1BE0CF54005E614D /* demo-lr-only.raw in Resources */ = {isa = PBXBuildFile; fileRef = 546D34281BE0CF4F005E614D /* demo-lr-only.raw */; };
 		546D342C1BE0CF54005E614D /* demo-te-only.raw in Resources */ = {isa = PBXBuildFile; fileRef = 546D34291BE0CF4F005E614D /* demo-te-only.raw */; };
@@ -118,6 +118,11 @@
 		6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */; };
 		64DC9FD71BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DC9FD61BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
+		9D4A51491BE77BE70065BEF8 /* MKActivationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */; };
+		9D4A514A1BE796BD0065BEF8 /* MKActivationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */; };
+		9D4A514B1BE7976B0065BEF8 /* MKForwardPropagator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5431545B1BE107F60031BE61 /* MKForwardPropagator.swift */; };
+		9D6D27AF1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27AE1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift */; };
+		B6FB639A96C0DE788ECADC73 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3AA10F80ED661B9AC5A823 /* Pods.framework */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 /* End PBXBuildFile section */
 
@@ -221,7 +226,6 @@
 		540AA4501BDBFF6B00908F4B /* MKSessionClassifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSessionClassifierTests.swift; sourceTree = "<group>"; };
 		540AA4531BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseConnectivitySession+SensorData.swift"; sourceTree = "<group>"; };
 		5410C82C1B9DC9EA005C57C1 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
-		5410C82D1B9DC9EA005C57C1 /* MLPNeuralNet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MLPNeuralNet.framework; path = "Pods/../build/Debug-iphoneos/MLPNeuralNet.framework"; sourceTree = "<group>"; };
 		5410C82E1B9DC9EA005C57C1 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
 		5410C82F1B9DC9EA005C57C1 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = "Pods/../build/Debug-iphoneos/sqlite3.framework"; sourceTree = "<group>"; };
 		5410C8341B9DCA09005C57C1 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
@@ -235,6 +239,7 @@
 		54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Encoding.swift"; sourceTree = "<group>"; };
 		54266B131BB92F16007A8A8A /* MKSensorData+Decoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Decoding.swift"; sourceTree = "<group>"; };
 		54266B161BB92F98007A8A8A /* MKSensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorData.swift; sourceTree = "<group>"; };
+		5431545B1BE107F60031BE61 /* MKForwardPropagator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKForwardPropagator.swift; sourceTree = "<group>"; };
 		543C9A101BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedExerciseSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		543C9A111BDD439B00291EC5 /* MRManagedExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedExerciseSession.swift; sourceTree = "<group>"; };
 		543C9A121BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedLabelledExercise+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -259,7 +264,6 @@
 		5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRepetitionEstimator.swift; sourceTree = "<group>"; };
 		5469D3871BBA83D200EE5ADB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		5469D38A1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseModelSourceDelegate.swift; sourceTree = "<group>"; };
-		5469D38E1BBAD78E00EE5ADB /* MLPNeuralNet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MLPNeuralNet.framework; path = "Pods/../build/Debug-iphoneos/MLPNeuralNet.framework"; sourceTree = "<group>"; };
 		546D34271BE0CF4F005E614D /* demo-bc-only.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "demo-bc-only.raw"; sourceTree = "<group>"; };
 		546D34281BE0CF4F005E614D /* demo-lr-only.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "demo-lr-only.raw"; sourceTree = "<group>"; };
 		546D34291BE0CF4F005E614D /* demo-te-only.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "demo-te-only.raw"; sourceTree = "<group>"; };
@@ -341,6 +345,8 @@
 		6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+DateUtils.swift"; sourceTree = "<group>"; };
 		64DC9FD61BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+CountRequest.swift"; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
+		9D6D27AE1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKForwardPropagatorTests.swift; sourceTree = "<group>"; };
+		9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKActivationFunctions.swift; sourceTree = "<group>"; };
 		A04E9B04EE1C27607A68F65A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRUserDefaults.swift; sourceTree = "<group>"; };
@@ -358,6 +364,7 @@
 				54A7760B1BB81467001586DD /* MuvrKit.framework in Frameworks */,
 				544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */,
 				54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */,
+				B6FB639A96C0DE788ECADC73 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,7 +400,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5469D38F1BBAD78E00EE5ADB /* MLPNeuralNet.framework in Frameworks */,
 				5469D3881BBA83D200EE5ADB /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,7 +418,6 @@
 			isa = PBXGroup;
 			children = (
 				5417C4011BC45EBB001C9491 /* HealthKit.framework */,
-				5469D38E1BBAD78E00EE5ADB /* MLPNeuralNet.framework */,
 				5469D3871BBA83D200EE5ADB /* Accelerate.framework */,
 				5487F5AC1BBA63C900ED2E97 /* libz.tbd */,
 				5487F5A91BB9CAB800ED2E97 /* libcompression.tbd */,
@@ -424,7 +429,6 @@
 				54E3A21D1BA21482001D9EA5 /* Pods.framework */,
 				5410C8341B9DCA09005C57C1 /* Pods.framework */,
 				5410C82C1B9DC9EA005C57C1 /* Alamofire.framework */,
-				5410C82D1B9DC9EA005C57C1 /* MLPNeuralNet.framework */,
 				5410C82E1B9DC9EA005C57C1 /* SQLite.framework */,
 				5410C82F1B9DC9EA005C57C1 /* sqlite3.framework */,
 				54D527571B94D79F00B56719 /* Alamofire.framework */,
@@ -606,6 +610,7 @@
 			children = (
 				548CAB3C1BBAF72600A34D81 /* MKClassifierTests.swift */,
 				54880CAC1BC048A800349C2E /* MKRepetitionEstimatorTests.swift */,
+				9D6D27AE1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift */,
 			);
 			name = Classification;
 			sourceTree = "<group>";
@@ -689,6 +694,8 @@
 				54D345811BB924A500F65091 /* MKClassificationDelegate.swift */,
 				54D3458A1BB928B600F65091 /* MKClassificationPipeline.swift */,
 				5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */,
+				5431545B1BE107F60031BE61 /* MKForwardPropagator.swift */,
+				9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */,
 			);
 			name = Classification;
 			sourceTree = "<group>";
@@ -1094,12 +1101,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D4A514B1BE7976B0065BEF8 /* MKForwardPropagator.swift in Sources */,
 				54E913151BC3063600B7F9F0 /* MKSensorData+PebbleDecoderTests.swift in Sources */,
 				546E685C1BB98D0800DC0FEF /* MKMuvrKitTests.swift in Sources */,
 				546E68671BB98D1D00DC0FEF /* MKSensorDataSingleTypeTests.swift in Sources */,
 				5487F5A41BB9C4C500ED2E97 /* MKSensorData+InternalCodecTests.swift in Sources */,
 				546E68681BB98D1D00DC0FEF /* MKSensorDataThreeDPerformanceTests.swift in Sources */,
 				540AA4511BDBFF6B00908F4B /* MKSessionClassifierTests.swift in Sources */,
+				9D4A514A1BE796BD0065BEF8 /* MKActivationFunctions.swift in Sources */,
+				9D6D27AF1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift in Sources */,
 				548CAB3D1BBAF72600A34D81 /* MKClassifierTests.swift in Sources */,
 				540AA4541BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift in Sources */,
 				548CAB411BBB0FCA00A34D81 /* XCTestCase+Exceptions.swift in Sources */,
@@ -1127,6 +1137,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D4A51491BE77BE70065BEF8 /* MKActivationFunctions.swift in Sources */,
 				5487F59F1BB9B77E00ED2E97 /* MKCodec.swift in Sources */,
 				54D5E9721BD3C6F70002CDB5 /* MKPhoneConnectivityDelegates.swift in Sources */,
 				54D345801BB9245E00F65091 /* MKSensorDataDelegate.swift in Sources */,
@@ -1149,6 +1160,7 @@
 				54845AD21BD8D73500C33DBF /* MKLabelledExercise.swift in Sources */,
 				5469D3821BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */,
 				546E68521BB969DD00DC0FEF /* MKSensorData+Encoding.swift in Sources */,
+				5431545C1BE107F60031BE61 /* MKForwardPropagator.swift in Sources */,
 				54E4CB401BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift in Sources */,
 				5488080F1BD57BA500419CD8 /* MKPhoneExerciseSessionClassifier.swift in Sources */,
 				547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */,

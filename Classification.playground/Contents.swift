@@ -14,12 +14,11 @@ extension MKClassifiedExerciseWindow {
         return Double(window) * 0.2
     }
 }
-
 //: ### Helper functions
 func model(named name: String, layerConfig: [Int], labels: [String]) -> MKExerciseModel {
     let demoModelPath = NSBundle.mainBundle().pathForResource(name, ofType: "raw")!
-    let weightsData = NSData(contentsOfFile: demoModelPath)!
-    let model = MKExerciseModel(layerConfig: layerConfig, weights: weightsData,
+    let weights = MKExerciseModel.loadWeightsFromFile(demoModelPath)
+    let model = MKExerciseModel(layerConfig: layerConfig, weights: weights,
         sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
         exerciseIds: labels,
         minimumDuration: 5)
@@ -27,8 +26,8 @@ func model(named name: String, layerConfig: [Int], labels: [String]) -> MKExerci
 }
 
 //: ### Construct a classifier
-let exerciseClassifier = MKClassifier(model: model(named: "demo", layerConfig: [1200, 250, 100, 3], labels: ["biceps-curl", "lateral-raise", "triceps-extension"]))
-let activityClassifier = MKClassifier(model: model(named: "activity", layerConfig: [1200, 500, 100, 25, 2], labels: ["E", "-"]))
+let exerciseClassifier = try MKClassifier(model: model(named: "demo", layerConfig: [1200, 250, 100, 3], labels: ["biceps-curl", "lateral-raise", "triceps-extension"]))
+let activityClassifier = try MKClassifier(model: model(named: "activity", layerConfig: [1200, 500, 100, 25, 2], labels: ["E", "-"]))
 
 //: ### Load the data from the session
 //let resourceName = "no-movement-face-up"
