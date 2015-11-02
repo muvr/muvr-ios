@@ -36,6 +36,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             return
         }
         
+        // get the session matching the received metadata
+        // if the session is known return it otherwise return a new session instance
         func resolveSession(metadata: [String : AnyObject]) -> MKExerciseConnectivitySession? {
             guard let receivedSession = MKExerciseConnectivitySession.fromMetadata(metadata) else { return nil}
             return sessions.indexOf({$0.id == receivedSession.id}).map({sessions[$0]}) ?? receivedSession

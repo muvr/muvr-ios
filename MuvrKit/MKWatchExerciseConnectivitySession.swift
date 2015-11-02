@@ -76,7 +76,7 @@ public struct MKExerciseSession: Hashable, Equatable {
 }
 
 ///
-/// Implementation of Equatable for MRSessionRecorder.SessionProperties
+/// Implementation of Equatable for MKExerciseSession
 ///
 public func ==(lhs: MKExerciseSession, rhs: MKExerciseSession) -> Bool {
     return lhs.id == rhs.id
