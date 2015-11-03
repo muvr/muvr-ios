@@ -61,7 +61,8 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
             return results.flatMap { result -> [MKClassifiedExercise] in
                 if result.exerciseId == "E" {
                     let data = try! sensorData.splitAt(result.offset, duration: result.duration)
-                    return try! exerciseClassifier.classify(block: data, maxResults: 10)
+                    let exercises = try! exerciseClassifier.classify(block: data, maxResults: 10)
+                    return exercises.map(self.shiftOffset(result.offset))
                 } else {
                     return []
                 }
@@ -98,16 +99,20 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     public func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) {
         guard let exerciseSession = sessions.last else { return }
         
-        func shiftOffset(x: MKClassifiedExercise) -> MKClassifiedExercise {
-            // accumulated contains all sensor data (including new)
-            let offset = x.offset + accumulated.duration - new.duration
-            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: offset, repetitions: x.repetitions, intensity: x.intensity, weight: x.weight)
-        }
+        let shift = shiftOffset(accumulated.duration - new.duration)
         
         dispatch_async(classificationQueue) {
             if let classified = self.classify(exerciseModelId: session.exerciseModelId, sensorData: new) {
-                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidClassify(exerciseSession, classified: classified.map(shiftOffset), sensorData: accumulated) }
+                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidClassify(exerciseSession, classified: classified.map(shift), sensorData: accumulated) }
             }
+        }
+    }
+    
+    private func shiftOffset(offset: MKTimestamp) -> MKClassifiedExercise -> MKClassifiedExercise {
+        return { (x) -> MKClassifiedExercise in
+            // accumulated contains all sensor data (including new)
+            let start = x.offset + offset
+            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: start, repetitions: x.repetitions, intensity: x.intensity, weight: x.weight)
         }
     }
     
