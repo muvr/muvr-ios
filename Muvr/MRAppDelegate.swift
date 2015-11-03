@@ -73,6 +73,19 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         return model
     }
     
+    func getSlackingModel() -> MKExerciseModel {
+        let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
+        
+        let modelPath = NSBundle(path: bundlePath)!.pathForResource("activity", ofType: "raw")!
+        let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
+        
+        let model = MKExerciseModel(layerConfig: [1200, 500, 100, 25, 2], weights: weights,
+            sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
+            exerciseIds: ["E", "-"],
+            minimumDuration: 8)
+        return model
+    }
+    
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
         let objectId = currentSession!.objectID
         currentSession = nil

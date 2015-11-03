@@ -13,6 +13,11 @@ public protocol MKExerciseModelSource {
     ///
     func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel
     
+    ///
+    /// Gets the exercise/slacking model
+    ///
+    func getSlackingModel() -> MKExerciseModel
+    
 }
 
 ///
@@ -46,9 +51,25 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     }
     
     private func classify(exerciseModelId exerciseModelId: MKExerciseModelId, sensorData: MKSensorData) -> [MKClassifiedExercise]? {
-        let model = exerciseModelSource.getExerciseModel(id: exerciseModelId)
-        let classifier = try! MKClassifier(model: model)
-        return try? classifier.classify(block: sensorData, maxResults: 10)
+        do {
+            let slackingModel = exerciseModelSource.getSlackingModel()
+            let slackingClassifier = try MKClassifier(model: slackingModel)
+            let exerciseModel = exerciseModelSource.getExerciseModel(id: exerciseModelId)
+            let exerciseClassifier = try MKClassifier(model: exerciseModel)
+
+            let results = try slackingClassifier.classify(block: sensorData, maxResults: 2)
+            return results.flatMap { result -> [MKClassifiedExercise] in
+                if result.exerciseId == "E" {
+                    let data = try! sensorData.splitAt(result.offset, duration: result.duration)
+                    return try! exerciseClassifier.classify(block: data, maxResults: 10)
+                } else {
+                    return []
+                }
+            }
+        } catch let ex {
+            NSLog("Failed to classify block: \(ex)")
+            return nil
+        }
     }
     
     public func exerciseConnectivitySessionDidEnd(session session: MKExerciseConnectivitySession) {

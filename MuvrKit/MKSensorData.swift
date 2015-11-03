@@ -140,6 +140,13 @@ public struct MKSensorData {
     }
     */
     
+    public func splitAt(offset: MKTimestamp, duration: MKDuration) throws -> MKSensorData {
+        let sampleStart = dimension * Int(samplesPerSecond) * Int(offset - start)
+        let sampleEnd = sampleStart + dimension * Int(samplesPerSecond) * Int(duration)
+        let data = samples[sampleStart..<sampleEnd]
+        return try MKSensorData(types: types, start: offset, samplesPerSecond: samplesPerSecond, samples: Array(data))
+    }
+    
     ///
     /// Appends ``that`` to this by filling in the gaps or resolving the overlaps if necessary
     ///
