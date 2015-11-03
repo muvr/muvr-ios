@@ -63,18 +63,22 @@ class MKConnectivityTests : XCTestCase {
     }
     
     ///
-    /// Tests that the delegate fires appropriately with *session start* -> *session end* events only
+    /// Tests that the delegate fires appropriately with *session start* -> *last data* events only
     ///
     func testStartEnd() {
         let delegates = Delegates()
         let c = MKConnectivity(sensorDataConnectivityDelegate: delegates, exerciseConnectivitySessionDelegate: delegates)
         let start = NSDate(timeIntervalSince1970: 1000)
-        c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"start", "sessionId":"1234", "exerciseModelId":"arms", "startDate":start.timeIntervalSince1970])
+        c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"start", "sessionId":"1234", "exerciseModelId":"arms", "start":start.timeIntervalSince1970])
         XCTAssertEqual(delegates.session!.id, "1234")
         XCTAssertEqual(delegates.session!.exerciseModelId, "arms")
         XCTAssertEqual(delegates.session!.start, start)
         
-        c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"end", "sessionId":"1234"])
+        let sensorData = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 300, repeatedValue: 0))
+        let f = WCMockSessionFile(sensorData: sensorData, metadata: ["timestamp":NSTimeInterval(0), "sessionId":"1234", "exerciseModelId":"arms", "start":start.timeIntervalSince1970, "end": NSDate().timeIntervalSince1970])
+        // sends last chunk of data
+        c.session(WCSession.defaultSession(), didReceiveFile: f)
+        
         XCTAssertTrue(delegates.session == nil)
     }
 
@@ -85,10 +89,10 @@ class MKConnectivityTests : XCTestCase {
         let delegates = Delegates()
         let c = MKConnectivity(sensorDataConnectivityDelegate: delegates, exerciseConnectivitySessionDelegate: delegates)
         let start = NSDate()
-        c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"start", "sessionId":"1234", "exerciseModelId":"arms", "startDate":start.timeIntervalSince1970])
+        c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"start", "sessionId":"1234", "exerciseModelId":"arms", "start":start.timeIntervalSince1970])
         
         let sensorData = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 300, repeatedValue: 0))
-        let f = WCMockSessionFile(sensorData: sensorData, metadata: ["timestamp":NSTimeInterval(0)])
+        let f = WCMockSessionFile(sensorData: sensorData, metadata: ["timestamp":NSTimeInterval(0), "sessionId":"1234", "exerciseModelId":"arms", "start":start.timeIntervalSince1970])
         c.session(WCSession.defaultSession(), didReceiveFile: f)
         c.session(WCSession.defaultSession(), didReceiveFile: f)
         
