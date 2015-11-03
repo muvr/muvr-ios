@@ -99,6 +99,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     public func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) {
         guard let exerciseSession = sessions.last else { return }
         
+        // accumulated contains all sensor data (including new)
         let shift = shiftOffset(accumulated.duration - new.duration)
         
         dispatch_async(classificationQueue) {
@@ -108,11 +109,12 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         }
     }
     
+    ///
+    /// returns a function that shift the exercise's offset by the specified value
+    ///
     private func shiftOffset(offset: MKTimestamp) -> MKClassifiedExercise -> MKClassifiedExercise {
         return { (x) -> MKClassifiedExercise in
-            // accumulated contains all sensor data (including new)
-            let start = x.offset + offset
-            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: start, repetitions: x.repetitions, intensity: x.intensity, weight: x.weight)
+            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset + offset, repetitions: x.repetitions, intensity: x.intensity, weight: x.weight)
         }
     }
     

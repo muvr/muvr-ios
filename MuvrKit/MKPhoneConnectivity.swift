@@ -21,6 +21,27 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         WCSession.defaultSession().delegate = self
         WCSession.defaultSession().activateSession()
     }
+    
+    ///
+    /// Get the correct session instance based on the received metadata
+    ///
+    private func resolveSession(metadata: [String:AnyObject]) -> MKExerciseConnectivitySession? {
+        guard let session = MKExerciseConnectivitySession.fromMetadata(metadata) else { return nil }
+        if let index = (sessions.indexOf { $0.id == session.id }) {
+            if sessions[index].end == nil {
+                // update the existing session with the received end timestamp
+                sessions[index].end = session.end
+            }
+            // return the existing session as it contains all accumulated data
+            return sessions[index]
+        } else {
+            // this is the first time we're seeing the file for a session
+            sessions.append(session)
+            // issue a session start
+            exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidStart(session: session)
+            return session
+        }
+    }
       
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
         if let session = MKExerciseConnectivitySession.fromMetadata(userInfo) {
@@ -37,15 +58,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         }
         
         // the metadata must be convertible to a session
-        guard var connectivitySession = MKExerciseConnectivitySession.fromMetadata(metadata) else { return }
-        if let index = (sessions.indexOf { $0.id == connectivitySession.id }) {
-            sessions[index] = connectivitySession
-        } else {
-            // this is the first time we're seeing the file for a session. issue a session start.
-            sessions.append(connectivitySession)
-            exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidStart(session: connectivitySession)
-        }
-        
+        guard var connectivitySession = resolveSession(metadata) else { return }
         NSLog("\(connectivitySession)")
 
         // check for duplicate transmissions
