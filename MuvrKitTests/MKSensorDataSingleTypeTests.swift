@@ -112,5 +112,48 @@ class MKSensorDataSingleTypeTests : XCTestCase {
         }
         
     }
+    
+    let flatD = try! MKSensorData(types: [.HeartRate], start: 12, samplesPerSecond: 5, samples: [Float](count:100, repeatedValue: 1.0))
+    
+    ///
+    /// Split sensor data 
+    ///
+    func testSplitSensorData() {
+        let d1 = flatD
+        let d2 = try! d1.splitAt(14, duration: 8)
+        XCTAssertEqual(d2.samples.count, 8 * Int(d1.samplesPerSecond))
+        XCTAssertEqual(d2.start, 14)
+        XCTAssertEqual(d2.duration, 8)
+    }
+    
+    ///
+    /// Split sensor data exceeding duration is not allowed
+    ///
+    func testSplitSensorDataWithExceedingDuration() {
+        let d1 = flatD
+        do {
+            try d1.splitAt(d1.start + 4, duration: d1.duration - 2)
+            XCTFail("Split with exceeding duration passed")
+        } catch MKSensorDataError.SplitOutOfRange {
+            // expected
+        } catch {
+            XCTFail("Bad exception")
+        }
+    }
+    
+    ///
+    /// Split sensor data starting too early
+    ///
+    func testSplitSensorDataWithOfsetNotInRange() {
+        let d1 = flatD
+        do {
+            try d1.splitAt(d1.start - 2, duration: d1.duration - 4)
+            XCTFail("Split with start not in range passed")
+        } catch MKSensorDataError.SplitOutOfRange {
+            // expected
+        } catch {
+            XCTFail("Bad exception")
+        }
+    }
 
 }
