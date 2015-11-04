@@ -81,8 +81,10 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     /// share the raw session data
     @IBAction func shareRaw() {
-        if let data = session?.sensorData {
-            share(data, fileName: "sensordata.raw")
+        if let data = session?.sensorData,
+            let sessionId = session?.id,
+            let exerciseModel = session?.exerciseModelId {
+            share(data, fileName: "\(exerciseModel)_\(sessionId).raw")
         }
     }
     
@@ -90,9 +92,11 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     @IBAction func shareCSV() {
         if let data = session?.sensorData,
             let labelledExercises = session?.labelledExercises.allObjects as? [MRManagedLabelledExercise],
-            let sensorData = try? MKSensorData(decoding: data) {
+            let sensorData = try? MKSensorData(decoding: data),
+            let sessionId = session?.id,
+            let exerciseModel = session?.exerciseModelId {
             let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
-            share(csvData, fileName: "sensordata.csv")
+            share(csvData, fileName: "\(exerciseModel)_\(sessionId).csv")
         }
     }
     
