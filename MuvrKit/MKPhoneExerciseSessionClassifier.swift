@@ -52,12 +52,16 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
             let exerciseModel = exerciseModelSource.getExerciseModel(id: exerciseModelId)
             let exerciseClassifier = try MKClassifier(model: exerciseModel)
 
+            // identify exercising (vs slacking) blocks
             let results = try slackingClassifier.classify(block: sensorData, maxResults: 2)
             return results.flatMap { result -> [MKClassifiedExercise] in
                 if result.exerciseId == "E" {
-                    // get the data corresponding to this exercise block
+                    // this is an exercise block - get the corresponding data section
                     let data = try! sensorData.slice(result.offset, duration: result.duration)
+                    // classify the exercises in this block
                     let exercises = try! exerciseClassifier.classify(block: data, maxResults: 10)
+                    // adjust the offset with the offset from the original block
+                    // the offset returned by the classifier is relative to the current exercise block
                     return exercises.map(self.shiftOffset(result.offset))
                 } else {
                     return []
