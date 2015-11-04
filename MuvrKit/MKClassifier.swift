@@ -103,7 +103,6 @@ public struct MKClassifier {
         var result: [MKClassifiedExerciseBlock] = []
         var accumulator: MKClassifiedExerciseBlock? = nil
         for var i = 0; i < cews.count; ++i {
-            NSLog("\(cews[i])")
             if let current = cews[i].classifiedExerciseBlocks.first {
                 if accumulator == nil {
                     accumulator = current
@@ -119,6 +118,8 @@ public struct MKClassifier {
             }
         }
         if let a = accumulator { result.append(a) }
+        
+        NSLog("classified \(result)")
         
         return result.filter { $0.duration >= self.model.minimumDuration }.map { x in
             return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset, repetitions: nil, intensity: nil, weight: nil)
