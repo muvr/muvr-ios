@@ -26,6 +26,9 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     
     /// the classification result delegate
     public let delegate: MKSessionClassifierDelegate    // Remember to call the delegate methods on ``dispatch_get_main_queue()``
+
+    /// the exercise vs. no-exercise classifier
+    private let eneClassifier: MKClassifier
     
     /// the queue for immediate classification, with high-priority QoS
     private let classificationQueue: dispatch_queue_t = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
@@ -43,17 +46,20 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     public init(exerciseModelSource: MKExerciseModelSource, delegate: MKSessionClassifierDelegate) {
         self.exerciseModelSource = exerciseModelSource
         self.delegate = delegate
+        let slackingModel = exerciseModelSource.getExerciseModel(id: "slacking")
+        eneClassifier = try! MKClassifier(model: slackingModel)
     }
     
     private func classify(exerciseModelId exerciseModelId: MKExerciseModelId, sensorData: MKSensorData) -> [MKClassifiedExercise]? {
         do {
-            let slackingModel = exerciseModelSource.getExerciseModel(id: "slacking")
-            let slackingClassifier = try MKClassifier(model: slackingModel)
             let exerciseModel = exerciseModelSource.getExerciseModel(id: exerciseModelId)
             let exerciseClassifier = try MKClassifier(model: exerciseModel)
 
-            // identify exercising (vs slacking) blocks
-            let results = try slackingClassifier.classify(block: sensorData, maxResults: 2)
+            return try exerciseClassifier.classify(block: sensorData, maxResults: 10)
+            
+            // TODO: the exercise / no exercise model is not yet trained fully.
+            let results = try eneClassifier.classify(block: sensorData, maxResults: 2)
+            NSLog("Exercise / no exercise \(results)")
             return results.flatMap { result -> [MKClassifiedExercise] in
                 if result.exerciseId == "E" {
                     // this is an exercise block - get the corresponding data section
