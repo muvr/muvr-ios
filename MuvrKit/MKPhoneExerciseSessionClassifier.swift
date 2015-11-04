@@ -118,10 +118,8 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     ///
     /// returns a function that shift the exercise's offset by the specified value
     ///
-    private func shiftOffset(offset: MKTimestamp) -> MKClassifiedExercise -> MKClassifiedExercise {
-        return { (x) -> MKClassifiedExercise in
-            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset + offset, repetitions: x.repetitions, intensity: x.intensity, weight: x.weight)
-        }
+    private func shiftOffset(offset: MKTimestamp)(x: MKClassifiedExercise) -> MKClassifiedExercise {
+        return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset + offset, repetitions: x.repetitions, intensity: x.intensity, weight: x.weight)
     }
     
 }
