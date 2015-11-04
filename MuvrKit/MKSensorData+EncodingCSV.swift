@@ -10,7 +10,7 @@ private extension NSMutableData {
 
 public extension MKSensorData {
     
-    public func encodeAsCsv(labelledExercises labelledExercises: [MKLabelledExercise]) -> NSData {
+    public func encodeAsCsv(sessionStart sessionStart: MKTimestamp, labelledExercises: [MKLabelledExercise]) -> NSData {
         // export data in CSV format: alwx,alwy,alwz,...,hr,...[,L,I,W,R]
         // alw: Accelerometer left wrist
         // hr: Heart rate
@@ -20,7 +20,7 @@ public extension MKSensorData {
         // R: repetitions
         
         func findLabel(row: Int) -> MKLabelledExercise? {
-            let now = start + (Double(row) / Double(samplesPerSecond))
+            let now = sessionStart + start + (Double(row) / Double(samplesPerSecond))
             
             func sampleBelongsTo(label: MKLabelledExercise) -> Bool {
                 let start = label.start.timeIntervalSince1970

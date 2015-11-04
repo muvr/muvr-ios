@@ -79,15 +79,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
 
         // loading layer/label
-        let layerStr = loadTextFiles(path: bundlePath, filename: "demo_model.layers", ext: "txt", separator: NSCharacterSet.whitespaceCharacterSet())
+        let layerStr = loadTextFiles(path: bundlePath, filename: "\(id)_model.layers", ext: "txt", separator: NSCharacterSet.whitespaceCharacterSet())
         let layer = layerStr.map {Int($0)!}
-        let label = loadTextFiles(path: bundlePath, filename: "demo_model.labels", ext: "txt", separator: NSCharacterSet.newlineCharacterSet())
+        let label = loadTextFiles(path: bundlePath, filename: "\(id)_model.labels", ext: "txt", separator: NSCharacterSet.newlineCharacterSet())
 
-        let modelPath = NSBundle(path: bundlePath)!.pathForResource("demo_model.weights", ofType: "raw")!
+        let modelPath = NSBundle(path: bundlePath)!.pathForResource("\(id)_model.weights", ofType: "raw")!
         let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
         let model = MKExerciseModel(layerConfig: layer, weights: weights,
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
-            //exerciseIds: ["arms/biceps-curl", "arms/lateral-raise", "arms/triceps-extension"],
             exerciseIds: label,
             minimumDuration: 8)
         return model

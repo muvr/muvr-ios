@@ -39,6 +39,11 @@ public enum MKSensorDataError : ErrorType {
     /// The data is empty
     ///
     case BadTypes
+    
+    ///
+    /// the requested subset is not entirely included in this MKSensorData
+    ///
+    case SliceOutOfRange
 }
 
 ///
@@ -139,6 +144,19 @@ public struct MKSensorData {
     mutating func merge(that: MKSensorData) throws {
     }
     */
+    
+    ///
+    /// returns a new MKSensorData containing only the data for the specified period
+    ///
+    public func slice(offset: MKTimestamp, duration: MKDuration) throws -> MKSensorData {
+        if offset < start || offset + duration > end {
+            throw MKSensorDataError.SliceOutOfRange
+        }
+        let sampleStart = dimension * Int(samplesPerSecond) * Int(offset - start)
+        let sampleEnd = sampleStart + dimension * Int(samplesPerSecond) * Int(duration)
+        let data = samples[sampleStart..<sampleEnd]
+        return try MKSensorData(types: types, start: offset, samplesPerSecond: samplesPerSecond, samples: Array(data))
+    }
     
     ///
     /// Appends ``that`` to this by filling in the gaps or resolving the overlaps if necessary

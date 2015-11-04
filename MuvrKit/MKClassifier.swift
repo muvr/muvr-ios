@@ -103,8 +103,7 @@ public struct MKClassifier {
         var result: [MKClassifiedExerciseBlock] = []
         var accumulator: MKClassifiedExerciseBlock? = nil
         for var i = 0; i < cews.count; ++i {
-            let cew = cews[i]
-            NSLog("\(cew.window) -> \(cews[i].classifiedExerciseBlocks.first)")
+            NSLog("\(cews[i])")
             if let current = cews[i].classifiedExerciseBlocks.first {
                 if accumulator == nil {
                     accumulator = current
