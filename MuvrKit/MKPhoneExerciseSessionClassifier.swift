@@ -13,11 +13,6 @@ public protocol MKExerciseModelSource {
     ///
     func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel
     
-    ///
-    /// Gets the exercise/slacking model
-    ///
-    func getSlackingModel() -> MKExerciseModel
-    
 }
 
 ///
@@ -52,7 +47,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     
     private func classify(exerciseModelId exerciseModelId: MKExerciseModelId, sensorData: MKSensorData) -> [MKClassifiedExercise]? {
         do {
-            let slackingModel = exerciseModelSource.getSlackingModel()
+            let slackingModel = exerciseModelSource.getExerciseModel(id: "slacking")
             let slackingClassifier = try MKClassifier(model: slackingModel)
             let exerciseModel = exerciseModelSource.getExerciseModel(id: exerciseModelId)
             let exerciseClassifier = try MKClassifier(model: exerciseModel)

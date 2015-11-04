@@ -47,17 +47,6 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource {
         return model
     }
     
-    func getSlackingModel() -> MKExerciseModel {
-        let modelPath = NSBundle(forClass: MKClassifierTests.self).pathForResource("model-3", ofType: "raw")!
-        let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
-        let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: weights,
-            sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
-            exerciseIds: ["E", "-", "-"],
-            minimumDuration: 8)
-        
-        return model
-    }
-    
     ///
     /// Tests that the simple flow of start -> one block of sensor data -> end works as expected, namely that:
     /// - classification triggers some time after receiving sensor data
