@@ -147,7 +147,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             
             if simulatedSamples {
                 let samples = (0..<sampleCount).map { _ in return Float(0) }
-                return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: samples)
+                return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
             } else {
                 return recorder.accelerometerDataFromDate(from, toDate: to).flatMap { (recordedData: CMSensorDataList) -> MKSensorData? in
                     let samples = recordedData.enumerate().flatMap { (_, e) -> [Float] in
@@ -162,7 +162,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                         NSLog("Not yet flushed buffer. Expected \(sampleCount), got \(samples.count)")
                         return nil
                     }
-                    return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: samples)
+                    return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
                 }
             }
         }

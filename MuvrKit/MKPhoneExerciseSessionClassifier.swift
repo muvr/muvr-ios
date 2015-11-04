@@ -105,8 +105,8 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     public func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) {
         guard let exerciseSession = sessions.last else { return }
         
-        // accumulated contains all sensor data (including new)
-        let shift = shiftOffset(accumulated.duration - new.duration)
+        // compute the offset from the start of the session
+        let shift = shiftOffset(new.start - accumulated.start)
         
         dispatch_async(classificationQueue) {
             if let classified = self.classify(exerciseModelId: session.exerciseModelId, sensorData: new) {

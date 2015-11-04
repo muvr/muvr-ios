@@ -92,11 +92,10 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     @IBAction func shareCSV() {
         if let data = session?.sensorData,
             let sessionId = session?.id,
-            let sessionStart = session?.start.timeIntervalSince1970,
             let labelledExercises = session?.labelledExercises.allObjects as? [MRManagedLabelledExercise],
             let exerciseModel = session?.exerciseModelId,
             let sensorData = try? MKSensorData(decoding: data) {
-                let csvData = sensorData.encodeAsCsv(sessionStart: sessionStart, labelledExercises: labelledExercises)
+                let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
                 share(csvData, fileName: "\(exerciseModel)_\(sessionId).csv")
         }
     }

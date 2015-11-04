@@ -149,13 +149,13 @@ public struct MKSensorData {
     /// returns a new MKSensorData containing only the data for the specified period
     ///
     public func slice(offset: MKTimestamp, duration: MKDuration) throws -> MKSensorData {
-        if offset < start || offset + duration > end {
+        if offset < 0 || offset + duration > self.duration {
             throw MKSensorDataError.SliceOutOfRange
         }
-        let sampleStart = dimension * Int(samplesPerSecond) * Int(offset - start)
+        let sampleStart = dimension * Int(samplesPerSecond) * Int(offset)
         let sampleEnd = sampleStart + dimension * Int(samplesPerSecond) * Int(duration)
         let data = samples[sampleStart..<sampleEnd]
-        return try MKSensorData(types: types, start: offset, samplesPerSecond: samplesPerSecond, samples: Array(data))
+        return try MKSensorData(types: types, start: start + offset, samplesPerSecond: samplesPerSecond, samples: Array(data))
     }
     
     ///
