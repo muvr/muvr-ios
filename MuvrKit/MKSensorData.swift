@@ -43,7 +43,7 @@ public enum MKSensorDataError : ErrorType {
     ///
     /// the requested subset is not entirely included in this MKSensorData
     ///
-    case SplitOutOfRange
+    case SliceOutOfRange
 }
 
 ///
@@ -145,9 +145,12 @@ public struct MKSensorData {
     }
     */
     
-    public func splitAt(offset: MKTimestamp, duration: MKDuration) throws -> MKSensorData {
+    ///
+    /// returns a new MKSensorData containing only the data for the specified period
+    ///
+    public func slice(offset: MKTimestamp, duration: MKDuration) throws -> MKSensorData {
         if offset < start || offset + duration > end {
-            throw MKSensorDataError.SplitOutOfRange
+            throw MKSensorDataError.SliceOutOfRange
         }
         let sampleStart = dimension * Int(samplesPerSecond) * Int(offset - start)
         let sampleEnd = sampleStart + dimension * Int(samplesPerSecond) * Int(duration)

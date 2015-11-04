@@ -60,7 +60,8 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
             let results = try slackingClassifier.classify(block: sensorData, maxResults: 2)
             return results.flatMap { result -> [MKClassifiedExercise] in
                 if result.exerciseId == "E" {
-                    let data = try! sensorData.splitAt(result.offset, duration: result.duration)
+                    // get the data corresponding to this exercise block
+                    let data = try! sensorData.slice(result.offset, duration: result.duration)
                     let exercises = try! exerciseClassifier.classify(block: data, maxResults: 10)
                     return exercises.map(self.shiftOffset(result.offset))
                 } else {
