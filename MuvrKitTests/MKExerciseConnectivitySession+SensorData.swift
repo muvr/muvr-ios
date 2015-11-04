@@ -13,7 +13,7 @@ extension MKExerciseConnectivitySession {
     /// - returns: the copied instance
     ///
     func withData(sensorData: MKSensorData) -> MKExerciseConnectivitySession {
-        var x = MKExerciseConnectivitySession(id: self.id, exerciseModelId: self.exerciseModelId, start: self.start)
+        var x = MKExerciseConnectivitySession(id: self.id, exerciseModelId: self.exerciseModelId, start: self.start, end: self.end)
         x.sensorData = sensorData
         return x
     }

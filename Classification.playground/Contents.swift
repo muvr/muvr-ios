@@ -26,9 +26,8 @@ func model(named name: String, layerConfig: [Int], labels: [String]) -> MKExerci
 }
 
 //: ### Construct a classifier
-let exerciseClassifier = try MKClassifier(model: model(named: "demo", layerConfig: [1200, 250, 100, 3], labels: ["biceps-curl", "lateral-raise", "triceps-extension"]))
+let exerciseClassifier = try MKClassifier(model: model(named: "demo_model.weights", layerConfig: [1200, 250, 100, 3], labels: ["arms/biceps-curl", "arms/triceps-extension", "shoulders/lateral-raise"]))
 let activityClassifier = try MKClassifier(model: model(named: "activity", layerConfig: [1200, 500, 100, 25, 2], labels: ["E", "-"]))
-
 //: ### Load the data from the session
 //let resourceName = "no-movement-face-up"
 let resourceName = "bc-only"
