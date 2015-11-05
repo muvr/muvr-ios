@@ -145,9 +145,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             let duration = to.timeIntervalSinceDate(from)
             let sampleCount = 3 * 50 * Int(duration)
             
-            func isInRange(time: NSDate) -> Bool {
-                let ts = time.timeIntervalSince1970
-                return from.timeIntervalSince1970 <= ts && ts <= to.timeIntervalSince1970
+            func isInRange(sample: CMRecordedAccelerometerData) -> Bool {
+                return from.timeIntervalSince1970 <= sample.startDate.timeIntervalSince1970
             }
             
             if simulatedSamples {
@@ -156,10 +155,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             } else {
                 return recorder.accelerometerDataFromDate(from, toDate: to).flatMap { (recordedData: CMSensorDataList) -> MKSensorData? in
                     let samples = recordedData.enumerate().flatMap { (_, e) -> [Float] in
-                        if let data = e as? CMRecordedAccelerometerData where isInRange(data.startDate) {
+                        if let data = e as? CMRecordedAccelerometerData where isInRange(data) {
                             return [Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)]
                         }
-                        NSLog("Received data outside out range: \(e)")
+                        NSLog("Received data outside of range: \(e)")
                         return []
                     }
                     NSLog("Expected \(sampleCount) samples and got \(samples.count)")
