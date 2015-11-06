@@ -109,7 +109,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Ends the current session
     ///
     public func endLastSession() {
-        if let (session, props) = mostImportantSessionsEntry() {
+        if let (session, props) = currentSession {
             sessions[session] = props.with(end: NSDate())
             execute()
         }
@@ -145,24 +145,30 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             let duration = to.timeIntervalSinceDate(from)
             let sampleCount = 3 * 50 * Int(duration)
             
+            func isInRange(sample: CMRecordedAccelerometerData) -> Bool {
+                return from.timeIntervalSince1970 <= sample.startDate.timeIntervalSince1970
+            }
+            
             if simulatedSamples {
                 let samples = (0..<sampleCount).map { _ in return Float(0) }
-                return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: samples)
+                return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
             } else {
                 return recorder.accelerometerDataFromDate(from, toDate: to).flatMap { (recordedData: CMSensorDataList) -> MKSensorData? in
                     let samples = recordedData.enumerate().flatMap { (_, e) -> [Float] in
-                        if let data = e as? CMRecordedAccelerometerData {
+                        if let data = e as? CMRecordedAccelerometerData where isInRange(data) {
                             return [Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)]
                         }
+                        NSLog("Received data outside of range: \(e)")
                         return []
                     }
+                    NSLog("Expected \(sampleCount) samples and got \(samples.count)")
                     // remember to check for truly complete block
                     // it's OK to leave out the very last window
                     if samples.count < (sampleCount - 1200) && requireAll {
                         NSLog("Not yet flushed buffer. Expected \(sampleCount), got \(samples.count)")
                         return nil
                     }
-                    return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: samples)
+                    return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
                 }
             }
         }
