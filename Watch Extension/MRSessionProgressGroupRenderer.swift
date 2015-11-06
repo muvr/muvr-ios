@@ -18,9 +18,9 @@ class MRSessionProgressGroupRenderer : NSObject {
     
     func update() {
         if let (session, props) = MRExtensionDelegate.sharedDelegate().currentSession {
-            let text = NSDateComponentsFormatter().stringFromTimeInterval(session.duration)!
+            let text = NSDateComponentsFormatter().stringFromTimeInterval(props.duration)!
             group.titleLabel.setText(session.modelId)
-            group.timeLabel.setText("\(text) - \(Int(session.duration) * 50)")
+            group.timeLabel.setText("\(text) - \(Int(props.duration) * 50)")
             group.statsLabel.setText("R \(props.recorded), S \(props.sent)")
         } else {
             group.titleLabel.setText("Idle")

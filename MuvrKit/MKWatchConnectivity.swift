@@ -85,10 +85,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter sensorData: the sensor data to be transferred
     ///
     public func transferDemoSensorDataForCurrentSession(sensorData: MKSensorData) {
-        for (session, props) in sessions where props.end == nil && session.demo {
-            self.sessions[session] = props.with(accelerometerStart: NSDate(), recorded: sensorData.rowCount)
+        for (session, props) in sessions where !props.ended && session.demo {
+            self.sessions[session] = props.with(recorded: sensorData.rowCount)
             transferSensorDataBatch(sensorData, session: session, props: props) {
-                self.sessions[session] = props.with(sent: sensorData.rowCount)
+                self.sessions[session] = props.with(accelerometerStart: NSDate(), sent: sensorData.rowCount)
             }
             NSLog("Transferred.")
             return
@@ -111,6 +111,9 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     public func endLastSession() {
         if let (session, props) = currentSession {
             sessions[session] = props.with(end: NSDate())
+            // notify phone that this session is over
+            WCSession.defaultSession().transferUserInfo(session.metadata.plus(props.metadata))
+            // still try to send remaining data
             execute()
         }
     }
@@ -135,7 +138,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// constructing the messages and dealing with session clean-up.
     ///
     public func execute() {
-        func getSamples(from from: NSDate, to: NSDate, requireAll: Bool, demo: Bool) -> MKSensorData? {
+        func getSamples(from from: NSDate, to: NSDate, demo: Bool) -> MKSensorData? {
             var simulatedSamples = demo
             
             #if (arch(i386) || arch(x86_64))
@@ -162,12 +165,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                         return []
                     }
                     NSLog("Expected \(sampleCount) samples and got \(samples.count)")
-                    // remember to check for truly complete block
-                    // it's OK to leave out the very last window
-                    if samples.count < (sampleCount - 1200) && requireAll {
-                        NSLog("Not yet flushed buffer. Expected \(sampleCount), got \(samples.count)")
-                        return nil
-                    }
                     return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
                 }
             }
@@ -195,25 +192,30 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             
             // if this session is meant to end, we require all sensor data to be available.
             // there is a neater way, but this saves memory
-            guard let sensorData = getSamples(from: from, to: to, requireAll: props.end != nil, demo: session.demo) else {
+            guard let sensorData = getSamples(from: from, to: to, demo: session.demo) else {
                 NSLog("Not enough sensor data in \(from) - \(to)")
                 return
             }
 
-            // set the expected range of samples on the next call
-            let updatedProps = props.with(accelerometerStart: from.dateByAddingTimeInterval(sensorData.duration), recorded: sensorData.rowCount)
+            // update the number of recorded samples
+            let updatedProps = props.with(recorded: sensorData.rowCount)
             self.sessions[session] = updatedProps
             
             // transfer what we have so far
-            transferSensorDataBatch(sensorData, session: session, props: props) {
+            transferSensorDataBatch(sensorData, session: session, props: updatedProps) {
+                // set the expected range of samples on the next call
+                let readFromDate = from.dateByAddingTimeInterval(sensorData.duration)
+                let finalProps = updatedProps.with(accelerometerStart: readFromDate, sent: sensorData.rowCount)
+                self.sessions[session] = finalProps
+
                 // update the session with incremented sent counter
-                if props.end == nil {
-                    self.sessions[session] = updatedProps.with(sent: sensorData.rowCount)
-                } else {
+                if finalProps.completed {
+                    NSLog("Remove completed session \(session)")
                     self.sessions.removeValueForKey(session)
                     // we're done with this session, we can move on to the next one
                     dispatch_async(self.transferQueue, processFirstSession)
                 }
+                
                 NSLog("Transferred \(sensorData.rowCount) samples; with \(self.sessions.count) active sessions.")
             }
         }

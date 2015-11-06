@@ -33,28 +33,31 @@ public struct MKExerciseSessionProperties {
         return end != nil
     }
     
-    /// Copies this instance incrementing the ``sent`` field
-    internal func with(sent sd: Int) -> MKExerciseSessionProperties {
-        return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent + sd)
-    }
-    
     /// Copies this instance assigning the ``end`` field
     internal func with(end end: NSDate) -> MKExerciseSessionProperties {
         return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent)
     }
     
-    /// Copies this instance assigning the ``accelerometerStart`` field and incrementing the ``recorded`` field.
-    internal func with(accelerometerStart accelerometerStart: NSDate, recorded rd: Int) -> MKExerciseSessionProperties {
-        return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, end: end, recorded: recorded + rd, sent: sent)
+    /// Copies this instance incrementing the ``recorded`` field.
+    internal func with(recorded rd: Int) -> MKExerciseSessionProperties {
+        // new recorded value is send + rd (because all recorded samples might not have been sent)
+        return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, end: end, recorded: sent + rd, sent: sent)
     }
     
+    /// Copies this instance assigning the ``accelerometerStart`` field and incrementing the ``sent`` field.
+    internal func with(accelerometerStart accelerometerStart: NSDate, sent st: Int) -> MKExerciseSessionProperties {
+        return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent + st)
+    }
+    
+    /// Indicates the session duration
+    /// if the session is not over it indicates the elpased time since session start
     public var duration: NSTimeInterval {
         let end = self.end ?? NSDate()
         return end.timeIntervalSinceDate(start)
     }
     
     /// Indicates whether the props represent completed session
-    public var completed: Bool {
+    internal var completed: Bool {
         // a session is completed when ended
         // and all data sent over
         return ended && sent >= Int(duration * 50)
