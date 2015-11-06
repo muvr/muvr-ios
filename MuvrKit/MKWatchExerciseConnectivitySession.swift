@@ -22,6 +22,7 @@ public struct MKExerciseSessionStats {
 /// Tracks the data sent and session end date
 ///
 public struct MKExerciseSessionProperties {
+    public let start: NSDate // session start date
     public let accelerometerStart: NSDate?
     public let end: NSDate?
     public let recorded: Int
@@ -34,17 +35,29 @@ public struct MKExerciseSessionProperties {
     
     /// Copies this instance incrementing the ``sent`` field
     internal func with(sent sd: Int) -> MKExerciseSessionProperties {
-        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent + sd)
+        return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent + sd)
     }
     
     /// Copies this instance assigning the ``end`` field
     internal func with(end end: NSDate) -> MKExerciseSessionProperties {
-        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent)
+        return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent)
     }
     
     /// Copies this instance assigning the ``accelerometerStart`` field and incrementing the ``recorded`` field.
     internal func with(accelerometerStart accelerometerStart: NSDate, recorded rd: Int) -> MKExerciseSessionProperties {
-        return MKExerciseSessionProperties(accelerometerStart: accelerometerStart, end: end, recorded: recorded + rd, sent: sent)
+        return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, end: end, recorded: recorded + rd, sent: sent)
+    }
+    
+    public var duration: NSTimeInterval {
+        let end = self.end ?? NSDate()
+        return end.timeIntervalSinceDate(start)
+    }
+    
+    /// Indicates whether the props represent completed session
+    public var completed: Bool {
+        // a session is completed when ended
+        // and all data sent over
+        return ended && sent >= Int(duration * 50)
     }
 }
 
@@ -61,10 +74,6 @@ public struct MKExerciseSession: Hashable, Equatable {
     public let demo: Bool
     /// the model id
     public let modelId: MKExerciseModelId
-    /// the session's duration
-    public var duration: NSTimeInterval {
-        return NSDate().timeIntervalSinceDate(start)
-    }
     
     /// implmenetation of Hashable.hashValue
     public var hashValue: Int {

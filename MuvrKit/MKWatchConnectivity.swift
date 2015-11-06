@@ -252,7 +252,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func startSession(modelId: MKExerciseModelId, demo: Bool) {
         let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), demo: demo, modelId: modelId)
-        sessions[session] = MKExerciseSessionProperties(accelerometerStart: nil, end: nil, recorded: 0, sent: 0)
+        sessions[session] = MKExerciseSessionProperties(start: session.start, accelerometerStart: nil, end: nil, recorded: 0, sent: 0)
         WCSession.defaultSession().transferUserInfo(session.metadata)
     }
     
