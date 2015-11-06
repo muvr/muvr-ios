@@ -102,6 +102,9 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
             let exerciseSession = MKExerciseSession(exerciseConnectivitySession: session)
             sessions.append(exerciseSession)
             dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidStart(exerciseSession) }
+            if (session.end != nil) {
+                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEnd(exerciseSession, sensorData: session.sensorData) }
+            }
         }
     }
     

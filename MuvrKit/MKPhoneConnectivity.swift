@@ -34,6 +34,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             sessions.append(session)
             // issue a session start
             exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidStart(session: session)
+            if (session.end != nil) {
+                // issue a session end too because this session is already over
+                exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidStart(session: session)
+            }
         }
         sessions[index].last = session.last
         if sessions[index].end == nil && session.end != nil {
