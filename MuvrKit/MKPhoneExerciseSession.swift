@@ -7,6 +7,10 @@ public struct MKExerciseSession {
     public let exerciseModelId: MKExerciseModelId
     /// the start timestamp
     public let start: NSDate
+    /// the end timestamp
+    public let end: NSDate?
+    /// the completed flag
+    public let completed: Bool
     
     ///
     /// Constructs this instance from the values in ``exerciseConnectivitySession``
@@ -17,6 +21,8 @@ public struct MKExerciseSession {
         self.id = exerciseConnectivitySession.id
         self.exerciseModelId = exerciseConnectivitySession.exerciseModelId
         self.start = exerciseConnectivitySession.start
+        self.end = exerciseConnectivitySession.end
+        self.completed = exerciseConnectivitySession.last
     }
         
 }
