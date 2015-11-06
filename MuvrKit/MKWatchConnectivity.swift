@@ -56,6 +56,13 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     }
     
     ///
+    /// Returns the list of active sessions
+    ///
+    public var activeSessions: [(MKExerciseSession, MKExerciseSessionProperties)] {
+        return sessions.map { (session, props) in (session, props) }
+    }
+    
+    ///
     /// Sends the sensor data ``data`` invoking ``onDone`` when the operation completes. The callee should
     /// check the value of ``SendDataResult`` to see if it should retry the transimssion, or if it can safely
     /// trim the data it has collected so far.
@@ -110,9 +117,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func endLastSession() {
         if let (session, props) = currentSession {
-            sessions[session] = props.with(end: NSDate())
+            let endedProps = props.with(end: NSDate())
+            sessions[session] = endedProps
             // notify phone that this session is over
-            WCSession.defaultSession().transferUserInfo(session.metadata.plus(props.metadata))
+            WCSession.defaultSession().transferUserInfo(session.metadata.plus(endedProps.metadata))
             // still try to send remaining data
             execute()
         }
@@ -317,9 +325,13 @@ private extension MKExerciseSessionProperties {
             "sent" : sent,
         ]
         if let end = end { md["end"] = end.timeIntervalSince1970 }
-        if let accelerometerStart = accelerometerStart { md["accelerometerStart"] = accelerometerStart.timeIntervalSince1970 }
-        
+        if lastChunk { md["last"] = true }
         return md
+    }
+    
+    /// Indicates if this chunk is the last of the session
+    private var lastChunk: Bool {
+        return ended && recorded >= (Int(duration) * 50)
     }
     
 }

@@ -32,6 +32,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 // update the existing session with the received end timestamp
                 sessions[index].end = session.end
             }
+            sessions[index].last = session.last
             // return the existing session as it contains all accumulated data
             return sessions[index]
         } else {
@@ -45,8 +46,17 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
       
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
         if let session = MKExerciseConnectivitySession.fromMetadata(userInfo) {
-            sessions.append(session)
-            exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidStart(session: session)
+            if (session.end == nil) {
+                sessions.append(session)
+                exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidStart(session: session)
+            } else {
+                if (sessions.indexOf { $0.id == session.id }) == nil {
+                    // for some reason this session was not known (watch disconnected?)
+                    sessions.append(session)
+                }
+                // do not remove the session yet as it may not be completed (missing data)
+                exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidEnd(session: session)
+            }
         }
     }
     
@@ -92,7 +102,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         }
         
         // check to see if the file we've received is the only / last file we'll get
-        if connectivitySession.end != nil {
+        if connectivitySession.last {
             if let index = (sessions.indexOf { $0.id == connectivitySession.id }) {
                 sessions.removeAtIndex(index)
                 exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidEnd(session: connectivitySession)
