@@ -109,14 +109,19 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Ends the current session
     ///
     public func endLastSession() {
-        if let (session, props) = currentSession {
+        if let (session, props) = currentSession where !props.ended {
+            objc_sync_enter(self)
+            defer { objc_sync_exit(self) }
+            
             let endedProps = props.with(end: NSDate())
             sessions[session] = endedProps
             // notify phone that this session is over
             WCSession.defaultSession().transferUserInfo(session.metadata.plus(endedProps.metadata))
-            // still try to send remaining data
-            execute()
+        } else {
+            NSLog("No session to end")
         }
+        // still try to send remaining data
+        execute()
     }
     
     ///
@@ -191,10 +196,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
             
-            // if this session is meant to end, we require all sensor data to be available.
-            // there is a neater way, but this saves memory
             guard let sensorData = getSamples(from: from, to: to, demo: session.demo) else {
-                NSLog("Not enough sensor data in \(from) - \(to)")
+                NSLog("No sensor data in \(from) - \(to)")
                 return
             }
 
@@ -254,6 +257,9 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter demo: set for demo mode
     ///
     public func startSession(modelId: MKExerciseModelId, demo: Bool) {
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+        
         let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), demo: demo, modelId: modelId)
         sessions[session] = MKExerciseSessionProperties(start: session.start, accelerometerStart: nil, end: nil, recorded: 0, sent: 0)
         WCSession.defaultSession().transferUserInfo(session.metadata)
@@ -324,7 +330,7 @@ private extension MKExerciseSessionProperties {
     
     /// Indicates if this chunk is the last of the session
     private var lastChunk: Bool {
-        return ended && recorded >= (Int(duration) * 50)
+        return ended && recorded >= (Int(duration - 8.0) * 50) // ok if miss last data window
     }
     
 }

@@ -60,7 +60,7 @@ public struct MKExerciseSessionProperties {
     internal var completed: Bool {
         // a session is completed when ended
         // and all data sent over
-        return ended && sent >= Int(duration * 50)
+        return ended && sent >= Int(duration - 8.0) * 50 // it's ok to miss the last window
     }
 }
 
