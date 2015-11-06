@@ -8,6 +8,4 @@ protocol MRSessionProgressGroup {
     
     var statsLabel: WKInterfaceLabel! { get }
     
-    var sessionsLabel: WKInterfaceLabel! { get }
-    
 }

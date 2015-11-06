@@ -43,7 +43,6 @@
                                         </label>
                                         <label alignment="left" text="Time" id="gfN-Vo-zov"/>
                                         <label alignment="left" text="Stats" id="RKG-1P-IR2"/>
-                                        <label alignment="left" text="Sessions" id="SPY-0R-e43"/>
                                         <table alignment="left" id="t9X-s3-pCm">
                                             <items>
                                                 <tableRow identifier="exercise" id="lX0-fg-QRi" customClass="MRExerciseRow" customModule="Watch_Extension">
@@ -70,7 +69,6 @@
                         <outlet property="exerciseModel" destination="JBL-em-o3w" id="zdN-1a-r3P"/>
                         <outlet property="exercisesTable" destination="t9X-s3-pCm" id="u4s-Pu-Rc2"/>
                         <outlet property="progressGroup" destination="U8c-fr-ind" id="NHD-H5-fF9"/>
-                        <outlet property="sessionsLabel" destination="SPY-0R-e43" id="RP2-99-qbE"/>
                         <outlet property="startGroup" destination="ys7-T7-jXZ" id="mSK-xj-l8g"/>
                         <outlet property="statsLabel" destination="RKG-1P-IR2" id="HGp-jw-GQx"/>
                         <outlet property="timeLabel" destination="gfN-Vo-zov" id="5xH-Ng-4HT"/>
@@ -100,13 +98,11 @@
                                         <label alignment="left" text="Stats" numberOfLines="3" id="II9-Zb-NiH"/>
                                     </items>
                                 </group>
-                                <label height="19.5" alignment="left" text="Sessions" id="RRj-Yc-vuK"/>
                             </items>
                         </group>
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                     <connections>
-                        <outlet property="sessionsLabel" destination="RRj-Yc-vuK" id="VV2-nm-76T"/>
                         <outlet property="statsLabel" destination="II9-Zb-NiH" id="pC1-w4-y9C"/>
                         <outlet property="timeLabel" destination="C7v-lb-EWk" id="g0t-mw-xP6"/>
                         <outlet property="titleLabel" destination="BI0-zu-H9t" id="fsg-kQ-N4Z"/>

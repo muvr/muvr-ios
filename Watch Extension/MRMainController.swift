@@ -20,7 +20,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     @IBOutlet weak var titleLabel: WKInterfaceLabel!
     @IBOutlet weak var timeLabel: WKInterfaceLabel!
     @IBOutlet weak var statsLabel: WKInterfaceLabel!
-    @IBOutlet var sessionsLabel: WKInterfaceLabel!
     
     private let exercises = [
         ("demo-bc-only", "Biceps curl"),

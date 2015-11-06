@@ -24,11 +24,6 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
         return connectivity.currentSession
     }
     
-    /// All the active sessions
-    var activeSessions: [(MKExerciseSession, MKExerciseSessionProperties)] {
-        return connectivity.activeSessions
-    }
-    
     /// The description
     override var description: String {
         return connectivity.description

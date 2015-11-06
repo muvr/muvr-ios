@@ -27,12 +27,5 @@ class MRSessionProgressGroupRenderer : NSObject {
             group.timeLabel.setText(MRExtensionDelegate.sharedDelegate().description)
             group.statsLabel.setText(buildDate())
         }
-        
-        let sessions = MRExtensionDelegate.sharedDelegate().activeSessions
-        if sessions.isEmpty {
-            group.sessionsLabel.setText("No sessions")
-        } else {
-            group.sessionsLabel.setText("Sessions: \(sessions.count)")
-        }
     }
 }

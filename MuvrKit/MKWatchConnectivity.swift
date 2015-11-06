@@ -56,13 +56,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     }
     
     ///
-    /// Returns the list of active sessions
-    ///
-    public var activeSessions: [(MKExerciseSession, MKExerciseSessionProperties)] {
-        return sessions.map { (session, props) in (session, props) }
-    }
-    
-    ///
     /// Sends the sensor data ``data`` invoking ``onDone`` when the operation completes. The callee should
     /// check the value of ``SendDataResult`` to see if it should retry the transimssion, or if it can safely
     /// trim the data it has collected so far.
@@ -268,8 +261,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     
     /// The debug description
     public override var description: String {
-        if let (s, p) = sessions.first {
-            return "\(sessions.count): \(s.id.characters.first!): \(s.start)-\(p.end)"
+        if let (s, p) = mostImportantSessionsEntry() {
+            return "\(sessions.count): \(s.id.characters.first!): \(p.sent)/\(Int(p.duration) * 50)"
         }
         return "0"
     }
