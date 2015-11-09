@@ -85,7 +85,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func transferDemoSensorDataForCurrentSession(sensorData: MKSensorData) {
         for (session, props) in sessions where !props.ended && session.demo {
-            self.sessions[session] = props.with(recorded: sensorData.rowCount)
+            self.sessions[session] = props.with(accelerometerEnd: NSDate())
             transferSensorDataBatch(sensorData, session: session, props: props) {
                 self.sessions[session] = props.with(accelerometerStart: NSDate())
             }
@@ -222,13 +222,13 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             }
 
             // update the number of recorded samples
-            let updatedProps = props.with(recorded: sensorData.rowCount)
+            let readFromDate = NSDate(timeIntervalSince1970: sensorData.end)
+            let updatedProps = props.with(accelerometerEnd: readFromDate)
             self.sessions[session] = updatedProps
             
             // transfer what we have so far
             transferSensorDataBatch(sensorData, session: session, props: updatedProps) {
                 // set the expected range of samples on the next call
-                let readFromDate = NSDate(timeIntervalSince1970: sensorData.end)
                 let finalProps = updatedProps.with(accelerometerStart: readFromDate)
                 self.sessions[session] = finalProps
 
@@ -281,7 +281,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         defer { objc_sync_exit(self) }
         
         let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), demo: demo, modelId: modelId)
-        sessions[session] = MKExerciseSessionProperties(start: session.start, accelerometerStart: nil, end: nil, recorded: 0, sent: 0)
+        sessions[session] = MKExerciseSessionProperties(start: session.start)
         WCSession.defaultSession().transferUserInfo(session.metadata)
     }
     
