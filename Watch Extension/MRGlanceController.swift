@@ -6,7 +6,6 @@ class MRGlanceController: WKInterfaceController, MRSessionProgressGroup {
     @IBOutlet weak var titleLabel: WKInterfaceLabel!
     @IBOutlet weak var timeLabel: WKInterfaceLabel!
     @IBOutlet weak var statsLabel: WKInterfaceLabel!
-    @IBOutlet weak var sessionsLabel: WKInterfaceLabel!
     private var renderer: MRSessionProgressGroupRenderer?
 
     override func awakeWithContext(context: AnyObject?) {

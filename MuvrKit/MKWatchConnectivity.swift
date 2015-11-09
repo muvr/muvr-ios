@@ -48,10 +48,9 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Returns the first encountered un-ended session
     ///
     public var currentSession: (MKExerciseSession, MKExerciseSessionProperties)? {
-        for (session, props) in sessions where props.end == nil {
+        if let (session, props) = mostImportantSessionsEntry() where !props.ended {
             return (session, props)
         }
-        
         return nil
     }
     
@@ -88,7 +87,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         for (session, props) in sessions where !props.ended && session.demo {
             self.sessions[session] = props.with(recorded: sensorData.rowCount)
             transferSensorDataBatch(sensorData, session: session, props: props) {
-                self.sessions[session] = props.with(accelerometerStart: NSDate(), sent: sensorData.rowCount)
+                self.sessions[session] = props.with(accelerometerStart: NSDate())
             }
             NSLog("Transferred.")
             return
@@ -128,6 +127,9 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Returns the most important session for processing, if available
     ///
     private func mostImportantSessionsEntry() -> (MKExerciseSession, MKExerciseSessionProperties)? {
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+        
         // pick the not-yet-ended session first
         for (session, props) in sessions {
             if props.end == nil {
@@ -154,24 +156,42 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             let duration = to.timeIntervalSinceDate(from)
             let sampleCount = 3 * 50 * Int(duration)
             
+            // Indicates if the expected sample is in the requested range
             func isInRange(sample: CMRecordedAccelerometerData) -> Bool {
+                // check only 'start' time - don't care about end of range
                 return from.timeIntervalSince1970 <= sample.startDate.timeIntervalSince1970
+            }
+            
+            // Indicates if the sample is the expected one (regarding recorded time)
+            // It allows to check for ``missing`` samples in the requested range
+            func isExpectedSample(sample: CMRecordedAccelerometerData, lastTime: NSDate?) -> Bool {
+                if lastTime == nil { // first sample check it is in range
+                    return isInRange(sample)
+                } else { // check sample is not more than 40ms apart from last one
+                    return sample.startDate.timeIntervalSinceDate(lastTime!) < 0.4
+                }
             }
             
             if simulatedSamples {
                 let samples = (0..<sampleCount).map { _ in return Float(0) }
                 return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
             } else {
+                var sampleStart: NSDate? = nil
+                var lastTime: NSDate? = nil
                 return recorder.accelerometerDataFromDate(from, toDate: to).flatMap { (recordedData: CMSensorDataList) -> MKSensorData? in
                     let samples = recordedData.enumerate().flatMap { (_, e) -> [Float] in
-                        if let data = e as? CMRecordedAccelerometerData where isInRange(data) {
+                        if let data = e as? CMRecordedAccelerometerData where isExpectedSample(data, lastTime: lastTime) {
+                            if sampleStart == nil { // first sample - set range start date
+                                sampleStart = data.startDate
+                            }
+                            lastTime = data.startDate
                             return [Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)]
                         }
-                        NSLog("Received data outside of range: \(e)")
+                        NSLog("Received unexpected sample: \(e)")
                         return []
                     }
-                    NSLog("Expected \(sampleCount) samples and got \(samples.count)")
-                    return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
+                    NSLog("Expected \(sampleCount) samples starting at \(from) and got \(samples.count) samples starting at \(sampleStart)")
+                    return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: sampleStart!.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
                 }
             }
         }
@@ -208,8 +228,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             // transfer what we have so far
             transferSensorDataBatch(sensorData, session: session, props: updatedProps) {
                 // set the expected range of samples on the next call
-                let readFromDate = from.dateByAddingTimeInterval(sensorData.duration)
-                let finalProps = updatedProps.with(accelerometerStart: readFromDate, sent: sensorData.rowCount)
+                let readFromDate = NSDate(timeIntervalSince1970: sensorData.end)
+                let finalProps = updatedProps.with(accelerometerStart: readFromDate)
                 self.sessions[session] = finalProps
 
                 // update the session with incremented sent counter

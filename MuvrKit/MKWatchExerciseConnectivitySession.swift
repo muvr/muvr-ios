@@ -45,8 +45,10 @@ public struct MKExerciseSessionProperties {
     }
     
     /// Copies this instance assigning the ``accelerometerStart`` field and incrementing the ``sent`` field.
-    internal func with(accelerometerStart accelerometerStart: NSDate, sent st: Int) -> MKExerciseSessionProperties {
-        return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent + st)
+    internal func with(accelerometerStart accelerometerStart: NSDate) -> MKExerciseSessionProperties {
+        // compute sent samples based on ``accelerometerStart`` - count missing samples as sent
+        let sent = Int(accelerometerStart.timeIntervalSinceDate(start)) * 50
+        return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, end: end, recorded: recorded, sent: sent)
     }
     
     /// Indicates the session duration
@@ -58,9 +60,8 @@ public struct MKExerciseSessionProperties {
     
     /// Indicates whether the props represent completed session
     internal var completed: Bool {
-        // a session is completed when ended
-        // and all data sent over
-        return ended && sent >= Int(duration - 8.0) * 50 // it's ok to miss the last window
+        // a session is completed when ended and all data sent over
+        return ended && end!.timeIntervalSinceDate(accelerometerStart!) < 8.0 // it's ok to miss the last window
     }
 }
 
