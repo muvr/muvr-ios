@@ -127,9 +127,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Returns the most important session for processing, if available
     ///
     private func mostImportantSessionsEntry() -> (MKExerciseSession, MKExerciseSessionProperties)? {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
-        
         // pick the not-yet-ended session first
         for (session, props) in sessions {
             if props.end == nil {
@@ -277,9 +274,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter demo: set for demo mode
     ///
     public func startSession(modelId: MKExerciseModelId, demo: Bool) {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
-        
         let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), demo: demo, modelId: modelId)
         sessions[session] = MKExerciseSessionProperties(start: session.start)
         WCSession.defaultSession().transferUserInfo(session.metadata)
