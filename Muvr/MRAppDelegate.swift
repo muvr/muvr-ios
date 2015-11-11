@@ -73,37 +73,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     }
 
     func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
-        func loadTextFiles(path bundlePath: String, filename: String, ext: String, separator: NSCharacterSet) -> [String] {
-            let fullPath = NSBundle(path: bundlePath)!.pathForResource(filename, ofType: ext)!
-            func removeEmptyStr(arrStr: [String]) -> [String] {
-                return arrStr
-                    .filter {$0 != ""}
-                    .map {$0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())}
-            }
-            do {
-                let content = try String(contentsOfFile: fullPath, encoding: NSUTF8StringEncoding)
-                return removeEmptyStr(content.componentsSeparatedByCharactersInSet(separator))
-            } catch {
-                return []
-            }
-        }
-
         // setup the classifier
         let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
+        let bundle = NSBundle(path: bundlePath)!
 
-        // loading layer/label
-        let layersPath = NSBundle(path: bundlePath)!.pathForResource("\(id)_model.layers", ofType: "txt")!
-        let layerConfiguration = MKLayerConfiguration.parse(try! String(contentsOfFile: layersPath, encoding: NSUTF8StringEncoding))
-        
-        let labels = loadTextFiles(path: bundlePath, filename: "\(id)_model.labels", ext: "txt", separator: NSCharacterSet.newlineCharacterSet())
-
-        let modelPath = NSBundle(path: bundlePath)!.pathForResource("\(id)_model.weights", ofType: "raw")!
-        let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
-        let model = MKExerciseModel(layerConfiguration: layerConfiguration, weights: weights,
-            sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
-            exerciseIds: labels,
-            minimumDuration: 8)
-        return model
+        return try! MKExerciseModel.loadFromBundle(bundle, id: id)
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {

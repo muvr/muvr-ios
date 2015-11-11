@@ -20,14 +20,4 @@ public struct MKExerciseModel {
         self.minimumDuration = minimumDuration
     }
     
-    public static func loadWeightsFromFile(path: String) -> [Float] {
-        let data = NSData(contentsOfFile: path)!
-        let count = data.length / sizeof(Float)
-        // create array of appropriate length:
-        var weights = [Float](count: count, repeatedValue: 0)
-        // copy bytes into array
-        data.getBytes(&weights, length: data.length)
-        return weights
-    }
-    
 }

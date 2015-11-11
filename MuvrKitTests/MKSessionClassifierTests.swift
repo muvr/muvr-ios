@@ -40,7 +40,7 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource {
         let modelPath = NSBundle(forClass: MKClassifierTests.self).pathForResource("model-3", ofType: "raw")!
         let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
         let model = MKExerciseModel(
-            layerConfiguration: MKLayerConfiguration.parse("1200 id 250 relu 100 relu 3 logistic"),
+            layerConfiguration: try! MKLayerConfiguration.parse(text: "1200 id 250 relu 100 relu 3 logistic"),
             weights: weights,
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
             exerciseIds: ["1", "2", "3"],

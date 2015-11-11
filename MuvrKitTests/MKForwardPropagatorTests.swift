@@ -5,7 +5,7 @@ import XCTest
 class MKForwardPropagatorTests : XCTestCase {
     
     var baseConfiguration = MKForwardPropagatorConfiguration(
-        layerConfiguration: MKLayerConfiguration.parse("2 logistic 1 logistic"),
+        layerConfiguration: try! MKLayerConfiguration.parse(text: "2 logistic 1 logistic"),
         biasValue: 1.0,
         biasUnits: 1)
         
@@ -45,7 +45,7 @@ class MKForwardPropagatorTests : XCTestCase {
     ///
     func testModelOfXNORMatrix() {
         var conf = baseConfiguration
-        conf.layerConfiguration = MKLayerConfiguration.parse("2 logistic 2 logistic 1 logistic")
+        conf.layerConfiguration = try! MKLayerConfiguration.parse(text: "2 logistic 2 logistic 1 logistic")
         
         let model = try! MKForwardPropagator.configured(conf, weights: [-30, 20, 20, 10, -20, -20, -10, 20, 20])
         let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures, length: twoBinaryFeatures.count)
@@ -61,7 +61,7 @@ class MKForwardPropagatorTests : XCTestCase {
     ///
     func testModelOfNANDMatrix() {
         var conf = baseConfiguration
-        conf.layerConfiguration = MKLayerConfiguration.parse("2 relu 1 relu")
+        conf.layerConfiguration = try! MKLayerConfiguration.parse(text: "2 relu 1 relu")
         
         let model = try! MKForwardPropagator.configured(conf, weights: [20, -17.5, -14.5])
         let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures, length: twoBinaryFeatures.count)
@@ -78,7 +78,7 @@ class MKForwardPropagatorTests : XCTestCase {
     func testModelWithTangentOutput() {
         let features: [Float] = [4.8,  3.3,  1.3,  0.2]
         let conf = MKForwardPropagatorConfiguration(
-            layerConfiguration: MKLayerConfiguration.parse("4 tanh 2 tanh 3 tanh"),
+            layerConfiguration: try! MKLayerConfiguration.parse(text: "4 tanh 2 tanh 3 tanh"),
             biasValue: 1.0,
             biasUnits: 1)
 
@@ -140,7 +140,7 @@ class MKForwardPropagatorTests : XCTestCase {
     func testInvalidNumberOfWeights() {
         let weights: [Float] = [3.0, 1.0, 2.0]
         var conf = baseConfiguration
-        conf.layerConfiguration = MKLayerConfiguration.parse("2 logistic 3 logistic 1 logistic")
+        conf.layerConfiguration = try! MKLayerConfiguration.parse(text: "2 logistic 3 logistic 1 logistic")
         
         do {
             try MKForwardPropagator.configured(conf, weights: weights)

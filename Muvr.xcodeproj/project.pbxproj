@@ -58,6 +58,7 @@
 		54706F6C1BD6D89F005BABF0 /* MRSessionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54706F6B1BD6D89F005BABF0 /* MRSessionsViewController.swift */; };
 		54706F6F1BD6E6D8005BABF0 /* MRLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54706F6E1BD6E6D8005BABF0 /* MRLabelViewController.swift */; };
 		5471DD3A1BC13911007D1034 /* MKSensorData+Scaffolding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5471DD341BC13760007D1034 /* MKSensorData+Scaffolding.swift */; };
+		5474E8A41BF3E9D900A29D3B /* MKExerciseModel+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474E8A31BF3E9D900A29D3B /* MKExerciseModel+Parsing.swift */; };
 		547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */; };
 		547A44541BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */; };
 		547A445A1BB8585300C2CC06 /* MKWatchConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */; };
@@ -275,6 +276,7 @@
 		54706F6B1BD6D89F005BABF0 /* MRSessionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionsViewController.swift; sourceTree = "<group>"; };
 		54706F6E1BD6E6D8005BABF0 /* MRLabelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRLabelViewController.swift; sourceTree = "<group>"; };
 		5471DD341BC13760007D1034 /* MKSensorData+Scaffolding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Scaffolding.swift"; sourceTree = "<group>"; };
+		5474E8A31BF3E9D900A29D3B /* MKExerciseModel+Parsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseModel+Parsing.swift"; sourceTree = "<group>"; };
 		547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseModel.swift; sourceTree = "<group>"; };
 		547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKWatchConnectivityDelegates.swift; sourceTree = "<group>"; };
 		547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKWatchConnectivity.swift; sourceTree = "<group>"; };
@@ -658,6 +660,7 @@
 			isa = PBXGroup;
 			children = (
 				547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */,
+				5474E8A31BF3E9D900A29D3B /* MKExerciseModel+Parsing.swift */,
 				5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */,
 				5469D38A1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift */,
 			);
@@ -1151,6 +1154,7 @@
 				548808111BD57D7400419CD8 /* MKPhoneExerciseSessionClassifierDelegates.swift in Sources */,
 				54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */,
 				5487F59C1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift in Sources */,
+				5474E8A41BF3E9D900A29D3B /* MKExerciseModel+Parsing.swift in Sources */,
 				54845AD21BD8D73500C33DBF /* MKLabelledExercise.swift in Sources */,
 				5469D3821BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */,
 				546E68521BB969DD00DC0FEF /* MKSensorData+Encoding.swift in Sources */,
