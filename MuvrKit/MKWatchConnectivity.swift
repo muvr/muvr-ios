@@ -3,6 +3,27 @@ import CoreMotion
 import WatchConnectivity
 
 ///
+/// Default settings for the connectivity componentry
+///
+struct MKConnectivitySettings {
+    // the ``CMSensorRecorder`` samples at 50 Hz
+    static let samplingRate = 50
+    // all classifiers work with windows of 400 samples; i.e. 8 seconds.
+    static let windowSize = 400
+    // the convenience mapping of the # samples to wall time
+    static let windowDuration: NSTimeInterval = NSTimeInterval(windowSize) / NSTimeInterval(samplingRate)
+    
+    ///
+    /// Computes the number of samples for the given ``duration``.
+    /// - parameter duration: the required duration in seconds
+    /// - returns: the number of samples
+    ///
+    static func samplesForDuration(duration: NSTimeInterval) -> Int {
+        return Int(duration * Double(samplingRate))
+    }
+}
+
+///
 /// The Watch -> iOS connectivity; deals with the underlying mechanism of data transfer and sensor
 /// data recording.
 ///
@@ -26,6 +47,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     internal var transferringRealTime: Bool = false
     
     private let recorder: CMSensorRecorder = CMSensorRecorder()
+    // the required SDTs that the recorder provides
+    private let recordedTypes: [MKSensorDataType]
+    // the dimensionality of the data
+    private let dimension: Int
     private(set) public var sessions: [MKExerciseSession: MKExerciseSessionProperties] = [:]
     private let transferQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
 
@@ -37,6 +62,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// -parameter sensorData: the sensor data delegate
     ///
     public init(delegate: MKMetadataConnectivityDelegate) {
+        // TODO: Check whether the watch is on the left or right wrist. For now, assume left.
+        recordedTypes = [.Accelerometer(location: .LeftWrist)]
+        dimension = recordedTypes.reduce(0) { r, t in return t.dimension + r }
+        
         super.init()
         WCSession.defaultSession().delegate = self
         WCSession.defaultSession().activateSession()
@@ -151,7 +180,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             #endif
             
             let duration = to.timeIntervalSinceDate(from)
-            let sampleCount = 3 * 50 * Int(duration)
+            let sampleCount = dimension * MKConnectivitySettings.samplingRate * Int(duration)
             
             // Indicates if the expected sample is in the requested range
             func isInRange(sample: CMRecordedAccelerometerData) -> Bool {
@@ -162,16 +191,18 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             // Indicates if the sample is the expected one (regarding recorded time)
             // It allows to check for ``missing`` samples in the requested range
             func isExpectedSample(sample: CMRecordedAccelerometerData, lastTime: NSDate?) -> Bool {
-                if lastTime == nil { // first sample check it is in range
+                if let lastTime = lastTime {
+                    // check sample is not more than 40ms apart from last one
+                    return sample.startDate.timeIntervalSinceDate(lastTime) < 0.4
+                } else {
+                    // first sample check it is in range
                     return isInRange(sample)
-                } else { // check sample is not more than 40ms apart from last one
-                    return sample.startDate.timeIntervalSinceDate(lastTime!) < 0.4
                 }
             }
             
             if simulatedSamples {
                 let samples = (0..<sampleCount).map { _ in return Float(0) }
-                return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
+                return try! MKSensorData(types: recordedTypes, start: from.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
             } else {
                 var sampleStart: NSDate? = nil
                 var lastTime: NSDate? = nil
@@ -188,7 +219,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                         return []
                     }
                     NSLog("Expected \(sampleCount) samples starting at \(from) and got \(samples.count) samples starting at \(sampleStart)")
-                    return try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: sampleStart!.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
+                    return try! MKSensorData(types: recordedTypes, start: sampleStart!.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
                 }
             }
         }
@@ -225,19 +256,25 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             
             // transfer what we have so far
             transferSensorDataBatch(sensorData, session: session, props: updatedProps) {
-                // set the expected range of samples on the next call
-                let finalProps = updatedProps.with(accelerometerStart: readFromDate)
-                self.sessions[session] = finalProps
-
-                // update the session with incremented sent counter
-                if finalProps.completed {
-                    NSLog("Remove completed session \(session)")
-                    self.sessions.removeValueForKey(session)
-                    // we're done with this session, we can move on to the next one
+                // REVIEW: does this fix the sessions problem?
+                if self.sessions[session] == nil {
+                    NSLog("Session \(session) already removed.")
                     dispatch_async(self.transferQueue, processFirstSession)
+                } else {
+                    // set the expected range of samples on the next call
+                    let finalProps = updatedProps.with(accelerometerStart: readFromDate)
+                    self.sessions[session] = finalProps
+
+                    // update the session with incremented sent counter
+                    if finalProps.completed {
+                        NSLog("Remove completed session \(session)")
+                        self.sessions.removeValueForKey(session)
+                        // we're done with this session, we can move on to the next one
+                        dispatch_async(self.transferQueue, processFirstSession)
+                    }
+                    
+                    NSLog("Transferred \(sensorData.rowCount) samples; with \(self.sessions.count) active sessions.")
                 }
-                
-                NSLog("Transferred \(sensorData.rowCount) samples; with \(self.sessions.count) active sessions.")
             }
         }
         
@@ -246,10 +283,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
 
         // check whether there is something to be done at all.
         NSLog("beginTransfer(); sessions = \(sessions)")
-//        if !WCSession.defaultSession().reachable {
-//            NSLog("Not reachable; not sending.")
-//            return
-//        }
         if sessions.count == 0 {
             NSLog("Reachable; no active sessions.")
             return
@@ -344,7 +377,7 @@ private extension MKExerciseSessionProperties {
     
     /// Indicates if this chunk is the last of the session
     private var lastChunk: Bool {
-        return ended && recorded >= (Int(duration - 8.0) * 50) // ok if miss last data window
+        return ended && recorded >= MKConnectivitySettings.samplesForDuration(duration - 8.0) //(Int(duration - 8.0) * 50) // ok if miss last data window
     }
     
 }

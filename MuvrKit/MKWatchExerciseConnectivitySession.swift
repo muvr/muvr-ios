@@ -71,18 +71,21 @@ public struct MKExerciseSessionProperties {
     
     /// Indicates the number of recorded samples
     public var recorded: Int {
-        return accelerometerEnd.map { Int($0.timeIntervalSinceDate(start)) * 50 } ?? 0
+        return accelerometerEnd.map { Int($0.timeIntervalSinceDate(start)) * MKConnectivitySettings.samplingRate } ?? 0
     }
     
     /// Indicates the number of sent samples
     public var sent: Int {
-        return accelerometerStart.map { Int($0.timeIntervalSinceDate(start)) * 50 } ?? 0
+        return accelerometerStart.map { Int($0.timeIntervalSinceDate(start)) * MKConnectivitySettings.samplingRate } ?? 0
     }
     
     /// Indicates whether the props represent completed session
     internal var completed: Bool {
         // a session is completed when ended and all data sent over
-        return ended && end!.timeIntervalSinceDate(accelerometerStart!) < 8.0 // it's ok to miss the last window
+        if let end = end {
+            return end.timeIntervalSinceDate(accelerometerStart!) < MKConnectivitySettings.windowDuration // it's ok to miss the last window
+        }
+        return false
     }
 }
 
