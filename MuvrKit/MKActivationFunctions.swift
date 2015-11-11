@@ -16,26 +16,20 @@ public enum MKActivationFunction {
 }
 
 ///
-/// In-place application of the activation function on the ``input``.
+/// Implements the ``MKActivationFunctionApplication`` for ``MKActivationFunction``
 ///
-protocol MKActivationFunctionApplication {
+extension MKActivationFunction {
+
     ///
     /// Perform the inplace operation on ``input``, with non-negative ``offset`` and ``length``.
     /// - parameter input: the vector on which to apply the function
     /// - parameter offset: the offset in the vector
     /// - parameter length: the number of elements to process
     ///
-    func applyOn(inout input: [Float], offset: Int, length: Int) -> ()
-}
-
-///
-/// Implements the ``MKActivationFunctionApplication`` for ``MKActivationFunction``
-///
-extension MKActivationFunction : MKActivationFunctionApplication {
-
     func applyOn(inout input: [Float], offset: Int, length: Int) {
         var one: Float = 1.0
         var minusOne: Float = -1.0
+        var threshold: Float = 0.0
         let inputPointer: UnsafeMutablePointer<Float> = UnsafeMutablePointer(input).advancedBy(offset)
 
         switch self {
@@ -48,7 +42,6 @@ extension MKActivationFunction : MKActivationFunctionApplication {
             vDSP_vsadd(inputPointer, vDSP_Stride(1), &one, inputPointer, vDSP_Stride(1), vDSP_Length(length))
             vvpowsf(inputPointer, &minusOne, inputPointer, [Int32(length)])
         case .ReLU:
-            var threshold: Float = 0.0
             vDSP_vthres(&input + offset, vDSP_Stride(1), &threshold, &input + offset, vDSP_Stride(1), vDSP_Length(length))
         case .Tanh:
             vvtanhf(inputPointer, inputPointer, [Int32(length)])

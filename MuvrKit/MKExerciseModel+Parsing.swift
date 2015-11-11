@@ -5,6 +5,12 @@ import Foundation
 ///
 extension MKExerciseModel {
     
+    /// The load errors
+    enum LoadError : ErrorType {
+        /// Missing component like labels or layers
+        case MissingModelComponent(name: String)
+    }
+    
     ///
     /// Loads the ``MKExerciseModel`` from a collection of files in the given ``bundle``. The files must
     /// have the following naming convention:
@@ -17,27 +23,23 @@ extension MKExerciseModel {
     /// in ``MKActivationFunction`` and ``MKLayerConfiguration``.
     ///
     public static func loadFromBundle(bundle: NSBundle, id: MKExerciseModelId) throws -> MKExerciseModel {
-        
-        func loadWeightsFromFile(path: String) -> [Float] {
-            let data = NSData(contentsOfFile: path)!
-            let count = data.length / sizeof(Float)
-            // create array of appropriate length:
-            var weights = [Float](count: count, repeatedValue: 0)
-            // copy bytes into array
-            data.getBytes(&weights, length: data.length)
-            return weights
+        guard let layersConfigurationPath = bundle.pathForResource("\(id)_model.layers", ofType: "txt") else {
+            throw LoadError.MissingModelComponent(name: "\(id)_model.layers")
         }
-        
+        guard let labelsPath = bundle.pathForResource("\(id)_model.labels", ofType: "txt") else {
+            throw LoadError.MissingModelComponent(name: "\(id)_model.labels")
+        }
+        guard let weightsPath = bundle.pathForResource("\(id)_model.weights", ofType: "raw") else {
+            throw LoadError.MissingModelComponent(name: "\(id)_model.weights")
+        }
+
         // load the layer configuration
-        let layersConfigurationPath = bundle.pathForResource("\(id)_model.layers", ofType: "txt")!
         let layerConfiguration = try MKLayerConfiguration.parse(text: try! String(contentsOfFile: layersConfigurationPath, encoding: NSUTF8StringEncoding))
         
         // load the labels
-        let labelsPath = bundle.pathForResource("\(id)_model.labels", ofType: "txt")!
         let labels = try String(contentsOfFile: labelsPath, encoding: NSUTF8StringEncoding).componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
 
         // load the weights
-        let weightsPath = bundle.pathForResource("\(id)_model.weights", ofType: "raw")!
         let weightsData = NSData(contentsOfFile: weightsPath)!
         let weightsCount = weightsData.length / sizeof(Float)
         var weights = [Float](count: weightsCount, repeatedValue: 0)
@@ -55,6 +57,14 @@ extension MKExerciseModel {
             minimumDuration: minimumDuration)
     }
     
+    internal static func loadWeightsFromFile(path: String) -> [Float] {
+        let data = NSData(contentsOfFile: path)!
+        let count = data.length / sizeof(Float)
+        // create array of appropriate length:
+        var weights = [Float](count: count, repeatedValue: 0)
+        // copy bytes into array
+        data.getBytes(&weights, length: data.length)
+        return weights
+    }
     
-
 }

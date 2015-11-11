@@ -1,7 +1,8 @@
 import Foundation
 import Accelerate
 
-struct MKForwardPropagatorLayer{
+/// The layer in the FP
+struct MKForwardPropagatorLayer {
     let rowCount: Int
     let columnCount: Int
     let weights: [Float]
@@ -27,21 +28,19 @@ public struct MKLayerConfiguration {
 public struct MKForwardPropagatorConfiguration {
     /// Configuration of the network layers
     var layerConfiguration: [MKLayerConfiguration]
-    /// Activation function that gets applied to every layer but the output layer
-    //var hiddenActivation: MKActivationFunction
-    /// Activation function that gets applied to the output of the last layer
-    //var outputActivation: MKActivationFunction
     /// The value of the bias unit, if used
     var biasValue: Float = 1.0
     /// Number of bias units per activation layer
     var biasUnits = 1
     
+    /// the maximum number of hidden features
     var maxNumberOfHiddenFeatures: Int {
         let max = layerConfiguration.maxElement { x, y in return x.size < y.size }
         return max!.size + biasUnits
     }
 }
 
+/// The error enum
 public enum MKForwardPropagatorError : ErrorType {
     case InvalidWeightsForLayerConfiguration
     case InvalidFeatureMatrixSize
@@ -58,12 +57,12 @@ public class MKForwardPropagator {
     /// Layers and their weights
     private let layers: [MKForwardPropagatorLayer]
     /// Configuration values of the propagator
-    private let conf: MKForwardPropagatorConfiguration
+    private let configuration: MKForwardPropagatorConfiguration
     
     private init(configuration: MKForwardPropagatorConfiguration, weights: [Element]) {
         self.featureVectorSize = configuration.layerConfiguration.first!.size
         self.predictionVectorSize = configuration.layerConfiguration.last!.size
-        self.conf = configuration
+        self.configuration = configuration
         self.maxNumberOfHiddenFeatures = configuration.maxNumberOfHiddenFeatures
         self.layers = MKForwardPropagator.buildLayers(configuration, weights: weights)
     }
@@ -72,8 +71,7 @@ public class MKForwardPropagator {
     /// Given the propagators configuration and the layer weights, construct the layers to be used during forward
     /// propagation.
     ///
-    private static func buildLayers(configuration: MKForwardPropagatorConfiguration,
-        weights: [Element]) -> [MKForwardPropagatorLayer] {
+    private static func buildLayers(configuration: MKForwardPropagatorConfiguration, weights: [Element]) -> [MKForwardPropagatorLayer] {
         var layers = [MKForwardPropagatorLayer]()
             
         let numLayers = configuration.layerConfiguration.count - 1
@@ -103,14 +101,21 @@ public class MKForwardPropagator {
                 rowCount: rowCount,
                 columnCount: columnCount,
                 weights: layerWeights,
-                activationFunction: configuration.layerConfiguration[j].activationFunction))
+                activationFunction: configuration.layerConfiguration[j + 1].activationFunction))
             
             crossLayerOffset = totalOffset + 1; // Adjust offset to the next layer
         }
+        
         return layers
     }
     
-    
+    ///
+    /// Performs initial verification of the configuration and weights, and returns a valid instance of the
+    /// ``MKForwardPropagator``.
+    /// - parameter configuration: the FP configuration
+    /// - parameter weights: the weights for the layers
+    /// - returns: a sane instance of ``MKForwardPropagator``
+    ///
     public static func configured(configuration: MKForwardPropagatorConfiguration, weights: [Element]) throws -> MKForwardPropagator {
         if MKForwardPropagator.getWeightsCount(configuration.layerConfiguration) != weights.count || configuration.layerConfiguration.isEmpty {
             throw MKForwardPropagatorError.InvalidWeightsForLayerConfiguration
@@ -131,13 +136,6 @@ public class MKForwardPropagator {
     }
     
     ///
-    /// Calculate the number of layers in this network
-    ///
-    private func numberOfLayers() -> Int {
-        return layers.count
-    }
-    
-    ///
     /// Helper to swap two array references
     ///
     private func swap(inout a: [Element], inout _ b: [Element]) {
@@ -152,8 +150,8 @@ public class MKForwardPropagator {
     ///
     public func predictFeatureMatrix(matrix: UnsafePointer<Float>, length: Int) throws -> [Element] {
         let numExamples = length / self.featureVectorSize;
-        var biasValue = conf.biasValue
-        let numberOfBiasUnits = conf.biasUnits * numExamples
+        var biasValue = configuration.biasValue
+        let numberOfBiasUnits = configuration.biasUnits * numExamples
         
         try checkInputSanity(matrix, length: length)
         
@@ -169,9 +167,9 @@ public class MKForwardPropagator {
             vDSP_Length(numExamples));
         
         // Forward propagation algorithm
-        for j in 0..<self.numberOfLayers() {
+        for j in 0..<layers.count {
             // 1. Add the bias unit in row 0 and propagate features to the next level
-            if conf.biasUnits > 0 {
+            if configuration.biasUnits > 0 {
                 vDSP_vfill(
                     &biasValue,
                     &currentInputs, vDSP_Stride(1),
@@ -190,13 +188,11 @@ public class MKForwardPropagator {
             swap(&buffer, &currentInputs)
             
             // 3. Apply activation function, e.g. logistic func
-            //let activationFunction = layers[j].isOutputLayer ? conf.outputActivation : conf.hiddenActivation
             let feature_length = layers[j].rowCount * numExamples
             layers[j].activationFunction.applyOn(&currentInputs, offset: numberOfBiasUnits, length: feature_length)
-            // activationFunction.applyOn(&currentInputs, offset: numberOfBiasUnits, length: feature_length)
         }
         
-        return Array(currentInputs[numberOfBiasUnits..<numberOfBiasUnits+(self.predictionVectorSize * numExamples)])
+        return Array(currentInputs[numberOfBiasUnits..<numberOfBiasUnits + (self.predictionVectorSize * numExamples)])
     }
     
     ///
