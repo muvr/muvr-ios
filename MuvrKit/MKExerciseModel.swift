@@ -1,8 +1,9 @@
 import Foundation
 
 public struct MKExerciseModel {
+    public typealias Layer = (Int, String) // (elements, activationFunction)
     /// the network topology
-    internal let layerConfig: [Int]
+    internal let layerConfig: [Layer]
     /// the network weights
     internal let weights: [Float]
     /// the required sensor data types
@@ -12,7 +13,7 @@ public struct MKExerciseModel {
     /// the exercises as labels
     public let exerciseIds: [MKExerciseId]
     
-    public init(layerConfig: [Int], weights: [Float], sensorDataTypes: [MKSensorDataType], exerciseIds: [MKExerciseId], minimumDuration: MKDuration) {
+    public init(layerConfig: [Layer], weights: [Float], sensorDataTypes: [MKSensorDataType], exerciseIds: [MKExerciseId], minimumDuration: MKDuration) {
         self.layerConfig = layerConfig
         self.sensorDataTypes = sensorDataTypes
         self.weights = weights

@@ -5,9 +5,10 @@ import XCTest
 class MKForwardPropagatorTests : XCTestCase {
     
     var baseConfiguration = MKForwardPropagatorConfiguration(
-        layerConfiguration: [2, 1],
-        hiddenActivation: SigmoidActivation(),
-        outputActivation: SigmoidActivation(),
+        layerConfiguration: [
+            MKForwardPropagatorLayerConfiguration(elements: 2, activation: SigmoidActivation()),
+            MKForwardPropagatorLayerConfiguration(elements: 1, activation: SigmoidActivation())
+        ],
         biasValue: 1.0,
         biasUnits: 1)
     
@@ -47,7 +48,11 @@ class MKForwardPropagatorTests : XCTestCase {
     ///
     func testModelOfXNORMatrix() {
         var conf = baseConfiguration
-        conf.layerConfiguration = [2, 2, 1]
+        conf.layerConfiguration = [
+            MKForwardPropagatorLayerConfiguration(elements: 2, activation: SigmoidActivation()),
+            MKForwardPropagatorLayerConfiguration(elements: 2, activation: SigmoidActivation()),
+            MKForwardPropagatorLayerConfiguration(elements: 1, activation: SigmoidActivation())
+        ]
         
         let model = try! MKForwardPropagator.configured(conf, weights: [-30, 20, 20, 10, -20, -20, -10, 20, 20])
         let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures, length: twoBinaryFeatures.count)
@@ -62,9 +67,13 @@ class MKForwardPropagatorTests : XCTestCase {
     /// (NAND) matrix model test using ReLU
     ///
     func testModelOfNANDMatrix() {
-        var conf = baseConfiguration
-        conf.hiddenActivation = ReLUActivation()
-        conf.outputActivation = ReLUActivation()
+        let conf = MKForwardPropagatorConfiguration(
+            layerConfiguration: [
+                MKForwardPropagatorLayerConfiguration(elements: 2, activation: ReLUActivation()),
+                MKForwardPropagatorLayerConfiguration(elements: 1, activation: SigmoidActivation())
+            ],
+            biasValue: 1.0,
+            biasUnits: 1)
         
         let model = try! MKForwardPropagator.configured(conf, weights: [20, -17.5, -14.5])
         let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures, length: twoBinaryFeatures.count)
@@ -81,9 +90,11 @@ class MKForwardPropagatorTests : XCTestCase {
     func testModelWithTangentOutput() {
         let features: [Float] = [4.8,  3.3,  1.3,  0.2]
         let conf = MKForwardPropagatorConfiguration(
-            layerConfiguration: [4, 2, 3],
-            hiddenActivation: TangentActivation(),
-            outputActivation: TangentActivation(),
+            layerConfiguration: [
+                MKForwardPropagatorLayerConfiguration(elements: 4, activation: TangentActivation()),
+                MKForwardPropagatorLayerConfiguration(elements: 2, activation: TangentActivation()),
+                MKForwardPropagatorLayerConfiguration(elements: 3, activation: TangentActivation())
+            ],
             biasValue: 1.0,
             biasUnits: 1)
 
@@ -144,8 +155,15 @@ class MKForwardPropagatorTests : XCTestCase {
     ///
     func testInvalidNumberOfWeights() {
         let weights: [Float] = [3.0, 1.0, 2.0]
-        var conf = baseConfiguration
-        conf.layerConfiguration = [2, 3, 1]
+        let conf = MKForwardPropagatorConfiguration(
+            layerConfiguration: [
+                MKForwardPropagatorLayerConfiguration(elements: 2, activation: SigmoidActivation()),
+                MKForwardPropagatorLayerConfiguration(elements: 3, activation: SigmoidActivation()),
+                MKForwardPropagatorLayerConfiguration(elements: 1, activation: SigmoidActivation())
+            ],
+            biasValue: 1.0,
+            biasUnits: 1)
+
         
         do {
             try MKForwardPropagator.configured(conf, weights: weights)

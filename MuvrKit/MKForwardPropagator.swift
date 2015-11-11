@@ -1,20 +1,22 @@
 import Foundation
 import Accelerate
 
+/// the layer topology: number of nodes in the layer + activation function
+public struct MKForwardPropagatorLayerConfiguration {
+    let elements: Int
+    let activation: MKActivationFunction
+}
+
 struct MKForwardPropagatorLayer{
     let rowCount: Int
     let columnCount: Int
     let weights: [Float]
-    let isOutputLayer: Bool
+    let activation: MKActivationFunction
 }
 
 public struct MKForwardPropagatorConfiguration{
     /// Configuration of the network layers
-    var layerConfiguration: MKForwardPropagator.LayerConfiguration
-    /// Activation function that gets applied to every layer but the output layer
-    var hiddenActivation: MKActivationFunction
-    /// Activation function that gets applied to the output of the last layer
-    var outputActivation: MKActivationFunction
+    var layerConfiguration: [MKForwardPropagatorLayerConfiguration]
     /// The value of the bias unit, if used
     var biasValue: Float = 1.0
     /// Number of bias units per activation layer
@@ -28,8 +30,6 @@ public enum MKForwardPropagatorError : ErrorType {
 
 public class MKForwardPropagator {
     public typealias Element = Float
-    /// The layer configuration is simply the number of perceptrons in each layer
-    public typealias LayerConfiguration = [Int]
     /// The number of elements in the feature vector
     private let featureVectorSize: Int
     /// The number of elements in the feature vector
@@ -42,10 +42,10 @@ public class MKForwardPropagator {
     private let conf: MKForwardPropagatorConfiguration
     
     private init(configuration: MKForwardPropagatorConfiguration, weights: [Element]) {
-        self.featureVectorSize = configuration.layerConfiguration.first!
-        self.predictionVectorSize = configuration.layerConfiguration.last!
+        self.featureVectorSize = configuration.layerConfiguration.first!.elements
+        self.predictionVectorSize = configuration.layerConfiguration.last!.elements
         self.conf = configuration
-        self.maxNumberOfHiddenFeatures = configuration.layerConfiguration.maxElement()! + configuration.biasUnits
+        self.maxNumberOfHiddenFeatures = configuration.layerConfiguration.map{ return $0.elements }.maxElement()! + configuration.biasUnits
         self.layers = MKForwardPropagator.buildLayers(configuration, weights: weights)
     }
     
@@ -65,8 +65,8 @@ public class MKForwardPropagator {
             
             // If network has X units in layer j, and Y units in layer j+1, then weight matrix for layer j
             // will be of demension: [ Y x (X+1) ]
-            let rowCount = configuration.layerConfiguration[j+1]
-            let columnCount = configuration.layerConfiguration[j] + configuration.biasUnits
+            let rowCount = configuration.layerConfiguration[j+1].elements
+            let columnCount = configuration.layerConfiguration[j].elements + configuration.biasUnits
             var layerWeights = [Element](count: rowCount * columnCount, repeatedValue: 0.0)
             
             var totalOffset = 0
@@ -84,7 +84,7 @@ public class MKForwardPropagator {
                 rowCount: rowCount,
                 columnCount: columnCount,
                 weights: layerWeights,
-                isOutputLayer: j == numLayers - 1))
+                activation: configuration.layerConfiguration[j].activation))
             
             crossLayerOffset = totalOffset + 1; // Adjust offset to the next layer
         }
@@ -103,10 +103,10 @@ public class MKForwardPropagator {
     ///
     /// Number of weights needed for a given layer configuration
     ///
-    private static func getWeightsCount(layerConfiguration: LayerConfiguration) -> Int {
+    private static func getWeightsCount(layerConfiguration: [MKForwardPropagatorLayerConfiguration]) -> Int {
         var result = 0
         for var i = 0; i < layerConfiguration.count - 1; ++i {
-            result += (layerConfiguration[i] + 1) * layerConfiguration[i + 1]
+            result += (layerConfiguration[i].elements + 1) * layerConfiguration[i + 1].elements
         }
         return result
     }
@@ -171,9 +171,8 @@ public class MKForwardPropagator {
             swap(&buffer, &currentInputs)
             
             // 3. Apply activation function, e.g. logistic func
-            let activationFunction = layers[j].isOutputLayer ? conf.outputActivation : conf.hiddenActivation
             let feature_length = layers[j].rowCount * numExamples
-            activationFunction.applyOn(&currentInputs, offset: numberOfBiasUnits, length: feature_length)
+            layers[j].activation.applyOn(&currentInputs, offset: numberOfBiasUnits, length: feature_length)
         }
         
         return Array(currentInputs[numberOfBiasUnits..<numberOfBiasUnits+(self.predictionVectorSize * numExamples)])
