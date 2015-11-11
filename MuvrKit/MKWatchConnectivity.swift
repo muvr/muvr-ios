@@ -193,7 +193,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             func isExpectedSample(sample: CMRecordedAccelerometerData, lastTime: NSDate?) -> Bool {
                 if let lastTime = lastTime {
                     // check sample is not more than 40ms apart from last one
-                    return sample.startDate.timeIntervalSinceDate(lastTime) < 0.4
+                    return sample.startDate.timeIntervalSinceDate(lastTime) < 0.04
                 } else {
                     // first sample check it is in range
                     return isInRange(sample)
