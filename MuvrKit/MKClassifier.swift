@@ -39,14 +39,14 @@ public struct MKClassifier {
     public init(model: MKExerciseModel) throws {
         self.model = model
         let netConfig = MKForwardPropagatorConfiguration(
-            layerConfiguration: model.layerConfig,
-            hiddenActivation: ReLUActivation(),
-            outputActivation: SigmoidActivation(),
+            layerConfiguration: model.layerConfig.map{ (elements, activation) in
+                return MKForwardPropagatorLayerConfiguration(elements: elements, activation: MKActivation.fromString(activation))
+            },
             biasValue: 1.0,
             biasUnits: 1)
         self.neuralNet = try MKForwardPropagator.configured(netConfig, weights: model.weights)
         
-        self.numInputs = self.model.layerConfig.first!
+        self.numInputs = netConfig.layerConfiguration.first!.elements
         self.numClasses = self.model.exerciseIds.count
     }
     

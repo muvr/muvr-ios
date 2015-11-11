@@ -6,6 +6,19 @@ public protocol MKActivationFunction {
     func applyOn(inout input: [Float], offset: Int, length: Int) -> ()
 }
 
+public class MKActivation {
+
+    public static func fromString(str: String) -> MKActivationFunction {
+        switch (str.lowercaseString) {
+            case "sigm": return SigmoidActivation()
+            case "relu": return ReLUActivation()
+            case "tanh": return TangentActivation()
+            case "iden": return IdentityActivation()
+            default: return SigmoidActivation()
+        }
+    }
+}
+
 ///
 /// Logistic function: http://en.wikipedia.org/wiki/Logistic_function
 ///

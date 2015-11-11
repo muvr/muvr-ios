@@ -60,16 +60,17 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     }
 
     func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
+        func parse(separator: NSCharacterSet)(input: String) -> [String] {
+            return input.componentsSeparatedByCharactersInSet(separator)
+                .filter {$0 != ""}
+                .map {$0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())}
+        }
+        
         func loadTextFiles(path bundlePath: String, filename: String, ext: String, separator: NSCharacterSet) -> [String] {
             let fullPath = NSBundle(path: bundlePath)!.pathForResource(filename, ofType: ext)!
-            func removeEmptyStr(arrStr: [String]) -> [String] {
-                return arrStr
-                    .filter {$0 != ""}
-                    .map {$0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())}
-            }
             do {
                 let content = try String(contentsOfFile: fullPath, encoding: NSUTF8StringEncoding)
-                return removeEmptyStr(content.componentsSeparatedByCharactersInSet(separator))
+                return parse(separator)(input: content)
             } catch {
                 return []
             }
@@ -79,13 +80,17 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
 
         // loading layer/label
-        let layerStr = loadTextFiles(path: bundlePath, filename: "\(id)_model.layers", ext: "txt", separator: NSCharacterSet.whitespaceCharacterSet())
-        let layer = layerStr.map {Int($0)!}
+        let layerLines = loadTextFiles(path: bundlePath, filename: "\(id)_model.layers", ext: "txt", separator: NSCharacterSet.newlineCharacterSet())
+        let layer = parse(NSCharacterSet.whitespaceCharacterSet())(input: layerLines[0]).map {Int($0)!}
+        let activations = parse(NSCharacterSet.whitespaceCharacterSet())(input: layerLines[1])
+        let layerConf = layer.enumerate().map { (index, nodes) in
+            return (nodes, activations[index])
+        }
         let label = loadTextFiles(path: bundlePath, filename: "\(id)_model.labels", ext: "txt", separator: NSCharacterSet.newlineCharacterSet())
 
         let modelPath = NSBundle(path: bundlePath)!.pathForResource("\(id)_model.weights", ofType: "raw")!
         let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
-        let model = MKExerciseModel(layerConfig: layer, weights: weights,
+        let model = MKExerciseModel(layerConfig: layerConf, weights: weights,
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
             exerciseIds: label,
             minimumDuration: 8)

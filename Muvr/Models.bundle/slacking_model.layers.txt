@@ -1,1 +1,2 @@
 1200 500 100 25 2
+ReLU ReLU ReLU ReLU Sigm
