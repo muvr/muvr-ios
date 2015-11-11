@@ -72,12 +72,12 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         application.idleTimerDisabled = false
     }
 
-    func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
+    func getExerciseModel(id id: MKExerciseModelId) throws -> MKExerciseModel {
         // setup the classifier
         let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
 
-        return try! MKExerciseModel.loadFromBundle(bundle, id: id)
+        return try MKExerciseModel(fromBundle: bundle, id: id)
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {

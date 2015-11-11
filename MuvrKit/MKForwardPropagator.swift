@@ -18,6 +18,8 @@ public struct MKLayerConfiguration {
 
     ///
     /// Initializes the layer configuration
+    /// - parameter size: the number of units
+    /// - parameter activationFunction: the activation function
     ///
     public init(size: Int, activationFunction: MKActivationFunction) {
         self.size = size
@@ -44,6 +46,8 @@ public struct MKForwardPropagatorConfiguration {
 public enum MKForwardPropagatorError : ErrorType {
     case InvalidWeightsForLayerConfiguration
     case InvalidFeatureMatrixSize
+    /// no configured layers
+    case EmptyLayerConfiguration
 }
 
 public class MKForwardPropagator {
@@ -60,6 +64,8 @@ public class MKForwardPropagator {
     private let configuration: MKForwardPropagatorConfiguration
     
     private init(configuration: MKForwardPropagatorConfiguration, weights: [Element]) {
+        // recall that this is being called from ``configured``, which has already checked the settings
+        // it is therefore safe to call ``configuration.layerConfiguration.first!``, and ``...last!``
         self.featureVectorSize = configuration.layerConfiguration.first!.size
         self.predictionVectorSize = configuration.layerConfiguration.last!.size
         self.configuration = configuration
@@ -117,8 +123,11 @@ public class MKForwardPropagator {
     /// - returns: a sane instance of ``MKForwardPropagator``
     ///
     public static func configured(configuration: MKForwardPropagatorConfiguration, weights: [Element]) throws -> MKForwardPropagator {
-        if MKForwardPropagator.getWeightsCount(configuration.layerConfiguration) != weights.count || configuration.layerConfiguration.isEmpty {
+        if MKForwardPropagator.getWeightsCount(configuration.layerConfiguration) != weights.count {
             throw MKForwardPropagatorError.InvalidWeightsForLayerConfiguration
+        }
+        if configuration.layerConfiguration.isEmpty {
+            throw MKForwardPropagatorError.EmptyLayerConfiguration
         }
         
         return MKForwardPropagator(configuration: configuration, weights: weights)
