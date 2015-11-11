@@ -1,3 +1,0 @@
-arms/biceps-curl
-arms/triceps-extension
-shoulders/lateral-raise

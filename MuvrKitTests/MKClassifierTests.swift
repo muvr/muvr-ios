@@ -6,8 +6,9 @@ class MKClassifierTests : XCTestCase {
     lazy var classifier: MKClassifier = {
         let modelPath = NSBundle(forClass: MKClassifierTests.self).pathForResource("model-3", ofType: "raw")!
         let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
-        
-        let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: weights,
+        let layerConfiguration = MKLayerConfiguration.parse("1200 id 250 relu 100 relu 3 logistic")
+        let model = MKExerciseModel(layerConfiguration: layerConfiguration,
+            weights: weights,
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
             exerciseIds: ["1", "2", "3"],
             minimumDuration: 0)

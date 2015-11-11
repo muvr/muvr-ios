@@ -5,20 +5,41 @@ struct MKForwardPropagatorLayer{
     let rowCount: Int
     let columnCount: Int
     let weights: [Float]
-    let isOutputLayer: Bool
+    let activationFunction: MKActivationFunction
 }
 
-public struct MKForwardPropagatorConfiguration{
+///
+/// Defines the activation layer
+///
+public struct MKLayerConfiguration {
+    let size: Int
+    let activationFunction: MKActivationFunction
+
+    ///
+    /// Initializes the layer configuration
+    ///
+    public init(size: Int, activationFunction: MKActivationFunction) {
+        self.size = size
+        self.activationFunction = activationFunction
+    }
+}
+
+public struct MKForwardPropagatorConfiguration {
     /// Configuration of the network layers
-    var layerConfiguration: MKForwardPropagator.LayerConfiguration
+    var layerConfiguration: [MKLayerConfiguration]
     /// Activation function that gets applied to every layer but the output layer
-    var hiddenActivation: MKActivationFunction
+    //var hiddenActivation: MKActivationFunction
     /// Activation function that gets applied to the output of the last layer
-    var outputActivation: MKActivationFunction
+    //var outputActivation: MKActivationFunction
     /// The value of the bias unit, if used
     var biasValue: Float = 1.0
     /// Number of bias units per activation layer
     var biasUnits = 1
+    
+    var maxNumberOfHiddenFeatures: Int {
+        let max = layerConfiguration.maxElement { x, y in return x.size < y.size }
+        return max!.size + biasUnits
+    }
 }
 
 public enum MKForwardPropagatorError : ErrorType {
@@ -28,8 +49,6 @@ public enum MKForwardPropagatorError : ErrorType {
 
 public class MKForwardPropagator {
     public typealias Element = Float
-    /// The layer configuration is simply the number of perceptrons in each layer
-    public typealias LayerConfiguration = [Int]
     /// The number of elements in the feature vector
     private let featureVectorSize: Int
     /// The number of elements in the feature vector
@@ -42,10 +61,10 @@ public class MKForwardPropagator {
     private let conf: MKForwardPropagatorConfiguration
     
     private init(configuration: MKForwardPropagatorConfiguration, weights: [Element]) {
-        self.featureVectorSize = configuration.layerConfiguration.first!
-        self.predictionVectorSize = configuration.layerConfiguration.last!
+        self.featureVectorSize = configuration.layerConfiguration.first!.size
+        self.predictionVectorSize = configuration.layerConfiguration.last!.size
         self.conf = configuration
-        self.maxNumberOfHiddenFeatures = configuration.layerConfiguration.maxElement()! + configuration.biasUnits
+        self.maxNumberOfHiddenFeatures = configuration.maxNumberOfHiddenFeatures
         self.layers = MKForwardPropagator.buildLayers(configuration, weights: weights)
     }
     
@@ -65,8 +84,8 @@ public class MKForwardPropagator {
             
             // If network has X units in layer j, and Y units in layer j+1, then weight matrix for layer j
             // will be of demension: [ Y x (X+1) ]
-            let rowCount = configuration.layerConfiguration[j+1]
-            let columnCount = configuration.layerConfiguration[j] + configuration.biasUnits
+            let rowCount = configuration.layerConfiguration[j + 1].size
+            let columnCount = configuration.layerConfiguration[j].size + configuration.biasUnits
             var layerWeights = [Element](count: rowCount * columnCount, repeatedValue: 0.0)
             
             var totalOffset = 0
@@ -84,7 +103,7 @@ public class MKForwardPropagator {
                 rowCount: rowCount,
                 columnCount: columnCount,
                 weights: layerWeights,
-                isOutputLayer: j == numLayers - 1))
+                activationFunction: configuration.layerConfiguration[j].activationFunction))
             
             crossLayerOffset = totalOffset + 1; // Adjust offset to the next layer
         }
@@ -103,10 +122,10 @@ public class MKForwardPropagator {
     ///
     /// Number of weights needed for a given layer configuration
     ///
-    private static func getWeightsCount(layerConfiguration: LayerConfiguration) -> Int {
+    private static func getWeightsCount(layerConfiguration: [MKLayerConfiguration]) -> Int {
         var result = 0
         for var i = 0; i < layerConfiguration.count - 1; ++i {
-            result += (layerConfiguration[i] + 1) * layerConfiguration[i + 1]
+            result += (layerConfiguration[i].size + 1) * layerConfiguration[i + 1].size
         }
         return result
     }
@@ -138,8 +157,8 @@ public class MKForwardPropagator {
         
         try checkInputSanity(matrix, length: length)
         
-        var currentInputs = [Element](count: self.maxNumberOfHiddenFeatures*numExamples, repeatedValue: 0)
-        var buffer = [Element](count: self.maxNumberOfHiddenFeatures*numExamples, repeatedValue: 0)
+        var currentInputs = [Element](count: self.maxNumberOfHiddenFeatures * numExamples, repeatedValue: 0)
+        var buffer = [Element](count: self.maxNumberOfHiddenFeatures * numExamples, repeatedValue: 0)
         
         // Copy feature-matrix into the buffer. We will transpose the feature matrix to get the
         // bias units in a row instead of a column for easier updates.
@@ -171,9 +190,10 @@ public class MKForwardPropagator {
             swap(&buffer, &currentInputs)
             
             // 3. Apply activation function, e.g. logistic func
-            let activationFunction = layers[j].isOutputLayer ? conf.outputActivation : conf.hiddenActivation
+            //let activationFunction = layers[j].isOutputLayer ? conf.outputActivation : conf.hiddenActivation
             let feature_length = layers[j].rowCount * numExamples
-            activationFunction.applyOn(&currentInputs, offset: numberOfBiasUnits, length: feature_length)
+            layers[j].activationFunction.applyOn(&currentInputs, offset: numberOfBiasUnits, length: feature_length)
+            // activationFunction.applyOn(&currentInputs, offset: numberOfBiasUnits, length: feature_length)
         }
         
         return Array(currentInputs[numberOfBiasUnits..<numberOfBiasUnits+(self.predictionVectorSize * numExamples)])

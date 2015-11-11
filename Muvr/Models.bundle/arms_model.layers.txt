@@ -1,1 +1,1 @@
-1200 250 100 3
+1200 id 250 relu 100 relu 3 logistic
