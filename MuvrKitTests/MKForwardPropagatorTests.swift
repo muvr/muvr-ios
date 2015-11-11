@@ -70,7 +70,7 @@ class MKForwardPropagatorTests : XCTestCase {
         let conf = MKForwardPropagatorConfiguration(
             layerConfiguration: [
                 MKForwardPropagatorLayerConfiguration(elements: 2, activation: ReLUActivation()),
-                MKForwardPropagatorLayerConfiguration(elements: 1, activation: SigmoidActivation())
+                MKForwardPropagatorLayerConfiguration(elements: 1, activation: ReLUActivation())
             ],
             biasValue: 1.0,
             biasUnits: 1)

@@ -1,2 +1,2 @@
 1200 500 100 25 2
-tanh tanh tanh tanh Sigm
+ReLU ReLU ReLU ReLU Sigm
