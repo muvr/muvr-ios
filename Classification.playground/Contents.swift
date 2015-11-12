@@ -15,10 +15,12 @@ extension MKClassifiedExerciseWindow {
     }
 }
 //: ### Helper functions
-func model(named name: String, layerConfig: [Int], labels: [String]) -> MKExerciseModel {
+func model(named name: String, layerConfiguration: String, labels: [String]) -> MKExerciseModel {
     let demoModelPath = NSBundle.mainBundle().pathForResource(name, ofType: "raw")!
     let weights = MKExerciseModel.loadWeightsFromFile(demoModelPath)
-    let model = MKExerciseModel(layerConfig: layerConfig, weights: weights,
+    let model = MKExerciseModel(
+        layerConfiguration: MKLayerConfiguration.parse(layerConfiguration),
+        weights: weights,
         sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
         exerciseIds: labels,
         minimumDuration: 5)
@@ -26,8 +28,10 @@ func model(named name: String, layerConfig: [Int], labels: [String]) -> MKExerci
 }
 
 //: ### Construct a classifier
-let exerciseClassifier = try MKClassifier(model: model(named: "demo_model.weights", layerConfig: [1200, 250, 100, 3], labels: ["arms/biceps-curl", "arms/triceps-extension", "shoulders/lateral-raise"]))
-let activityClassifier = try MKClassifier(model: model(named: "activity", layerConfig: [1200, 500, 100, 25, 2], labels: ["E", "-"]))
+let exerciseClassifier = try! MKClassifier(model: model(named: "arms_model.weights",
+    layerConfiguration: "1200 id 250 relu 100 relu 3 logistic",
+    labels: ["arms/biceps-curl", "arms/triceps-extension", "shoulders/lateral-raise"]))
+
 //: ### Load the data from the session
 //let resourceName = "no-movement-face-up"
 let resourceName = "bc-only"
@@ -44,15 +48,5 @@ let windowSize = 400
 //: ### Apply the classifier
 // classify
 let cls = try! exerciseClassifier.classify(block: sd, maxResults: 10)
-let en = try! activityClassifier.classify(block: sd, maxResults: 2)
-en.forEach { wcls in print(wcls) }
 cls.forEach { wcls in print(wcls) }
-
-var floats = [Float](count: 40, repeatedValue: 2)
-var len = Int32(floats.count)
-var x: UnsafeMutablePointer<Float> = UnsafeMutablePointer(floats)
-vvexpf(x, x, &len)
-
-floats
-
 

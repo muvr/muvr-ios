@@ -9,7 +9,7 @@ class MRGlanceController: WKInterfaceController, MRSessionProgressGroup {
     private var renderer: MRSessionProgressGroupRenderer?
 
     override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)        
+        super.awakeWithContext(context)
     }
     
     override func willActivate() {

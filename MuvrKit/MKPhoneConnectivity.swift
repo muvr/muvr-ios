@@ -23,31 +23,34 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     }
     
     ///
-    /// Get the correct session instance based on the received metadata
+    /// Get the correct session instance (and its index) based on the received metadata
+    /// Issues corresponding session start/end events
     ///
-    private func resolveSession(metadata: [String:AnyObject]) -> MKExerciseConnectivitySession? {
+    private func resolveSession(metadata: [String:AnyObject]) -> (MKExerciseConnectivitySession, Int)? {
         guard let session = MKExerciseConnectivitySession.fromMetadata(metadata) else { return nil }
-        if let index = (sessions.indexOf { $0.id == session.id }) {
-            if sessions[index].end == nil {
-                // update the existing session with the received end timestamp
-                sessions[index].end = session.end
-            }
-            // return the existing session as it contains all accumulated data
-            return sessions[index]
-        } else {
-            // this is the first time we're seeing the file for a session
+        let index = sessions.indexOf { $0.id == session.id } ?? sessions.count
+        if (index == sessions.count) {
+            // first time we see this session
             sessions.append(session)
             // issue a session start
             exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidStart(session: session)
-            return session
+            if (session.end != nil) {
+                // issue a session end too because this session is already over
+                exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidStart(session: session)
+            }
         }
+        sessions[index].last = session.last
+        if sessions[index].end == nil && session.end != nil {
+            // update the existing session with the received end timestamp
+            sessions[index].end = session.end
+            // issue a session end
+            exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidEnd(session: session)
+        }
+        return (sessions[index], index)
     }
       
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
-        if let session = MKExerciseConnectivitySession.fromMetadata(userInfo) {
-            sessions.append(session)
-            exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidStart(session: session)
-        }
+        resolveSession(userInfo)
     }
     
     public func session(session: WCSession, didReceiveFile file: WCSessionFile) {
@@ -58,7 +61,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         }
         
         // the metadata must be convertible to a session
-        guard var connectivitySession = resolveSession(metadata) else { return }
+        guard let (cs, index) = resolveSession(metadata) else { return }
+        var connectivitySession = cs
         NSLog("\(connectivitySession)")
 
         // check for duplicate transmissions
@@ -85,18 +89,15 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 connectivitySession.sensorData = new
             }
             sensorDataConnectivityDelegate.sensorDataConnectivityDidReceiveSensorData(accumulated: connectivitySession.sensorData!, new: new, session: connectivitySession)
-            sessions[sessions.count - 1] = connectivitySession
+            sessions[index] = connectivitySession
             NSLog("\(file.metadata!) with \(new.duration); now accumulated \(connectivitySession.sensorData!.duration)")
         } catch {
             NSLog("\(error)")
         }
         
         // check to see if the file we've received is the only / last file we'll get
-        if connectivitySession.end != nil {
-            if let index = (sessions.indexOf { $0.id == connectivitySession.id }) {
-                sessions.removeAtIndex(index)
-                exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidEnd(session: connectivitySession)
-            }
+        if connectivitySession.last {
+            sessions.removeAtIndex(index)
         }
     }
     

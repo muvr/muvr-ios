@@ -15,7 +15,20 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     
     private var connectivity: MKConnectivity!
     private var classifier: MKSessionClassifier!
-    private(set) internal var currentSession: MRManagedExerciseSession?
+    private var sessions: [MRManagedExerciseSession] = []
+    internal var currentSession: MRManagedExerciseSession? {
+        for (session) in sessions where session.end == nil {
+            return session
+        }
+        return nil
+    }
+    
+    ///
+    /// Returns the index of a given session
+    ///
+    private func sessionIndex(session: MKExerciseSession) -> Int? {
+        return sessions.indexOf { $0.id == session.id }
+    }
     
     ///
     /// Returns this shared delegate
@@ -59,57 +72,51 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         application.idleTimerDisabled = false
     }
 
-    func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
-        func loadTextFiles(path bundlePath: String, filename: String, ext: String, separator: NSCharacterSet) -> [String] {
-            let fullPath = NSBundle(path: bundlePath)!.pathForResource(filename, ofType: ext)!
-            func removeEmptyStr(arrStr: [String]) -> [String] {
-                return arrStr
-                    .filter {$0 != ""}
-                    .map {$0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())}
-            }
-            do {
-                let content = try String(contentsOfFile: fullPath, encoding: NSUTF8StringEncoding)
-                return removeEmptyStr(content.componentsSeparatedByCharactersInSet(separator))
-            } catch {
-                return []
-            }
-        }
-
+    func getExerciseModel(id id: MKExerciseModelId) throws -> MKExerciseModel {
         // setup the classifier
         let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
+        let bundle = NSBundle(path: bundlePath)!
 
-        // loading layer/label
-        let layerStr = loadTextFiles(path: bundlePath, filename: "\(id)_model.layers", ext: "txt", separator: NSCharacterSet.whitespaceCharacterSet())
-        let layer = layerStr.map {Int($0)!}
-        let label = loadTextFiles(path: bundlePath, filename: "\(id)_model.labels", ext: "txt", separator: NSCharacterSet.newlineCharacterSet())
-
-        let modelPath = NSBundle(path: bundlePath)!.pathForResource("\(id)_model.weights", ofType: "raw")!
-        let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
-        let model = MKExerciseModel(layerConfig: layer, weights: weights,
-            sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
-            exerciseIds: label,
-            minimumDuration: 8)
-        return model
+        return try MKExerciseModel(fromBundle: bundle, id: id)
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
-        let objectId = currentSession!.objectID
-        currentSession = nil
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
+        NSLog("Received session end for \(session)")
+        // current session may be null in case of no running session
+        if let index = sessionIndex(session) {
+            let currentSession = sessions[index]
+            let objectId = currentSession.objectID
+            currentSession.end = session.end
+            if let data = sensorData {
+                currentSession.sensorData = data.encode()
+            }
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
+            saveContext()
+        }
     }
     
     func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData) {
-        if let currentSession = currentSession {
+        NSLog("Received session classify for \(session)")
+        if let index = sessionIndex(session) {
+            let currentSession = sessions[index]
             currentSession.sensorData = sensorData.encode()
+            if session.completed {
+                sessions.removeAtIndex(index)
+            }
             classified.forEach { MRManagedClassifiedExercise.insertNewObject(from: $0, into: currentSession, inManagedObjectContext: managedObjectContext) }
         }
         saveContext()
     }
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
-        currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: currentSession!.objectID)
-        saveContext()
+         NSLog("Received session start for \(session)")
+        if sessionIndex(session) == nil {
+            let currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
+            sessions.append(currentSession)
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: currentSession.objectID)
+            saveContext()
+        }
+
     }
     
     // MARK: - Core Data stack

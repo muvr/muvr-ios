@@ -20,5 +20,6 @@ extension MRManagedExerciseSession {
     @NSManaged var start: NSDate
     @NSManaged var labelledExercises: NSSet
     @NSManaged var classifiedExercises: NSSet
+    @NSManaged var end: NSDate?
 
 }

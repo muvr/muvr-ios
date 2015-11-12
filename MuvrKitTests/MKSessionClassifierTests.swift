@@ -39,7 +39,9 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource {
     func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
         let modelPath = NSBundle(forClass: MKClassifierTests.self).pathForResource("model-3", ofType: "raw")!
         let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
-        let model = MKExerciseModel(layerConfig: [1200, 250, 100, 3], weights: weights,
+        let model = MKExerciseModel(
+            layerConfiguration: try! MKLayerConfiguration.parse(text: "1200 id 250 relu 100 relu 3 logistic"),
+            weights: weights,
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
             exerciseIds: ["1", "2", "3"],
             minimumDuration: 0)
@@ -58,7 +60,7 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource {
         let delegate = Delegate(onClassify: classifyExpectation)
         let classifier = MKSessionClassifier(exerciseModelSource: self, delegate: delegate)
         let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 1200, repeatedValue: 0.3))
-        let session = MKExerciseConnectivitySession(id: "1234", exerciseModelId: "arms", start: NSDate(), end: nil)
+        let session = MKExerciseConnectivitySession(id: "1234", exerciseModelId: "arms", start: NSDate(), end: nil, last: true)
 
         classifier.exerciseConnectivitySessionDidStart(session: session)
         classifier.sensorDataConnectivityDidReceiveSensorData(accumulated: sd, new: sd, session: session)
