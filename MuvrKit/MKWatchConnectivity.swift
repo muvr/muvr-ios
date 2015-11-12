@@ -195,7 +195,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                     // check sample is not more than 40ms apart from last one
                     return sample.startDate.timeIntervalSinceDate(lastTime) < 0.04
                 } else {
-                    // first sample check it is in range
+                    // first sample: check it is in range
                     return isInRange(sample)
                 }
             }
@@ -215,10 +215,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                             lastTime = data.startDate
                             return [Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)]
                         }
-                        NSLog("Received unexpected sample: \(e)")
                         return []
                     }
-                    NSLog("Expected \(sampleCount) samples starting at \(from) and got \(samples.count) samples starting at \(sampleStart)")
                     return try! MKSensorData(types: recordedTypes, start: sampleStart!.timeIntervalSince1970, samplesPerSecond: 50, samples: samples)
                 }
             }
