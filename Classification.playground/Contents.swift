@@ -15,11 +15,11 @@ extension MKClassifiedExerciseWindow {
     }
 }
 //: ### Helper functions
-func model(named name: String, layerConfiguration: String, labels: [String]) -> MKExerciseModel {
+func model(named name: String, layerConfiguration: String, labels: [String]) throws -> MKExerciseModel {
     let demoModelPath = NSBundle.mainBundle().pathForResource(name, ofType: "raw")!
     let weights = MKExerciseModel.loadWeightsFromFile(demoModelPath)
-    let model = MKExerciseModel(
-        layerConfiguration: MKLayerConfiguration.parse(layerConfiguration),
+    let model = try MKExerciseModel(
+        layerConfiguration: MKLayerConfiguration.parse(text: layerConfiguration),
         weights: weights,
         sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
         exerciseIds: labels,
@@ -49,4 +49,3 @@ let windowSize = 400
 // classify
 let cls = try! exerciseClassifier.classify(block: sd, maxResults: 10)
 cls.forEach { wcls in print(wcls) }
-
