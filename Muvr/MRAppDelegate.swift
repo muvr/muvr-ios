@@ -81,7 +81,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
-        NSLog("Recevied session end for \(session)")
+        NSLog("Received session end for \(session)")
         // current session may be null in case of no running session
         if let index = sessionIndex(session) {
             let currentSession = sessions[index]
@@ -96,7 +96,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     }
     
     func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData) {
-        NSLog("Recevied session classify for \(session)")
+        NSLog("Received session classify for \(session)")
         if let index = sessionIndex(session) {
             let currentSession = sessions[index]
             currentSession.sensorData = sensorData.encode()
@@ -109,7 +109,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     }
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
-         NSLog("Recevied session start for \(session)")
+         NSLog("Received session start for \(session)")
         if sessionIndex(session) == nil {
             let currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
             sessions.append(currentSession)
