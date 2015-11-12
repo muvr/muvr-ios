@@ -55,7 +55,9 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
             let exerciseModel = try exerciseModelSource.getExerciseModel(id: exerciseModelId)
             let exerciseClassifier = try MKClassifier(model: exerciseModel)
 
-            return try exerciseClassifier.classify(block: sensorData, maxResults: 10)
+            return try exerciseClassifier.classify(block: sensorData, maxResults: 10).filter {
+                return $0.duration >= exerciseModel.minimumDuration
+            }
             
             // TODO: the exercise / no exercise model is not yet trained fully.
             let results = try eneClassifier.classify(block: sensorData, maxResults: 2)
