@@ -101,8 +101,9 @@ public struct MKClassifier {
             let maxWindow = min(i, numWindows - 1)
             var avg: [MKExerciseId:Double] = [:]
             (minWindow..<maxWindow + 1).forEach { w in
+                let ws = Double(maxWindow - minWindow)
                 for block in cews[w].classifiedExerciseBlocks {
-                    let blockAvg = block.confidence / Double(stepsInWindow)
+                    let blockAvg = block.confidence / ws
                     if let exAvg = avg[block.exerciseId] {
                         avg[block.exerciseId] = exAvg + blockAvg
                     } else {
