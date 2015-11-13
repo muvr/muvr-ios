@@ -137,14 +137,12 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Ends the current session
     ///
     public func endLastSession() {
-        if let (session, props) = currentSession where !props.ended {
+        if let (session, props) = currentSession {
             objc_sync_enter(self)
             defer { objc_sync_exit(self) }
             
             let endedProps = props.with(end: NSDate())
             sessions[session] = endedProps
-            // notify phone that this session is over
-            WCSession.defaultSession().transferUserInfo(session.metadata.plus(endedProps.metadata))
         } else {
             NSLog("No session to end")
         }
@@ -157,10 +155,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     private func mostImportantSessionsEntry() -> (MKExerciseSession, MKExerciseSessionProperties)? {
         // pick the not-yet-ended session first
-        for (session, props) in sessions {
-            if props.end == nil {
-                return (session, props)
-            }
+        for (session, props) in sessions where !props.ended {
+            return (session, props)
         }
         
         // then whichever one remains
