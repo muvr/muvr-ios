@@ -55,15 +55,10 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
             let exerciseModel = try exerciseModelSource.getExerciseModel(id: exerciseModelId)
             let exerciseClassifier = try MKClassifier(model: exerciseModel)
 
-            return try exerciseClassifier.classify(block: sensorData, maxResults: 10).filter {
-                return $0.duration >= exerciseModel.minimumDuration
-            }
-            
-            // TODO: the exercise / no exercise model is not yet trained fully.
             let results = try eneClassifier.classify(block: sensorData, maxResults: 2)
             NSLog("Exercise / no exercise \(results)")
             return results.flatMap { result -> [MKClassifiedExercise] in
-                if result.exerciseId == "E" {
+                if result.exerciseId == "E" && result.duration >= exerciseModel.minimumDuration {
                     // this is an exercise block - get the corresponding data section
                     let data = try! sensorData.slice(result.offset, duration: result.duration)
                     // classify the exercises in this block
