@@ -11,7 +11,10 @@ class MRExerciseRow: NSObject {
     }
 }
 
-class MRMainController: WKInterfaceController, MRSessionProgressGroup {
+class MRMainController: WKInterfaceController, MRSessionProgressGroup, MRSessionProgressRing {
+    @IBOutlet var ringGroup: WKInterfaceGroup!
+    @IBOutlet var ringButton: WKInterfaceButton!
+    
     @IBOutlet weak var exerciseModel: WKInterfacePicker!
     @IBOutlet weak var startGroup: WKInterfaceGroup!
     @IBOutlet weak var progressGroup: WKInterfaceGroup!
@@ -28,6 +31,8 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     ]
 
     private var renderer: MRSessionProgressGroupRenderer?
+    private var ringRenderer: MRSessionProgressRingRenderer?
+    
 
     private var exerciseModelMetadataIndex: Int = 0
     
@@ -38,10 +43,12 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
         
         updateUI()
         renderer = MRSessionProgressGroupRenderer(group: self)
+        ringRenderer = MRSessionProgressRingRenderer(ring: self)
     }
     
     override func didDeactivate() {
         renderer = nil
+        ringRenderer = nil
         super.didDeactivate()
     }
     
@@ -67,8 +74,9 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
             // NB. it will stay like this.
             exercisesTable.setNumberOfRows(0, withRowType: "exercise")
         }
-        
-        progressGroup.setHidden(sd.currentSession == nil)
+        ringGroup.setHidden(sd.currentSession == nil)
+        progressGroup.setHidden(true)
+        //progressGroup.setHidden(sd.currentSession == nil)
         startGroup.setHidden(sd.currentSession != nil)
     }
     

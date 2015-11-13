@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="9019"/>
     </dependencies>
     <scenes>
@@ -32,6 +32,11 @@
                                         <action selector="beginDemo" destination="AgC-eL-Hgc" id="5iR-N6-n5Z"/>
                                     </connections>
                                 </button>
+                            </items>
+                        </group>
+                        <group width="1" alignment="left" id="3Zq-sE-EmV">
+                            <items>
+                                <button width="1" alignment="left" id="aj3-14-vbn"/>
                             </items>
                         </group>
                         <group width="1" alignment="center" animationDuration="1" id="U8c-fr-ind">
@@ -69,6 +74,8 @@
                         <outlet property="exerciseModel" destination="JBL-em-o3w" id="zdN-1a-r3P"/>
                         <outlet property="exercisesTable" destination="t9X-s3-pCm" id="u4s-Pu-Rc2"/>
                         <outlet property="progressGroup" destination="U8c-fr-ind" id="NHD-H5-fF9"/>
+                        <outlet property="ringButton" destination="aj3-14-vbn" id="LwF-vk-weY"/>
+                        <outlet property="ringGroup" destination="3Zq-sE-EmV" id="ggn-v9-7SE"/>
                         <outlet property="startGroup" destination="ys7-T7-jXZ" id="mSK-xj-l8g"/>
                         <outlet property="statsLabel" destination="RKG-1P-IR2" id="HGp-jw-GQx"/>
                         <outlet property="timeLabel" destination="gfN-Vo-zov" id="5xH-Ng-4HT"/>
