@@ -53,4 +53,32 @@ public extension MKSensorData {
         return result
     }
     
+    public static func initDataFromCSV(filename filename: String, ext: String) throws -> MKSensorData {
+        func loadTextFiles(filename filename: String, ext: String, separator: NSCharacterSet) -> [String] {
+            let fullPath = NSBundle.mainBundle().pathForResource(filename, ofType: ext)!
+            func removeEmptyStr(arrStr: [String]) -> [String] {
+                return arrStr
+                    .filter {$0 != ""}
+                    .map {$0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())}
+            }
+            do {
+                let content = try String(contentsOfFile: fullPath, encoding: NSUTF8StringEncoding)
+                return removeEmptyStr(content.componentsSeparatedByCharactersInSet(separator))
+            } catch {
+                return []
+            }
+        }
+        
+        let csvArr = loadTextFiles(filename: filename, ext: ext, separator: NSCharacterSet.newlineCharacterSet())
+        let samples = csvArr.flatMap { line -> [Float] in
+            let split = line.componentsSeparatedByString(",")
+            let X = NSString(string: split[0]).floatValue
+            let Y = NSString(string: split[1]).floatValue
+            let Z = NSString(string: split[2]).floatValue
+            return [X, Y, Z]
+        }
+        let types = [MKSensorDataType.Accelerometer(location: MKSensorDataType.Location.LeftWrist)]
+        return try MKSensorData(types: types, start: 0, samplesPerSecond: UInt(50), samples: samples)
+    }
+    
 }
