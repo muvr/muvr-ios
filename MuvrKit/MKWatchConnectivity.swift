@@ -249,20 +249,17 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
 
             // update the number of recorded samples
             let readFromDate = NSDate(timeIntervalSince1970: sensorData.end)
-            let updatedProps = props.with(accelerometerEnd: readFromDate)
-            self.sessions[session] = updatedProps
+            if let p = self.sessions[session] {
+                self.sessions[session] = p.with(accelerometerEnd: readFromDate)
+            }
             
             // transfer what we have so far
-            transferSensorDataBatch(sensorData, session: session, props: updatedProps) {
-                // REVIEW: does this fix the sessions problem?
-                if self.sessions[session] == nil {
-                    NSLog("Session \(session) already removed.")
-                    dispatch_async(self.transferQueue, processFirstSession)
-                } else {
-                    // set the expected range of samples on the next call
-                    let finalProps = updatedProps.with(accelerometerStart: readFromDate)
+            transferSensorDataBatch(sensorData, session: session, props: self.sessions[session]) {
+                // set the expected range of samples on the next call
+                if let p = self.sessions[session] {
+                    let finalProps = p.with(accelerometerStart: readFromDate)
                     self.sessions[session] = finalProps
-
+                    
                     // update the session with incremented sent counter
                     if finalProps.completed {
                         NSLog("Remove completed session \(session)")
@@ -270,8 +267,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                         // we're done with this session, we can move on to the next one
                         dispatch_async(self.transferQueue, processFirstSession)
                     }
-                    
                     NSLog("Transferred \(sensorData.rowCount) samples; with \(self.sessions.count) active sessions.")
+                } else {
+                    NSLog("Session \(session) already removed.")
+                    dispatch_async(self.transferQueue, processFirstSession)
                 }
             }
         }
@@ -281,7 +280,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
 
         // check whether there is something to be done at all.
         NSLog("beginTransfer(); sessions = \(sessions)")
-        if sessions.count == 0 {
+        if sessions.isEmpty {
             NSLog("Reachable; no active sessions.")
             return
         }
