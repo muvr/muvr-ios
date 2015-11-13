@@ -138,9 +138,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func endLastSession() {
         if let (session, props) = currentSession {
-            objc_sync_enter(self)
-            defer { objc_sync_exit(self) }
-            
             let endedProps = props.with(end: NSDate())
             sessions[session] = endedProps
         } else {
