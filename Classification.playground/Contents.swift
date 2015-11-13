@@ -14,6 +14,43 @@ extension MKClassifiedExerciseWindow {
         return Double(window) * 0.2
     }
 }
+
+extension MKSensorData {
+    public static func initDataFromCSV(filename filename: String, ext: String) throws -> MKSensorData {
+        func loadTextFiles(filename filename: String, ext: String, separator: NSCharacterSet) -> [String] {
+            let fullPath = NSBundle.mainBundle().pathForResource(filename, ofType: ext)!
+            func removeEmptyStr(arrStr: [String]) -> [String] {
+                return arrStr
+                    .filter {$0 != ""}
+                    .map {$0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())}
+            }
+            do {
+                let content = try String(contentsOfFile: fullPath, encoding: NSUTF8StringEncoding)
+                return removeEmptyStr(content.componentsSeparatedByCharactersInSet(separator))
+            } catch {
+                return []
+            }
+        }
+        
+        let csvArr = loadTextFiles(filename: filename, ext: ext, separator: NSCharacterSet.newlineCharacterSet())
+        let samples = csvArr.flatMap { line -> [Float] in
+            let split = line.componentsSeparatedByString(",")
+            let X = NSString(string: split[0]).floatValue
+            let Y = NSString(string: split[1]).floatValue
+            let Z = NSString(string: split[2]).floatValue
+            return [X, Y, Z]
+        }
+        let types = [MKSensorDataType.Accelerometer(location: MKSensorDataType.Location.LeftWrist)]
+        return try MKSensorData(types: types, start: 0, samplesPerSecond: UInt(50), samples: samples)
+    }
+    
+    public func sliceByCSVRow(from from: Int, to: Int) throws -> MKSensorData {
+        let sampleStart = dimension * (from - 1)
+        let sampleEnd = dimension * to
+        let data = samples[sampleStart..<sampleEnd]
+        return try MKSensorData(types: types, start: start, samplesPerSecond: samplesPerSecond, samples: Array(data))
+    }
+}
 //: ### Helper functions
 func model(named name: String, layerConfiguration: String, labels: [String]) throws -> MKExerciseModel {
     let demoModelPath = NSBundle.mainBundle().pathForResource(name, ofType: "raw")!
@@ -68,7 +105,7 @@ print("EVALUATE SLACKING MODEL\n")
 let slk = try! slackingClassifier.classify(block: slackingData.sliceByCSVRow(from: 12401, to: 13252), maxResults: 2) // EXERCISE
 print("\n\nRESULT:")
 slk.forEach { wcls in print(wcls) }
-
+print("END\n")
 
 func shiftOffset(offset: MKTimestamp)(x: MKClassifiedExercise) -> MKClassifiedExercise {
     return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset + offset, repetitions: x.repetitions, intensity: x.intensity, weight: x.weight)
