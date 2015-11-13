@@ -23,6 +23,76 @@ struct MKConnectivitySettings {
     }
 }
 
+struct MKConnectivitySessions {
+    private var sessions: [MKExerciseSession: MKExerciseSessionProperties] = [:]
+    private static let lock: NSObject = NSObject()
+    
+    mutating func update(session: MKExerciseSession, propsUpdate: MKExerciseSessionProperties -> MKExerciseSessionProperties) {
+        objc_sync_enter(MKConnectivitySessions.lock)
+        if let oldProps = sessions[session] {
+            let newProps = propsUpdate(oldProps)
+            if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
+            sessions[session] = propsUpdate(oldProps)
+        }
+        objc_sync_exit(MKConnectivitySessions.lock)
+    }
+    
+    mutating func update(session: MKExerciseSession, newProps: MKExerciseSessionProperties) {
+        objc_sync_enter(MKConnectivitySessions.lock)
+        if let oldProps = sessions[session] {
+            if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
+            sessions[session] = newProps
+        }
+        objc_sync_exit(MKConnectivitySessions.lock)
+    }
+    
+    mutating func remove(session: MKExerciseSession) {
+        objc_sync_enter(MKConnectivitySessions.lock)
+        sessions.removeValueForKey(session)
+        objc_sync_exit(MKConnectivitySessions.lock)
+    }
+    
+    mutating func add(session: MKExerciseSession) {
+        let props = MKExerciseSessionProperties(start: session.start)
+        sessions[session] = props
+    }
+    
+    /// ``true`` if there are no sessions
+    var isEmpty: Bool {
+        return sessions.isEmpty
+    }
+    
+    /// The debug description
+    var description: String {
+        if let (s, p) = mostImportantSessionsEntry {
+            return "\(sessions.count): \(s.id.characters.first!): \(p.sent)/\(Int(p.duration) * 50)"
+        }
+        return "0"
+    }
+    
+    ///
+    /// Returns the most important session for processing, if available
+    ///
+    var mostImportantSessionsEntry: (MKExerciseSession, MKExerciseSessionProperties)? {
+        // the current session or whichever one remains
+        return currentSession ?? sessions.first
+    }
+
+    ///
+    /// Returns the first encountered un-ended session
+    ///
+    var currentSession: (MKExerciseSession, MKExerciseSessionProperties)? {
+        // pick the not-yet-ended session first
+        for (session, props) in sessions where !props.ended {
+            return (session, props)
+        }
+
+        // nothing
+        return nil
+    }
+
+}
+
 ///
 /// The Watch -> iOS connectivity; deals with the underlying mechanism of data transfer and sensor
 /// data recording.
@@ -51,7 +121,9 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     private let recordedTypes: [MKSensorDataType]
     // the dimensionality of the data
     private let dimension: Int
-    private(set) public var sessions: [MKExerciseSession: MKExerciseSessionProperties] = [:]
+    // the current sessions
+    private var sessions = MKConnectivitySessions()
+    // the transfer queue
     private let transferQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
 
     ///
@@ -73,16 +145,11 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         delegate.metadataConnectivityDidReceiveExerciseModelMetadata(defaultExerciseModelMetadata)
     }
     
-    ///
-    /// Returns the first encountered un-ended session
-    ///
+    /// the current session
     public var currentSession: (MKExerciseSession, MKExerciseSessionProperties)? {
-        if let (session, props) = mostImportantSessionsEntry() where !props.ended {
-            return (session, props)
-        }
-        return nil
+        return sessions.currentSession
     }
-    
+
     ///
     /// Sends the sensor data ``data`` invoking ``onDone`` when the operation completes. The callee should
     /// check the value of ``SendDataResult`` to see if it should retry the transimssion, or if it can safely
@@ -113,13 +180,13 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter sensorData: the sensor data to be transferred
     ///
     public func transferDemoSensorDataForCurrentSession(sensorData: MKSensorData) {
-        for (session, props) in sessions where !props.ended && session.demo {
-            self.sessions[session] = props.with(accelerometerEnd: NSDate())
-            transferSensorDataBatch(sensorData, session: session, props: props) {
-                self.sessions[session] = props.with(accelerometerStart: NSDate())
+        if let (session, props) = sessions.currentSession {
+            if session.demo {
+                sessions.update(session) { $0.with(accelerometerEnd: NSDate()) }
+                transferSensorDataBatch(sensorData, session: session, props: props) {
+                    self.sessions.update(session) { $0.with(accelerometerStart: NSDate()) }
+                }
             }
-            NSLog("Transferred.")
-            return
         }
     }
     
@@ -137,27 +204,12 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Ends the current session
     ///
     public func endLastSession() {
-        if let (session, props) = currentSession {
-            let endedProps = props.with(end: NSDate())
-            sessions[session] = endedProps
-        } else {
-            NSLog("No session to end")
-        }
-        // still try to send remaining data
-        execute()
-    }
-    
-    ///
-    /// Returns the most important session for processing, if available
-    ///
-    private func mostImportantSessionsEntry() -> (MKExerciseSession, MKExerciseSessionProperties)? {
-        // pick the not-yet-ended session first
-        for (session, props) in sessions where !props.ended {
-            return (session, props)
+        if let (session, _) = sessions.currentSession {
+            sessions.update(session) { $0.with(end: NSDate()) }
         }
         
-        // then whichever one remains
-        return sessions.first
+        // still try to send remaining data
+        execute()
     }
     
     ///
@@ -226,7 +278,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             defer { objc_sync_exit(self) }
             
             // pick the most important entry
-            guard let (session, props) = mostImportantSessionsEntry() else {
+            guard let (session, props) = sessions.mostImportantSessionsEntry else {
                 NSLog("No session")
                 return
             }
@@ -243,28 +295,20 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             // update the number of recorded samples
             let readFromDate = NSDate(timeIntervalSince1970: sensorData.end)
             let updatedProps = props.with(accelerometerEnd: readFromDate)
-            self.sessions[session] = updatedProps
+            sessions.update(session, newProps: updatedProps)
             
             // transfer what we have so far
             transferSensorDataBatch(sensorData, session: session, props: updatedProps) {
                 // REVIEW: does this fix the sessions problem?
-                if self.sessions[session] == nil {
-                    NSLog("Session \(session) already removed.")
-                    dispatch_async(self.transferQueue, processFirstSession)
-                } else {
-                    // set the expected range of samples on the next call
-                    let finalProps = updatedProps.with(accelerometerStart: readFromDate)
-                    self.sessions[session] = finalProps
+                // set the expected range of samples on the next call
+                let finalProps = updatedProps.with(accelerometerStart: readFromDate)
+                self.sessions.update(session, newProps: finalProps)
 
-                    // update the session with incremented sent counter
-                    if finalProps.completed {
-                        NSLog("Remove completed session \(session)")
-                        self.sessions.removeValueForKey(session)
-                        // we're done with this session, we can move on to the next one
-                        dispatch_async(self.transferQueue, processFirstSession)
-                    }
-                    
-                    NSLog("Transferred \(sensorData.rowCount) samples; with \(self.sessions.count) active sessions.")
+                // update the session with incremented sent counter
+                if finalProps.completed {
+                    self.sessions.remove(session)
+                    // we're done with this session, we can move on to the next one
+                    dispatch_async(self.transferQueue, processFirstSession)
                 }
             }
         }
@@ -274,19 +318,14 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
 
         // check whether there is something to be done at all.
         NSLog("beginTransfer(); sessions = \(sessions)")
-        if sessions.count == 0 {
+        if sessions.isEmpty {
             NSLog("Reachable; no active sessions.")
             return
         }
         
-        // it makes sense to continue the work.
-        NSLog("Reachable; with \(sessions.count) active sessions.")
-        
         // TODO: It would be nice to be able to flush the sensor data recorder
         // recorder.flush()
         dispatch_async(transferQueue, processFirstSession)
-        
-        NSLog("Done; with \(sessions.count) active sessions.")
     }
 
         
@@ -299,18 +338,15 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func startSession(modelId: MKExerciseModelId, demo: Bool) {
         let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), demo: demo, modelId: modelId)
-        sessions[session] = MKExerciseSessionProperties(start: session.start)
+        sessions.add(session)
         WCSession.defaultSession().transferUserInfo(session.metadata)
     }
     
-    /// The debug description
+    /// the description
     public override var description: String {
-        if let (s, p) = mostImportantSessionsEntry() {
-            return "\(sessions.count): \(s.id.characters.first!): \(p.sent)/\(Int(p.duration) * 50)"
-        }
-        return "0"
+        return sessions.description
     }
-
+    
 }
 
 ///

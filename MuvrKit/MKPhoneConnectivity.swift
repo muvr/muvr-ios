@@ -21,7 +21,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         WCSession.defaultSession().delegate = self
         WCSession.defaultSession().activateSession()
     }
-    
+        
     ///
     /// Get the correct session instance (and its index) based on the received metadata
     /// Issues corresponding session start/end events
