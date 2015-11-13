@@ -7,7 +7,7 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
     var session: MRManagedExerciseSession?
     
     //Hard-coded for now
-    let exerciseList = ["alt-dumbbell-biceps-curl",
+    private let exerciseList = ["alt-dumbbell-biceps-curl",
         "angle-chest-press",
         "barbell-biceps-curl",
         "barbell-press",
@@ -38,13 +38,13 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
         "triceps-extension",
         "twist"]
     
-    var autocompleteExercises = [String]()
+    private var autocompleteExercises = [String]()
     
     @IBOutlet weak var exerciseId: UITextField!
     @IBOutlet weak var weight: UITextField!
     @IBOutlet weak var repetitions: UITextField!
     @IBOutlet weak var intensity: UISlider!
-    @IBOutlet var autocompleteTableView: UITableView!
+    @IBOutlet weak var autocompleteTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,46 +63,31 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
             autocompleteTableView.hidden = false
         }
         
-        searchAutocompleteEntriesWithSubstring(substring)
+        autocompleteExercises = searchAutocompleteEntriesWithSubstring(substring)
+        autocompleteTableView.reloadData()
         return true
     }
     
-    /**
-        Finds all exercises starting by or containing the substring.
-    */
-    func searchAutocompleteEntriesWithSubstring(substring: String)
-    {
-        autocompleteExercises.removeAll(keepCapacity: false)
-        
-        var prefixedExercises = exerciseList.filter({$0.hasPrefix(substring)})
-        let containingExercises = exerciseList.filter({
-            $0.lowercaseString.rangeOfString(substring.lowercaseString) != nil
-        })
-    
-        for exercise in containingExercises {
-            guard !prefixedExercises.contains(exercise) else {continue}
-            prefixedExercises.append(exercise)
+    ///
+    /// Filters the exercises to find only those that contain the given ``partialExercise``
+    ///
+    private func searchAutocompleteEntriesWithSubstring(partialExercise: String) -> [String] {
+        let trimmedPartialExercise = partialExercise.lowercaseString
+        return exerciseList.filter { exercise in
+            return exercise.lowercaseString.rangeOfString(trimmedPartialExercise) != nil
+        }.sort { x, y in
+            return x.hasPrefix(trimmedPartialExercise) || x < y
         }
-        
-        autocompleteExercises = prefixedExercises
-        autocompleteTableView.reloadData()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return autocompleteExercises.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
-        let autoCompleteRowIdentifier = "AutoCompleteRowIdentifier"
-        var cell = tableView.dequeueReusableCellWithIdentifier(autoCompleteRowIdentifier) as UITableViewCell?
-        
-        let index = indexPath.row as Int
-        if cell == nil {
-            cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: autoCompleteRowIdentifier)
-        }
-        cell?.textLabel?.text = autocompleteExercises[index]
-        return cell!
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("autocompleteRowIdentifier") as UITableViewCell!
+        cell.textLabel?.text = autocompleteExercises[indexPath.row]
+        return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
