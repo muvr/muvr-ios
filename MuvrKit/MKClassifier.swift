@@ -88,38 +88,57 @@ public struct MKClassifier {
                 
                 let labelName = self.model.exerciseIds[labelIndex]
                 let probability = windowPrediction[labelIndex]
-                if probability > 0.7 {
-                    return MKClassifiedExerciseBlock(confidence: Double(probability), exerciseId: labelName, duration: duration, offset: start)
-                }
-                return nil
+                return MKClassifiedExerciseBlock(confidence: Double(probability), exerciseId: labelName, duration: duration, offset: start)
             }
             return MKClassifiedExerciseWindow(window: window, classifiedExerciseBlocks: classifiedExerciseBlocks)
         }
         
         if cews.isEmpty { return [] }
         
+        let stepsInWindow = Int(windowSize / windowStepSize)
+        let steps: [MKClassifiedExerciseBlock] = (0..<numWindows + stepsInWindow).flatMap { i in
+            let minWindow = max(0, i - stepsInWindow)
+            let maxWindow = min(i, numWindows - 1)
+            var avg: [MKExerciseId:Double] = [:]
+            (minWindow..<maxWindow + 1).forEach { w in
+                let ws = Double(maxWindow - minWindow + 1)
+                for block in cews[w].classifiedExerciseBlocks {
+                    let blockAvg = block.confidence / ws
+                    if let exAvg = avg[block.exerciseId] {
+                        avg[block.exerciseId] = exAvg + blockAvg
+                    } else {
+                        avg[block.exerciseId] = blockAvg
+                    }
+                }
+            }
+            let exIds = avg.keys.sort { id1, id2 in
+                return avg[id1] > avg[id2]
+            }
+            if let exId = exIds.first {
+                return MKClassifiedExerciseBlock(confidence: Double(avg[exId]!), exerciseId: exId, duration: duration, offset: Double(i) * duration )
+            } else {
+                return nil
+            }
+        }
+        
         var result: [MKClassifiedExerciseBlock] = []
         var accumulator: MKClassifiedExerciseBlock? = nil
-        for var i = 0; i < cews.count; ++i {
-            if let current = cews[i].classifiedExerciseBlocks.first {
-                if accumulator == nil {
-                    accumulator = current
-                } else if current.isRoughlyEqual(accumulator!) {
-                    accumulator!.extend(current)
-                } else {
-                    result.append(accumulator!)
-                    accumulator = current
-                }
+        for var i = 0; i < steps.count; ++i {
+            let current = steps[i]
+            if accumulator == nil {
+                accumulator = current
+            } else if current.exerciseId == accumulator!.exerciseId {
+                accumulator!.extend(current)
             } else {
-                if let a = accumulator { result.append(a) }
-                accumulator = nil
+                result.append(accumulator!)
+                accumulator = current
             }
         }
         if let a = accumulator { result.append(a) }
         
         NSLog("classified \(result)")
-        
-        return result.filter { $0.duration >= self.model.minimumDuration }.map { x in
+
+        return result.map { x in
             return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset, repetitions: nil, intensity: nil, weight: nil)
         }
     }    
