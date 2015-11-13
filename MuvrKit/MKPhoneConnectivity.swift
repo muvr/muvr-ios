@@ -63,7 +63,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         // the metadata must be convertible to a session
         guard let (cs, index) = resolveSession(metadata) else { return }
         var connectivitySession = cs
-        NSLog("\(connectivitySession)")
 
         // check for duplicate transmissions
         if let timestamp = metadata["timestamp"] as? NSTimeInterval {
