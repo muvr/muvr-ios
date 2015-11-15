@@ -75,10 +75,9 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
         if MRExtensionDelegate.sharedDelegate().currentSession?.0.demo ?? false {
             let (resourceName, _) = exercises[rowIndex]
-            let resourcePath = NSBundle.mainBundle().pathForResource(resourceName, ofType: "raw")!
-            let data = NSData(contentsOfFile: resourcePath)!
-            let sd = try! MKSensorData(decoding: data)
-            MRExtensionDelegate.sharedDelegate().sendSamples(sd)
+            
+            let fileUrl = NSBundle.mainBundle().URLForResource(resourceName, withExtension: "raw")!
+            MRExtensionDelegate.sharedDelegate().sendSamples(fileUrl)
         }
     }
     
