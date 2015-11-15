@@ -259,6 +259,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 //
             }
             
+            // we're in a simulator => pretend that we have all data in from..to
             if simulatedSamples {
                 let encoder = MKSensorDataEncoder(target: MKFileSensorDataEncoderTarget(fileUrl: fileUrl), types: recordedTypes, samplesPerSecond: 50)
                 let samples = (0..<sampleCount).map { _ in return Float(0) }
@@ -266,33 +267,41 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 encoder.close(0)
                 NSLog("Generated \(from) - \(to) samples.")
                 return (fileUrl, to)
-            } else {
-                if let sdl = recorder.accelerometerDataFromDate(from, toDate: to) {
-                    var firstSampleTime: NSDate? = nil
-                    var lastSampleTime: NSDate? = nil
-                    var encoder: MKSensorDataEncoder? = nil
-                    sdl.enumerate().forEach { (_, e) in
-                        if let data = e as? CMRecordedAccelerometerData where isExpectedSample(data, lastTime: lastSampleTime) {
-                            if firstSampleTime == nil { firstSampleTime = data.startDate }
-                            if encoder == nil {
-                                encoder = MKSensorDataEncoder(target: MKFileSensorDataEncoderTarget(fileUrl: fileUrl), types: recordedTypes, samplesPerSecond: 50)
-                            }
-                            lastSampleTime = data.startDate
-                            encoder!.append([Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)])
-                        }
+            }
+            
+            // try to get the data from the recorder
+            guard let sdl = recorder.accelerometerDataFromDate(from, toDate: to) else {
+                NSLog("No data available.")
+                return nil
+            }
+            var firstSampleTime: NSDate? = nil
+            var lastSampleTime: NSDate? = nil
+            var encoder: MKSensorDataEncoder? = nil
+            // enumerate, creating output only if needed
+            sdl.enumerate().forEach { (_, e) in
+                if let data = e as? CMRecordedAccelerometerData where isExpectedSample(data, lastTime: lastSampleTime) {
+                    // keep track of the first sample time
+                    if firstSampleTime == nil { firstSampleTime = data.startDate }
+                    if encoder == nil {
+                        // encoder is needed
+                        encoder = MKSensorDataEncoder(target: MKFileSensorDataEncoderTarget(fileUrl: fileUrl), types: recordedTypes, samplesPerSecond: 50)
                     }
-                    if let firstSampleTime = firstSampleTime, let lastSampleTime = lastSampleTime, let encoder = encoder {
-                        let recordedDuration = lastSampleTime.timeIntervalSince1970 - firstSampleTime.timeIntervalSince1970
-                        if recordedDuration > 8.0 {
-                            encoder.close(firstSampleTime.timeIntervalSince1970)
-                            NSLog("Written \(firstSampleTime) - \(lastSampleTime) samples.")
-                            return (fileUrl, lastSampleTime)
-                        } else {
-                            encoder.close(0)
-                            return nil
-                        }
-                    }
+                    // keep track of the last sample's time
+                    lastSampleTime = data.startDate
+                    // append data to the encoder
+                    encoder!.append([Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)])
                 }
+            }
+            // after the loop, check if we have anything to transmit
+            if let firstSampleTime = firstSampleTime, let lastSampleTime = lastSampleTime, let encoder = encoder {
+                let recordedDuration = lastSampleTime.timeIntervalSince1970 - firstSampleTime.timeIntervalSince1970
+                encoder.close(firstSampleTime.timeIntervalSince1970)
+                // check for minimum duration
+                if recordedDuration > 8.0 {
+                    NSLog("Written \(firstSampleTime) - \(lastSampleTime) samples.")
+                    return (fileUrl, lastSampleTime)
+                }
+                return nil
             }
             
             return nil
