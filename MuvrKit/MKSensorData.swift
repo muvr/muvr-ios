@@ -174,7 +174,7 @@ public struct MKSensorData {
             return
         }
 
-        let maxGap: MKDuration = 10
+        let maxGap: MKDuration = 300
         let gap = that.start - self.end
     
         if gap > maxGap { throw MKSensorDataError.TooDiscontinous(gap: gap) }

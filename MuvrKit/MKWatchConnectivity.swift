@@ -279,7 +279,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             var encoder: MKSensorDataEncoder? = nil
             // enumerate, creating output only if needed
             sdl.enumerate().forEach { (_, e) in
-                if let data = e as? CMRecordedAccelerometerData where isExpectedSample(data, lastTime: lastSampleTime) {
+                if let data = e as? CMRecordedAccelerometerData where isInRange(data) {
                     // keep track of the first sample time
                     if firstSampleTime == nil { firstSampleTime = data.startDate }
                     if encoder == nil {
