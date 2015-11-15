@@ -70,6 +70,11 @@ struct MKConnectivitySessions {
         return "0"
     }
     
+    /// The number of sessions
+    var count: Int {
+        return sessions.count
+    }
+    
     ///
     /// Returns the most important session for processing, if available
     ///
@@ -161,16 +166,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     func transferSensorDataBatch(fileUrl: NSURL, session: MKExerciseSession, props: MKExerciseSessionProperties?, onDone: OnFileTransferDone) {
         if onFileTransferDone == nil {
             onFileTransferDone = onDone
-//            let encoded = data.encode()
-//            let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
-//            let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.raw")
-//            
-//            if encoded.writeToURL(fileUrl, atomically: true) {
-                var metadata = session.metadata
-                if let props = props { metadata = metadata.plus(props.metadata) }
-                metadata["timestamp"] = NSDate().timeIntervalSince1970
-                WCSession.defaultSession().transferFile(fileUrl, metadata: metadata)
-//            }
+            var metadata = session.metadata
+            if let props = props { metadata = metadata.plus(props.metadata) }
+            metadata["timestamp"] = NSDate().timeIntervalSince1970
+            WCSession.defaultSession().transferFile(fileUrl, metadata: metadata)
         }
     }
     
@@ -195,8 +194,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func session(session: WCSession, didFinishFileTransfer fileTransfer: WCSessionFileTransfer, error: NSError?) {
         if let onDone = onFileTransferDone {
-            onDone()
-            onFileTransferDone = nil
+            dispatch_async(transferQueue) {
+                onDone()
+                self.onFileTransferDone = nil
+            }
         }
     }
     
@@ -213,10 +214,9 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     }
     
     ///
-    /// Implements the protocol for the W -> P communication by collecting the data from the sensor recorder,
-    /// constructing the messages and dealing with session clean-up.
     ///
-    public func execute() {
+    ///
+    private func innerExecute() {
         
         func encodeSamples(from from: NSDate, to: NSDate, demo: Bool) -> (NSURL, NSDate)? {
             var simulatedSamples = demo
@@ -231,18 +231,23 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             // Indicates if the expected sample is in the requested range
             func isInRange(sample: CMRecordedAccelerometerData) -> Bool {
                 // check only 'start' time - don't care about end of range
-                return from.timeIntervalSince1970 <= sample.startDate.timeIntervalSince1970
+                return from.timeIntervalSince1970 >= sample.startDate.timeIntervalSince1970 &&
+                         to.timeIntervalSince1970 < sample.startDate.timeIntervalSince1970
             }
             
             // Indicates if the sample is the expected one (regarding recorded time)
             // It allows to check for ``missing`` samples in the requested range
             func isExpectedSample(sample: CMRecordedAccelerometerData, lastTime: NSDate?) -> Bool {
+                // all samples have to be in range
+                if !isInRange(sample) { return false }
+                
+                // otherwise, the sample has to be less than 40ms from the last one
                 if let lastTime = lastTime {
                     // check sample is not more than 40ms apart from last one
                     return sample.startDate.timeIntervalSinceDate(lastTime) < 0.04
                 } else {
-                    // first sample: check it is in range
-                    return isInRange(sample)
+                    // the first sample we've seen
+                    return true
                 }
             }
             
@@ -253,35 +258,39 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             } catch {
                 //
             }
-
+            
             if simulatedSamples {
                 let encoder = MKSensorDataEncoder(target: MKFileSensorDataEncoderTarget(fileUrl: fileUrl), types: recordedTypes, samplesPerSecond: 50)
                 let samples = (0..<sampleCount).map { _ in return Float(0) }
                 encoder.append(samples)
                 encoder.close(0)
-                NSLog("Generated \(from) - \(to) samples to \(fileUrl)")
+                NSLog("Generated \(from) - \(to) samples.")
                 return (fileUrl, to)
             } else {
-                var sampleStart: NSDate? = nil
-                var lastTime: NSDate? = nil
                 if let sdl = recorder.accelerometerDataFromDate(from, toDate: to) {
-                    let encoder = MKSensorDataEncoder(target: MKFileSensorDataEncoderTarget(fileUrl: fileUrl), types: recordedTypes, samplesPerSecond: 50)
+                    var firstSampleTime: NSDate? = nil
+                    var lastSampleTime: NSDate? = nil
+                    var encoder: MKSensorDataEncoder? = nil
                     sdl.enumerate().forEach { (_, e) in
-                        if let data = e as? CMRecordedAccelerometerData where isExpectedSample(data, lastTime: lastTime) {
-                            if sampleStart == nil { // first sample - set range start date
-                                sampleStart = data.startDate
+                        if let data = e as? CMRecordedAccelerometerData where isExpectedSample(data, lastTime: lastSampleTime) {
+                            if firstSampleTime == nil { firstSampleTime = data.startDate }
+                            if encoder == nil {
+                                encoder = MKSensorDataEncoder(target: MKFileSensorDataEncoderTarget(fileUrl: fileUrl), types: recordedTypes, samplesPerSecond: 50)
                             }
-                            lastTime = data.startDate
-                            encoder.append([Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)])
+                            lastSampleTime = data.startDate
+                            encoder!.append([Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)])
                         }
                     }
-                    if let sampleStart = sampleStart, let lastTime = lastTime {
-                        encoder.close(sampleStart.timeIntervalSince1970)
-                        NSLog("Written \(sampleStart) - \(lastTime) samples to \(fileUrl)")
-                        return (fileUrl, lastTime)
-                    } else {
-                        NSLog("No new samples")
-                        encoder.close(0)
+                    if let firstSampleTime = firstSampleTime, let lastSampleTime = lastSampleTime, let encoder = encoder {
+                        let recordedDuration = lastSampleTime.timeIntervalSince1970 - firstSampleTime.timeIntervalSince1970
+                        if recordedDuration > 8.0 {
+                            encoder.close(firstSampleTime.timeIntervalSince1970)
+                            NSLog("Written \(firstSampleTime) - \(lastSampleTime) samples.")
+                            return (fileUrl, lastSampleTime)
+                        } else {
+                            encoder.close(0)
+                            return nil
+                        }
                     }
                 }
             }
@@ -295,9 +304,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         /// we remove it, we move on to the next session.
         ///
         func processFirstSession() {
-            objc_sync_enter(self)
-            
-            defer { objc_sync_exit(self) }
+            if onFileTransferDone != nil {
+                NSLog("Still transferring. Skipping new transfer.")
+                return
+            }
             
             // pick the most important entry
             guard let (session, props) = sessions.mostImportantSessionsEntry else {
@@ -313,7 +323,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 NSLog("No sensor data in \(from) - \(to)")
                 return
             }
-
+            
             // update the number of recorded samples
             let updatedProps = props.with(accelerometerEnd: end)
             sessions.update(session, newProps: updatedProps)
@@ -324,22 +334,22 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 let finalProps = updatedProps.with(accelerometerStart: end)
                 self.sessions.update(session, newProps: finalProps)
                 NSLog("Transferred \(finalProps)")
-
+                
                 // update the session with incremented sent counter
                 if finalProps.completed {
                     NSLog("Removed \(finalProps)")
                     self.sessions.remove(session)
                     // we're done with this session, we can move on to the next one
-                    dispatch_async(self.transferQueue, processFirstSession)
+                    processFirstSession()
                 }
             }
         }
         
         // ask the SDR to record for another 12 hours just in case.
         recorder.recordAccelerometerForDuration(43200)
-
+        
         // check whether there is something to be done at all.
-        NSLog("beginTransfer(); sessions = \(sessions)")
+        NSLog("beginTransfer(); |sessions| = \(sessions.count)")
         if sessions.isEmpty {
             NSLog("Reachable; no active sessions.")
             return
@@ -347,7 +357,17 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         
         // TODO: It would be nice to be able to flush the sensor data recorder
         // recorder.flush()
-        dispatch_async(transferQueue, processFirstSession)
+        processFirstSession()
+    }
+    
+    ///
+    /// Implements the protocol for the W -> P communication by collecting the data from the sensor recorder,
+    /// constructing the messages and dealing with session clean-up.
+    ///
+    public func execute() {
+        // TODO: It would be nice to be able to flush the sensor data recorder
+        // recorder.flush()
+        dispatch_async(transferQueue, innerExecute)
     }
 
         

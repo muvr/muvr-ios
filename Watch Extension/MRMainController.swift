@@ -41,6 +41,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     }
     
     override func didDeactivate() {
+        renderer?.deactivate()
         renderer = nil
         super.didDeactivate()
     }
