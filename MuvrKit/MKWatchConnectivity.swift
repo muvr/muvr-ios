@@ -25,31 +25,24 @@ struct MKConnectivitySettings {
 
 struct MKConnectivitySessions {
     private var sessions: [MKExerciseSession: MKExerciseSessionProperties] = [:]
-    private static let lock: NSObject = NSObject()
     
     mutating func update(session: MKExerciseSession, propsUpdate: MKExerciseSessionProperties -> MKExerciseSessionProperties) {
-        objc_sync_enter(MKConnectivitySessions.lock)
         if let oldProps = sessions[session] {
             let newProps = propsUpdate(oldProps)
             if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
             sessions[session] = propsUpdate(oldProps)
         }
-        objc_sync_exit(MKConnectivitySessions.lock)
     }
     
     mutating func update(session: MKExerciseSession, newProps: MKExerciseSessionProperties) {
-        objc_sync_enter(MKConnectivitySessions.lock)
         if let oldProps = sessions[session] {
             if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
             sessions[session] = newProps
         }
-        objc_sync_exit(MKConnectivitySessions.lock)
     }
     
     mutating func remove(session: MKExerciseSession) {
-        objc_sync_enter(MKConnectivitySessions.lock)
         sessions.removeValueForKey(session)
-        objc_sync_exit(MKConnectivitySessions.lock)
     }
     
     mutating func add(session: MKExerciseSession) {
@@ -205,12 +198,13 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Ends the current session
     ///
     public func endLastSession() {
-        if let (session, _) = sessions.currentSession {
-            sessions.update(session) { $0.with(end: NSDate()) }
+        dispatch_async(transferQueue) {
+            if let (session, _) = sessions.currentSession {
+                sessions.update(session) { $0.with(end: NSDate()) }
+            }
+            // still try to send remaining data
+            innerExecute()
         }
-        
-        // still try to send remaining data
-        execute()
     }
     
     ///
@@ -233,22 +227,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 // check only 'start' time - don't care about end of range
                 return from.timeIntervalSince1970 <= sample.startDate.timeIntervalSince1970 &&
                          to.timeIntervalSince1970 >  sample.startDate.timeIntervalSince1970
-            }
-            
-            // Indicates if the sample is the expected one (regarding recorded time)
-            // It allows to check for ``missing`` samples in the requested range
-            func isExpectedSample(sample: CMRecordedAccelerometerData, lastTime: NSDate?) -> Bool {
-                // all samples have to be in range
-                if !isInRange(sample) { return false }
-                
-                // otherwise, the sample has to be less than 40ms from the last one
-                if let lastTime = lastTime {
-                    // check sample is not more than 40ms apart from last one
-                    return sample.startDate.timeIntervalSinceDate(lastTime) < 0.04
-                } else {
-                    // the first sample we've seen
-                    return true
-                }
             }
             
             let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
@@ -289,7 +267,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                     // keep track of the last sample's time
                     lastSampleTime = data.startDate
                     // append data to the encoder
-                    encoder!.append([Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)])
+                    encoder!.append([Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)], date: data.startDate)
                 }
             }
             // after the loop, check if we have anything to transmit

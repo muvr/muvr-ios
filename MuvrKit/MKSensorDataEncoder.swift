@@ -59,31 +59,79 @@ public final class MKSensorDataEncoder {
     private let target: MKSensorDataEncoderTarget
     /// The types of data contained in the column vectors (or spans of column vectors)
     private let types: [MKSensorDataType]
+    /// The sample dimension
+    private let dimension: Int
     /// The samples per second
     private let samplesPerSecond: UInt
+    /// The sample interval
+    private let sampleInterval: NSTimeInterval
     /// the sample count
     private var sampleCount: UInt32
+    /// the first sample date (i.e. the session start)
+    private let startDate: NSDate
+    /// last sample date and data
+    private var lastSampleDate: NSDate?
+    private var lastSample: [Float]?
 
     ///
     /// Initializes this encoder, setting the target, types, start and sampling rate
     ///
-    public init(target: MKSensorDataEncoderTarget, types: [MKSensorDataType], samplesPerSecond: UInt) {
+    public init(target: MKSensorDataEncoderTarget, types: [MKSensorDataType], samplesPerSecond: UInt, startDate: NSDate) {
         self.types = types
         self.samplesPerSecond = samplesPerSecond
         self.target = target
         self.sampleCount = 0
+        self.startDate = startDate
+        self.sampleInterval = Double(1) / Double(samplesPerSecond)
+        self.dimension = types.reduce(0) { sum, type in return sum + type.dimension }
         
         let emptyHeader = [UInt8](count: 16 + 4 * types.count, repeatedValue: 0)
         target.writeData(NSData(bytes: emptyHeader, length: emptyHeader.count), offset: nil)
+    }
+    
+    private func sampleShift(sampleDate: NSDate) -> NSTimeInterval {
+        let diff = sampleDate.timeIntervalSinceDate(startDate)
+        let expected = Double(sampleCount) / Double(dimension)
+        return diff - expected * sampleInterval
     }
     
     ///
     /// Append one "row" containing the sampled values
     /// - parameter sample: the sample
     ///
-    public func append(sample: [Float]) {
+    public func append(sample: [Float], date currentDate: NSDate) {
+        let shift = sampleShift(currentDate)
+        if shift < -sampleInterval {
+            // to many samples -> drop this one
+        } else if shift >= sampleInterval {
+            // missing samples -> generate missing ones
+            let samples = generateSamples(count: Int(shift / sampleInterval), sample: sample)
+            appendSample(samples)
+        } else {
+            // everything's fine -> add current sample
+            appendSample(sample)
+        }
+        lastSampleDate = currentDate
+    }
+    
+    private func generateSamples(count count: Int, sample: [Float]) -> [Float] {
+        var samples = [Float](count: count * dimension, repeatedValue: 0)
+        for i in 0..<dimension {
+            let first = sample[i]
+            let last  = lastSample?[i] ?? first
+            let ds = Float(first - last) / Float(count + 1)
+            for j in 0..<count {
+                samples[i + dimension * j] = last + ds * Float(j + 1)
+            }
+        }
+        samples.appendContentsOf(sample)
+        return samples
+    }
+    
+    private func appendSample(sample: [Float]) {
         sampleCount += UInt32(sample.count)
         target.writeData(NSData(bytes: sample, length: sizeof(Float) * sample.count), offset: nil)
+        lastSample = sample
     }
     
     ///
