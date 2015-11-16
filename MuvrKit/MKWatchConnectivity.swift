@@ -157,6 +157,9 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter onDone: the function to be executed on completion (success or error)
     ///
     func transferSensorDataBatch(fileUrl: NSURL, session: MKExerciseSession, props: MKExerciseSessionProperties?, onDone: OnFileTransferDone) {
+        if WCSession.defaultSession().outstandingFileTransfers.isEmpty {
+            onFileTransferDone = nil
+        }
         if onFileTransferDone == nil {
             onFileTransferDone = onDone
             var metadata = session.metadata
@@ -213,12 +216,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     private func innerExecute() {
         
         func encodeSamples(from from: NSDate, to: NSDate, demo: Bool) -> (NSURL, NSDate)? {
-            var simulatedSamples = demo
-            
-            #if (arch(i386) || arch(x86_64))
-                simulatedSamples = true
-            #endif
-            
             let duration = to.timeIntervalSinceDate(from)
             let sampleCount = dimension * MKConnectivitySettings.samplingRate * Int(duration)
             
@@ -235,16 +232,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 try NSFileManager.defaultManager().removeItemAtURL(fileUrl)
             } catch {
                 //
-            }
-            
-            // we're in a simulator => pretend that we have all data in from..to
-            if simulatedSamples {
-                let encoder = MKSensorDataEncoder(target: MKFileSensorDataEncoderTarget(fileUrl: fileUrl), types: recordedTypes, samplesPerSecond: 50)
-                let samples = (0..<sampleCount).map { _ in return Float(0) }
-                encoder.append(samples, sampleDate: from)
-                encoder.close()
-                NSLog("Generated \(from) - \(to) samples.")
-                return (fileUrl, encoder.endDate!)
             }
             
             // try to get the data from the recorder
@@ -295,6 +282,11 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             // pick the most important entry
             guard let (session, props) = sessions.mostImportantSessionsEntry else {
                 NSLog("No session")
+                return
+            }
+            
+            if session.demo {
+                NSLog("Demo session")
                 return
             }
             
