@@ -28,7 +28,7 @@ public struct MKClassifier {
     private let neuralNet: MKForwardPropagator
     private let windowSize = 400
     private let windowStepSize = 10
-    private let scalingFactor = Float(4.0)
+    private let accelerometerValueRange = Float(4.0) // most values will be between -2.0 and 2.0
     private let numInputs: Int
     private let numClasses: Int
     
@@ -66,7 +66,7 @@ public struct MKClassifier {
         }
         
         // TODO: SCALE FIX - needs to be moved & possibly converted using vdpsp
-        m = m.map{e in Float(e) / self.scalingFactor}
+        m = m.map{e in Float(e) / (self.accelerometerValueRange / 2)}
         
         let rowCount = m.count / dimension
         if rowCount < windowSize {
