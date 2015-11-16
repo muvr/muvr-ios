@@ -3,7 +3,8 @@ import XCTest
 @testable import MuvrKit
 
 class MKSensorDataEncoderTest : XCTestCase {
-    
+    private let sample = [Float(0.5), Float(0.5), Float(0.5)]
+
     private func dataEncoder(startDate: NSDate) -> (MKSensorDataEncoder, NSMutableData) {
         let sensor = MKSensorDataType.Accelerometer(location: MKSensorDataType.Location.LeftWrist)
         let data = NSMutableData()
@@ -15,10 +16,10 @@ class MKSensorDataEncoderTest : XCTestCase {
     func testAppendSample() {
         let start = NSDate(timeIntervalSinceNow: -60)
         let (encoder, data) = dataEncoder(start)
-        for i in 0..<100 {
-            let v = Float(0.5)
-            encoder.append([v, v, v], sampleDate: NSDate(timeInterval: 0.02 * Double(i), sinceDate: start))
+        for i in 0..<99 {
+            encoder.append(sample, sampleDate: NSDate(timeInterval: 0.02 * Double(i), sinceDate: start))
         }
+        encoder.append(sample, sampleDate: NSDate(timeInterval: 2.0, sinceDate: start))
         encoder.close()
         XCTAssertEqual(data.length, 300 * sizeof(Float) + 20)
     }
@@ -26,26 +27,28 @@ class MKSensorDataEncoderTest : XCTestCase {
     func testAppendTooManySamples() {
         let start = NSDate(timeIntervalSinceNow: -60)
         let (encoder, data) = dataEncoder(start)
-        for i in 0...99 {
-            let v = Float(i) / 100
-            encoder.append([v, v, v], sampleDate: NSDate(timeInterval: 0.01 * Double(i), sinceDate: start))
+        for i in 0..<199 {
+            encoder.append(sample, sampleDate: NSDate(timeInterval: 0.01 * Double(i), sinceDate: start))
         }
+        encoder.append(sample, sampleDate: NSDate(timeInterval: 1.0, sinceDate: start))
         encoder.close()
-        XCTAssertEqual(data.length, 153 * sizeof(Float) + 20)
+        NSLog("\(encoder.duration!)")
+        XCTAssertEqual(data.length, 300 * sizeof(Float) + 20)
     }
     
     func testAppendWithMissingSamples() {
         let start = NSDate(timeIntervalSinceNow: -60)
         let (encoder, data) = dataEncoder(start)
-        for i in 0...10 {
-            let v = Float(i) / 10
-            encoder.append([v, v, v], sampleDate: NSDate(timeInterval: 0.02 * Double(i), sinceDate: start))
+        for i in 0..<49 {
+            encoder.append(sample, sampleDate: NSDate(timeInterval: 0.02 * Double(i), sinceDate: start))
         }
+        encoder.append(sample, sampleDate: NSDate(timeInterval: 1.0, sinceDate: start))
         encoder.close()
-        XCTAssertEqual(data.length, 33 * sizeof(Float) + 20)
-        encoder.append([10,10,10], sampleDate: NSDate(timeInterval: 0.4, sinceDate: start))
+        XCTAssertEqual(data.length, 150 * sizeof(Float) + 20)
+        encoder.append(sample, sampleDate: NSDate(timeInterval: 1.0, sinceDate: start))
+        encoder.append(sample, sampleDate: NSDate(timeInterval: 2.0, sinceDate: start))
         encoder.close()
-        XCTAssertEqual(data.length, 60 * sizeof(Float) + 20)
+        XCTAssertEqual(data.length, 300 * sizeof(Float) + 20)
     }
     
     
