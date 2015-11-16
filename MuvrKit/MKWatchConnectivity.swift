@@ -157,10 +157,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter onDone: the function to be executed on completion (success or error)
     ///
     func transferSensorDataBatch(fileUrl: NSURL, session: MKExerciseSession, props: MKExerciseSessionProperties?, onDone: OnFileTransferDone) {
-        if WCSession.defaultSession().outstandingFileTransfers.isEmpty {
-            onFileTransferDone = nil
-        }
         if onFileTransferDone == nil {
+            NSLog("Transferring")
             onFileTransferDone = onDone
             var metadata = session.metadata
             if let props = props { metadata = metadata.plus(props.metadata) }
@@ -175,12 +173,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter sensorData: the sensor data to be transferred
     ///
     public func transferDemoSensorDataForCurrentSession(fileUrl: NSURL) {
-        if let (session, props) = sessions.currentSession {
-            if session.demo {
-                sessions.update(session) { $0.with(accelerometerEnd: NSDate()) }
-                transferSensorDataBatch(fileUrl, session: session, props: props) {
-                    self.sessions.update(session) { $0.with(accelerometerStart: NSDate()) }
-                }
+        if let (session, props) = sessions.currentSession where session.demo {
+            sessions.update(session) { $0.with(accelerometerEnd: NSDate()) }
+            transferSensorDataBatch(fileUrl, session: session, props: props) {
+                self.sessions.update(session) { $0.with(accelerometerStart: NSDate()) }
             }
         }
     }
@@ -189,8 +185,9 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Called when the file transfer completes.
     ///
     public func session(session: WCSession, didFinishFileTransfer fileTransfer: WCSessionFileTransfer, error: NSError?) {
+        NSLog("Transfer done")
         if let onDone = onFileTransferDone {
-            dispatch_async(transferQueue) {
+            dispatch_sync(transferQueue) {
                 onDone()
                 self.onFileTransferDone = nil
             }
@@ -201,7 +198,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Ends the current session
     ///
     public func endLastSession() {
-        dispatch_async(transferQueue) {
+        dispatch_sync(transferQueue) {
             if let (session, _) = self.sessions.currentSession {
                 self.sessions.update(session) { $0.with(end: NSDate()) }
             }
@@ -342,7 +339,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     public func execute() {
         // TODO: It would be nice to be able to flush the sensor data recorder
         // recorder.flush()
-        dispatch_async(transferQueue, innerExecute)
+        dispatch_sync(transferQueue, innerExecute)
     }
 
         
