@@ -304,6 +304,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         /// we remove it, we move on to the next session.
         ///
         func processFirstSession() {
+            // don't start again 
             if onFileTransferDone != nil {
                 NSLog("Still transferring. Skipping new transfer.")
                 return
@@ -315,6 +316,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 return
             }
             
+            // ignore demo session
             if session.demo {
                 NSLog("Demo session")
                 return
