@@ -67,21 +67,18 @@ public final class MKSensorDataEncoder {
     private let sampleInterval: NSTimeInterval
     /// the sample count
     private var sampleCount: UInt32
-    /// the first sample date (i.e. the session start)
-    private let startDate: NSDate
-    /// last sample date and data
-    private var lastSampleDate: NSDate?
-    private var lastSample: [Float]?
+    /// the first sample date 
+    private(set) public var startDate: NSDate?
 
     ///
     /// Initializes this encoder, setting the target, types, start and sampling rate
     ///
-    public init(target: MKSensorDataEncoderTarget, types: [MKSensorDataType], samplesPerSecond: UInt, startDate: NSDate) {
+    public init(target: MKSensorDataEncoderTarget, types: [MKSensorDataType], samplesPerSecond: UInt) {
         self.types = types
         self.samplesPerSecond = samplesPerSecond
         self.target = target
         self.sampleCount = 0
-        self.startDate = startDate
+        self.startDate = nil
         self.sampleInterval = Double(1) / Double(samplesPerSecond)
         self.dimension = types.reduce(0) { sum, type in return sum + type.dimension }
         
@@ -89,55 +86,57 @@ public final class MKSensorDataEncoder {
         target.writeData(NSData(bytes: emptyHeader, length: emptyHeader.count), offset: nil)
     }
     
-    private func sampleShift(sampleDate: NSDate) -> NSTimeInterval {
-        let diff = sampleDate.timeIntervalSinceDate(startDate)
-        let expected = Double(sampleCount) / Double(dimension)
-        return diff - expected * sampleInterval
-    }
-    
     ///
     /// Append one "row" containing the sampled values
     /// - parameter sample: the sample
     ///
-    public func append(sample: [Float], date currentDate: NSDate) {
-        let shift = sampleShift(currentDate)
-        if shift < -sampleInterval {
-            // to many samples -> drop this one
-        } else if shift >= sampleInterval {
-            // missing samples -> generate missing ones
-            let samples = generateSamples(count: Int(shift / sampleInterval), sample: sample)
-            appendSample(samples)
+    public func append(sample: [Float], sampleDate: NSDate) {
+        
+        func appendSample(sample: [Float]) {
+            sampleCount += UInt32(sample.count / dimension)
+            target.writeData(NSData(bytes: sample, length: sizeof(Float) * sample.count), offset: nil)
+        }
+
+        if sample.count == 0 {
+            fatalError("Empty samples.")
+        }
+        if sample.count % dimension != 0 {
+            fatalError("Dimension does not match the sample.")
+        }
+        if startDate == nil { startDate = sampleDate }
+
+        let expectedSampleCount = UInt32(sampleDate.timeIntervalSinceDate(startDate!) * Double(samplesPerSecond))
+        let diff = Int(expectedSampleCount) - Int(sampleCount)
+        if diff > 0 {
+            // extrapolate
+            // TODO: use linear / kalman filter extrapolation, keeping the lastSample
+            (0..<diff).forEach { _ in appendSample(sample) }
+        } else if diff < 0 {
+            // drop
+            NSLog("Dropping.")
         } else {
-            // everything's fine -> add current sample
             appendSample(sample)
         }
-        lastSampleDate = currentDate
     }
     
-    private func generateSamples(count count: Int, sample: [Float]) -> [Float] {
-        var samples = [Float](count: count * dimension, repeatedValue: 0)
-        for i in 0..<dimension {
-            let first = sample[i]
-            let last  = lastSample?[i] ?? first
-            let ds = Float(first - last) / Float(count + 1)
-            for j in 0..<count {
-                samples[i + dimension * j] = last + ds * Float(j + 1)
-            }
-        }
-        samples.appendContentsOf(sample)
-        return samples
-    }
-    
-    private func appendSample(sample: [Float]) {
-        sampleCount += UInt32(sample.count)
-        target.writeData(NSData(bytes: sample, length: sizeof(Float) * sample.count), offset: nil)
-        lastSample = sample
-    }
+//    private func generateSamples(count count: Int, sample: [Float]) -> [Float] {
+//        var samples = [Float](count: count * dimension, repeatedValue: 0)
+//        for i in 0..<dimension {
+//            let first = sample[i]
+//            let last  = lastSample?[i] ?? first
+//            let ds = Float(first - last) / Float(count + 1)
+//            for j in 0..<count {
+//                samples[i + dimension * j] = last + ds * Float(j + 1)
+//            }
+//        }
+//        samples.appendContentsOf(sample)
+//        return samples
+//    }
     
     ///
-    /// Closes 
+    /// Closes the writer the header, and finally closes the given ``target``.
     ///
-    public func close(start: NSTimeInterval) {
+    public func close() {
         /// the partial headers
         let headerData: NSMutableData = NSMutableData()
         
@@ -145,8 +144,8 @@ public final class MKSensorDataEncoder {
         var version: UInt8 = 0x64
         var typesCount: UInt8 = UInt8(self.types.count)
         var samplesPerSecond: UInt8 = UInt8(self.samplesPerSecond)
-
-        var start: Double = start
+        var sampleCount: UInt32 = self.sampleCount * UInt32(self.dimension)
+        var start: Double = startDate?.timeIntervalSince1970 ?? 0
         var types = self.types.flatMap { (type: MKSensorDataType) -> [UInt8] in
             switch type {
             case .Accelerometer(location: MKSensorDataType.Location.LeftWrist):  return [UInt8(0x74), UInt8(0x61), UInt8(0x6c), UInt8(0x0)]
@@ -167,6 +166,19 @@ public final class MKSensorDataEncoder {
 
         target.writeData(headerData, offset: 0)
         target.close()
+    }
+    
+    /// The duration encoded
+    public var duration: NSTimeInterval? {
+        if let startDate = startDate, endDate = endDate {
+            return endDate.timeIntervalSinceDate(startDate)
+        }
+        return nil
+    }
+    
+    /// The end date of the encoder
+    public var endDate: NSDate? {
+        return startDate.map { $0.dateByAddingTimeInterval(Double(sampleCount) / Double(samplesPerSecond)) }
     }
     
 }

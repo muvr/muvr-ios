@@ -199,11 +199,11 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func endLastSession() {
         dispatch_async(transferQueue) {
-            if let (session, _) = sessions.currentSession {
-                sessions.update(session) { $0.with(end: NSDate()) }
+            if let (session, _) = self.sessions.currentSession {
+                self.sessions.update(session) { $0.with(end: NSDate()) }
             }
             // still try to send remaining data
-            innerExecute()
+            self.innerExecute()
         }
     }
     
@@ -241,10 +241,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             if simulatedSamples {
                 let encoder = MKSensorDataEncoder(target: MKFileSensorDataEncoderTarget(fileUrl: fileUrl), types: recordedTypes, samplesPerSecond: 50)
                 let samples = (0..<sampleCount).map { _ in return Float(0) }
-                encoder.append(samples)
-                encoder.close(0)
+                encoder.append(samples, sampleDate: from)
+                encoder.close()
                 NSLog("Generated \(from) - \(to) samples.")
-                return (fileUrl, to)
+                return (fileUrl, encoder.endDate!)
             }
             
             // try to get the data from the recorder
@@ -253,7 +253,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 return nil
             }
             var firstSampleTime: NSDate? = nil
-            var lastSampleTime: NSDate? = nil
             var encoder: MKSensorDataEncoder? = nil
             // enumerate, creating output only if needed
             sdl.enumerate().forEach { (_, e) in
@@ -264,20 +263,17 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                         // encoder is needed
                         encoder = MKSensorDataEncoder(target: MKFileSensorDataEncoderTarget(fileUrl: fileUrl), types: recordedTypes, samplesPerSecond: 50)
                     }
-                    // keep track of the last sample's time
-                    lastSampleTime = data.startDate
                     // append data to the encoder
-                    encoder!.append([Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)], date: data.startDate)
+                    encoder!.append([Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)], sampleDate: data.startDate)
                 }
             }
             // after the loop, check if we have anything to transmit
-            if let firstSampleTime = firstSampleTime, let lastSampleTime = lastSampleTime, let encoder = encoder {
-                let recordedDuration = lastSampleTime.timeIntervalSince1970 - firstSampleTime.timeIntervalSince1970
-                encoder.close(firstSampleTime.timeIntervalSince1970)
+            if let encoder = encoder {
+                encoder.close()
                 // check for minimum duration
-                if recordedDuration > 8.0 {
-                    NSLog("Written \(firstSampleTime) - \(lastSampleTime) samples.")
-                    return (fileUrl, lastSampleTime)
+                if encoder.duration > 8.0 {
+                    NSLog("Written \(encoder.startDate!) - \(encoder.endDate!) samples.")
+                    return (fileUrl, encoder.endDate!)
                 }
                 return nil
             }
