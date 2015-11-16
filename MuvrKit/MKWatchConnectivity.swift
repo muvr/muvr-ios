@@ -23,9 +23,17 @@ struct MKConnectivitySettings {
     }
 }
 
+///
+/// Maintains all connectivity sessions
+///
 struct MKConnectivitySessions {
     private var sessions: [MKExerciseSession: MKExerciseSessionProperties] = [:]
     
+    ///
+    /// Updates the session props with the result of applying ``propsUpdate`` to the session's props
+    /// - parameter session: the session to update
+    /// - parameter propsUpdate: the function that returns updated props given the old ones
+    ///
     mutating func update(session: MKExerciseSession, propsUpdate: MKExerciseSessionProperties -> MKExerciseSessionProperties) {
         if let oldProps = sessions[session] {
             let newProps = propsUpdate(oldProps)
@@ -34,6 +42,11 @@ struct MKConnectivitySessions {
         }
     }
     
+    ///
+    /// Updates the session with the new props
+    /// - parameter session: the session to update
+    /// - parameter propsUpdate: the function that returns updated props given the old ones
+    ///
     mutating func update(session: MKExerciseSession, newProps: MKExerciseSessionProperties) {
         if let oldProps = sessions[session] {
             if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
@@ -41,10 +54,18 @@ struct MKConnectivitySessions {
         }
     }
     
+    ///
+    /// Removes the given ``session``
+    /// - parameter session: the session to remove
+    ///
     mutating func remove(session: MKExerciseSession) {
         sessions.removeValueForKey(session)
     }
     
+    ///
+    /// Add a new session
+    /// - parameter session: the session to be added
+    ///
     mutating func add(session: MKExerciseSession) {
         let props = MKExerciseSessionProperties(start: session.start)
         sessions[session] = props
@@ -110,10 +131,12 @@ struct MKConnectivitySessions {
 ///
 public final class MKConnectivity : NSObject, WCSessionDelegate {
     public typealias OnFileTransferDone = () -> Void
-    
+
+    // the function that will be called when file transfer succeeds. 
+    // NB there can be only one outstanding transfer at a time.
     private var onFileTransferDone: OnFileTransferDone?
-    internal var transferringRealTime: Bool = false
     
+    // the sensor recorder
     private let recorder: CMSensorRecorder = CMSensorRecorder()
     // the required SDTs that the recorder provides
     private let recordedTypes: [MKSensorDataType]
@@ -208,11 +231,21 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     }
     
     ///
+    /// *** THIS FUNCTION SHOULD ONLY BE CALLED ON THE ``transferQueue``. ***
     ///
+    /// Performs all the work to encode the samples and transfer to the phone
+    ///
+    /// *** THIS FUNCTION SHOULD ONLY BE CALLED ON THE ``transferQueue``. ***
     ///
     private func innerExecute() {
         
-        func encodeSamples(from from: NSDate, to: NSDate, demo: Bool) -> (NSURL, NSDate)? {
+        ///
+        /// Encodes all the samples between ``from`` and ``to``. 
+        /// - parameter from: the starting date
+        /// - parameter to: the ending date
+        /// - returns: pair of URL containing the encoded data and end date, ``nil`` otherwise
+        ///
+        func encodeSamples(from from: NSDate, to: NSDate) -> (NSURL, NSDate)? {
             let duration = to.timeIntervalSinceDate(from)
             let sampleCount = dimension * MKConnectivitySettings.samplingRate * Int(duration)
             
@@ -291,7 +324,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
             
-            guard let (fileUrl, end) = encodeSamples(from: from, to: to, demo: session.demo) else {
+            guard let (fileUrl, end) = encodeSamples(from: from, to: to) else {
                 NSLog("No sensor data in \(from) - \(to)")
                 return
             }
@@ -337,8 +370,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// constructing the messages and dealing with session clean-up.
     ///
     public func execute() {
-        // TODO: It would be nice to be able to flush the sensor data recorder
-        // recorder.flush()
         dispatch_sync(transferQueue, innerExecute)
     }
 
