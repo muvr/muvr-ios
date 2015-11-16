@@ -24,15 +24,21 @@ struct MKConnectivitySettings {
 }
 
 struct MKConnectivitySessions {
-    private var sessions: [MKExerciseSession: MKExerciseSessionProperties] = [:]
+    private var sessions: [MKExerciseSession: MKExerciseSessionProperties]
     private static let lock: NSObject = NSObject()
+    private static let fileUrl = "\(NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!)/sessions.json"
+    
+    init() {
+        self.sessions = MKConnectivitySessions.loadSessions()
+    }
     
     mutating func update(session: MKExerciseSession, propsUpdate: MKExerciseSessionProperties -> MKExerciseSessionProperties) {
         objc_sync_enter(MKConnectivitySessions.lock)
         if let oldProps = sessions[session] {
             let newProps = propsUpdate(oldProps)
-            if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
+            //if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
             sessions[session] = propsUpdate(oldProps)
+            saveSessions(sessions)
         }
         objc_sync_exit(MKConnectivitySessions.lock)
     }
@@ -40,8 +46,9 @@ struct MKConnectivitySessions {
     mutating func update(session: MKExerciseSession, newProps: MKExerciseSessionProperties) {
         objc_sync_enter(MKConnectivitySessions.lock)
         if let oldProps = sessions[session] {
-            if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
+            //if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
             sessions[session] = newProps
+            saveSessions(sessions)
         }
         objc_sync_exit(MKConnectivitySessions.lock)
     }
@@ -49,12 +56,16 @@ struct MKConnectivitySessions {
     mutating func remove(session: MKExerciseSession) {
         objc_sync_enter(MKConnectivitySessions.lock)
         sessions.removeValueForKey(session)
+        saveSessions(sessions)
         objc_sync_exit(MKConnectivitySessions.lock)
     }
     
     mutating func add(session: MKExerciseSession) {
         let props = MKExerciseSessionProperties(start: session.start)
+        objc_sync_enter(MKConnectivitySessions.lock)
         sessions[session] = props
+        saveSessions(sessions)
+        objc_sync_exit(MKConnectivitySessions.lock)
     }
     
     /// ``true`` if there are no sessions
@@ -95,7 +106,69 @@ struct MKConnectivitySessions {
         // nothing
         return nil
     }
+    
+    private func saveSessions(sessions: [MKExerciseSession: MKExerciseSessionProperties]) {
+        let jsonString = serializeSessions(sessions)
+        do {
+            try jsonString!.writeToFile(MKConnectivitySessions.fileUrl, atomically: true, encoding: NSUTF8StringEncoding)
+        } catch let writingFailure {
+            NSLog("Error while persisting sessions on the Watch : \(writingFailure)")
+        }
+    }
+    
+    static func loadSessions() -> [MKExerciseSession: MKExerciseSessionProperties] {
+        if let fileContent = NSFileManager.defaultManager().contentsAtPath(MKConnectivitySessions.fileUrl) {
+            let loadedSessions = deserializeSessions(fileContent)
+            NSLog("Found \(loadedSessions.count) sessions to load on app start")
+            return loadedSessions
+        } else {
+            NSLog("Found 0 sessions to load on app start.")
+            return [:]
+        }
+    }
+    
+    func serializeSessions(sessions: [MKExerciseSession: MKExerciseSessionProperties]) -> String? {
+        var data = [[String: NSObject]]()
+        for (session, properties) in sessions {
+            var sessionData = session.asDictionary
+            for prop in properties.asDictionary {
+                sessionData[prop.0] = prop.1
+            }
+            data.append(sessionData)
+        }
+        
+        do {
+            let json = try NSJSONSerialization.dataWithJSONObject(data, options:NSJSONWritingOptions(rawValue: 0))
+            return String(data: json, encoding: NSUTF8StringEncoding)
+        } catch let serializationFailure {
+            NSLog("Error while serializing a session : \(serializationFailure)")
+            return nil
+        }
+    }
+    
+    static func deserializeSessions(data: NSData) -> [MKExerciseSession: MKExerciseSessionProperties] {
+        var sessions = [MKExerciseSession: MKExerciseSessionProperties]()
+        
+        do {
+            if let sessionsData = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as? [[String: NSObject]] {
+                for sessionDetails in sessionsData {
+                    let session = MKExerciseSession(properties: sessionDetails)
+                    let properties = MKExerciseSessionProperties(properties: sessionDetails)
+                    if (session != nil && properties != nil) {
+                        sessions[session!] = properties!
+                    }
+                }
+            } else {
+                NSLog("No sessions json found to parse.")
+            }
+        } catch let serializationFailure {
+            NSLog("Error while deserializing sessions : \(serializationFailure)")
+        }
+        
+        return sessions
+    }
 
+    
 }
 
 ///
@@ -358,7 +431,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         recorder.recordAccelerometerForDuration(43200)
         
         // check whether there is something to be done at all.
-        NSLog("beginTransfer(); |sessions| = \(sessions.count)")
+        //NSLog("beginTransfer(); |sessions| = \(sessions.count)")
         if sessions.isEmpty {
             NSLog("Reachable; no active sessions.")
             return
@@ -438,6 +511,41 @@ private extension MKExerciseSession {
 }
 
 ///
+/// For JSON serialization
+///
+private extension MKExerciseSession {
+    
+    var asDictionary: [String: NSObject] {
+        return [
+            "id":           self.id,
+            "start":        self.start.timeIntervalSinceReferenceDate,
+            "demo":         self.demo,
+            "modelId":      self.modelId
+        ]
+    }
+    
+    init?(properties: [String: NSObject]) {
+        
+        let id = properties["id"] as? String
+        
+        var start: NSDate? = nil
+        if let startDate = properties["start"] as? NSTimeInterval {
+            start = NSDate(timeIntervalSinceReferenceDate: startDate)
+        }
+        
+        let demo = properties["demo"] as? Bool
+        let modelId = properties["modelId"] as? String
+        
+        if  id != nil && start != nil && demo != nil && modelId != nil {
+            self.init(id: id!, start: start!, demo: demo!, modelId: modelId!)
+        } else {
+            return nil
+        }
+        
+    }
+}
+
+///
 /// Adds the ``metadata`` property that can be used in P -> W comms
 /// See ``MKExerciseConnectivitySession`` for the phone counterpart.
 ///
@@ -458,6 +566,54 @@ private extension MKExerciseSessionProperties {
         return ended && recorded >= MKConnectivitySettings.samplesForDuration(duration - 8.0) //(Int(duration - 8.0) * 50) // ok if miss last data window
     }
     
+}
+
+///
+/// For JSON serialization
+///
+private extension MKExerciseSessionProperties {
+    
+    //Names are prefixed by "prop" to avoid clash with the ExerciseSession properties when serializing
+    var asDictionary: [String: NSObject] {
+        get {
+            var properties = [String: NSObject]()
+            properties["propStart"] = self.start.timeIntervalSinceReferenceDate
+            properties["propAccelerometerStart"] = self.accelerometerStart?.timeIntervalSinceReferenceDate
+            properties["propAccelerometerEnd"] = self.accelerometerEnd?.timeIntervalSinceReferenceDate
+            properties["propEnd"] = self.end?.timeIntervalSinceReferenceDate
+            return properties
+        }
+    }
+    
+    init?(properties: [String: NSObject]) {
+        
+        var start: NSDate? = nil
+        if let startDate = properties["propStart"] as? NSTimeInterval {
+            start = NSDate(timeIntervalSinceReferenceDate: startDate)
+        }
+        
+        var accStart: NSDate? = nil
+        if let accStartDate = properties["propAccelerometerStart"] as? NSTimeInterval {
+            accStart = NSDate(timeIntervalSinceReferenceDate: accStartDate)
+        }
+        
+        var accEnd: NSDate? = nil
+        if let accEndDate = properties["propAccelerometerEnd"] as? NSTimeInterval {
+            accEnd = NSDate(timeIntervalSinceReferenceDate: accEndDate)
+        }
+        
+        var end: NSDate? = nil
+        if let endDate = properties["propEnd"] as? NSTimeInterval {
+            end = NSDate(timeIntervalSinceReferenceDate: endDate)
+        }
+        
+        if  start != nil {
+            self.init(start: start!, accelerometerStart: accStart, accelerometerEnd: accEnd, end: end)
+        } else {
+            return nil
+        }
+        
+    }
 }
 
 ///
