@@ -33,11 +33,21 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     
     override func willActivate() {
         super.willActivate()
+        activate()
+    }
+    
+    private func activate() {
         let sd = MRExtensionDelegate.sharedDelegate()
         exerciseModel.setItems(sd.exerciseModelMetadata.map { _, title in return WKPickerItem.withTitle(title) })
         
         updateUI()
         renderer = MRSessionProgressGroupRenderer(group: self)
+    }
+    
+    override func didAppear() {
+        if renderer == nil {
+            activate()
+        }
     }
     
     override func didDeactivate() {

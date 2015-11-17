@@ -16,10 +16,9 @@ class MKSensorDataEncoderTest : XCTestCase {
     func testAppendSample() {
         let start = NSDate(timeIntervalSinceNow: -60)
         let (encoder, data) = dataEncoder(start)
-        for i in 0..<99 {
+        for i in 0..<100 {
             encoder.append(sample, sampleDate: NSDate(timeInterval: 0.02 * Double(i), sinceDate: start))
         }
-        encoder.append(sample, sampleDate: NSDate(timeInterval: 2.0, sinceDate: start))
         encoder.close()
         XCTAssertEqual(data.length, 300 * sizeof(Float) + 20)
     }
@@ -30,7 +29,6 @@ class MKSensorDataEncoderTest : XCTestCase {
         for i in 0..<199 {
             encoder.append(sample, sampleDate: NSDate(timeInterval: 0.01 * Double(i), sinceDate: start))
         }
-        encoder.append(sample, sampleDate: NSDate(timeInterval: 1.0, sinceDate: start))
         encoder.close()
         NSLog("\(encoder.duration!)")
         XCTAssertEqual(data.length, 300 * sizeof(Float) + 20)
@@ -39,16 +37,15 @@ class MKSensorDataEncoderTest : XCTestCase {
     func testAppendWithMissingSamples() {
         let start = NSDate(timeIntervalSinceNow: -60)
         let (encoder, data) = dataEncoder(start)
-        for i in 0..<49 {
+        for i in 0..<50 {
             encoder.append(sample, sampleDate: NSDate(timeInterval: 0.02 * Double(i), sinceDate: start))
         }
-        encoder.append(sample, sampleDate: NSDate(timeInterval: 1.0, sinceDate: start))
         encoder.close()
         XCTAssertEqual(data.length, 150 * sizeof(Float) + 20)
         encoder.append(sample, sampleDate: NSDate(timeInterval: 1.0, sinceDate: start))
         encoder.append(sample, sampleDate: NSDate(timeInterval: 2.0, sinceDate: start))
         encoder.close()
-        XCTAssertEqual(data.length, 300 * sizeof(Float) + 20)
+        XCTAssertEqual(data.length, 303 * sizeof(Float) + 20) // 101 samples (including samples at time 0.0 and time 2.0)
     }
     
     

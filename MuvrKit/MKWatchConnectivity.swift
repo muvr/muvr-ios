@@ -296,8 +296,11 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func endLastSession() {
         dispatch_sync(transferQueue) {
-            if let (session, _) = self.sessions.currentSession {
-                self.sessions.update(session) { $0.with(end: NSDate()) }
+            if let (session, props) = self.sessions.currentSession {
+                let endedProps = props.with(end: NSDate())
+                self.sessions.update(session, newProps: endedProps)
+                // Notify phone that session ended
+                WCSession.defaultSession().transferUserInfo(session.metadata.plus(endedProps.metadata))
             }
             // still try to send remaining data
             self.innerExecute()
@@ -325,9 +328,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             
             // Indicates if the expected sample is in the requested range
             func isInRange(sample: CMRecordedAccelerometerData) -> Bool {
-                // check only 'start' time - don't care about end of range
-                return from.timeIntervalSince1970 <= sample.startDate.timeIntervalSince1970 &&
-                         to.timeIntervalSince1970 >  sample.startDate.timeIntervalSince1970
+                let time = sample.startDate.timeIntervalSince1970
+                return from.timeIntervalSince1970 <= time && time < to.timeIntervalSince1970
             }
             
             let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
@@ -399,6 +401,11 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             // compute the dates
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
+            
+            if (to.timeIntervalSinceDate(from) < 8.0) {
+                NSLog("Skip transfer for chunk smaller than a single window")
+                return
+            }
             
             guard let (fileUrl, end) = encodeSamples(from: from, to: to) else {
                 NSLog("No sensor data in \(from) - \(to)")
