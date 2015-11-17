@@ -29,6 +29,8 @@ struct MKConnectivitySettings {
 struct MKConnectivitySessions {
     
     private var sessions: [MKExerciseSession: MKExerciseSessionProperties]
+    
+    /// Used to persist the sessions in case of app shut down before session stopped
     private static let fileUrl = "\(NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!)/sessions.json"
     
     init() {
@@ -121,7 +123,7 @@ struct MKConnectivitySessions {
     }
     
     private func saveSessions(sessions: [MKExerciseSession: MKExerciseSessionProperties]) {
-        let jsonString = serializeSessions(sessions)
+        let jsonString = MKConnectivitySessions.serializeSessions(sessions)
         do {
             try jsonString!.writeToFile(MKConnectivitySessions.fileUrl, atomically: true, encoding: NSUTF8StringEncoding)
         } catch let writingFailure {
@@ -129,7 +131,7 @@ struct MKConnectivitySessions {
         }
     }
     
-    static func loadSessions() -> [MKExerciseSession: MKExerciseSessionProperties] {
+    private static func loadSessions() -> [MKExerciseSession: MKExerciseSessionProperties] {
         if let fileContent = NSFileManager.defaultManager().contentsAtPath(MKConnectivitySessions.fileUrl) {
             let loadedSessions = deserializeSessions(fileContent)
             NSLog("Found \(loadedSessions.count) sessions to load on app start")
@@ -140,7 +142,7 @@ struct MKConnectivitySessions {
         }
     }
     
-    func serializeSessions(sessions: [MKExerciseSession: MKExerciseSessionProperties]) -> String? {
+    private static func serializeSessions(sessions: [MKExerciseSession: MKExerciseSessionProperties]) -> String? {
         var data = [[String: NSObject]]()
         for (session, properties) in sessions {
             var sessionData = session.asDictionary
@@ -159,7 +161,7 @@ struct MKConnectivitySessions {
         }
     }
     
-    static func deserializeSessions(data: NSData) -> [MKExerciseSession: MKExerciseSessionProperties] {
+    private static func deserializeSessions(data: NSData) -> [MKExerciseSession: MKExerciseSessionProperties] {
         var sessions = [MKExerciseSession: MKExerciseSessionProperties]()
         
         do {
