@@ -1,7 +1,7 @@
 import WatchKit
 
 class MRSessionProgressGroupRenderer : NSObject {
-    private let group: MRSessionProgressGroup
+    private unowned let group: MRSessionProgressGroup
     private var timer: NSTimer?
     
     init(group: MRSessionProgressGroup) {
@@ -11,12 +11,18 @@ class MRSessionProgressGroupRenderer : NSObject {
         self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "update", userInfo: nil, repeats: true)
     }
     
-    deinit {
+    func deactivate() {
         self.timer?.invalidate()
         self.timer = nil
     }
     
+    deinit {
+        deactivate()
+    }
+    
     func update() {
+        MRExtensionDelegate.sharedDelegate().applicationDidBecomeActive()
+        
         if let (session, props) = MRExtensionDelegate.sharedDelegate().currentSession {
             let text = NSDateComponentsFormatter().stringFromTimeInterval(props.duration)!
             group.titleLabel.setText(session.modelId)

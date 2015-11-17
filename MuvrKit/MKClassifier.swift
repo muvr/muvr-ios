@@ -28,6 +28,7 @@ public struct MKClassifier {
     private let neuralNet: MKForwardPropagator
     private let windowSize = 400
     private let windowStepSize = 10
+    private let accelerometerValueRange = Float(4.0) // most values will be between -2.0 and 2.0
     private let numInputs: Int
     private let numClasses: Int
     
@@ -58,17 +59,21 @@ public struct MKClassifier {
     ///
     public func classify(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExercise] {
         // in the outer function, we perform the common decoding and basic checking
-        let (dimension, m) = block.samples(along: model.sensorDataTypes)
+        var (dimension, m) = block.samples(along: model.sensorDataTypes)
         if dimension == 0 {
             // we could not find any slice that the model requires
             throw MKClassifierError.NoSensorDataType(received: block.types, required: model.sensorDataTypes)
         }
+        
+        // TODO: SCALE FIX - needs to be moved & possibly converted using vdpsp
+        m = m.map{e in Float(e) / (self.accelerometerValueRange / 2)}
         
         let rowCount = m.count / dimension
         if rowCount < windowSize {
             // not enough input for classification
             throw MKClassifierError.NotEnoughRows(received: block.rowCount, required: windowSize)
         }
+        NSLog("Classification called for \(rowCount) samples (\(rowCount / 50)s)")
 
         let numWindows = (rowCount - windowSize) / windowStepSize + 1
         let duration = Double(windowStepSize) / Double(block.samplesPerSecond)
@@ -88,7 +93,9 @@ public struct MKClassifier {
                 
                 let labelName = self.model.exerciseIds[labelIndex]
                 let probability = windowPrediction[labelIndex]
-                return MKClassifiedExerciseBlock(confidence: Double(probability), exerciseId: labelName, duration: duration, offset: start)
+
+                let windowDuration = window == numWindows - 1 ? (Double(windowSize) / Double(block.samplesPerSecond)) : duration
+                return MKClassifiedExerciseBlock(confidence: Double(probability), exerciseId: labelName, duration: windowDuration, offset: start)
             }
             return MKClassifiedExerciseWindow(window: window, classifiedExerciseBlocks: classifiedExerciseBlocks)
         }
@@ -120,7 +127,7 @@ public struct MKClassifier {
                 return nil
             }
         }
-        
+
         var result: [MKClassifiedExerciseBlock] = []
         var accumulator: MKClassifiedExerciseBlock? = nil
         for var i = 0; i < steps.count; ++i {
@@ -158,7 +165,7 @@ struct MKClassifiedExerciseBlock {
     }
 
     func isRoughlyEqual(to: MKClassifiedExerciseBlock) -> Bool {
-        return self.exerciseId == to.exerciseId && abs(self.confidence - to.confidence) < 0.1
+        return self.exerciseId == to.exerciseId && abs(self.confidence - to.confidence) < 0.5
     }
 }
 
