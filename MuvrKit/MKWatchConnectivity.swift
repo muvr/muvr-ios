@@ -42,26 +42,18 @@ struct MKConnectivitySessions {
     /// - parameter session: the session to update
     /// - parameter propsUpdate: the function that returns updated props given the old ones
     ///
-    mutating func update(session: MKExerciseSession, propsUpdate: MKExerciseSessionProperties -> MKExerciseSessionProperties) {
+    mutating func update(session: MKExerciseSession, propsUpdate: MKExerciseSessionProperties -> MKExerciseSessionProperties) -> MKExerciseSessionProperties? {
         if let oldProps = sessions[session] {
             let newProps = propsUpdate(oldProps)
-            if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
+            if oldProps.ended && !newProps.ended {
+                NSLog("Session resurrection")
+                return nil
+            }
             sessions[session] = propsUpdate(oldProps)
             saveSessions(sessions)
+            return sessions[session]
         }
-    }
-    
-    ///
-    /// Updates the session with the new props
-    /// - parameter session: the session to update
-    /// - parameter propsUpdate: the function that returns updated props given the old ones
-    ///
-    mutating func update(session: MKExerciseSession, newProps: MKExerciseSessionProperties) {
-        if let oldProps = sessions[session] {
-            if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
-            sessions[session] = newProps
-            saveSessions(sessions)
-        }
+        return nil
     }
     
     ///
@@ -296,9 +288,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func endLastSession() {
         dispatch_sync(transferQueue) {
-            if let (session, props) = self.sessions.currentSession {
-                let endedProps = props.with(end: NSDate())
-                self.sessions.update(session, newProps: endedProps)
+            if let (session, _) = self.sessions.currentSession,
+               let endedProps = self.sessions.update(session, propsUpdate: { return $0.with(end: NSDate()) }) {
                 // Notify phone that session ended
                 WCSession.defaultSession().transferUserInfo(session.metadata.plus(endedProps.metadata))
             }
@@ -364,7 +355,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             if let encoder = encoder {
                 encoder.close()
                 // check for minimum duration
-                if encoder.duration > windowDuration {
+                if encoder.duration > MKConnectivitySettings.windowDuration {
                     NSLog("Written \(encoder.startDate!) - \(encoder.endDate!) samples.")
                     return (fileUrl, encoder.endDate!)
                 }
@@ -402,7 +393,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
             
-            if (to.timeIntervalSinceDate(from) < windowDuration) {
+            if (to.timeIntervalSinceDate(from) < MKConnectivitySettings.windowDuration) {
                 NSLog("Skip transfer for chunk smaller than a single window")
                 return
             }
@@ -413,18 +404,16 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             }
             
             // update the number of recorded samples
-            let updatedProps = props.with(accelerometerEnd: end)
-            sessions.update(session, newProps: updatedProps)
+            let updatedProps = sessions.update(session, propsUpdate: { return $0.with(accelerometerEnd: end) })
             
             // transfer what we have so far
             transferSensorDataBatch(fileUrl, session: session, props: updatedProps) {
                 // set the expected range of samples on the next call
-                let finalProps = updatedProps.with(accelerometerStart: end)
-                self.sessions.update(session, newProps: finalProps)
+                let finalProps = self.sessions.update(session, propsUpdate: { return $0.with(accelerometerStart: end) })
                 NSLog("Transferred \(finalProps)")
                 
                 // update the session with incremented sent counter
-                if finalProps.completed {
+                if let finalProps = finalProps where finalProps.completed {
                     NSLog("Removed \(finalProps)")
                     self.sessions.remove(session)
                     // we're done with this session, we can move on to the next one
@@ -567,7 +556,7 @@ private extension MKExerciseSessionProperties {
     
     /// Indicates if this chunk is the last of the session
     private var lastChunk: Bool {
-        return ended && recorded >= MKConnectivitySettings.samplesForDuration(duration - windowDuration) // ok if miss last data window
+        return ended && recorded >= MKConnectivitySettings.samplesForDuration(duration - MKConnectivitySettings.windowDuration) // ok if miss last data window
     }
     
 }
