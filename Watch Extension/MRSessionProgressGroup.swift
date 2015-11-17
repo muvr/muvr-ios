@@ -1,6 +1,6 @@
 import WatchKit
 
-protocol MRSessionProgressGroup {
+protocol MRSessionProgressGroup : class {
     
     var titleLabel: WKInterfaceLabel! { get }
     
