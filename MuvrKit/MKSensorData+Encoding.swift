@@ -21,7 +21,7 @@ import Foundation
 public extension MKSensorData {
     
     /// 
-    /// Encode the MKSensorData instance so that it can be transmitted to over a very low-bandwidth network.
+    /// Encode the MKSensorData instance so that it can be transmitted over a very low-bandwidth network.
     /// It can throw ``MRCodecError.CompressionFailed`` if for some strange reason the data cannot be compressed.
     ///
     /// - returns: the compressed data that can be passed to ``MKSensorData.decode`` to get the same instance

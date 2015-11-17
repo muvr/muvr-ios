@@ -262,8 +262,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.raw")
             do {
                 try NSFileManager.defaultManager().removeItemAtURL(fileUrl)
-            } catch {
-                //
+            } catch let e {
+                NSLog("Failed to remove file '\(fileUrl)': \(e)")
             }
             
             // try to get the data from the recorder

@@ -1,5 +1,8 @@
 import Foundation
 
+///
+/// Abstract over the ``target`` where the data is written (e.g. file or memory)
+///
 public protocol MKSensorDataEncoderTarget {
     
     func writeData(data: NSData, offset: UInt64?)
@@ -7,6 +10,9 @@ public protocol MKSensorDataEncoderTarget {
     func close()
 }
 
+///
+/// Provides write access to a file
+///
 public class MKFileSensorDataEncoderTarget : MKSensorDataEncoderTarget {
     private let handle: NSFileHandle
     
@@ -28,6 +34,9 @@ public class MKFileSensorDataEncoderTarget : MKSensorDataEncoderTarget {
     
 }
 
+///
+/// Provides write access to memory
+///
 public class MKMutableDataEncoderTarget : MKSensorDataEncoderTarget {
     private let data: NSMutableData
     private var offset: UInt64 = 0
@@ -52,7 +61,7 @@ public class MKMutableDataEncoderTarget : MKSensorDataEncoderTarget {
 }
 
 ///
-/// Provides direct-to-file encoding for the ``MKSensorData``
+/// Provides direct-to-file/memory encoding for the ``MKSensorData``
 ///
 public final class MKSensorDataEncoder {
     /// the target

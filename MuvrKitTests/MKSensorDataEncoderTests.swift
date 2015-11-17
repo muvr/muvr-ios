@@ -30,7 +30,6 @@ class MKSensorDataEncoderTest : XCTestCase {
             encoder.append(sample, sampleDate: NSDate(timeInterval: 0.01 * Double(i), sinceDate: start))
         }
         encoder.close()
-        NSLog("\(encoder.duration!)")
         XCTAssertEqual(data.length, 300 * sizeof(Float) + 20)
     }
     
