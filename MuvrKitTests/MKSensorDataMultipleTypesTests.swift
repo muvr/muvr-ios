@@ -94,9 +94,9 @@ class MKSensorDataMultipleTypesTests : XCTestCase {
     func testAppendTooBigGap() {
         var d = threeD
         do {
-            try d.append(MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 12, samplesPerSecond: 1, samples: [200, 200, 200]))
+            try d.append(MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 302, samplesPerSecond: 1, samples: [200, 200, 200]))
             XCTFail("Gap too big got in")
-        } catch MKSensorDataError.TooDiscontinous(11) {
+        } catch MKSensorDataError.TooDiscontinous(301) {
             
         } catch {
             XCTFail("Bad exception")

@@ -29,8 +29,8 @@ public extension MKSensorData {
     public func encode() -> NSData {
         let data = NSMutableData()
         let encoder = MKSensorDataEncoder(target: MKMutableDataEncoderTarget(data: data), types: self.types, samplesPerSecond: self.samplesPerSecond)
-        encoder.append(self.samples)
-        encoder.close(self.start)
+        encoder.append(self.samples, sampleDate: NSDate(timeIntervalSince1970: self.start))
+        encoder.close()
         return data
     }
     

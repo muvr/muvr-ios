@@ -23,49 +23,62 @@ struct MKConnectivitySettings {
     }
 }
 
+///
+/// Maintains all connectivity sessions
+///
 struct MKConnectivitySessions {
+    
     private var sessions: [MKExerciseSession: MKExerciseSessionProperties]
-    private static let lock: NSObject = NSObject()
     private static let fileUrl = "\(NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!)/sessions.json"
     
     init() {
         self.sessions = MKConnectivitySessions.loadSessions()
     }
     
+    ///
+    /// Updates the session props with the result of applying ``propsUpdate`` to the session's props
+    /// - parameter session: the session to update
+    /// - parameter propsUpdate: the function that returns updated props given the old ones
+    ///
     mutating func update(session: MKExerciseSession, propsUpdate: MKExerciseSessionProperties -> MKExerciseSessionProperties) {
-        objc_sync_enter(MKConnectivitySessions.lock)
         if let oldProps = sessions[session] {
             let newProps = propsUpdate(oldProps)
-            //if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
+            if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
             sessions[session] = propsUpdate(oldProps)
             saveSessions(sessions)
         }
-        objc_sync_exit(MKConnectivitySessions.lock)
     }
     
+    ///
+    /// Updates the session with the new props
+    /// - parameter session: the session to update
+    /// - parameter propsUpdate: the function that returns updated props given the old ones
+    ///
     mutating func update(session: MKExerciseSession, newProps: MKExerciseSessionProperties) {
-        objc_sync_enter(MKConnectivitySessions.lock)
         if let oldProps = sessions[session] {
-            //if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
+            if oldProps.ended && !newProps.ended { fatalError("Session resurrection") }
             sessions[session] = newProps
             saveSessions(sessions)
         }
-        objc_sync_exit(MKConnectivitySessions.lock)
     }
     
+    ///
+    /// Removes the given ``session``
+    /// - parameter session: the session to remove
+    ///
     mutating func remove(session: MKExerciseSession) {
-        objc_sync_enter(MKConnectivitySessions.lock)
         sessions.removeValueForKey(session)
         saveSessions(sessions)
-        objc_sync_exit(MKConnectivitySessions.lock)
     }
     
+    ///
+    /// Add a new session
+    /// - parameter session: the session to be added
+    ///
     mutating func add(session: MKExerciseSession) {
         let props = MKExerciseSessionProperties(start: session.start)
-        objc_sync_enter(MKConnectivitySessions.lock)
         sessions[session] = props
         saveSessions(sessions)
-        objc_sync_exit(MKConnectivitySessions.lock)
     }
     
     /// ``true`` if there are no sessions
@@ -190,10 +203,12 @@ struct MKConnectivitySessions {
 ///
 public final class MKConnectivity : NSObject, WCSessionDelegate {
     public typealias OnFileTransferDone = () -> Void
-    
+
+    // the function that will be called when file transfer succeeds. 
+    // NB there can be only one outstanding transfer at a time.
     private var onFileTransferDone: OnFileTransferDone?
-    internal var transferringRealTime: Bool = false
     
+    // the sensor recorder
     private let recorder: CMSensorRecorder = CMSensorRecorder()
     // the required SDTs that the recorder provides
     private let recordedTypes: [MKSensorDataType]
@@ -238,6 +253,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     func transferSensorDataBatch(fileUrl: NSURL, session: MKExerciseSession, props: MKExerciseSessionProperties?, onDone: OnFileTransferDone) {
         if onFileTransferDone == nil {
+            NSLog("Transferring")
             onFileTransferDone = onDone
             var metadata = session.metadata
             if let props = props { metadata = metadata.plus(props.metadata) }
@@ -252,12 +268,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter sensorData: the sensor data to be transferred
     ///
     public func transferDemoSensorDataForCurrentSession(fileUrl: NSURL) {
-        if let (session, props) = sessions.currentSession {
-            if session.demo {
-                sessions.update(session) { $0.with(accelerometerEnd: NSDate()) }
-                transferSensorDataBatch(fileUrl, session: session, props: props) {
-                    self.sessions.update(session) { $0.with(accelerometerStart: NSDate()) }
-                }
+        if let (session, props) = sessions.currentSession where session.demo {
+            sessions.update(session) { $0.with(accelerometerEnd: NSDate()) }
+            transferSensorDataBatch(fileUrl, session: session, props: props) {
+                self.sessions.update(session) { $0.with(accelerometerStart: NSDate()) }
             }
         }
     }
@@ -266,8 +280,9 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Called when the file transfer completes.
     ///
     public func session(session: WCSession, didFinishFileTransfer fileTransfer: WCSessionFileTransfer, error: NSError?) {
+        NSLog("Transfer done")
         if let onDone = onFileTransferDone {
-            dispatch_async(transferQueue) {
+            dispatch_sync(transferQueue) {
                 onDone()
                 self.onFileTransferDone = nil
             }
@@ -278,26 +293,31 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Ends the current session
     ///
     public func endLastSession() {
-        if let (session, _) = sessions.currentSession {
-            sessions.update(session) { $0.with(end: NSDate()) }
+        dispatch_sync(transferQueue) {
+            if let (session, _) = self.sessions.currentSession {
+                self.sessions.update(session) { $0.with(end: NSDate()) }
+            }
+            // still try to send remaining data
+            self.innerExecute()
         }
-        
-        // still try to send remaining data
-        execute()
     }
     
     ///
+    /// *** THIS FUNCTION SHOULD ONLY BE CALLED ON THE ``transferQueue``. ***
     ///
+    /// Performs all the work to encode the samples and transfer to the phone
+    ///
+    /// *** THIS FUNCTION SHOULD ONLY BE CALLED ON THE ``transferQueue``. ***
     ///
     private func innerExecute() {
         
-        func encodeSamples(from from: NSDate, to: NSDate, demo: Bool) -> (NSURL, NSDate)? {
-            var simulatedSamples = demo
-            
-            #if (arch(i386) || arch(x86_64))
-                simulatedSamples = true
-            #endif
-            
+        ///
+        /// Encodes all the samples between ``from`` and ``to``. 
+        /// - parameter from: the starting date
+        /// - parameter to: the ending date
+        /// - returns: pair of URL containing the encoded data and end date, ``nil`` otherwise
+        ///
+        func encodeSamples(from from: NSDate, to: NSDate) -> (NSURL, NSDate)? {
             let duration = to.timeIntervalSinceDate(from)
             let sampleCount = dimension * MKConnectivitySettings.samplingRate * Int(duration)
             
@@ -308,22 +328,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                          to.timeIntervalSince1970 >  sample.startDate.timeIntervalSince1970
             }
             
-            // Indicates if the sample is the expected one (regarding recorded time)
-            // It allows to check for ``missing`` samples in the requested range
-            func isExpectedSample(sample: CMRecordedAccelerometerData, lastTime: NSDate?) -> Bool {
-                // all samples have to be in range
-                if !isInRange(sample) { return false }
-                
-                // otherwise, the sample has to be less than 40ms from the last one
-                if let lastTime = lastTime {
-                    // check sample is not more than 40ms apart from last one
-                    return sample.startDate.timeIntervalSinceDate(lastTime) < 0.04
-                } else {
-                    // the first sample we've seen
-                    return true
-                }
-            }
-            
             let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
             let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.raw")
             do {
@@ -332,23 +336,12 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 //
             }
             
-            // we're in a simulator => pretend that we have all data in from..to
-            if simulatedSamples {
-                let encoder = MKSensorDataEncoder(target: MKFileSensorDataEncoderTarget(fileUrl: fileUrl), types: recordedTypes, samplesPerSecond: 50)
-                let samples = (0..<sampleCount).map { _ in return Float(0) }
-                encoder.append(samples)
-                encoder.close(0)
-                NSLog("Generated \(from) - \(to) samples.")
-                return (fileUrl, to)
-            }
-            
             // try to get the data from the recorder
             guard let sdl = recorder.accelerometerDataFromDate(from, toDate: to) else {
                 NSLog("No data available.")
                 return nil
             }
             var firstSampleTime: NSDate? = nil
-            var lastSampleTime: NSDate? = nil
             var encoder: MKSensorDataEncoder? = nil
             // enumerate, creating output only if needed
             sdl.enumerate().forEach { (_, e) in
@@ -359,20 +352,17 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                         // encoder is needed
                         encoder = MKSensorDataEncoder(target: MKFileSensorDataEncoderTarget(fileUrl: fileUrl), types: recordedTypes, samplesPerSecond: 50)
                     }
-                    // keep track of the last sample's time
-                    lastSampleTime = data.startDate
                     // append data to the encoder
-                    encoder!.append([Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)])
+                    encoder!.append([Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)], sampleDate: data.startDate)
                 }
             }
             // after the loop, check if we have anything to transmit
-            if let firstSampleTime = firstSampleTime, let lastSampleTime = lastSampleTime, let encoder = encoder {
-                let recordedDuration = lastSampleTime.timeIntervalSince1970 - firstSampleTime.timeIntervalSince1970
-                encoder.close(firstSampleTime.timeIntervalSince1970)
+            if let encoder = encoder {
+                encoder.close()
                 // check for minimum duration
-                if recordedDuration > 8.0 {
-                    NSLog("Written \(firstSampleTime) - \(lastSampleTime) samples.")
-                    return (fileUrl, lastSampleTime)
+                if encoder.duration > 8.0 {
+                    NSLog("Written \(encoder.startDate!) - \(encoder.endDate!) samples.")
+                    return (fileUrl, encoder.endDate!)
                 }
                 return nil
             }
@@ -386,6 +376,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         /// we remove it, we move on to the next session.
         ///
         func processFirstSession() {
+            // don't start again 
             if onFileTransferDone != nil {
                 NSLog("Still transferring. Skipping new transfer.")
                 return
@@ -397,11 +388,17 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 return
             }
             
+            // ignore demo session
+            if session.demo {
+                NSLog("Demo session")
+                return
+            }
+            
             // compute the dates
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
             
-            guard let (fileUrl, end) = encodeSamples(from: from, to: to, demo: session.demo) else {
+            guard let (fileUrl, end) = encodeSamples(from: from, to: to) else {
                 NSLog("No sensor data in \(from) - \(to)")
                 return
             }
@@ -447,9 +444,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// constructing the messages and dealing with session clean-up.
     ///
     public func execute() {
-        // TODO: It would be nice to be able to flush the sensor data recorder
-        // recorder.flush()
-        dispatch_async(transferQueue, innerExecute)
+        dispatch_sync(transferQueue, innerExecute)
     }
 
         
