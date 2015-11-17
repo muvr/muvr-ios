@@ -290,7 +290,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             if let encoder = encoder {
                 encoder.close()
                 // check for minimum duration
-                if encoder.duration > 8.0 {
+                if encoder.duration > windowDuration {
                     NSLog("Written \(encoder.startDate!) - \(encoder.endDate!) samples.")
                     return (fileUrl, encoder.endDate!)
                 }
@@ -328,7 +328,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
             
-            if (to.timeIntervalSinceDate(from) < 8.0) {
+            if (to.timeIntervalSinceDate(from) < windowDuration) {
                 NSLog("Skip transfer for chunk smaller than a single window")
                 return
             }
@@ -458,7 +458,7 @@ private extension MKExerciseSessionProperties {
     
     /// Indicates if this chunk is the last of the session
     private var lastChunk: Bool {
-        return ended && recorded >= MKConnectivitySettings.samplesForDuration(duration - 8.0) //(Int(duration - 8.0) * 50) // ok if miss last data window
+        return ended && recorded >= MKConnectivitySettings.samplesForDuration(duration - windowDuration) // ok if miss last data window
     }
     
 }
