@@ -44,8 +44,8 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
         connectivity.endLastSession()
     }
     
-    func sendSamples(data: MKSensorData) {
-        connectivity.transferDemoSensorDataForCurrentSession(data)
+    func sendSamples(fileUrl: NSURL) {
+        connectivity.transferDemoSensorDataForCurrentSession(fileUrl)
     }
     
     func applicationDidFinishLaunching() {

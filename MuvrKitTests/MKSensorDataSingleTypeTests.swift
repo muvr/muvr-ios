@@ -103,9 +103,9 @@ class MKSensorDataSingleTypeTests : XCTestCase {
     func testAppendTooBigGap() {
         var d = oneD
         do {
-            try d.append(MKSensorData(types: [.HeartRate], start: 12, samplesPerSecond: 1, samples: [200]))
+            try d.append(MKSensorData(types: [.HeartRate], start: 302, samplesPerSecond: 1, samples: [200]))
             XCTFail("Gap too big got in")
-        } catch MKSensorDataError.TooDiscontinous(11) {
+        } catch MKSensorDataError.TooDiscontinous(301) {
             
         } catch {
             XCTFail("Bad exception")
