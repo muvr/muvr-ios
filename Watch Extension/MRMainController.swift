@@ -38,6 +38,10 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup, MRSession
     
     override func willActivate() {
         super.willActivate()
+        activate()
+    }
+    
+    private func activate() {
         let sd = MRExtensionDelegate.sharedDelegate()
         exerciseModel.setItems(sd.exerciseModelMetadata.map { _, title in return WKPickerItem.withTitle(title) })
         
@@ -46,7 +50,14 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup, MRSession
         ringRenderer = MRSessionProgressRingRenderer(ring: self)
     }
     
+    override func didAppear() {
+        if renderer == nil {
+            activate()
+        }
+    }
+    
     override func didDeactivate() {
+        renderer?.deactivate()
         renderer = nil
         ringRenderer = nil
         super.didDeactivate()
@@ -83,10 +94,9 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup, MRSession
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
         if MRExtensionDelegate.sharedDelegate().currentSession?.0.demo ?? false {
             let (resourceName, _) = exercises[rowIndex]
-            let resourcePath = NSBundle.mainBundle().pathForResource(resourceName, ofType: "raw")!
-            let data = NSData(contentsOfFile: resourcePath)!
-            let sd = try! MKSensorData(decoding: data)
-            MRExtensionDelegate.sharedDelegate().sendSamples(sd)
+            
+            let fileUrl = NSBundle.mainBundle().URLForResource(resourceName, withExtension: "raw")!
+            MRExtensionDelegate.sharedDelegate().sendSamples(fileUrl)
         }
     }
     

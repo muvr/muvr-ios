@@ -12,7 +12,7 @@ class MKExerciseModelPlusParsingTest : XCTestCase {
     
     func testLoadCompletelyMissing() {
         do {
-            try MKExerciseModel(fromBundle: bundle, id: "not there at all")
+            let _ = try MKExerciseModel(fromBundle: bundle, id: "not there at all")
             XCTFail("Not thrown")
         } catch MKExerciseModel.LoadError.MissingModelComponent(_) {
             // OK
