@@ -47,5 +47,23 @@ class MKSensorDataEncoderTest : XCTestCase {
         XCTAssertEqual(data.length, 303 * sizeof(Float) + 20) // 101 samples (including samples at time 0.0 and time 2.0)
     }
     
+    func testDuration() {
+        let start = NSDate(timeIntervalSinceNow: -60)
+        let (encoder, _) = dataEncoder(start)
+        // no samples
+        XCTAssertEqual(encoder.duration, nil)
+        XCTAssertEqual(encoder.endDate, nil)
+        // one sample
+        encoder.append(sample, sampleDate: start)
+        XCTAssertEqual(encoder.startDate, encoder.endDate) // one sample: start date == end date
+        XCTAssertEqual(encoder.duration!, 0.0)             // one sample: duration = 0.0
+        // 2 samples
+        encoder.append(sample, sampleDate: NSDate(timeInterval: 0.02, sinceDate: start))
+        XCTAssertTrue(abs(encoder.duration! - 0.02) < 0.001) // check it's clause enough to expected value
+        // 2secs of samples
+        encoder.append(sample, sampleDate: NSDate(timeInterval: 2.0, sinceDate: start))
+        XCTAssertTrue(abs(encoder.duration! - 2.0) < 0.001)  // check it's clause enough to expected value
+    }
+    
     
 }

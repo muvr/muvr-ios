@@ -186,15 +186,18 @@ public final class MKSensorDataEncoder {
     
     /// The duration encoded
     public var duration: NSTimeInterval? {
-        if let startDate = startDate, endDate = endDate {
-            return endDate.timeIntervalSinceDate(startDate)
+        if sampleCount > 0 {
+            return Double(sampleCount - 1) / Double(samplesPerSecond)
         }
         return nil
     }
     
     /// The end date of the encoder
     public var endDate: NSDate? {
-        return startDate.map { $0.dateByAddingTimeInterval(Double(sampleCount) / Double(samplesPerSecond)) }
+        if let duration = duration, start = startDate {
+            return start.dateByAddingTimeInterval(duration)
+        }
+        return nil
     }
     
 }

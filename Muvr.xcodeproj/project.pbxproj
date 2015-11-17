@@ -466,7 +466,6 @@
 				540AA44C1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift */,
 				540AA4501BDBFF6B00908F4B /* MKSessionClassifierTests.swift */,
 				540AA4531BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift */,
-				647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */,
 			);
 			name = Connectivity;
 			sourceTree = "<group>";
@@ -613,6 +612,7 @@
 			children = (
 				5487F5A31BB9C4C500ED2E97 /* MKSensorData+InternalCodecTests.swift */,
 				540AA44E1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift */,
+				647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */,
 				546E68641BB98D1D00DC0FEF /* MKSensorDataSingleTypeTests.swift */,
 				546E68661BB98D1D00DC0FEF /* MKSensorDataMultipleTypesTests.swift */,
 			);
