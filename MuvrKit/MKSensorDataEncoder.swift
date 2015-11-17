@@ -63,12 +63,13 @@ public final class MKSensorDataEncoder {
     private let dimension: Int
     /// The samples per second
     private let samplesPerSecond: UInt
-    /// The sample interval
-    private let sampleInterval: NSTimeInterval
     /// the sample count
     private var sampleCount: UInt32
-    /// the first sample date 
+    /// the first sample date
     private(set) public var startDate: NSDate?
+    /// the last written sample
+    private var lastSample: [Float]?
+    ///
 
     ///
     /// Initializes this encoder, setting the target, types, start and sampling rate
@@ -78,10 +79,8 @@ public final class MKSensorDataEncoder {
         self.samplesPerSecond = samplesPerSecond
         self.target = target
         self.sampleCount = 0
-        self.startDate = nil
-        self.sampleInterval = Double(1) / Double(samplesPerSecond)
         self.dimension = types.reduce(0) { sum, type in return sum + type.dimension }
-        
+
         let emptyHeader = [UInt8](count: 16 + 4 * types.count, repeatedValue: 0)
         target.writeData(NSData(bytes: emptyHeader, length: emptyHeader.count), offset: nil)
     }
@@ -96,6 +95,22 @@ public final class MKSensorDataEncoder {
             sampleCount += UInt32(sample.count / dimension)
             target.writeData(NSData(bytes: sample, length: sizeof(Float) * sample.count), offset: nil)
         }
+        
+        /// generate missing samples between ``lastSample`` and new ``sample``
+        /// using linear interpolation
+        func generateSamples(count: Int) -> [Float] {
+            var samples = [Float](count: count * dimension, repeatedValue: 0)
+            for i in 0..<dimension {
+                let first = sample[i]
+                let last  = lastSample?[i] ?? first
+                let ds = Float(first - last) / Float(count + 1)
+                for j in 0..<count {
+                    samples[i + dimension * j] = last + ds * Float(j + 1)
+                }
+            }
+            samples.appendContentsOf(sample)
+            return samples
+        }
 
         if sample.count == 0 {
             fatalError("Empty samples.")
@@ -103,35 +118,27 @@ public final class MKSensorDataEncoder {
         if sample.count % dimension != 0 {
             fatalError("Dimension does not match the sample.")
         }
+        
         if startDate == nil { startDate = sampleDate }
-
-        let expectedSampleCount = UInt32(sampleDate.timeIntervalSinceDate(startDate!) * Double(samplesPerSecond))
+        
+        let expectedSampleCount = UInt32(round(sampleDate.timeIntervalSinceDate(startDate!) * Double(samplesPerSecond)))
         let diff = Int(expectedSampleCount) - Int(sampleCount)
         if diff > 0 {
             // extrapolate
             // TODO: use linear / kalman filter extrapolation, keeping the lastSample
-            (0..<diff).forEach { _ in appendSample(sample) }
+            NSLog("Extrapolate \(diff) samples.")
+            // (0..<diff).forEach { _ in appendSample(sample) }
+            let samples = generateSamples(diff)
+            appendSample(samples)
+            lastSample = sample
         } else if diff < 0 {
             // drop
             NSLog("Dropping.")
         } else {
             appendSample(sample)
+            lastSample = sample
         }
     }
-    
-//    private func generateSamples(count count: Int, sample: [Float]) -> [Float] {
-//        var samples = [Float](count: count * dimension, repeatedValue: 0)
-//        for i in 0..<dimension {
-//            let first = sample[i]
-//            let last  = lastSample?[i] ?? first
-//            let ds = Float(first - last) / Float(count + 1)
-//            for j in 0..<count {
-//                samples[i + dimension * j] = last + ds * Float(j + 1)
-//            }
-//        }
-//        samples.appendContentsOf(sample)
-//        return samples
-//    }
     
     ///
     /// Closes the writer the header, and finally closes the given ``target``.
