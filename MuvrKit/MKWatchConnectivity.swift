@@ -313,7 +313,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         /// - parameter to: the ending date
         /// - returns: pair of URL containing the encoded data and end date, ``nil`` otherwise
         ///
-        func encodeSamples(from from: NSDate, to: NSDate, alreadyCompleted: Bool) -> (NSURL, NSDate)? {
+        func encodeSamples(from from: NSDate, to: NSDate, lastChunk: Bool) -> (NSURL, NSDate)? {
             let duration = to.timeIntervalSinceDate(from)
             let sampleCount = dimension * MKConnectivitySettings.samplingRate * Int(duration)
             
@@ -355,7 +355,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             if let encoder = encoder {
                 encoder.close()
                 // check for minimum duration
-                if alreadyCompleted && encoder.duration > 0 ||
+                if lastChunk && encoder.duration > 0 ||
                     encoder.duration > MKConnectivitySettings.windowDuration {
                     NSLog("Written \(encoder.startDate!) - \(encoder.endDate!) samples.")
                     return (fileUrl, encoder.endDate!)
@@ -399,7 +399,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 return
             }
             
-            guard let (fileUrl, end) = encodeSamples(from: from, to: to, alreadyCompleted: props.completed) else {
+            guard let (fileUrl, end) = encodeSamples(from: from, to: to, lastChunk: props.completed) else {
                 NSLog("No sensor data in \(from) - \(to)")
                 return
             }
