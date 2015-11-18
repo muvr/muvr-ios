@@ -58,6 +58,17 @@ public struct MKClassifier {
     /// - parameter block: the received sensor data
     ///
     public func classify(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExercise] {
+        let cews = try classifyWindows(block: block, maxResults: maxResults)
+        if cews.isEmpty { return [] }
+        let steps = classifySteps(cews, samplesPerSecond: block.samplesPerSecond)
+        let exercises = accumulateSteps(steps)
+        return exercises
+    }
+    
+    ///
+    /// Apply the classification model to every window contained in ``block``
+    ///
+    func classifyWindows(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExerciseWindow] {
         // in the outer function, we perform the common decoding and basic checking
         var (dimension, m) = block.samples(along: model.sensorDataTypes)
         if dimension == 0 {
@@ -74,7 +85,7 @@ public struct MKClassifier {
             throw MKClassifierError.NotEnoughRows(received: block.rowCount, required: windowSize)
         }
         NSLog("Classification called for \(rowCount) samples (\(rowCount / 50)s)")
-
+        
         let numWindows = (rowCount - windowSize) / windowStepSize + 1
         let duration = Double(windowStepSize) / Double(block.samplesPerSecond)
         
@@ -93,23 +104,29 @@ public struct MKClassifier {
                 
                 let labelName = self.model.exerciseIds[labelIndex]
                 let probability = windowPrediction[labelIndex]
-
+                
                 let windowDuration = window == numWindows - 1 ? (Double(windowSize) / Double(block.samplesPerSecond)) : duration
                 return MKClassifiedExerciseBlock(confidence: Double(probability), exerciseId: labelName, duration: windowDuration, offset: start)
             }
             return MKClassifiedExerciseWindow(window: window, classifiedExerciseBlocks: classifiedExerciseBlocks)
         }
-        
-        if cews.isEmpty { return [] }
-        
+        return cews
+    }
+    
+    ///
+    /// Compute the probability for every window step by averaging the probabilities over all windows containing the step
+    ///
+    func classifySteps(windows: [MKClassifiedExerciseWindow], samplesPerSecond: UInt) -> [MKClassifiedExerciseBlock] {
+        let duration = Double(windowStepSize) / Double(samplesPerSecond)
         let stepsInWindow = Int(windowSize / windowStepSize)
+        let numWindows = windows.count
         let steps: [MKClassifiedExerciseBlock] = (0..<numWindows + stepsInWindow).flatMap { i in
             let minWindow = max(0, i - stepsInWindow)
             let maxWindow = min(i, numWindows - 1)
             var avg: [MKExerciseId:Double] = [:]
             (minWindow..<maxWindow + 1).forEach { w in
                 let ws = Double(maxWindow - minWindow + 1)
-                for block in cews[w].classifiedExerciseBlocks {
+                for block in windows[w].classifiedExerciseBlocks {
                     let blockAvg = block.confidence / ws
                     if let exAvg = avg[block.exerciseId] {
                         avg[block.exerciseId] = exAvg + blockAvg
@@ -127,7 +144,13 @@ public struct MKClassifier {
                 return nil
             }
         }
-
+        return steps
+    }
+    
+    ///
+    /// Group together consecutive steps with the same outcome
+    ///
+    func accumulateSteps(steps: [MKClassifiedExerciseBlock]) -> [MKClassifiedExercise] {
         var result: [MKClassifiedExerciseBlock] = []
         var accumulator: MKClassifiedExerciseBlock? = nil
         for var i = 0; i < steps.count; ++i {
@@ -144,11 +167,11 @@ public struct MKClassifier {
         if let a = accumulator { result.append(a) }
         
         NSLog("classified \(result)")
-
+        
         return result.map { x in
             return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset, repetitions: nil, intensity: nil, weight: nil)
         }
-    }    
+    }
 }
 
 struct MKClassifiedExerciseBlock {
