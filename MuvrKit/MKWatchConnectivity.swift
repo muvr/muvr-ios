@@ -263,9 +263,9 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func transferDemoSensorDataForCurrentSession(fileUrl: NSURL) {
         if let (session, props) = sessions.currentSession where session.demo {
-            sessions.update(session) { $0.with(accelerometerEnd: NSDate()) }
+            sessions.update(session) { return $0.with(accelerometerEnd: NSDate()) }
             transferSensorDataBatch(fileUrl, session: session, props: props) {
-                self.sessions.update(session) { $0.with(accelerometerStart: NSDate()) }
+                self.sessions.update(session) { return $0.with(accelerometerStart: NSDate()) }
             }
         }
     }
@@ -404,12 +404,12 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             }
             
             // update the number of recorded samples
-            let updatedProps = sessions.update(session, propsUpdate: { return $0.with(accelerometerEnd: end) })
+            let updatedProps = sessions.update(session) { return $0.with(accelerometerEnd: end) }
             
             // transfer what we have so far
             transferSensorDataBatch(fileUrl, session: session, props: updatedProps) {
                 // set the expected range of samples on the next call
-                let finalProps = self.sessions.update(session, propsUpdate: { return $0.with(accelerometerStart: end) })
+                let finalProps = self.sessions.update(session) { return $0.with(accelerometerStart: end) }
                 NSLog("Transferred \(finalProps)")
                 
                 // update the session with incremented sent counter
