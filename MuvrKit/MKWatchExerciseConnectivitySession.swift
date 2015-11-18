@@ -82,8 +82,8 @@ public struct MKExerciseSessionProperties {
     /// Indicates whether the props represent completed session
     internal var completed: Bool {
         // a session is completed when ended and all data sent over
-        if let end = end {
-            return end.timeIntervalSinceDate(accelerometerStart!) < MKConnectivitySettings.windowDuration // it's ok to miss the last window
+        if let end = end , let accStart = accelerometerStart {
+            return end.timeIntervalSinceDate(accStart) < MKConnectivitySettings.windowDuration // it's ok to miss the last window
         }
         return false
     }
