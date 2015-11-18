@@ -17,6 +17,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup, MRSession
     
     @IBOutlet weak var exerciseModel: WKInterfacePicker!
     @IBOutlet weak var startGroup: WKInterfaceGroup!
+    @IBOutlet var durationPicker: WKInterfacePicker!
     @IBOutlet weak var progressGroup: WKInterfaceGroup!
     @IBOutlet weak var exercisesTable: WKInterfaceTable!
     
@@ -33,6 +34,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup, MRSession
     private var renderer: MRSessionProgressGroupRenderer?
     private var ringRenderer: MRSessionProgressRingRenderer?
     
+    private var choosenDuration = 60 // minutes
 
     private var exerciseModelMetadataIndex: Int = 0
     
@@ -44,10 +46,21 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup, MRSession
     private func activate() {
         let sd = MRExtensionDelegate.sharedDelegate()
         exerciseModel.setItems(sd.exerciseModelMetadata.map { _, title in return WKPickerItem.withTitle(title) })
+        var durationItems: [WKPickerItem] = []
+        for i in 1...720 {
+            let hours = "\(String(format: "%02d", Int(i / 60)))"
+            let minutes = "\(String(format: "%02d", i % 60))"
+            let item = WKPickerItem()
+            item.title = "\(hours)h \(minutes)"
+            durationItems.append(item)
+        }
+        durationPicker.setItems(durationItems)
+        durationPicker.setSelectedItemIndex(59) // one hour by default
         
         updateUI()
         renderer = MRSessionProgressGroupRenderer(group: self)
-        ringRenderer = MRSessionProgressRingRenderer(ring: self)
+        NSLog("Start ring with duration \(choosenDuration) minutes")
+        ringRenderer = MRSessionProgressRingRenderer(ring: self, duration: choosenDuration)
     }
     
     override func didAppear() {
@@ -130,6 +143,17 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup, MRSession
     ///
     @IBAction func exerciseModelPickerAction(index: Int) {
         exerciseModelMetadataIndex = index
+    }
+    
+    /// 
+    /// Called when the user changes session duration
+    ///
+    @IBAction func didSelectDuration(index: Int) {
+        choosenDuration = index + 1
+        if let ringRenderer = ringRenderer {
+            ringRenderer.setExpectedDuration(choosenDuration)
+        }
+        NSLog("choosen duration: \(choosenDuration) min")
     }
 
 }

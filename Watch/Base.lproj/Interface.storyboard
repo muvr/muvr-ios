@@ -10,11 +10,16 @@
             <objects>
                 <controller title="Muvr" id="AgC-eL-Hgc" customClass="MRMainController" customModule="Watch_Extension">
                     <items>
-                        <group width="1" height="116" alignment="left" layout="vertical" id="ys7-T7-jXZ">
+                        <group width="1" height="153" alignment="left" layout="vertical" id="ys7-T7-jXZ">
                             <items>
                                 <picker width="1" widthAdjustment="2" height="32" alignment="left" focusStyle="stack" id="JBL-em-o3w">
                                     <connections>
                                         <action selector="exerciseModelPickerAction:" destination="AgC-eL-Hgc" id="t0O-ON-9dO"/>
+                                    </connections>
+                                </picker>
+                                <picker height="32" alignment="left" focusStyle="stack" id="JAp-Mx-EkW">
+                                    <connections>
+                                        <action selector="didSelectDuration:" destination="AgC-eL-Hgc" id="vod-Ab-3v8"/>
                                     </connections>
                                 </picker>
                                 <button width="1" alignment="left" title="Start" id="qph-6j-6Ky">
@@ -71,6 +76,7 @@
                         </group>
                     </items>
                     <connections>
+                        <outlet property="durationPicker" destination="JAp-Mx-EkW" id="SI7-v0-qND"/>
                         <outlet property="exerciseModel" destination="JBL-em-o3w" id="zdN-1a-r3P"/>
                         <outlet property="exercisesTable" destination="t9X-s3-pCm" id="u4s-Pu-Rc2"/>
                         <outlet property="progressGroup" destination="U8c-fr-ind" id="NHD-H5-fF9"/>
@@ -83,7 +89,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="54" y="-68.25"/>
+            <point key="canvasLocation" x="54" y="-50"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
