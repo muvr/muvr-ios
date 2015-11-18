@@ -81,7 +81,8 @@ let eneClassifier = try! MKClassifier(model: model(named: "slacking_model.weight
 
 //: ### Load the data from the session
 //let resourceName = "no-movement-face-up"
-let resourceName = "bc-only"
+//let resourceName = "bc-only"
+let resourceName = "arms_9F6F4AF0-F85B-4ACF-9E51-71717D141280"
 let exerciseData = NSBundle.mainBundle().pathForResource(resourceName, ofType: "raw")!
 
 let slackingData = try MKSensorData.initDataFromCSV(filename: "slacking_dataset", ext: "csv")
@@ -111,6 +112,38 @@ func shiftOffset(offset: MKTimestamp)(x: MKClassifiedExercise) -> MKClassifiedEx
     return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset + offset, repetitions: x.repetitions, intensity: x.intensity, weight: x.weight)
 }
 
+func printCsv(data data: MKSensorData, windows: [MKClassifiedExerciseWindow]) {
+    let stepsInWindow = 40
+    let numWindows = windows.count
+    (0..<numWindows + stepsInWindow).forEach { i in
+        let minWindow = max(0, i - stepsInWindow)
+        let maxWindow = min(i, numWindows - 1)
+        var avg: [MKExerciseId:Double] = [:]
+        (minWindow..<maxWindow + 1).forEach { w in
+            let ws = Double(maxWindow - minWindow + 1)
+            for block in windows[w].classifiedExerciseBlocks {
+                let blockAvg = block.confidence / ws
+                if let exAvg = avg[block.exerciseId] {
+                    avg[block.exerciseId] = exAvg + blockAvg
+                } else {
+                    avg[block.exerciseId] = blockAvg
+                }
+            }
+        }
+        for j in i * 10...(i+1) * 10 - 1{
+            let offset = j * 3
+            if offset >= data.samples.count - 3 { break }
+            let x = data.samples[offset]
+            let y = data.samples[offset+1]
+            let z = data.samples[offset+2]
+            print("\(x),\(y),\(z),\(avg["-"]!),\(avg["E"]!)")
+        }
+    }
+}
+
+let windows = try eneClassifier.classifyWindows(block: sd, maxResults: 2)
+let steps = eneClassifier.classifySteps(windows, samplesPerSecond: sd.samplesPerSecond)
+printCsv(data: sd, windows: windows)
 let results = try eneClassifier.classify(block: sd, maxResults: 2)
 print("")
 print("E/NE classification")
