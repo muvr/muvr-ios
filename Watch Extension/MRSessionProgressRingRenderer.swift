@@ -30,8 +30,10 @@ class MRSessionProgressRingRenderer : NSObject {
             let innerFrame = (Int(100 * readDuration / Double(expectedDuration * 60)) ?? 0) % 100
             ring.ringGroup.setBackgroundImageNamed("outer\(outerFrame)ring.png")
             ring.ringButton.setBackgroundImageNamed("inner\(innerFrame)ring.png")
-            let text = NSDateComponentsFormatter().stringFromTimeInterval(props.duration)!
-            ring.ringButton.setTitle("\(text)")
+            let time = NSDateComponentsFormatter().stringFromTimeInterval(props.duration)!
+            let sent = Int(readDuration * 600 / 1000) // kb
+            let total = Int(duration * 600 / 1000) // kb
+            ring.ringButton.setTitle("\(time)\n\(sent)/\(total)kb")
         }
     }
 }
