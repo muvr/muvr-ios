@@ -46,13 +46,12 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup, MRSession
     private func activate() {
         let sd = MRExtensionDelegate.sharedDelegate()
         exerciseModel.setItems(sd.exerciseModelMetadata.map { _, title in return WKPickerItem.withTitle(title) })
-        var durationItems: [WKPickerItem] = []
-        for i in 1...720 {
+        let durationItems: [WKPickerItem] = (1..<720).map { i in
             let hours = "\(String(format: "%02d", Int(i / 60)))"
             let minutes = "\(String(format: "%02d", i % 60))"
             let item = WKPickerItem()
             item.title = "\(hours)h \(minutes)"
-            durationItems.append(item)
+            return item
         }
         durationPicker.setItems(durationItems)
         durationPicker.setSelectedItemIndex(59) // one hour by default
