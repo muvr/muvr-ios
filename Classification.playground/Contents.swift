@@ -38,10 +38,10 @@ let eneClassifier = try! MKClassifier(model: model(named: "slacking_model.weight
 
 //: ### Load the data from the session
 //let resourceName = "no-movement-face-up"
-//let resourceName = "bc-only"
+let resourceName = "bc-only"
 //let resourceName = "arms_9F6F4AF0-F85B-4ACF-9E51-71717D141280"
 //let resourceName = "arms_AA86976B-F6CA-4A9B-B786-469171D6D341"
-let resourceName = "arms_05D8C7FE-7D92-4F5A-9CCB-45B7D3799283"
+//let resourceName = "arms_05D8C7FE-7D92-4F5A-9CCB-45B7D3799283"
 let exerciseData = NSBundle.mainBundle().pathForResource(resourceName, ofType: "raw")!
 
 //: ### Decode the sensor data
@@ -64,7 +64,6 @@ func shiftOffset(offset: MKTimestamp)(x: MKClassifiedExercise) -> MKClassifiedEx
 func printCsv(data data: MKSensorData, windows: [MKClassifiedExerciseWindow], exerciseWindows: [MKClassifiedExerciseWindow?]) {
     let stepsInWindow = 40
     let numWindows = windows.count
-    var exerciseBlockIndex = 0
     (0..<numWindows + stepsInWindow).forEach { i in
         let minWindow = max(0, i - stepsInWindow)
         let maxWindow = min(i, numWindows - 1)
@@ -141,4 +140,4 @@ print("")
 print("Exercise classification")
 cls.forEach { wcls in print(wcls) }
 
-printCsv(data: sd, windows: windows, exerciseWindows: exerciseWindows)
+//printCsv(data: sd, windows: windows, exerciseWindows: exerciseWindows)

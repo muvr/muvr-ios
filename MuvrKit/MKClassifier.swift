@@ -62,7 +62,9 @@ public struct MKClassifier {
         if cews.isEmpty { return [] }
         let steps = classifySteps(cews, samplesPerSecond: block.samplesPerSecond)
         let exercises = accumulateSteps(steps)
-        return exercises
+        return fusionBlocks(exercises, samplesPerSecond: block.samplesPerSecond).map { x in
+            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset, repetitions: nil, intensity: nil, weight: nil)
+        }
     }
     
     ///
@@ -123,10 +125,10 @@ public struct MKClassifier {
         let steps: [MKClassifiedExerciseBlock] = (0..<numWindows + stepsInWindow).flatMap { i in
             let minWindow = max(0, i - stepsInWindow)
             let maxWindow = min(i, numWindows - 1)
+            let ws = Double(maxWindow - minWindow + 1)
             var avg: [MKExerciseId:Double] = [:]
             (minWindow..<maxWindow + 1).forEach { w in
-                let ws = Double(maxWindow - minWindow + 1)
-                for block in windows[w].classifiedExerciseBlocks {
+                    for block in windows[w].classifiedExerciseBlocks {
                     let blockAvg = block.confidence / ws
                     if let exAvg = avg[block.exerciseId] {
                         avg[block.exerciseId] = exAvg + blockAvg
@@ -150,7 +152,7 @@ public struct MKClassifier {
     ///
     /// Group together consecutive steps with the same outcome
     ///
-    func accumulateSteps(steps: [MKClassifiedExerciseBlock]) -> [MKClassifiedExercise] {
+    func accumulateSteps(steps: [MKClassifiedExerciseBlock]) -> [MKClassifiedExerciseBlock] {
         var result: [MKClassifiedExerciseBlock] = []
         var accumulator: MKClassifiedExerciseBlock? = nil
         for var i = 0; i < steps.count; ++i {
@@ -168,9 +170,51 @@ public struct MKClassifier {
         
         NSLog("classified \(result)")
         
-        return result.map { x in
-            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset, repetitions: nil, intensity: nil, weight: nil)
+        return result
+    }
+    
+    /// 
+    /// fusion adjacent blocks separated by a 'short' block
+    ///
+    func fusionBlocks(blocks: [MKClassifiedExerciseBlock], samplesPerSecond: UInt) -> [MKClassifiedExerciseBlock] {
+        let windowDuration = Double(windowSize) / Double(samplesPerSecond)
+        
+        func isLongEnough(block: MKClassifiedExerciseBlock?) -> Bool {
+            if let duration = block?.duration {
+                return duration > windowDuration            }
+            return true
         }
+        func isSameExercise(block1: MKClassifiedExerciseBlock?, _ block2: MKClassifiedExerciseBlock?) -> Bool {
+            if let block1 = block1, let block2 = block2 {
+                return block1.exerciseId == block2.exerciseId
+            }
+            return false
+        }
+        func canMergeWith(block1: MKClassifiedExerciseBlock?, _ block2: MKClassifiedExerciseBlock?) -> Bool {
+            if let block1 = block1, let block2 = block2 {
+                return isSameExercise(block1, block2)
+            }
+            return isLongEnough(block1) || isLongEnough(block2)
+        }
+        
+        var mergedBlocks: [MKClassifiedExerciseBlock] = []
+        for var i = 0; i < blocks.count; i++ {
+            let currentBlock = blocks[i]
+            let prevBlock: MKClassifiedExerciseBlock? = mergedBlocks.last
+            let nextBlock: MKClassifiedExerciseBlock? = i < blocks.count - 1 ? blocks[i + 1] : nil
+        
+            var block = currentBlock
+            if !isLongEnough(currentBlock) && canMergeWith(prevBlock, nextBlock) || isSameExercise(prevBlock, currentBlock) {
+                if let prevBlock = prevBlock {
+                    block = prevBlock
+                    mergedBlocks.removeLast()
+                    block.extend(currentBlock)
+                }
+            }
+            mergedBlocks.append(block)
+        }
+        
+        return mergedBlocks
     }
 }
 
@@ -183,12 +227,9 @@ struct MKClassifiedExerciseBlock {
     mutating func extend(by: MKClassifiedExerciseBlock) {
         // the new confidence the average confidence of both blocks 
         // use the duration to apply correct weights in average computation
-        self.confidence = (self.confidence * self.duration + by.confidence * by.duration) / (self.duration + by.duration)
+        let conf = self.exerciseId == by.exerciseId ? by.confidence : 0.0
+        self.confidence = (self.confidence * self.duration + conf * by.duration) / (self.duration + by.duration)
         self.duration = self.duration + by.duration
-    }
-
-    func isRoughlyEqual(to: MKClassifiedExerciseBlock) -> Bool {
-        return self.exerciseId == to.exerciseId && abs(self.confidence - to.confidence) < 0.5
     }
 }
 
