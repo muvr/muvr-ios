@@ -307,6 +307,9 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     private func innerExecute() {
         
+        let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
+        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.raw")
+        
         ///
         /// Encodes all the samples between ``from`` and ``to``. 
         /// - parameter from: the starting date
@@ -319,16 +322,14 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         func encodeSamples(from from: NSDate, to: NSDate?) -> (NSURL, NSDate, Bool)? {
             
             // Indicates if the expected sample is in the requested range
-            func isInRange(sample: CMRecordedAccelerometerData) -> Bool {
+            func isAfterFromDate(sample: CMRecordedAccelerometerData) -> Bool {
                 return from.timeIntervalSince1970 <= sample.startDate.timeIntervalSince1970
             }
-            
-            let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
-            let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.raw")
+
             do {
                 try NSFileManager.defaultManager().removeItemAtURL(fileUrl)
-            } catch let e {
-                NSLog("Failed to remove file '\(fileUrl)': \(e)")
+            } catch {
+                // Possible failure expected
             }
             
             // try to get the data from the recorder up to now
@@ -338,22 +339,24 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 return nil
             }
             
-            let encoder: MKSensorDataEncoder? = nil
+            var encoder: MKSensorDataEncoder? = nil
             var lastChunk = false
             
             // enumerate, creating output only if needed
-            sdl.enumerate().forEach { (_, e) in
-                if let data = e as? CMRecordedAccelerometerData where isInRange(data) {
+            for(_, e) in sdl.enumerate() {
+                // If data before range, ignore it
+                if let data = e as? CMRecordedAccelerometerData where isAfterFromDate(data) {
                     if encoder == nil {
                         encoder = MKSensorDataEncoder(target: MKFileSensorDataEncoderTarget(fileUrl: fileUrl), types: recordedTypes, samplesPerSecond: 50)
                     }
+                    // If data after range, no need to go farther 
+                    //   -> this is the last chunk for this session
                     if let to = to where data.startDate.timeIntervalSinceDate(to) > 0 {
-                        // found data after session end -> this is the last chunk for this session
                         lastChunk = true
-                    } else {
-                        // append data to the encoder
-                        encoder.append([Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)], sampleDate: data.startDate)
+                        break
                     }
+                    // append data to the encoder
+                    encoder!.append([Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)], sampleDate: data.startDate)
                 }
             }
             // after the loop, check if we have anything to transmit
@@ -385,9 +388,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 return
             }
             
-            // ignore demo session
+            // Remove demo session
             if session.demo {
-                NSLog("Demo session")
+                self.sessions.remove(session)
+                NSLog("Demo session removed")
                 return
             }
             
