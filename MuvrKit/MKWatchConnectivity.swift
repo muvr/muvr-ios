@@ -307,61 +307,66 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     private func innerExecute() {
         
+        let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
+        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.raw")
+        
         ///
         /// Encodes all the samples between ``from`` and ``to``. 
         /// - parameter from: the starting date
-        /// - parameter to: the ending date
-        /// - returns: pair of URL containing the encoded data and end date, ``nil`` otherwise
+        /// - parameter to: the session end date (if unknown tries to get the data up to now)
+        /// - returns: tuple of :
+        ///      - URL containing the encoded data
+        ///      - date of last encoded sample
+        ///      - flag indicating if it's the last chunk of data
         ///
-        func encodeSamples(from from: NSDate, to: NSDate) -> (NSURL, NSDate)? {
-            let duration = to.timeIntervalSinceDate(from)
-            let sampleCount = dimension * MKConnectivitySettings.samplingRate * Int(duration)
+        func encodeSamples(from from: NSDate, to: NSDate?) -> (NSURL, NSDate, Bool)? {
             
             // Indicates if the expected sample is in the requested range
-            func isInRange(sample: CMRecordedAccelerometerData) -> Bool {
-                let time = sample.startDate.timeIntervalSince1970
-                return from.timeIntervalSince1970 <= time && time < to.timeIntervalSince1970
+            func isAfterFromDate(sample: CMRecordedAccelerometerData) -> Bool {
+                return from.timeIntervalSince1970 <= sample.startDate.timeIntervalSince1970
             }
-            
-            let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
-            let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata.raw")
+
             do {
                 try NSFileManager.defaultManager().removeItemAtURL(fileUrl)
-            } catch let e {
-                NSLog("Failed to remove file '\(fileUrl)': \(e)")
+            } catch {
+                // Possible failure expected
             }
             
-            // try to get the data from the recorder
-            guard let sdl = recorder.accelerometerDataFromDate(from, toDate: to) else {
+            // try to get the data from the recorder up to now
+            // even if the end date is set we want to see if there is data after it
+            guard let sdl = recorder.accelerometerDataFromDate(from, toDate: NSDate()) else {
                 NSLog("No data available.")
                 return nil
             }
-            var firstSampleTime: NSDate? = nil
+            
             var encoder: MKSensorDataEncoder? = nil
+            var lastChunk = false
+            
             // enumerate, creating output only if needed
-            sdl.enumerate().forEach { (_, e) in
-                if let data = e as? CMRecordedAccelerometerData where isInRange(data) {
-                    // keep track of the first sample time
-                    if firstSampleTime == nil { firstSampleTime = data.startDate }
+            for(_, e) in sdl.enumerate() {
+                // If data before range, ignore it
+                if let data = e as? CMRecordedAccelerometerData where isAfterFromDate(data) {
                     if encoder == nil {
-                        // encoder is needed
                         encoder = MKSensorDataEncoder(target: MKFileSensorDataEncoderTarget(fileUrl: fileUrl), types: recordedTypes, samplesPerSecond: 50)
+                    }
+                    // If data after range, no need to go farther 
+                    //   -> this is the last chunk for this session
+                    if let to = to where data.startDate.timeIntervalSinceDate(to) > 0 {
+                        lastChunk = true
+                        break
                     }
                     // append data to the encoder
                     encoder!.append([Float(data.acceleration.x), Float(data.acceleration.y), Float(data.acceleration.z)], sampleDate: data.startDate)
                 }
             }
             // after the loop, check if we have anything to transmit
-            if let encoder = encoder {
+            if let encoder = encoder where lastChunk || encoder.duration > MKConnectivitySettings.windowDuration {
                 encoder.close()
-                // check for minimum duration
-                if encoder.duration > MKConnectivitySettings.windowDuration {
+                if encoder.duration > 0 {
                     NSLog("Written \(encoder.startDate!) - \(encoder.endDate!) samples.")
-                    return (fileUrl, encoder.endDate!)
                 }
-                return nil
-            }
-            
+                return (fileUrl, encoder.endDate ?? from, lastChunk)
+            }            
             return nil
         }
         
@@ -383,9 +388,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 return
             }
             
-            // ignore demo session
+            // Remove demo session
             if session.demo {
-                NSLog("Demo session")
+                self.sessions.remove(session)
+                NSLog("Demo session removed")
                 return
             }
             
@@ -393,27 +399,27 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
             
-            if (to.timeIntervalSinceDate(from) < MKConnectivitySettings.windowDuration) {
+            if (!props.ended && to.timeIntervalSinceDate(from) < MKConnectivitySettings.windowDuration) {
                 NSLog("Skip transfer for chunk smaller than a single window")
                 return
             }
             
-            guard let (fileUrl, end) = encodeSamples(from: from, to: to) else {
+            guard let (fileUrl, end, lastChunk) = encodeSamples(from: from, to: props.end) else {
                 NSLog("No sensor data in \(from) - \(to)")
                 return
             }
             
             // update the number of recorded samples
-            let updatedProps = sessions.update(session, propsUpdate: { return $0.with(accelerometerEnd: end) })
+            let updatedProps = sessions.update(session) { return $0.with(accelerometerEnd: end).with(completed: lastChunk) }
             
             // transfer what we have so far
             transferSensorDataBatch(fileUrl, session: session, props: updatedProps) {
                 // set the expected range of samples on the next call
-                let finalProps = self.sessions.update(session, propsUpdate: { return $0.with(accelerometerStart: end) })
+                let finalProps = self.sessions.update(session) { return $0.with(accelerometerStart: end) }
                 NSLog("Transferred \(finalProps)")
                 
-                // update the session with incremented sent counter
-                if let finalProps = finalProps where finalProps.completed {
+                // Remove session if it was the last chunk of data
+                if lastChunk {
                     NSLog("Removed \(finalProps)")
                     self.sessions.remove(session)
                     // we're done with this session, we can move on to the next one
@@ -426,7 +432,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         recorder.recordAccelerometerForDuration(43200)
         
         // check whether there is something to be done at all.
-        //NSLog("beginTransfer(); |sessions| = \(sessions.count)")
+        NSLog("beginTransfer(); |sessions| = \(sessions.count)")
         if sessions.isEmpty {
             NSLog("Reachable; no active sessions.")
             return
@@ -550,13 +556,8 @@ private extension MKExerciseSessionProperties {
             "sent" : sent,
         ]
         if let end = end { md["end"] = end.timeIntervalSince1970 }
-        if lastChunk { md["last"] = true }
+        if completed { md["last"] = true }
         return md
-    }
-    
-    /// Indicates if this chunk is the last of the session
-    private var lastChunk: Bool {
-        return ended && recorded >= MKConnectivitySettings.samplesForDuration(duration - MKConnectivitySettings.windowDuration) // ok if miss last data window
     }
     
 }
@@ -601,7 +602,7 @@ private extension MKExerciseSessionProperties {
         }
         
         if  start != nil {
-            self.init(start: start!, accelerometerStart: accStart, accelerometerEnd: accEnd, end: end)
+            self.init(start: start!, accelerometerStart: accStart, accelerometerEnd: accEnd, end: end, completed: false)
         } else {
             return nil
         }
