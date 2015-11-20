@@ -6,6 +6,7 @@ import CoreData
 enum MRNotifications : String {
     case CurrentSessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
     case CurrentSessionDidStart = "MRNotificationsCurrentSessionDidStart"
+    case SessionDidComplete = "MRNotificationSessionDidComplete"
 }
 
 @UIApplicationMain
@@ -102,6 +103,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
             currentSession.sensorData = sensorData.encode()
             if session.completed {
                 sessions.removeAtIndex(index)
+                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidComplete.rawValue, object: currentSession.objectID)
             }
             classified.forEach { MRManagedClassifiedExercise.insertNewObject(from: $0, into: currentSession, inManagedObjectContext: managedObjectContext) }
         }

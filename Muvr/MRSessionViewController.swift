@@ -11,6 +11,9 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addLabelBtn: UIBarButtonItem!
     @IBOutlet weak var navbar: UINavigationBar!
+    @IBOutlet var sessionBar: UINavigationItem!
+    
+    private var dataWaitingSpinner: UIBarButtonItem?
     
     // the displayed session
     private var session: MRManagedExerciseSession?
@@ -23,6 +26,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     func setSession(session: MRManagedExerciseSession) {
         self.session = session
         runningSession = MRAppDelegate.sharedDelegate().currentSession.map { $0 == session } ?? false
+        NSLog("setSession called")
     }
     
     ///
@@ -54,6 +58,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
         if let objectId = session?.objectID {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidComplete", name: MRNotifications.SessionDidComplete.rawValue, object: objectId)
         }
         tableView.reloadData()
     }
@@ -65,6 +70,25 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         } else {
             navbar.topItem!.title = nil
         }
+        NSLog("reload : \(dataWaitingSpinner)")
+    }
+    
+    private func initSpinner() {
+        let spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+        spinnerView.frame = CGRectMake(0, 0, 14, 14)
+        spinnerView.color = UIColor.blackColor()
+        dataWaitingSpinner = UIBarButtonItem(customView: spinnerView)
+        dataWaitingSpinner!.title = "OK"
+    }
+    
+    private func showDataWaitingSpinner() {
+        sessionBar.setLeftBarButtonItems([dataWaitingSpinner!], animated: true)
+        (dataWaitingSpinner!.customView! as! UIActivityIndicatorView).startAnimating()
+    }
+    
+    private func hideDataWaitingSpinner() {
+        dataWaitingSpinner!.customView = nil
+        NSLog("hide action called")
     }
     
     // MARK: notification callbacks
@@ -75,6 +99,12 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     func sessionDidEnd() {
         addLabelBtn.enabled = false
+        initSpinner()
+        showDataWaitingSpinner()
+    }
+    
+    func sessionDidComplete() {
+        hideDataWaitingSpinner()
     }
     
     // MARK: Share & label
