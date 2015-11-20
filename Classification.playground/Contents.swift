@@ -62,6 +62,16 @@ func shiftOffset(offset: MKTimestamp)(x: MKClassifiedExercise) -> MKClassifiedEx
 }
 
 func printCsv(data data: MKSensorData, windows: [MKClassifiedExerciseWindow], exerciseWindows: [MKClassifiedExerciseWindow?]) {
+    
+    let file = "classification-\(resourceName).csv"
+    let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true).first!
+    let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent(file)
+    do { try NSFileManager.defaultManager().removeItemAtURL(fileUrl) } catch { /*don't care*/ }
+    try! "".writeToURL(fileUrl, atomically: true, encoding: NSASCIIStringEncoding)
+    let handle = try! NSFileHandle(forWritingToURL: fileUrl)
+    
+    print("Generating CSV file in \(fileUrl)")
+    
     let stepsInWindow = 40
     let numWindows = windows.count
     (0..<numWindows + stepsInWindow).forEach { i in
@@ -107,13 +117,17 @@ func printCsv(data data: MKSensorData, windows: [MKClassifiedExerciseWindow], ex
                 if (pte > pbc && pte > plr) { te = 1 }
                 if (plr > pbc && plr > pte) { lr = 1 }
             }
-            print("\(x),\(y),\(z),\(avg["-"]!),\(avg["E"]!),\(ex),\(avg["arms/biceps-curl"] ?? 0.0),\(avg["arms/triceps-extension"] ?? 0.0),\(avg["arms/lateral-raise"] ?? 0.0),\(bc),\(te),\(lr)")
+            if let row = "\(x),\(y),\(z),\(avg["-"]!),\(avg["E"]!),\(ex),\(avg["arms/biceps-curl"] ?? 0.0),\(avg["arms/triceps-extension"] ?? 0.0),\(avg["arms/lateral-raise"] ?? 0.0),\(bc),\(te),\(lr)".dataUsingEncoding(NSASCIIStringEncoding) {
+                handle.writeData(row)
+            }
         }
     }
+    handle.closeFile()
+    print("CSV ready")
 }
 
-let windows = try eneClassifier.classifyWindows(block: sd, maxResults: 2)
-let results = try eneClassifier.classify(block: sd, maxResults: 2)
+let windows = try! eneClassifier.classifyWindows(block: sd, maxResults: 2)
+let results = try! eneClassifier.classify(block: sd, maxResults: 2)
 print("")
 print("E/NE classification")
 results.forEach { x in print(x) }
@@ -140,4 +154,4 @@ print("")
 print("Exercise classification")
 cls.forEach { wcls in print(wcls) }
 
-//printCsv(data: sd, windows: windows, exerciseWindows: exerciseWindows)
+printCsv(data: sd, windows: windows, exerciseWindows: exerciseWindows)
