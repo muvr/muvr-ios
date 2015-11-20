@@ -49,16 +49,13 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup, MRSession
         let durationItems: [WKPickerItem] = (1..<720).map { i in
             let hours = "\(String(format: "%02d", Int(i / 60)))"
             let minutes = "\(String(format: "%02d", i % 60))"
-            let item = WKPickerItem()
-            item.title = "\(hours)h \(minutes)"
-            return item
+            return WKPickerItem.withTitle("\(hours)h \(minutes)")
         }
         durationPicker.setItems(durationItems)
         durationPicker.setSelectedItemIndex(59) // one hour by default
         
         updateUI()
         renderer = MRSessionProgressGroupRenderer(group: self)
-        NSLog("Start ring with duration \(choosenDuration) minutes")
         ringRenderer = MRSessionProgressRingRenderer(ring: self, duration: choosenDuration)
     }
     
@@ -70,6 +67,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup, MRSession
     
     override func didDeactivate() {
         renderer?.deactivate()
+        ringRenderer?.deactivate()
         renderer = nil
         ringRenderer = nil
         super.didDeactivate()
@@ -152,7 +150,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup, MRSession
         if let ringRenderer = ringRenderer {
             ringRenderer.setExpectedDuration(choosenDuration)
         }
-        NSLog("choosen duration: \(choosenDuration) min")
     }
 
 }

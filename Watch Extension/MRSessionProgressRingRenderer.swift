@@ -10,15 +10,19 @@ class MRSessionProgressRingRenderer : NSObject {
         self.expectedDuration = duration
         super.init()
         self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "update", userInfo: nil, repeats: true)
+        update()
     }
     
     deinit {
+        self.deactivate()
+    }
+    
+    func deactivate() {
         self.timer?.invalidate()
         self.timer = nil
     }
     
     func setExpectedDuration(duration: Int) {
-        NSLog("Set expected duration to \(duration) minutes")
         expectedDuration = duration
     }
     
