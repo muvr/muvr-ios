@@ -14,15 +14,12 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     // the displayed session
     private var session: MRManagedExerciseSession?
-    // indicates if the displayed session is active (i.e. not finished)
-    private var runningSession: Bool = false
     
     ///
     /// Provides the session to display
     ///
     func setSession(session: MRManagedExerciseSession) {
         self.session = session
-        runningSession = MRAppDelegate.sharedDelegate().currentSession.map { $0 == session } ?? false
     }
     
     ///
@@ -55,11 +52,11 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         if let objectId = session?.objectID {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
         }
+        addLabelBtn.enabled = session != nil && session?.end == nil
         tableView.reloadData()
     }
     
     override func viewDidLoad() {
-        addLabelBtn.enabled = runningSession
         if let s = session {
             navbar.topItem!.title = "\(s.start.formatTime()) - \(s.exerciseModelId)"
         } else {
