@@ -26,6 +26,11 @@ public extension MKSensorData {
         /// - parameter value: the constant value
         case Constant(value: Float)
         
+        /// A slope
+        /// - parameter start: the start value
+        /// - parameter inc: the increment
+        case Slope(start: Float, inc: Float)
+        
         /// A sine wave with the given period, and 1.0 amplitude
         /// - parameter period: the period in samples
         case Sin1(period: Int)
@@ -45,6 +50,7 @@ public extension MKSensorData {
         func generateValue(value: Value, index: Int) -> Float {
             switch value {
             case .Constant(let x): return x
+            case .Slope(let start, let inc): return start + Float(index) * inc
             case .Sin1(let p): return sinf(Float(index) / Float(p))
             }
         }
