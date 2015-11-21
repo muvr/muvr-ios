@@ -7,7 +7,7 @@ import Accelerate
 public enum MKActivationFunction {
     /// f(x) = x
     case Identity
-    /// f(x) = 1/(1 + e^x)
+    /// f(x) = 1/(1 + e^-x)
     case Sigmoid
     /// f(x) = tanh(x)
     case Tanh
@@ -42,7 +42,7 @@ extension MKActivationFunction {
             vDSP_vsadd(inputPointer, vDSP_Stride(1), &one, inputPointer, vDSP_Stride(1), vDSP_Length(length))
             vvpowsf(inputPointer, &minusOne, inputPointer, [Int32(length)])
         case .ReLU:
-            vDSP_vthres(&input + offset, vDSP_Stride(1), &threshold, &input + offset, vDSP_Stride(1), vDSP_Length(length))
+            vDSP_vthres(inputPointer, vDSP_Stride(1), &threshold, inputPointer, vDSP_Stride(1), vDSP_Length(length))
         case .Tanh:
             vvtanhf(inputPointer, inputPointer, [Int32(length)])
         }
