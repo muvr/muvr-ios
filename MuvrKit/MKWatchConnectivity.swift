@@ -212,6 +212,11 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     private var sessions = MKConnectivitySessions()
     // the transfer queue
     private let transferQueue = dispatch_queue_create("io.muvr.transferQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0))
+    
+    public var sessionsCount: Int { get {
+            return sessions.count
+        }
+    }
 
     ///
     /// Initializes this instance, assigninf the metadata ans sensorData delegates.
@@ -235,6 +240,11 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// the current session
     public var currentSession: (MKExerciseSession, MKExerciseSessionProperties)? {
         return sessions.currentSession
+    }
+    
+    // pending session (ended session but not yet complete)
+    public var pendingSession: (MKExerciseSession, MKExerciseSessionProperties)? {
+        return sessions.mostImportantSessionsEntry
     }
 
     ///
