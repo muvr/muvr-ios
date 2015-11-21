@@ -1,1 +1,1 @@
-1200 id 500 relu 100 relu 25 relu 2 logistic
+1200 id 250 relu 50 relu 2 logistic
