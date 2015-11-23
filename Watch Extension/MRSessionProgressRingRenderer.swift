@@ -72,6 +72,7 @@ class MRSessionProgressRingRenderer : NSObject {
         else {
             ring.titleLabel.setText("Muvr")
             ring.timeLabel.setText("Idle")
+            ring.ringLabel.setText("")
             ring.outerRing.setBackgroundImageNamed("outer0ring.png")
             ring.innerRing.setBackgroundImageNamed("inner0ring.png")
             ring.sessionLabel.setText("No sessions")
