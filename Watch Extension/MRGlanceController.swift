@@ -2,20 +2,32 @@ import WatchKit
 import Foundation
 import HealthKit
 
-class MRGlanceController: WKInterfaceController, MRSessionProgressGroup {
+class MRGlanceController: WKInterfaceController, MRSessionProgressRing {
     @IBOutlet weak var titleLabel: WKInterfaceLabel!
     @IBOutlet weak var timeLabel: WKInterfaceLabel!
-    @IBOutlet weak var statsLabel: WKInterfaceLabel!
-    private var renderer: MRSessionProgressGroupRenderer?
-
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
-    }
+    @IBOutlet weak var ringLabel: WKInterfaceLabel!
+    @IBOutlet weak var innerRing: WKInterfaceGroup!
+    @IBOutlet weak var outerRing: WKInterfaceGroup!
+    @IBOutlet weak var sessionLabel: WKInterfaceLabel!
+    
+    private var renderer: MRSessionProgressRingRenderer?
     
     override func willActivate() {
-        renderer = MRSessionProgressGroupRenderer(group: self)
-        MRExtensionDelegate.sharedDelegate().applicationDidBecomeActive()
         super.willActivate()
+        activate()
+    }
+    
+    private func activate() {
+        if renderer == nil {
+            renderer = MRSessionProgressRingRenderer(ring: self, duration: 60, mode: MRSessionProgressViewType.Glance)
+        }
+        MRExtensionDelegate.sharedDelegate().applicationDidBecomeActive()
+    }
+    
+    override func didAppear() {
+        if renderer == nil {
+            activate()
+        }
     }
 
     override func didDeactivate() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="9019"/>
     </dependencies>
     <scenes>
@@ -10,11 +10,16 @@
             <objects>
                 <controller title="Muvr" id="AgC-eL-Hgc" customClass="MRMainController" customModule="Watch_Extension">
                     <items>
-                        <group width="1" height="116" alignment="left" layout="vertical" id="ys7-T7-jXZ">
+                        <group width="1" height="153" alignment="left" layout="vertical" id="ys7-T7-jXZ">
                             <items>
                                 <picker width="1" widthAdjustment="2" height="32" alignment="left" focusStyle="stack" id="JBL-em-o3w">
                                     <connections>
                                         <action selector="exerciseModelPickerAction:" destination="AgC-eL-Hgc" id="t0O-ON-9dO"/>
+                                    </connections>
+                                </picker>
+                                <picker height="32" alignment="left" focusStyle="stack" id="JAp-Mx-EkW">
+                                    <connections>
+                                        <action selector="didSelectDuration:" destination="AgC-eL-Hgc" id="vod-Ab-3v8"/>
                                     </connections>
                                 </picker>
                                 <button width="1" alignment="left" title="Start" id="qph-6j-6Ky">
@@ -34,49 +39,64 @@
                                 </button>
                             </items>
                         </group>
-                        <group width="1" alignment="center" animationDuration="1" id="U8c-fr-ind">
+                        <group width="1" alignment="center" animationDuration="1" layout="vertical" id="U8c-fr-ind">
                             <items>
-                                <group width="1" alignment="center" layout="vertical" id="RNf-yC-kXu">
+                                <label width="1" alignment="left" text="Muvr" textAlignment="center" id="g7i-Qj-f79">
+                                    <fontDescription key="font" type="system" weight="light" pointSize="16"/>
+                                </label>
+                                <group width="1" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="3Zq-sE-EmV">
                                     <items>
-                                        <label width="136" alignment="left" text="Title" id="g7i-Qj-f79">
-                                            <fontDescription key="font" type="system" weight="light" pointSize="20"/>
-                                        </label>
-                                        <label alignment="left" text="Time" id="gfN-Vo-zov"/>
-                                        <label alignment="left" text="Stats" id="RKG-1P-IR2"/>
-                                        <table alignment="left" id="t9X-s3-pCm">
+                                        <group width="1" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="P41-cE-0Au">
                                             <items>
-                                                <tableRow identifier="exercise" id="lX0-fg-QRi" customClass="MRExerciseRow" customModule="Watch_Extension">
-                                                    <group key="rootItem" width="1" alignment="left" id="P5h-pO-Z8k">
-                                                        <items>
-                                                            <label width="1" height="1" alignment="left" text="Label" id="Z4P-wI-HS8">
-                                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                            </label>
-                                                        </items>
-                                                        <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </group>
-                                                    <connections>
-                                                        <outlet property="textLabel" destination="Z4P-wI-HS8" id="mMT-OK-l7E"/>
-                                                    </connections>
-                                                </tableRow>
+                                                <label width="1" alignment="left" textAlignment="center" numberOfLines="0" id="QXo-Be-k4K">
+                                                    <fontDescription key="font" type="system" weight="light" pointSize="14"/>
+                                                </label>
+                                                <label width="1" height="200" alignment="left" textAlignment="center" numberOfLines="3" id="elN-VH-iGY">
+                                                    <fontDescription key="font" type="system" weight="light" pointSize="12"/>
+                                                </label>
                                             </items>
-                                        </table>
+                                        </group>
                                     </items>
                                 </group>
+                                <label width="1" alignment="left" textAlignment="center" id="0jl-sd-ceu">
+                                    <fontDescription key="font" type="system" pointSize="12"/>
+                                </label>
+                                <table alignment="left" id="t9X-s3-pCm">
+                                    <items>
+                                        <tableRow identifier="exercise" id="lX0-fg-QRi" customClass="MRExerciseRow" customModule="Watch_Extension">
+                                            <group key="rootItem" width="1" alignment="left" id="P5h-pO-Z8k">
+                                                <items>
+                                                    <label width="1" height="1" alignment="left" text="Label" id="Z4P-wI-HS8">
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </label>
+                                                </items>
+                                                <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            </group>
+                                            <connections>
+                                                <outlet property="textLabel" destination="Z4P-wI-HS8" id="mMT-OK-l7E"/>
+                                            </connections>
+                                        </tableRow>
+                                    </items>
+                                </table>
                             </items>
                         </group>
                     </items>
                     <connections>
+                        <outlet property="durationPicker" destination="JAp-Mx-EkW" id="SI7-v0-qND"/>
                         <outlet property="exerciseModel" destination="JBL-em-o3w" id="zdN-1a-r3P"/>
-                        <outlet property="exercisesTable" destination="t9X-s3-pCm" id="u4s-Pu-Rc2"/>
-                        <outlet property="progressGroup" destination="U8c-fr-ind" id="NHD-H5-fF9"/>
+                        <outlet property="exercisesTable" destination="t9X-s3-pCm" id="hhq-Su-ZPu"/>
+                        <outlet property="innerRing" destination="P41-cE-0Au" id="DRL-0E-yCe"/>
+                        <outlet property="outerRing" destination="3Zq-sE-EmV" id="gdW-Z6-lKX"/>
+                        <outlet property="progressGroup" destination="U8c-fr-ind" id="tLE-sc-au5"/>
+                        <outlet property="ringLabel" destination="elN-VH-iGY" id="Y2a-pJ-9q5"/>
+                        <outlet property="sessionLabel" destination="0jl-sd-ceu" id="Rhd-Xo-uyw"/>
                         <outlet property="startGroup" destination="ys7-T7-jXZ" id="mSK-xj-l8g"/>
-                        <outlet property="statsLabel" destination="RKG-1P-IR2" id="HGp-jw-GQx"/>
-                        <outlet property="timeLabel" destination="gfN-Vo-zov" id="5xH-Ng-4HT"/>
-                        <outlet property="titleLabel" destination="g7i-Qj-f79" id="291-bf-bpe"/>
+                        <outlet property="timeLabel" destination="QXo-Be-k4K" id="B6J-vX-HbO"/>
+                        <outlet property="titleLabel" destination="g7i-Qj-f79" id="W9J-yK-xsr"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="54" y="-68.25"/>
+            <point key="canvasLocation" x="54" y="-5.75"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
@@ -85,26 +105,40 @@
                     <items>
                         <group alignment="left" layout="vertical" id="gv7-I2-MZq">
                             <items>
-                                <label width="136" alignment="left" text="Title" id="BI0-zu-H9t">
-                                    <fontDescription key="font" type="system" weight="light" pointSize="20"/>
+                                <label width="136" alignment="left" text="Muvr" textAlignment="right" id="BI0-zu-H9t">
+                                    <fontDescription key="font" type="system" weight="light" pointSize="18"/>
+                                </label>
+                                <label width="1" alignment="left" textAlignment="center" id="5S6-zY-YNH">
+                                    <fontDescription key="font" type="system" weight="light" pointSize="14"/>
                                 </label>
                             </items>
                         </group>
-                        <group alignment="left" layout="vertical" id="eew-Gs-W6Y">
+                        <group alignment="left" layout="vertical" id="wrh-VU-bOp">
                             <items>
-                                <group width="1" alignment="left" layout="vertical" id="ZdV-ef-Veb">
+                                <group width="1" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="M5j-YJ-ifT">
                                     <items>
-                                        <label alignment="left" text="Time" numberOfLines="3" id="C7v-lb-EWk"/>
-                                        <label alignment="left" text="Stats" numberOfLines="3" id="II9-Zb-NiH"/>
+                                        <group width="1" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="Bbv-Dj-sxa">
+                                            <items>
+                                                <label width="1" height="200" alignment="left" textAlignment="center" numberOfLines="3" id="c3R-L3-zJG">
+                                                    <fontDescription key="font" type="system" weight="light" pointSize="14"/>
+                                                </label>
+                                            </items>
+                                        </group>
                                     </items>
                                 </group>
+                                <label width="1" alignment="left" verticalAlignment="bottom" text="Sessions" textAlignment="center" id="lBq-ak-eHE">
+                                    <fontDescription key="font" type="system" weight="light" pointSize="12"/>
+                                </label>
                             </items>
                         </group>
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                     <connections>
-                        <outlet property="statsLabel" destination="II9-Zb-NiH" id="pC1-w4-y9C"/>
-                        <outlet property="timeLabel" destination="C7v-lb-EWk" id="g0t-mw-xP6"/>
+                        <outlet property="innerRing" destination="Bbv-Dj-sxa" id="CMm-WC-P7O"/>
+                        <outlet property="outerRing" destination="M5j-YJ-ifT" id="gZh-x1-LLi"/>
+                        <outlet property="ringLabel" destination="c3R-L3-zJG" id="FU1-DV-nlJ"/>
+                        <outlet property="sessionLabel" destination="lBq-ak-eHE" id="f5T-9e-3zR"/>
+                        <outlet property="timeLabel" destination="5S6-zY-YNH" id="CFH-Ch-ahF"/>
                         <outlet property="titleLabel" destination="BI0-zu-H9t" id="fsg-kQ-N4Z"/>
                     </connections>
                 </glanceController>

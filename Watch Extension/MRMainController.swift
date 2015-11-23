@@ -11,15 +11,18 @@ class MRExerciseRow: NSObject {
     }
 }
 
-class MRMainController: WKInterfaceController, MRSessionProgressGroup {
+class MRMainController: WKInterfaceController, MRSessionProgressRing {
+    @IBOutlet weak var progressGroup: WKInterfaceGroup!
+    @IBOutlet weak var innerRing: WKInterfaceGroup!
+    @IBOutlet weak var outerRing: WKInterfaceGroup!
+    @IBOutlet weak var timeLabel: WKInterfaceLabel!
+    @IBOutlet weak var ringLabel: WKInterfaceLabel!
+    @IBOutlet weak var titleLabel: WKInterfaceLabel!
+    @IBOutlet weak var sessionLabel: WKInterfaceLabel!
     @IBOutlet weak var exerciseModel: WKInterfacePicker!
     @IBOutlet weak var startGroup: WKInterfaceGroup!
-    @IBOutlet weak var progressGroup: WKInterfaceGroup!
+    @IBOutlet weak var durationPicker: WKInterfacePicker!
     @IBOutlet weak var exercisesTable: WKInterfaceTable!
-    
-    @IBOutlet weak var titleLabel: WKInterfaceLabel!
-    @IBOutlet weak var timeLabel: WKInterfaceLabel!
-    @IBOutlet weak var statsLabel: WKInterfaceLabel!
     
     private let exercises = [
         ("demo-bc-only", "Biceps curl"),
@@ -27,7 +30,9 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
         ("demo-lr-only", "Lateral raise")
     ]
 
-    private var renderer: MRSessionProgressGroupRenderer?
+    private var renderer: MRSessionProgressRingRenderer?
+    
+    private var choosenDuration = 60 // minutes
 
     private var exerciseModelMetadataIndex: Int = 0
     
@@ -39,9 +44,18 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     private func activate() {
         let sd = MRExtensionDelegate.sharedDelegate()
         exerciseModel.setItems(sd.exerciseModelMetadata.map { _, title in return WKPickerItem.withTitle(title) })
+        let durationItems: [WKPickerItem] = (1..<720).map { i in
+            let hours = "\(String(format: "%02d", Int(i / 60)))"
+            let minutes = "\(String(format: "%02d", i % 60))"
+            return WKPickerItem.withTitle("\(hours)h \(minutes)")
+        }
+        durationPicker.setItems(durationItems)
+        durationPicker.setSelectedItemIndex(59) // one hour by default
         
         updateUI()
-        renderer = MRSessionProgressGroupRenderer(group: self)
+        if renderer == nil {
+            renderer = MRSessionProgressRingRenderer(ring: self, duration: choosenDuration, mode: MRSessionProgressViewType.App)
+        }
     }
     
     override func didAppear() {
@@ -78,7 +92,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
             // NB. it will stay like this.
             exercisesTable.setNumberOfRows(0, withRowType: "exercise")
         }
-        
         progressGroup.setHidden(sd.currentSession == nil)
         startGroup.setHidden(sd.currentSession != nil)
     }
@@ -86,7 +99,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
         if MRExtensionDelegate.sharedDelegate().currentSession?.0.demo ?? false {
             let (resourceName, _) = exercises[rowIndex]
-            
             let fileUrl = NSBundle.mainBundle().URLForResource(resourceName, withExtension: "raw")!
             MRExtensionDelegate.sharedDelegate().sendSamples(fileUrl)
         }
@@ -122,6 +134,16 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     ///
     @IBAction func exerciseModelPickerAction(index: Int) {
         exerciseModelMetadataIndex = index
+    }
+    
+    /// 
+    /// Called when the user changes session duration
+    ///
+    @IBAction func didSelectDuration(index: Int) {
+        choosenDuration = index + 1
+        if let renderer = renderer {
+            renderer.setExpectedDuration(choosenDuration)
+        }
     }
 
 }
