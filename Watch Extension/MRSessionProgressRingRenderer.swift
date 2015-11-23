@@ -8,12 +8,10 @@ enum MRSessionProgressViewType: String {
 class MRSessionProgressRingRenderer : NSObject {
     private let ring: MRSessionProgressRing
     private var timer: NSTimer?
-    private var expectedDuration: Int // minutes
     private var mode: MRSessionProgressViewType
     
-    init(ring: MRSessionProgressRing, duration: Int, mode: MRSessionProgressViewType) {
+    init(ring: MRSessionProgressRing, mode: MRSessionProgressViewType) {
         self.ring = ring
-        self.expectedDuration = duration
         self.mode = mode
         super.init()
         NSLog("Init progress view in \(mode)")
@@ -29,14 +27,11 @@ class MRSessionProgressRingRenderer : NSObject {
         self.timer = nil
     }
     
-    func setExpectedDuration(duration: Int) {
-        expectedDuration = duration
-    }
-    
     func update() {
         let sd = MRExtensionDelegate.sharedDelegate()
         sd.applicationDidBecomeActive()
         if let (session, props) = sd.currentSession {
+            let expectedDuration = 60
             let duration = props.duration
             let outerFrame = 1 + Int(100 * duration / Double(expectedDuration * 60)) % 100
             let readDuration = (props.accelerometerStart ?? props.start).timeIntervalSinceDate(props.start)

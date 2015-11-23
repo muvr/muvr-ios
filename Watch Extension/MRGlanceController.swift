@@ -19,7 +19,7 @@ class MRGlanceController: WKInterfaceController, MRSessionProgressRing {
     
     private func activate() {
         if renderer == nil {
-            renderer = MRSessionProgressRingRenderer(ring: self, duration: 60, mode: MRSessionProgressViewType.Glance)
+            renderer = MRSessionProgressRingRenderer(ring: self, mode: MRSessionProgressViewType.Glance)
         }
         MRExtensionDelegate.sharedDelegate().applicationDidBecomeActive()
     }

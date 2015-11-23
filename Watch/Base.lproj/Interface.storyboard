@@ -17,11 +17,6 @@
                                         <action selector="exerciseModelPickerAction:" destination="AgC-eL-Hgc" id="t0O-ON-9dO"/>
                                     </connections>
                                 </picker>
-                                <picker height="32" alignment="left" focusStyle="stack" id="JAp-Mx-EkW">
-                                    <connections>
-                                        <action selector="didSelectDuration:" destination="AgC-eL-Hgc" id="vod-Ab-3v8"/>
-                                    </connections>
-                                </picker>
                                 <button width="1" alignment="left" title="Start" id="qph-6j-6Ky">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -82,7 +77,6 @@
                         </group>
                     </items>
                     <connections>
-                        <outlet property="durationPicker" destination="JAp-Mx-EkW" id="SI7-v0-qND"/>
                         <outlet property="exerciseModel" destination="JBL-em-o3w" id="zdN-1a-r3P"/>
                         <outlet property="exercisesTable" destination="t9X-s3-pCm" id="hhq-Su-ZPu"/>
                         <outlet property="innerRing" destination="P41-cE-0Au" id="DRL-0E-yCe"/>
