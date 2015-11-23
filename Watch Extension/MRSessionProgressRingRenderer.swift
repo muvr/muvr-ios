@@ -37,17 +37,17 @@ class MRSessionProgressRingRenderer : NSObject {
             let readDuration = (props.accelerometerStart ?? props.start).timeIntervalSinceDate(props.start)
             let innerFrame = (Int(100 * readDuration / Double(expectedDuration * 60)) ?? 0) % 100
             let time = NSDateComponentsFormatter().stringFromTimeInterval(props.duration)!
-            let sent = Int(readDuration * 600 / 1000) // kb
-            let total = Int(duration * 600 / 1000) // kb
+            let sent = NSByteCountFormatter().stringFromByteCount(Int64(readDuration * 600))
+            let total = NSByteCountFormatter().stringFromByteCount(Int64(duration * 600))
             if mode == MRSessionProgressViewType.Glance {
                 ring.titleLabel.setText("Muvr - \(session.modelId)")
                 ring.timeLabel.setText("\(time)")
-                ring.ringLabel.setText("\(total)kb\n\(sent)kb")
+                ring.ringLabel.setText("\(total)\n\(sent)")
                 ring.sessionLabel.setText("\(sd.sessionsCount) sessions")
             } else {
                 ring.titleLabel.setText("\(session.modelId)")
                 ring.timeLabel.setText("")
-                ring.ringLabel.setText("\(time)\n\(total)kb\n\(sent)kb")
+                ring.ringLabel.setText("\(time)\n\(total)\n\(sent)")
                 ring.sessionLabel.setText("")
             }
             ring.outerRing.setBackgroundImageNamed("outer\(outerFrame)ring.png")
@@ -59,7 +59,7 @@ class MRSessionProgressRingRenderer : NSObject {
             let time = NSDateComponentsFormatter().stringFromTimeInterval(props.duration)!
             ring.titleLabel.setText("Muvr - \(session.modelId)")
             ring.timeLabel.setText("\(time)")
-            ring.ringLabel.setText("sync \(innerFrame)%")
+            ring.ringLabel.setText("\(innerFrame)%")
             ring.outerRing.setBackgroundImageNamed("outer100ring.png")
             ring.innerRing.setBackgroundImageNamed("inner\(innerFrame)ring.png")
             ring.sessionLabel.setText("\(sd.sessionsCount) sessions")
