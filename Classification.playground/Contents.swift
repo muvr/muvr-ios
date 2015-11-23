@@ -29,20 +29,20 @@ func model(named name: String, layerConfiguration: String, labels: [String]) thr
 
 //: ### Construct a classifier
 let exerciseClassifier = try! MKClassifier(model: model(named: "arms_model.weights",
-    layerConfiguration: "1200 id 250 relu 100 relu 3 logistic",
-    labels: ["arms/biceps-curl", "arms/triceps-extension", "shoulders/lateral-raise"]))
+    layerConfiguration: "1200 id 250 relu 50 relu 3 logistic",
+    labels: ["shoulders/lateral-raise", "arms/biceps-curl", "arms/triceps-extension"]))
 
 let eneClassifier = try! MKClassifier(model: model(named: "slacking_model.weights",
-    layerConfiguration: "1200 id 500 relu 100 relu 25 relu 2 logistic",
+    layerConfiguration: "1200 id 250 relu 50 relu 2 logistic",
     labels: ["-", "E"]))
 
 //: ### Load the data from the session
 //let resourceName = "no-movement-face-up"
-let resourceName = "bc-only"
+//let resourceName = "bc-only"
 //let resourceName = "arms_9F6F4AF0-F85B-4ACF-9E51-71717D141280"
 //let resourceName = "arms_AA86976B-F6CA-4A9B-B786-469171D6D341"
 //let resourceName = "arms_05D8C7FE-7D92-4F5A-9CCB-45B7D3799283"
-//let resourceName = "arms_AA32C720-B574-413E-A4AA-E741DA16ABF5"
+let resourceName = "arms_AA32C720-B574-413E-A4AA-E741DA16ABF5"
 let exerciseData = NSBundle.mainBundle().pathForResource(resourceName, ofType: "raw")!
 
 //: ### Decode the sensor data
@@ -113,12 +113,12 @@ func printCsv(data data: MKSensorData, windows: [MKClassifiedExerciseWindow], ex
             var bc = 0
             var te = 0
             var lr = 0
-            if let pbc = avg["arms/biceps-curl"], let pte = avg["arms/triceps-extension"], let plr = avg["arms/lateral-raise"] {
+            if let pbc = avg["arms/biceps-curl"], let pte = avg["arms/triceps-extension"], let plr = avg["shoulders/lateral-raise"] {
                 if (pbc > pte && pbc > plr) { bc = 1 }
                 if (pte > pbc && pte > plr) { te = 1 }
                 if (plr > pbc && plr > pte) { lr = 1 }
             }
-            if let row = "\(x),\(y),\(z),\(avg["-"]!),\(avg["E"]!),\(ex),\(avg["arms/biceps-curl"] ?? 0.0),\(avg["arms/triceps-extension"] ?? 0.0),\(avg["arms/lateral-raise"] ?? 0.0),\(bc),\(te),\(lr)\n".dataUsingEncoding(NSASCIIStringEncoding) {
+            if let row = "\(x),\(y),\(z),\(avg["-"]!),\(avg["E"]!),\(ex),\(avg["arms/biceps-curl"] ?? 0.0),\(avg["arms/triceps-extension"] ?? 0.0),\(avg["shoulders/lateral-raise"] ?? 0.0),\(bc),\(te),\(lr)\n".dataUsingEncoding(NSASCIIStringEncoding) {
                 handle.writeData(row)
             }
         }
