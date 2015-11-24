@@ -32,30 +32,6 @@
                                         <action selector="beginDemo" destination="AgC-eL-Hgc" id="5iR-N6-n5Z"/>
                                     </connections>
                                 </button>
-                            </items>
-                        </group>
-                        <group width="1" alignment="center" animationDuration="1" layout="vertical" id="U8c-fr-ind">
-                            <items>
-                                <label width="1" alignment="left" text="Muvr" textAlignment="center" id="g7i-Qj-f79">
-                                    <fontDescription key="font" type="system" weight="light" pointSize="16"/>
-                                </label>
-                                <group width="1" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="3Zq-sE-EmV">
-                                    <items>
-                                        <group width="1" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="P41-cE-0Au">
-                                            <items>
-                                                <label width="1" alignment="left" textAlignment="center" numberOfLines="0" id="QXo-Be-k4K">
-                                                    <fontDescription key="font" type="system" weight="light" pointSize="14"/>
-                                                </label>
-                                                <label width="1" height="200" alignment="left" textAlignment="center" numberOfLines="3" id="elN-VH-iGY">
-                                                    <fontDescription key="font" type="system" weight="light" pointSize="12"/>
-                                                </label>
-                                            </items>
-                                        </group>
-                                    </items>
-                                </group>
-                                <label width="1" alignment="left" textAlignment="center" id="0jl-sd-ceu">
-                                    <fontDescription key="font" type="system" pointSize="12"/>
-                                </label>
                                 <table alignment="left" id="t9X-s3-pCm">
                                     <items>
                                         <tableRow identifier="exercise" id="lX0-fg-QRi" customClass="MRExerciseRow" customModule="Watch_Extension">
@@ -73,6 +49,30 @@
                                         </tableRow>
                                     </items>
                                 </table>
+                            </items>
+                        </group>
+                        <group width="1" alignment="center" animationDuration="1" layout="vertical" id="U8c-fr-ind">
+                            <items>
+                                <label width="1" alignment="left" text="Muvr" textAlignment="center" id="g7i-Qj-f79">
+                                    <fontDescription key="font" type="system" weight="light" pointSize="16"/>
+                                </label>
+                                <group width="1" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="3Zq-sE-EmV">
+                                    <items>
+                                        <group width="1" height="150" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="P41-cE-0Au">
+                                            <items>
+                                                <label width="1" alignment="left" verticalAlignment="center" textAlignment="center" numberOfLines="0" id="QXo-Be-k4K">
+                                                    <fontDescription key="font" type="system" weight="light" pointSize="14"/>
+                                                </label>
+                                                <label width="1" alignment="left" verticalAlignment="center" textAlignment="center" numberOfLines="2" id="elN-VH-iGY">
+                                                    <fontDescription key="font" type="system" weight="light" pointSize="12"/>
+                                                </label>
+                                            </items>
+                                        </group>
+                                    </items>
+                                </group>
+                                <label width="1" alignment="left" textAlignment="center" id="0jl-sd-ceu">
+                                    <fontDescription key="font" type="system" pointSize="12"/>
+                                </label>
                             </items>
                         </group>
                     </items>

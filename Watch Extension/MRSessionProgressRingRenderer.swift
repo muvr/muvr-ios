@@ -46,8 +46,8 @@ class MRSessionProgressRingRenderer : NSObject {
                 ring.sessionLabel.setText("\(sd.sessionsCount) sessions")
             } else {
                 ring.titleLabel.setText("\(session.modelId)")
-                ring.timeLabel.setText("")
-                ring.ringLabel.setText("\(time)\n\(total)\n\(sent)")
+                ring.timeLabel.setText("\(time)")
+                ring.ringLabel.setText("\(total)\n\(sent)")
                 ring.sessionLabel.setText("")
             }
             ring.outerRing.setBackgroundImageNamed("outer\(outerFrame)ring.png")
