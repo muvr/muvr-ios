@@ -58,7 +58,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidComplete", name: MRNotifications.SessionDidComplete.rawValue, object: objectId)
         }
         tableView.reloadData()
-        if let session = session where !session.complete {
+        if let session = session where !session.completed {
             showDataWaitingSpinner()
         } else {
             hideDataWaitingSpinner()
