@@ -101,6 +101,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         if let index = sessionIndex(session) {
             let currentSession = sessions[index]
             currentSession.sensorData = sensorData.encode()
+            currentSession.completed = session.completed
             if session.completed {
                 sessions.removeAtIndex(index)
                 NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidComplete.rawValue, object: currentSession.objectID)
