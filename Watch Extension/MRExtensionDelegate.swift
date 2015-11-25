@@ -1,11 +1,14 @@
 import WatchKit
 import WatchConnectivity
 import MuvrKit
-import HealthKit
 
 class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivityDelegate {
     private lazy var connectivity: MKConnectivity = {
         return MKConnectivity(delegate: self)
+    }()
+    
+    private lazy var workoutDelegate: MRWorkoutSessionDelegate = {
+        return MRWorkoutSessionDelegate()
     }()
     
     private(set) internal var exerciseModelMetadata: [MKExerciseModelMetadata] = []
@@ -39,12 +42,20 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
         return connectivity.sessionsCount
     }
     
+    var heartrate: Double? {
+        return workoutDelegate.heartrate
+    }
+    var energyBurned: Double? {
+        return workoutDelegate.energyBurned
+    }
+    
     ///
     /// Starts the session
     ///
     func startSession(exerciseModelMetadataIndex exerciseModelMetadataIndex: Int, demo: Bool) {
         let (modelId, _) = exerciseModelMetadata[exerciseModelMetadataIndex]
         connectivity.startSession(modelId, demo: demo)
+        workoutDelegate.startSession(start: NSDate(), model: modelId)
     }
     
     ///
@@ -52,6 +63,7 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     ///
     func endLastSession() {
         connectivity.endLastSession()
+        workoutDelegate.stopSession(end: currentSession?.1.end ?? NSDate())
     }
     
     func sendSamples(fileUrl: NSURL) {
@@ -60,11 +72,7 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     
     func applicationDidFinishLaunching() {
         connectivity = MKConnectivity(delegate: self)
-        let typesToShare: Set<HKSampleType> = [HKWorkoutType.workoutType()]
-        HKHealthStore().requestAuthorizationToShareTypes(typesToShare, readTypes: nil) { (x, y) -> Void in
-            print(x)
-            print(y)
-        }
+        workoutDelegate.authorise()
     }
     
     func applicationDidBecomeActive() {

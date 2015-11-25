@@ -11,13 +11,17 @@ class MRExerciseRow: NSObject {
     }
 }
 
-class MRMainController: WKInterfaceController, MRSessionProgressRing {
+class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionHealth {
     @IBOutlet weak var progressGroup: WKInterfaceGroup!
     @IBOutlet weak var innerRing: WKInterfaceGroup!
     @IBOutlet weak var outerRing: WKInterfaceGroup!
     @IBOutlet weak var timeLabel: WKInterfaceLabel!
     @IBOutlet weak var ringLabel: WKInterfaceLabel!
     @IBOutlet weak var titleLabel: WKInterfaceLabel!
+    @IBOutlet weak var heartGroup: WKInterfaceGroup!
+    @IBOutlet weak var heartLabel: WKInterfaceLabel!
+    @IBOutlet weak var energyLabel: WKInterfaceLabel!
+    @IBOutlet weak var energyGroup: WKInterfaceGroup!
     @IBOutlet weak var sessionLabel: WKInterfaceLabel!
     @IBOutlet weak var exerciseModel: WKInterfacePicker!
     @IBOutlet weak var startGroup: WKInterfaceGroup!
@@ -43,7 +47,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing {
         exerciseModel.setItems(sd.exerciseModelMetadata.map { _, title in return WKPickerItem.withTitle(title) })
         updateUI()
         if renderer == nil {
-            renderer = MRSessionProgressRingRenderer(ring: self, mode: MRSessionProgressViewType.App)
+            renderer = MRSessionProgressRingRenderer(ring: self, health: self)
         }
     }
     
