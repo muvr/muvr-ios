@@ -58,6 +58,19 @@ public struct MKClassifier {
     /// - parameter block: the received sensor data
     ///
     public func classify(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExercise] {
+        let cews = try classifyWindows(block: block, maxResults: maxResults)
+        if cews.isEmpty { return [] }
+        let steps = classifySteps(cews, samplesPerSecond: block.samplesPerSecond)
+        let exercises = accumulateSteps(steps)
+        return fusionBlocks(exercises, samplesPerSecond: block.samplesPerSecond).map { x in
+            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset, repetitions: nil, intensity: nil, weight: nil)
+        }
+    }
+    
+    ///
+    /// Apply the classification model to every window contained in ``block``
+    ///
+    func classifyWindows(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExerciseWindow] {
         // in the outer function, we perform the common decoding and basic checking
         var (dimension, m) = block.samples(along: model.sensorDataTypes)
         if dimension == 0 {
@@ -74,7 +87,7 @@ public struct MKClassifier {
             throw MKClassifierError.NotEnoughRows(received: block.rowCount, required: windowSize)
         }
         NSLog("Classification called for \(rowCount) samples (\(rowCount / 50)s)")
-
+        
         let numWindows = (rowCount - windowSize) / windowStepSize + 1
         let duration = Double(windowStepSize) / Double(block.samplesPerSecond)
         
@@ -93,40 +106,116 @@ public struct MKClassifier {
                 
                 let labelName = self.model.exerciseIds[labelIndex]
                 let probability = windowPrediction[labelIndex]
+                
                 let windowDuration = window == numWindows - 1 ? (Double(windowSize) / Double(block.samplesPerSecond)) : duration
                 return MKClassifiedExerciseBlock(confidence: Double(probability), exerciseId: labelName, duration: windowDuration, offset: start)
             }
             return MKClassifiedExerciseWindow(window: window, classifiedExerciseBlocks: classifiedExerciseBlocks)
         }
-        
+        return cews
+    }
+    
+    ///
+    /// Compute the probability for every window step by averaging the probabilities over all windows containing the step
+    ///
+    func classifySteps(windows: [MKClassifiedExerciseWindow], samplesPerSecond: UInt) -> [MKClassifiedExerciseBlock] {
+        let duration = Double(windowStepSize) / Double(samplesPerSecond)
+        let stepsInWindow = Int(windowSize / windowStepSize)
+        let numWindows = windows.count
+        let steps: [MKClassifiedExerciseBlock] = (0..<numWindows + stepsInWindow).flatMap { i in
+            let minWindow = max(0, i - stepsInWindow)
+            let maxWindow = min(i, numWindows - 1)
+            let ws = Double(maxWindow - minWindow + 1)
+            var avg: [MKExerciseId:Double] = [:]
+            (minWindow..<maxWindow + 1).forEach { w in
+                    for block in windows[w].classifiedExerciseBlocks {
+                    let blockAvg = block.confidence / ws
+                    if let exAvg = avg[block.exerciseId] {
+                        avg[block.exerciseId] = exAvg + blockAvg
+                    } else {
+                        avg[block.exerciseId] = blockAvg
+                    }
+                }
+            }
+            let exIds = avg.keys.sort { id1, id2 in
+                return avg[id1] > avg[id2]
+            }
+            if let exId = exIds.first {
+                return MKClassifiedExerciseBlock(confidence: Double(avg[exId]!), exerciseId: exId, duration: duration, offset: Double(i) * duration )
+            } else {
+                return nil
+            }
+        }
+        return steps
+    }
+    
+    ///
+    /// Group together consecutive steps with the same outcome
+    ///
+    func accumulateSteps(steps: [MKClassifiedExerciseBlock]) -> [MKClassifiedExerciseBlock] {
         var result: [MKClassifiedExerciseBlock] = []
         var accumulator: MKClassifiedExerciseBlock? = nil
-        for var i = 0; i < cews.count; ++i {
-            if let current = cews[i].classifiedExerciseBlocks.first {
-                if accumulator == nil {
-                    accumulator = current
-                } else if current.isRoughlyEqual(accumulator!) {
-                    accumulator!.extend(current)
-                } else {
-                    result.append(accumulator!)
-                    accumulator = current
-                }
+        for var i = 0; i < steps.count; ++i {
+            let current = steps[i]
+            if accumulator == nil {
+                accumulator = current
+            } else if current.exerciseId == accumulator!.exerciseId {
+                accumulator!.extend(current)
             } else {
-                if let a = accumulator { result.append(a) }
-                accumulator = nil
+                result.append(accumulator!)
+                accumulator = current
             }
         }
         if let a = accumulator { result.append(a) }
         
-        NSLog("classified:")
-        result.forEach { block -> () in
-            NSLog(" \(block)")
+        NSLog("classified \(result)")
+        
+        return result
+    }
+    
+    /// 
+    /// fusion adjacent blocks separated by a 'short' block
+    ///
+    func fusionBlocks(blocks: [MKClassifiedExerciseBlock], samplesPerSecond: UInt) -> [MKClassifiedExerciseBlock] {
+        let windowDuration = Double(windowSize) / Double(samplesPerSecond)
+        
+        func isLongEnough(block: MKClassifiedExerciseBlock?) -> Bool {
+            if let duration = block?.duration {
+                return duration > windowDuration            }
+            return true
+        }
+        func isSameExercise(block1: MKClassifiedExerciseBlock?, _ block2: MKClassifiedExerciseBlock?) -> Bool {
+            if let block1 = block1, let block2 = block2 {
+                return block1.exerciseId == block2.exerciseId
+            }
+            return false
+        }
+        func canMergeWith(block1: MKClassifiedExerciseBlock?, _ block2: MKClassifiedExerciseBlock?) -> Bool {
+            if let block1 = block1, let block2 = block2 {
+                return isSameExercise(block1, block2)
+            }
+            return isLongEnough(block1) || isLongEnough(block2)
         }
         
-        return result.filter { $0.duration >= self.model.minimumDuration }.map { x in
-            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset, repetitions: nil, intensity: nil, weight: nil)
+        var mergedBlocks: [MKClassifiedExerciseBlock] = []
+        for var i = 0; i < blocks.count; i++ {
+            let currentBlock = blocks[i]
+            let prevBlock: MKClassifiedExerciseBlock? = mergedBlocks.last
+            let nextBlock: MKClassifiedExerciseBlock? = i < blocks.count - 1 ? blocks[i + 1] : nil
+        
+            var block = currentBlock
+            if !isLongEnough(currentBlock) && canMergeWith(prevBlock, nextBlock) || isSameExercise(prevBlock, currentBlock) {
+                if let prevBlock = prevBlock {
+                    block = prevBlock
+                    mergedBlocks.removeLast()
+                    block.extend(currentBlock)
+                }
+            }
+            mergedBlocks.append(block)
         }
-    }    
+        
+        return mergedBlocks
+    }
 }
 
 struct MKClassifiedExerciseBlock {
@@ -138,12 +227,9 @@ struct MKClassifiedExerciseBlock {
     mutating func extend(by: MKClassifiedExerciseBlock) {
         // the new confidence the average confidence of both blocks 
         // use the duration to apply correct weights in average computation
-        self.confidence = (self.confidence * self.duration + by.confidence * by.duration) / (self.duration + by.duration)
+        let conf = self.exerciseId == by.exerciseId ? by.confidence : 0.0
+        self.confidence = (self.confidence * self.duration + conf * by.duration) / (self.duration + by.duration)
         self.duration = self.duration + by.duration
-    }
-
-    func isRoughlyEqual(to: MKClassifiedExerciseBlock) -> Bool {
-        return self.exerciseId == to.exerciseId && abs(self.confidence - to.confidence) < 0.5
     }
 }
 
