@@ -58,7 +58,8 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidComplete", name: MRNotifications.SessionDidComplete.rawValue, object: objectId)
         }
         tableView.reloadData()
-        if let session = session where !session.completed {
+        if let session = session where !session.completed && NSDate().timeIntervalSinceDate(session.start) < 24*60*60 {
+            // only show the spinner for not tool old session (in range of 1 day to current time)
             showDataWaitingSpinner()
         } else {
             hideDataWaitingSpinner()
