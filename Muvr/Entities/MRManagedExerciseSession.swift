@@ -14,6 +14,14 @@ class MRManagedExerciseSession: NSManagedObject {
         return try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]
     }
     
+    static func findSessionId(sessionId: String, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
+        let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
+        fetchRequest.predicate = NSPredicate(format: "(id == %@)", sessionId)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "start", ascending: false)]
+        
+        return try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]
+    }
+    
     static func hasSessionsOnDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
         let midnightToday = date.dateOnly
