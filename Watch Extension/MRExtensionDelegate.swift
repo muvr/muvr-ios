@@ -24,9 +24,19 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
         return connectivity.currentSession
     }
     
+    /// The pending session
+    var pendingSession: (MKExerciseSession, MKExerciseSessionProperties)? {
+        return connectivity.pendingSession
+    }
+    
     /// The description
     override var description: String {
         return connectivity.description
+    }
+    
+    /// The number of session on the watch
+    var sessionsCount: Int {
+        return connectivity.sessionsCount
     }
     
     ///

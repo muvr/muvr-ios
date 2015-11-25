@@ -11,15 +11,17 @@ class MRExerciseRow: NSObject {
     }
 }
 
-class MRMainController: WKInterfaceController, MRSessionProgressGroup {
+class MRMainController: WKInterfaceController, MRSessionProgressRing {
+    @IBOutlet weak var progressGroup: WKInterfaceGroup!
+    @IBOutlet weak var innerRing: WKInterfaceGroup!
+    @IBOutlet weak var outerRing: WKInterfaceGroup!
+    @IBOutlet weak var timeLabel: WKInterfaceLabel!
+    @IBOutlet weak var ringLabel: WKInterfaceLabel!
+    @IBOutlet weak var titleLabel: WKInterfaceLabel!
+    @IBOutlet weak var sessionLabel: WKInterfaceLabel!
     @IBOutlet weak var exerciseModel: WKInterfacePicker!
     @IBOutlet weak var startGroup: WKInterfaceGroup!
-    @IBOutlet weak var progressGroup: WKInterfaceGroup!
     @IBOutlet weak var exercisesTable: WKInterfaceTable!
-    
-    @IBOutlet weak var titleLabel: WKInterfaceLabel!
-    @IBOutlet weak var timeLabel: WKInterfaceLabel!
-    @IBOutlet weak var statsLabel: WKInterfaceLabel!
     
     private let exercises = [
         ("demo-bc-only", "Biceps curl"),
@@ -27,7 +29,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
         ("demo-lr-only", "Lateral raise")
     ]
 
-    private var renderer: MRSessionProgressGroupRenderer?
+    private var renderer: MRSessionProgressRingRenderer?
 
     private var exerciseModelMetadataIndex: Int = 0
     
@@ -39,9 +41,10 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     private func activate() {
         let sd = MRExtensionDelegate.sharedDelegate()
         exerciseModel.setItems(sd.exerciseModelMetadata.map { _, title in return WKPickerItem.withTitle(title) })
-        
         updateUI()
-        renderer = MRSessionProgressGroupRenderer(group: self)
+        if renderer == nil {
+            renderer = MRSessionProgressRingRenderer(ring: self, mode: MRSessionProgressViewType.App)
+        }
     }
     
     override func didAppear() {
@@ -78,7 +81,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
             // NB. it will stay like this.
             exercisesTable.setNumberOfRows(0, withRowType: "exercise")
         }
-        
         progressGroup.setHidden(sd.currentSession == nil)
         startGroup.setHidden(sd.currentSession != nil)
     }
@@ -86,7 +88,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressGroup {
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
         if MRExtensionDelegate.sharedDelegate().currentSession?.0.demo ?? false {
             let (resourceName, _) = exercises[rowIndex]
-            
             let fileUrl = NSBundle.mainBundle().URLForResource(resourceName, withExtension: "raw")!
             MRExtensionDelegate.sharedDelegate().sendSamples(fileUrl)
         }
