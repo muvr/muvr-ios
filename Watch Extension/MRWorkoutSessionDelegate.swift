@@ -56,9 +56,9 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
         // Start workout session
         let workoutSession = HKWorkoutSession(activityType: .TraditionalStrengthTraining, locationType: .Indoor)
         workoutSession.delegate = self
+        resetSession()
         self.model = model
         self.start = start
-        self.end = nil
         self.healthStore.startWorkoutSession(workoutSession)
         self.workoutSession = workoutSession
     }
@@ -88,6 +88,10 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
             let heartrateUnit = HKUnit(fromString: "count/min")
             guard let heartrateSamples = samples as? [HKQuantitySample] where !heartrateSamples.isEmpty else { return }
             let hr = heartrateSamples[heartrateSamples.count - 1].quantity.doubleValueForUnit(heartrateUnit)
+            heartrateSamples.forEach { sample in
+                let value = sample.quantity.doubleValueForUnit(heartrateUnit)
+                NSLog("Heartrate \(value) from \(sample.startDate) to \(sample.endDate)")
+            }
             self.heartrate = hr
             NSLog("Heartrate: \(hr)")
         }
@@ -98,7 +102,9 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
             let energyUnit = HKUnit.kilocalorieUnit()
             guard let activeEnergyBurnedSamples = samples as? [HKQuantitySample] else { return }
             let eb = activeEnergyBurnedSamples.reduce(self.energyBurned ?? 0.0) { energy, sample in
-                return energy + sample.quantity.doubleValueForUnit(energyUnit)
+                let value = sample.quantity.doubleValueForUnit(energyUnit)
+                NSLog("Energy burned \(value) kCal from \(sample.startDate) to \(sample.endDate)")
+                return energy + value
             }
             self.energyBurned = eb
             NSLog("Active energy burned: \(eb) kCal")
@@ -159,6 +165,16 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
         }
     }
     
+    /// reset session data
+    private func resetSession() {
+        self.workoutSession = nil
+        self.start = nil
+        self.end = nil
+        self.model = nil
+        self.heartrate = nil
+        self.energyBurned = nil
+    }
+    
     /// callback - begin workout session
     func beginWorkoutSession(onDate: NSDate) {
         self.queries = createQueries()
@@ -174,10 +190,7 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
             healthStore.stopQuery(query)
         }
         saveWorkout()
-        self.workoutSession = nil
-        self.start = nil
-        self.end = nil
-        self.model = nil
+        resetSession()
     }
     
     /// MARK: HKWorkoutSessionDelegate

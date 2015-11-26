@@ -57,10 +57,16 @@ class MRSessionProgressRingRenderer : NSObject {
             if let heartrate = sd.heartrate {
                 health.heartGroup.setBackgroundImageNamed("heart") // heart image
                 health.heartLabel.setText("\(Int(heartrate))") // current heartrate value
+            } else {
+                health.heartGroup.setBackgroundImage(nil) // remove heart image
+                health.heartLabel.setText("")
             }
             if let energy = sd.energyBurned {
                 health.energyGroup.setBackgroundImageNamed("blue") // energy circle icon
                 health.energyLabel.setText("\(Int(energy))") // total energy burnt
+            } else {
+                health.energyGroup.setBackgroundImage(nil) // remove energy circle icon
+                health.energyLabel.setText("")
             }
         } else {
             ring.titleLabel.setText("Muvr - \(session.modelId)") // title on glance
