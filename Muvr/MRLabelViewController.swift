@@ -7,36 +7,22 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
     var session: MRManagedExerciseSession?
     
     //Hard-coded for now
-    private let exerciseList = ["alt-dumbbell-biceps-curl",
-        "angle-chest-press",
-        "barbell-biceps-curl",
-        "barbell-press",
-        "barbell-pullup",
+    private let exerciseList = [
         "biceps-curl",
-        "cable-cross-overs",
-        "cable-deltoid-cross-overs",
-        "deltoid-row",
-        "dumbbell-biceps-curl",
-        "dumbbell-chest-fly",
-        "dumbbell-chest-press",
-        "dumbbell-front-rise",
-        "dumbbell-press",
-        "dumbbell-row",
-        "dumbbell-side-rise",
-        "lat-pulldown-angled",
-        "lat-pulldown-straight",
+        "barbell-curl",
+        "barbell-squat",
+        "bent-arm-barbell-pullover",
         "lateral-raise",
-        "leverage-high-row",
-        "overhead-pull",
-        "pulldown-crunch",
-        "rope-biceps-curl",
-        "rope-triceps-extension",
-        "side-dips",
-        "straight-bar-biceps-curl",
-        "straight-bar-triceps-extension",
+        "lateral-pulldown-straight",
+        "running-machine-hit",
+        "suitcase-crunches",
         "triceps-dips",
         "triceps-extension",
-        "twist"]
+        "triceps-pushdown",
+        "dumbbell-bench-press",
+        "dumbbell-shoulder-press",
+        "vertical-swing"
+    ]
     
     private var autocompleteExercises = [String]()
     
@@ -68,15 +54,24 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
         return true
     }
     
+    private func isDashedSearchMatch(searchStr: String, exercise: String) -> Bool {
+        return String(exercise.componentsSeparatedByString("-").map{ $0[$0.startIndex]}).rangeOfString(searchStr) != nil
+    }
+    
+    private func isPrefixSearchMatch(searchStr: String, exercise: String) -> Bool {
+        return exercise.lowercaseString.rangeOfString(searchStr) != nil
+    }
+    
     ///
     /// Filters the exercises to find only those that contain the given ``partialExercise``
     ///
     private func searchAutocompleteEntriesWithSubstring(partialExercise: String) -> [String] {
-        let trimmedPartialExercise = partialExercise.lowercaseString
-        return exerciseList.filter { exercise in
-            return exercise.lowercaseString.rangeOfString(trimmedPartialExercise) != nil
-        }.sort { x, y in
-            return x.hasPrefix(trimmedPartialExercise) || x < y
+        let searchStr = partialExercise.lowercaseString
+        let filteredExercises = exerciseList.filter { e in
+            return isPrefixSearchMatch(searchStr, exercise: e) || isDashedSearchMatch(searchStr, exercise: e)
+        }
+        return filteredExercises.sort { x, y in
+            return x.hasPrefix(searchStr) || x < y
         }
     }
     

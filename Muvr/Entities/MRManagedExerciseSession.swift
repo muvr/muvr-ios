@@ -36,6 +36,7 @@ class MRManagedExerciseSession: NSManagedObject {
         mo.id = session.id
         mo.start = session.start
         mo.exerciseModelId = session.exerciseModelId
+        mo.completed = session.completed
         
         return mo
     }

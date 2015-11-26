@@ -17,11 +17,6 @@
                                         <action selector="exerciseModelPickerAction:" destination="AgC-eL-Hgc" id="t0O-ON-9dO"/>
                                     </connections>
                                 </picker>
-                                <picker height="32" alignment="left" focusStyle="stack" id="JAp-Mx-EkW">
-                                    <connections>
-                                        <action selector="didSelectDuration:" destination="AgC-eL-Hgc" id="vod-Ab-3v8"/>
-                                    </connections>
-                                </picker>
                                 <button width="1" alignment="left" title="Start" id="qph-6j-6Ky">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -37,30 +32,6 @@
                                         <action selector="beginDemo" destination="AgC-eL-Hgc" id="5iR-N6-n5Z"/>
                                     </connections>
                                 </button>
-                            </items>
-                        </group>
-                        <group width="1" alignment="center" animationDuration="1" layout="vertical" id="U8c-fr-ind">
-                            <items>
-                                <label width="1" alignment="left" text="Muvr" textAlignment="center" id="g7i-Qj-f79">
-                                    <fontDescription key="font" type="system" weight="light" pointSize="16"/>
-                                </label>
-                                <group width="1" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="3Zq-sE-EmV">
-                                    <items>
-                                        <group width="1" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="P41-cE-0Au">
-                                            <items>
-                                                <label width="1" alignment="left" textAlignment="center" numberOfLines="0" id="QXo-Be-k4K">
-                                                    <fontDescription key="font" type="system" weight="light" pointSize="14"/>
-                                                </label>
-                                                <label width="1" height="200" alignment="left" textAlignment="center" numberOfLines="3" id="elN-VH-iGY">
-                                                    <fontDescription key="font" type="system" weight="light" pointSize="12"/>
-                                                </label>
-                                            </items>
-                                        </group>
-                                    </items>
-                                </group>
-                                <label width="1" alignment="left" textAlignment="center" id="0jl-sd-ceu">
-                                    <fontDescription key="font" type="system" pointSize="12"/>
-                                </label>
                                 <table alignment="left" id="t9X-s3-pCm">
                                     <items>
                                         <tableRow identifier="exercise" id="lX0-fg-QRi" customClass="MRExerciseRow" customModule="Watch_Extension">
@@ -80,9 +51,32 @@
                                 </table>
                             </items>
                         </group>
+                        <group width="1" alignment="center" animationDuration="1" layout="vertical" id="U8c-fr-ind">
+                            <items>
+                                <label width="1" alignment="left" text="Muvr" textAlignment="center" id="g7i-Qj-f79">
+                                    <fontDescription key="font" type="system" weight="light" pointSize="16"/>
+                                </label>
+                                <group width="1" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="3Zq-sE-EmV">
+                                    <items>
+                                        <group width="1" height="150" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="P41-cE-0Au">
+                                            <items>
+                                                <label width="1" alignment="left" verticalAlignment="center" textAlignment="center" numberOfLines="0" id="QXo-Be-k4K">
+                                                    <fontDescription key="font" type="system" weight="light" pointSize="14"/>
+                                                </label>
+                                                <label width="1" alignment="left" verticalAlignment="center" textAlignment="center" numberOfLines="2" id="elN-VH-iGY">
+                                                    <fontDescription key="font" type="system" weight="light" pointSize="12"/>
+                                                </label>
+                                            </items>
+                                        </group>
+                                    </items>
+                                </group>
+                                <label width="1" alignment="left" textAlignment="center" id="0jl-sd-ceu">
+                                    <fontDescription key="font" type="system" pointSize="12"/>
+                                </label>
+                            </items>
+                        </group>
                     </items>
                     <connections>
-                        <outlet property="durationPicker" destination="JAp-Mx-EkW" id="SI7-v0-qND"/>
                         <outlet property="exerciseModel" destination="JBL-em-o3w" id="zdN-1a-r3P"/>
                         <outlet property="exercisesTable" destination="t9X-s3-pCm" id="hhq-Su-ZPu"/>
                         <outlet property="innerRing" destination="P41-cE-0Au" id="DRL-0E-yCe"/>

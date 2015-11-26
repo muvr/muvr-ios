@@ -21,7 +21,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing {
     @IBOutlet weak var sessionLabel: WKInterfaceLabel!
     @IBOutlet weak var exerciseModel: WKInterfacePicker!
     @IBOutlet weak var startGroup: WKInterfaceGroup!
-    @IBOutlet weak var durationPicker: WKInterfacePicker!
     @IBOutlet weak var exercisesTable: WKInterfaceTable!
     
     private let exercises = [
@@ -31,8 +30,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing {
     ]
 
     private var renderer: MRSessionProgressRingRenderer?
-    
-    private var choosenDuration = 60 // minutes
 
     private var exerciseModelMetadataIndex: Int = 0
     
@@ -44,17 +41,9 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing {
     private func activate() {
         let sd = MRExtensionDelegate.sharedDelegate()
         exerciseModel.setItems(sd.exerciseModelMetadata.map { _, title in return WKPickerItem.withTitle(title) })
-        let durationItems: [WKPickerItem] = (1..<720).map { i in
-            let hours = "\(String(format: "%02d", Int(i / 60)))"
-            let minutes = "\(String(format: "%02d", i % 60))"
-            return WKPickerItem.withTitle("\(hours)h \(minutes)")
-        }
-        durationPicker.setItems(durationItems)
-        durationPicker.setSelectedItemIndex(59) // one hour by default
-        
         updateUI()
         if renderer == nil {
-            renderer = MRSessionProgressRingRenderer(ring: self, duration: choosenDuration, mode: MRSessionProgressViewType.App)
+            renderer = MRSessionProgressRingRenderer(ring: self, mode: MRSessionProgressViewType.App)
         }
     }
     
@@ -134,16 +123,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing {
     ///
     @IBAction func exerciseModelPickerAction(index: Int) {
         exerciseModelMetadataIndex = index
-    }
-    
-    /// 
-    /// Called when the user changes session duration
-    ///
-    @IBAction func didSelectDuration(index: Int) {
-        choosenDuration = index + 1
-        if let renderer = renderer {
-            renderer.setExpectedDuration(choosenDuration)
-        }
     }
 
 }
