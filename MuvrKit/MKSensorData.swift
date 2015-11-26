@@ -111,7 +111,7 @@ public struct MKSensorData {
         let data = samples[sampleStart..<sampleEnd]
         return try MKSensorData(types: types, start: start + offset, samplesPerSecond: samplesPerSecond, samples: Array(data))
     }
-    
+
     ///
     /// Appends ``that`` to this by filling in the gaps or resolving the overlaps if necessary
     ///
