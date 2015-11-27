@@ -87,9 +87,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
         }
         progressGroup.setHidden(sd.currentSession == nil)
         startGroup.setHidden(sd.currentSession != nil)
-        if let renderer = renderer where sd.currentSession == nil {
-            renderer.reset()
-        }
     }
     
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
@@ -106,6 +103,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     
     func stop() {
         MRExtensionDelegate.sharedDelegate().endLastSession()
+        renderer?.reset()
         updateUI()
     }
     
@@ -113,6 +111,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     /// Called when the user clicks the session start button
     ///
     @IBAction func beginSession() {
+        renderer?.reset()
         MRExtensionDelegate.sharedDelegate().startSession(exerciseModelMetadataIndex: exerciseModelMetadataIndex, demo: false)
         updateUI()
     }
