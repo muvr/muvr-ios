@@ -14,12 +14,18 @@ class MRManagedExerciseSession: NSManagedObject {
         return try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]
     }
     
-    static func findSessionId(sessionId: String, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
+    static func sessionById(sessionId: String, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession? {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
         fetchRequest.predicate = NSPredicate(format: "(id == %@)", sessionId)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "start", ascending: false)]
+        fetchRequest.fetchLimit = 1
         
-        return try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]
+        let result = try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]
+        if result.count == 0 {
+            return nil
+        } else {
+            return result[0]
+        }
     }
     
     static func hasSessionsOnDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> Bool {
