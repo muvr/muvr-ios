@@ -64,6 +64,8 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         } else {
             hideDataWaitingSpinner()
         }
+        
+        moveFocusToEndSession()
     }
     
     override func viewDidLoad() {
@@ -73,6 +75,17 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         } else {
             navbar.topItem!.title = nil
         }
+    }
+    
+    private func moveFocusToEndSession() {
+        let delay = 0.1 * Double(NSEC_PER_SEC)
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue(), {
+            if let size = self.session?.classifiedExercises.count where size > 0 {
+                let indexPath = NSIndexPath(forRow: (size - 1), inSection: 0)
+                self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
+        })
     }
     
     private func showDataWaitingSpinner() {
@@ -164,15 +177,20 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
-            let ce = session!.classifiedExercises.reverse()[indexPath.row] as! MRManagedClassifiedExercise
-            cell.textLabel!.text = ce.exerciseId
+            NSLog("section A, index = \(indexPath.item) with total size = \(session?.classifiedExercises.count)")
+            let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath) as! MRTableViewCell
+            let ce = session!.classifiedExercises.allObjects[indexPath.row] as! MRManagedClassifiedExercise
+            cell.startLabel.text = "\(ce.start.formatTime())"
+            cell.exerciseIdLabel.text = ce.exerciseId
             let weight = ce.weight.map { w in "\(NSString(format: "%.2f", w)) kg" } ?? ""
             let intensity = ce.intensity.map { i in "Intensity: \(NSString(format: "%.2f", i))" } ?? ""
             let duration = "\(NSString(format: "%.0f", ce.duration))s"
-            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(duration) - \(weight) - \(intensity)"
+            cell.durationLabel.text = duration
+            cell.detailLabel.text = "\(weight) - \(intensity)"
+            tableView.rowHeight = 80
             return cell
         case 1:
+            NSLog("section B, index = \(indexPath.item) with total size = \(session?.labelledExercises.count)")
             let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
             let le = session!.labelledExercises.reverse()[indexPath.row] as! MRManagedLabelledExercise
             cell.textLabel!.text = le.exerciseId
@@ -180,6 +198,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             let intensity = "Intensity: \(NSString(format: "%.2f", le.intensity))"
             let duration = "\(NSString(format: "%.0f", le.end.timeIntervalSince1970 - le.start.timeIntervalSince1970))s"
             cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(duration) - \(weight) - \(intensity)"
+            tableView.rowHeight = 50
             return cell
         default:
             fatalError()
