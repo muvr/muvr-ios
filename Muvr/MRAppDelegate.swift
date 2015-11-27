@@ -113,11 +113,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
          NSLog("Received session start for \(session)")
-        if sessionIndex(session) == nil {
+        let persistedSession = MRManagedExerciseSession.sessionById(session.id, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+        if persistedSession == nil && sessionIndex(session) == nil {
             let currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
             sessions.append(currentSession)
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: currentSession.objectID)
             saveContext()
+        } else if persistedSession != nil && sessionIndex(session) == nil {
+            NSLog("cach persisted session into memory: \(persistedSession!)")
+            sessions.append(persistedSession!)
         }
 
     }
