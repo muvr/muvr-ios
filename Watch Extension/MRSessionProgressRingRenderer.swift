@@ -11,6 +11,7 @@ class MRSessionProgressRingRenderer : NSObject {
         self.health = health
         super.init()
         NSLog("Init Muvr watch view")
+        update()
         self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "update", userInfo: nil, repeats: true)
     }
     
@@ -25,7 +26,6 @@ class MRSessionProgressRingRenderer : NSObject {
     
     func update() {
         let sd = MRExtensionDelegate.sharedDelegate()
-        sd.applicationDidBecomeActive()
         if let (session, props) = sd.currentSession {
             displayCurrentSession(session, props: props)
         } else if let (session, props) = sd.pendingSession {
@@ -34,6 +34,20 @@ class MRSessionProgressRingRenderer : NSObject {
         else {
             displayIdle()
         }
+        sd.applicationDidBecomeActive()
+    }
+    
+    func reset() {
+        ring.timeLabel.setText("") // elapsed time
+        ring.ringLabel.setText("") // amount of sensor data
+        ring.outerRing.setBackgroundImageNamed("outer0ring.png") // elapsed time ring
+        ring.innerRing.setBackgroundImageNamed("inner0ring.png") // data sent ring
+        ring.titleLabel.setText("") // title
+        ring.sessionLabel.setText("") // session label
+        health?.heartGroup.setBackgroundImage(nil) // remove heart image
+        health?.heartLabel.setText("") // heartrate value
+        health?.energyGroup.setBackgroundImage(nil) // remove energy circle icon
+        health?.energyLabel.setText("") // energy burned value
     }
     
     private func displayCurrentSession(session: MKExerciseSession, props: MKExerciseSessionProperties) {
@@ -61,7 +75,7 @@ class MRSessionProgressRingRenderer : NSObject {
                 health.heartGroup.setBackgroundImage(nil) // remove heart image
                 health.heartLabel.setText("")
             }
-            if let energy = sd.energyBurned {
+            if let energy = sd.energyBurned where energy >= 1 {
                 health.energyGroup.setBackgroundImageNamed("blue") // energy circle icon
                 health.energyLabel.setText("\(Int(energy))") // total energy burnt
             } else {

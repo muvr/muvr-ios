@@ -87,6 +87,9 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
         }
         progressGroup.setHidden(sd.currentSession == nil)
         startGroup.setHidden(sd.currentSession != nil)
+        if let renderer = renderer where sd.currentSession == nil {
+            renderer.reset()
+        }
     }
     
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
