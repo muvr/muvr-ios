@@ -58,13 +58,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidComplete", name: MRNotifications.SessionDidComplete.rawValue, object: objectId)
         }
         tableView.reloadData()
-        if let session = session where !session.completed && NSDate().timeIntervalSinceDate(session.start) < 24*60*60 {
-            // only show the spinner for not tool old session (in range of 1 day to current time)
-            showDataWaitingSpinner()
-        } else {
-            hideDataWaitingSpinner()
-        }
-        
         moveFocusToEndSession()
     }
     
@@ -81,33 +74,23 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         let delay = 0.1 * Double(NSEC_PER_SEC)
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
         dispatch_after(time, dispatch_get_main_queue(), {
-            if let size = self.session?.classifiedExercises.count where size > 0 {
-                let indexPath = NSIndexPath(forRow: (size - 1), inSection: 0)
+            let size = self.numberOfExerciseRows()
+            if size > 0 {
+                let indexPath = NSIndexPath(forRow: size-1, inSection: 0)
                 self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }
         })
     }
     
-    private func showDataWaitingSpinner() {
-        guard dataWaitingSpinner == nil else { return }
-        let spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
-        spinnerView.frame = CGRectMake(0, 0, 14, 14)
-        spinnerView.color = UIColor.blackColor()
-        dataWaitingSpinner = UIBarButtonItem(customView: spinnerView)
-        dataWaitingSpinner!.title = ""
-        sessionBar.setLeftBarButtonItems([dataWaitingSpinner!], animated: true)
-        (dataWaitingSpinner!.customView! as! UIActivityIndicatorView).startAnimating()
-    }
-    
-    private func hideDataWaitingSpinner() {
-        guard dataWaitingSpinner != nil else { return }
-        dataWaitingSpinner!.customView = nil
+    func isDataAwaiting() -> Bool {
+        return session != nil && !session!.completed && NSDate().timeIntervalSinceDate(session!.start) < 24*60*60
     }
     
     // MARK: notification callbacks
     
     func update() {
         tableView.reloadData()
+        moveFocusToEndSession()
     }
     
     func sessionDidEnd() {
@@ -115,7 +98,8 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     func sessionDidComplete() {
-        hideDataWaitingSpinner()
+        NSLog("session completed")
+//        hideDataWaitingSpinner()
     }
     
     // MARK: Share & label
@@ -152,6 +136,16 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         }
     }
     
+    func numberOfExerciseRows() -> Int {
+        if (session == nil) {
+            return 0
+        } else if (isDataAwaiting()) {
+            return (session?.classifiedExercises.count ?? 0) + 1   
+        } else {
+            return session?.classifiedExercises.count ?? 0
+        }
+    }
+    
     // MARK: UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -168,7 +162,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0: return session?.classifiedExercises.count ?? 0
+        case 0: return numberOfExerciseRows()
         case 1: return session?.labelledExercises.count ?? 0
         default: return 0
         }
@@ -177,20 +171,38 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            NSLog("section A, index = \(indexPath.item) with total size = \(session?.classifiedExercises.count)")
             let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath) as! MRTableViewCell
+            
+            if (isDataAwaiting() && indexPath.row == numberOfExerciseRows() - 1) {
+                // draw the waiting spinner for the last row
+                
+                cell.startLabel.text = ""
+                cell.exerciseIdLabel.text = ""
+                cell.detailLabel.text = ""
+                cell.durationLabel.text = ""
+                let spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+                spinnerView.frame = CGRectMake(0, 0, 14, 14)
+                spinnerView.color = UIColor.blackColor()
+                cell.addSubview(spinnerView)
+                spinnerView.startAnimating()
+                spinnerView.center = CGPointMake(cell.frame.size.width / 2, 25)
+                tableView.rowHeight = 50
+                return cell
+            }
+            cell.backgroundColor = UIColor.whiteColor()
             let ce = session!.classifiedExercises.allObjects[indexPath.row] as! MRManagedClassifiedExercise
             cell.startLabel.text = "\(ce.start.formatTime())"
             cell.exerciseIdLabel.text = ce.exerciseId
-            let weight = ce.weight.map { w in "\(NSString(format: "%.2f", w)) kg" } ?? ""
-            let intensity = ce.intensity.map { i in "Intensity: \(NSString(format: "%.2f", i))" } ?? ""
+            let weightDouble = ce.weight?.doubleValue ?? 0.0
+            let weight = "\(NSString(format: "%.2f", weightDouble)) kg"
+            let intensityDouble = ce.intensity?.doubleValue ?? 0.0
+            let intensity = "Intensity: \(NSString(format: "%.2f", intensityDouble))"
             let duration = "\(NSString(format: "%.0f", ce.duration))s"
             cell.durationLabel.text = duration
             cell.detailLabel.text = "\(weight) - \(intensity)"
             tableView.rowHeight = 80
             return cell
         case 1:
-            NSLog("section B, index = \(indexPath.item) with total size = \(session?.labelledExercises.count)")
             let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
             let le = session!.labelledExercises.reverse()[indexPath.row] as! MRManagedLabelledExercise
             cell.textLabel!.text = le.exerciseId
