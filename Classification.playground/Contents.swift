@@ -16,14 +16,18 @@ extension MKClassifiedExerciseWindow {
 }
 
 extension MKSensorData {
+    
     public static func initDataFromCSV(filename filename: String, ext: String) throws -> MKSensorData {
+        
         func loadTextFiles(filename filename: String, ext: String, separator: NSCharacterSet) -> [String] {
             let fullPath = NSBundle.mainBundle().pathForResource(filename, ofType: ext)!
+            
             func removeEmptyStr(arrStr: [String]) -> [String] {
                 return arrStr
-                    .filter {$0 != ""}
-                    .map {$0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())}
+                    .filter { $0 != "" }
+                    .map { $0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) }
             }
+            
             do {
                 let content = try String(contentsOfFile: fullPath, encoding: NSUTF8StringEncoding)
                 return removeEmptyStr(content.componentsSeparatedByCharactersInSet(separator))
@@ -67,45 +71,53 @@ func model(named name: String, layerConfiguration: String, labels: [String]) thr
 func getModel(id id: String) throws -> MKExerciseModel {
     return try MKExerciseModel(fromBundle: NSBundle.mainBundle(), id: id)
 }
+
 //: ### Construct a classifier
 let exerciseClassifier = try! MKClassifier(model: getModel(id: "arms"))
-
 let eneClassifier = try! MKClassifier(model: getModel(id: "slacking"))
 //: ### Load the data from the session
-//let resourceName = "no-movement-face-up"
-//let resourceName = "bc-only"
-//let resourceName = "arms_9F6F4AF0-F85B-4ACF-9E51-71717D141280"
-//let resourceName = "arms_AA86976B-F6CA-4A9B-B786-469171D6D341"
-//let resourceName = "arms_05D8C7FE-7D92-4F5A-9CCB-45B7D3799283"
-let resourceName = "arms_AA32C720-B574-413E-A4AA-E741DA16ABF5"
-let exerciseData = NSBundle.mainBundle().pathForResource(resourceName, ofType: "raw")!
-
-let slackingData = try MKSensorData.initDataFromCSV(filename: "slacking_dataset", ext: "csv")
+let resourceName = "exercise-session"
+let sd = try MKSensorData.initDataFromCSV(filename: resourceName, ext: "csv")
 //: ### Decode the sensor data
-let sd = try! MKSensorData(decoding: NSData(contentsOfFile: exerciseData)!)
-
 let axis = 0
 let window = 1
 let windowSize = 400
 (window * windowSize..<(window + 1) * windowSize).map { idx in  return sd.samples[idx * 3 + axis] }
 
 //: ### Apply the classifier
-// classify
-//let cls = try! exerciseClassifier.classify(block: sd, maxResults: 10)
-//cls.forEach { wcls in print(wcls) }
-
-// test slacking dataset
-print("EVALUATE SLACKING MODEL\n")
-//let slk = try! eneClassifier.classify(block: slackingData.sliceByCSVRow(from: 3303, to: 4440), maxResults: 2) // EXERCISE
-//let slk = try! eneClassifier.classify(block: slackingData.sliceByCSVRow(from: 9097, to: 9980), maxResults: 2) // EXERCISE
-let slk = try! eneClassifier.classify(block: slackingData.sliceByCSVRow(from: 12401, to: 13252), maxResults: 2) // EXERCISE
-print("\n\nRESULT:")
-slk.forEach { wcls in print(wcls) }
-print("END\n")
-
 func shiftOffset(offset: MKTimestamp)(x: MKClassifiedExercise) -> MKClassifiedExercise {
     return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset + offset, repetitions: x.repetitions, intensity: x.intensity, weight: x.weight)
 }
+
+let windows = try! eneClassifier.classifyWindows(block: sd, maxResults: 2)
+let results = try! eneClassifier.classify(block: sd, maxResults: 2)
+print("")
+print("E/NE classification")
+results.forEach { x in print(x) }
+var exerciseWindows = [MKClassifiedExerciseWindow?](count: windows.count, repeatedValue: nil)
+let cls = results.flatMap { result -> [MKClassifiedExercise] in
+    if result.exerciseId == "E" && result.duration >= 8.0 {
+        // this is an exercise block - get the corresponding data section
+        let data = try! sd.slice(result.offset, duration: result.duration)
+        // classify the exercises in this block
+        let exercises = try! exerciseClassifier.classify(block: data, maxResults: 10)
+        let exWindows = try! exerciseClassifier.classifyWindows(block: data, maxResults: 10)
+        for i in 0...exWindows.count-1 {
+            exerciseWindows[i + Int(result.offset * 5)] = exWindows[i]
+        }
+        NSLog("Specific exercise \(results)")
+        // adjust the offset with the offset from the original block
+        // the offset returned by the classifier is relative to the current exercise block
+        return exercises.map(shiftOffset(result.offset))
+    } else {
+        return []
+    }
+}
+print("")
+print("Exercise classification")
+cls.forEach { print($0) }
+
+//: ### Generate CSV file
 
 func printCsv(data data: MKSensorData, windows: [MKClassifiedExerciseWindow], exerciseWindows: [MKClassifiedExerciseWindow?]) {
     
@@ -171,33 +183,5 @@ func printCsv(data data: MKSensorData, windows: [MKClassifiedExerciseWindow], ex
     handle.closeFile()
     print("CSV ready")
 }
-
-let windows = try! eneClassifier.classifyWindows(block: sd, maxResults: 2)
-let results = try! eneClassifier.classify(block: sd, maxResults: 2)
-print("")
-print("E/NE classification")
-results.forEach { x in print(x) }
-var exerciseWindows = [MKClassifiedExerciseWindow?](count: windows.count, repeatedValue: nil)
-let cls = results.flatMap { result -> [MKClassifiedExercise] in
-    if result.exerciseId == "E" && result.duration >= 8.0 {
-        // this is an exercise block - get the corresponding data section
-        let data = try! sd.slice(result.offset, duration: result.duration)
-        // classify the exercises in this block
-        let exercises = try! exerciseClassifier.classify(block: data, maxResults: 10)
-        let exWindows = try! exerciseClassifier.classifyWindows(block: data, maxResults: 10)
-        for i in 0...exWindows.count-1 {
-            exerciseWindows[i + Int(result.offset * 5)] = exWindows[i]
-        }
-        NSLog("Specific exercise \(results)")
-        // adjust the offset with the offset from the original block
-        // the offset returned by the classifier is relative to the current exercise block
-        return exercises.map(shiftOffset(result.offset))
-    } else {
-        return []
-    }
-}
-print("")
-print("Exercise classification")
-cls.forEach { wcls in print(wcls) }
 
 printCsv(data: sd, windows: windows, exerciseWindows: exerciseWindows)

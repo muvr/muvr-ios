@@ -136,12 +136,6 @@
                                                     <action selector="label:" destination="R8z-14-vmd" id="2pj-XP-7EF"/>
                                                 </connections>
                                             </barButtonItem>
-                                            <barButtonItem systemItem="action" id="FWX-Gn-uaj">
-                                                <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <connections>
-                                                    <action selector="shareRaw" destination="R8z-14-vmd" id="q7L-fc-Ukj"/>
-                                                </connections>
-                                            </barButtonItem>
                                             <barButtonItem systemItem="action" id="KQf-p0-6a9">
                                                 <connections>
                                                     <action selector="shareCSV" destination="R8z-14-vmd" id="wgz-Zd-ICn"/>

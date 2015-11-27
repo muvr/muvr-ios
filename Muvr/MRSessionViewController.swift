@@ -107,15 +107,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     // MARK: Share & label
     
-    /// share the raw session data
-    @IBAction func shareRaw() {
-        if let data = session?.sensorData,
-            let sessionId = session?.id,
-            let exerciseModel = session?.exerciseModelId {
-            share(data, fileName: "\(exerciseModel)_\(sessionId).raw")
-        }
-    }
-    
     /// share the CSV session data
     @IBAction func shareCSV() {
         if let data = session?.sensorData,
