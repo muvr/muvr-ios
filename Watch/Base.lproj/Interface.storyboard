@@ -53,19 +53,43 @@
                         </group>
                         <group width="1" alignment="center" animationDuration="1" layout="vertical" id="U8c-fr-ind">
                             <items>
-                                <label width="1" alignment="left" text="Muvr" textAlignment="center" id="g7i-Qj-f79">
-                                    <fontDescription key="font" type="system" weight="light" pointSize="16"/>
-                                </label>
+                                <group width="1" height="10" alignment="left" id="pt0-Nc-s2n"/>
                                 <group width="1" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="3Zq-sE-EmV">
                                     <items>
                                         <group width="1" height="150" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="P41-cE-0Au">
                                             <items>
-                                                <label width="1" alignment="left" verticalAlignment="center" textAlignment="center" numberOfLines="0" id="QXo-Be-k4K">
-                                                    <fontDescription key="font" type="system" weight="light" pointSize="14"/>
-                                                </label>
-                                                <label width="1" alignment="left" verticalAlignment="center" textAlignment="center" numberOfLines="2" id="elN-VH-iGY">
-                                                    <fontDescription key="font" type="system" weight="light" pointSize="12"/>
-                                                </label>
+                                                <group width="1" alignment="left" id="tr5-sA-Wjp">
+                                                    <items>
+                                                        <label alignment="left" text="Muvr" textAlignment="center" id="g7i-Qj-f79">
+                                                            <fontDescription key="font" type="system" weight="light" pointSize="16"/>
+                                                        </label>
+                                                        <group width="29" height="27" alignment="right" contentMode="topRight" id="ygo-Es-duq">
+                                                            <items>
+                                                                <label width="1" height="1" alignment="left" textAlignment="center" id="3oQ-9H-lFI">
+                                                                    <fontDescription key="font" type="system" pointSize="14"/>
+                                                                </label>
+                                                            </items>
+                                                        </group>
+                                                    </items>
+                                                </group>
+                                                <group width="1" height="13" alignment="left" id="HXY-SB-igW"/>
+                                                <group width="1" alignment="left" layout="vertical" id="j5l-oY-BBb">
+                                                    <items>
+                                                        <label width="1" alignment="left" textAlignment="center" numberOfLines="0" id="QXo-Be-k4K">
+                                                            <fontDescription key="font" type="system" weight="light" pointSize="14"/>
+                                                        </label>
+                                                        <label width="1" alignment="left" textAlignment="center" numberOfLines="2" id="elN-VH-iGY">
+                                                            <fontDescription key="font" type="system" weight="light" pointSize="12"/>
+                                                        </label>
+                                                    </items>
+                                                </group>
+                                                <group width="32" height="32" alignment="right" verticalAlignment="bottom" contentMode="scaleAspectFit" id="evM-n1-iMt">
+                                                    <items>
+                                                        <label width="1" height="1" alignment="center" verticalAlignment="bottom" textAlignment="center" id="FJJ-l6-qmB">
+                                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                                        </label>
+                                                    </items>
+                                                </group>
                                             </items>
                                         </group>
                                     </items>
@@ -77,8 +101,12 @@
                         </group>
                     </items>
                     <connections>
+                        <outlet property="energyGroup" destination="evM-n1-iMt" id="GNp-jf-63k"/>
+                        <outlet property="energyLabel" destination="FJJ-l6-qmB" id="fdC-6D-wE2"/>
                         <outlet property="exerciseModel" destination="JBL-em-o3w" id="zdN-1a-r3P"/>
                         <outlet property="exercisesTable" destination="t9X-s3-pCm" id="hhq-Su-ZPu"/>
+                        <outlet property="heartGroup" destination="ygo-Es-duq" id="UNe-Mr-wKr"/>
+                        <outlet property="heartLabel" destination="3oQ-9H-lFI" id="xuE-Tt-4re"/>
                         <outlet property="innerRing" destination="P41-cE-0Au" id="DRL-0E-yCe"/>
                         <outlet property="outerRing" destination="3Zq-sE-EmV" id="gdW-Z6-lKX"/>
                         <outlet property="progressGroup" destination="U8c-fr-ind" id="tLE-sc-au5"/>
@@ -90,7 +118,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="54" y="-5.75"/>
+            <point key="canvasLocation" x="54" y="-6"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
