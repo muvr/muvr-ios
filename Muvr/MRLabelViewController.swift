@@ -39,19 +39,22 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
         autocompleteTableView.scrollEnabled = true
         autocompleteTableView.hidden = true
         exerciseId.delegate = self
+        exerciseId.returnKeyType = UIReturnKeyType.Done
+        repetitions.returnKeyType = UIReturnKeyType.Done
+        weight.returnKeyType = UIReturnKeyType.Done
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let substring = (exerciseId.text! as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        if (substring.characters.count <= 0) {
-            autocompleteTableView.hidden = true
-        } else {
-            autocompleteTableView.hidden = false
-        }
-        
+        autocompleteTableView.hidden = substring.characters.count <= 0
         autocompleteExercises = searchAutocompleteEntriesWithSubstring(substring)
         autocompleteTableView.reloadData()
         return true
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        hideKeyboard()
+        return false
     }
     
     private func isDashedSearchMatch(searchStr: String, exercise: String) -> Bool {
@@ -75,6 +78,20 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    private func hideKeyboard() {
+        self.view.subviews.forEach { v in
+            if let textField = v as? UITextField where textField.isFirstResponder() {
+                textField.resignFirstResponder()
+            }
+        }
+        autocompleteTableView.hidden = true
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        hideKeyboard()
+        super.touchesBegan(touches, withEvent: event)
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return autocompleteExercises.count
     }
@@ -89,6 +106,7 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
         let selectedCell : UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
         exerciseId.text = selectedCell.textLabel?.text
         tableView.hidden = true
+        exerciseId.resignFirstResponder()
     }
     
     @IBAction func startStop(sender: UIButton) {
@@ -124,5 +142,7 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
             // Dismiss if presented in a navigation stack
             self.navigationController?.popViewControllerAnimated(true)
         }
+        
+        hideKeyboard()
     }
 }

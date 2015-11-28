@@ -139,6 +139,24 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         }
     }
     
+    /// check if a given classified exercise match a labelled exercise
+    private func matchLabel(ce: MRManagedClassifiedExercise) -> Bool? {
+        guard let session = session where session.labelledExercises.count > 0 else {
+            // no labels found in session -> nothing to check
+            return nil
+        }
+        let match = session.labelledExercises.reduce(false) { result, le in
+            guard let le = le as? MRManagedLabelledExercise where !result else { return result }
+            let duration = le.end.timeIntervalSinceDate(le.start)
+            let tolerance = 8.0
+            let matchStart = abs(le.start.timeIntervalSinceDate(ce.start)) < tolerance / 2
+            let matchDuration = abs(duration - ce.duration) < tolerance
+            let matchLabel = le.exerciseId == ce.exerciseId
+            return matchStart && matchDuration && matchLabel
+        }
+        return match
+    }
+    
     // MARK: UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -171,6 +189,12 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             let intensity = ce.intensity.map { i in "Intensity: \(NSString(format: "%.2f", i))" } ?? ""
             let duration = "\(NSString(format: "%.0f", ce.duration))s"
             cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(duration) - \(weight) - \(intensity)"
+            guard let imageView = cell.viewWithTag(10) as? UIImageView else { return cell }
+            if let match = matchLabel(ce) {
+                imageView.image = UIImage(named: match ? "tick" : "miss")
+            } else {
+                imageView.image = nil
+            }
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
