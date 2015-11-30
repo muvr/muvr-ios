@@ -8,7 +8,7 @@ public enum MKRepetitionEstimatorError : ErrorType {
 }
 
 public struct MKRepetitionEstimator {
-    public typealias Estimate = (UInt8, Double)
+    public typealias Estimate = (UInt, Double)
     
     ///
     /// Holds information about a periodic profile
@@ -32,22 +32,37 @@ public struct MKRepetitionEstimator {
         ///
         func roughlyEquals(that: PeriodicProfile, margin: Float) -> Bool {
             func ire(a a: Float, b: Float, margin: Float) -> Bool {
-                return (1 + margin) * a > b && b > (1 - margin) * a
+                return a > (b - margin) && a < (b + margin)
             }
             
             return ire(a: self.totalSteps, b: that.totalSteps, margin: margin)
         }
     }
     
+    ///
+    /// Apply a highpass filter to the passed in data using the given parameters. This will remove high frequency signal alterations from
+    /// the data.
+    ///
+    private func highpassfilter(data: [Float], rate: Float, freq: Float, offset: Int = 0, stride: Int = 1) -> [Float] {
+        let dt = 1.0 / rate;
+        let RC = 1.0 / freq;
+        let alpha = RC / (RC + dt)
+        let count = (data.count - offset) / stride
+        var filtered = [Float](count: count, repeatedValue: 0.0)
+        filtered[0] = data[offset]
+
+        for var i = 1; i < count; ++i {
+            filtered[i] =  data[offset + i * stride] * alpha + filtered[i-1] * (1.0 - alpha)
+        }
+        return filtered
+    }
+    
     public func estimate(data data: MKSensorData) throws -> Estimate {
-        var (sampleDimension, sampleData) = data.samples(along: [.Accelerometer(location: .LeftWrist), .Accelerometer(location: .RightWrist)])
+        let (sampleDimension, sampleData) = data.samples(along: [.Accelerometer(location: .LeftWrist), .Accelerometer(location: .RightWrist)])
         if sampleDimension == 0 { throw MKRepetitionEstimatorError.MissingAccelerometerType }
 
         // MARK: Setup basic variables
         let sampleDataLength = sampleData.count / sampleDimension
-        
-        var correlation = [Float](count: sampleData.count, repeatedValue: 0)
-        var signal = sampleData + [Float](count: sampleData.count - 1, repeatedValue: 0)
         
         // MARK: First, compute autocorrelation across all dimensions of our data, summing & finding peaks along the way
 
@@ -56,56 +71,67 @@ public struct MKRepetitionEstimator {
         // a single accelerometer data, we have ``sampleDimension == 3``, and the values in the ``sampleData`` are 
         // ``[x0, y0, z0; x1, y1, z1; ... xn, yn, zn]``. 
         //
-        // In order to use to vDSP functions, we specify the stride to be equal to the ``sampleDimension``, but we must be 
-        // careful to specify the first element properly. To do so, we loop over ``0..<sampleDimension``, offsetting the start
-        // of the ``sampleData`` by each dimension.
-        //
-        let peaks = (0..<sampleDimension).map { (d: Int) -> [Int] in
-            var peaks: [Int] = []
-            let nDowns = 1
-            let nUps = 1
-            
-            vDSP_conv(&signal + d,      vDSP_Stride(sampleDimension),
-                      &sampleData + d,  vDSP_Stride(sampleDimension),
-                      &correlation + d, vDSP_Stride(sampleDimension),
-                      vDSP_Length(sampleDataLength),
+        var convolutedSignal = [Float](count: sampleDataLength, repeatedValue: 0.0)
+        
+        var correlation = [Float](count: sampleDataLength, repeatedValue: 0.0)
+        
+        // Convolute the different dimensions to a single one by smoothing and adding them together
+        (0..<sampleDimension).forEach { (d: Int) in
+            var smoothedSignal = highpassfilter(sampleData, rate: 1/50, freq: 1/5, offset: d, stride: sampleDimension)
+            vDSP_vadd(&convolutedSignal, vDSP_Stride(1),
+                      &smoothedSignal, vDSP_Stride(1),
+                      &convolutedSignal, vDSP_Stride(1),
                       vDSP_Length(sampleDataLength))
-
-            var max: Float = 2.0 / correlation[d]
-            var shift: Float = -1
-            vDSP_vsmsa(&correlation + d, vDSP_Stride(sampleDimension),
-                       &max, &shift,
-                       &correlation + d, vDSP_Stride(sampleDimension),
-                       vDSP_Length(sampleDataLength))
-
-            for var i = nDowns; i < sampleDataLength - nUps; ++i {
-                var isPeak = true
-                for var j = -nDowns; j < nUps && isPeak; ++j {
-                    let idx  = (i + j) * sampleDimension + d
-                    let idx1 = (i + j + 1) * sampleDimension + d
-                    if j < 0 { isPeak = isPeak && correlation[idx] <  correlation[idx1] }
-                    else     { isPeak = isPeak && correlation[idx] >= correlation[idx1] }
-                }
-                if isPeak { peaks.append(i * sampleDimension + d) }
-            }
-
-            return peaks
         }
         
-        // MARK: Find the most significant dimension in the peaks
-        // TODO: Improve me
-        let mostSignificantDimension = 0
-        let mostSignificantPeaks = peaks[mostSignificantDimension]
+        var paddedSignal = convolutedSignal + [Float](count: sampleDataLength - 1, repeatedValue: 0.0)
         
-        // MARK: Compute period profiles in the most significant dimension
+        // Compute autocorrelation of the padded signal with itself
+        vDSP_conv(&paddedSignal, vDSP_Stride(1),
+            &convolutedSignal, vDSP_Stride(1),
+            &correlation, vDSP_Stride(1),
+            vDSP_Length(sampleDataLength),
+            vDSP_Length(sampleDataLength))
+        
+        var max: Float = 2.0 / correlation[0]
+        var shift: Float = -1
+        
+        // Normalize the correlation values between 1 and -1
+        vDSP_vsmsa(&correlation, vDSP_Stride(1),
+             &max, &shift,
+             &correlation, vDSP_Stride(1),
+             vDSP_Length(sampleDataLength))
+        
+        // correlation = highpassfilter(correlation, rate: 1/50, freq: (1.0/Float(correlation.count)))
+        
+        var peaks: [Int] = []
+        let nDowns = 1
+        let nUps = 1
+
+        // For debug purpouses to plot the data in R
+        // NSLog(convolutedSignal.map{"\($0)"}.joinWithSeparator(","))
+        // NSLog(correlation.map{"\($0)"}.joinWithSeparator(","))
+        
+        for var i = nDowns; i < sampleDataLength - nUps; ++i {
+            var isPeak = true
+            for var j = -nDowns; j < nUps && isPeak; ++j {
+                let idx  = i + j
+                let idx1 = i + j + 1
+                if j < 0 { isPeak = isPeak && correlation[idx] <  correlation[idx1] }
+                else     { isPeak = isPeak && correlation[idx] >= correlation[idx1] }
+            }
+            if isPeak { peaks.append(i) }
+        }
+        
+        // MARK: Compute period profiles, they describe the abstract shape of the peak
         var previousPeakLocation = 0
         var previousHeight: Float = 0
         var currentHeight: Float = 0
-        var profiles = (0..<mostSignificantPeaks.count).map { (i: Int) -> PeriodicProfile in
+        var profiles = (0..<peaks.count).map { (i: Int) -> PeriodicProfile in
             var profile = PeriodicProfile()
-            for var j = previousPeakLocation; j < mostSignificantPeaks[i] - 1; ++j {
-                previousHeight = sampleData[j]
-                currentHeight = sampleData[j + sampleDimension]
+            for var j = previousPeakLocation; j < peaks[i] - 1; ++j {
+                previousHeight = convolutedSignal[j]
+                currentHeight = convolutedSignal[j + 1]
                 let steps = previousHeight - currentHeight
                 if steps > 0 {
                     profile.upwardSteps += steps
@@ -113,7 +139,7 @@ public struct MKRepetitionEstimator {
                     profile.downwardSteps += steps
                 }
             }
-            previousPeakLocation = mostSignificantPeaks[i]
+            previousPeakLocation = peaks[i]
             
             return profile
         }
@@ -125,17 +151,17 @@ public struct MKRepetitionEstimator {
 
             // MARK: Count the repetitions
             let minimumPeakDistance = 50
-            let (count, _) = (0..<mostSignificantPeaks.count).reduce((0, 0)) { x, i in
+            let (count, _) = (0..<peaks.count).reduce((0, 0)) { x, i in
                 let (count, previousPeakLocation) = x
-                let msp = mostSignificantPeaks[i]
-                if msp - previousPeakLocation >= minimumPeakDistance && profiles[i].roughlyEquals(meanProfile, margin: 50) {
+                let msp = peaks[i]
+                if msp - previousPeakLocation >= minimumPeakDistance && profiles[i].roughlyEquals(meanProfile, margin: 1) {
                     return (count + 1, msp)
                 } else {
                     return (count, msp)
                 }
             }
             
-            return (UInt8(count), 1)
+            return (UInt(count), 1)
         } else {
             return (0, 1)
         }

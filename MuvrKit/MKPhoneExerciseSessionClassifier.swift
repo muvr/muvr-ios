@@ -29,6 +29,9 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
 
     /// the exercise vs. no-exercise classifier
     private let eneClassifier: MKClassifier
+
+    /// the repetition estimator
+    private let repetitionEstimator: MKRepetitionEstimator
     
     /// the queue for immediate classification, with high-priority QoS
     private let classificationQueue: dispatch_queue_t = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
@@ -48,6 +51,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         self.delegate = delegate
         let slackingModel = try! exerciseModelSource.getExerciseModel(id: "slacking")
         eneClassifier = try! MKClassifier(model: slackingModel)
+        repetitionEstimator = MKRepetitionEstimator()
     }
     
     private func classify(exerciseModelId exerciseModelId: MKExerciseModelId, sensorData: MKSensorData) -> [MKClassifiedExercise]? {
@@ -57,22 +61,23 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
 
             let results = try eneClassifier.classify(block: sensorData, maxResults: 2)
             NSLog("Exercise / no exercise \(results)")
-            return results.flatMap { result -> [MKClassifiedExercise] in
+            return try results.flatMap { result -> [MKClassifiedExercise] in
                 if result.exerciseId == "E" && result.duration >= exerciseModel.minimumDuration {
                     // this is an exercise block - get the corresponding data section
-                    let data = try! sensorData.slice(result.offset, duration: result.duration)
+                    let data = try sensorData.slice(result.offset, duration: result.duration)
                     // classify the exercises in this block
                     let exercises = try! exerciseClassifier.classify(block: data, maxResults: 10)
                     // adjust the offset with the offset from the original block
                     // the offset returned by the classifier is relative to the current exercise block
-                    return exercises.map(self.shiftOffset(result.offset))
+                    let (repetitions, _) = try self.repetitionEstimator.estimate(data: data)
+                    return exercises.map(self.shiftOffset(result.offset)).map(self.updateRepetitions(repetitions))
                 } else {
                     return []
                 }
             }
         } catch let ex {
             NSLog("Failed to classify block: \(ex)")
-            return nil
+            return []
         }
     }
     
@@ -142,4 +147,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset + offset, repetitions: x.repetitions, intensity: x.intensity, weight: x.weight)
     }
     
+    private func updateRepetitions(repetitions: UInt)(x: MKClassifiedExercise) -> MKClassifiedExercise {
+        return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset, repetitions: repetitions, intensity: x.intensity, weight: x.weight)
+    }
 }
