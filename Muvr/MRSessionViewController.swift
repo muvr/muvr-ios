@@ -12,6 +12,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     @IBOutlet weak var addLabelBtn: UIBarButtonItem!
     @IBOutlet weak var navbar: UINavigationBar!
     @IBOutlet var sessionBar: UINavigationItem!
+    @IBOutlet weak var uploadCSV: UIBarButtonItem!
     
     private var dataWaitingSpinner: UIBarButtonItem?
     
@@ -45,6 +46,25 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         }
     }
     
+    func isLabelOn() -> Bool {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        return userDefaults.boolForKey("muvrLabelExerciseData")
+    }
+    
+    func displayLabelSection() {
+        if (isLabelOn()) {
+            addLabelBtn.enabled = true
+            addLabelBtn.tintColor = nil
+            uploadCSV.enabled = true
+            uploadCSV.tintColor = nil
+        } else {
+            addLabelBtn.enabled = false
+            addLabelBtn.tintColor = UIColor.clearColor()
+            uploadCSV.enabled = false
+            uploadCSV.tintColor = UIColor.clearColor()
+        }
+    }
+    
     // MARK: UIViewController
 
     override func viewDidDisappear(animated: Bool) {
@@ -52,6 +72,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     override func viewDidAppear(animated: Bool) {
+        displayLabelSection()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
         if let objectId = session?.objectID {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)

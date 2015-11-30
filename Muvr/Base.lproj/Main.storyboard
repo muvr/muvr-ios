@@ -200,6 +200,7 @@
                         <outlet property="navbar" destination="m9G-f1-TKk" id="3JV-wt-Gmx"/>
                         <outlet property="sessionBar" destination="jNZ-Gu-hkV" id="1KA-9g-TOZ"/>
                         <outlet property="tableView" destination="2ll-3P-d5c" id="PZQ-21-pLA"/>
+                        <outlet property="uploadCSV" destination="KQf-p0-6a9" id="ZQo-C6-FqT"/>
                         <segue destination="L5u-7f-GSQ" kind="show" identifier="label" id="7nF-i7-pNN"/>
                     </connections>
                 </viewController>
