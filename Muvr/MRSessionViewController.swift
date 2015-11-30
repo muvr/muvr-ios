@@ -139,12 +139,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
 
     /// check if a given classified exercise match a labelled exercise
     private func matchLabel(ce: MRManagedClassifiedExercise) -> Bool? {
-        let rand = arc4random()
-        if (rand % 2 == 0) {
-            return true
-        } else {
-            return false
-        }
         guard let session = session where session.labelledExercises.count > 0 else {
             // no labels found in session -> nothing to check
             return nil
