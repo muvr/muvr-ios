@@ -18,7 +18,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     // the displayed session
     private var session: MRManagedExerciseSession?
-    // indicates if the displayed session is active (i.e. not finished)
     
     ///
     /// Provides the session to display
@@ -53,7 +52,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     func displayLabelSection() {
         if (isLabelOn()) {
-            addLabelBtn.enabled = true
+            addLabelBtn.enabled = isSessionActive()
             addLabelBtn.tintColor = nil
             uploadCSV.enabled = true
             uploadCSV.tintColor = nil
@@ -63,6 +62,10 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             uploadCSV.enabled = false
             uploadCSV.tintColor = UIColor.clearColor()
         }
+    }
+    
+    func isSessionActive() -> Bool {
+        return session != nil && session?.end == nil
     }
     
     // MARK: UIViewController
@@ -83,7 +86,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     override func viewDidLoad() {
-        addLabelBtn.enabled = session != nil && session?.end == nil
+        addLabelBtn.enabled = isSessionActive()
         if let s = session {
             navbar.topItem!.title = "\(s.start.formatTime()) - \(s.exerciseModelId)"
         } else {
