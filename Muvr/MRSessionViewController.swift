@@ -135,9 +135,16 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         } else {
             return session?.classifiedExercises.count ?? 0
         }
+    }
 
     /// check if a given classified exercise match a labelled exercise
     private func matchLabel(ce: MRManagedClassifiedExercise) -> Bool? {
+        let rand = arc4random()
+        if (rand % 2 == 0) {
+            return true
+        } else {
+            return false
+        }
         guard let session = session where session.labelledExercises.count > 0 else {
             // no labels found in session -> nothing to check
             return nil
@@ -188,6 +195,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
                 cell.exerciseIdLabel.text = ""
                 cell.detailLabel.text = ""
                 cell.durationLabel.text = ""
+                cell.verifiedImgView.image = nil
                 let spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
                 spinnerView.frame = CGRectMake(0, 0, 14, 14)
                 spinnerView.color = UIColor.blackColor()
@@ -210,11 +218,10 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             cell.detailLabel.text = "\(weight) - \(intensity)"
             tableView.rowHeight = 80
 
-            guard let imageView = cell.viewWithTag(10) as? UIImageView else { return cell }
             if let match = matchLabel(ce) {
-                imageView.image = UIImage(named: match ? "tick" : "miss")
+                cell.verifiedImgView.image = UIImage(named: match ? "tick" : "miss")
             } else {
-                imageView.image = nil
+                cell.verifiedImgView.image = nil
             }
             return cell
         case 1:

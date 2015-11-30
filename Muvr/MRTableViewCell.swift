@@ -14,6 +14,7 @@ class MRTableViewCell: UITableViewCell {
     @IBOutlet weak var detailLabel: UILabel!
     @IBOutlet weak var startLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
+    @IBOutlet weak var verifiedImgView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
