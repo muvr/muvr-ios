@@ -103,11 +103,12 @@ public struct MKSensorData {
     /// returns a new MKSensorData containing only the data for the specified period
     ///
     public func slice(offset: MKTimestamp, duration: MKDuration) throws -> MKSensorData {
-        if offset < 0 || offset + duration > self.duration {
+        let freq = Double(samplesPerSecond)
+        if offset < 0 || offset + duration > self.duration + (1 / freq) { // avoid rounding issues (e.g 4.2000000001)
             throw MKSensorDataError.SliceOutOfRange
         }
-        let sampleStart = dimension * Int(samplesPerSecond) * Int(offset)
-        let sampleEnd = sampleStart + dimension * Int(samplesPerSecond) * Int(duration)
+        let sampleStart = dimension * Int(freq * offset)
+        let sampleEnd = sampleStart + dimension * Int(freq * duration)
         let data = samples[sampleStart..<sampleEnd]
         return try MKSensorData(types: types, start: start + offset, samplesPerSecond: samplesPerSecond, samples: Array(data))
     }

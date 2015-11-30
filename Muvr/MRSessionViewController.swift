@@ -104,15 +104,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     // MARK: Share & label
     
-    /// share the raw session data
-    @IBAction func shareRaw() {
-        if let data = session?.sensorData,
-            let sessionId = session?.id,
-            let exerciseModel = session?.exerciseModelId {
-            share(data, fileName: "\(exerciseModel)_\(sessionId).raw")
-        }
-    }
-    
     /// share the CSV session data
     @IBAction func shareCSV() {
         if let data = session?.sensorData,
@@ -144,6 +135,23 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         } else {
             return session?.classifiedExercises.count ?? 0
         }
+
+    /// check if a given classified exercise match a labelled exercise
+    private func matchLabel(ce: MRManagedClassifiedExercise) -> Bool? {
+        guard let session = session where session.labelledExercises.count > 0 else {
+            // no labels found in session -> nothing to check
+            return nil
+        }
+        let match = session.labelledExercises.reduce(false) { result, le in
+            guard let le = le as? MRManagedLabelledExercise where !result else { return result }
+            let duration = le.end.timeIntervalSinceDate(le.start)
+            let tolerance = 8.0
+            let matchStart = abs(le.start.timeIntervalSinceDate(ce.start)) < tolerance / 2
+            let matchDuration = abs(duration - ce.duration) < tolerance
+            let matchLabel = le.exerciseId == ce.exerciseId
+            return matchStart && matchDuration && matchLabel
+        }
+        return match
     }
     
     // MARK: UITableViewDataSource
@@ -201,6 +209,13 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             cell.durationLabel.text = duration
             cell.detailLabel.text = "\(weight) - \(intensity)"
             tableView.rowHeight = 80
+
+            guard let imageView = cell.viewWithTag(10) as? UIImageView else { return cell }
+            if let match = matchLabel(ce) {
+                imageView.image = UIImage(named: match ? "tick" : "miss")
+            } else {
+                imageView.image = nil
+            }
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)

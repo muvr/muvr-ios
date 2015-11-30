@@ -229,7 +229,7 @@ struct MKClassifiedExerciseBlock {
         // use the duration to apply correct weights in average computation
         let conf = self.exerciseId == by.exerciseId ? by.confidence : 0.0
         self.confidence = (self.confidence * self.duration + conf * by.duration) / (self.duration + by.duration)
-        self.duration = self.duration + by.duration
+        self.duration = round(100 * self.duration + 100 * by.duration) / 100
     }
 }
 

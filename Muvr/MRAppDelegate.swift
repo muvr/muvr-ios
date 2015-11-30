@@ -43,13 +43,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         classifier = MKSessionClassifier(exerciseModelSource: self, delegate: self)
         connectivity = MKConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
         
-        let typesToShare: Set<HKSampleType> = [HKSampleType.workoutType()]
-        let typesToRead: Set<HKSampleType> = [HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)!]
-
-        HKHealthStore().requestAuthorizationToShareTypes(typesToShare, readTypes: typesToRead) { (x, y) -> Void in
-            print(x)
-            print(y)
-        }
+        authorizeHealthKit()
         
         // main initialization
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -63,6 +57,29 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         pageControlAppearance.backgroundColor = UIColor.whiteColor()
     
         return true
+    }
+    
+    /// manage healthkit access authorisation
+    private func authorizeHealthKit() {
+        // Only proceed if health data is available.
+        guard HKHealthStore.isHealthDataAvailable() else {
+            NSLog("HealthKit not available")
+            return
+        }
+        // Ask for permission
+        let healthStore = HKHealthStore()
+        let typesToShare: Set<HKSampleType> = [HKSampleType.workoutType()]
+        let typesToRead: Set<HKSampleType> = [
+            HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)!,
+            HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)!
+        ]
+        healthStore.requestAuthorizationToShareTypes(typesToShare, readTypes: typesToRead) { success, error in
+            if success {
+                NSLog("HealthKit authorised")
+            } else {
+                NSLog("Failed to get HealthKit authorisation: \(error)")
+            }
+        }
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
@@ -113,11 +130,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
          NSLog("Received session start for \(session)")
-        if sessionIndex(session) == nil {
+        let persistedSession = MRManagedExerciseSession.sessionById(session.id, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+        if persistedSession == nil && sessionIndex(session) == nil {
             let currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
             sessions.append(currentSession)
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: currentSession.objectID)
             saveContext()
+        } else if persistedSession != nil && sessionIndex(session) == nil {
+            NSLog("cach persisted session into memory: \(persistedSession!)")
+            sessions.append(persistedSession!)
         }
 
     }
