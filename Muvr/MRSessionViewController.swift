@@ -179,7 +179,8 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             let weight = ce.weight.map { w in "\(NSString(format: "%.2f", w)) kg" } ?? ""
             let intensity = ce.intensity.map { i in "Intensity: \(NSString(format: "%.2f", i))" } ?? ""
             let duration = "\(NSString(format: "%.0f", ce.duration))s"
-            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(duration) - \(weight) - \(intensity)"
+            let repetitions = ce.repetitions.map { r in "x\(r)" } ?? ""
+            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(duration) - \(repetitions) - \(weight) - \(intensity)"
             guard let imageView = cell.viewWithTag(10) as? UIImageView else { return cell }
             if let match = matchLabel(ce) {
                 imageView.image = UIImage(named: match ? "tick" : "miss")
@@ -194,7 +195,8 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             let weight = "\(NSString(format: "%.2f", le.weight)) kg"
             let intensity = "Intensity: \(NSString(format: "%.2f", le.intensity))"
             let duration = "\(NSString(format: "%.0f", le.end.timeIntervalSince1970 - le.start.timeIntervalSince1970))s"
-            cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(duration) - \(weight) - \(intensity)"
+            let repetitions = "x\(le.repetitions)"
+            cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(duration) - \(repetitions) - \(weight) - \(intensity)"
             return cell
         default:
             fatalError()
