@@ -214,8 +214,9 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             let intensityDouble = ce.intensity?.doubleValue ?? 0.0
             let intensity = "Intensity: \(NSString(format: "%.2f", intensityDouble))"
             let duration = "\(NSString(format: "%.0f", ce.duration))s"
+            let repetitions = ce.repetitions.map { r in "x\(r)" } ?? ""
             cell.durationLabel.text = duration
-            cell.detailLabel.text = "\(weight) - \(intensity)"
+            cell.detailLabel.text = "\(repetitions) - \(weight) - \(intensity)"
             tableView.rowHeight = 80
 
             if let match = matchLabel(ce) {
@@ -231,7 +232,8 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             let weight = "\(NSString(format: "%.2f", le.weight)) kg"
             let intensity = "Intensity: \(NSString(format: "%.2f", le.intensity))"
             let duration = "\(NSString(format: "%.0f", le.end.timeIntervalSince1970 - le.start.timeIntervalSince1970))s"
-            cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(duration) - \(weight) - \(intensity)"
+            let repetitions = "x\(le.repetitions)"
+            cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(duration) - \(repetitions) - \(weight) - \(intensity)"
             tableView.rowHeight = 50
             return cell
         default:
