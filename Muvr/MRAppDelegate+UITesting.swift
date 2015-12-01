@@ -36,7 +36,7 @@ extension MRAppDelegate  {
         func generateLabelledExercise(date date: NSDate, session: MRManagedExerciseSession, index: Int) {
             let exercise = MRManagedLabelledExercise.insertNewObject(into: session, inManagedObjectContext: managedObjectContext)
             exercise.start = date.addSeconds(index * 60)
-            exercise.end = date.addSeconds(index * 60 + 30)
+            exercise.end = date.addSeconds(index * 60 + 15)
             exercise.exerciseId = exerciseIds()[index % 3]
             exercise.exerciseSession = session
             exercise.intensity = 1

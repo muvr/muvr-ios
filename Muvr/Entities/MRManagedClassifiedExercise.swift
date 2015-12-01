@@ -12,6 +12,8 @@ import MuvrKit
 
 class MRManagedClassifiedExercise: NSManagedObject {
     
+    var indexView: Int = -1
+    
     static func insertNewObject(inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedClassifiedExercise {
         let mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedClassifiedExercise", inManagedObjectContext: managedObjectContext) as! MRManagedClassifiedExercise
         return mo
