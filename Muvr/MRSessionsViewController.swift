@@ -13,7 +13,9 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     @IBOutlet weak var calendarContentView: JTHorizontalCalendarView!
     private var pageViewController: UIPageViewController!
     private let calendar = JTCalendarManager()
-
+    private var menuViewController: MRMenuViewController? = nil
+    private var leftSwipe: UISwipeGestureRecognizer? = nil
+    
     // the session view controllers of the selected date
     private var sessionViewControllers: [UIViewController] = []
 
@@ -34,6 +36,44 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
             pageViewController.setViewControllers([emptyViewController], direction: .Forward, animated: true, completion: nil)
         }
         pageViewController.didMoveToParentViewController(self)
+    }
+    
+    func showMenu() {
+        guard self.menuViewController == nil,
+              let menuViewController = storyboard?.instantiateViewControllerWithIdentifier("menuViewController") as? MRMenuViewController
+        else { return }
+        self.menuViewController = menuViewController
+        UIApplication.sharedApplication().keyWindow?.addSubview(menuViewController.view)
+        //            view.insertSubview(menuViewController.view, aboveSubview: self.view)
+        menuViewController.view.frame.origin.x = -self.view.frame.width
+        animateMenuPosition(targetPosition: -60)
+        leftSwipe = UISwipeGestureRecognizer(target: self, action: "hideMenu")
+        leftSwipe?.direction = .Left
+        menuViewController.view.addGestureRecognizer(leftSwipe!)
+    }
+    
+    func hideMenu() {
+        guard let menuViewController = self.menuViewController else { return }
+        animateMenuPosition(targetPosition: -Float(self.view.frame.width)) { finished in
+            menuViewController.view.removeFromSuperview()
+            self.menuViewController = nil
+            self.leftSwipe = nil
+        }
+    }
+    
+    @IBAction func toggleMenu(sender: AnyObject) {
+        if menuViewController == nil {
+            showMenu()
+        } else {
+            hideMenu()
+        }
+    }
+    
+    private func animateMenuPosition(targetPosition targetPosition: Float, completion: ((Bool) -> Void)! = nil) {
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .CurveEaseInOut, animations: {
+            self.menuViewController?.view.frame.origin.x = CGFloat(targetPosition)
+        }, completion: completion)
+
     }
     
     ///

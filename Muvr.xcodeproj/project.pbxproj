@@ -119,6 +119,11 @@
 		54FD504E1BDBD27C0015771D /* MRSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */; };
 		640CC2A41BF62B9000764C4C /* MRSessionProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A31BF62B9000764C4C /* MRSessionProgressRing.swift */; };
 		640CC2A61BF62BF600764C4C /* MRSessionProgressRingRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A51BF62BF600764C4C /* MRSessionProgressRingRenderer.swift */; };
+		6450A5C21C0CB5E0009D4ADC /* MRMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5C11C0CB5E0009D4ADC /* MRMenuViewController.swift */; };
+		6450A5C81C0DBF91009D4ADC /* MRManagedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5C71C0DBF91009D4ADC /* MRManagedUser.swift */; };
+		6450A5CA1C0DBFCD009D4ADC /* MRManagedUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5C91C0DBFCD009D4ADC /* MRManagedUser+CoreDataProperties.swift */; };
+		6450A5CC1C0DCD0B009D4ADC /* MRJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5CB1C0DCD0B009D4ADC /* MRJoinViewController.swift */; };
+		6450A5CE1C0DDA91009D4ADC /* MRSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5CD1C0DDA91009D4ADC /* MRSignInViewController.swift */; };
 		64655B7D1C04D08400CFC763 /* MRSessionHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */; };
 		64655B7F1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */; };
 		647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */; };
@@ -354,6 +359,11 @@
 		54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionViewController.swift; sourceTree = "<group>"; };
 		640CC2A31BF62B9000764C4C /* MRSessionProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionProgressRing.swift; sourceTree = "<group>"; };
 		640CC2A51BF62BF600764C4C /* MRSessionProgressRingRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionProgressRingRenderer.swift; sourceTree = "<group>"; };
+		6450A5C11C0CB5E0009D4ADC /* MRMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRMenuViewController.swift; sourceTree = "<group>"; };
+		6450A5C71C0DBF91009D4ADC /* MRManagedUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedUser.swift; sourceTree = "<group>"; };
+		6450A5C91C0DBFCD009D4ADC /* MRManagedUser+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		6450A5CB1C0DCD0B009D4ADC /* MRJoinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRJoinViewController.swift; sourceTree = "<group>"; };
+		6450A5CD1C0DDA91009D4ADC /* MRSignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSignInViewController.swift; sourceTree = "<group>"; };
 		64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionHealth.swift; sourceTree = "<group>"; };
 		64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRWorkoutSessionDelegate.swift; sourceTree = "<group>"; };
 		647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoderTests.swift; sourceTree = "<group>"; };
@@ -516,6 +526,9 @@
 				54706F6B1BD6D89F005BABF0 /* MRSessionsViewController.swift */,
 				54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */,
 				54706F6E1BD6E6D8005BABF0 /* MRLabelViewController.swift */,
+				6450A5C11C0CB5E0009D4ADC /* MRMenuViewController.swift */,
+				6450A5CB1C0DCD0B009D4ADC /* MRJoinViewController.swift */,
+				6450A5CD1C0DDA91009D4ADC /* MRSignInViewController.swift */,
 				541ABBAA1AC577E00056A81B /* Images.xcassets */,
 				541ABBA71AC577E00056A81B /* Main.storyboard */,
 				541ABBAC1AC577E00056A81B /* LaunchScreen.xib */,
@@ -547,6 +560,8 @@
 				543C9A131BDD439B00291EC5 /* MRManagedLabelledExercise.swift */,
 				543C9A141BDD439B00291EC5 /* MRManagedClassifiedExercise+CoreDataProperties.swift */,
 				543C9A151BDD439B00291EC5 /* MRManagedClassifiedExercise.swift */,
+				6450A5C71C0DBF91009D4ADC /* MRManagedUser.swift */,
+				6450A5C91C0DBFCD009D4ADC /* MRManagedUser+CoreDataProperties.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1107,6 +1122,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6450A5CE1C0DDA91009D4ADC /* MRSignInViewController.swift in Sources */,
 				54EFE97B1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift in Sources */,
 				543C9A1A1BDD439B00291EC5 /* MRManagedClassifiedExercise+CoreDataProperties.swift in Sources */,
 				FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */,
@@ -1114,11 +1130,15 @@
 				64DC9FD71BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift in Sources */,
 				543C9A181BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift in Sources */,
 				54706F6F1BD6E6D8005BABF0 /* MRLabelViewController.swift in Sources */,
+				6450A5C21C0CB5E0009D4ADC /* MRMenuViewController.swift in Sources */,
 				543C9A1B1BDD439B00291EC5 /* MRManagedClassifiedExercise.swift in Sources */,
 				54706F6C1BD6D89F005BABF0 /* MRSessionsViewController.swift in Sources */,
+				6450A5CA1C0DBFCD009D4ADC /* MRManagedUser+CoreDataProperties.swift in Sources */,
 				549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
 				543C9A171BDD439B00291EC5 /* MRManagedExerciseSession.swift in Sources */,
+				6450A5C81C0DBF91009D4ADC /* MRManagedUser.swift in Sources */,
+				6450A5CC1C0DCD0B009D4ADC /* MRJoinViewController.swift in Sources */,
 				54FD504E1BDBD27C0015771D /* MRSessionViewController.swift in Sources */,
 				6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */,
 				543C9A191BDD439B00291EC5 /* MRManagedLabelledExercise.swift in Sources */,
