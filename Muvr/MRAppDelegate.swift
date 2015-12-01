@@ -14,8 +14,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     
     var window: UIWindow?
     
+    enum AppError: ErrorType {
+        case MissingClassificationModel(model: String)
+    }
+    
     private var connectivity: MKConnectivity!
     private var classifier: MKSessionClassifier!
+    private let modelStore: MRExerciseModelStore = MRExerciseModelStore()
     private var sessions: [MRManagedExerciseSession] = []
     internal var currentSession: MRManagedExerciseSession? {
         for (session) in sessions where session.end == nil {
@@ -92,10 +97,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
 
     func getExerciseModel(id id: MKExerciseModelId) throws -> MKExerciseModel {
         // setup the classifier
-        let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
-        let bundle = NSBundle(path: bundlePath)!
-
-        return try MKExerciseModel(fromBundle: bundle, id: id)
+        guard let model = modelStore.models[id],
+              let layersPath = model.layers?.path,
+              let labelsPath = model.labels?.path,
+              let weightsPath = model.weights?.path else { throw AppError.MissingClassificationModel(model: id) }
+        return try MKExerciseModel(layersPath: layersPath, labelsPath: labelsPath, weightsPath: weightsPath)
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
