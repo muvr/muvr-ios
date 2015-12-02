@@ -32,7 +32,7 @@ class MRSignInViewController: UIViewController, UITextFieldDelegate {
                 NSLog("Missing user information")
                 return
         }
-        MRAppDelegate.sharedDelegate().signInUser(email: email, password: password)
+        MRAppDelegate.sharedDelegate().signInUser(email: email, password: password.md5())
     }
     
 }

@@ -124,6 +124,7 @@
 		6450A5CA1C0DBFCD009D4ADC /* MRManagedUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5C91C0DBFCD009D4ADC /* MRManagedUser+CoreDataProperties.swift */; };
 		6450A5CC1C0DCD0B009D4ADC /* MRJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5CB1C0DCD0B009D4ADC /* MRJoinViewController.swift */; };
 		6450A5CE1C0DDA91009D4ADC /* MRSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5CD1C0DDA91009D4ADC /* MRSignInViewController.swift */; };
+		6450A5D41C0EFEBE009D4ADC /* String+MD5 .swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5D31C0EFEBE009D4ADC /* String+MD5 .swift */; };
 		64655B7D1C04D08400CFC763 /* MRSessionHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */; };
 		64655B7F1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */; };
 		647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */; };
@@ -364,6 +365,7 @@
 		6450A5C91C0DBFCD009D4ADC /* MRManagedUser+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6450A5CB1C0DCD0B009D4ADC /* MRJoinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRJoinViewController.swift; sourceTree = "<group>"; };
 		6450A5CD1C0DDA91009D4ADC /* MRSignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSignInViewController.swift; sourceTree = "<group>"; };
+		6450A5D31C0EFEBE009D4ADC /* String+MD5 .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+MD5 .swift"; sourceTree = "<group>"; };
 		64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionHealth.swift; sourceTree = "<group>"; };
 		64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRWorkoutSessionDelegate.swift; sourceTree = "<group>"; };
 		647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoderTests.swift; sourceTree = "<group>"; };
@@ -539,6 +541,7 @@
 				549A30081BDD0BC6006A70EB /* Muvr.xcdatamodeld */,
 				6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */,
 				64DC9FD61BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift */,
+				6450A5D31C0EFEBE009D4ADC /* String+MD5 .swift */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -1138,6 +1141,7 @@
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
 				543C9A171BDD439B00291EC5 /* MRManagedExerciseSession.swift in Sources */,
 				6450A5C81C0DBF91009D4ADC /* MRManagedUser.swift in Sources */,
+				6450A5D41C0EFEBE009D4ADC /* String+MD5 .swift in Sources */,
 				6450A5CC1C0DCD0B009D4ADC /* MRJoinViewController.swift in Sources */,
 				54FD504E1BDBD27C0015771D /* MRSessionViewController.swift in Sources */,
 				6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */,

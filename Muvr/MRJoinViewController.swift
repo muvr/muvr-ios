@@ -36,7 +36,7 @@ class MRJoinViewController: UIViewController, UITextFieldDelegate {
                 NSLog("Missing user information")
                 return
         }
-        MRAppDelegate.sharedDelegate().registerUser(firstname: firstname, lastname: lastname, email: email, password: password)
+        MRAppDelegate.sharedDelegate().registerUser(firstname: firstname, lastname: lastname, email: email, password: password.md5())
     }
     
 }
