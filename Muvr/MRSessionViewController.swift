@@ -52,16 +52,13 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
     }
     
     private func displayLabelSection() {
-        if (isLabelOn()) {
+        if isLabelOn() && addLabelBtn != nil && uploadCSV != nil {
             addLabelBtn.enabled = isSessionActive()
             addLabelBtn.tintColor = nil
             uploadCSV.enabled = true
             uploadCSV.tintColor = nil
         } else {
-            addLabelBtn.enabled = false
-            addLabelBtn.tintColor = UIColor.clearColor()
-            uploadCSV.enabled = false
-            uploadCSV.tintColor = UIColor.clearColor()
+            sessionBar.rightBarButtonItems = []
         }
     }
     
@@ -78,12 +75,12 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
     }
     
     private func updateIndexExercises() {
-        guard session != nil else { return }
+        guard let session = session else { return }
         var i = 0
         var j = 0
-        while (i < session!.classifiedExercises.count && j < session!.labelledExercises.count) {
-            let ce = session!.classifiedExercises.allObjects[i] as! MRManagedClassifiedExercise
-            let le = session!.labelledExercises.allObjects[j] as! MRManagedLabelledExercise
+        while (i < session.classifiedExercises.count && j < session.labelledExercises.count) {
+            let ce = session.classifiedExercises.allObjects[i] as! MRManagedClassifiedExercise
+            let le = session.labelledExercises.allObjects[j] as! MRManagedLabelledExercise
             if (ce.start.compare(le.start) == NSComparisonResult.OrderedAscending) {
                 // time of ce < time of le
                 ce.indexView = i + j
@@ -93,36 +90,36 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
                 j += 1
             }
         }
-        while (i < session!.classifiedExercises.count) {
-            let ce = session!.classifiedExercises.allObjects[i] as! MRManagedClassifiedExercise
+        while (i < session.classifiedExercises.count) {
+            let ce = session.classifiedExercises.allObjects[i] as! MRManagedClassifiedExercise
             ce.indexView = i+j
             i += 1
         }
-        while (j < session!.labelledExercises.count) {
-            let le = session!.labelledExercises.allObjects[j] as! MRManagedLabelledExercise
+        while (j < session.labelledExercises.count) {
+            let le = session.labelledExercises.allObjects[j] as! MRManagedLabelledExercise
             le.indexView = i+j
             j += 1
         }
     }
     
     private func printExerciseIndex() {
-        guard session != nil else { return }
+        guard let session = session else { return }
         NSLog("ClassifiedExercise index:")
-        session!.classifiedExercises.forEach {any in
+        session.classifiedExercises.forEach {any in
             let exer = any as! MRManagedClassifiedExercise
             NSLog("\(exer.start.formatTime()) - \(exer.indexView)")
         }
         NSLog("LabelledExercise index:")
-        session!.labelledExercises.forEach {any in
+        session.labelledExercises.forEach {any in
             let exer = any as! MRManagedLabelledExercise
             NSLog("\(exer.start.formatTime()) - \(exer.indexView)")
         }
     }
     
     private func aggregateClassifiedExercises() -> [MRSummaryExercise] {
-        guard session != nil else { return []}
+        guard let session = session else { return []}
         var summaryExercises: [MRSummaryExercise] = []
-        session?.classifiedExercises.forEach { element in
+        session.classifiedExercises.forEach { element in
             let exercise = element as! MRManagedClassifiedExercise
             let existedExercises = summaryExercises.filter { summary in
                 return summary.exerciseId == exercise.exerciseId
@@ -186,7 +183,9 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
     override func viewDidLoad() {
         tableView.delegate = self
         initView()
-        addLabelBtn.enabled = isSessionActive()
+        if addLabelBtn != nil {
+            addLabelBtn.enabled = isSessionActive()
+        }
         if let s = session {
             navbar.topItem!.title = "\(s.start.formatTime()) - \(s.exerciseModelId)"
         } else {
@@ -202,7 +201,9 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
     }
     
     func sessionDidEnd() {
-        addLabelBtn.enabled = false
+        if addLabelBtn != nil {
+            addLabelBtn.enabled = false
+        }
     }
     
     func sessionDidComplete() {
@@ -342,7 +343,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
             
             cell.layer.borderColor = UIColor.blueColor().CGColor
             if let match = matchLabel(ce) {
-                if (match) {
+                if (!match) {
                     cell.layer.borderColor = UIColor.redColor().CGColor
                 }
                 cell.verifiedImgView.image = UIImage(named: match ? "tick" : "miss")
