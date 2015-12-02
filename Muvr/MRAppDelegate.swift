@@ -104,6 +104,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         return try MKExerciseModel(layersPath: layersPath, labelsPath: labelsPath, weightsPath: weightsPath)
     }
     
+    func exerciseIds(model id: MKExerciseModelId) -> [MKExerciseId] {
+        let model = try? getExerciseModel(id: id)
+        return model?.exerciseIds ?? []
+    }
+    
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
         NSLog("Received session end for \(session)")
         // current session may be null in case of no running session

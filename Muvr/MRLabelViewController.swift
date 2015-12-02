@@ -7,22 +7,7 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
     var session: MRManagedExerciseSession?
     
     //Hard-coded for now
-    private let exerciseList = [
-        "biceps-curl",
-        "barbell-curl",
-        "barbell-squat",
-        "bent-arm-barbell-pullover",
-        "lateral-raise",
-        "lateral-pulldown-straight",
-        "running-machine-hit",
-        "suitcase-crunches",
-        "triceps-dips",
-        "triceps-extension",
-        "triceps-pushdown",
-        "dumbbell-bench-press",
-        "dumbbell-shoulder-press",
-        "vertical-swing"
-    ]
+    private var exerciseList: [MKExerciseId] = []
     
     private var autocompleteExercises = [String]()
     
@@ -34,6 +19,9 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let session = session {
+            exerciseList = MRAppDelegate.sharedDelegate().exerciseIds(model: session.exerciseModelId)
+        }
         autocompleteTableView.delegate = self
         autocompleteTableView.dataSource = self
         autocompleteTableView.scrollEnabled = true
