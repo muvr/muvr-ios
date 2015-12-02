@@ -84,7 +84,7 @@
                                 <animations/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="classifiedExercise" rowHeight="91" id="GI8-GD-9lg" customClass="MRTableViewCell" customModule="Muvr" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="classifiedExercise" rowHeight="91" id="GI8-GD-9lg" customClass="MRExerciseViewCell" customModule="Muvr" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="414" height="91"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GI8-GD-9lg" id="AFF-r8-vjI">

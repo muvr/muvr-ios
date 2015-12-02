@@ -291,7 +291,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let position = indexPath.section
-        let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath) as! MRTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath) as! MRExerciseViewCell
         cell.startLabel.text = ""
         cell.exerciseIdLabel.text = ""
         cell.detailLabel.text = ""

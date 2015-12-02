@@ -2,13 +2,12 @@
 //  MRTableViewCell.swift
 //  Muvr
 //
-//  Created by Duc Hoang on 26/11/2015.
 //  Copyright © 2015 Muvr. All rights reserved.
 //
 
 import UIKit
 
-class MRTableViewCell: UITableViewCell {
+class MRExerciseViewCell: UITableViewCell {
     
     @IBOutlet weak var exerciseIdLabel: UILabel!
     @IBOutlet weak var detailLabel: UILabel!
