@@ -1,13 +1,15 @@
 import MuvrKit
 
+public typealias MRExerciseModelVersion = String
+
 public struct MRExerciseModel {
-    let id: String
-    let version: String
+    let id: MKExerciseModelId
+    let version: MRExerciseModelVersion
     var labels: NSURL? = nil
     var layers: NSURL? = nil
     var weights: NSURL? = nil
     
-    init(id: String, version: String) {
+    init(id: MKExerciseModelId, version: MRExerciseModelVersion) {
         self.id = id
         self.version = version
     }
@@ -15,6 +17,27 @@ public struct MRExerciseModel {
     func isComplete() -> Bool {
         return labels != nil && layers != nil && weights != nil
     }
+    
+    /// expected file format is ``modelId_version_model.type.ext``
+    static func parseFilename(filename: String) -> (MKExerciseModelId, MRExerciseModelVersion, MRExerciseModelFileType)? {
+        do {
+            let pattern = try NSRegularExpression(pattern: "(.+)_(.+)_model\\.(weights|labels|layers)\\.(.{3})", options: [])
+            let matches = filename.matchingGroups(pattern, groups: 3)
+            guard matches.count >= 3,
+                let filetype = MRExerciseModelFileType(rawValue: matches[2]) else { return nil }
+            let id = matches[0]
+            let version = matches[1]
+            return (id, version, filetype)
+        } catch {
+            return nil
+        }
+    }
+}
+
+public enum MRExerciseModelFileType: String {
+    case layers
+    case labels
+    case weights
 }
 ///
 /// Takes care of loading models from files by looking into the ``Application Support`` folder
@@ -29,14 +52,8 @@ public class MRExerciseModelStore {
             return "\(id),\(version)".hashValue
         }
     }
-    
-    enum Filetype: String {
-        case layers
-        case labels
-        case weights
-    }
 
-    let models: [String:MRExerciseModel]
+    private(set) var models: [MKExerciseModelId:MRExerciseModel]
     
     public init() {
         let bundledModels = MRExerciseModelStore.bundledModels()
@@ -55,11 +72,11 @@ public class MRExerciseModelStore {
     }
     
     /// load arms and slacking models from bundle
-    private static func bundledModels() -> [String:MRExerciseModel] {
+    private static func bundledModels() -> [MKExerciseModelId:MRExerciseModel] {
         let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
         
-        func bundledModel(id: String) -> MRExerciseModel? {
+        func bundledModel(id: MKExerciseModelId) -> MRExerciseModel? {
             guard let layersUrl = bundle.URLForResource("\(id)_model.layers", withExtension: "txt"),
                   let labelsUrl = bundle.URLForResource("\(id)_model.labels", withExtension: "txt"),
                   let weightsUrl = bundle.URLForResource("\(id)_model.weights", withExtension: "raw") else { return nil }
@@ -82,7 +99,8 @@ public class MRExerciseModelStore {
         else { return [:] }
         let models = modelsUrl.reduce([:]) { (var models: [ModelKey:MRExerciseModel], modelUrl: NSURL) in
             guard let filename = modelUrl.lastPathComponent,
-                  let (modelKey, filetype) = MRExerciseModelStore.parseFilename(filename) else { return models }
+                  let (modelId, version, filetype) = MRExerciseModel.parseFilename(filename) else { return models }
+            let modelKey = ModelKey(id: modelId, version: version)
             var model = models[modelKey] ?? MRExerciseModel(id: modelKey.id, version: modelKey.version)
             switch (filetype) {
                 case .layers:  model.layers = modelUrl
@@ -94,20 +112,34 @@ public class MRExerciseModelStore {
         }
         return models
     }
-
-    /// expected file format is ``modelId_version_model.type.ext``
-    private static func parseFilename(filename: String) -> (ModelKey, Filetype)? {
-        do {
-            let pattern = try NSRegularExpression(pattern: "(.+)_(.+)_model\\.(weights|labels|layers)\\.(.{3})", options: [])
-            let matches = filename.matchingGroups(pattern, groups: 3)
-            guard matches.count >= 3,
-              let filetype = Filetype(rawValue: matches[2]) else { return nil }
-            let id = matches[0]
-            let version = matches[1]
-            return (ModelKey(id: id, version: version), filetype)
-        } catch {
-            return nil
+    
+    /// Store a new model by moving its files into the ``Application Support`` folder
+    func store(model model: MRExerciseModel) -> MRExerciseModel? {
+        let fileManager = NSFileManager.defaultManager()
+        guard let supportDir = fileManager.URLsForDirectory(NSSearchPathDirectory.ApplicationSupportDirectory, inDomains: .UserDomainMask).first
+            else { return nil }
+        
+        func moveFile(source: NSURL?) -> NSURL? {
+            guard let source = source,
+                  let filename = source.lastPathComponent else { return nil }
+            let dest = NSURL(fileURLWithPath: filename, isDirectory: false, relativeToURL: supportDir)
+            do {
+                try fileManager.moveItemAtURL(source, toURL: dest)
+            } catch {
+                return nil
+            }
+            return dest
         }
+
+        var newModel = MRExerciseModel(id: model.id, version: model.version)
+        newModel.labels = moveFile(model.labels)
+        newModel.layers = moveFile(model.layers)
+        newModel.weights = moveFile(model.weights)
+        guard newModel.isComplete() else { return nil }
+        if let existingModel = models[newModel.id] where existingModel.version < newModel.version {
+            models[newModel.id] = newModel
+        }
+        return newModel
     }
     
 }
