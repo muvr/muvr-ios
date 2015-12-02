@@ -18,6 +18,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
     
     // the displayed session
     private var session: MRManagedExerciseSession?
+    private var summaryExercises: [MRSummaryExercise] = []
     
     ///
     /// Provides the session to display
@@ -45,12 +46,12 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
         }
     }
     
-    func isLabelOn() -> Bool {
+    private func isLabelOn() -> Bool {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         return userDefaults.boolForKey("muvrLabelExerciseData")
     }
     
-    func displayLabelSection() {
+    private func displayLabelSection() {
         if (isLabelOn()) {
             addLabelBtn.enabled = isSessionActive()
             addLabelBtn.tintColor = nil
@@ -64,15 +65,19 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
         }
     }
     
-    func isSessionActive() -> Bool {
+    private func isSessionActive() -> Bool {
         return session != nil && session?.end == nil
     }
     
-    func isSessionCompleted() -> Bool {
+    private func isSessionCompleted() -> Bool {
         return session != nil && session!.completed
     }
     
-    func updateIndexExercises() {
+    private func isDataAwaiting() -> Bool {
+        return session != nil && !session!.completed && NSDate().timeIntervalSinceDate(session!.start) < 24*60*60
+    }
+    
+    private func updateIndexExercises() {
         guard session != nil else { return }
         var i = 0
         var j = 0
@@ -98,10 +103,9 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
             le.indexView = i+j
             j += 1
         }
-        NSLog("Finish updating index of exercises")
     }
     
-    func printExerciseIndex() {
+    private func printExerciseIndex() {
         guard session != nil else { return }
         NSLog("ClassifiedExercise index:")
         session!.classifiedExercises.forEach {any in
@@ -115,36 +119,37 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
         }
     }
     
-    // MARK: UIViewController
-
-    override func viewDidDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+    private func aggregateClassifiedExercises() -> [MRSummaryExercise] {
+        guard session != nil else { return []}
+        var summaryExercises: [MRSummaryExercise] = []
+        session?.classifiedExercises.forEach { element in
+            let exercise = element as! MRManagedClassifiedExercise
+            let existedExercises = summaryExercises.filter { summary in
+                return summary.exerciseId == exercise.exerciseId
+            }
+            if existedExercises.count == 0 {
+                let newExercises = MRSummaryExercise()
+                newExercises.start = exercise.start
+                newExercises.duration = exercise.duration
+                newExercises.sets = 1
+                newExercises.repetitions = (exercise.repetitions ?? 0).integerValue
+                newExercises.exerciseId = exercise.exerciseId
+                summaryExercises.append(newExercises)
+            } else {
+                existedExercises[0].duration = existedExercises[0].duration + exercise.duration
+                existedExercises[0].sets = existedExercises[0].sets + 1
+                existedExercises[0].repetitions = existedExercises[0].repetitions + (exercise.repetitions ?? 0).integerValue
+            }
+        }
+        return summaryExercises
     }
     
-    override func viewDidAppear(animated: Bool) {
+    private func initView() {
         displayLabelSection()
+        if isSessionCompleted() {
+            summaryExercises = aggregateClassifiedExercises()
+        }
         updateIndexExercises()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
-        if let objectId = session?.objectID {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidComplete", name: MRNotifications.SessionDidComplete.rawValue, object: objectId)
-        }
-        tableView.reloadData()
-        if isDataAwaiting() {
-            moveFocusToEndSession()
-        }
-    }
-    
-    override func viewDidLoad() {
-        tableView.delegate = self
-        displayLabelSection()
-        updateIndexExercises()
-        addLabelBtn.enabled = isSessionActive()
-        if let s = session {
-            navbar.topItem!.title = "\(s.start.formatTime()) - \(s.exerciseModelId)"
-        } else {
-            navbar.topItem!.title = nil
-        }
     }
     
     private func moveFocusToEndSession() {
@@ -158,11 +163,37 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
             }
         })
     }
-    
-    func isDataAwaiting() -> Bool {
-        return session != nil && !session!.completed && NSDate().timeIntervalSinceDate(session!.start) < 24*60*60
+
+    // MARK: UIViewController
+
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        initView()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
+        if let objectId = session?.objectID {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidComplete", name: MRNotifications.SessionDidComplete.rawValue, object: objectId)
+        }
+        tableView.reloadData()
+        if isDataAwaiting() {
+            moveFocusToEndSession()
+        }
+    }
+    
+    override func viewDidLoad() {
+        tableView.delegate = self
+        initView()
+        addLabelBtn.enabled = isSessionActive()
+        if let s = session {
+            navbar.topItem!.title = "\(s.start.formatTime()) - \(s.exerciseModelId)"
+        } else {
+            navbar.topItem!.title = nil
+        }
+    }
+
     // MARK: notification callbacks
     
     func update() {
@@ -204,6 +235,9 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
     }
     
     func numberOfExerciseRows() -> Int {
+        if isSessionCompleted() && summaryExercises.count > 0 {
+            return summaryExercises.count
+        }
         let sizeCE = session?.classifiedExercises.count ?? 0
         let sizeLE = session?.labelledExercises.count ?? 0
         if (session == nil) {
@@ -264,7 +298,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
         cell.durationLabel.text = ""
         cell.verifiedImgView.image = nil
         cell.layer.cornerRadius = 13.0
-        
+
         if (isDataAwaiting() && position == numberOfExerciseRows() - 1) {
             // draw the waiting spinner for the last row
             let spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
@@ -279,6 +313,17 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
             cell.backgroundColor = nil
             return cell
         }
+        if isSessionCompleted() && summaryExercises.count > 0 {
+            let exercise = summaryExercises[position]
+            cell.exerciseIdLabel.text = exercise.exerciseId
+            cell.startLabel.text = exercise.start.formatTime()
+            cell.durationLabel.text = "\(NSString(format: "%.0f", exercise.duration))s"
+            cell.detailLabel.text = "SETS: \(exercise.sets) - REPS: \(exercise.repetitions)"
+            cell.layer.borderWidth = 2
+            cell.layer.borderColor = UIColor.blueColor().CGColor
+            return cell
+        }
+        cell.layer.borderWidth = 2
         let filterCE = session!.classifiedExercises.filter {element in
             let exercise = element as! MRManagedClassifiedExercise
             return exercise.indexView == position
@@ -305,7 +350,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
                 cell.verifiedImgView.image = nil
             }
             
-            cell.layer.borderWidth = 2
             return cell
         } else {
             let filterLE = session!.labelledExercises.filter {element in
@@ -327,7 +371,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
             cell.detailLabel.text = "Repetition: \(repetitions)"
             tableView.rowHeight = 80
             
-            cell.layer.borderWidth = 2
             cell.layer.borderColor = UIColor.grayColor().CGColor
             return cell
         }

@@ -68,8 +68,8 @@ extension MRAppDelegate  {
     private func generateData() {
         getSessionDates().forEach {date in
             let today = NSDate()
-            let isToday = today.compare(date) == NSComparisonResult.OrderedSame
-            generateSessionData(date: date, isCompleted: isToday)
+            let isToday = today.dateOnly.compare(date.dateOnly) == NSComparisonResult.OrderedSame
+            generateSessionData(date: date, isCompleted: !isToday)
         }
         saveContext()
     }

@@ -26,5 +26,15 @@ class MRTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    private var initWidth: CGFloat? = nil
+    
+    override func layoutSubviews() {
+        if (initWidth == nil) {
+            initWidth = self.bounds.size.width
+        }
+        self.bounds = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, initWidth! - 40, self.bounds.size.height)
+        super.layoutSubviews()
+    }
 
 }
