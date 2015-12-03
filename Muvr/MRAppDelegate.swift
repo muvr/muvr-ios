@@ -60,6 +60,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         pageControlAppearance.pageIndicatorTintColor = UIColor.lightGrayColor()
         pageControlAppearance.currentPageIndicatorTintColor = UIColor.blackColor()
         pageControlAppearance.backgroundColor = UIColor.whiteColor()
+        
+        MRCloudStorage().listObjects()
     
         return true
     }
