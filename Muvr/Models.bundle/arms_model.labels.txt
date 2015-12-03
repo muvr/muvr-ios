@@ -1,3 +1,13 @@
+dumbbell-shoulder-press
+dumbbell-bench-press
+triceps-pushdown
+barbell-biceps-curl
 lateral-raise
 biceps-curl
 triceps-extension
+angle-chest-press
+vertical-swing
+lateral-pulldown-straight
+triceps-dips
+barbell-squat
+bent-arm-barbell-pullover
