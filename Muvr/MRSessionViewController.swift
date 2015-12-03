@@ -10,6 +10,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addLabelBtn: UIBarButtonItem!
+    @IBOutlet weak var exportCsvBtn: UIBarButtonItem!
     @IBOutlet weak var navbar: UINavigationBar!
     @IBOutlet var sessionBar: UINavigationItem!
     
@@ -67,7 +68,13 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     override func viewDidLoad() {
-        addLabelBtn.enabled = session != nil && session?.end == nil
+        let canLabel = NSUserDefaults.standardUserDefaults().boolForKey("muvrLabelExerciseData") ?? false
+        if canLabel {
+            addLabelBtn.enabled = session != nil && session?.end == nil
+            exportCsvBtn.enabled = session?.completed ?? false
+        } else {
+            sessionBar.setRightBarButtonItems([], animated: false)
+        }
         if let s = session {
             navbar.topItem!.title = "\(s.start.formatTime()) - \(s.exerciseModelId)"
         } else {

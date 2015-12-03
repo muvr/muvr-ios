@@ -17,6 +17,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     private var connectivity: MKConnectivity!
     private var classifier: MKSessionClassifier!
     private var sessions: [MRManagedExerciseSession] = []
+    private(set) var user: MRManagedUser? = nil
     internal var currentSession: MRManagedExerciseSession? {
         for (session) in sessions where session.end == nil {
             return session
@@ -49,7 +50,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window!.makeKeyAndVisible()
-        window!.rootViewController = storyboard.instantiateInitialViewController()
+        guard let navController = storyboard.instantiateInitialViewController() as? UINavigationController else { return false }
+        window!.rootViewController = navController
+        
+        if isSignedIn() {
+            navController.setViewControllers([storyboard.instantiateViewControllerWithIdentifier("sessions")], animated: true)
+        } else {
+            navController.setViewControllers([storyboard.instantiateViewControllerWithIdentifier("login")], animated: true)
+        }
         
         let pageControlAppearance = UIPageControl.appearance()
         pageControlAppearance.pageIndicatorTintColor = UIColor.lightGrayColor()
@@ -57,6 +65,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         pageControlAppearance.backgroundColor = UIColor.whiteColor()
     
         return true
+    }
+    
+    private func isSignedIn() -> Bool {
+        user = MRManagedUser.defaultUser(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+        if let user = user where user.signedIn {
+            NSLog("Already signed in user \(user.email)")
+            return true
+        }
+        return false
     }
     
     /// manage healthkit access authorisation
@@ -130,17 +147,62 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
          NSLog("Received session start for \(session)")
-        let persistedSession = MRManagedExerciseSession.sessionById(session.id, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+        let persistedSession = MRManagedExerciseSession.sessionById(session.id, inManagedObjectContext: managedObjectContext)
         if persistedSession == nil && sessionIndex(session) == nil {
             let currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
             sessions.append(currentSession)
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: currentSession.objectID)
             saveContext()
         } else if persistedSession != nil && sessionIndex(session) == nil {
-            NSLog("cach persisted session into memory: \(persistedSession!)")
+            NSLog("Cache persisted session into memory: \(persistedSession!)")
             sessions.append(persistedSession!)
         }
-
+    }
+    
+    func registerUser(firstname firstname: String, lastname: String, email: String, password: String) {
+        NSLog("Register user \(email)")
+        var user = MRManagedUser.userByLogin(email: email, password: password, inManagedObjectContext: managedObjectContext)
+        if user == nil {
+            let newUser = MRManagedUser.insertNewObject(inManagedObjectContext: managedObjectContext)
+            newUser.email = email
+            newUser.password = password
+            user = newUser
+        }
+        if let user = user,
+           let navController = window?.rootViewController as? UINavigationController,
+           let storyboard = navController.storyboard {
+            user.firstname = firstname
+            user.lastname = lastname
+            user.signedIn = true
+            saveContext()
+            self.user = user
+            navController.setViewControllers([storyboard.instantiateViewControllerWithIdentifier("sessions")], animated: true)
+        }
+    }
+    
+    func signInUser(email email: String, password: String) {
+        guard let user = MRManagedUser.userByLogin(email: email, password: password, inManagedObjectContext: managedObjectContext)
+            else { return }
+        NSLog("Sign in user \(email)")
+        user.signedIn = true
+        saveContext()
+        if let navController = window?.rootViewController as? UINavigationController,
+            let storyboard = navController.storyboard {
+                navController.setViewControllers([storyboard.instantiateViewControllerWithIdentifier("sessions")], animated: true)
+        }
+    }
+    
+    func signOut() {
+        guard let user = user else { return }
+        NSLog("Sign out user \(user.email)")
+        user.signedIn = false
+        saveContext()
+        if let navController = window?.rootViewController as? UINavigationController,
+            let storyboard = navController.storyboard,
+            let sessionsViewController = navController.viewControllers[0] as? MRSessionsViewController {
+                navController.setViewControllers([storyboard.instantiateViewControllerWithIdentifier("login")], animated: true)
+                sessionsViewController.hideMenu()
+        }
     }
     
     // MARK: - Core Data stack

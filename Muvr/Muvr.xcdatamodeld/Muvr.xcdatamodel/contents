@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="14F1021" minimumToolsVersion="Xcode 7.0">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Xcode 7.0">
     <entity name="MRManagedClassifiedExercise" representedClassName=".MRManagedClassifiedExercise" syncable="YES">
         <attribute name="confidence" optional="YES" attributeType="Double" minValueString="0" maxValueString="1" defaultValueString="0.0" syncable="YES"/>
         <attribute name="duration" attributeType="Double" minValueString="0" defaultValueString="0.0" syncable="YES"/>
@@ -29,10 +29,19 @@
         <attribute name="weight" optional="YES" attributeType="Double" minValueString="0" defaultValueString="0.0" syncable="YES"/>
         <relationship name="exerciseSession" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedExerciseSession" inverseName="labelledExercises" inverseEntity="MRManagedExerciseSession" syncable="YES"/>
     </entity>
-    <fetchRequest name="FetchRequest" entity="MRManagedExerciseSession" predicateString="id == &quot;@id&quot;"/>
+    <entity name="MRManagedUser" representedClassName=".MRManagedUser" syncable="YES">
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="signedIn" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <fetchRequest name="FetchRequest" entity="MRManagedUser" predicateString="id == &quot;@id&quot;"/>
     <elements>
         <element name="MRManagedClassifiedExercise" positionX="-1098" positionY="-459" width="128" height="165"/>
         <element name="MRManagedExerciseSession" positionX="-765" positionY="-162" width="128" height="165"/>
         <element name="MRManagedLabelledExercise" positionX="-1746" positionY="-531" width="128" height="150"/>
+        <element name="MRManagedUser" positionX="-1539" positionY="-378" width="128" height="135"/>
     </elements>
 </model>
