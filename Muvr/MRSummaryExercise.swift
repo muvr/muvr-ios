@@ -1,17 +1,20 @@
-//
-//  MRSummaryExercise.swift
-//  Muvr
-//
-//  Created by Duc Hoang on 01/12/2015.
-//  Copyright © 2015 Muvr. All rights reserved.
-//
-
 import Foundation
 
+///
+/// This struct contains the summary of one type exercise to display on the view when sessions finish.
+///
 class MRSummaryExercise {
-    var start: NSDate = NSDate()
-    var duration: Double = 0.0
-    var exerciseId: String = ""
-    var sets: Int = 0
-    var repetitions: Int = 0
+    var start: NSDate
+    var duration: Double
+    var exerciseId: String
+    var sets: Int
+    var repetitions: Int
+    
+    init(start: NSDate, exerciseId: String, duration: Double, sets: Int, reps: Int) {
+        self.start = start
+        self.exerciseId = exerciseId
+        self.duration = duration
+        self.sets = sets
+        self.repetitions = reps
+    }
 }

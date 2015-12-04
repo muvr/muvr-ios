@@ -4,6 +4,8 @@ import MuvrKit
 
 class MRManagedExerciseSession: NSManagedObject {
     
+    var summaryExercises: [MRSummaryExercise]? = nil
+    
     static func sessionsOnDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
         let midnightToday = date.dateOnly

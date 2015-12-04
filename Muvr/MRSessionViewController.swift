@@ -14,11 +14,8 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
     @IBOutlet var sessionBar: UINavigationItem!
     @IBOutlet weak var uploadCSV: UIBarButtonItem!
     
-    private var dataWaitingSpinner: UIBarButtonItem?
-    
     // the displayed session
     private var session: MRManagedExerciseSession?
-    private var summaryExercises: [MRSummaryExercise] = []
     
     ///
     /// Provides the session to display
@@ -46,14 +43,14 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
         }
     }
     
-    private func isLabelOn() -> Bool {
+    var labelOn: Bool {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         return userDefaults.boolForKey("muvrLabelExerciseData")
     }
     
     private func displayLabelSection() {
-        if isLabelOn() && addLabelBtn != nil && uploadCSV != nil {
-            addLabelBtn.enabled = isSessionActive()
+        if self.labelOn && addLabelBtn != nil && uploadCSV != nil {
+            addLabelBtn.enabled = session != nil && session!.isActive
             addLabelBtn.tintColor = nil
             uploadCSV.enabled = true
             uploadCSV.tintColor = nil
@@ -62,91 +59,12 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
         }
     }
     
-    private func isSessionActive() -> Bool {
-        return session != nil && session?.end == nil
-    }
-    
-    private func isSessionCompleted() -> Bool {
-        return session != nil && session!.completed
-    }
-    
-    private func isDataAwaiting() -> Bool {
-        return session != nil && !session!.completed && NSDate().timeIntervalSinceDate(session!.start) < 24*60*60
-    }
-    
-    private func updateIndexExercises() {
-        guard let session = session else { return }
-        var i = 0
-        var j = 0
-        while (i < session.classifiedExercises.count && j < session.labelledExercises.count) {
-            let ce = session.classifiedExercises.allObjects[i] as! MRManagedClassifiedExercise
-            let le = session.labelledExercises.allObjects[j] as! MRManagedLabelledExercise
-            if (ce.start.compare(le.start) == NSComparisonResult.OrderedAscending) {
-                // time of ce < time of le
-                ce.indexView = i + j
-                i += 1
-            } else {
-                le.indexView = i + j
-                j += 1
-            }
-        }
-        while (i < session.classifiedExercises.count) {
-            let ce = session.classifiedExercises.allObjects[i] as! MRManagedClassifiedExercise
-            ce.indexView = i+j
-            i += 1
-        }
-        while (j < session.labelledExercises.count) {
-            let le = session.labelledExercises.allObjects[j] as! MRManagedLabelledExercise
-            le.indexView = i+j
-            j += 1
-        }
-    }
-    
-    private func printExerciseIndex() {
-        guard let session = session else { return }
-        NSLog("ClassifiedExercise index:")
-        session.classifiedExercises.forEach {any in
-            let exer = any as! MRManagedClassifiedExercise
-            NSLog("\(exer.start.formatTime()) - \(exer.indexView)")
-        }
-        NSLog("LabelledExercise index:")
-        session.labelledExercises.forEach {any in
-            let exer = any as! MRManagedLabelledExercise
-            NSLog("\(exer.start.formatTime()) - \(exer.indexView)")
-        }
-    }
-    
-    private func aggregateClassifiedExercises() -> [MRSummaryExercise] {
-        guard let session = session else { return []}
-        var summaryExercises: [MRSummaryExercise] = []
-        session.classifiedExercises.forEach { element in
-            let exercise = element as! MRManagedClassifiedExercise
-            let existedExercises = summaryExercises.filter { summary in
-                return summary.exerciseId == exercise.exerciseId
-            }
-            if existedExercises.count == 0 {
-                let newExercises = MRSummaryExercise()
-                newExercises.start = exercise.start
-                newExercises.duration = exercise.duration
-                newExercises.sets = 1
-                newExercises.repetitions = (exercise.repetitions ?? 0).integerValue
-                newExercises.exerciseId = exercise.exerciseId
-                summaryExercises.append(newExercises)
-            } else {
-                existedExercises[0].duration = existedExercises[0].duration + exercise.duration
-                existedExercises[0].sets = existedExercises[0].sets + 1
-                existedExercises[0].repetitions = existedExercises[0].repetitions + (exercise.repetitions ?? 0).integerValue
-            }
-        }
-        return summaryExercises
-    }
-    
     private func initView() {
         displayLabelSection()
-        if isSessionCompleted() {
-            summaryExercises = aggregateClassifiedExercises()
+        if let session = session where session.completed {
+            session.aggregateClassifiedExercises()
         }
-        updateIndexExercises()
+        session?.updateIndexExercises()
     }
     
     private func moveFocusToEndSession() {
@@ -175,7 +93,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidComplete", name: MRNotifications.SessionDidComplete.rawValue, object: objectId)
         }
         tableView.reloadData()
-        if isDataAwaiting() {
+        if let session = session where session.isDataAwaiting {
             moveFocusToEndSession()
         }
     }
@@ -184,7 +102,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
         tableView.delegate = self
         initView()
         if addLabelBtn != nil {
-            addLabelBtn.enabled = isSessionActive()
+            addLabelBtn.enabled = session != nil && session!.isActive
         }
         if let s = session {
             navbar.topItem!.title = "\(s.start.formatTime()) - \(s.exerciseModelId)"
@@ -236,14 +154,14 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
     }
     
     func numberOfExerciseRows() -> Int {
-        if isSessionCompleted() && summaryExercises.count > 0 {
-            return summaryExercises.count
+        if let session = session, summary = session.summaryExercises where session.completed && summary.count > 0 {
+            return summary.count
         }
         let sizeCE = session?.classifiedExercises.count ?? 0
         let sizeLE = session?.labelledExercises.count ?? 0
         if (session == nil) {
             return 0
-        } else if (isDataAwaiting()) {
+        } else if let session = session where session.isDataAwaiting {
             return sizeCE + sizeLE + 1
         } else {
             return sizeCE + sizeLE
@@ -299,8 +217,13 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
         cell.durationLabel.text = ""
         cell.verifiedImgView.image = nil
         cell.layer.cornerRadius = 13.0
+        
+        guard let session = session else {
+            NSLog("Session is Nil ==> SHOULD NEVER HAPPEN")
+            return cell
+        }
 
-        if (isDataAwaiting() && position == numberOfExerciseRows() - 1) {
+        if session.isDataAwaiting && position == numberOfExerciseRows() - 1 {
             // draw the waiting spinner for the last row
             let spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
             spinnerView.frame = CGRectMake(0, 0, 14, 14)
@@ -314,8 +237,8 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
             cell.backgroundColor = nil
             return cell
         }
-        if isSessionCompleted() && summaryExercises.count > 0 {
-            let exercise = summaryExercises[position]
+        if let summary = session.summaryExercises where session.completed && summary.count > 0 {
+            let exercise = summary[position]
             cell.exerciseIdLabel.text = exercise.exerciseId
             cell.startLabel.text = exercise.start.formatTime()
             cell.durationLabel.text = "\(NSString(format: "%.0f", exercise.duration))s"
@@ -325,7 +248,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
             return cell
         }
         cell.layer.borderWidth = 2
-        let filterCE = session!.classifiedExercises.filter {element in
+        let filterCE = session.classifiedExercises.filter {element in
             let exercise = element as! MRManagedClassifiedExercise
             return exercise.indexView == position
         }
@@ -353,12 +276,12 @@ class MRSessionViewController : UIViewController, UITableViewDataSource, UITable
             
             return cell
         } else {
-            let filterLE = session!.labelledExercises.filter {element in
+            let filterLE = session.labelledExercises.filter {element in
                 let exercise = element as! MRManagedLabelledExercise
                 return exercise.indexView == position
             }
             if filterLE.count == 0 {
-                NSLog("SHOULD NEVER HAPPEN")
+                NSLog("Cannot find indexView of exercise ==> SHOULD NEVER HAPPEN")
                 return cell
             }
             // display labelled exercise

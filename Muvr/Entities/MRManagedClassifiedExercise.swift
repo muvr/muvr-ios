@@ -12,7 +12,7 @@ import MuvrKit
 
 class MRManagedClassifiedExercise: NSManagedObject {
     
-    var indexView: Int = -1
+    var indexView: Int? = nil
     
     static func insertNewObject(inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedClassifiedExercise {
         let mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedClassifiedExercise", inManagedObjectContext: managedObjectContext) as! MRManagedClassifiedExercise

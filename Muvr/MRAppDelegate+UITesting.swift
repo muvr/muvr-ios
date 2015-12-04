@@ -52,9 +52,7 @@ extension MRAppDelegate  {
         session.completed = isCompleted
         
         (0..<10).forEach { i in generateClassifiedExercise(date: date, session: session, index: i) }
-        if isCompleted {
-            (0..<2).forEach { i in generateLabelledExercise(date: date, session: session, index: i) }
-        }
+        (0..<2).forEach { i in generateLabelledExercise(date: date, session: session, index: i) }
     }
     
     private func getSessionDates() -> [NSDate] {

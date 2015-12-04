@@ -1,10 +1,3 @@
-//
-//  MRTableViewCell.swift
-//  Muvr
-//
-//  Copyright © 2015 Muvr. All rights reserved.
-//
-
 import UIKit
 
 class MRExerciseViewCell: UITableViewCell {
