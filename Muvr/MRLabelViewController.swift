@@ -31,6 +31,10 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var repetitions: UITextField!
     @IBOutlet weak var intensity: UISlider!
     @IBOutlet weak var autocompleteTableView: UITableView!
+    @IBOutlet weak var startButton: UIButton!
+    private var timer: NSTimer? = nil
+    private var counter = 5
+    @IBOutlet weak var waitingTime: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,17 +113,32 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
         exerciseId.resignFirstResponder()
     }
     
-    @IBAction func startStop(sender: UIButton) {
-        func doStart() {
-            // start
-            start = NSDate()
-            print("started")
-            sender.tag = 1
-            sender.tintColor = UIColor.whiteColor()
-            sender.setTitle("Stop", forState: UIControlState.Normal)
-            sender.backgroundColor = UIColor.redColor()
+    func updateCounter() {
+        startButton.setTitle("\(counter)", forState: UIControlState.Normal)
+        startButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        startButton.tintColor = UIColor.whiteColor()
+        startButton.enabled = false
+        if counter == 0 {
+            timer?.invalidate()
+            doStart()
+            return
         }
-
+        counter--
+    }
+    
+    private func doStart() {
+        // start
+        start = NSDate()
+        NSLog("started")
+        startButton.tag = 1
+        startButton.tintColor = UIColor.whiteColor()
+        startButton.setTitle("Stop", forState: UIControlState.Normal)
+        startButton.backgroundColor = UIColor.redColor()
+        startButton.enabled = true
+        self.navigationItem.hidesBackButton = true
+    }
+    
+    @IBAction func startStop(sender: UIButton) {
         func doStop() {
             // stop
             sender.tag = 0
@@ -131,13 +150,18 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
             l.intensity = Double(intensity.value) / Double(intensity.maximumValue)
             l.repetitions = repetitions.text.flatMap { UInt32($0) } ?? UInt32(0)
             l.weight = weight.text.flatMap { Double($0) } ?? Double(0)
-                
+            
+            NSLog("start = \(l.start.formatTime())")
+            NSLog("end = \(l.end.formatTime())")
             MRAppDelegate.sharedDelegate().saveContext()
         }
         
-        if sender.tag == 0 {
-            doStart()
-        } else {
+        if timer == nil {
+            timer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
+            counter = waitingTime.text.flatMap { Int($0) } ?? 5
+        }
+        
+        if sender.tag == 1 {
             doStop()
             // Dismiss if presented in a navigation stack
             self.navigationController?.popViewControllerAnimated(true)
