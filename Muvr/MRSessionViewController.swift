@@ -6,18 +6,16 @@ import MuvrKit
 /// This class shows the exercises of the displayed session.
 /// To display a session, you must call the ``setSession(session:)`` method and provide a valid ``MRManagedExerciseSesssion``.
 ///
-class MRSessionViewController : UIViewController, UITableViewDataSource {
+class MRSessionViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addLabelBtn: UIBarButtonItem!
     @IBOutlet weak var navbar: UINavigationBar!
     @IBOutlet var sessionBar: UINavigationItem!
-    
-    private var dataWaitingSpinner: UIBarButtonItem?
+    @IBOutlet weak var uploadCSV: UIBarButtonItem!
     
     // the displayed session
     private var session: MRManagedExerciseSession?
-    // indicates if the displayed session is active (i.e. not finished)
     
     ///
     /// Provides the session to display
@@ -45,6 +43,42 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         }
     }
     
+    var labelOn: Bool {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        return userDefaults.boolForKey("muvrLabelExerciseData")
+    }
+    
+    private func displayLabelSection() {
+        if self.labelOn && addLabelBtn != nil && uploadCSV != nil {
+            addLabelBtn.enabled = session != nil && session!.isActive
+            addLabelBtn.tintColor = nil
+            uploadCSV.enabled = true
+            uploadCSV.tintColor = nil
+        } else {
+            sessionBar.rightBarButtonItems = []
+        }
+    }
+    
+    private func initView() {
+        displayLabelSection()
+        if let session = session where session.completed {
+            session.aggregateClassifiedExercises()
+        }
+        session?.updateIndexExercises()
+    }
+    
+    private func moveFocusToEndSession() {
+        let delay = 0.1 * Double(NSEC_PER_SEC)
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue(), {
+            let size = self.numberOfExerciseRows()
+            if size > 0 {
+                let indexPath = NSIndexPath(forRow: 0, inSection: size-1)
+                self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
+        })
+    }
+
     // MARK: UIViewController
 
     override func viewDidDisappear(animated: Bool) {
@@ -52,57 +86,46 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     override func viewDidAppear(animated: Bool) {
+        initView()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
         if let objectId = session?.objectID {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidComplete", name: MRNotifications.SessionDidComplete.rawValue, object: objectId)
         }
         tableView.reloadData()
-        if let session = session where !session.completed && NSDate().timeIntervalSinceDate(session.start) < 24*60*60 {
-            // only show the spinner for not tool old session (in range of 1 day to current time)
-            showDataWaitingSpinner()
-        } else {
-            hideDataWaitingSpinner()
+        if let session = session where session.isDataAwaiting {
+            moveFocusToEndSession()
         }
     }
     
     override func viewDidLoad() {
-        addLabelBtn.enabled = session != nil && session?.end == nil
+        tableView.delegate = self
+        initView()
+        if addLabelBtn != nil {
+            addLabelBtn.enabled = session != nil && session!.isActive
+        }
         if let s = session {
             navbar.topItem!.title = "\(s.start.formatTime()) - \(s.exerciseModelId)"
         } else {
             navbar.topItem!.title = nil
         }
     }
-    
-    private func showDataWaitingSpinner() {
-        guard dataWaitingSpinner == nil else { return }
-        let spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
-        spinnerView.frame = CGRectMake(0, 0, 14, 14)
-        spinnerView.color = UIColor.blackColor()
-        dataWaitingSpinner = UIBarButtonItem(customView: spinnerView)
-        dataWaitingSpinner!.title = ""
-        sessionBar.setLeftBarButtonItems([dataWaitingSpinner!], animated: true)
-        (dataWaitingSpinner!.customView! as! UIActivityIndicatorView).startAnimating()
-    }
-    
-    private func hideDataWaitingSpinner() {
-        guard dataWaitingSpinner != nil else { return }
-        dataWaitingSpinner!.customView = nil
-    }
-    
+
     // MARK: notification callbacks
     
     func update() {
         tableView.reloadData()
+        moveFocusToEndSession()
     }
     
     func sessionDidEnd() {
-        addLabelBtn.enabled = false
+        if addLabelBtn != nil {
+            addLabelBtn.enabled = false
+        }
     }
     
     func sessionDidComplete() {
-        hideDataWaitingSpinner()
+        NSLog("session completed")
     }
     
     // MARK: Share & label
@@ -130,6 +153,21 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         }
     }
     
+    func numberOfExerciseRows() -> Int {
+        if let session = session, summary = session.summaryExercises where session.completed && summary.count > 0 {
+            return summary.count
+        }
+        let sizeCE = session?.classifiedExercises.count ?? 0
+        let sizeLE = session?.labelledExercises.count ?? 0
+        if (session == nil) {
+            return 0
+        } else if let session = session where session.isDataAwaiting {
+            return sizeCE + sizeLE + 1
+        } else {
+            return sizeCE + sizeLE
+        }
+    }
+
     /// check if a given classified exercise match a labelled exercise
     private func matchLabel(ce: MRManagedClassifiedExercise) -> Bool? {
         guard let session = session where session.labelledExercises.count > 0 else {
@@ -151,55 +189,114 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     // MARK: UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0: return "Classified Exercises"
-        case 1: return "Labels"
-        default: return nil
-        }
+        return numberOfExerciseRows()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0: return session?.classifiedExercises.count ?? 0
-        case 1: return session?.labelledExercises.count ?? 0
-        default: return 0
-        }
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 10.0
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 10.0
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 80
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case 0:
-            let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
-            let ce = session!.classifiedExercises.reverse()[indexPath.row] as! MRManagedClassifiedExercise
-            cell.textLabel!.text = ce.exerciseId
-            let weight = ce.weight.map { w in "\(NSString(format: "%.2f", w)) kg" } ?? ""
-            let intensity = ce.intensity.map { i in "Intensity: \(NSString(format: "%.2f", i))" } ?? ""
+        let position = indexPath.section
+        let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath) as! MRExerciseViewCell
+        cell.startLabel.text = ""
+        cell.exerciseIdLabel.text = ""
+        cell.detailLabel.text = ""
+        cell.durationLabel.text = ""
+        cell.verifiedImgView.image = nil
+        cell.layer.cornerRadius = 13.0
+        
+        guard let session = session else {
+            NSLog("Session is Nil ==> SHOULD NEVER HAPPEN")
+            return cell
+        }
+
+        if session.isDataAwaiting && position == numberOfExerciseRows() - 1 {
+            // draw the waiting spinner for the last row
+            let spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+            spinnerView.frame = CGRectMake(0, 0, 14, 14)
+            spinnerView.color = UIColor.blackColor()
+            cell.addSubview(spinnerView)
+            spinnerView.startAnimating()
+            spinnerView.center = CGPointMake(cell.frame.size.width / 2, 25)
+            tableView.rowHeight = 50
+            cell.layer.borderWidth = 0
+            cell.layer.borderColor = nil
+            cell.backgroundColor = nil
+            return cell
+        }
+        if let summary = session.summaryExercises where session.completed && summary.count > 0 {
+            let exercise = summary[position]
+            cell.exerciseIdLabel.text = exercise.exerciseId
+            cell.startLabel.text = exercise.start.formatTime()
+            cell.durationLabel.text = "\(NSString(format: "%.0f", exercise.duration))s"
+            cell.detailLabel.text = "SETS: \(exercise.sets) - REPS: \(exercise.repetitions)"
+            cell.layer.borderWidth = 2
+            cell.layer.borderColor = UIColor.blueColor().CGColor
+            return cell
+        }
+        cell.layer.borderWidth = 2
+        let filterCE = session.classifiedExercises.filter {element in
+            let exercise = element as! MRManagedClassifiedExercise
+            return exercise.indexView == position
+        }
+        if filterCE.count > 0 {
+            // display classified exercise
+            let ce = filterCE[0] as! MRManagedClassifiedExercise
+            cell.backgroundColor = UIColor.whiteColor()
+            cell.startLabel.text = "\(ce.start.formatTime())"
+            cell.exerciseIdLabel.text = ce.exerciseId
             let duration = "\(NSString(format: "%.0f", ce.duration))s"
             let repetitions = ce.repetitions.map { r in "x\(r)" } ?? ""
-            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(duration) - \(repetitions) - \(weight) - \(intensity)"
-            guard let imageView = cell.viewWithTag(10) as? UIImageView else { return cell }
+            cell.durationLabel.text = duration
+            cell.detailLabel.text = "Repetition: \(repetitions)"
+            tableView.rowHeight = 80
+            
+            cell.layer.borderColor = UIColor.blueColor().CGColor
             if let match = matchLabel(ce) {
-                imageView.image = UIImage(named: match ? "tick" : "miss")
+                if (!match) {
+                    cell.layer.borderColor = UIColor.redColor().CGColor
+                }
+                cell.verifiedImgView.image = UIImage(named: match ? "tick" : "miss")
             } else {
-                imageView.image = nil
+                cell.verifiedImgView.image = nil
             }
+            
             return cell
-        case 1:
-            let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
-            let le = session!.labelledExercises.reverse()[indexPath.row] as! MRManagedLabelledExercise
-            cell.textLabel!.text = le.exerciseId
-            let weight = "\(NSString(format: "%.2f", le.weight)) kg"
-            let intensity = "Intensity: \(NSString(format: "%.2f", le.intensity))"
+        } else {
+            let filterLE = session.labelledExercises.filter {element in
+                let exercise = element as! MRManagedLabelledExercise
+                return exercise.indexView == position
+            }
+            if filterLE.count == 0 {
+                NSLog("Cannot find indexView of exercise ==> SHOULD NEVER HAPPEN")
+                return cell
+            }
+            // display labelled exercise
+            let le = filterLE[0] as! MRManagedLabelledExercise
+            cell.backgroundColor = UIColor.whiteColor()
+            cell.startLabel.text = "\(le.start.formatTime())"
+            cell.exerciseIdLabel.text = le.exerciseId
             let duration = "\(NSString(format: "%.0f", le.end.timeIntervalSince1970 - le.start.timeIntervalSince1970))s"
             let repetitions = "x\(le.repetitions)"
-            cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(duration) - \(repetitions) - \(weight) - \(intensity)"
+            cell.durationLabel.text = duration
+            cell.detailLabel.text = "Repetition: \(repetitions)"
+            tableView.rowHeight = 80
+            
+            cell.layer.borderColor = UIColor.grayColor().CGColor
             return cell
-        default:
-            fatalError()
         }
     }
     

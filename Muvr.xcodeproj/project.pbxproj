@@ -124,6 +124,9 @@
 		647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */; };
 		6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */; };
 		64DC9FD71BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DC9FD61BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift */; };
+		9939819B1C0E0CF9005E6080 /* MRSummaryExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9939819A1C0E0CF9005E6080 /* MRSummaryExercise.swift */; };
+		9939819D1C0F3FEB005E6080 /* MRExerciseViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9939819C1C0F3FEB005E6080 /* MRExerciseViewCell.swift */; };
+		9997FAE61C11EDDC008E2CB5 /* MRManagedExerciseSession+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9997FAE51C11EDDC008E2CB5 /* MRManagedExerciseSession+Helper.swift */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
 		9D4A51491BE77BE70065BEF8 /* MKActivationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */; };
 		9D6D27AF1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27AE1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift */; };
@@ -359,6 +362,9 @@
 		647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoderTests.swift; sourceTree = "<group>"; };
 		6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+DateUtils.swift"; sourceTree = "<group>"; };
 		64DC9FD61BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+CountRequest.swift"; sourceTree = "<group>"; };
+		9939819A1C0E0CF9005E6080 /* MRSummaryExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSummaryExercise.swift; sourceTree = "<group>"; };
+		9939819C1C0F3FEB005E6080 /* MRExerciseViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseViewCell.swift; sourceTree = "<group>"; };
+		9997FAE51C11EDDC008E2CB5 /* MRManagedExerciseSession+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedExerciseSession+Helper.swift"; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
 		9D6D27AE1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKForwardPropagatorTests.swift; sourceTree = "<group>"; };
 		9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKActivationFunctions.swift; sourceTree = "<group>"; };
@@ -516,6 +522,7 @@
 				54706F6B1BD6D89F005BABF0 /* MRSessionsViewController.swift */,
 				54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */,
 				54706F6E1BD6E6D8005BABF0 /* MRLabelViewController.swift */,
+				9939819C1C0F3FEB005E6080 /* MRExerciseViewCell.swift */,
 				541ABBAA1AC577E00056A81B /* Images.xcassets */,
 				541ABBA71AC577E00056A81B /* Main.storyboard */,
 				541ABBAC1AC577E00056A81B /* LaunchScreen.xib */,
@@ -526,6 +533,7 @@
 				549A30081BDD0BC6006A70EB /* Muvr.xcdatamodeld */,
 				6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */,
 				64DC9FD61BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift */,
+				9939819A1C0E0CF9005E6080 /* MRSummaryExercise.swift */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -547,6 +555,7 @@
 				543C9A131BDD439B00291EC5 /* MRManagedLabelledExercise.swift */,
 				543C9A141BDD439B00291EC5 /* MRManagedClassifiedExercise+CoreDataProperties.swift */,
 				543C9A151BDD439B00291EC5 /* MRManagedClassifiedExercise.swift */,
+				9997FAE51C11EDDC008E2CB5 /* MRManagedExerciseSession+Helper.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1108,6 +1117,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				54EFE97B1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift in Sources */,
+				9939819D1C0F3FEB005E6080 /* MRExerciseViewCell.swift in Sources */,
 				543C9A1A1BDD439B00291EC5 /* MRManagedClassifiedExercise+CoreDataProperties.swift in Sources */,
 				FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */,
 				543C9A161BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift in Sources */,
@@ -1119,6 +1129,8 @@
 				549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
 				543C9A171BDD439B00291EC5 /* MRManagedExerciseSession.swift in Sources */,
+				9997FAE61C11EDDC008E2CB5 /* MRManagedExerciseSession+Helper.swift in Sources */,
+				9939819B1C0E0CF9005E6080 /* MRSummaryExercise.swift in Sources */,
 				54FD504E1BDBD27C0015771D /* MRSessionViewController.swift in Sources */,
 				6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */,
 				543C9A191BDD439B00291EC5 /* MRManagedLabelledExercise.swift in Sources */,

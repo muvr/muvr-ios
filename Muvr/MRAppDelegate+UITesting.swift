@@ -19,7 +19,7 @@ extension MRAppDelegate  {
         return ["arms/biceps-curl", "arms/triceps-extension", "shoulders/lateral-raise"]
     }
     
-    private func generateSessionData(date date: NSDate) {
+    private func generateSessionData(date date: NSDate, isCompleted: Bool) {
         
         func generateClassifiedExercise(date date: NSDate, session: MRManagedExerciseSession, index: Int) {
             let exercise = MRManagedClassifiedExercise.insertNewObject(inManagedObjectContext: managedObjectContext)
@@ -36,7 +36,7 @@ extension MRAppDelegate  {
         func generateLabelledExercise(date date: NSDate, session: MRManagedExerciseSession, index: Int) {
             let exercise = MRManagedLabelledExercise.insertNewObject(into: session, inManagedObjectContext: managedObjectContext)
             exercise.start = date.addSeconds(index * 60)
-            exercise.end = date.addSeconds(index * 60 + 30)
+            exercise.end = date.addSeconds(index * 60 + 15)
             exercise.exerciseId = exerciseIds()[index % 3]
             exercise.exerciseSession = session
             exercise.intensity = 1
@@ -49,6 +49,7 @@ extension MRAppDelegate  {
         session.id = NSUUID().UUIDString
         session.exerciseModelId = "arms"
         session.start = date
+        session.completed = isCompleted
         
         (0..<10).forEach { i in generateClassifiedExercise(date: date, session: session, index: i) }
         (0..<2).forEach { i in generateLabelledExercise(date: date, session: session, index: i) }
@@ -65,7 +66,11 @@ extension MRAppDelegate  {
     }
     
     private func generateData() {
-        getSessionDates().forEach(generateSessionData)
+        getSessionDates().forEach {date in
+            let today = NSDate()
+            let isToday = today.dateOnly.compare(date.dateOnly) == NSComparisonResult.OrderedSame
+            generateSessionData(date: date, isCompleted: !isToday)
+        }
         saveContext()
     }
 

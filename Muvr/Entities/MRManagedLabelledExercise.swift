@@ -11,6 +11,8 @@ import CoreData
 import MuvrKit
 
 class MRManagedLabelledExercise: NSManagedObject {
+    
+    var indexView: Int? = nil
 
     static func insertNewObject(into session: MRManagedExerciseSession, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedLabelledExercise {
         let mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedLabelledExercise", inManagedObjectContext: managedObjectContext) as! MRManagedLabelledExercise
