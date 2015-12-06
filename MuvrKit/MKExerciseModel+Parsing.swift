@@ -32,9 +32,12 @@ extension MKExerciseModel {
         guard let weightsPath = bundle.pathForResource("\(id)_model.weights", ofType: "raw") else {
             throw LoadError.MissingModelComponent(name: "\(id)_model.weights")
         }
-        
+        try self.init(layersPath: layersConfigurationPath, labelsPath: labelsPath, weightsPath: weightsPath)
+    }
+    
+    public init(layersPath: String, labelsPath: String, weightsPath: String) throws {
         // load the layer configuration
-        let layerConfiguration = try MKLayerConfiguration.parse(text: try! String(contentsOfFile: layersConfigurationPath, encoding: NSUTF8StringEncoding))
+        let layerConfiguration = try MKLayerConfiguration.parse(text: try! String(contentsOfFile: layersPath, encoding: NSUTF8StringEncoding))
         
         // load the labels
         let labels = try String(contentsOfFile: labelsPath, encoding: NSUTF8StringEncoding).componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
@@ -55,7 +58,6 @@ extension MKExerciseModel {
             sensorDataTypes: sensorDataTypes,
             exerciseIds: labels,
             minimumDuration: minimumDuration)
-
     }
     
     internal static func loadWeightsFromFile(path: String) -> [Float] {
