@@ -29,6 +29,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         return nil
     }
     
+    let cloudStorage = MRCloudStorage(storageAccess: MRS3StorageAccess())
+    
     ///
     /// Returns the index of a given session
     ///
@@ -61,7 +63,16 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         pageControlAppearance.currentPageIndicatorTintColor = UIColor.blackColor()
         pageControlAppearance.backgroundColor = UIColor.whiteColor()
         
-        MRCloudStorage().listObjects()
+        let cloudAccess = MRS3StorageAccess()
+        cloudAccess.listFiles("/test") { urls in
+            guard let urls = urls else { return }
+            urls.forEach { url in
+                NSLog("\(url)")
+                cloudAccess.downloadFile(url) { data in
+                    NSLog("\(url.lastPathComponent!) file downloaded (\(data!.length) bytes)")
+                }
+            }
+        }
     
         return true
     }

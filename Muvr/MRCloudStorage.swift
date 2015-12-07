@@ -2,98 +2,126 @@ import MuvrKit
 
 ///
 /// Load models from cloud storage
-/// and upload user data
-///
-/// Currently based on AWS S3
+/// and upload user sessions
 ///
 class MRCloudStorage {
-    
-    let algo = "AWS4-HMAC-SHA256"
-    let awsBucket = "muvr-user-data"
-    let awsRegion = "eu-west-1"
-    let awsService = "s3"
-    let awsHost = "muvr-user-data.s3.amazonaws.com"
-    
-    let accessKey = "AKIAIOSFODNN7EXAMPLE"
-    let secretKey = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-    
-    
-    private var _signingKey: MRHmacDigest?
-    private var _expirationDate: NSDate?
-    
-    private var signingKey: MRHmacDigest {
-        if _expirationDate == nil || NSDate().timeIntervalSinceDate(_expirationDate!) > 0 {
-            generateSigningKey()
-        }
-        return _signingKey!
-    }
-    
-    private func generateSigningKey() {
-        let now = NSDate(timeIntervalSinceNow: Double(NSTimeZone.localTimeZone().secondsFromGMT))
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "YYYYMMdd"
-        
-        let date = dateFormatter.stringFromDate(now)
-        let dateKey = date.digest(.SHA256, key :"AWS4\(secretKey)")
-        let dateRegionKey = awsRegion.digest(.SHA256, key : dateKey)
-        let dateRegionServiceKey = awsService.digest(.SHA256, key: dateRegionKey)
 
-        _signingKey = "aws4_request".digest(.SHA256, key: dateRegionServiceKey)
-        _expirationDate = NSDate(timeInterval: 7 * 24 * 60 * 60, sinceDate: now)
+    private var storageAccess: MRCloudStorageAccessProtocol
+    
+    init(storageAccess: MRCloudStorageAccessProtocol) {
+        self.storageAccess = storageAccess
     }
     
-    func createRequest(method method: String, params: [String:String]?, payload: NSData?) -> NSURLRequest {
-        let now = NSDate(timeIntervalSinceNow: Double(NSTimeZone.localTimeZone().secondsFromGMT))
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "YYYYMMdd"
-        let simpleDate = dateFormatter.stringFromDate(now)
-        
-        dateFormatter.dateFormat = "YYYYMMdd'T'HHmmss'Z'"
-        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-        let fullDate = dateFormatter.stringFromDate(now)
-        
-        var queryStr = ""
-        var url = "https://\(awsHost)"
-        if let params = params {
-            queryStr = params.map {k, v in return "k=v" }.sort().joinWithSeparator("&")
-            url += "?\(queryStr)"
+    ///
+    /// list models remotely available
+    ///
+    func listModels(contination: [MRExerciseModel] -> Void) {
+        storageAccess.listFiles("/models") { urls in
+            guard let urls = urls else { return }
+            let models = MRExerciseModel.latestModels(urls)
+            contination(Array(models.values))
         }
-        
-        let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-        let payload = payload ?? NSData()
-        let payloadDigest = MRDigestAlgorithm.SHA256.digest(payload.bytes, dataLength: payload.length)
-        let payloadHash = String(digest: payloadDigest)
-        request.HTTPMethod = method
-        request.setValue(awsHost, forHTTPHeaderField: "Host")
-        request.setValue("\(fullDate)", forHTTPHeaderField: "x-amz-date")
-        request.setValue("\(payloadHash)", forHTTPHeaderField: "x-amz-content-sha256")
-        
-        let scope = "\(simpleDate)/\(awsRegion)/\(awsService)/aws4_request"
-        let credential = "\(accessKey)/\(scope)"
-        let signedHeaders = "host;x-amz-content-sha256;x-amz-date"
-        let canonicalRequest = request.canonicalRequest(signedHeaders: signedHeaders, payloadHash: payloadHash)!
-        let canonicalRequestHash = String(strToHash: canonicalRequest, algo: .SHA256)
-        let stringToSign = "AWS4-HMAC-SHA256\n\(fullDate)\n\(scope)\n\(canonicalRequestHash)"
-        let signature = String(strToSign: stringToSign, algo: .SHA256, key: signingKey)
-        
-        request.setValue("\(algo) Credential=\(credential),SignedHeaders=\(signedHeaders),Signature=\(signature)", forHTTPHeaderField: "Authorization")
-        
-        return request
     }
     
-    func listObjects() {
-        let request = createRequest(method: "GET", params: nil, payload: nil)
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
-            print("data:")
-            if let data = data {
-                print(String(data: data, encoding: NSUTF8StringEncoding))
+    ///
+    /// download a given model
+    ///
+    func downloadModel(model: MRExerciseModel, continuation: MRExerciseModel -> Void) {
+        guard model.isComplete() else { return }
+        
+        var abort: Bool = false
+        var weightsUrl: NSURL? = nil
+        var layersUrl: NSURL? = nil
+        var labelsUrl: NSURL? = nil
+        
+        func processData(url: NSURL, data: NSData?) -> NSURL? {
+            guard let data = data, let filename = url.lastPathComponent where !abort else {
+                abort = true
+                cleanupTmpFiles([weightsUrl, layersUrl, labelsUrl].flatMap { return $0 } )
+                return nil
             }
-            print("response")
-            print(response)
-            print("error")
-            print(error)
+            return saveIntoTmpFile(filename, data: data)
         }
-        NSLog("\(request)")
-        task.resume()
+        
+        func checkCompletion() {
+            guard let weightsUrl = weightsUrl,
+                  let layersUrl = layersUrl,
+                  let labelsUrl = labelsUrl where !abort else { return }
+            let newModel = MRExerciseModel(id: model.id, version: model.version, labels: labelsUrl, layers: layersUrl, weights: weightsUrl)
+            continuation(newModel)
+        }
+        
+        storageAccess.downloadFile(model.weights!) { data in
+            weightsUrl = processData(model.weights!, data: data)
+            checkCompletion()
+        }
+        
+        storageAccess.downloadFile(model.layers!) { data in
+            layersUrl = processData(model.layers!, data: data)
+            checkCompletion()
+        }
+        
+        storageAccess.downloadFile(model.labels!) { data in
+            labelsUrl = processData(model.labels!, data: data)
+            checkCompletion()
+        }
     }
+    
+    private func cleanupTmpFiles(files: [NSURL]) {
+        let fileManager = NSFileManager.defaultManager()
+        for file in files {
+            do {
+                try fileManager.removeItemAtURL(file)
+            } catch {
+                // keep going
+            }
+        }
+    }
+    
+    private func saveIntoTmpFile(filename: String, data: NSData) -> NSURL? {
+        let fileManager = NSFileManager.defaultManager()
+        guard let tmpDir = fileManager.URLsForDirectory(NSSearchPathDirectory.DownloadsDirectory, inDomains: .UserDomainMask).first
+            else { return nil }
+        let url = tmpDir.URLByAppendingPathComponent(filename, isDirectory: false)
+        data.writeToURL(url, atomically: true)
+        return url
+    }
+    
+    ///
+    /// Upload a user session (json + csv files)
+    ///
+    func uploadSession(session: MRManagedExerciseSession, continuation: () -> Void) {
+        var csvUploaded = false
+        var jsonUploaded = false
+        
+        func checkCompletion() {
+            if csvUploaded && jsonUploaded {
+                continuation()
+            }
+        }
+        
+        // generate json file with session metadata and exercises
+        let output = NSOutputStream.outputStreamToMemory()
+        output.open()
+        let error = NSErrorPointer()
+        NSJSONSerialization.writeJSONObject(session.toJson(), toStream: output, options: [], error: error)
+        guard let jsonData = output.propertyForKey(NSStreamDataWrittenToMemoryStreamKey) as? NSData else { return }
+        
+        storageAccess.uploadFile("/sessions/\(session.id)_\(session.exerciseModelId).json", data: jsonData) {
+            jsonUploaded = true
+            checkCompletion()
+        }
+        
+        // generate CSV file with sensor data
+        guard let data = session.sensorData,
+              let labelledExercises = session.labelledExercises.allObjects as? [MRManagedLabelledExercise],
+              let sensorData = try? MKSensorData(decoding: data) else { return }
+        let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
+        storageAccess.uploadFile("/sessions/\(session.id)_\(session.exerciseModelId).csv", data: csvData) {
+            csvUploaded = true
+            checkCompletion()
+        }
+    }
+    
 }
+

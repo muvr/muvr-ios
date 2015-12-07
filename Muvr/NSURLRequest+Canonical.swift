@@ -16,13 +16,4 @@ extension NSURLRequest {
         return "\(method)\n\(fullPath)\n\(query)\n\(headers)\n\n\(signedHeaders)\n\(payloadHash)"
     }
     
-    var payload: String {
-        var payload = ""
-        if let body = self.HTTPBody,
-           let bodyStr = String(data: body, encoding: NSUTF8StringEncoding) {
-            payload = bodyStr
-        }
-        return payload
-    }
-    
 }

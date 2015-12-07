@@ -109,13 +109,17 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     /// share the CSV session data
     @IBAction func shareCSV() {
-        if let data = session?.sensorData,
-            let sessionId = session?.id,
-            let labelledExercises = session?.labelledExercises.allObjects as? [MRManagedLabelledExercise],
-            let exerciseModel = session?.exerciseModelId,
-            let sensorData = try? MKSensorData(decoding: data) {
-                let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
-                share(csvData, fileName: "\(exerciseModel)_\(sessionId).csv")
+//        if let data = session?.sensorData,
+//            let sessionId = session?.id,
+//            let labelledExercises = session?.labelledExercises.allObjects as? [MRManagedLabelledExercise],
+//            let exerciseModel = session?.exerciseModelId,
+//            let sensorData = try? MKSensorData(decoding: data) {
+//                let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
+//                share(csvData, fileName: "\(exerciseModel)_\(sessionId).csv")
+//        }
+        guard let session = session else { return }
+        MRAppDelegate.sharedDelegate().cloudStorage.uploadSession(session) {
+            NSLog("SESSION UPLOADED")
         }
     }
     
