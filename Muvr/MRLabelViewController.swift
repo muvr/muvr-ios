@@ -20,7 +20,7 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         if let session = session {
-            exerciseList = MRAppDelegate.sharedDelegate().exerciseIds(model: session.exerciseModelId)
+            exerciseList = MRAppDelegate.sharedDelegate().modelStore.exerciseIds(model: session.exerciseModelId)
         }
         autocompleteTableView.delegate = self
         autocompleteTableView.dataSource = self

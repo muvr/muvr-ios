@@ -13,42 +13,17 @@ class MRS3StorageAccess: MRCloudStorageAccessProtocol {
     let awsRegion = "eu-west-1"
     let awsService = "s3"
     let awsHost = "muvr-user-data.s3.amazonaws.com"
-
-    let accessKey = "AKIAIOSFODNN7EXAMPLE"
-    let secretKey = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+    let accessKey: String
+    let awsKey: AWSKey
     
-    
-    // do not use these properties directly
-    // instead used the computed property ``signingKey``
-    private var _signingKey: MRHmacDigest?
-    private var _expirationDate: NSDate?
-    
-    // makes sure the signing key is not expired
-    private var signingKey: MRHmacDigest {
-        if _expirationDate == nil || NSDate().timeIntervalSinceDate(_expirationDate!) > 0 {
-            generateSigningKey()
-        }
-        return _signingKey!
-    }
-    
-    // generates a valid signing key from the secret key
-    private func generateSigningKey() {
-        let now = NSDate(timeIntervalSinceNow: Double(NSTimeZone.localTimeZone().secondsFromGMT))
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "YYYYMMdd"
-        
-        let date = dateFormatter.stringFromDate(now)
-        let dateKey = date.digest(.SHA256, key :"AWS4\(secretKey)")
-        let dateRegionKey = awsRegion.digest(.SHA256, key : dateKey)
-        let dateRegionServiceKey = awsService.digest(.SHA256, key: dateRegionKey)
-        
-        _signingKey = "aws4_request".digest(.SHA256, key: dateRegionServiceKey)
-        _expirationDate = NSDate(timeInterval: 7 * 24 * 60 * 60, sinceDate: now.dateOnly)
+    init(accessKey: String, secretKey: String) {
+        self.accessKey = accessKey
+        self.awsKey = AWSKey(secret: secretKey, region: awsRegion, service: awsService)
     }
     
     // create an HTTP request with the provided data
-    private func createRequest(method method: String, path: String, params: [String:String]? = nil, payload: NSData? = nil) -> NSURLRequest {
-        let now = NSDate(timeIntervalSinceNow: Double(NSTimeZone.localTimeZone().secondsFromGMT))
+    internal func createRequest(method method: String, path: String, params: [String:String]? = nil, payload: NSData? = nil, date: NSDate? = nil, signingKey: MRHmacDigest? = nil) -> NSURLRequest {
+        let now = date ?? NSDate(timeIntervalSinceNow: Double(NSTimeZone.localTimeZone().secondsFromGMT))
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "YYYYMMdd"
         let simpleDate = dateFormatter.stringFromDate(now)
@@ -86,7 +61,7 @@ class MRS3StorageAccess: MRCloudStorageAccessProtocol {
         let canonicalRequest = request.canonicalRequest(signedHeaders: signedHeaders, payloadHash: payloadHash)!
         let canonicalRequestHash = String(strToHash: canonicalRequest, algo: .SHA256)
         let stringToSign = "AWS4-HMAC-SHA256\n\(fullDate)\n\(scope)\n\(canonicalRequestHash)"
-        let signature = String(strToSign: stringToSign, algo: .SHA256, key: signingKey)
+        let signature = String(strToSign: stringToSign, algo: .SHA256, key: signingKey ?? self.awsKey.signingKey)
         
         request.setValue("\(algo) Credential=\(credential),SignedHeaders=\(signedHeaders),Signature=\(signature)", forHTTPHeaderField: "Authorization")
         
@@ -103,7 +78,7 @@ class MRS3StorageAccess: MRCloudStorageAccessProtocol {
             prefix = prefix.substringFromIndex(prefix.startIndex.successor())
         }
         
-        let request = createRequest(method: "GET", path: "/", params: ["delimiter": "/", "prefix": prefix], payload: nil)
+        let request = createRequest(method: "GET", path: "/", params: ["delimiter": "/", "prefix": prefix])
         
         // send request
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
@@ -188,6 +163,45 @@ class MRS3StorageAccess: MRCloudStorageAccessProtocol {
             return
         }
         downloadFile(path, continuation: continuation)
+    }
+}
+
+class AWSKey {
+    
+    let secret: String
+    let region: String
+    let service: String
+    private var key: MRHmacDigest?
+    private var expiration: NSDate?
+    
+    var signingKey: MRHmacDigest {
+        if expiration == nil || NSDate().timeIntervalSinceDate(expiration!) > 0 {
+            let now = NSDate(timeIntervalSinceNow: Double(NSTimeZone.localTimeZone().secondsFromGMT))
+            let (key, expiration) = generateKey(now)
+            self.key = key
+            self.expiration = expiration
+        }
+        return self.key!
+    }
+    
+    init(secret: String, region: String, service: String) {
+        self.secret = secret
+        self.region = region
+        self.service = service
+    }
+    
+    func generateKey(onDate: NSDate) -> (MRHmacDigest, NSDate) {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "YYYYMMdd"
+        
+        let date = dateFormatter.stringFromDate(onDate)
+        let dateKey = date.digest(.SHA256, key :"AWS4\(secret)")
+        let dateRegionKey = region.digest(.SHA256, key : dateKey)
+        let dateRegionServiceKey = service.digest(.SHA256, key: dateRegionKey)
+        
+        let signingKey = "aws4_request".digest(.SHA256, key: dateRegionServiceKey)
+        let expirationDate = onDate.dateOnly.addDays(7)
+        return (signingKey, expirationDate)
     }
 }
 

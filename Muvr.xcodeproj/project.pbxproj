@@ -128,6 +128,9 @@
 		6450A5E81C11DA8B009D4ADC /* MRS3StorageAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5E71C11DA8B009D4ADC /* MRS3StorageAccess.swift */; };
 		6450A5EB1C11DCF7009D4ADC /* MRCloudStorageAccessProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5EA1C11DCF7009D4ADC /* MRCloudStorageAccessProtocol.swift */; };
 		6450A5ED1C11ECE7009D4ADC /* MRManagedExerciseSession+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5EC1C11ECE7009D4ADC /* MRManagedExerciseSession+JSON.swift */; };
+		6450A5FC1C158B1B009D4ADC /* MuvrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5FB1C158B1B009D4ADC /* MuvrTests.swift */; };
+		6450A60E1C15C842009D4ADC /* MRDigestAlgorithmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A60D1C15C842009D4ADC /* MRDigestAlgorithmTest.swift */; };
+		6450A6101C15C886009D4ADC /* MRS3StorageAccessTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A60F1C15C886009D4ADC /* MRS3StorageAccessTest.swift */; };
 		64655B7D1C04D08400CFC763 /* MRSessionHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */; };
 		64655B7F1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */; };
 		647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */; };
@@ -183,6 +186,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 54A776131BB8149E001586DD;
 			remoteInfo = "MuvrKit Watch";
+		};
+		6450A5FE1C158B1B009D4ADC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 541ABB961AC577E00056A81B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 541ABB9D1AC577E00056A81B;
+			remoteInfo = Muvr;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -374,6 +384,11 @@
 		6450A5E71C11DA8B009D4ADC /* MRS3StorageAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRS3StorageAccess.swift; sourceTree = "<group>"; };
 		6450A5EA1C11DCF7009D4ADC /* MRCloudStorageAccessProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRCloudStorageAccessProtocol.swift; sourceTree = "<group>"; };
 		6450A5EC1C11ECE7009D4ADC /* MRManagedExerciseSession+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedExerciseSession+JSON.swift"; sourceTree = "<group>"; };
+		6450A5F91C158B1B009D4ADC /* MuvrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MuvrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6450A5FB1C158B1B009D4ADC /* MuvrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuvrTests.swift; sourceTree = "<group>"; };
+		6450A5FD1C158B1B009D4ADC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6450A60D1C15C842009D4ADC /* MRDigestAlgorithmTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDigestAlgorithmTest.swift; sourceTree = "<group>"; };
+		6450A60F1C15C886009D4ADC /* MRS3StorageAccessTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRS3StorageAccessTest.swift; sourceTree = "<group>"; };
 		64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionHealth.swift; sourceTree = "<group>"; };
 		64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRWorkoutSessionDelegate.swift; sourceTree = "<group>"; };
 		647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoderTests.swift; sourceTree = "<group>"; };
@@ -448,6 +463,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6450A5F61C158B1B009D4ADC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -505,6 +527,7 @@
 				54A48AD71BA474F300F4A81B /* Watch Extension */,
 				54A775F71BB81467001586DD /* MuvrKit */,
 				546E685A1BB98D0800DC0FEF /* MuvrKitTests */,
+				6450A5FA1C158B1B009D4ADC /* MuvrTests */,
 				541ABB9F1AC577E00056A81B /* Products */,
 				87E693A6B954E9533DB1FC04 /* Pods */,
 				288CCE5D5AB7F6FBE827B7C7 /* Frameworks */,
@@ -521,6 +544,7 @@
 				54A7761C1BB8149E001586DD /* MuvrKit.framework */,
 				546E68591BB98D0800DC0FEF /* MuvrKitTests.xctest */,
 				5450C29E1BC3FFF100B257E7 /* MuvrUITests.xctest */,
+				6450A5F91C158B1B009D4ADC /* MuvrTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -784,6 +808,17 @@
 			name = Cloud;
 			sourceTree = "<group>";
 		};
+		6450A5FA1C158B1B009D4ADC /* MuvrTests */ = {
+			isa = PBXGroup;
+			children = (
+				6450A5FB1C158B1B009D4ADC /* MuvrTests.swift */,
+				6450A60D1C15C842009D4ADC /* MRDigestAlgorithmTest.swift */,
+				6450A60F1C15C886009D4ADC /* MRS3StorageAccessTest.swift */,
+				6450A5FD1C158B1B009D4ADC /* Info.plist */,
+			);
+			path = MuvrTests;
+			sourceTree = "<group>";
+		};
 		87E693A6B954E9533DB1FC04 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -947,6 +982,24 @@
 			productReference = 54A7761C1BB8149E001586DD /* MuvrKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		6450A5F81C158B1B009D4ADC /* MuvrTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6450A6001C158B1B009D4ADC /* Build configuration list for PBXNativeTarget "MuvrTests" */;
+			buildPhases = (
+				6450A5F51C158B1B009D4ADC /* Sources */,
+				6450A5F61C158B1B009D4ADC /* Frameworks */,
+				6450A5F71C158B1B009D4ADC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6450A5FF1C158B1B009D4ADC /* PBXTargetDependency */,
+			);
+			name = MuvrTests;
+			productName = MuvrTests;
+			productReference = 6450A5F91C158B1B009D4ADC /* MuvrTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -955,7 +1008,7 @@
 			attributes = {
 				CLASSPREFIX = MR;
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Muvr;
 				TargetAttributes = {
@@ -998,6 +1051,10 @@
 					54A776131BB8149E001586DD = {
 						DevelopmentTeam = K5TCBGB2PR;
 					};
+					6450A5F81C158B1B009D4ADC = {
+						CreatedOnToolsVersion = 7.1.1;
+						TestTargetID = 541ABB9D1AC577E00056A81B;
+					};
 				};
 			};
 			buildConfigurationList = 541ABB991AC577E00056A81B /* Build configuration list for PBXProject "Muvr" */;
@@ -1020,6 +1077,7 @@
 				54A776131BB8149E001586DD /* MuvrKit Watch */,
 				546E68581BB98D0800DC0FEF /* MuvrKitTests */,
 				5450C29D1BC3FFF100B257E7 /* MuvrUITests */,
+				6450A5F81C158B1B009D4ADC /* MuvrTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1086,6 +1144,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		54A776181BB8149E001586DD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6450A5F71C158B1B009D4ADC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1276,6 +1341,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6450A5F51C158B1B009D4ADC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6450A5FC1C158B1B009D4ADC /* MuvrTests.swift in Sources */,
+				6450A6101C15C886009D4ADC /* MRS3StorageAccessTest.swift in Sources */,
+				6450A60E1C15C842009D4ADC /* MRDigestAlgorithmTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1308,6 +1383,11 @@
 			isa = PBXTargetDependency;
 			target = 54A776131BB8149E001586DD /* MuvrKit Watch */;
 			targetProxy = 54A776231BB81562001586DD /* PBXContainerItemProxy */;
+		};
+		6450A5FF1C158B1B009D4ADC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 541ABB9D1AC577E00056A81B /* Muvr */;
+			targetProxy = 6450A5FE1C158B1B009D4ADC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1820,6 +1900,36 @@
 			};
 			name = Release;
 		};
+		6450A6011C158B1B009D4ADC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = MuvrTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Muvr.MuvrTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Muvr.app/Muvr";
+			};
+			name = Debug;
+		};
+		6450A6021C158B1B009D4ADC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = MuvrTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Muvr.MuvrTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Muvr.app/Muvr";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1891,6 +2001,15 @@
 			buildConfigurations = (
 				54A7761A1BB8149E001586DD /* Debug */,
 				54A7761B1BB8149E001586DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6450A6001C158B1B009D4ADC /* Build configuration list for PBXNativeTarget "MuvrTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6450A6011C158B1B009D4ADC /* Debug */,
+				6450A6021C158B1B009D4ADC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

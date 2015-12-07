@@ -2,6 +2,17 @@ import Foundation
 
 extension NSURLRequest {
 
+    ///
+    /// Returns the canonical request string for this NSURLRequest
+    /// Canonical request is composed of:
+    /// ```
+    /// HTTP method
+    /// path
+    /// headers (\n separated)
+    /// 
+    /// signed headers names (;separated)
+    /// payload hash
+    /// ```
     func canonicalRequest(signedHeaders signedHeaders: String, payloadHash: String) -> String? {
         guard let method = self.HTTPMethod,
               let path = self.URL?.path,

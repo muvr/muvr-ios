@@ -10,17 +10,16 @@ enum MRNotifications : String {
 }
 
 @UIApplicationMain
-class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, MKSessionClassifierDelegate {
+class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDelegate {
     
     var window: UIWindow?
     
-    enum AppError: ErrorType {
-        case MissingClassificationModel(model: String)
-    }
-    
+    let cloudStorage = MRCloudStorage(
+        storageAccess: MRS3StorageAccess(accessKey: "AKIAIOSFODNN7EXAMPLE", secretKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY")
+    )
+    let modelStore: MRExerciseModelStore = MRExerciseModelStore()
     private var connectivity: MKConnectivity!
     private var classifier: MKSessionClassifier!
-    private let modelStore: MRExerciseModelStore = MRExerciseModelStore()
     private var sessions: [MRManagedExerciseSession] = []
     internal var currentSession: MRManagedExerciseSession? {
         for (session) in sessions where session.end == nil {
@@ -28,8 +27,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         }
         return nil
     }
-    
-    let cloudStorage = MRCloudStorage(storageAccess: MRS3StorageAccess())
     
     ///
     /// Returns the index of a given session
@@ -47,7 +44,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // set up the classification and connectivity
-        classifier = MKSessionClassifier(exerciseModelSource: self, delegate: self)
+        classifier = MKSessionClassifier(exerciseModelSource: modelStore, delegate: self)
         connectivity = MKConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
         
         authorizeHealthKit()
@@ -63,17 +60,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
         pageControlAppearance.currentPageIndicatorTintColor = UIColor.blackColor()
         pageControlAppearance.backgroundColor = UIColor.whiteColor()
         
-        let cloudAccess = MRS3StorageAccess()
-        cloudAccess.listFiles("/test") { urls in
-            guard let urls = urls else { return }
-            urls.forEach { url in
-                NSLog("\(url)")
-                cloudAccess.downloadFile(url) { data in
-                    NSLog("\(url.lastPathComponent!) file downloaded (\(data!.length) bytes)")
-                }
-            }
-        }
-    
         return true
     }
     
@@ -106,20 +92,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     
     func applicationWillResignActive(application: UIApplication) {
         application.idleTimerDisabled = false
-    }
-
-    func getExerciseModel(id id: MKExerciseModelId) throws -> MKExerciseModel {
-        // setup the classifier
-        guard let model = modelStore.models[id],
-              let layersPath = model.layers?.path,
-              let labelsPath = model.labels?.path,
-              let weightsPath = model.weights?.path else { throw AppError.MissingClassificationModel(model: id) }
-        return try MKExerciseModel(layersPath: layersPath, labelsPath: labelsPath, weightsPath: weightsPath)
-    }
-    
-    func exerciseIds(model id: MKExerciseModelId) -> [MKExerciseId] {
-        let model = try? getExerciseModel(id: id)
-        return model?.exerciseIds ?? []
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {

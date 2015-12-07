@@ -10,6 +10,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addLabelBtn: UIBarButtonItem!
+    @IBOutlet weak var shareCSVBtn: UIBarButtonItem!
     @IBOutlet weak var navbar: UINavigationBar!
     @IBOutlet var sessionBar: UINavigationItem!
     
@@ -24,25 +25,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     ///
     func setSession(session: MRManagedExerciseSession) {
         self.session = session
-    }
-    
-    ///
-    /// Find an activity to share the give file
-    ///
-    func share(data: NSData, fileName: String) {
-        let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
-        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent(fileName)
-        if data.writeToURL(fileUrl, atomically: true) {
-            let controller = UIActivityViewController(activityItems: [fileUrl], applicationActivities: nil)
-            let excludedActivities = [UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,
-                UIActivityTypePostToWeibo, UIActivityTypeMessage, UIActivityTypeMail,
-                UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
-                UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr,
-                UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo]
-            controller.excludedActivityTypes = excludedActivities
-            
-            presentViewController(controller, animated: true, completion: nil)
-        }
     }
     
     // MARK: UIViewController
@@ -68,6 +50,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         addLabelBtn.enabled = session != nil && session?.end == nil
+        shareCSVBtn.enabled = session?.sensorData?.length > 0
         if let s = session {
             navbar.topItem!.title = "\(s.start.formatTime()) - \(s.exerciseModelId)"
         } else {
@@ -94,6 +77,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     // MARK: notification callbacks
     
     func update() {
+        shareCSVBtn.enabled = session?.sensorData?.length > 0
         tableView.reloadData()
     }
     
@@ -109,17 +93,24 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     /// share the CSV session data
     @IBAction func shareCSV() {
-//        if let data = session?.sensorData,
-//            let sessionId = session?.id,
-//            let labelledExercises = session?.labelledExercises.allObjects as? [MRManagedLabelledExercise],
-//            let exerciseModel = session?.exerciseModelId,
-//            let sensorData = try? MKSensorData(decoding: data) {
-//                let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
-//                share(csvData, fileName: "\(exerciseModel)_\(sessionId).csv")
-//        }
         guard let session = session else { return }
+        
+        let spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+        spinnerView.frame = CGRectMake(0, 0, 14, 14)
+        spinnerView.color = UIColor.blackColor()
+        let dataWaitingSpinner = UIBarButtonItem(customView: spinnerView)
+        dataWaitingSpinner.title = ""
+        sessionBar.setRightBarButtonItems([addLabelBtn, dataWaitingSpinner], animated: false)
+        (dataWaitingSpinner.customView! as! UIActivityIndicatorView).startAnimating()
+        
+        // make sure to keep a ref to the share Btn
+        let shareBtn = shareCSVBtn
         MRAppDelegate.sharedDelegate().cloudStorage.uploadSession(session) {
             NSLog("SESSION UPLOADED")
+            dispatch_async(dispatch_get_main_queue(), {
+                self.shareCSVBtn = shareBtn
+                self.sessionBar.setRightBarButtonItems([self.addLabelBtn, self.shareCSVBtn], animated: false)
+            })
         }
     }
     

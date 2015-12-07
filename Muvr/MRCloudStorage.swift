@@ -107,7 +107,7 @@ class MRCloudStorage {
         NSJSONSerialization.writeJSONObject(session.toJson(), toStream: output, options: [], error: error)
         guard let jsonData = output.propertyForKey(NSStreamDataWrittenToMemoryStreamKey) as? NSData else { return }
         
-        storageAccess.uploadFile("/sessions/\(session.id)_\(session.exerciseModelId).json", data: jsonData) {
+        storageAccess.uploadFile("/test/\(session.id)_\(session.exerciseModelId).json", data: jsonData) {
             jsonUploaded = true
             checkCompletion()
         }
@@ -117,7 +117,7 @@ class MRCloudStorage {
               let labelledExercises = session.labelledExercises.allObjects as? [MRManagedLabelledExercise],
               let sensorData = try? MKSensorData(decoding: data) else { return }
         let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
-        storageAccess.uploadFile("/sessions/\(session.id)_\(session.exerciseModelId).csv", data: csvData) {
+        storageAccess.uploadFile("/test/\(session.id)_\(session.exerciseModelId).csv", data: csvData) {
             csvUploaded = true
             checkCompletion()
         }

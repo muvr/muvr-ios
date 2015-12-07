@@ -3,9 +3,17 @@ import MuvrKit
 ///
 /// Takes care of loading models from files by looking into the ``Application Support`` folder
 ///
-public class MRExerciseModelStore {
+public class MRExerciseModelStore: MKExerciseModelSource {
+    
+    enum ExerciseModelStoreError: ErrorType {
+        case MissingClassificationModel(model: String)
+    }
 
     private(set) var models: [MKExerciseModelId:MRExerciseModel]
+    
+    var modelIds: [MKExerciseModelId] {
+        return Array(models.keys)
+    }
     
     public init() {
         let bundledModels = MRExerciseModelStore.bundledModels()
@@ -77,5 +85,29 @@ public class MRExerciseModelStore {
         
         return newModel
     }
+    
+    ///
+    /// Returns the ``MKExerciseModel`` for the requested id
+    /// throws ``MissingClassificationModel`` error when the requested model is not found
+    ///
+    public func getExerciseModel(id id: MKExerciseModelId) throws -> MKExerciseModel {
+        // setup the classifier
+        guard let model = models[id],
+            let layersPath = model.layers?.path,
+            let labelsPath = model.labels?.path,
+            let weightsPath = model.weights?.path
+            else { throw ExerciseModelStoreError.MissingClassificationModel(model: id)
+        }
+        return try MKExerciseModel(layersPath: layersPath, labelsPath: labelsPath, weightsPath: weightsPath)
+    }
+    
+    /// 
+    /// Returns the list of exercises available in a given model
+    ///
+    func exerciseIds(model id: MKExerciseModelId) -> [MKExerciseId] {
+        let model = try? getExerciseModel(id: id)
+        return model?.exerciseIds ?? []
+    }
+    
     
 }
