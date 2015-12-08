@@ -11,7 +11,10 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
         return MRWorkoutSessionDelegate()
     }()
     
-    private(set) internal var exerciseModelMetadata: [MKExerciseModelMetadata] = []
+    /// Used to persist the sessions in case of app shut down before session stopped
+    private static let fileUrl = "\(NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!)/models.json"
+    
+    private(set) internal var exerciseModelMetadata: [MKExerciseModelMetadata] = MRExtensionDelegate.loadModelsMetadata()
 
     ///
     /// Convenience method that returns properly typed reference to this instance
@@ -87,6 +90,37 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
 
     func metadataConnectivityDidReceiveExerciseModelMetadata(exerciseModelMetadata: [MKExerciseModelMetadata]) {
         self.exerciseModelMetadata = exerciseModelMetadata
+        MRExtensionDelegate.saveModelsMetadata(exerciseModelMetadata)
+    }
+    
+    static func loadModelsMetadata() -> [MKExerciseModelMetadata] {
+        if let data = NSFileManager.defaultManager().contentsAtPath(MRExtensionDelegate.fileUrl) {
+            do {
+                let jsonObj = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as? [String: String]
+                if let jsonObj = jsonObj {
+                    let models = jsonObj.map { (id, name) -> MKExerciseModelMetadata in return (id, name) }
+                    NSLog("Loaded \(models.count) models")
+                    return models
+                }
+            } catch let error {
+                NSLog("Error while deserializing models metadata : \(error)")
+            }
+        }
+        return []
+    }
+    
+    static func saveModelsMetadata(models: [MKExerciseModelMetadata]) {
+        let jsonObj = NSMutableDictionary()
+        models.forEach { id, name in
+            jsonObj[id] = name
+        }
+        do {
+            let data = try NSJSONSerialization.dataWithJSONObject(jsonObj, options:NSJSONWritingOptions(rawValue: 0))
+            data.writeToFile(MRExtensionDelegate.fileUrl, atomically: true)
+            NSLog("Saved \(models.count) models")
+        } catch let error {
+            NSLog("Error while serializing models metadata : \(error)")
+        }
     }
 
 }

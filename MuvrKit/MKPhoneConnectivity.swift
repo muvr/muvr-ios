@@ -100,4 +100,12 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         }
     }
     
+    public func sendModelsMetadata(models: [MKExerciseModelMetadata]) {
+        var metadata = Dictionary<String, AnyObject>()
+        models.forEach { id, name in
+            metadata[id] = name
+        }
+        WCSession.defaultSession().transferUserInfo(metadata)
+    }
+    
 }

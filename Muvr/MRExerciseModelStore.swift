@@ -12,8 +12,11 @@ class MRExerciseModelStore: MKExerciseModelSource {
     private let storage: MRCloudStorage
     private(set) var models: [MKExerciseModelId:MRExerciseModel]
     
-    var modelIds: [MKExerciseModelId] {
-        return Array(models.keys)
+    var modelsMetadata: [MKExerciseModelMetadata] {
+        return models.keys.flatMap { id in
+            guard id != "slacking" else { return nil }
+            return (id, id.capitalizedString)
+        }
     }
     
     private static var supportDir: NSURL? {

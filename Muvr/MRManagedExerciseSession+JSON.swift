@@ -2,7 +2,7 @@ import Foundation
 
 extension MRManagedClassifiedExercise {
     
-    func toJson() -> NSDictionary {
+    var json: NSDictionary {
         let d = NSMutableDictionary()
         d["start"] = start.utcString
         d["end"] = NSDate(timeInterval: duration, sinceDate: start).utcString
@@ -18,7 +18,7 @@ extension MRManagedClassifiedExercise {
 
 extension MRManagedLabelledExercise {
     
-    func toJson() -> NSDictionary {
+    var json: NSDictionary {
         let d = NSMutableDictionary()
         d["start"] = start.utcString
         d["end"] = end.utcString
@@ -33,7 +33,7 @@ extension MRManagedLabelledExercise {
 
 extension MRManagedExerciseSession {
 
-    func toJson() -> NSDictionary {
+    var json: NSDictionary {
         let d = NSMutableDictionary()
         d["id"] = id
         d["start"] = start.utcString
@@ -41,10 +41,10 @@ extension MRManagedExerciseSession {
         d["model"] = exerciseModelId
         d["completed"] = completed ? 1 : 0
         if let exercises = classifiedExercises.allObjects as? [MRManagedClassifiedExercise] {
-            d["classifiedExercises"] = exercises.map { return $0.toJson() }
+            d["classifiedExercises"] = exercises.map { return $0.json }
         }
         if let exercises = labelledExercises.allObjects as? [MRManagedLabelledExercise] {
-            d["labelledExercises"] = exercises.map { return $0.toJson() }
+            d["labelledExercises"] = exercises.map { return $0.json }
         }
         return d
     }

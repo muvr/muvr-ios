@@ -212,6 +212,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     private var sessions = MKConnectivitySessions()
     // the transfer queue
     private let transferQueue = dispatch_queue_create("io.muvr.transferQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0))
+    // the delegate to handle ExerciseModelMetadata
+    private let delegate: MKMetadataConnectivityDelegate
     
     public var sessionsCount: Int { get {
             return sessions.count
@@ -229,6 +231,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         // TODO: Check whether the watch is on the left or right wrist. For now, assume left.
         recordedTypes = [.Accelerometer(location: .LeftWrist)]
         dimension = recordedTypes.reduce(0) { r, t in return t.dimension + r }
+        self.delegate = delegate
         
         super.init()
         WCSession.defaultSession().delegate = self
@@ -291,6 +294,17 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 self.onFileTransferDone = nil
             }
         }
+    }
+    
+    ///
+    /// Called when phone sends new model ids
+    ///
+    public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
+        let models = userInfo.map { (id, name) -> MKExerciseModelMetadata in
+            guard let name = name as? String else { return (id, id) }
+            return (id, name)
+        }
+        delegate.metadataConnectivityDidReceiveExerciseModelMetadata(models)
     }
     
     ///

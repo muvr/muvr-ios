@@ -85,7 +85,7 @@ class MRCloudStorage {
         let output = NSOutputStream.outputStreamToMemory()
         output.open()
         let error = NSErrorPointer()
-        NSJSONSerialization.writeJSONObject(session.toJson(), toStream: output, options: [], error: error)
+        NSJSONSerialization.writeJSONObject(session.json, toStream: output, options: [], error: error)
         guard let jsonData = output.propertyForKey(NSStreamDataWrittenToMemoryStreamKey) as? NSData else { return }
         
         storageAccess.uploadFile("/sessions/\(session.id)_\(session.exerciseModelId).json", data: jsonData) {
