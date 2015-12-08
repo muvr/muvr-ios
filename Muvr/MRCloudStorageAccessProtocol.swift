@@ -28,10 +28,10 @@ protocol MRCloudStorageAccessProtocol {
     ///
     /// download the remote file pointed by ``path``
     ///
-    func downloadFile(path: String, continuation: NSData? -> Void)
+    func downloadFile(path: String, continuation: NSURL? -> Void)
     ///
     /// download the remote file pointed by ``url``
     ///
-    func downloadFile(url: NSURL, continuation: NSData? -> Void)
+    func downloadFile(url: NSURL, continuation: NSURL? -> Void)
     
 }

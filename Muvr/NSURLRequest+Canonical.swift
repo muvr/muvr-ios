@@ -18,7 +18,15 @@ extension NSURLRequest {
               let path = self.URL?.path,
               let headerFields = self.allHTTPHeaderFields else { return nil }
         
-        let query = self.URL?.query ?? ""
+        /// fix the query string (alphabetical sort + / escaping)
+        func fixQueryString(queryStr: String) -> String {
+            // query string parameters need to be sorted alphabetically
+            let params = queryStr.characters.split { return $0 == "&" }.map { return String($0) }.sort()
+            // ``/`` character is not escaped automatically so replace it with ``%2f``
+            return params.joinWithSeparator("&").stringByReplacingOccurrencesOfString("/", withString: "%2F")
+        }
+    
+        let query = fixQueryString(self.URL?.query ?? "")
         let fullPath = path.isEmpty ? "/" : path
         let headers = headerFields.map { (header, value) in
             return "\(header.lowercaseString):\(value)"

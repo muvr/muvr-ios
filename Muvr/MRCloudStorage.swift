@@ -15,76 +15,57 @@ class MRCloudStorage {
     ///
     /// list models remotely available
     ///
-    func listModels(contination: [MRExerciseModel] -> Void) {
-        storageAccess.listFiles("/models") { urls in
-            guard let urls = urls else { return }
+    func listModels(continuation: [MRExerciseModel]? -> Void) {
+        storageAccess.listFiles("/models/") { urls in
+            guard let urls = urls else {
+                continuation(nil)
+                return
+            }
             let models = MRExerciseModel.latestModels(urls)
-            contination(Array(models.values))
+            continuation(Array(models.values))
         }
     }
     
     ///
     /// download a given model
     ///
-    func downloadModel(model: MRExerciseModel, continuation: MRExerciseModel -> Void) {
-        guard model.isComplete() else { return }
+    func downloadModel(model: MRExerciseModel, dest: NSURL, continuation: MRExerciseModel? -> Void) {
+        guard model.isComplete else { return }
         
-        var abort: Bool = false
-        var weightsUrl: NSURL? = nil
-        var layersUrl: NSURL? = nil
-        var labelsUrl: NSURL? = nil
-        
-        func processData(url: NSURL, data: NSData?) -> NSURL? {
-            guard let data = data, let filename = url.lastPathComponent where !abort else {
-                abort = true
-                cleanupTmpFiles([weightsUrl, layersUrl, labelsUrl].flatMap { return $0 } )
-                return nil
-            }
-            return saveIntoTmpFile(filename, data: data)
-        }
+        let fileManager = NSFileManager.defaultManager()
+        var downloaded = 0
+        var newModel = MRExerciseModel(id: model.id, version: model.version)
         
         func checkCompletion() {
-            guard let weightsUrl = weightsUrl,
-                  let layersUrl = layersUrl,
-                  let labelsUrl = labelsUrl where !abort else { return }
-            let newModel = MRExerciseModel(id: model.id, version: model.version, labels: labelsUrl, layers: layersUrl, weights: weightsUrl)
-            continuation(newModel)
-        }
-        
-        storageAccess.downloadFile(model.weights!) { data in
-            weightsUrl = processData(model.weights!, data: data)
-            checkCompletion()
-        }
-        
-        storageAccess.downloadFile(model.layers!) { data in
-            layersUrl = processData(model.layers!, data: data)
-            checkCompletion()
-        }
-        
-        storageAccess.downloadFile(model.labels!) { data in
-            labelsUrl = processData(model.labels!, data: data)
-            checkCompletion()
-        }
-    }
-    
-    private func cleanupTmpFiles(files: [NSURL]) {
-        let fileManager = NSFileManager.defaultManager()
-        for file in files {
-            do {
-                try fileManager.removeItemAtURL(file)
-            } catch {
-                // keep going
+            downloaded += 1
+            if downloaded == 3 {
+                continuation(newModel)
             }
         }
-    }
-    
-    private func saveIntoTmpFile(filename: String, data: NSData) -> NSURL? {
-        let fileManager = NSFileManager.defaultManager()
-        guard let tmpDir = fileManager.URLsForDirectory(NSSearchPathDirectory.DownloadsDirectory, inDomains: .UserDomainMask).first
-            else { return nil }
-        let url = tmpDir.URLByAppendingPathComponent(filename, isDirectory: false)
-        data.writeToURL(url, atomically: true)
-        return url
+        
+        func processFile(src: NSURL?, filename: String?) -> NSURL? {
+            guard let filename = filename, let src = src else { return nil }
+            let destUrl = dest.URLByAppendingPathComponent(filename)
+            do {
+                try fileManager.moveItemAtURL(src, toURL: destUrl)
+                return destUrl
+            } catch { return nil }
+        }
+        
+        storageAccess.downloadFile(model.weights!) { url in
+            newModel = newModel.with(weights: processFile(url, filename: model.weights?.lastPathComponent))
+            checkCompletion()
+        }
+        
+        storageAccess.downloadFile(model.layers!) { url in
+            newModel = newModel.with(layers: processFile(url, filename: model.layers?.lastPathComponent))
+            checkCompletion()
+        }
+        
+        storageAccess.downloadFile(model.labels!) { url in
+            newModel = newModel.with(labels: processFile(url, filename: model.labels?.lastPathComponent))
+            checkCompletion()
+        }
     }
     
     ///
@@ -107,7 +88,7 @@ class MRCloudStorage {
         NSJSONSerialization.writeJSONObject(session.toJson(), toStream: output, options: [], error: error)
         guard let jsonData = output.propertyForKey(NSStreamDataWrittenToMemoryStreamKey) as? NSData else { return }
         
-        storageAccess.uploadFile("/test/\(session.id)_\(session.exerciseModelId).json", data: jsonData) {
+        storageAccess.uploadFile("/sessions/\(session.id)_\(session.exerciseModelId).json", data: jsonData) {
             jsonUploaded = true
             checkCompletion()
         }
@@ -117,7 +98,7 @@ class MRCloudStorage {
               let labelledExercises = session.labelledExercises.allObjects as? [MRManagedLabelledExercise],
               let sensorData = try? MKSensorData(decoding: data) else { return }
         let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
-        storageAccess.uploadFile("/test/\(session.id)_\(session.exerciseModelId).csv", data: csvData) {
+        storageAccess.uploadFile("/sessions/\(session.id)_\(session.exerciseModelId).csv", data: csvData) {
             csvUploaded = true
             checkCompletion()
         }

@@ -131,6 +131,7 @@
 		6450A5FC1C158B1B009D4ADC /* MuvrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A5FB1C158B1B009D4ADC /* MuvrTests.swift */; };
 		6450A60E1C15C842009D4ADC /* MRDigestAlgorithmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A60D1C15C842009D4ADC /* MRDigestAlgorithmTest.swift */; };
 		6450A6101C15C886009D4ADC /* MRS3StorageAccessTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A60F1C15C886009D4ADC /* MRS3StorageAccessTest.swift */; };
+		6450A6121C15D0E6009D4ADC /* UIView+Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6450A6111C15D0E6009D4ADC /* UIView+Rotation.swift */; };
 		64655B7D1C04D08400CFC763 /* MRSessionHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */; };
 		64655B7F1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */; };
 		647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */; };
@@ -389,6 +390,7 @@
 		6450A5FD1C158B1B009D4ADC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6450A60D1C15C842009D4ADC /* MRDigestAlgorithmTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDigestAlgorithmTest.swift; sourceTree = "<group>"; };
 		6450A60F1C15C886009D4ADC /* MRS3StorageAccessTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRS3StorageAccessTest.swift; sourceTree = "<group>"; };
+		6450A6111C15D0E6009D4ADC /* UIView+Rotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Rotation.swift"; sourceTree = "<group>"; };
 		64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionHealth.swift; sourceTree = "<group>"; };
 		64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRWorkoutSessionDelegate.swift; sourceTree = "<group>"; };
 		647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoderTests.swift; sourceTree = "<group>"; };
@@ -576,6 +578,7 @@
 				6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */,
 				64DC9FD61BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift */,
 				6450A5D11C0E00FE009D4ADC /* String+Regex.swift */,
+				6450A6111C15D0E6009D4ADC /* UIView+Rotation.swift */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -1230,6 +1233,7 @@
 				543C9A1B1BDD439B00291EC5 /* MRManagedClassifiedExercise.swift in Sources */,
 				54706F6C1BD6D89F005BABF0 /* MRSessionsViewController.swift in Sources */,
 				549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */,
+				6450A6121C15D0E6009D4ADC /* UIView+Rotation.swift in Sources */,
 				64E5D8481C0C519F007D59DA /* MRExerciseModelStore.swift in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
 				543C9A171BDD439B00291EC5 /* MRManagedExerciseSession.swift in Sources */,

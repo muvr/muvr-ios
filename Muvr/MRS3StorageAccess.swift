@@ -38,10 +38,7 @@ class MRS3StorageAccess: MRCloudStorageAccessProtocol {
         urlBuilder.path = path
         if let params = params {
             urlBuilder.queryItems = params.flatMap { name, value in
-                // URLQueryAllowedCharacterSet doesn't escape ``/``
-                // (``/`` is escaped to ``%2f`` which is a format flag for NSLog so it displays as ``0.000000`` in the logs)
-                let v = value.stringByReplacingOccurrencesOfString("/", withString: "%2f")
-                return NSURLQueryItem(name: name, value: v)
+                return NSURLQueryItem(name: name, value: value)
             }
         }
         
@@ -81,16 +78,14 @@ class MRS3StorageAccess: MRCloudStorageAccessProtocol {
         let request = createRequest(method: "GET", path: "/", params: ["delimiter": "/", "prefix": prefix])
         
         // send request
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
-           // NSLog("response:\n\(response)")
+        let task = NSURLSession.sharedSession().downloadTaskWithRequest(request) { url, response, error in
             guard let response = response as? NSHTTPURLResponse where response.statusCode == 200,
-                let data = data
-                else {
-                    continuation(nil)
-                    return
+                  let url = url
+            else {
+                continuation(nil)
+                return
             }
-            NSLog("data:\n\(String(data: data, encoding: NSUTF8StringEncoding))")
-            let parser = XMLS3ListObjectsParser(data: data)
+            let parser = XMLS3ListObjectsParser(url: url)
             parser.parse()
             let baseUrl = NSURL(string: "https://\(self.awsHost)/")
             let modelUrls = parser.objects.flatMap { filename in
@@ -117,7 +112,7 @@ class MRS3StorageAccess: MRCloudStorageAccessProtocol {
     ///
     func uploadFile(path: String, data: NSData, continuation: () -> Void) {
         let request = createRequest(method: "PUT", path: path, params: nil, payload: data)
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+        let task = NSURLSession.sharedSession().uploadTaskWithRequest(request, fromData: data) { data, response, error in
             NSLog("response:\n\(response)")
             guard let response = response as? NSHTTPURLResponse where response.statusCode == 200 else {
                 return
@@ -140,16 +135,16 @@ class MRS3StorageAccess: MRCloudStorageAccessProtocol {
     ///
     /// download the remote file pointed by ``path``
     ///
-    func downloadFile(path: String, continuation: NSData? -> Void) {
+    func downloadFile(path: String, continuation: NSURL? -> Void) {
         let request = createRequest(method: "GET", path: path)
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+        let task = NSURLSession.sharedSession().downloadTaskWithRequest(request) { url, response, error in
             NSLog("response:\n\(response)")
-            NSLog("data:\n\(String(data: data!, encoding: NSUTF8StringEncoding))")
+            NSLog("url: \(url)")
             guard let response = response as? NSHTTPURLResponse where response.statusCode == 200 else {
                 continuation(nil)
                 return
             }
-            continuation(data)
+            continuation(url)
         }
         task.resume()
     }
@@ -157,7 +152,7 @@ class MRS3StorageAccess: MRCloudStorageAccessProtocol {
     ///
     /// download the remote file pointed by ``url``
     ///
-    func downloadFile(url: NSURL, continuation: NSData? -> Void) {
+    func downloadFile(url: NSURL, continuation: NSURL? -> Void) {
         guard let path = url.path else {
             continuation(nil)
             return
@@ -233,8 +228,8 @@ class XMLS3ListObjectsParser: NSObject, NSXMLParserDelegate {
     private var currentNode: XMLNode? = nil
     private let parser: NSXMLParser
     
-    init(data: NSData) {
-        parser = NSXMLParser(data: data)
+    init(url: NSURL) {
+        parser = NSXMLParser(contentsOfURL: url)!
         super.init()
         parser.delegate = self
     }

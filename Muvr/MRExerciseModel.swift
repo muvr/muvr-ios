@@ -1,8 +1,14 @@
 import MuvrKit
 
-public typealias MRExerciseModelVersion = String
+typealias MRExerciseModelVersion = Int
 
-public struct MRExerciseModel {
+enum MRExerciseModelFileType: String {
+    case labels
+    case layers
+    case weights
+}
+
+struct MRExerciseModel {
     let id: MKExerciseModelId
     let version: MRExerciseModelVersion
     let labels: NSURL?
@@ -21,19 +27,19 @@ public struct MRExerciseModel {
         self.init(id: id, version: version, labels: nil, layers: nil, weights: nil)
     }
     
-    func isComplete() -> Bool {
+    var isComplete: Bool {
         return labels != nil && layers != nil && weights != nil
     }
     
-    internal func with(labels newLabels: NSURL) -> MRExerciseModel {
+    internal func with(labels newLabels: NSURL?) -> MRExerciseModel {
         return MRExerciseModel(id: id, version: version, labels: newLabels, layers: layers, weights: weights)
     }
     
-    internal func with(layers newLayers: NSURL) -> MRExerciseModel {
+    internal func with(layers newLayers: NSURL?) -> MRExerciseModel {
         return MRExerciseModel(id: id, version: version, labels: labels, layers: newLayers, weights: weights)
     }
     
-    internal func with(weights newWeights: NSURL) -> MRExerciseModel {
+    internal func with(weights newWeights: NSURL?) -> MRExerciseModel {
         return MRExerciseModel(id: id, version: version, labels: labels, layers: layers, weights: newWeights)
     }
     
@@ -42,21 +48,15 @@ public struct MRExerciseModel {
     ///
     static func latestModels(urls: [NSURL]) -> [MKExerciseModelId:MRExerciseModel] {
         
-        enum MRExerciseModelFileType: String {
-            case layers
-            case labels
-            case weights
-        }
-        
         /// expected file format is ``modelId_version_model.type.ext``
         func parseFilename(filename: String) -> (MKExerciseModelId, MRExerciseModelVersion, MRExerciseModelFileType)? {
             do {
-                let pattern = try NSRegularExpression(pattern: "(.+)_(.+)_model\\.(weights|labels|layers)\\.(.{3})", options: [])
+                let pattern = try NSRegularExpression(pattern: "(.+)_(\\d+)_model\\.(weights|labels|layers)\\.(.{3})", options: [])
                 let matches = filename.matchingGroups(pattern, groups: 3)
                 guard matches.count >= 3,
                     let filetype = MRExerciseModelFileType(rawValue: matches[2]) else { return nil }
                 let id = matches[0]
-                let version = matches[1]
+                let version = Int(matches[1])!
                 return (id, version, filetype)
             } catch {
                 return nil
@@ -83,8 +83,8 @@ public struct MRExerciseModel {
                     let (modelId, version, filetype) = parseFilename(filename)
                     else { continue }
                 
-                let index = models.indexOf { $0.id == modelId && $0.version == version } ?? models.count
-                var model = index < models.count ? models[index] : MRExerciseModel(id: modelId, version: version)
+                let index = models.indexOf { $0.id == modelId && $0.version == version }
+                var model = index == nil ? MRExerciseModel(id: modelId, version: version) : models[index!]
                 
                 switch (filetype) {
                 case .layers:  model = model.with(layers: url)
@@ -92,9 +92,10 @@ public struct MRExerciseModel {
                 case .weights: model = model.with(weights: url)
                 }
                 
-                models[index] = model
+                if let index = index { models[index] = model }
+                else { models.append(model) }
             }
-            return models.filter { return $0.isComplete() }
+            return models.filter { return $0.isComplete }
         }
         
         return latest(models(urls))
