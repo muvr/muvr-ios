@@ -91,7 +91,15 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     }
     
     func calendar(calendar: JTCalendarManager!, canDisplayPageWithDate date: NSDate!) -> Bool {
-        return date.compare(NSDate()) == .OrderedAscending
+        let today = NSDate()
+        
+        let myCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+        let weekDay = myCalendar.components(.Weekday, fromDate: today).weekday
+        
+        let numberOfDayToWeekend = 7 - weekDay
+        let dateAtWeekend = today.dateByAddingTimeInterval(Double(numberOfDayToWeekend * 24 * 60 * 60))
+        
+        return date.compare(dateAtWeekend) == .OrderedAscending
     }
     
     // MARK: UIPageViewControllerDataSource
