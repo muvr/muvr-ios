@@ -74,6 +74,9 @@ class MRS3StorageAccess: MRCloudStorageAccessProtocol {
         if prefix[prefix.startIndex] == "/" {
             prefix = prefix.substringFromIndex(prefix.startIndex.successor())
         }
+        if prefix[prefix.endIndex] != "/" {
+            prefix = "\(prefix)/"
+        }
         
         let request = createRequest(method: "GET", path: "/", params: ["delimiter": "/", "prefix": prefix])
         

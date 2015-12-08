@@ -105,7 +105,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         
         // make sure to keep a ref to the share Btn
         let shareBtn = shareCSVBtn
-        MRAppDelegate.sharedDelegate().cloudStorage.uploadSession(session) {
+        MRAppDelegate.sharedDelegate().sessionStore.uploadSession(session) {
             NSLog("SESSION UPLOADED")
             dispatch_async(dispatch_get_main_queue(), {
                 self.shareCSVBtn = shareBtn

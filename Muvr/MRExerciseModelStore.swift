@@ -9,7 +9,7 @@ class MRExerciseModelStore: MKExerciseModelSource {
         case MissingClassificationModel(model: String)
     }
 
-    private let storage: MRCloudStorage
+    private let storageAccess: MRCloudStorageAccessProtocol
     private(set) var models: [MKExerciseModelId:MRExerciseModel]
     
     var modelsMetadata: [MKExerciseModelMetadata] {
@@ -23,10 +23,10 @@ class MRExerciseModelStore: MKExerciseModelSource {
         return NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.ApplicationSupportDirectory, inDomains: .UserDomainMask).first
     }
     
-    init(cloudStorage: MRCloudStorage) {
-        self.storage = cloudStorage
-        let bundledModels = MRExerciseModelStore.bundledModels()
-        let downloadedModels = MRExerciseModelStore.downloadedModels()
+    init(storageAccess: MRCloudStorageAccessProtocol) {
+        self.storageAccess = storageAccess
+        let bundledModels = MRExerciseModelStore.bundledModels
+        let downloadedModels = MRExerciseModelStore.downloadedModels
         // keep only models with latest version
         self.models = downloadedModels.values
             .filter { return $0.isComplete }
@@ -41,7 +41,7 @@ class MRExerciseModelStore: MKExerciseModelSource {
     }
     
     /// load arms and slacking models from bundle
-    private static func bundledModels() -> [MKExerciseModelId:MRExerciseModel] {
+    private static var bundledModels: [MKExerciseModelId:MRExerciseModel] {
         let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
         
@@ -56,7 +56,7 @@ class MRExerciseModelStore: MKExerciseModelSource {
     }
 
     /// load any model located in ``Application Support`` folder
-    private static func downloadedModels() -> [MKExerciseModelId: MRExerciseModel] {
+    private static var downloadedModels: [MKExerciseModelId: MRExerciseModel] {
         let fileManager = NSFileManager.defaultManager()
         guard let dir = supportDir else { return [:]}
         
@@ -66,31 +66,86 @@ class MRExerciseModelStore: MKExerciseModelSource {
         return MRExerciseModel.latestModels(modelUrls)
     }
     
+    
+    ///
+    /// list models remotely available
+    ///
+    private func listRemoteModels(continuation: [MRExerciseModel]? -> Void) {
+        storageAccess.listFiles("/models") { urls in
+            guard let urls = urls else {
+                continuation(nil)
+                return
+            }
+            let models = MRExerciseModel.latestModels(urls).values.filter { m in
+                guard let existingModel = self.models[m.id] else { return true }
+                return m.version > existingModel.version
+            }
+            continuation(Array(models))
+        }
+    }
+    
+    ///
+    /// download a given model from remote storage
+    ///
+    private func downloadModel(model: MRExerciseModel, continuation: MRExerciseModel? -> Void) {
+        guard model.isComplete else { return }
+        
+        let fileManager = NSFileManager.defaultManager()
+        var downloaded = 0
+        var newModel = MRExerciseModel(id: model.id, version: model.version)
+        
+        func checkCompletion() {
+            downloaded += 1
+            if downloaded == 3 {
+                continuation(newModel)
+            }
+        }
+        
+        func processFile(src: NSURL?, filename: String?) -> NSURL? {
+            guard let filename = filename,
+                  let src = src,
+                  let dest = MRExerciseModelStore.supportDir?.URLByAppendingPathComponent(filename) else { return nil }
+            do {
+                try fileManager.moveItemAtURL(src, toURL: dest)
+                return dest
+            } catch { return nil }
+        }
+        
+        storageAccess.downloadFile(model.weights!) { url in
+            newModel = newModel.with(weights: processFile(url, filename: model.weights?.lastPathComponent))
+            checkCompletion()
+        }
+        
+        storageAccess.downloadFile(model.layers!) { url in
+            newModel = newModel.with(layers: processFile(url, filename: model.layers?.lastPathComponent))
+            checkCompletion()
+        }
+        
+        storageAccess.downloadFile(model.labels!) { url in
+            newModel = newModel.with(labels: processFile(url, filename: model.labels?.lastPathComponent))
+            checkCompletion()
+        }
+    }
+    
+    
     ///
     /// Download any new classification model from the remote storage
     ///
     func downloadModels(continuation: () -> Void) {
-        guard let supportDir = MRExerciseModelStore.supportDir else { return }
-
-        storage.listModels { models in
-            // keep only newer or unknown models
-            let modelsToDownload = (models ?? []).filter { m in
-                guard let existingModel = self.models[m.id] else { return true }
-                return m.version > existingModel.version
-            }
-            if modelsToDownload.isEmpty {
+        listRemoteModels { models in
+            guard let models = models where !models.isEmpty else {
                 continuation()
                 return
             }
             // and download each one of them
-            var downloaded = 0
-            modelsToDownload.forEach { model in
-                self.storage.downloadModel(model, dest: supportDir) { m in
+            var downloaded = models.count
+            models.forEach { model in
+                self.downloadModel(model) { m in
                     if let m = m where m.isComplete {
                         self.models[m.id] = m
                     }
-                    downloaded += 1
-                    if (downloaded == modelsToDownload.count) {
+                    downloaded--
+                    if (downloaded == 0) {
                         continuation()
                     }
                 }
@@ -119,6 +174,25 @@ class MRExerciseModelStore: MKExerciseModelSource {
     func exerciseIds(model id: MKExerciseModelId) -> [MKExerciseId] {
         let model = try? getExerciseModel(id: id)
         return model?.exerciseIds ?? []
+    }
+    
+    
+    ///
+    /// Delete the downloaded models
+    ///
+    func reset() {
+        let fileManager = NSFileManager.defaultManager()
+        guard let dir = MRExerciseModelStore.supportDir,
+              let modelUrls = try? fileManager.contentsOfDirectoryAtURL(dir, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions.SkipsHiddenFiles)
+            else { return }
+        modelUrls.forEach { url in
+            do {
+                try fileManager.removeItemAtURL(url)
+            } catch let error {
+                NSLog("Failed to remove \(url): \(error)")
+            }
+        }
+        models = MRExerciseModelStore.bundledModels
     }
     
     

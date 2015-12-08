@@ -18,7 +18,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
     
     var window: UIWindow?
     
-    private(set) var cloudStorage: MRCloudStorage!
+    private(set) var sessionStore: MRExerciseSessionStore!
     private(set) var modelStore: MRExerciseModelStore!
     private var connectivity: MKConnectivity!
     private var classifier: MKSessionClassifier!
@@ -46,8 +46,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // set up the classification and connectivity
-        cloudStorage = MRCloudStorage(storageAccess: MRS3StorageAccess(accessKey: accessKey, secretKey: secretKey))
-        modelStore = MRExerciseModelStore(cloudStorage: cloudStorage)
+        let remoteStorage = MRS3StorageAccess(accessKey: accessKey, secretKey: secretKey)
+        sessionStore = MRExerciseSessionStore(storageAccess: remoteStorage)
+        modelStore = MRExerciseModelStore(storageAccess: remoteStorage)
         classifier = MKSessionClassifier(exerciseModelSource: modelStore, delegate: self)
         connectivity = MKConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
         
