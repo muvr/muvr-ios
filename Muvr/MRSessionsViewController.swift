@@ -97,7 +97,7 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
         let weekDay = myCalendar.components(.Weekday, fromDate: today).weekday
         
         let numberOfDayToWeekend = 7 - weekDay
-        let dateAtWeekend = today.dateByAddingTimeInterval(Double(numberOfDayToWeekend * 24 * 60 * 60))
+        let dateAtWeekend = today.addDays(numberOfDayToWeekend)
         
         return date.compare(dateAtWeekend) == .OrderedAscending
     }
