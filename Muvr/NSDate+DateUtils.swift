@@ -39,4 +39,14 @@ extension NSDate {
         return format.stringFromDate(self)
     }
     
+    ///
+    /// returns a string ``YYYYMMddTHHmmssZ`` UTC
+    ///
+    var utcString: String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "YYYYMMdd'T'HHmmss'Z'"
+        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        return dateFormatter.stringFromDate(self)
+    }
+    
 }
