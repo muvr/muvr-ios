@@ -60,7 +60,7 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
         
         pageViewController = UIPageViewController(transitionStyle: UIPageViewControllerTransitionStyle.Scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options: nil)
         pageViewController.dataSource = self
-        pageViewController.view.frame = CGRectMake(0, 180, view.frame.width, view.frame.size.height - 180)
+        pageViewController.view.frame = CGRectMake(0, 100, view.frame.width, view.frame.size.height - 100)
         addChildViewController(pageViewController)
         view.addSubview(pageViewController.view)
         
@@ -90,16 +90,19 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
         showSessionsOn(date: dayView.date)
     }
     
+    ///
+    /// This implementation displays a page with date that falls before the end of this week. We compute
+    /// that by working out the date at the end of this week and comparing it with the given ``date``.
+    ///
     func calendar(calendar: JTCalendarManager!, canDisplayPageWithDate date: NSDate!) -> Bool {
         let today = NSDate()
+
+        // today as the day of week, where 1 is the first day of week (e.g. Monday in UK, Sunday in US, etc.)
+        let weekDay = NSCalendar.currentCalendar().components(.Weekday, fromDate: today).weekday
+        // the end of the week where ``today`` falls into
+        let dateAtEndOfWeek = today.addDays(7 - weekDay)
         
-        let myCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
-        let weekDay = myCalendar.components(.Weekday, fromDate: today).weekday
-        
-        let numberOfDayToWeekend = 7 - weekDay
-        let dateAtWeekend = today.addDays(numberOfDayToWeekend)
-        
-        return date.compare(dateAtWeekend) == .OrderedAscending
+        return date.compare(dateAtEndOfWeek) == .OrderedAscending
     }
     
     // MARK: UIPageViewControllerDataSource
