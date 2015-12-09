@@ -87,7 +87,7 @@ class MRS3StorageAccess: MRStorageAccessProtocol {
 
 }
 
-class AWSKey {
+struct AWSKey {
     
     let secret: String
     let region: String
