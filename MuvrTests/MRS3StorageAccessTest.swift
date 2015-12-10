@@ -8,24 +8,22 @@ class MRS3StorageAccessTest: XCTestCase {
         let formatter = NSDateFormatter()
         formatter.dateFormat = "YYYYMMdd"
         let date = formatter.dateFromString("20151207")!
-        let awsKey = AWSKey(secret: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY", region: "eu-west-1", service: "s3")
+        let awsKey = AWSKey(secret: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY", region: "eu-west-1", service: "s3", onDate: date)
         
         let expectedKey = "9b0e543b45e139c2a6166cad3e1194be4f587035d675f1f86194c666c285b48c"
-        let (signingKey, expiration) = awsKey.generateKey(date)
         
-        XCTAssertEqual(String(digest: signingKey), expectedKey)
-        XCTAssertEqual("20151214", formatter.stringFromDate(expiration))
+        XCTAssertEqual(expectedKey, String(digest: awsKey.key))
+        XCTAssertEqual("20151214", formatter.stringFromDate(awsKey.expiration))
     }
     
     func testSigningRequest() {
         let formatter = NSDateFormatter()
         formatter.dateFormat = "YYYYMMdd"
         let date = formatter.dateFromString("20151207")!
-        let awsKey = AWSKey(secret: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY", region: "eu-west-1", service: "s3")
-        let (signingKey, _) = awsKey.generateKey(date)
+        let awsKey = AWSKey(secret: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY", region: "eu-west-1", service: "s3", onDate: date)
         
         let s3 = MRS3StorageAccess(accessKey: "AKIAIOSFODNN7EXAMPLE", secretKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY")
-        let request = s3.createRequest(method: "GET", path: "/", params: nil, payload: nil, date: date, signingKey: signingKey)
+        let request = s3.createRequest(method: "GET", path: "/", params: nil, payload: nil, date: date, signingKey: awsKey.key)
         
         let expectedHeaders = [
             "x-amz-content-sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",

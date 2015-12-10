@@ -14,11 +14,29 @@ class MRS3StorageAccess: MRStorageAccessProtocol {
     let awsService = "s3"
     let awsHost = "muvr-user-data.s3.amazonaws.com"
     let accessKey: String
-    let awsKey: AWSKey
+    let secretKey: String
+    
+    
+    var now: NSDate {
+        return NSDate(timeIntervalSinceNow: Double(NSTimeZone.localTimeZone().secondsFromGMT))
+    }
+
+    var signingKey: HmacDigest {
+        var key = AWSKey(secret: secretKey, region: awsRegion, service: awsService, onDate: now)
+        
+        func validKey() -> AWSKey {
+            if NSDate().timeIntervalSinceDate(key.expiration) > 0 {
+                key = AWSKey(secret: secretKey, region: awsRegion, service: awsService, onDate: now)
+            }
+            return key
+        }
+        
+        return validKey().key
+    }
     
     init(accessKey: String, secretKey: String) {
         self.accessKey = accessKey
-        self.awsKey = AWSKey(secret: secretKey, region: awsRegion, service: awsService)
+        self.secretKey = secretKey
     }
     
     // create an HTTP request with the provided data
@@ -58,7 +76,7 @@ class MRS3StorageAccess: MRStorageAccessProtocol {
         let canonicalRequest = request.canonicalRequest(signedHeaders: signedHeaders, payloadHash: payloadHash)!
         let canonicalRequestHash = String(strToHash: canonicalRequest, algo: .SHA256)
         let stringToSign = "AWS4-HMAC-SHA256\n\(fullDate)\n\(scope)\n\(canonicalRequestHash)"
-        let signature = String(strToSign: stringToSign, algo: .SHA256, key: signingKey ?? self.awsKey.signingKey)
+        let signature = String(strToSign: stringToSign, algo: .SHA256, key: signingKey ?? self.signingKey)
         
         request.setValue("\(algo) Credential=\(credential),SignedHeaders=\(signedHeaders),Signature=\(signature)", forHTTPHeaderField: "Authorization")
     
@@ -89,29 +107,10 @@ class MRS3StorageAccess: MRStorageAccessProtocol {
 
 struct AWSKey {
     
-    let secret: String
-    let region: String
-    let service: String
-    private var key: HmacDigest?
-    private var expiration: NSDate?
+    let key: HmacDigest
+    let expiration: NSDate
     
-    var signingKey: HmacDigest {
-        if expiration == nil || NSDate().timeIntervalSinceDate(expiration!) > 0 {
-            let now = NSDate(timeIntervalSinceNow: Double(NSTimeZone.localTimeZone().secondsFromGMT))
-            let (key, expiration) = generateKey(now)
-            self.key = key
-            self.expiration = expiration
-        }
-        return self.key!
-    }
-    
-    init(secret: String, region: String, service: String) {
-        self.secret = secret
-        self.region = region
-        self.service = service
-    }
-    
-    func generateKey(onDate: NSDate) -> (HmacDigest, NSDate) {
+    init(secret: String, region: String, service: String, onDate: NSDate) {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "YYYYMMdd"
 
@@ -122,6 +121,7 @@ struct AWSKey {
         
         let signingKey = "aws4_request".digest(.SHA256, key: dateRegionServiceKey)
         let expirationDate = onDate.dateOnly.addDays(7)
-        return (signingKey, expirationDate)
+        self.key = signingKey
+        self.expiration = expirationDate
     }
 }
