@@ -12,8 +12,13 @@ enum MRNotifications : String {
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, MKSessionClassifierDelegate {
     
+    // TODO: Move to configuration file
+    let accessKey = "AKIAIOSFODNN7EXAMPLE"
+    let secretKey = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+    
     var window: UIWindow?
     
+    private(set) var sessionStore: MRExerciseSessionStore!
     private var connectivity: MKConnectivity!
     private var classifier: MKSessionClassifier!
     private var sessions: [MRManagedExerciseSession] = []
@@ -39,6 +44,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        let remoteStorage = MRS3StorageAccess(accessKey: accessKey, secretKey: secretKey)
+        sessionStore = MRExerciseSessionStore(storageAccess: remoteStorage)
         // set up the classification and connectivity
         classifier = MKSessionClassifier(exerciseModelSource: self, delegate: self)
         connectivity = MKConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
