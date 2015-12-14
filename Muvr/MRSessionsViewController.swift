@@ -2,6 +2,23 @@ import UIKit
 import CoreData
 import JTCalendar
 
+extension UIView {
+    
+    func rotate(duration: NSTimeInterval = 1.0, delegate: AnyObject? = nil) {
+        let animation = CABasicAnimation(keyPath: "transform.rotation")
+        animation.fromValue = 0.0
+        animation.toValue = 2.0 * M_PI
+        animation.duration = duration
+        
+        if let delegate = delegate {
+            animation.delegate = delegate
+        }
+        
+        self.layer.addAnimation(animation, forKey: nil)
+    }
+    
+}
+
 ///
 /// Handle navigation between sessions.
 /// This class manages 2 components:
@@ -16,7 +33,9 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
 
     // the session view controllers of the selected date
     private var sessionViewControllers: [UIViewController] = []
-
+    
+    private var downloadingModels: Bool = false
+    
     ///
     /// fetched the sessions on the given date and displays the most recent one
     ///
@@ -65,6 +84,30 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
         view.addSubview(pageViewController.view)
         
         showSessionsOn(date: today)
+        
+        let buttonView = UIButton(frame: CGRectMake(0, 0, 24, 24))
+        let refreshButton = UIBarButtonItem(customView: buttonView)
+        buttonView.setBackgroundImage(UIImage(named: "refresh"), forState: .Normal)
+        navigationItem.setRightBarButtonItems([refreshButton], animated: false)
+        buttonView.addTarget(self, action: "refreshModels", forControlEvents: .TouchUpInside)
+    }
+
+    func refreshModels() {
+        guard let refreshButton = navigationItem.rightBarButtonItems?.first?.customView else { return }
+        refreshButton.rotate(0.5, delegate: self)
+        self.downloadingModels = true
+        MRAppDelegate.sharedDelegate().modelStore.downloadModels() {
+            self.downloadingModels = false
+            MRAppDelegate.sharedDelegate().transferModelsMetadata()
+        }
+    }
+    
+    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+        guard let refreshButton = navigationItem.rightBarButtonItems?.first?.customView else { return }
+        if downloadingModels {
+            // still downloading, rotate one more time
+            refreshButton.rotate(0.5, delegate: self)
+        }
     }
     
     override func viewDidAppear(animated: Bool) {

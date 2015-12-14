@@ -72,17 +72,19 @@ extension MRAppDelegate  {
     func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         if Process.arguments.contains("--reset-container") {
             NSLog("Reset container.")
-            if let docs = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first {
-                let fileManager = NSFileManager.defaultManager()
-                try! fileManager.contentsOfDirectoryAtPath(docs).forEach { file in
-                    do {
-                        try fileManager.removeItemAtPath("\(docs)/\(file)")
-                    } catch {
-                        // do nothing
+            let fileManager = NSFileManager.defaultManager()
+            [NSSearchPathDirectory.DocumentDirectory, NSSearchPathDirectory.ApplicationSupportDirectory].forEach { directory  in
+                if let docs = NSSearchPathForDirectoriesInDomains(directory, NSSearchPathDomainMask.UserDomainMask, true).first {
+                    try! fileManager.contentsOfDirectoryAtPath(docs).forEach { file in
+                        do {
+                            try fileManager.removeItemAtPath("\(docs)/\(file)")
+                        } catch {
+                            // do nothing
+                        }
                     }
                 }
             }
-
+            
             if Process.arguments.contains("--default-data") {
                 generateData()
             }

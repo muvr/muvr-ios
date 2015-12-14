@@ -33,10 +33,21 @@ extension NSDate {
     
     ///
     /// returns a string (HH:mm) representing the time of this NSDate
+    ///
     func formatTime() -> String {
         let format = NSDateFormatter()
         format.dateFormat = "HH:mm"
         return format.stringFromDate(self)
+    }
+    
+    ///
+    /// returns a string ``YYYYMMddTHHmmssZ`` UTC
+    ///
+    var utcString: String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "YYYYMMdd'T'HHmmss'Z'"
+        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        return dateFormatter.stringFromDate(self)
     }
     
 }

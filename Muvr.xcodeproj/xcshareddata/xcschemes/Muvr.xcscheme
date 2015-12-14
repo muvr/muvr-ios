@@ -26,18 +26,9 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "541ABBB21AC577E00056A81B"
-               BuildableName = "MuvrTests.xctest"
-               BlueprintName = "MuvrTests"
-               ReferencedContainer = "container:Muvr.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
          <TestableReference
             skipped = "NO">
             <BuildableReference
@@ -45,6 +36,16 @@
                BlueprintIdentifier = "5450C29D1BC3FFF100B257E7"
                BuildableName = "MuvrUITests.xctest"
                BlueprintName = "MuvrUITests"
+               ReferencedContainer = "container:Muvr.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6450A5F81C158B1B009D4ADC"
+               BuildableName = "MuvrTests.xctest"
+               BlueprintName = "MuvrTests"
                ReferencedContainer = "container:Muvr.xcodeproj">
             </BuildableReference>
          </TestableReference>
