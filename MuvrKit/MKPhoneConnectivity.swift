@@ -100,4 +100,13 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         }
     }
     
+    /// Sends the models metadata to the watch
+    public func sendModelsMetadata(models: [MKExerciseModelMetadata]) {
+        var metadata = Dictionary<String, AnyObject>()
+        models.forEach { id, name in
+            metadata[id] = name
+        }
+        WCSession.defaultSession().transferUserInfo(metadata)
+    }
+    
 }

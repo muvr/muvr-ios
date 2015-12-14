@@ -102,6 +102,78 @@ class MRS3StorageAccess: MRStorageAccessProtocol {
         guard let path = url.path else { return }
         uploadFile(path, data: data, continuation: continuation)
     }
+    
+    ///
+    /// download the remote file pointed by ``path``
+    ///
+    func downloadFile(path: String, continuation: NSURL? -> Void) {
+        let request = createRequest(method: "GET", path: path)
+        let task = NSURLSession.sharedSession().downloadTaskWithRequest(request) { url, response, error in
+            guard let response = response as? NSHTTPURLResponse where response.statusCode == 200 else {
+                continuation(nil)
+                return
+            }
+            continuation(url)
+        }
+        task.resume()
+    }
+    
+    ///
+    /// download the remote file pointed by ``url``
+    ///
+    func downloadFile(url: NSURL, continuation: NSURL? -> Void) {
+        guard let path = url.path else {
+            continuation(nil)
+            return
+        }
+        downloadFile(path, continuation: continuation)
+    }
+    
+    ///
+    /// list the remote files located at ``path``
+    ///
+    func listFiles(path: String, continuation: [NSURL]? -> Void) {
+        // skip initial ``/`` if needed
+        var prefix = path
+        if prefix[prefix.startIndex] == "/" {
+            prefix = prefix.substringFromIndex(prefix.startIndex.successor())
+        }
+        // add ending ``/`` if needed
+        if prefix[prefix.endIndex] != "/" {
+            prefix = "\(prefix)/"
+        }
+        
+        let request = createRequest(method: "GET", path: "/", params: ["delimiter": "/", "prefix": prefix])
+        
+        // send request
+        let task = NSURLSession.sharedSession().downloadTaskWithRequest(request) { url, response, error in
+            guard let response = response as? NSHTTPURLResponse where response.statusCode == 200,
+                  let url = url
+            else {
+                continuation(nil)
+                return
+            }
+            let parser = XMLS3ListObjectsParser(url: url)
+            parser.parse()
+            let baseUrl = NSURL(string: "https://\(self.awsHost)/")
+            let modelUrls = parser.objects.flatMap { filename in
+                return NSURL(string: filename, relativeToURL: baseUrl)
+            }
+            continuation(modelUrls)
+        }
+        task.resume()
+    }
+    
+    ///
+    /// list the remote files located at ``url``
+    ///
+    func listFiles(url: NSURL, continuation: [NSURL]? -> Void) {
+        guard let path = url.path else {
+            continuation(nil)
+            return
+        }
+        listFiles(path, continuation: continuation)
+    }
 
 }
 
@@ -123,5 +195,72 @@ struct AWSKey {
         let expirationDate = onDate.dateOnly.addDays(7)
         self.key = signingKey
         self.expiration = expirationDate
+    }
+}
+
+/// Parses XML S3 ListObjects response
+class XMLS3ListObjectsParser: NSObject, NSXMLParserDelegate {
+    
+    /// XMLStruct is
+    ///
+    /// <ListBucketResult>
+    ///   <Contents>
+    ///     <Key>file</Key>
+    ///   </Contents>
+    /// </ListBucketResult>
+    ///
+    enum XMLNode: String {
+        case ListBucketResult
+        case Contents
+        case Key
+    
+        func prev() -> XMLNode? {
+            switch (self) {
+                case .ListBucketResult: return nil
+                case .Contents: return .ListBucketResult
+                case .Key: return .Contents
+            }
+        }
+        
+        func next() -> XMLNode? {
+            switch (self) {
+                case .ListBucketResult: return .Contents
+                case .Contents: return .Key
+                case .Key: return nil
+            }
+        }
+    }
+    
+    private(set) var objects: [String] = []
+    private var currentNode: XMLNode? = nil
+    private let parser: NSXMLParser
+    
+    init(url: NSURL) {
+        parser = NSXMLParser(contentsOfURL: url)!
+        super.init()
+        parser.delegate = self
+    }
+    
+    func parse() {
+        parser.parse()
+    }
+    
+    /// MARK : Parser delegate
+    
+    func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        guard let currentNode = currentNode,
+              let endNode = XMLNode(rawValue: elementName) where endNode == currentNode else { return }
+        self.currentNode = currentNode.prev()
+    }
+    
+    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+        guard let startNode = XMLNode(rawValue: elementName) else { return }
+        if let nextNode = currentNode?.next() where nextNode != startNode { return }
+        self.currentNode = startNode
+    }
+    
+    func parser(parser: NSXMLParser, foundCharacters string: String) {
+        guard let currentNode = currentNode where currentNode == .Key else { return }
+        objects.append(string)
     }
 }
