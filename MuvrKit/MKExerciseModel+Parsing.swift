@@ -37,7 +37,9 @@ extension MKExerciseModel {
         let layerConfiguration = try MKLayerConfiguration.parse(text: try! String(contentsOfFile: layersConfigurationPath, encoding: NSUTF8StringEncoding))
         
         // load the labels
-        let labels = try String(contentsOfFile: labelsPath, encoding: NSUTF8StringEncoding).componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+        let labels = try String(contentsOfFile: labelsPath, encoding: NSUTF8StringEncoding)
+            .stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
+            .componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
         
         // load the weights
         let weightsData = NSData(contentsOfFile: weightsPath)!
