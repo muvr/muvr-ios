@@ -5,9 +5,7 @@ barbell-biceps-curl
 lateral-raise
 biceps-curl
 triceps-extension
-angle-chest-press
-vertical-swing
 lateral-pulldown-straight
+angle-chest-press
 triceps-dips
-barbell-squat
-bent-arm-barbell-pullover
+bench-press

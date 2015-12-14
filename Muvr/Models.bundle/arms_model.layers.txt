@@ -1,1 +1,1 @@
-1200 id 250 relu 50 relu 13 logistic
+1200 id 250 relu 50 relu 11 softmax
