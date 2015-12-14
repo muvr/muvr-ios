@@ -27,4 +27,11 @@ class MKActivationFunctionPlusApplyOnTest : XCTestCase {
         MKActivationFunction.Tanh.applyOn(&inputOutput, offset: 0, length: 5)
         XCTAssertEqual(inputOutput, [-1, -0.761594176, 0, 0.761594176, 1])
     }
+    
+    func testSoftmax() {
+        var inputOutput: [Float] = [-0.4, -1.1, 0.33, 0.11, -0.55, 0.78]
+        MKActivationFunction.Softmax.applyOn(&inputOutput, offset: 0, length: 6)
+        XCTAssertEqual(inputOutput, [0.10692855, 0.053099148, 0.221885368, 0.178067178, 0.0920342579, 0.347985506])
+        XCTAssertEqual(inputOutput.reduce(0, combine: +), 1.0)
+    }
 }
