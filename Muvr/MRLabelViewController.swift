@@ -13,20 +13,56 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
     
     //Hard-coded for now
     private let exerciseList = [
+        // biceps
         "biceps-curl",
         "barbell-curl",
-        "barbell-squat",
-        "bent-arm-barbell-pullover",
-        "lateral-raise",
-        "lateral-pulldown-straight",
-        "running-machine-hit",
-        "suitcase-crunches",
-        "triceps-dips",
+        "reverse-cable-curl",
+        "overhead-cable-curl",
+        // triceps
         "triceps-extension",
         "triceps-pushdown",
-        "dumbbell-bench-press",
+        "triceps-dips",
+        "dumbbell-triceps-pullover",
+        // shoulders
+        "lateral-raise",
+        "lateral-pulldown-straight",
         "dumbbell-shoulder-press",
-        "vertical-swing"
+        "bent-arm-barbell-pullover",
+        "upright-barbell-row",
+        "reverse-flyes",
+        "pull-up",
+        "chin-up",
+        // chest
+        "dumbbell-bench-press",
+        "bench-press",
+        "dumbbell-flyes",
+        "cable-crossover",
+        "iron-cross",
+        "butterfly-machine",
+        "chest-press-machine",
+        // back
+        "lateral-pulldown",
+        "cable-row",
+        "barbell-row",
+        "back-extensions",
+        // legs
+        "vertical-swing",
+        "barbell-squat",
+        "squat",
+        "barbell-walking-lunges",
+        "barbell-deadlift",
+        "dumbbell-calf-raise",
+        // abs
+        "suitcase-crunches",
+        "crunches",
+        "oblique-crunches",
+        "alternate-heel-touchers",
+        // cardio
+        "running-machine-hit",
+        "running-machine",
+        "cross-trainer",
+        "rowing-machine",
+        "boxercise"
     ]
     
     private var autocompleteExercises = [String]()
