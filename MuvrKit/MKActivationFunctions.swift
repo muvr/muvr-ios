@@ -13,6 +13,8 @@ public enum MKActivationFunction {
     case Tanh
     /// f(x) = max(0, x)
     case ReLU
+    /// f(x) = e^x_k / sum_i(e^x_i)
+    case Softmax
 }
 
 ///
@@ -41,6 +43,15 @@ extension MKActivationFunction {
             vvexpf(inputPointer, inputPointer, [Int32(length)])
             vDSP_vsadd(inputPointer, vDSP_Stride(1), &one, inputPointer, vDSP_Stride(1), vDSP_Length(length))
             vvpowsf(inputPointer, &minusOne, inputPointer, [Int32(length)])
+        case .Softmax:
+            var max: Float = 0
+            vDSP_maxv(inputPointer, vDSP_Stride(1), &max, vDSP_Length(length))
+            max = -max
+            vDSP_vsadd(inputPointer, vDSP_Stride(1), &max, inputPointer, vDSP_Stride(1), vDSP_Length(length))
+            vvexpf(inputPointer, inputPointer, [Int32(length)])
+            var sum: Float = 0
+            vDSP_sve(inputPointer, vDSP_Stride(1), &sum, vDSP_Length(length))
+            vDSP_vsdiv(inputPointer, vDSP_Stride(1), &sum, inputPointer, vDSP_Stride(1), vDSP_Length(length))
         case .ReLU:
             vDSP_vthres(inputPointer, vDSP_Stride(1), &threshold, inputPointer, vDSP_Stride(1), vDSP_Length(length))
         case .Tanh:

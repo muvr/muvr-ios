@@ -7,7 +7,7 @@ class MKRepetitionEstimatorTests : XCTestCase {
     func testSimpleSynthetic() {
         let block = MKSensorData.sensorData(types: [.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, generating: 400, withValue: .Sin1(period: 10))
         let (count, _) = try! MKRepetitionEstimator().estimate(data: block)
-        XCTAssertEqual(count, 6)
+        XCTAssertEqual(count, 5)
     }
     
     func testSimpleTooFast() {
