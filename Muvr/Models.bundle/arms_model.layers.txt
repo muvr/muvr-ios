@@ -1,1 +1,1 @@
-1200 id 250 relu 50 relu 11 softmax
+1200 id 250 relu 50 relu 16 softmax
