@@ -56,12 +56,12 @@ class MKClassifierTests : XCTestCase {
     }
 
     ///
-    /// Tests that all zeros does not classify the right value
+    /// Tests that all zeros does not classify with a high probability
     ///
     func testLargeZeros() {
         let block = MKSensorData.sensorData(types: [MKSensorDataType.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, generating: 50000, withValue: .Constant(value: 0))
-        let cls = try! classifier.classify(block: block, maxResults: 100).first
-        XCTAssertTrue(cls == nil)
+        let cls = try! classifier.classify(block: block, maxResults: 100).first!
+        XCTAssertLessThan(cls.confidence, 0.5)
     }
     
     ///

@@ -16,6 +16,7 @@ extension MKActivationFunction {
         case "relu": return .ReLU
         case "logistic": return .Sigmoid
         case "sigmoid": return .Sigmoid
+        case "softmax": return .Softmax
         case "tanh": return .Tanh
         default: return nil
         }

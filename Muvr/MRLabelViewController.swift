@@ -10,9 +10,10 @@ import CoreData
 class MRLabelViewController : UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     private var start: NSDate?
     var session: MRManagedExerciseSession?
-    
+
     /// List of exerciseIds used in auto-completion
     private var exerciseList: [MKExerciseId] = []
+
     private var autocompleteExercises = [String]()
     
     @IBOutlet weak var exerciseId: UITextField!

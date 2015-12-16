@@ -26,9 +26,9 @@ public enum MKClassifierError : ErrorType {
 public struct MKClassifier {
     private let model: MKExerciseModel
     private let neuralNet: MKForwardPropagator
+    private let inputPreperator: MKInputPreperator
     private let windowSize = 400
     private let windowStepSize = 10
-    private let accelerometerValueRange = Float(4.0) // most values will be between -2.0 and 2.0
     private let numInputs: Int
     private let numClasses: Int
     
@@ -44,7 +44,7 @@ public struct MKClassifier {
             biasValue: 1.0,
             biasUnits: 1)
         self.neuralNet = try MKForwardPropagator.configured(netConfig, weights: model.weights)
-        
+        self.inputPreperator = MKInputPreperator()
         self.numInputs = self.model.layerConfiguration.first!.size
         self.numClasses = self.model.exerciseIds.count
     }
@@ -78,8 +78,7 @@ public struct MKClassifier {
             throw MKClassifierError.NoSensorDataType(received: block.types, required: model.sensorDataTypes)
         }
         
-        // TODO: SCALE FIX - needs to be moved & possibly converted using vdpsp
-        m = m.map{e in Float(e) / (self.accelerometerValueRange / 2)}
+        m = self.inputPreperator.preprocess(m)
         
         let rowCount = m.count / dimension
         if rowCount < windowSize {

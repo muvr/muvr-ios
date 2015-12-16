@@ -39,30 +39,13 @@ public struct MKRepetitionEstimator {
         }
     }
     
-    ///
-    /// Apply a highpass filter to the passed in data using the given parameters. This will remove high frequency signal alterations from
-    /// the data.
-    ///
-    private func highpassfilter(data: [Float], rate: Float, freq: Float, offset: Int = 0, stride: Int = 1) -> [Float] {
-        let dt = 1.0 / rate;
-        let RC = 1.0 / freq;
-        let alpha = RC / (RC + dt)
-        let count = (data.count - offset) / stride
-        var filtered = [Float](count: count, repeatedValue: 0.0)
-        filtered[0] = data[offset]
-
-        for var i = 1; i < count; ++i {
-            filtered[i] =  data[offset + i * stride] * alpha + filtered[i-1] * (1.0 - alpha)
-        }
-        return filtered
-    }
-    
     public func estimate(data data: MKSensorData) throws -> Estimate {
         let (sampleDimension, sampleData) = data.samples(along: [.Accelerometer(location: .LeftWrist), .Accelerometer(location: .RightWrist)])
         if sampleDimension == 0 { throw MKRepetitionEstimatorError.MissingAccelerometerType }
 
         // MARK: Setup basic variables
         let sampleDataLength = sampleData.count / sampleDimension
+        let preprocessor = MKInputPreperator()
         
         // MARK: First, compute autocorrelation across all dimensions of our data, summing & finding peaks along the way
 
@@ -77,7 +60,7 @@ public struct MKRepetitionEstimator {
         
         // Convolute the different dimensions to a single one by smoothing and adding them together
         (0..<sampleDimension).forEach { (d: Int) in
-            var smoothedSignal = highpassfilter(sampleData, rate: 1/50, freq: 1/5, offset: d, stride: sampleDimension)
+            var smoothedSignal = preprocessor.highpassfilter(sampleData, rate: 1/50, freq: 1/5, offset: d, stride: sampleDimension)
             vDSP_vadd(&convolutedSignal, vDSP_Stride(1),
                       &smoothedSignal, vDSP_Stride(1),
                       &convolutedSignal, vDSP_Stride(1),
