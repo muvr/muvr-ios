@@ -144,10 +144,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
 
     }
     
-    func transferModelsMetadata() {
-        connectivity.sendModelsMetadata(modelStore.modelsMetadata)
-    }
-    
     // MARK: - Core Data stack
     
     lazy var applicationDocumentsDirectory: NSURL = {

@@ -82,7 +82,6 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
         self.downloadingModels = true
         MRAppDelegate.sharedDelegate().modelStore.downloadModels() {
             self.downloadingModels = false
-            MRAppDelegate.sharedDelegate().transferModelsMetadata()
         }
     }
     
