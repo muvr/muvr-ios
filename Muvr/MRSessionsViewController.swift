@@ -100,7 +100,7 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
         // today as the day of week, where 1 is the first day of week (e.g. Monday in UK, Sunday in US, etc.)
         let weekDay = NSCalendar.currentCalendar().components(.Weekday, fromDate: today).weekday
         // the end of the week where ``today`` falls into
-        let dateAtEndOfWeek = today.addDays(7 - weekDay)
+        let dateAtEndOfWeek = today.addDays(8 - weekDay)
         
         return date.compare(dateAtEndOfWeek) == .OrderedAscending
     }
