@@ -19,7 +19,7 @@ class MKForwardPropagatorTests : XCTestCase {
     ///
     func testModelOfANDMatrix() {
         let model = try! MKForwardPropagator.configured(self.baseConfiguration, weights: [-30.0, 20.0, 20.0])
-        let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures, length: twoBinaryFeatures.count)
+        let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures, dimensions: 1, length: twoBinaryFeatures.count)
         
         XCTAssertEqualWithAccuracy(prediction[0], 1, accuracy: 0.0001);
         XCTAssertEqualWithAccuracy(prediction[1], 0, accuracy: 0.0001);
@@ -32,7 +32,7 @@ class MKForwardPropagatorTests : XCTestCase {
     ///
     func testModelOfORMatrix() {
         let model = try! MKForwardPropagator.configured(self.baseConfiguration, weights: [-10.0, 20.0, 20.0])
-        let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures, length: twoBinaryFeatures.count)
+        let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures, dimensions: 1, length: twoBinaryFeatures.count)
         
         XCTAssertEqualWithAccuracy(prediction[0], 1, accuracy: 0.0001);
         XCTAssertEqualWithAccuracy(prediction[1], 1, accuracy: 0.0001);
@@ -48,7 +48,7 @@ class MKForwardPropagatorTests : XCTestCase {
         conf.layerConfiguration = try! MKLayerConfiguration.parse(text: "2 logistic 2 logistic 1 logistic")
         
         let model = try! MKForwardPropagator.configured(conf, weights: [-30, 20, 20, 10, -20, -20, -10, 20, 20])
-        let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures, length: twoBinaryFeatures.count)
+        let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures, dimensions: 1, length: twoBinaryFeatures.count)
         
         XCTAssertEqualWithAccuracy(prediction[0], 1, accuracy: 0.0001);
         XCTAssertEqualWithAccuracy(prediction[1], 0, accuracy: 0.0001);
@@ -64,7 +64,7 @@ class MKForwardPropagatorTests : XCTestCase {
         conf.layerConfiguration = try! MKLayerConfiguration.parse(text: "2 relu 1 relu")
         
         let model = try! MKForwardPropagator.configured(conf, weights: [20, -17.5, -14.5])
-        let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures, length: twoBinaryFeatures.count)
+        let prediction = try! model.predictFeatureMatrix(twoBinaryFeatures, dimensions: 1, length: twoBinaryFeatures.count)
         
         XCTAssertEqualWithAccuracy(prediction[0], 0,   accuracy: 0.0001);
         XCTAssertEqualWithAccuracy(prediction[1], 2.5, accuracy: 0.0001);
@@ -88,7 +88,7 @@ class MKForwardPropagatorTests : XCTestCase {
             -3.968908727857065, 8.456453936484778, -22.223450906514095, 8.545523821607908, -14.004325499443924,
             -16.865896703590984, -10.256283161547678, 3.198517762647665, 20.095491610370658])
         
-        let prediction = try! model.predictFeatureMatrix(features, length: features.count)
+        let prediction = try! model.predictFeatureMatrix(features, dimensions: 1, length: features.count)
         
         XCTAssertEqualWithAccuracy(prediction[0], 1,           accuracy: 0.000000001);
         XCTAssertEqualWithAccuracy(prediction[1], 0.999999999, accuracy: 0.000000001);
@@ -107,7 +107,7 @@ class MKForwardPropagatorTests : XCTestCase {
         let model = try! MKForwardPropagator.configured(baseConfiguration, weights: [-30.0, 20.0, 20.0])
         
         do {
-            try model.predictFeatureMatrix(features, length: features.count)
+            try model.predictFeatureMatrix(features, dimensions: 1, length: features.count)
             XCTFail("Expected invalid matrix size exception.")
         } catch MKForwardPropagatorError.InvalidFeatureMatrixSize {
             // OK
@@ -125,7 +125,7 @@ class MKForwardPropagatorTests : XCTestCase {
         let model = try! MKForwardPropagator.configured(baseConfiguration, weights: [-30.0, 20.0, 20.0])
         
         do {
-            try model.predictFeatureMatrix(features, length: features.count)
+            try model.predictFeatureMatrix(features, dimensions: 1, length: features.count)
             XCTFail("Expected invalid matrix size exception.")
         } catch MKForwardPropagatorError.InvalidFeatureMatrixSize {
             // OK

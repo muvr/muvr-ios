@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct MKInputPreperator {
+public struct MKInputPreparator {
     private let accelerometerValueRange = Float(4.0) // most values will be between -2.0 and 2.0
     
     private let featureSampleRate = Float(1.0/50)
@@ -26,22 +26,28 @@ public struct MKInputPreperator {
     /// Apply a highpass filter to the passed in data using the given parameters. This will remove high frequency signal alterations from
     /// the data.
     ///
-    func highpassfilter(data: [Float], rate: Float, freq: Float, offset: Int = 0, stride: Int = 1) -> [Float] {
+    func highpassfilter(data: [Float], rate: Float, freq: Float, offset: Int = 0, stride: Int = 1, dimensions: Int = 1) -> [Float] {
         let dt = 1.0 / rate;
         let RC = 1.0 / freq;
         let alpha = RC / (RC + dt)
-        let count = (data.count - offset) / stride
-        var filtered = [Float](count: count, repeatedValue: 0.0)
-        filtered[0] = data[offset]
+        let count = (data.count - offset) / stride / dimensions
+        var filtered = [Float](count: count * dimensions, repeatedValue: 0.0)
         
-        for var i = 1; i < count; ++i {
-            filtered[i] =  data[offset + i * stride] * alpha + filtered[i-1] * (1.0 - alpha)
+        for d in 0..<dimensions {
+            filtered[d] = data[offset + d * stride]
+        }
+        
+        for var idx = 1; idx < count; ++idx {
+            for d in 0..<dimensions {
+                let i = idx * dimensions + d
+                filtered[i] =  data[offset + i * stride] * alpha + filtered[i-dimensions] * (1.0 - alpha)
+            }
         }
         return filtered
     }
     
-    func preprocess(input: [Float]) -> [Float] {
-        return highpassfilter(scale(input, range: self.accelerometerValueRange), rate: self.featureSampleRate, freq: self.highpassFilterCutoff)
+    func preprocess(input: [Float], dimensions: Int) -> [Float] {
+        return highpassfilter(scale(input, range: self.accelerometerValueRange), rate: self.featureSampleRate, freq: self.highpassFilterCutoff, dimensions: dimensions)
     }
 }
 
