@@ -45,7 +45,7 @@ public struct MKRepetitionEstimator {
 
         // MARK: Setup basic variables
         let sampleDataLength = sampleData.count / sampleDimension
-        let preprocessor = MKInputPreperator()
+        let preprocessor = MKInputPreparator()
         
         // MARK: First, compute autocorrelation across all dimensions of our data, summing & finding peaks along the way
 

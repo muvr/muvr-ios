@@ -26,7 +26,7 @@ public enum MKClassifierError : ErrorType {
 public struct MKClassifier {
     private let model: MKExerciseModel
     private let neuralNet: MKForwardPropagator
-    private let inputPreperator: MKInputPreperator
+    private let inputPreparator: MKInputPreparator
     private let windowSize = 400
     private let windowStepSize = 10
     private let numInputs: Int
@@ -44,7 +44,7 @@ public struct MKClassifier {
             biasValue: 1.0,
             biasUnits: 1)
         self.neuralNet = try MKForwardPropagator.configured(netConfig, weights: model.weights)
-        self.inputPreperator = MKInputPreperator()
+        self.inputPreparator = MKInputPreparator()
         self.numInputs = self.model.layerConfiguration.first!.size
         self.numClasses = self.model.exerciseIds.count
     }
@@ -78,7 +78,7 @@ public struct MKClassifier {
             throw MKClassifierError.NoSensorDataType(received: block.types, required: model.sensorDataTypes)
         }
         
-        m = self.inputPreperator.preprocess(m, dimensions: dimensions)
+        m = self.inputPreparator.preprocess(m, dimensions: dimensions)
         
         let rowCount = m.count / dimensions
         if rowCount < windowSize {

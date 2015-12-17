@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct MKInputPreperator {
+public struct MKInputPreparator {
     private let accelerometerValueRange = Float(4.0) // most values will be between -2.0 and 2.0
     
     private let featureSampleRate = Float(1.0/50)
