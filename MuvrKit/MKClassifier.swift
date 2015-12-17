@@ -72,15 +72,15 @@ public struct MKClassifier {
     ///
     func classifyWindows(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExerciseWindow] {
         // in the outer function, we perform the common decoding and basic checking
-        var (dimension, m) = block.samples(along: model.sensorDataTypes)
-        if dimension == 0 {
+        var (dimensions, m) = block.samples(along: model.sensorDataTypes)
+        if dimensions == 0 {
             // we could not find any slice that the model requires
             throw MKClassifierError.NoSensorDataType(received: block.types, required: model.sensorDataTypes)
         }
         
-        m = self.inputPreperator.preprocess(m)
+        m = self.inputPreperator.preprocess(m, dimensions: dimensions)
         
-        let rowCount = m.count / dimension
+        let rowCount = m.count / dimensions
         if rowCount < windowSize {
             // not enough input for classification
             throw MKClassifierError.NotEnoughRows(received: block.rowCount, required: windowSize)
@@ -91,10 +91,10 @@ public struct MKClassifier {
         let duration = Double(windowStepSize) / Double(block.samplesPerSecond)
         
         let cews: [MKClassifiedExerciseWindow] = try (0..<numWindows).map { window in
-            let offset = dimension * windowStepSize * window
+            let offset = dimensions * windowStepSize * window
             // NSLog("bytes \(offset)-\(offset + windowSize * sizeof(Double)); length \(doubleM.count * sizeof(Double))")
             let featureMatrix: UnsafePointer<Float> = UnsafePointer(m).advancedBy(offset)
-            let windowPrediction = try neuralNet.predictFeatureMatrix(featureMatrix, length: dimension * windowSize)
+            let windowPrediction = try neuralNet.predictFeatureMatrix(featureMatrix, dimensions: dimensions, length: dimensions * windowSize)
             let classRanking = (0..<numClasses).sort { x, y in
                 return windowPrediction[x] > windowPrediction[y]
             }

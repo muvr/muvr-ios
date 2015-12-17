@@ -157,8 +157,9 @@ public class MKForwardPropagator {
     /// Feed the input data through the neural network using forward propagation. The passed
     /// matrix should contain the feature values for one or multiple examples.
     ///
-    public func predictFeatureMatrix(matrix: UnsafePointer<Float>, length: Int) throws -> [Element] {
+    public func predictFeatureMatrix(matrix: UnsafePointer<Float>, dimensions: Int, length: Int) throws -> [Element] {
         let numExamples = length / self.featureVectorSize;
+        let featuresPerDimension = self.featureVectorSize / dimensions
         var biasValue = configuration.biasValue
         let numberOfBiasUnits = configuration.biasUnits * numExamples
         
@@ -169,11 +170,13 @@ public class MKForwardPropagator {
         
         // Copy feature-matrix into the buffer. We will transpose the feature matrix to get the
         // bias units in a row instead of a column for easier updates.
-        vDSP_mtrans(
-            matrix, vDSP_Stride(1),
-            &currentInputs[numberOfBiasUnits], vDSP_Stride(1),
-            vDSP_Length(self.featureVectorSize),
-            vDSP_Length(numExamples));
+        for i in 0..<dimensions {
+            vDSP_mtrans(
+                matrix.advancedBy(i), vDSP_Stride(dimensions),
+                &currentInputs[numberOfBiasUnits + i * featuresPerDimension * numExamples], vDSP_Stride(1),
+                vDSP_Length(featuresPerDimension),
+                vDSP_Length(numExamples));
+        }
         
         // Forward propagation algorithm
         for j in 0..<layers.count {
