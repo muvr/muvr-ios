@@ -1,21 +1,13 @@
-//
-//  MKInputPreperator.swift
-//  Muvr
-//
-//  Created by Tom Bocklisch on 14.12.15.
-//  Copyright © 2015 Muvr. All rights reserved.
-//
-
 import Foundation
 
-public struct MKInputPreparator {
+struct MKInputPreparator {
     private let accelerometerValueRange = Float(4.0) // most values will be between -2.0 and 2.0
     
     private let featureSampleRate = Float(1.0/50)
     
     private let highpassFilterCutoff = Float(1.0/10)
     
-    /// 
+    ///
     /// Scale the data that is in [-range/2, range/2] to be in range [-1, 1]
     ///
     func scale(data: [Float], range: Float) -> [Float] {
