@@ -3,7 +3,7 @@ import XCTest
 @testable import MuvrKit
 
 class MKStateChainTests : XCTestCase {
-    
+
     func testSlices() {
         let sc: MKStateChain<String> = MKStateChain(states: ["a", "b", "c", "d"])
         XCTAssertEqual(sc.slices[0], MKStateChain(states: ["a", "b", "c", "d"]))

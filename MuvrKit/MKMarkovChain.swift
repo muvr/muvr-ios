@@ -20,7 +20,7 @@ import Foundation
 ///
 ///
 struct MKMarkovChain<State where State : Hashable> {
-    var transitionMap: [MKStateChain<State> : MKMarkovTransitionSet<State>] = [:]
+    private var transitionMap: [MKStateChain<State> : MKMarkovTransitionSet<State>] = [:]
 
     ///
     /// Convenience method that adds a transition [previous] -> next
@@ -50,27 +50,93 @@ struct MKMarkovChain<State where State : Hashable> {
     /// - returns: the probability 0..1
     ///
     func transitionProbability(state1: State, state2: State) -> Double {
-        return transitionMap[MKStateChain(state: state1)].map { $0.probabilityFor(state2) } ?? 0
+        return transitionProbability(MKStateChain(state: state1), state2: state2)
+    }
+    
+    ///
+    /// Computes probability of transition from slices of state1 to state2
+    /// - parameter state1: the from state
+    /// - parameter state2: the to state
+    /// - returns: the probability 0..1
+    ///
+    func transitionProbability(state1: MKStateChain<State>, state2: State) -> Double {
+        return transitionMap[state1].map { $0.probabilityFor(state2) } ?? 0
     }
 
+    ///
+    /// Computes pairs of (state, probability) of transitions from ``from`` to the next
+    /// state. If favours longer slices of ``from``.
+    /// - parameter from: the completed state chain
+    /// - returns: non-ordered array of (state -> score)
+    ///
+    func transitionProbabilities(from: MKStateChain<State>) -> [(State, Double)] {
+        let states = Array(Set(transitionMap.keys.flatMap { $0.states }))
+        
+        return from.slices.flatMap { fromSlice in
+            return states.map { to in
+                return (to, self.transitionProbability(fromSlice, state2: to) * Double(fromSlice.count))
+            }
+        }
+    }
+    
 }
 
 ///
 /// State chain that holds a sequence of states
 ///
 struct MKStateChain<State where State : Hashable> : Hashable {
-    private let states: [State]
+    private var states: [State]
     
+    ///
+    /// Empty chain
+    ///
+    init() {
+        self.states = []
+    }
+    
+    ///
+    /// Chain with a single entry
+    /// - parameter state: the state
+    ///
     init(state: State) {
         self.states = [state]
     }
     
+    ///
+    /// Chain with many states
+    /// - parameter states: the states
+    ///
     init(states: [State]) {
         self.states = states
     }
-
+    
     ///
-    /// Slices in the array
+    /// Trims this chain by keeping the last ``maximumCount`` entries
+    /// - parameter maximumCount: the maximum number of entries to keep
+    ///
+    mutating func trim(maximumCount: Int) {
+        if states.count > maximumCount {
+            states.removeRange(0..<states.count - maximumCount)
+        }
+    }
+    
+    ///
+    /// Adds a new state
+    /// - parameter state: the next state
+    ///
+    mutating func addState(state: State) {
+        states.append(state)
+    }
+    
+    ///
+    /// The number of states
+    ///
+    var count: Int {
+        return states.count
+    }
+    
+    ///
+    /// Slices of the states from the longest one to the shortest one
     ///
     var slices: [MKStateChain<State>] {
         // "a", "b", "c", "d"
@@ -83,12 +149,16 @@ struct MKStateChain<State where State : Hashable> : Hashable {
         }
     }
  
+    /// the hash value
     var hashValue: Int {
         return self.states.reduce(0) { r, s in return Int.addWithOverflow(r, s.hashValue).0 }
     }
     
 }
 
+///
+/// Implementation of ``Equatable`` for ``MKStateChain<S where S : Equatable>``
+///
 func ==<State where State : Equatable>(lhs: MKStateChain<State>, rhs: MKStateChain<State>) -> Bool {
     if lhs.states.count != rhs.states.count {
         return false
@@ -101,8 +171,11 @@ func ==<State where State : Equatable>(lhs: MKStateChain<State>, rhs: MKStateCha
     return true
 }
 
+///
+/// The transition set
+///
 struct MKMarkovTransitionSet<State where State : Hashable> {
-    var transitionCounter: [State : Int] = [:]
+    private var transitionCounter: [State : Int] = [:]
     
     func countFor(state: State) -> Int {
         return transitionCounter[state] ?? 0
