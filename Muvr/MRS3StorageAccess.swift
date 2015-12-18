@@ -139,7 +139,7 @@ class MRS3StorageAccess: MRStorageAccessProtocol {
             prefix = prefix.substringFromIndex(prefix.startIndex.successor())
         }
         // add ending ``/`` if needed
-        if prefix[prefix.endIndex] != "/" {
+        if prefix[prefix.endIndex.predecessor()] != "/" {
             prefix = "\(prefix)/"
         }
         
