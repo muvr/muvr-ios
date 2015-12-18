@@ -64,6 +64,11 @@
 		547791061C2365F400763197 /* MKInputPreparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF0AF3D1C1F349300B95154 /* MKInputPreparator.swift */; };
 		547791071C23660A00763197 /* MKInputPreperatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF0AF401C1F390300B95154 /* MKInputPreperatorTests.swift */; };
 		547791091C23727A00763197 /* MKStateChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547791081C23727A00763197 /* MKStateChainTests.swift */; };
+		5477910B1C24713000763197 /* MKExercisePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5477910A1C24713000763197 /* MKExercisePlan.swift */; };
+		5477910C1C24713000763197 /* MKExercisePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5477910A1C24713000763197 /* MKExercisePlan.swift */; };
+		5477910E1C2474AF00763197 /* MKPlannedExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5477910D1C2474AF00763197 /* MKPlannedExercise.swift */; };
+		5477910F1C2474AF00763197 /* MKPlannedExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5477910D1C2474AF00763197 /* MKPlannedExercise.swift */; };
+		547791111C247EAE00763197 /* MKExercisePlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547791101C247EAE00763197 /* MKExercisePlanTests.swift */; };
 		547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */; };
 		547A44541BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */; };
 		547A445A1BB8585300C2CC06 /* MKWatchConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */; };
@@ -313,6 +318,9 @@
 		547791001C235E1900763197 /* MKMarkovChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMarkovChain.swift; sourceTree = "<group>"; };
 		547791041C23641900763197 /* MKMarkovChainTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMarkovChainTests.swift; sourceTree = "<group>"; };
 		547791081C23727A00763197 /* MKStateChainTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKStateChainTests.swift; sourceTree = "<group>"; };
+		5477910A1C24713000763197 /* MKExercisePlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExercisePlan.swift; sourceTree = "<group>"; };
+		5477910D1C2474AF00763197 /* MKPlannedExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPlannedExercise.swift; sourceTree = "<group>"; };
+		547791101C247EAE00763197 /* MKExercisePlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExercisePlanTests.swift; sourceTree = "<group>"; };
 		547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseModel.swift; sourceTree = "<group>"; };
 		547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKWatchConnectivityDelegates.swift; sourceTree = "<group>"; };
 		547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKWatchConnectivity.swift; sourceTree = "<group>"; };
@@ -646,7 +654,7 @@
 		546E685A1BB98D0800DC0FEF /* MuvrKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				547791031C23640800763197 /* Session */,
+				547791031C23640800763197 /* Plan */,
 				54E913171BC306A500B7F9F0 /* Resources */,
 				548E27751BF3FD2900899EBC /* Model */,
 				540AA44B1BDBE66300908F4B /* Connectivity */,
@@ -659,21 +667,24 @@
 			path = MuvrKitTests;
 			sourceTree = "<group>";
 		};
-		547790FF1C235C5400763197 /* Session */ = {
+		547790FF1C235C5400763197 /* Plan */ = {
 			isa = PBXGroup;
 			children = (
 				547791001C235E1900763197 /* MKMarkovChain.swift */,
+				5477910A1C24713000763197 /* MKExercisePlan.swift */,
+				5477910D1C2474AF00763197 /* MKPlannedExercise.swift */,
 			);
-			name = Session;
+			name = Plan;
 			sourceTree = "<group>";
 		};
-		547791031C23640800763197 /* Session */ = {
+		547791031C23640800763197 /* Plan */ = {
 			isa = PBXGroup;
 			children = (
 				547791041C23641900763197 /* MKMarkovChainTests.swift */,
 				547791081C23727A00763197 /* MKStateChainTests.swift */,
+				547791101C247EAE00763197 /* MKExercisePlanTests.swift */,
 			);
-			name = Session;
+			name = Plan;
 			sourceTree = "<group>";
 		};
 		547E6A821AF35680005DE00C /* Exercise */ = {
@@ -750,7 +761,7 @@
 		54A775F71BB81467001586DD /* MuvrKit */ = {
 			isa = PBXGroup;
 			children = (
-				547790FF1C235C5400763197 /* Session */,
+				547790FF1C235C5400763197 /* Plan */,
 				5469D3801BBA6E1000EE5ADB /* SensorData */,
 				54D3457C1BB922FF00F65091 /* Classification */,
 				54D3457B1BB922F400F65091 /* Connectivity */,
@@ -1306,6 +1317,7 @@
 				540AA4511BDBFF6B00908F4B /* MKSessionClassifierTests.swift in Sources */,
 				543E169C1BF3FB2D00990ABE /* MKLayerConfiguration+ParsingTests.swift in Sources */,
 				647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */,
+				547791111C247EAE00763197 /* MKExercisePlanTests.swift in Sources */,
 				9D6D27AF1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift in Sources */,
 				548E277F1BF3FFA700899EBC /* MKActivationFunction+ApplyOn.swift in Sources */,
 				548CAB3D1BBAF72600A34D81 /* MKClassifierTests.swift in Sources */,
@@ -1365,7 +1377,9 @@
 				54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */,
 				5487F59C1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift in Sources */,
 				5474E8A41BF3E9D900A29D3B /* MKExerciseModel+Parsing.swift in Sources */,
+				5477910B1C24713000763197 /* MKExercisePlan.swift in Sources */,
 				54845AD21BD8D73500C33DBF /* MKLabelledExercise.swift in Sources */,
+				5477910E1C2474AF00763197 /* MKPlannedExercise.swift in Sources */,
 				5469D3821BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */,
 				546E68521BB969DD00DC0FEF /* MKSensorData+Encoding.swift in Sources */,
 				5431545C1BE107F60031BE61 /* MKForwardPropagator.swift in Sources */,
@@ -1383,9 +1397,11 @@
 			files = (
 				547A445A1BB8585300C2CC06 /* MKWatchConnectivity.swift in Sources */,
 				54D3458C1BB928B600F65091 /* MKClassificationPipeline.swift in Sources */,
+				5477910C1C24713000763197 /* MKExercisePlan.swift in Sources */,
 				54D345851BB9251700F65091 /* MKClassifiedExercise.swift in Sources */,
 				547A445C1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift in Sources */,
 				5469081B1BC701C200BA1047 /* MKWatchExerciseConnectivitySession.swift in Sources */,
+				5477910F1C2474AF00763197 /* MKPlannedExercise.swift in Sources */,
 				54845AD31BD8D73500C33DBF /* MKLabelledExercise.swift in Sources */,
 				5469D3831BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */,
 				544DC9CA1BF8B2B200D79E67 /* MKSensorDataEncoder.swift in Sources */,

@@ -4,7 +4,7 @@ import XCTest
 
 class MKMarkovChainTests : XCTestCase {
     private let allLabels = ["biceps-curl", "triceps-extension", "lateral-raise"]
-    private let armsStates = [
+    private let armsExerciseIdsStates = [
         "triceps-extension", "biceps-curl", "biceps-curl", "biceps-curl",       "triceps-extension", "biceps-curl",
         "triceps-extension", "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension", "biceps-curl",
         "triceps-extension", "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension", "triceps-extension",
@@ -13,9 +13,9 @@ class MKMarkovChainTests : XCTestCase {
         "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension",
         "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension"]
     
-    func testX() {
+    func testTrivial() {
         var c: MKMarkovChain<String> = MKMarkovChain()
-        let s = MKStateChain(states: armsStates)
+        let s = MKStateChain(states: armsExerciseIdsStates)
         c.addTransition(s, next: "biceps-curl")
 
         for s1 in allLabels {
