@@ -3,6 +3,17 @@ import CoreData
 import MuvrKit
 
 class MRManagedExerciseSession: NSManagedObject {
+    private var _plan: MKExercisePlan?
+    
+    ///
+    /// The current exercise plan
+    ///
+    var plan: MKExercisePlan {
+        get {
+            if _plan == nil { _plan = MKExercisePlan() }
+            return _plan!
+        }
+    }
     
     static func sessionsOnDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
