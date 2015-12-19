@@ -29,9 +29,9 @@ extension MRExerciseModel {
             var model = index == nil ? MRExerciseModel(id: modelId, version: version) : models[index!]
             
             switch (filetype) {
-                case .layers:  model = model.with(layers: url)
-                case .labels:  model = model.with(labels: url)
-                case .weights: model = model.with(weights: url)
+                case .Layers:  model = model.with(layers: url)
+                case .Labels:  model = model.with(labels: url)
+                case .Weights: model = model.with(weights: url)
             }
             
             if let index = index { models[index] = model }

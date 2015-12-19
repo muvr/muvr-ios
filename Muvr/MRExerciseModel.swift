@@ -3,9 +3,9 @@ import MuvrKit
 typealias MRExerciseModelVersion = Int
 
 enum MRExerciseModelFileType: String {
-    case labels
-    case layers
-    case weights
+    case Labels = "labels"
+    case Layers = "layers"
+    case Weights = "weights"
 }
 
 struct MRExerciseModel {
