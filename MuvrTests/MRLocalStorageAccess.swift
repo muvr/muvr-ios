@@ -10,6 +10,7 @@ class MRLocalStorageAccess: MRStorageAccessProtocol {
     }
     
     private(set) var uploads: [NSURL] = [NSURL]()
+    private(set) var downloads: [NSURL] = [NSURL]()
     
     func reset() {
         let fileManager = NSFileManager.defaultManager()
@@ -19,7 +20,7 @@ class MRLocalStorageAccess: MRStorageAccessProtocol {
             } catch { }
         }
         uploads = [NSURL]()
-        
+        downloads = [NSURL]()
     }
     
     ///
@@ -35,6 +36,33 @@ class MRLocalStorageAccess: MRStorageAccessProtocol {
         data.writeToURL(url, atomically: true)
         uploads.append(url)
         continuation()
+    }
+    
+    ///
+    /// download the remote file pointed by ``path``
+    ///
+    func downloadFile(path: String, continuation: NSURL? -> Void) {
+        downloadFile(dir.URLByAppendingPathComponent(path), continuation: continuation)
+    }
+    ///
+    /// download the remote file pointed by ``url``
+    ///
+    func downloadFile(url: NSURL, continuation: NSURL? -> Void) {
+        downloads.append(url)
+        continuation(url)
+    }
+    
+    ///
+    /// list the remote files located at ``path``
+    ///
+    func listFiles(path: String, continuation: [NSURL]? -> Void) {
+        listFiles(dir.URLByAppendingPathComponent(path), continuation: continuation)
+    }
+    ///
+    /// list the remote files located at ``url``
+    ///
+    func listFiles(url: NSURL, continuation: [NSURL]? -> Void) {
+        continuation(uploads)
     }
     
 }

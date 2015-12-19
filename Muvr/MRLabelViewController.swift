@@ -10,61 +10,10 @@ import CoreData
 class MRLabelViewController : UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     private var start: NSDate?
     var session: MRManagedExerciseSession?
-    
-    //Hard-coded for now
-    private let exerciseList = [
-        // biceps
-        "biceps-curl",
-        "barbell-curl",
-        "reverse-cable-curl",
-        "overhead-cable-curl",
-        // triceps
-        "triceps-extension",
-        "triceps-pushdown",
-        "triceps-dips",
-        "dumbbell-triceps-pullover",
-        // shoulders
-        "lateral-raise",
-        "lateral-pulldown-straight",
-        "dumbbell-shoulder-press",
-        "bent-arm-barbell-pullover",
-        "upright-barbell-row",
-        "reverse-flyes",
-        "pull-up",
-        "chin-up",
-        // chest
-        "dumbbell-bench-press",
-        "bench-press",
-        "dumbbell-flyes",
-        "cable-crossover",
-        "iron-cross",
-        "butterfly-machine",
-        "chest-press-machine",
-        // back
-        "lateral-pulldown",
-        "cable-row",
-        "barbell-row",
-        "back-extensions",
-        // legs
-        "vertical-swing",
-        "barbell-squat",
-        "squat",
-        "barbell-walking-lunges",
-        "barbell-deadlift",
-        "dumbbell-calf-raise",
-        // abs
-        "suitcase-crunches",
-        "crunches",
-        "oblique-crunches",
-        "alternate-heel-touchers",
-        // cardio
-        "running-machine-hit",
-        "running-machine",
-        "cross-trainer",
-        "rowing-machine",
-        "boxercise"
-    ]
-    
+
+    /// List of exerciseIds used in auto-completion
+    private var exerciseList: [MKExerciseId] = []
+
     private var autocompleteExercises = [String]()
     
     @IBOutlet weak var exerciseId: UITextField!
@@ -78,6 +27,9 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let session = session {
+            exerciseList = MRAppDelegate.sharedDelegate().modelStore.exerciseIds(model: session.exerciseModelId)
+        }
         autocompleteTableView.delegate = self
         autocompleteTableView.dataSource = self
         autocompleteTableView.scrollEnabled = true

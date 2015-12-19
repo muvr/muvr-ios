@@ -10,7 +10,7 @@ enum MRNotifications : String {
 }
 
 @UIApplicationMain
-class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, MKSessionClassifierDelegate {
+class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDelegate {
     
     // TODO: Move to configuration file
     let accessKey = "AKIAIOSFODNN7EXAMPLE"
@@ -19,6 +19,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     var window: UIWindow?
     
     private(set) var sessionStore: MRExerciseSessionStore!
+    private(set) var modelStore: MRExerciseModelStore!
     private var connectivity: MKConnectivity!
     private var classifier: MKSessionClassifier!
     private var sessions: [MRManagedExerciseSession] = []
@@ -46,8 +47,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         let remoteStorage = MRS3StorageAccess(accessKey: accessKey, secretKey: secretKey)
         sessionStore = MRExerciseSessionStore(storageAccess: remoteStorage)
+        modelStore = MRExerciseModelStore(storageAccess: remoteStorage)
         // set up the classification and connectivity
-        classifier = MKSessionClassifier(exerciseModelSource: self, delegate: self)
+        classifier = MKSessionClassifier(exerciseModelSource: modelStore, delegate: self)
         connectivity = MKConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
         
         authorizeHealthKit()
@@ -95,14 +97,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKExerciseModelSource, 
     
     func applicationWillResignActive(application: UIApplication) {
         application.idleTimerDisabled = false
-    }
-
-    func getExerciseModel(id id: MKExerciseModelId) throws -> MKExerciseModel {
-        // setup the classifier
-        let bundlePath = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
-        let bundle = NSBundle(path: bundlePath)!
-
-        return try MKExerciseModel(fromBundle: bundle, id: id)
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {

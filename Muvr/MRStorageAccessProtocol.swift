@@ -15,5 +15,22 @@ protocol MRStorageAccessProtocol {
     /// upload the given ``data`` into remote ``url``
     ///
     func uploadFile(url: NSURL, data: NSData, continuation: () -> Void)
+    ///
+    /// download the remote file pointed by ``path``
+    ///
+    func downloadFile(path: String, continuation: NSURL? -> Void)
+    ///
+    /// download the remote file pointed by ``url``
+    ///
+    func downloadFile(url: NSURL, continuation: NSURL? -> Void)
+    ///
+    /// list the remote files located at ``path``
+    ///
+    func listFiles(path: String, continuation: [NSURL]? -> Void)
+    ///
+    /// list the remote files located at ``url``
+    ///
+    func listFiles(url: NSURL, continuation: [NSURL]? -> Void)
+    
     
 }

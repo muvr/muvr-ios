@@ -16,6 +16,12 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
 
     // the session view controllers of the selected date
     private var sessionViewControllers: [UIViewController] = []
+    
+    // indicates if app is currently downloading models
+    private var downloadingModels: Bool = false
+    
+    // label showing the model's version
+    private var modelVersionLabel: UILabel? = nil
 
     ///
     /// fetched the sessions on the given date and displays the most recent one
@@ -65,6 +71,45 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
         view.addSubview(pageViewController.view)
         
         showSessionsOn(date: today)
+        
+        // refresh models button
+        let buttonView = UIButton(frame: CGRectMake(0, 0, 24, 24))
+        let refreshButton = UIBarButtonItem(customView: buttonView)
+        buttonView.setBackgroundImage(UIImage(named: "refresh"), forState: .Normal)
+        navigationItem.setRightBarButtonItems([refreshButton], animated: false)
+        buttonView.addTarget(self, action: "refreshModels", forControlEvents: .TouchUpInside)
+        
+        displayModelVersion()
+    }
+    
+    func refreshModels() {
+        guard let refreshButton = navigationItem.rightBarButtonItems?.first?.customView else { return }
+        refreshButton.rotate(0.5, delegate: self)
+        self.downloadingModels = true
+        MRAppDelegate.sharedDelegate().modelStore.downloadModels() {
+            self.downloadingModels = false
+            self.displayModelVersion()
+        }
+    }
+    
+    /// Animation callback
+    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+        guard let refreshButton = navigationItem.rightBarButtonItems?.first?.customView else { return }
+        if downloadingModels {
+            // still downloading, rotate one more time
+            refreshButton.rotate(0.5, delegate: self)
+        }
+    }
+    
+    func displayModelVersion() {
+        // label showing version of ``arms`` model
+        if modelVersionLabel == nil {
+            modelVersionLabel = UILabel(frame: CGRectMake(0, 0, 32, 24))
+            let modelVersionButton = UIBarButtonItem(customView: modelVersionLabel!)
+            modelVersionLabel?.font = UIFont.systemFontOfSize(12)
+            navigationItem.setLeftBarButtonItem(modelVersionButton, animated: false)
+        }
+        self.modelVersionLabel?.text = (MRAppDelegate.sharedDelegate().modelStore.models["arms"]?.version).map { return "v \($0)" }
     }
     
     override func viewDidAppear(animated: Bool) {
