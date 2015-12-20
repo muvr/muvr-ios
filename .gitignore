@@ -148,3 +148,6 @@ checkpoint
 
 timeline.xctimeline
 
+Muvr/Private/*.swift
+
+
