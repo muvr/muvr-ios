@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "541ABBB21AC577E00056A81B"
+               BlueprintIdentifier = "642363591C18A20E00ABF4CA"
                BuildableName = "MuvrTests.xctest"
                BlueprintName = "MuvrTests"
                ReferencedContainer = "container:Muvr.xcodeproj">
@@ -84,7 +84,7 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "--reset-container"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--default-data"
