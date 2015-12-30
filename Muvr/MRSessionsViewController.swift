@@ -46,10 +46,19 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     /// callback function when the session starts
     ///  - display the currently running session
     ///
-    func sessionDidStart() {
-        let today = NSDate()
-        calendar.setDate(today)
-        showSessionsOn(date: today)
+    func sessionDidStart(notification: NSNotification) {
+//        let today = NSDate()
+//        calendar.setDate(today)
+//        showSessionsOn(date: today)
+        performSegueWithIdentifier("exercise", sender: notification.object)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let svc = segue.destinationViewController as? MRSessionViewController,
+           let session = MRAppDelegate.sharedDelegate().managedObjectContext.objectWithID(sender as! NSManagedObjectID) as? MRManagedExerciseSession {
+            svc.navigationItem.hidesBackButton = true
+            svc.setSession(session)
+        }
     }
 
     // MARK: UIViewController
@@ -113,7 +122,7 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     }
     
     override func viewDidAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidStart", name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidStart:", name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {

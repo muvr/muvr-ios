@@ -72,6 +72,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     func sessionDidEnd() {
         labelView.hidden = true
+        navigationController?.popToRootViewControllerAnimated(true)
     }
     
     func sessionDidComplete() {

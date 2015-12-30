@@ -41,14 +41,14 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="calendarContentView" destination="AFJ-6W-tID" id="aCt-nU-nf1"/>
-                        <segue destination="R8z-14-vmd" kind="presentation" identifier="exercise" id="d5F-vN-W0O"/>
+                        <segue destination="R8z-14-vmd" kind="show" identifier="exercise" id="d5F-vN-W0O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PRW-qL-C2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3607" y="-498"/>
         </scene>
-        <!--Session-->
+        <!--Arms-->
         <scene sceneID="3Pe-4z-cY9">
             <objects>
                 <viewController storyboardIdentifier="sessionViewController" id="R8z-14-vmd" customClass="MRSessionViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
@@ -64,7 +64,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <view key="tableFooterView" hidden="YES" contentMode="scaleToFill" id="tUk-7a-VeK">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="276"/>
+                                    <rect key="frame" x="0.0" y="94" width="414" height="276"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h71-YQ-rUP" customClass="MRTimedButton" customModule="Muvr" customModuleProvider="target">
@@ -114,7 +114,7 @@
                             <constraint firstAttribute="trailing" secondItem="2ll-3P-d5c" secondAttribute="trailing" id="uf0-rT-aXr"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Session" id="ZXu-xL-n0m"/>
+                    <navigationItem key="navigationItem" title="Arms" id="ZXu-xL-n0m"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="labelButton" destination="h71-YQ-rUP" id="ghZ-qS-7ta"/>
