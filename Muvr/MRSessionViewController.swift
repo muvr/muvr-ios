@@ -8,13 +8,9 @@ import MuvrKit
 ///
 class MRSessionViewController : UIViewController, UITableViewDataSource {
     
-    @IBOutlet weak var shareCSVBtn: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var addLabelBtn: UIBarButtonItem!
-    @IBOutlet weak var navbar: UINavigationBar!
-    @IBOutlet var sessionBar: UINavigationItem!
-    
-    private var dataWaitingSpinner: UIBarButtonItem?
+    @IBOutlet weak var labelButton: MRTimedButton!
+    @IBOutlet weak var labelView: UIView!
     
     // the displayed session
     private var session: MRManagedExerciseSession?
@@ -47,6 +43,10 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     // MARK: UIViewController
+    
+    override func viewDidLoad() {
+        tableView.registerNib(MRExerciseSetTableViewCell.nib, forCellReuseIdentifier: MRExerciseSetTableViewCell.cellReuseIdentifier)
+    }
 
     override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -60,77 +60,40 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         }
         tableView.reloadData()
         if let session = session where !session.completed && NSDate().timeIntervalSinceDate(session.start) < 24*60*60 {
-            // only show the spinner for not tool old session (in range of 1 day to current time)
-            showDataWaitingSpinner()
-        } else {
-            hideDataWaitingSpinner()
+            labelView.hidden = false
         }
-    }
-    
-    override func viewDidLoad() {
-        addLabelBtn.enabled = session != nil && session?.end == nil
-        shareCSVBtn.enabled = session?.sensorData?.length > 0
-        if let s = session {
-            navbar.topItem!.title = "\(s.start.formatTime()) - \(s.exerciseModelId)"
-        } else {
-            navbar.topItem!.title = nil
-        }
-    }
-    
-    private func showDataWaitingSpinner() {
-        guard dataWaitingSpinner == nil else { return }
-        let spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
-        spinnerView.frame = CGRectMake(0, 0, 14, 14)
-        spinnerView.color = UIColor.blackColor()
-        dataWaitingSpinner = UIBarButtonItem(customView: spinnerView)
-        dataWaitingSpinner!.title = ""
-        sessionBar.setLeftBarButtonItems([dataWaitingSpinner!], animated: true)
-        (dataWaitingSpinner!.customView! as! UIActivityIndicatorView).startAnimating()
-    }
-    
-    private func hideDataWaitingSpinner() {
-        guard dataWaitingSpinner != nil else { return }
-        dataWaitingSpinner!.customView = nil
     }
     
     // MARK: notification callbacks
     
     func update() {
-        shareCSVBtn.enabled = session?.sensorData?.length > 0
         tableView.reloadData()
     }
     
     func sessionDidEnd() {
-        addLabelBtn.enabled = false
+        labelView.hidden = true
     }
     
     func sessionDidComplete() {
-        hideDataWaitingSpinner()
+        labelView.hidden = true
     }
     
     // MARK: Share & label
     
     /// share the CSV session data
-    @IBAction func shareCSV() {
-        guard let session = session else { return }
-        let spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
-        spinnerView.frame = CGRectMake(0, 0, 14, 14)
-        spinnerView.color = UIColor.blackColor()
-        let dataWaitingSpinner = UIBarButtonItem(customView: spinnerView)
-        dataWaitingSpinner.title = ""
-        sessionBar.setRightBarButtonItems([addLabelBtn, dataWaitingSpinner], animated: false)
-        (dataWaitingSpinner.customView! as! UIActivityIndicatorView).startAnimating()
-        
-        // make sure to keep a ref to the share Btn
-        let shareBtn = shareCSVBtn
-        MRAppDelegate.sharedDelegate().sessionStore.uploadSession(session) {
-            NSLog("SESSION UPLOADED")
-            dispatch_async(dispatch_get_main_queue(), {
-                self.shareCSVBtn = shareBtn
-                self.sessionBar.setRightBarButtonItems([self.addLabelBtn, self.shareCSVBtn], animated: false)
-            })
-        }
-    }
+//    @IBAction func shareCSV() {
+//        guard let session = session else { return }
+//        
+//        // make sure to keep a ref to the share Btn
+//        let shareBtn = shareCSVBtn
+//        MRAppDelegate.sharedDelegate().sessionStore.uploadSession(session) {
+//            NSLog("SESSION UPLOADED")
+//            dispatch_async(dispatch_get_main_queue(), {
+//                self.shareCSVBtn = shareBtn
+//                self.sessionBar.setRightBarButtonItems([self.addLabelBtn, self.shareCSVBtn], animated: false)
+//            })
+//        }
+//    }
     
     /// display the ``Add label`` screen
     @IBAction func label(sender: UIBarButtonItem) {
@@ -143,77 +106,51 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         }
     }
     
-    /// check if a given classified exercise match a labelled exercise
-    private func matchLabel(ce: MRManagedClassifiedExercise) -> Bool? {
-        guard let session = session where session.labelledExercises.count > 0 else {
-            // no labels found in session -> nothing to check
-            return nil
-        }
-        let match = session.labelledExercises.reduce(false) { result, le in
-            guard let le = le as? MRManagedLabelledExercise where !result else { return result }
-            let duration = le.end.timeIntervalSinceDate(le.start)
-            let tolerance = 8.0
-            let matchStart = abs(le.start.timeIntervalSinceDate(ce.start)) < tolerance / 2
-            let matchDuration = abs(duration - ce.duration) < tolerance
-            let matchLabel = le.exerciseId == ce.exerciseId
-            return matchStart && matchDuration && matchLabel
-        }
-        return match
-    }
-    
     // MARK: UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0: return "Classified Exercises"
-        case 1: return "Labels"
-        default: return nil
-        }
+        return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0: return session?.classifiedExercises.count ?? 0
-        case 1: return session?.labelledExercises.count ?? 0
-        default: return 0
-        }
+        return session?.sets.count ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case 0:
-            let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
-            let ce = session!.classifiedExercises.reverse()[indexPath.row] as! MRManagedClassifiedExercise
-            cell.textLabel!.text = ce.exerciseId
-            let weight = ce.weight.map { w in "\(NSString(format: "%.2f", w)) kg" } ?? ""
-            let intensity = ce.intensity.map { i in "Intensity: \(NSString(format: "%.2f", i))" } ?? ""
-            let duration = "\(NSString(format: "%.0f", ce.duration))s"
-            let repetitions = ce.repetitions.map { r in "x\(r)" } ?? ""
-            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(duration) - \(repetitions) - \(weight) - \(intensity)"
-            guard let imageView = cell.viewWithTag(10) as? UIImageView else { return cell }
-            if let match = matchLabel(ce) {
-                imageView.image = UIImage(named: match ? "tick" : "miss")
-            } else {
-                imageView.image = nil
-            }
-            return cell
-        case 1:
-            let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
-            let le = session!.labelledExercises.reverse()[indexPath.row] as! MRManagedLabelledExercise
-            cell.textLabel!.text = le.exerciseId
-            let weight = "\(NSString(format: "%.2f", le.weight)) kg"
-            let intensity = "Intensity: \(NSString(format: "%.2f", le.intensity))"
-            let duration = "\(NSString(format: "%.0f", le.end.timeIntervalSince1970 - le.start.timeIntervalSince1970))s"
-            let repetitions = "x\(le.repetitions)"
-            cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(duration) - \(repetitions) - \(weight) - \(intensity)"
-            return cell
-        default:
-            fatalError()
-        }
+        let set = session!.sets[indexPath.row]
+        let cell = tableView.dequeueReusableCellWithIdentifier(MRExerciseSetTableViewCell.cellReuseIdentifier, forIndexPath: indexPath) as! MRExerciseSetTableViewCell
+        cell.setSet(set)
+        return cell
+//        switch indexPath.section {
+//        case 0:
+//            let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
+//            let ce = session!.classifiedExercises.reverse()[indexPath.row] as! MRManagedClassifiedExercise
+//            cell.textLabel!.text = ce.exerciseId
+//            let weight = ce.weight.map { w in "\(NSString(format: "%.2f", w)) kg" } ?? ""
+//            let intensity = ce.intensity.map { i in "Intensity: \(NSString(format: "%.2f", i))" } ?? ""
+//            let duration = "\(NSString(format: "%.0f", ce.duration))s"
+//            let repetitions = ce.repetitions.map { r in "x\(r)" } ?? ""
+//            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(duration) - \(repetitions) - \(weight) - \(intensity)"
+//            guard let imageView = cell.viewWithTag(10) as? UIImageView else { return cell }
+//            if let match = matchLabel(ce) {
+//                imageView.image = UIImage(named: match ? "tick" : "miss")
+//            } else {
+//                imageView.image = nil
+//            }
+//            return cell
+//        case 1:
+//            let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
+//            let le = session!.labelledExercises.reverse()[indexPath.row] as! MRManagedLabelledExercise
+//            cell.textLabel!.text = le.exerciseId
+//            let weight = "\(NSString(format: "%.2f", le.weight)) kg"
+//            let intensity = "Intensity: \(NSString(format: "%.2f", le.intensity))"
+//            let duration = "\(NSString(format: "%.0f", le.end.timeIntervalSince1970 - le.start.timeIntervalSince1970))s"
+//            let repetitions = "x\(le.repetitions)"
+//            cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(duration) - \(repetitions) - \(weight) - \(intensity)"
+//            return cell
+//        default:
+//            fatalError()
+//        }
     }
     
 }

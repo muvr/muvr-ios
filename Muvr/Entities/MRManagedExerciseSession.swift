@@ -15,6 +15,20 @@ class MRManagedExerciseSession: NSManagedObject {
         }
     }
     
+    var sets: [[MRManagedClassifiedExercise]] {
+        get {
+            var em: [MKExerciseId : [MRManagedClassifiedExercise]] = [:]
+            classifiedExercises.forEach { x in
+                if let l = em[x.exerciseId] {
+                    em[x.exerciseId] = l + [x as! MRManagedClassifiedExercise]
+                } else {
+                    em[x.exerciseId] = [x as! MRManagedClassifiedExercise]
+                }
+            }
+            return em.values.sort { l, r in l.first!.exerciseId > r.first!.exerciseId }
+        }
+    }
+    
     static func sessionsOnDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
         let midnightToday = date.dateOnly

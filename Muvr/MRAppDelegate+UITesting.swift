@@ -49,6 +49,7 @@ extension MRAppDelegate  {
         session.id = NSUUID().UUIDString
         session.exerciseModelId = "arms"
         session.start = date
+        session.completed = true
         
         (0..<10).forEach { i in generateClassifiedExercise(date: date, session: session, index: i) }
         (0..<2).forEach { i in generateLabelledExercise(date: date, session: session, index: i) }
@@ -75,7 +76,7 @@ extension MRAppDelegate  {
             let fileManager = NSFileManager.defaultManager()
             [NSSearchPathDirectory.DocumentDirectory, NSSearchPathDirectory.ApplicationSupportDirectory].forEach { directory  in
                 if let docs = NSSearchPathForDirectoriesInDomains(directory, NSSearchPathDomainMask.UserDomainMask, true).first {
-                    try! fileManager.contentsOfDirectoryAtPath(docs).forEach { file in
+                    (try? fileManager.contentsOfDirectoryAtPath(docs))?.forEach { file in
                         do {
                             try fileManager.removeItemAtPath("\(docs)/\(file)")
                         } catch {
