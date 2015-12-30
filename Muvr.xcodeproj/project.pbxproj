@@ -31,7 +31,6 @@
 		543C9A1B1BDD439B00291EC5 /* MRManagedClassifiedExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C9A151BDD439B00291EC5 /* MRManagedClassifiedExercise.swift */; };
 		543E169C1BF3FB2D00990ABE /* MKLayerConfiguration+ParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543E169B1BF3FB2D00990ABE /* MKLayerConfiguration+ParsingTests.swift */; };
 		543E90B21C26FF640050F87A /* Aws.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543E90B11C26FF640050F87A /* Aws.swift */; };
-		543E90B41C26FFEE0050F87A /* README in Resources */ = {isa = PBXBuildFile; fileRef = 543E90B31C26FFEE0050F87A /* README */; };
 		544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 544201381B9384B500354DB7 /* CoreBluetooth.framework */; };
 		54430EC01BC2CF5200541979 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54DE161B1BAD941000F0752B /* CoreMotion.framework */; };
 		54430EC51BC2CFD300541979 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54DE161F1BAD94A400F0752B /* HealthKit.framework */; };
@@ -293,7 +292,6 @@
 		543C9A151BDD439B00291EC5 /* MRManagedClassifiedExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedClassifiedExercise.swift; sourceTree = "<group>"; };
 		543E169B1BF3FB2D00990ABE /* MKLayerConfiguration+ParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKLayerConfiguration+ParsingTests.swift"; sourceTree = "<group>"; };
 		543E90B11C26FF640050F87A /* Aws.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Aws.swift; sourceTree = "<group>"; };
-		543E90B31C26FFEE0050F87A /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		544201361B93847100354DB7 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		544201381B9384B500354DB7 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		5442013A1B9384BE00354DB7 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
@@ -638,7 +636,6 @@
 			isa = PBXGroup;
 			children = (
 				543E90B11C26FF640050F87A /* Aws.swift */,
-				543E90B31C26FFEE0050F87A /* README */,
 			);
 			path = Private;
 			sourceTree = "<group>";
@@ -1188,7 +1185,6 @@
 				541ABBA91AC577E00056A81B /* Main.storyboard in Resources */,
 				544757071B9F34F0001E00BF /* MRResistanceExerciseProgressView.xib in Resources */,
 				9D30379C1B95CCC500426C70 /* Models.bundle in Resources */,
-				543E90B41C26FFEE0050F87A /* README in Resources */,
 				54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */,
 				541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */,
 				541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */,
