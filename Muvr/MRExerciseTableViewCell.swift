@@ -22,6 +22,10 @@ class MRExerciseTableViewCell : UITableViewCell {
         repetitionsLabel.text = plannedExercise.repetitions.map { String($0) } ?? ""
         intensityLabel.text = plannedExercise.intensity.map { String($0) } ?? ""
         weightLabel.text = plannedExercise.weight.map { "\($0) kg" } ?? ""
+        
+        self.plannedExercise = plannedExercise
     }
+    
+    var plannedExercise: MKPlannedExercise?
     
 }

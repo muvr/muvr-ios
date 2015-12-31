@@ -4,6 +4,8 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var timedView: MRTimedView!
 
+    var session: MRManagedExerciseSession!
+    
     override func viewDidLoad() {
         timedView.setColourScheme(MRColourSchemes.amber)
         timedView.elapsedResets = true
@@ -34,7 +36,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0: return 0
+        case 0: return session.plan.nextExercises.count
         case 1: return 1
         case 2: return 1
         default: fatalError("Match error")
@@ -51,7 +53,11 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
-        case 0: fatalError()
+        case 0:
+            let cell = tableView.dequeueReusableCellWithIdentifier(MRExerciseTableViewCell.cellReuseIdentifier, forIndexPath: indexPath) as! MRExerciseTableViewCell
+            let plannedExercise = session.plan.nextExercises[indexPath.row]
+            cell.setPlannedExecise(plannedExercise, lastPlannedExercise: nil)
+            return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("other", forIndexPath: indexPath) 
             cell.textLabel?.text = "Something else"
@@ -65,6 +71,12 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? MRExerciseTableViewCell {
+            if let pe = cell.plannedExercise {
+                session.plan.addExercise(pe)
+            }
+        }
+
         // TODO: perform labelling
         navigationController?.popViewControllerAnimated(true)
     }

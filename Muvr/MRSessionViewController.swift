@@ -114,6 +114,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
 //        }
         if let c = segue.destinationViewController as? MRExercisingViewController, let session = sender as? MRManagedExerciseSession {
             c.navigationItem.hidesBackButton = true
+            c.session = session
         }
     }
     
