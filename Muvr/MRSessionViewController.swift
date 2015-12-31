@@ -9,8 +9,7 @@ import MuvrKit
 class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var labelButton: MRTimedButton!
-    @IBOutlet weak var labelView: UIView!
+    @IBOutlet weak var labelView: MRTimedView!
     
     // the displayed session
     private var session: MRManagedExerciseSession?
@@ -45,6 +44,9 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     // MARK: UIViewController
     
     override func viewDidLoad() {
+        labelView.hidden = true
+        labelView.setColourScheme(MRColourSchemes.green)
+        labelView.countingStyle = MRTimedView.CountingStyle.Elapsed
         tableView.registerNib(MRExerciseSetTableViewCell.nib, forCellReuseIdentifier: MRExerciseSetTableViewCell.cellReuseIdentifier)
     }
 
@@ -53,6 +55,8 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     override func viewDidAppear(animated: Bool) {
+        labelView.setColourScheme(MRColourSchemes.green)
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
         if let objectId = session?.objectID {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
@@ -61,6 +65,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         tableView.reloadData()
         if let session = session where !session.completed && NSDate().timeIntervalSinceDate(session.start) < 24*60*60 {
             labelView.hidden = false
+            labelView.start(60) { $0.setColourScheme(MRColourSchemes.amber) }
         }
     }
     
