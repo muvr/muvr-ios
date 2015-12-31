@@ -119,6 +119,7 @@
 		54C5284C1C35640200341D2B /* MRColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C5284B1C35640200341D2B /* MRColours.swift */; };
 		54C5284E1C35688700341D2B /* MRTimedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54C5284D1C35688700341D2B /* MRTimedView.xib */; };
 		54C528501C358BE300341D2B /* MRExercisingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C5284F1C358BE300341D2B /* MRExercisingViewController.swift */; };
+		54C528521C359D9500341D2B /* MRExerciseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54C528511C359D9500341D2B /* MRExerciseTableViewCell.xib */; };
 		54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CC46591B08FAD5007B739A /* MobileCoreServices.framework */; };
 		54D3457E1BB9232A00F65091 /* MKClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D3457D1BB9232A00F65091 /* MKClassifier.swift */; };
 		54D345801BB9245E00F65091 /* MKSensorDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D3457F1BB9245E00F65091 /* MKSensorDataDelegate.swift */; };
@@ -388,6 +389,7 @@
 		54C5284B1C35640200341D2B /* MRColours.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRColours.swift; sourceTree = "<group>"; };
 		54C5284D1C35688700341D2B /* MRTimedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRTimedView.xib; sourceTree = "<group>"; };
 		54C5284F1C358BE300341D2B /* MRExercisingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisingViewController.swift; sourceTree = "<group>"; };
+		54C528511C359D9500341D2B /* MRExerciseTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRExerciseTableViewCell.xib; sourceTree = "<group>"; };
 		54CC46591B08FAD5007B739A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		54D3457D1BB9232A00F65091 /* MKClassifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKClassifier.swift; sourceTree = "<group>"; };
 		54D3457F1BB9245E00F65091 /* MKSensorDataDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataDelegate.swift; sourceTree = "<group>"; };
@@ -811,6 +813,7 @@
 				54BEC0D11C34246200D63A04 /* MRExerciseTableViewCell.swift */,
 				54BEC0D41C34248200D63A04 /* MRExerciseSetTableViewCell.swift */,
 				54BEC0D61C34334C00D63A04 /* MRTimedView.swift */,
+				54C528511C359D9500341D2B /* MRExerciseTableViewCell.xib */,
 				54C528491C343BF300341D2B /* MRExerciseSetTableViewCell.xib */,
 				54C5284D1C35688700341D2B /* MRTimedView.xib */,
 			);
@@ -1201,6 +1204,7 @@
 			files = (
 				5403815F1AED28A0000C8B15 /* Settings.bundle in Resources */,
 				541ABBA91AC577E00056A81B /* Main.storyboard in Resources */,
+				54C528521C359D9500341D2B /* MRExerciseTableViewCell.xib in Resources */,
 				9D30379C1B95CCC500426C70 /* Models.bundle in Resources */,
 				54C5284E1C35688700341D2B /* MRTimedView.xib in Resources */,
 				54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */,
