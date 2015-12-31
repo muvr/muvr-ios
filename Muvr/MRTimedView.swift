@@ -30,6 +30,8 @@ class MRTimedView : UIView {
     
     /// when ``true``, button touch resets the counter and stops the timer
     var buttonTouchResets: Bool = true
+    /// when ``true``, when the timer elapses, the counter and timer stop
+    var elapsedResets: Bool = false
     /// the event called on button touch
     var buttonTouched: Event?
     /// the counting style
@@ -55,6 +57,15 @@ class MRTimedView : UIView {
         // TODO: is this right / optimal way to do this?
         let x = NSBundle.mainBundle().loadNibNamed("MRTimedView", owner: self, options: nil).first! as! UIView
         addSubview(x)
+        circularProgressBarView.hidden = true
+    }
+    
+    ///
+    /// Sets the button title
+    /// - parameter title: the new title
+    ///
+    func setButtonTitle(title: String) {
+        button.setTitle(title, forState: UIControlState.Normal)
     }
     
     ///
@@ -76,20 +87,24 @@ class MRTimedView : UIView {
     /// - parameter onTimerElapsed: function to be called when the timer is up
     ///
     func start(duration: NSTimeInterval, onTimerElapsed: Event? = nil) {
-        self.timer?.invalidate()
         self.duration = duration
-        self.start = NSDate()
-        self.circularProgressBarView.maxValue = CGFloat(duration)
         self.onTimerElapsed = onTimerElapsed
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "onTimerTick", userInfo: nil, repeats: true)
+
+        timer?.invalidate()
+        start = NSDate()
+        circularProgressBarView.hidden = false
+        circularProgressBarView.maxValue = CGFloat(duration)
+        onTimerTick()
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "onTimerTick", userInfo: nil, repeats: true)
     }
     
     ///
     /// Resets the counter and stops the timer
     ///
     func stop() {
-        self.circularProgressBarView.value = 0
-        self.timer?.invalidate()
+        circularProgressBarView.value = 0
+        circularProgressBarView.hidden = true
+        timer?.invalidate()
     }
     
     @IBAction func onButtonTouched() {
@@ -106,17 +121,18 @@ class MRTimedView : UIView {
         guard let start = start, duration = duration, onTimerElapsed = onTimerElapsed else { return }
         let elapsed = -start.timeIntervalSinceNow
         if elapsed > duration {
+            if elapsedResets { stop() }
             onTimerElapsed(self)
+        } else {
+            var timeToDisplay: NSTimeInterval = 0
+            switch countingStyle {
+            case .Elapsed: timeToDisplay = elapsed
+            case .Remaining: timeToDisplay = duration - elapsed
+            }
+            
+            circularProgressBarView.value = CGFloat(timeToDisplay)
+            button.setTitle(textTransform(timeToDisplay), forState: UIControlState.Normal)
         }
-
-        var timeToDisplay: NSTimeInterval = 0
-        switch countingStyle {
-        case .Elapsed: timeToDisplay = elapsed
-        case .Remaining: timeToDisplay = duration - elapsed
-        }
-        
-        circularProgressBarView.value = CGFloat(timeToDisplay)
-        button.setTitle(textTransform(timeToDisplay), forState: UIControlState.Normal)
     }
     
     

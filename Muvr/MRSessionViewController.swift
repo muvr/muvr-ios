@@ -9,7 +9,7 @@ import MuvrKit
 class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var labelView: MRTimedView!
+    @IBOutlet weak var timedView: MRTimedView!
     
     // the displayed session
     private var session: MRManagedExerciseSession?
@@ -44,9 +44,9 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     // MARK: UIViewController
     
     override func viewDidLoad() {
-        labelView.textTransform = { _ in return "go!" }
-        labelView.setColourScheme(MRColourSchemes.green)
-        labelView.countingStyle = MRTimedView.CountingStyle.Elapsed
+        timedView.textTransform = { _ in return "go!" }
+        timedView.setColourScheme(MRColourSchemes.green)
+        timedView.countingStyle = MRTimedView.CountingStyle.Elapsed
         tableView.registerNib(MRExerciseSetTableViewCell.nib, forCellReuseIdentifier: MRExerciseSetTableViewCell.cellReuseIdentifier)
     }
 
@@ -55,7 +55,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     override func viewDidAppear(animated: Bool) {
-        labelView.setColourScheme(MRColourSchemes.green)
+        timedView.setColourScheme(MRColourSchemes.green)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
         if let objectId = session?.objectID {
@@ -64,11 +64,16 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         }
         tableView.reloadData()
         if let session = session where !session.completed && NSDate().timeIntervalSinceDate(session.start) < 24*60*60 {
-            labelView.hidden = false
-            labelView.start(60) { $0.setColourScheme(MRColourSchemes.amber) }
+            timedView.hidden = false
+            timedView.start(60) { $0.setColourScheme(MRColourSchemes.amber) }
+            timedView.buttonTouched = timedViewButtonTouched
         } else {
-            labelView.hidden = true
+            timedView.hidden = true
         }
+    }
+    
+    private func timedViewButtonTouched(tv: MRTimedView) {
+        performSegueWithIdentifier("exercise", sender: session)
     }
     
     // MARK: notification callbacks
@@ -78,12 +83,12 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     func sessionDidEnd() {
-        labelView.hidden = true
+        timedView.hidden = true
         navigationController?.popToRootViewControllerAnimated(true)
     }
     
     func sessionDidComplete() {
-        labelView.hidden = true
+        timedView.hidden = true
     }
     
     // MARK: Share & label
@@ -103,14 +108,12 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
 //        }
 //    }
     
-    /// display the ``Add label`` screen
-    @IBAction func label(sender: UIBarButtonItem) {
-        performSegueWithIdentifier("label", sender: session)
-    }
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let lc = segue.destinationViewController as? MRLabelViewController, let session = sender as? MRManagedExerciseSession {
-            lc.session = session
+//        if let lc = segue.destinationViewController as? MRLabelViewController, let session = sender as? MRManagedExerciseSession {
+//            lc.session = session
+//        }
+        if let c = segue.destinationViewController as? MRExercisingViewController, let session = sender as? MRManagedExerciseSession {
+            c.navigationItem.hidesBackButton = true
         }
     }
     
@@ -129,36 +132,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier(MRExerciseSetTableViewCell.cellReuseIdentifier, forIndexPath: indexPath) as! MRExerciseSetTableViewCell
         cell.setSet(set)
         return cell
-//        switch indexPath.section {
-//        case 0:
-//            let cell = tableView.dequeueReusableCellWithIdentifier("classifiedExercise", forIndexPath: indexPath)
-//            let ce = session!.classifiedExercises.reverse()[indexPath.row] as! MRManagedClassifiedExercise
-//            cell.textLabel!.text = ce.exerciseId
-//            let weight = ce.weight.map { w in "\(NSString(format: "%.2f", w)) kg" } ?? ""
-//            let intensity = ce.intensity.map { i in "Intensity: \(NSString(format: "%.2f", i))" } ?? ""
-//            let duration = "\(NSString(format: "%.0f", ce.duration))s"
-//            let repetitions = ce.repetitions.map { r in "x\(r)" } ?? ""
-//            cell.detailTextLabel!.text = "\(ce.start.formatTime()) - \(duration) - \(repetitions) - \(weight) - \(intensity)"
-//            guard let imageView = cell.viewWithTag(10) as? UIImageView else { return cell }
-//            if let match = matchLabel(ce) {
-//                imageView.image = UIImage(named: match ? "tick" : "miss")
-//            } else {
-//                imageView.image = nil
-//            }
-//            return cell
-//        case 1:
-//            let cell = tableView.dequeueReusableCellWithIdentifier("labelledExercise", forIndexPath: indexPath)
-//            let le = session!.labelledExercises.reverse()[indexPath.row] as! MRManagedLabelledExercise
-//            cell.textLabel!.text = le.exerciseId
-//            let weight = "\(NSString(format: "%.2f", le.weight)) kg"
-//            let intensity = "Intensity: \(NSString(format: "%.2f", le.intensity))"
-//            let duration = "\(NSString(format: "%.0f", le.end.timeIntervalSince1970 - le.start.timeIntervalSince1970))s"
-//            let repetitions = "x\(le.repetitions)"
-//            cell.detailTextLabel!.text = "\(le.start.formatTime()) - \(duration) - \(repetitions) - \(weight) - \(intensity)"
-//            return cell
-//        default:
-//            fatalError()
-//        }
     }
     
 }
