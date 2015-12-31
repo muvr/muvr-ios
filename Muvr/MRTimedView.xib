@@ -39,7 +39,7 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <action selector="buttonTouched" destination="-1" eventType="touchUpInside" id="rKR-E9-B5M"/>
+                        <action selector="onButtonTouched" destination="-1" eventType="touchUpInside" id="i2l-9B-wfh"/>
                     </connections>
                 </button>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="111-mF-hGw" customClass="MBCircularProgressBarView">
