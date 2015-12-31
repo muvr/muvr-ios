@@ -24,9 +24,8 @@
                     <constraints>
                         <constraint firstAttribute="width" secondItem="D0n-2p-SgJ" secondAttribute="height" multiplier="1:1" id="fTE-dk-GEz"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="50"/>
                     <color key="tintColor" red="0.51764705879999995" green="0.83921568629999999" blue="0.058823529409999999" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="Start"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
                             <color key="value" red="0.50196081400000003" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -45,9 +44,9 @@
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="111-mF-hGw" customClass="MBCircularProgressBarView">
                     <rect key="frame" x="-3" y="0.0" width="448" height="227"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Some such" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qog-Rh-w2m">
-                            <rect key="frame" x="0.0" y="199" width="448" height="20"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qog-Rh-w2m">
+                            <rect key="frame" x="0.0" y="195" width="448" height="24"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -61,7 +60,7 @@
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="value">
-                            <real key="value" value="76"/>
+                            <real key="value" value="0.0"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="string" keyPath="unitString" value="s"/>
                         <userDefinedRuntimeAttribute type="number" keyPath="maxValue">

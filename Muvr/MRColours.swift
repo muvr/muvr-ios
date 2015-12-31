@@ -21,6 +21,15 @@ struct MRColours {
         return UIColor(red: r / tff, green: g / tff, blue: b / tff, alpha: 1)
     }
     
+    static func darker(colour: UIColor) -> UIColor {
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        colour.getRed(&r, green: &g, blue: &b, alpha: &a)
+        return UIColor(red: max(r - 0.2, 0.0), green: max(g - 0.2, 0.0), blue: max(b - 0.2, 0.0), alpha: a)
+    }
+    
     /// basic green colour
     static let green = MRColours.colourFromHex(0x57D041)
     /// light green colour; readable on ``green``
@@ -44,6 +53,10 @@ struct MRColourScheme {
     let tint: UIColor
     let light: UIColor
     let background: UIColor
+    
+    var darker: MRColourScheme {
+        return MRColourScheme(tint: MRColours.darker(tint), light: MRColours.darker(light), background: MRColours.darker(background))
+    }
 }
 
 ///

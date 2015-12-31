@@ -21,6 +21,8 @@ class MRTimedView : UIView {
     @IBOutlet weak var circularProgressBarView: MBCircularProgressBarView!
     
     typealias Event = MRTimedView -> Void
+    typealias TextTransform = NSTimeInterval -> String
+    
     private var duration: NSTimeInterval?
     private var start: NSDate?
     private var timer: NSTimer?
@@ -32,6 +34,17 @@ class MRTimedView : UIView {
     var buttonTouched: Event?
     /// the counting style
     var countingStyle: CountingStyle = CountingStyle.Remaining
+    /// the text transformation
+    var textTransform: TextTransform = MRTimedView.simple
+    
+    ///
+    /// A basic text transform that converts the ``time`` to its representation in seconds
+    /// - parameter time: the time to convert
+    /// - returns: the time rounded to seconds as string
+    ///
+    static func simple(time: NSTimeInterval) -> String {
+        return String(Int(time))
+    }
     
     ///
     /// Initializes this view from a given decoder
@@ -51,8 +64,10 @@ class MRTimedView : UIView {
     func setColourScheme(colourScheme: MRColourScheme) {
         button.tintColor = colourScheme.tint
         button.backgroundColor = colourScheme.background
+        titleLabel.textColor = colourScheme.tint
         circularProgressBarView.progressColor = colourScheme.light
-        circularProgressBarView.progressStrokeColor = colourScheme.light
+        circularProgressBarView.progressStrokeColor = colourScheme.background
+        circularProgressBarView.emptyLineColor = colourScheme.darker.background
     }
     
     ///
@@ -101,7 +116,7 @@ class MRTimedView : UIView {
         }
         
         circularProgressBarView.value = CGFloat(timeToDisplay)
-        button.setTitle(String(Int(timeToDisplay)), forState: UIControlState.Normal)
+        button.setTitle(textTransform(timeToDisplay), forState: UIControlState.Normal)
     }
     
     

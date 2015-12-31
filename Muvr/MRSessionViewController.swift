@@ -44,7 +44,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     // MARK: UIViewController
     
     override func viewDidLoad() {
-        labelView.hidden = true
+        labelView.textTransform = { _ in return "go!" }
         labelView.setColourScheme(MRColourSchemes.green)
         labelView.countingStyle = MRTimedView.CountingStyle.Elapsed
         tableView.registerNib(MRExerciseSetTableViewCell.nib, forCellReuseIdentifier: MRExerciseSetTableViewCell.cellReuseIdentifier)
@@ -65,8 +65,10 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         tableView.reloadData()
         if let session = session where !session.completed && NSDate().timeIntervalSinceDate(session.start) < 24*60*60 {
             labelView.hidden = false
-            labelView.start(4) { $0.setColourScheme(MRColourSchemes.amber) }
-        } 
+            labelView.start(60) { $0.setColourScheme(MRColourSchemes.amber) }
+        } else {
+            labelView.hidden = true
+        }
     }
     
     // MARK: notification callbacks
