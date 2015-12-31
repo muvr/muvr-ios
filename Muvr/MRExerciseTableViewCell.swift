@@ -4,6 +4,7 @@ import MuvrKit
 class MRExerciseTableViewCell : UITableViewCell {
     static let nib: UINib = UINib(nibName: "MRExerciseTableViewCell", bundle: nil)
     static let cellReuseIdentifier: String = "ex"
+    static let height = CGFloat(88)
 
     @IBOutlet weak var exerciseLabel: UILabel!
     @IBOutlet weak var repetitionsLabel: UILabel!

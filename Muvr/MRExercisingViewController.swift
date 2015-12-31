@@ -51,6 +51,15 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         }
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 0: return MRExerciseTableViewCell.height
+        case 1: return 22
+        case 2: return 22
+        default: fatalError("Match error")
+        }
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
