@@ -3,18 +3,32 @@ import CoreData
 import MuvrKit
 
 class MRManagedExerciseSession: NSManagedObject {
-    private var _plan: MKExercisePlan?
+    private var plan: MKExercisePlan = MKExercisePlan()
     
     ///
-    /// The current exercise plan
+    /// Returns the suggested exercises at the current session state
     ///
-    var plan: MKExercisePlan {
-        get {
-            if _plan == nil { _plan = MKExercisePlan() }
-            return _plan!
+    var suggestedExercises: [MKPlannedExercise] {
+        let modelExercises = MRAppDelegate.sharedDelegate().modelStore.exerciseIds(model: exerciseModelId).map { MKPlannedExercise(exerciseId: $0) }
+        let planExercises = plan.nextExercises
+        let notPlannedModelExercises = modelExercises.filter { me in
+            return !planExercises.contains { pe in pe.exerciseId == me.exerciseId }
         }
+        return planExercises + notPlannedModelExercises
     }
     
+    ///
+    /// Adds the completed exercise to the plan.
+    ///
+    /// - parameter exercise: the completed exercise
+    ///
+    func addExercise(exercise: MKPlannedExercise) {
+        plan.addExercise(exercise)
+    }
+
+    ///
+    /// All classified exercises grouped into sets of same exercises
+    ///
     var sets: [[MRManagedClassifiedExercise]] {
         get {
             var em: [MKExerciseId : [MRManagedClassifiedExercise]] = [:]
