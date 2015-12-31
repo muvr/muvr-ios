@@ -37,6 +37,7 @@ class MRTimedView : UIView {
         self.timer?.invalidate()
         self.duration = duration
         self.start = NSDate()
+        self.circularProgressBarView.maxValue = CGFloat(duration)
         self.onTimerElapsed = onTimerElapsed
         self.timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "onTimerTick", userInfo: nil, repeats: true)
     }
