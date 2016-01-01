@@ -123,7 +123,8 @@ class MRTimedView : UIView {
         if elapsed > duration {
             if elapsedResets { stop() }
             onTimerElapsed(self)
-        } else {
+        }
+        if !elapsedResets || elapsed < duration {
             var timeToDisplay: NSTimeInterval = 0
             switch countingStyle {
             case .Elapsed: timeToDisplay = elapsed

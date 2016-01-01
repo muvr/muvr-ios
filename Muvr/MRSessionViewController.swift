@@ -46,6 +46,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         timedView.textTransform = { _ in return "go!" }
         timedView.setColourScheme(MRColourSchemes.green)
+        timedView.elapsedResets = false
         timedView.countingStyle = MRTimedView.CountingStyle.Elapsed
         tableView.registerNib(MRExerciseSetTableViewCell.nib, forCellReuseIdentifier: MRExerciseSetTableViewCell.cellReuseIdentifier)
     }
