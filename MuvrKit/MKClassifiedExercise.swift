@@ -3,7 +3,7 @@ import Foundation
 ///
 /// The result of classifying an exercise
 ///
-public struct MKClassifiedExercise {
+public struct MKClassifiedExercise : MKExercise {
     public let confidence: Double
     public let exerciseId: MKExerciseId
     public let duration: NSTimeInterval

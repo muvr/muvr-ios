@@ -3,7 +3,7 @@ import Foundation
 ///
 /// The planned exercise
 ///
-public struct MKPlannedExercise : Hashable {
+public struct MKPlannedExercise : Hashable, MKExercise {
     /// The exercise id
     public let exerciseId: MKExerciseId
     /// Planned repetitions, if known
