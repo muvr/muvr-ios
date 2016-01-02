@@ -3,10 +3,20 @@ import CoreData
 import MuvrKit
 
 class MRManagedExerciseSession: NSManagedObject {
+    private static var _current: MRManagedExerciseSession?
+    /// The currently open session
+    static var current: MRManagedExerciseSession? {
+        get {
+            if let c = _current where !c.completed { return c }
+            _current = nil
+            return _current
+        }
+    }
+    
     private var plan = MKExercisePlan<MKExerciseId>()
     
     ///
-    /// Returns the suggested exercises at the current session state
+    /// The list of exercises that the user has most likely just finished doing
     ///
     var suggestedExercises: [MKExercise] {
         let modelExercises = MRAppDelegate.sharedDelegate().modelStore.exerciseIds(model: exerciseModelId)
@@ -25,9 +35,25 @@ class MRManagedExerciseSession: NSManagedObject {
     }
     
     ///
-    /// Adds the completed exercise to the plan.
+    /// The list of exercises that the user is most likely currently doing
     ///
-    /// - parameter exercise: the completed exercise
+    var currentExercises: [MKExercise] {
+        let planExercises = plan.nextExercises
+        
+        // TODO: add classified-so-far exercise
+        
+        return planExercises.map { exerciseId in
+            return MRExercise(exerciseId: exerciseId, duration: 30, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
+        }
+    }
+    
+    ///
+    /// Adds the completed exercise to the plan. Do not forget to save the given ``managedObjectContext``, this
+    /// method does not flush automatically.
+    ///
+    /// - parameter label: the completed exercise
+    /// - parameter start: the exercise's start date
+    /// - parameter managedObjectContext: the CD context into which the label is going to be inserted.
     ///
     func addLabel(label: MKExercise, start: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
         let l = MRManagedLabelledExercise.insertNewObject(into: self, inManagedObjectContext: managedObjectContext)
@@ -43,7 +69,7 @@ class MRManagedExerciseSession: NSManagedObject {
     }
     
     ///
-    /// Computes the combined labelled and classified exercises
+    /// Combined labelled and classified exercises for this entire session
     ///
     var exercises: [MKExercise] {
         let labelled: [(NSDate, MKExercise)] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).map { e in return (e.start, e as MKExercise) }
@@ -66,7 +92,7 @@ class MRManagedExerciseSession: NSManagedObject {
     }
     
     ///
-    /// All classified exercises grouped into sets of same exercises
+    /// Combined labelled and classified exercises grouped into sets
     ///
     var sets: [[MKExercise]] {
         get {
