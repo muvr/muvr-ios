@@ -3,23 +3,13 @@ import CoreData
 import MuvrKit
 
 class MRManagedExerciseSession: NSManagedObject {
-    private static var _current: MRManagedExerciseSession?
-    /// The currently open session
-    static var current: MRManagedExerciseSession? {
-        get {
-            if let c = _current where !c.completed { return c }
-            _current = nil
-            return _current
-        }
-    }
-    
     private var plan = MKExercisePlan<MKExerciseId>()
     
     ///
     /// The list of exercises that the user has most likely just finished doing
     ///
     var suggestedExercises: [MKExercise] {
-        let modelExercises = MRAppDelegate.sharedDelegate().modelStore.exerciseIds(model: exerciseModelId)
+        let modelExercises = MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId)
         let planExercises = plan.nextExercises
         let notPlannedModelExercises = modelExercises.filter { me in
             return !planExercises.contains { pe in pe == me }

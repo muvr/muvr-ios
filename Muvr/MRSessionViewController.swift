@@ -22,25 +22,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         self.session = session
     }
     
-    ///
-    /// Find an activity to share the give file
-    ///
-    func share(data: NSData, fileName: String) {
-        let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
-        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent(fileName)
-        if data.writeToURL(fileUrl, atomically: true) {
-            let controller = UIActivityViewController(activityItems: [fileUrl], applicationActivities: nil)
-            let excludedActivities = [UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,
-                UIActivityTypePostToWeibo, UIActivityTypeMessage, UIActivityTypeMail,
-                UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
-                UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr,
-                UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo]
-            controller.excludedActivityTypes = excludedActivities
-            
-            presentViewController(controller, animated: true, completion: nil)
-        }
-    }
-    
     // MARK: UIViewController
     
     override func viewDidLoad() {
@@ -91,24 +72,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     func sessionDidComplete() {
         timedView.hidden = true
     }
-    
-    // MARK: Share & label
-    
-    /// share the CSV session data
-//    @IBAction func shareCSV() {
-//        guard let session = session else { return }
-//        
-//        // make sure to keep a ref to the share Btn
-//        let shareBtn = shareCSVBtn
-//        MRAppDelegate.sharedDelegate().sessionStore.uploadSession(session) {
-//            NSLog("SESSION UPLOADED")
-//            dispatch_async(dispatch_get_main_queue(), {
-//                self.shareCSVBtn = shareBtn
-//                self.sessionBar.setRightBarButtonItems([self.addLabelBtn, self.shareCSVBtn], animated: false)
-//            })
-//        }
-//    }
-    
+        
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 //        if let lc = segue.destinationViewController as? MRLabelViewController, let session = sender as? MRManagedExerciseSession {
 //            lc.session = session

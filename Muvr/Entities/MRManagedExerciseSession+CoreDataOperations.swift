@@ -3,6 +3,13 @@ import MuvrKit
 import CoreData
 
 extension MRManagedExerciseSession {
+    
+    static func findUploadableSessions(inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
+        let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
+        fetchRequest.predicate = NSPredicate(format: "(uploaded == false && completed == true)")
+        
+        return try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]
+    }
 
     static func sessionsOnDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")

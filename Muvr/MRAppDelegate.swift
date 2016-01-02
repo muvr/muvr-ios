@@ -7,19 +7,49 @@ enum MRNotifications : String {
     case CurrentSessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
     case CurrentSessionDidStart = "MRNotificationsCurrentSessionDidStart"
     case SessionDidComplete = "MRNotificationSessionDidComplete"
+    
+    case DownloadingModels = "MRNotificationDownloadingModels"
+    case ModelsDownloaded = "MRNotificationModelsDownloaded"
+    
+    case UploadingSessions = "MRNotificationUploadingSessions"
+    case SessionsUploaded = "MRNotificationSessionsUploaded"
+}
+
+///
+/// The public interface to the app delegate
+///
+protocol MRApp {
+    
+    ///
+    /// The NSManagedObjectContext for the Core Data operations.
+    ///
+    var managedObjectContext: NSManagedObjectContext { get }
+    
+    ///
+    /// Saves the pending changes in the app's ``managedObjectContext``.
+    ///
+    func saveContext()
+    
+    ///
+    /// Returns the exercise ids for the given ``model`` identity
+    /// - parameter model: the model identity
+    /// - returns: the exercise ids
+    ///
+    func exerciseIds(model model: MKExerciseModelId) -> [MKExerciseId]
+    
 }
 
 @UIApplicationMain
-class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDelegate {
+class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDelegate, MRApp {
     
     var window: UIWindow?
     
-    private(set) var sessionStore: MRExerciseSessionStore!
-    private(set) var modelStore: MRExerciseModelStore!
+    private var sessionStore: MRExerciseSessionStore!
+    private var modelStore: MRExerciseModelStore!
     private var connectivity: MKConnectivity!
     private var classifier: MKSessionClassifier!
     private var sessions: [MRManagedExerciseSession] = []
-    internal var currentSession: MRManagedExerciseSession? {
+    private var currentSession: MRManagedExerciseSession? {
         for (session) in sessions where session.end == nil {
             return session
         }
@@ -27,16 +57,70 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
     }
     
     ///
+    /// Downloads the models
+    ///
+    private func downloadModels() {
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.DownloadingModels.rawValue, object: nil)
+            self.modelStore.downloadModels() {
+                NSLog("Stored \(self.modelStore.modelsMetadata)")
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.ModelsDownloaded.rawValue, object: nil)
+            }
+        }
+    }
+
+    ///
+    /// Uploads all incomplete sessions
+    ///
+    private func uploadSessions() {
+        func uploadSessions(sessions: [MRManagedExerciseSession]) {
+            if let session = sessions.first {
+                sessionStore.uploadSession(session) {
+                    session.uploaded = true
+                    self.saveContext()
+                    uploadSessions(Array(sessions.dropFirst()))
+                }
+            } else {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionsUploaded.rawValue, object: nil)
+            }
+        }
+        
+        let sessions = MRManagedExerciseSession.findUploadableSessions(inManagedObjectContext: managedObjectContext)
+        if sessions.isEmpty { return }
+        
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.UploadingSessions.rawValue, object: nil)
+            uploadSessions(sessions)
+        }
+    }
+
+    ///
     /// Returns the index of a given session
+    /// - parameter session: the session to find the index of
+    /// - returns: the index if found
     ///
     private func sessionIndex(session: MKExerciseSession) -> Int? {
         return sessions.indexOf { $0.id == session.id }
     }
     
     ///
-    /// Returns this shared delegate
+    /// Returns the exercise ids for the given ``model``.
+    /// - parameter model: the model identity
+    /// - returns: the unordered array of exercise ids
     ///
-    static func sharedDelegate() -> MRAppDelegate {
+    func exerciseIds(model model: MKExerciseModelId) -> [MKExerciseId] {
+        return modelStore.exerciseIds(model: model)
+    }
+    
+    ///
+    /// Returns this shared delegate
+    /// - returns: this delegate ``MRApp``
+    ///
+    static func sharedDelegate() -> MRApp {
         return UIApplication.sharedApplication().delegate as! MRAppDelegate
     }
 
@@ -61,6 +145,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
         pageControlAppearance.currentPageIndicatorTintColor = UIColor.blackColor()
         pageControlAppearance.backgroundColor = UIColor.whiteColor()
     
+        // download the models
+        downloadModels()
+        
         return true
     }
     
@@ -89,6 +176,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
     
     func applicationDidBecomeActive(application: UIApplication) {
         application.idleTimerDisabled = true
+        uploadSessions()
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -126,7 +214,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
     }
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
-         NSLog("Received session start for \(session)")
+        NSLog("Received session start for \(session)")
         let persistedSession = MRManagedExerciseSession.sessionById(session.id, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
         if persistedSession == nil && sessionIndex(session) == nil {
             let currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)

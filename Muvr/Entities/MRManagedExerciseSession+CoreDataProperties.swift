@@ -22,5 +22,6 @@ extension MRManagedExerciseSession {
     @NSManaged var classifiedExercises: NSSet
     @NSManaged var end: NSDate?
     @NSManaged var completed: Bool
+    @NSManaged var uploaded: Bool
 
 }
