@@ -72,26 +72,6 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
         
         showSessionsOn(date: today)
     }
-        
-    /// Animation callback
-//    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
-//        guard let refreshButton = navigationItem.rightBarButtonItems?.first?.customView else { return }
-//        if downloadingModels {
-//            // still downloading, rotate one more time
-//            refreshButton.rotate(0.5, delegate: self)
-//        }
-//    }
-    
-//    func displayModelVersion() {
-//        // label showing version of ``arms`` model
-//        if modelVersionLabel == nil {
-//            modelVersionLabel = UILabel(frame: CGRectMake(0, 0, 32, 24))
-//            let modelVersionButton = UIBarButtonItem(customView: modelVersionLabel!)
-//            modelVersionLabel?.font = UIFont.systemFontOfSize(12)
-//            navigationItem.setLeftBarButtonItem(modelVersionButton, animated: false)
-//        }
-//        self.modelVersionLabel?.text = (MRAppDelegate.sharedDelegate().modelStore.models["arms"]?.version).map { return "v \($0)" }
-//    }
     
     override func viewDidAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidStart:", name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)

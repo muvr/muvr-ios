@@ -3,6 +3,10 @@ import HealthKit
 import MuvrKit
 import CoreData
 
+///
+/// The notifications: when creating a new notification, be sure to add it only here
+/// and never use notification key constants anywhere else.
+///
 enum MRNotifications : String {
     case CurrentSessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
     case CurrentSessionDidStart = "MRNotificationsCurrentSessionDidStart"

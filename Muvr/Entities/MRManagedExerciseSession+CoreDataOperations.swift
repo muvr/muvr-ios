@@ -6,7 +6,7 @@ extension MRManagedExerciseSession {
     
     static func findUploadableSessions(inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
-        fetchRequest.predicate = NSPredicate(format: "(uploaded == false && completed == true)")
+        fetchRequest.predicate = NSPredicate(format: "(uploaded == false && completed = true)")
         
         return try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]
     }
@@ -42,7 +42,7 @@ extension MRManagedExerciseSession {
         fetchRequest.predicate = NSPredicate(format: "(start >= %@ AND start < %@)", midnightToday, midnightTomorrow)
         fetchRequest.fetchLimit = 1
         
-        return managedObjectContext.countForFetchRequest(fetchRequest).map { count in count > 0 } ?? false
+        return managedObjectContext.countForFetchRequest(fetchRequest).map { $0 > 0 } ?? false
         
     }
     
@@ -58,6 +58,7 @@ extension MRManagedExerciseSession {
         mo.start = session.start
         mo.exerciseModelId = session.exerciseModelId
         mo.completed = session.completed
+        mo.uploaded = false
         
         return mo
     }
