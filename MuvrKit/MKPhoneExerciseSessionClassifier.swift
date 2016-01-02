@@ -16,16 +16,22 @@ public protocol MKExerciseModelSource {
 }
 
 ///
+/// A classifier hint is a list of expected exercises in a time interval,
+/// here modelled as (_start_, _duration_, _expected exercises_).
+///
+public typealias MKClassifierHint = (NSTimeInterval, NSTimeInterval, [MKExercise])
+
+
+///
 /// Provides a way for the container to provide hints to the classifier. The hints are
 /// whether the user is exercising or not and what the suggested next exercises are.
 ///
 public protocol MKSessionClassifierHintSource {
     
-    /// ``true`` or ``false`` if definitely exercising or not, ``nil`` otherwise
-    var isExercising: Bool? { get }
-    
-    /// Suggested exercises
-    var suggestedExercises: [MKExercise] { get }
+    /// The list of known exercise periods (start, duration, suggestions); the classifier
+    /// may use this information to skip exercise vs. no exercise detection and to
+    /// make better predictions using the suggestions.
+    var exercisingHints: [MKClassifierHint]? { get }
     
 }
 
@@ -40,6 +46,9 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     
     /// the classification result delegate
     public let delegate: MKSessionClassifierDelegate    // Remember to call the delegate methods on ``dispatch_get_main_queue()``
+    
+    /// the delegate that provides hints to the classifier
+    public var hintSource: MKSessionClassifierHintSource?
 
     /// the exercise vs. no-exercise classifier
     private let eneClassifier: MKClassifier
