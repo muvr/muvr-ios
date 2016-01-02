@@ -1,4 +1,5 @@
 import UIKit
+import MuvrKit
 
 class MRExerciseSetTableViewCell : UITableViewCell {
     static let nib: UINib = UINib(nibName: "MRExerciseSetTableViewCell", bundle: nil)
@@ -7,7 +8,7 @@ class MRExerciseSetTableViewCell : UITableViewCell {
     @IBOutlet weak var exerciseLabel: UILabel!
     @IBOutlet weak var setSizeLabel: UILabel!
     
-    func setSet(set: [MRManagedClassifiedExercise]) {
+    func setSet(set: [MKExercise]) {
         assert(!set.isEmpty, "The set cannot be empty")
         set.forEach { x in assert(x.exerciseId == set.first!.exerciseId, "The set must be all same exercise ids") }
         

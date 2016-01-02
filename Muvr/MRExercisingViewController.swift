@@ -4,6 +4,8 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var timedView: MRTimedView!
 
+    private var start: NSDate?
+    
     var session: MRManagedExerciseSession!
     
     override func viewDidLoad() {
@@ -18,6 +20,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     }
     
     private func beginExercising(tv: MRTimedView) {
+        start = NSDate()
         timedView.setColourScheme(MRColourSchemes.red)
         timedView.setButtonTitle("stop")
         timedView.buttonTouched = stopExercising
@@ -80,13 +83,12 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? MRExerciseTableViewCell {
-            if let pe = cell.exercise {
-                session.addExercise(pe)
-            }
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? MRExerciseTableViewCell,
+           let e = cell.exercise {
+           session.addLabel(e, start: start!, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+           MRAppDelegate.sharedDelegate().saveContext()
         }
 
-        // TODO: perform labelling
         navigationController?.popViewControllerAnimated(true)
     }
     

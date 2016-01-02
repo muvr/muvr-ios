@@ -29,8 +29,17 @@ class MRManagedExerciseSession: NSManagedObject {
     ///
     /// - parameter exercise: the completed exercise
     ///
-    func addExercise(exercise: MKExercise) {
-        plan.addExercise(exercise.exerciseId)
+    func addLabel(label: MKExercise, start: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
+        let l = MRManagedLabelledExercise.insertNewObject(into: self, inManagedObjectContext: managedObjectContext)
+        
+        l.start = start
+        l.duration = label.duration
+        l.exerciseId = label.exerciseId
+        l.cdIntensity = label.intensity ?? 0
+        l.cdRepetitions = label.repetitions ?? 0
+        l.cdWeight = label.weight ?? 0
+
+        plan.addExercise(label.exerciseId)
     }
     
     ///
