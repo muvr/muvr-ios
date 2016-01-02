@@ -16,6 +16,20 @@ public protocol MKExerciseModelSource {
 }
 
 ///
+/// Provides a way for the container to provide hints to the classifier. The hints are
+/// whether the user is exercising or not and what the suggested next exercises are.
+///
+public protocol MKSessionClassifierHintSource {
+    
+    /// ``true`` or ``false`` if definitely exercising or not, ``nil`` otherwise
+    var isExercising: Bool? { get }
+    
+    /// Suggested exercises
+    var suggestedExercises: [MKExercise] { get }
+    
+}
+
+///
 /// Implementation of the two connectivity delegates that can classify the incoming data
 ///
 public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, MKSensorDataConnectivityDelegate {
