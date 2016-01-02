@@ -65,7 +65,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier(MRExerciseTableViewCell.cellReuseIdentifier, forIndexPath: indexPath) as! MRExerciseTableViewCell
             let plannedExercise = session.suggestedExercises[indexPath.row]
-            cell.setPlannedExecise(plannedExercise, lastPlannedExercise: nil)
+            cell.setExercise(plannedExercise, lastExercise: nil)
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("other", forIndexPath: indexPath) 
@@ -81,7 +81,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let cell = tableView.cellForRowAtIndexPath(indexPath) as? MRExerciseTableViewCell {
-            if let pe = cell.plannedExercise {
+            if let pe = cell.exercise {
                 session.addExercise(pe)
             }
         }

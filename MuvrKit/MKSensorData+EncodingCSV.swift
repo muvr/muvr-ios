@@ -24,7 +24,7 @@ public extension MKSensorData {
             
             func sampleBelongsTo(label: MKLabelledExercise) -> Bool {
                 let start = label.start.timeIntervalSince1970
-                let end = label.end.timeIntervalSince1970
+                let end = start + label.duration
                 return start <= now && now < end
             }
             for l in labelledExercises where sampleBelongsTo(l) {
@@ -42,9 +42,9 @@ public extension MKSensorData {
             }
             if let l = findLabel(row) {
                 result.appendASCIIString("\(l.exerciseId),")
-                result.appendASCIIString("\(l.intensity),")
-                result.appendASCIIString("\(l.weight),")
-                result.appendASCIIString("\(l.repetitions)")
+                result.appendASCIIString("\(l.intensity!),")
+                result.appendASCIIString("\(l.weight!),")
+                result.appendASCIIString("\(l.repetitions!)")
             } else {
                 result.appendASCIIString(",,,")
             }

@@ -25,9 +25,9 @@ class MRManagedClassifiedExercise: NSManagedObject {
         mo.confidence = classifiedExercise.confidence
         mo.duration = classifiedExercise.duration
         mo.exerciseId = classifiedExercise.exerciseId
-        mo.repetitions = classifiedExercise.repetitions
-        mo.intensity = classifiedExercise.intensity
-        mo.weight = classifiedExercise.weight
+        mo.cdRepetitions = classifiedExercise.repetitions.map { NSNumber(int: $0) }
+        mo.cdIntensity = classifiedExercise.intensity
+        mo.cdWeight = classifiedExercise.weight
         
         return mo
     }

@@ -5,8 +5,8 @@ import XCTest
 class MKExercisePlanTests : XCTestCase {
 
     func evaluatePlan(exerciseIds: [MKExerciseId]) -> (Double, Double) {
-        let exercises = exerciseIds.map { MKPlannedExercise(exerciseId: $0) }
-        let plan = MKExercisePlan()
+        let exercises = exerciseIds
+        let plan = MKExercisePlan<String>()
         let estimates: [Bool] = (0..<exercises.count - 1).map { i in
             let completed = exercises[i]
             let expected = exercises[i + 1]

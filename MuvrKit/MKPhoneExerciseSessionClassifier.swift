@@ -147,7 +147,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset + offset, repetitions: x.repetitions, intensity: x.intensity, weight: x.weight)
     }
     
-    private func updateRepetitions(repetitions: UInt)(x: MKClassifiedExercise) -> MKClassifiedExercise {
+    private func updateRepetitions(repetitions: Int32)(x: MKClassifiedExercise) -> MKClassifiedExercise {
         return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset, repetitions: repetitions, intensity: x.intensity, weight: x.weight)
     }
 }

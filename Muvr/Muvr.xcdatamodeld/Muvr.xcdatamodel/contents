@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="14F1021" minimumToolsVersion="Xcode 7.0">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15C50" minimumToolsVersion="Xcode 7.0">
     <entity name="MRManagedClassifiedExercise" representedClassName=".MRManagedClassifiedExercise" syncable="YES">
+        <attribute name="cdIntensity" optional="YES" attributeType="Double" minValueString="0" maxValueString="1" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="cdRepetitions" optional="YES" attributeType="Integer 32" minValueString="0" defaultValueString="0" syncable="YES"/>
+        <attribute name="cdWeight" optional="YES" attributeType="Double" minValueString="0" defaultValueString="0.0" syncable="YES"/>
         <attribute name="confidence" optional="YES" attributeType="Double" minValueString="0" maxValueString="1" defaultValueString="0.0" syncable="YES"/>
         <attribute name="duration" attributeType="Double" minValueString="0" defaultValueString="0.0" syncable="YES"/>
         <attribute name="exerciseId" attributeType="String" syncable="YES"/>
-        <attribute name="intensity" optional="YES" attributeType="Double" minValueString="0" maxValueString="1" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="repetitions" optional="YES" attributeType="Integer 32" minValueString="0" defaultValueString="0" syncable="YES"/>
         <attribute name="start" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="weight" optional="YES" attributeType="Double" minValueString="0" defaultValueString="0.0" syncable="YES"/>
         <relationship name="exerciseSession" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedExerciseSession" inverseName="classifiedExercises" inverseEntity="MRManagedExerciseSession" syncable="YES"/>
     </entity>
     <entity name="MRManagedExerciseSession" representedClassName=".MRManagedExerciseSession" syncable="YES">
@@ -21,12 +21,12 @@
         <relationship name="labelledExercises" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="MRManagedLabelledExercise" inverseName="exerciseSession" inverseEntity="MRManagedLabelledExercise" syncable="YES"/>
     </entity>
     <entity name="MRManagedLabelledExercise" representedClassName=".MRManagedLabelledExercise" syncable="YES">
-        <attribute name="end" attributeType="Date" syncable="YES"/>
+        <attribute name="cdIntensity" optional="YES" attributeType="Double" minValueString="0" maxValueString="1" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="cdRepetitions" optional="YES" attributeType="Integer 32" minValueString="0" defaultValueString="0" syncable="YES"/>
+        <attribute name="cdWeight" optional="YES" attributeType="Double" minValueString="0" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="duration" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="exerciseId" attributeType="String" syncable="YES"/>
-        <attribute name="intensity" optional="YES" attributeType="Double" minValueString="0" maxValueString="1" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="repetitions" optional="YES" attributeType="Integer 32" minValueString="0" defaultValueString="0" syncable="YES"/>
         <attribute name="start" attributeType="Date" syncable="YES"/>
-        <attribute name="weight" optional="YES" attributeType="Double" minValueString="0" defaultValueString="0.0" syncable="YES"/>
         <relationship name="exerciseSession" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedExerciseSession" inverseName="labelledExercises" inverseEntity="MRManagedExerciseSession" syncable="YES"/>
     </entity>
     <fetchRequest name="FetchRequest" entity="MRManagedExerciseSession" predicateString="id == &quot;@id&quot;"/>

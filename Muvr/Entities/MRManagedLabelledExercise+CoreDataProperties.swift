@@ -13,14 +13,16 @@ import Foundation
 import CoreData
 import MuvrKit
 
-extension MRManagedLabelledExercise : MKLabelledExercise {
+extension MRManagedLabelledExercise {
 
-    @NSManaged var end: NSDate
+    @NSManaged var duration: Double
     @NSManaged var exerciseId: String
-    @NSManaged var intensity: Double
-    @NSManaged var repetitions: UInt32
     @NSManaged var start: NSDate
-    @NSManaged var weight: Double
+    
+    @NSManaged var cdIntensity: Double
+    @NSManaged var cdRepetitions: Int32
+    @NSManaged var cdWeight: Double
+
     @NSManaged var exerciseSession: MRManagedExerciseSession?
 
 }

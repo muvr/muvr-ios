@@ -135,14 +135,12 @@ class MRLabelViewController : UIViewController, UITableViewDelegate, UITableView
             let l = MRManagedLabelledExercise.insertNewObject(into: session!, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
             
             l.start = start!
-            l.end = NSDate()
+            l.duration = 10
             l.exerciseId = exerciseId.text!
-            l.intensity = Double(intensity.value) / Double(intensity.maximumValue)
-            l.repetitions = repetitions.text.flatMap { UInt32($0) } ?? UInt32(0)
-            l.weight = weight.text.flatMap { Double($0) } ?? Double(0)
+            l.cdIntensity = Double(intensity.value) / Double(intensity.maximumValue)
+            l.cdRepetitions = repetitions.text.flatMap { Int32($0) } ?? Int32(0)
+            l.cdWeight = weight.text.flatMap { Double($0) } ?? Double(0)
             
-            NSLog("start = \(l.start.formatTime())")
-            NSLog("end = \(l.end.formatTime())")
             MRAppDelegate.sharedDelegate().saveContext()
         }
         

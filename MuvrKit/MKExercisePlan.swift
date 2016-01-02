@@ -14,11 +14,11 @@ import Foundation
 /// }
 /// ```
 ///
-public class MKExercisePlan {
+public class MKExercisePlan<E : Hashable> {
     /// The chain of planned exercises that provides the predictions
-    private var chain: MKMarkovChain<MKPlannedExercise> = MKMarkovChain()
+    private var chain: MKMarkovChain<E> = MKMarkovChain()
     /// The chain of states collected so far
-    private var states: MKStateChain<MKPlannedExercise> = MKStateChain()
+    private var states: MKStateChain<E> = MKStateChain()
     /// The maximum number of states to keep
     private let statesCount: Int = 8
     
@@ -34,7 +34,7 @@ public class MKExercisePlan {
     ///
     /// - parameter exercise: the completed exercise
     ///
-    public func addExercise(exercise: MKPlannedExercise) {
+    public func addExercise(exercise: E) {
         chain.addTransition(states, next: exercise)
         states.addState(exercise)
         states.trim(statesCount)
@@ -44,7 +44,7 @@ public class MKExercisePlan {
     /// Returns the list of next exercises for the current state of the plan, or [] if no
     /// exercises are known yet.
     ///
-    public var nextExercises: [MKPlannedExercise] {
+    public var nextExercises: [E] {
         return uniq(chain.transitionProbabilities(states).sort { l, r in l.1 > r.1 }.map { $0.0 })
     }
     

@@ -18,9 +18,11 @@ extension MRManagedClassifiedExercise {
     @NSManaged var confidence: Double
     @NSManaged var duration: Double
     @NSManaged var exerciseId: String
-    @NSManaged var intensity: NSNumber?
-    @NSManaged var repetitions: NSNumber?
-    @NSManaged var weight: NSNumber?
+    
+    @NSManaged var cdIntensity: NSNumber?
+    @NSManaged var cdRepetitions: NSNumber?
+    @NSManaged var cdWeight: NSNumber?
+    
     @NSManaged var exerciseSession: MRManagedExerciseSession?
 
 }

@@ -27,21 +27,21 @@ extension MRAppDelegate  {
             exercise.exerciseId = exerciseIds()[index % 3]
             exercise.exerciseSession = session
             exercise.duration = 12
-            exercise.intensity = 1
-            exercise.repetitions = 10
-            exercise.weight = 10
+            exercise.cdIntensity = 1
+            exercise.cdRepetitions = 10
+            exercise.cdWeight = 10
             exercise.start = date.addSeconds(index * 60)
         }
         
         func generateLabelledExercise(date date: NSDate, session: MRManagedExerciseSession, index: Int) {
             let exercise = MRManagedLabelledExercise.insertNewObject(into: session, inManagedObjectContext: managedObjectContext)
             exercise.start = date.addSeconds(index * 60)
-            exercise.end = date.addSeconds(index * 60 + 30)
+            exercise.duration = 30
             exercise.exerciseId = exerciseIds()[index % 3]
             exercise.exerciseSession = session
-            exercise.intensity = 1
-            exercise.weight = 2
-            exercise.repetitions = 15
+            exercise.cdIntensity = 1
+            exercise.cdWeight = 2
+            exercise.cdRepetitions = 15
         }
         
 
