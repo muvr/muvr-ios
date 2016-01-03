@@ -36,7 +36,7 @@
         <attribute name="link" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lon" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <relationship name="labels" maxCount="1" deletionRule="Cascade" destinationEntity="MRManagedLocationLabel" inverseName="location" inverseEntity="MRManagedLocationLabel" syncable="YES"/>
+        <relationship name="labels" toMany="YES" deletionRule="Cascade" destinationEntity="MRManagedLocationLabel" inverseName="location" inverseEntity="MRManagedLocationLabel" syncable="YES"/>
     </entity>
     <entity name="MRManagedLocationLabel" representedClassName=".MRManagedLocationLabel" syncable="YES">
         <attribute name="exerciseId" optional="YES" attributeType="String" syncable="YES"/>

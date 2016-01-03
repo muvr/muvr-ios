@@ -40,6 +40,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         timedView.setColourScheme(MRColourSchemes.green)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationDidObtain:", name: MRNotifications.LocationDidObtain.rawValue, object: nil)
         if let objectId = session?.objectID {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidComplete", name: MRNotifications.SessionDidComplete.rawValue, object: objectId)
@@ -51,6 +52,20 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
             timedView.buttonTouched = timedViewButtonTouched
         } else {
             timedView.hidden = true
+        }
+    }
+    
+    ///
+    /// Local notification callback function intended to be used when location is set.
+    /// - parameter notification: the details of the local notification
+    ///
+    func locationDidObtain(notification: NSNotification) {
+        guard let exerciseModelId = session?.exerciseModelId else { return }
+        
+        if let locationName = notification.object as? String {
+            title = "\(exerciseModelId) at \(locationName)"
+        } else {
+            title = exerciseModelId
         }
     }
     

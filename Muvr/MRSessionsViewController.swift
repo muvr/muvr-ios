@@ -44,6 +44,18 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
         performSegueWithIdentifier("exercise", sender: notification.object)
     }
     
+    ///
+    /// Local notification callback function intended to be used when location is set.
+    /// - parameter notification: the details of the local notification
+    ///
+    func locationDidObtain(notification: NSNotification) {
+        if let locationName = notification.object as? String {
+            title = locationName
+        } else {
+            title = "Muvr"
+        }
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let svc = segue.destinationViewController as? MRSessionViewController,
            let session = MRAppDelegate.sharedDelegate().managedObjectContext.objectWithID(sender as! NSManagedObjectID) as? MRManagedExerciseSession {
@@ -75,6 +87,7 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     
     override func viewDidAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidStart:", name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationDidObtain:", name: MRNotifications.LocationDidObtain.rawValue, object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {

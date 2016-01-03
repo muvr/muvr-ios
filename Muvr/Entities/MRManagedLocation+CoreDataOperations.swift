@@ -6,12 +6,13 @@ extension MRManagedLocation {
     
     static func findAtLocation(location: CLLocation, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedLocation? {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedLocation")
-        let latMin = location.coordinate.latitude - location.horizontalAccuracy
-        let latMax = location.coordinate.latitude + location.horizontalAccuracy
-        let lonMin = location.coordinate.longitude - location.horizontalAccuracy
-        let lonMax = location.coordinate.longitude + location.horizontalAccuracy
+        let accuracy = 0.01
+        let latMin = location.coordinate.latitude - accuracy
+        let latMax = location.coordinate.latitude + accuracy
+        let lonMin = location.coordinate.longitude - accuracy
+        let lonMax = location.coordinate.longitude + accuracy
         
-        fetchRequest.predicate = NSPredicate(format: "(lat between (%@, %@) && lon between (%@, %@))", latMin, latMax, lonMin, lonMax)
+        fetchRequest.predicate = NSPredicate(format: "lat >= %@ && lat <= %@ && lon >= %@ && lon <= %@", argumentArray: [latMin, latMax, lonMin, lonMax])
         
         return (try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedLocation]).first
     }

@@ -15,6 +15,8 @@ enum MRNotifications : String {
     case SessionDidEstimate = "MRNotificationSessionDidEstimate"
     case SessionDidClassify = "MRNotificationSessionDidClassify"
     
+    case LocationDidObtain = "MRNotificationLocationDidObtain"
+    
     case DownloadingModels = "MRNotificationDownloadingModels"
     case ModelsDownloaded = "MRNotificationModelsDownloaded"
     
@@ -292,17 +294,20 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - Core Location stack
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
-        NSLog("We're at \(newLocation)")
+        currentLocation = MRManagedLocation.findAtLocation(newLocation, inManagedObjectContext: managedObjectContext)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        NSLog("We're at \(locations)")
+        currentLocation = MRManagedLocation.findAtLocation(locations.last!, inManagedObjectContext: managedObjectContext)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         #if (arch(i386) || arch(x86_64)) && os(iOS)
-            let location = CLLocation(latitude: CLLocationDegrees(53.425416), longitude: CLLocationDegrees(-2.225455))
+            let location = CLLocation(latitude: CLLocationDegrees(53.435739), longitude: CLLocationDegrees(-2.165993))
             currentLocation = MRManagedLocation.findAtLocation(location, inManagedObjectContext: managedObjectContext)
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
         #endif
     }
     
