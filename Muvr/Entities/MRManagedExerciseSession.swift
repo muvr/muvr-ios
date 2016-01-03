@@ -9,9 +9,22 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     var estimated: [MKClassifiedExercise] = []
     
     ///
+    /// The list of exercises the user is likely to be doing
+    ///
+    var exercises: [MKExercise] {
+        if currentClassificationHint != nil {
+            // we're exercising for sure
+            return currentExercises
+        } else {
+            // we're not exercising
+            return nextExercises
+        }
+    }
+    
+    ///
     /// The list of exercises that the user has most likely just finished doing
     ///
-    var suggestedExercises: [MKExercise] {
+    private var nextExercises: [MKExercise] {
         let modelExercises = MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId)
         let planExercises = plan.nextExercises
         let notPlannedModelExercises = modelExercises.filter { me in
@@ -30,12 +43,10 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     ///
     /// The list of exercises that the user is most likely currently doing
     ///
-    var currentExercises: [MKExercise] {
+    private var currentExercises: [MKExercise] {
         let planExercises = plan.nextExercises
         
-        // TODO: add classified-so-far exercise
-        
-        return planExercises.map { exerciseId in
+        return (estimated.map { $0 as MKExercise }) + planExercises.map { exerciseId in
             return MRExercise(exerciseId: exerciseId, duration: 30, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
         }
     }
@@ -63,6 +74,13 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     }
     
     ///
+    /// Explicitly ends exercising.
+    ///
+    func endExercise() {
+        currentClassificationHint = nil
+    }
+    
+    ///
     /// Adds the completed exercise to the plan. Do not forget to save the given ``managedObjectContext``, this
     /// method does not flush automatically.
     ///
@@ -87,7 +105,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     ///
     /// Combined labelled and classified exercises for this entire session
     ///
-    var exercises: [MKExercise] {
+    private var combinedExercises: [MKExercise] {
         let labelled: [(NSDate, MKExercise)] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).map { e in return (e.start, e as MKExercise) }
         let classified: [(NSDate, MKExercise)] = (classifiedExercises.allObjects as! [MRManagedClassifiedExercise]).map { e in return (e.start, e as MKExercise) }
         
@@ -113,7 +131,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     var sets: [[MKExercise]] {
         get {
             var em: [MKExerciseId : [MKExercise]] = [:]
-            exercises.forEach { x in
+            combinedExercises.forEach { x in
                 if let l = em[x.exerciseId] {
                     em[x.exerciseId] = l + [x]
                 } else {

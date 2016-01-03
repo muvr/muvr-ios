@@ -1,10 +1,17 @@
 import UIKit
+import MuvrKit
 
 class MRExercisingViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var timedView: MRTimedView!
+    
+    private enum State {
+        case CountingDown
+        case Exercising(start: NSDate)
+        case Done(start: NSDate)
+    }
 
-    private var start: NSDate?
+    private var state: State = State.CountingDown
     
     var session: MRManagedExerciseSession!
     
@@ -17,29 +24,66 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     override func viewDidAppear(animated: Bool) {
         tableView.allowsSelection = false
         timedView.start(5, onTimerElapsed: beginExercising)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEstimate", name: MRNotifications.SessionDidEstimate.rawValue, object: nil)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    ///
+    /// This is a notification callback from the sessionDidEstimate. Do not call explicitly.
+    ///
+    func sessionDidEstimate() {
+        tableView.reloadData()
     }
     
     private func beginExercising(tv: MRTimedView) {
-        start = NSDate()
+        state = .Exercising(start: NSDate())
+        session.beginExercising()
         timedView.setColourScheme(MRColourSchemes.red)
-        timedView.setButtonTitle("stop")
+        timedView.setButtonTitle("done")
+        tableView.reloadData()
         timedView.buttonTouched = stopExercising
     }
     
     private func stopExercising(tv: MRTimedView) {
-        timedView.setColourScheme(MRColourSchemes.green)
-        timedView.setButtonTitle("✓")
-        tableView.allowsSelection = true
-        tableView.reloadData()
+        if case .Exercising(let start) = state {
+            session.endExercise()
+            timedView.setColourScheme(MRColourSchemes.green)
+            let text = "✓"
+            timedView.setButtonTitle(text)
+            timedView.textTransform = { _ in return text }
+            timedView.start(10, onTimerElapsed: ignoreLabel)
+            tableView.allowsSelection = true
+            tableView.reloadData()
+            state = .Done(start: start)
+        }
+    }
+    
+    private func ignoreLabel(tv: MRTimedView) {
+        navigationController?.popViewControllerAnimated(true)
+    }
+    
+    private func addLabel(e: MKExercise) {
+        if case .Done(let start) = state {
+            session.addLabel(e, start: start, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+            MRAppDelegate.sharedDelegate().saveContext()
+            navigationController?.popViewControllerAnimated(true)
+        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        switch state {
+        case .CountingDown: return 0
+        case .Exercising(_): return 1
+        case .Done(_): return 3
+        }
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0: return session.suggestedExercises.count
+        case 0: return session.exercises.count
         case 1: return 1
         case 2: return 1
         default: fatalError("Match error")
@@ -57,8 +101,8 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch indexPath.section {
         case 0: return MRExerciseTableViewCell.height
-        case 1: return 22
-        case 2: return 22
+        case 1: return 40
+        case 2: return 40
         default: fatalError("Match error")
         }
     }
@@ -67,7 +111,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier(MRExerciseTableViewCell.cellReuseIdentifier, forIndexPath: indexPath) as! MRExerciseTableViewCell
-            let plannedExercise = session.suggestedExercises[indexPath.row]
+            let plannedExercise = session.exercises[indexPath.row]
             cell.setExercise(plannedExercise, lastExercise: nil)
             return cell
         case 1:
@@ -85,11 +129,9 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let cell = tableView.cellForRowAtIndexPath(indexPath) as? MRExerciseTableViewCell,
            let e = cell.exercise {
-           session.addLabel(e, start: start!, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
-           MRAppDelegate.sharedDelegate().saveContext()
+           addLabel(e)
         }
 
-        navigationController?.popViewControllerAnimated(true)
     }
     
 }
