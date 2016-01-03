@@ -10,9 +10,18 @@ public protocol MKSessionClassifierDelegate {
     /// after the classification.
     ///
     /// - parameter session: the current snapshot of the session
+    /// - parameter classified: the classified exercises
     /// - parameter sensorData: the sensor data collected so far
     ///
     func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData)
+    
+    ///
+    /// Called when the session classification estimates the exercise that has not yet ended.
+    ///
+    /// - parameter session: the current snapshot of the session
+    /// - parameter estimated: the estimated exercises
+    ///
+    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKClassifiedExercise])
     
     ///
     /// The session has ended

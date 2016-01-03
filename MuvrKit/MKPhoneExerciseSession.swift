@@ -12,6 +12,9 @@ public struct MKExerciseSession {
     /// the completed flag
     public let completed: Bool
     
+    /// The offset of the last classified exercises
+    internal var classificationStart: NSTimeInterval = 0
+    
     ///
     /// Constructs this instance from the values in ``exerciseConnectivitySession``
     ///

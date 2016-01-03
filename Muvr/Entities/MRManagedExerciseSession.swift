@@ -2,8 +2,11 @@ import Foundation
 import CoreData
 import MuvrKit
 
-class MRManagedExerciseSession: NSManagedObject {
+class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     private var plan = MKExercisePlan<MKExerciseId>()
+    private var currentClassificationHint: MKClassificationHint?
+    /// The estimated exercises
+    var estimated: [MKClassifiedExercise] = []
     
     ///
     /// The list of exercises that the user has most likely just finished doing
@@ -37,6 +40,28 @@ class MRManagedExerciseSession: NSManagedObject {
         }
     }
     
+    // Implements the ``MKSessionClassifierHintSource.exercisingHints`` property
+    var exercisingHints: [MKClassificationHint]? {
+        get {
+            var hints: [MKClassificationHint] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).map { le in
+                return .ExplicitExercise(start: le.start.timeIntervalSinceDate(self.start), duration: le.duration, expectedExercises: [le])
+            }
+            if let currentClassificationHint = currentClassificationHint {
+                hints.append(currentClassificationHint)
+            }
+            return hints
+        }
+    }
+    
+    ///
+    /// Explicitly begins exercising. This call must be followed by ``addLabel`` at some point
+    /// in the future.
+    ///
+    func beginExercising() {
+        currentClassificationHint =
+            .ExplicitExercise(start: NSDate().timeIntervalSinceDate(start), duration: nil, expectedExercises: currentExercises)
+    }
+    
     ///
     /// Adds the completed exercise to the plan. Do not forget to save the given ``managedObjectContext``, this
     /// method does not flush automatically.
@@ -56,6 +81,7 @@ class MRManagedExerciseSession: NSManagedObject {
         l.cdWeight = label.weight ?? 0
 
         plan.addExercise(label.exerciseId)
+        currentClassificationHint = nil
     }
     
     ///

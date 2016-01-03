@@ -11,6 +11,8 @@ enum MRNotifications : String {
     case CurrentSessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
     case CurrentSessionDidStart = "MRNotificationsCurrentSessionDidStart"
     case SessionDidComplete = "MRNotificationSessionDidComplete"
+    case SessionDidEstimate = "MRNotificationSessionDidEstimate"
+    case SessionDidClassify = "MRNotificationSessionDidClassify"
     
     case DownloadingModels = "MRNotificationDownloadingModels"
     case ModelsDownloaded = "MRNotificationModelsDownloaded"
@@ -44,7 +46,7 @@ protocol MRApp {
 }
 
 @UIApplicationMain
-class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDelegate, MRApp {
+class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDelegate, MKClassificationHintSource, MRApp {
     
     var window: UIWindow?
     
@@ -52,12 +54,20 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
     private var modelStore: MRExerciseModelStore!
     private var connectivity: MKConnectivity!
     private var classifier: MKSessionClassifier!
+    private var sensorDataSplitter: MKSensorDataSplitter!
     private var sessions: [MRManagedExerciseSession] = []
     private var currentSession: MRManagedExerciseSession? {
         for (session) in sessions where session.end == nil {
             return session
         }
         return nil
+    }
+    
+    // Implements the MKClassificationHintSource
+    var exercisingHints: [MKClassificationHint]? {
+        get {
+            return currentSession?.exercisingHints
+        }
     }
     
     ///
@@ -133,7 +143,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
         sessionStore = MRExerciseSessionStore(storageAccess: remoteStorage)
         modelStore = MRExerciseModelStore(storageAccess: remoteStorage)
         // set up the classification and connectivity
-        classifier = MKSessionClassifier(exerciseModelSource: modelStore, delegate: self)
+        sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: modelStore, hintSource: self)
+        classifier = MKSessionClassifier(exerciseModelSource: modelStore, sensorDataSplitter: sensorDataSplitter, delegate: self)
         connectivity = MKConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
         
         authorizeHealthKit()
@@ -208,6 +219,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
             let currentSession = sessions[index]
             currentSession.sensorData = sensorData.encode()
             currentSession.completed = session.completed
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidClassify.rawValue, object: currentSession.objectID)
             if session.completed {
                 sessions.removeAtIndex(index)
                 NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidComplete.rawValue, object: currentSession.objectID)
@@ -215,6 +227,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
             classified.forEach { MRManagedClassifiedExercise.insertNewObject(from: $0, into: currentSession, inManagedObjectContext: managedObjectContext) }
         }
         saveContext()
+    }
+    
+    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKClassifiedExercise]) {
+        if let index = sessionIndex(session) {
+            let currentSession = sessions[index]
+            currentSession.estimated = estimated
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidEstimate.rawValue, object: currentSession.objectID)
+        }
     }
     
     func sessionClassifierDidStart(session: MKExerciseSession) {

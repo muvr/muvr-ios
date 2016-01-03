@@ -16,26 +16,6 @@ public protocol MKExerciseModelSource {
 }
 
 ///
-/// A classifier hint is a list of expected exercises in a time interval,
-/// here modelled as (_start_, _duration_, _expected exercises_).
-///
-public typealias MKClassifierHint = (NSTimeInterval, NSTimeInterval, [MKExercise])
-
-
-///
-/// Provides a way for the container to provide hints to the classifier. The hints are
-/// whether the user is exercising or not and what the suggested next exercises are.
-///
-public protocol MKSessionClassifierHintSource {
-    
-    /// The list of known exercise periods (start, duration, suggestions); the classifier
-    /// may use this information to skip exercise vs. no exercise detection and to
-    /// make better predictions using the suggestions.
-    var exercisingHints: [MKClassifierHint]? { get }
-    
-}
-
-///
 /// Implementation of the two connectivity delegates that can classify the incoming data
 ///
 public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, MKSensorDataConnectivityDelegate {
@@ -45,19 +25,17 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     private(set) public var sessions: [MKExerciseSession] = []
     
     /// the classification result delegate
-    public let delegate: MKSessionClassifierDelegate    // Remember to call the delegate methods on ``dispatch_get_main_queue()``
+    private let delegate: MKSessionClassifierDelegate    // Remember to call the delegate methods on ``dispatch_get_main_queue()``
     
-    /// the delegate that provides hints to the classifier
-    public var hintSource: MKSessionClassifierHintSource?
-
     /// the exercise vs. no-exercise classifier
-    private let eneClassifier: MKClassifier
+    private let sensorDataSplitter: MKSensorDataSplitter
 
     /// the repetition estimator
     private let repetitionEstimator: MKRepetitionEstimator
     
     /// the queue for immediate classification, with high-priority QoS
     private let classificationQueue: dispatch_queue_t = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
+    
     /// the queue for summary & reclassification, if needed, with background QoS
     private let summaryQueue: dispatch_queue_t = dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
 
@@ -67,43 +45,16 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     /// classification as a priority
     ///
     /// - parameter exerciseModelSource: implementation of the ``MKExerciseModelSource`` protocol
-    /// - parameter unclassified: the list of not-yet-classified connectivity sessions
+    /// - parameter sensorDataSplitter: the splitter
+    /// - parameter delegate: the classifier delegate
     ///
-    public init(exerciseModelSource: MKExerciseModelSource, delegate: MKSessionClassifierDelegate) {
+    public init(exerciseModelSource: MKExerciseModelSource, sensorDataSplitter: MKSensorDataSplitter, delegate: MKSessionClassifierDelegate) {
         self.exerciseModelSource = exerciseModelSource
         self.delegate = delegate
-        let slackingModel = try! exerciseModelSource.getExerciseModel(id: "slacking")
-        eneClassifier = try! MKClassifier(model: slackingModel)
+        self.sensorDataSplitter = sensorDataSplitter
         repetitionEstimator = MKRepetitionEstimator()
     }
-    
-    private func classify(exerciseModelId exerciseModelId: MKExerciseModelId, sensorData: MKSensorData) -> [MKClassifiedExercise]? {
-        do {
-            let exerciseModel = try exerciseModelSource.getExerciseModel(id: exerciseModelId)
-            let exerciseClassifier = try MKClassifier(model: exerciseModel)
-
-            let results = try eneClassifier.classify(block: sensorData, maxResults: 2)
-            NSLog("Exercise / no exercise \(results)")
-            return try results.flatMap { result -> [MKClassifiedExercise] in
-                if result.exerciseId == "E" && result.duration >= exerciseModel.minimumDuration {
-                    // this is an exercise block - get the corresponding data section
-                    let data = try sensorData.slice(result.offset, duration: result.duration)
-                    // classify the exercises in this block
-                    let exercises = try! exerciseClassifier.classify(block: data, maxResults: 10)
-                    // adjust the offset with the offset from the original block
-                    // the offset returned by the classifier is relative to the current exercise block
-                    let (repetitions, _) = try self.repetitionEstimator.estimate(data: data)
-                    return exercises.map(self.shiftOffset(result.offset)).map(self.updateRepetitions(repetitions))
-                } else {
-                    return []
-                }
-            }
-        } catch let ex {
-            NSLog("Failed to classify block: \(ex)")
-            return []
-        }
-    }
-    
+        
     public func exerciseConnectivitySessionDidEnd(session session: MKExerciseConnectivitySession) {
         if let index = sessionIndex(session) {
             sessions[index] = MKExerciseSession(exerciseConnectivitySession: session)
@@ -132,27 +83,58 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         }
     }
     
+    private func classifySplits(splits: [MKSensorDataSplit], session: MKExerciseConnectivitySession) -> [MKClassifiedExercise] {
+        do {
+            let exerciseModel = try exerciseModelSource.getExerciseModel(id: session.exerciseModelId)
+            let exerciseClassifier = try MKClassifier(model: exerciseModel)
+            return try splits.flatMap { split in
+                switch split {
+                case .Automatic(let startOffset, let data):
+                    if let best = (try exerciseClassifier.classify(block: data, maxResults: 10)).first {
+                        let (repetitions, _) = try self.repetitionEstimator.estimate(data: data)
+                        return best.copy(offsetDelta: startOffset, repetitions: repetitions)
+                    }
+                    
+                case .Hinted(let startOffset, let data, _):
+                    // TODO: improve the way in which we handle hint
+                    if let best = (try exerciseClassifier.classify(block: data, maxResults: 10)).first {
+                        let (repetitions, _) = try self.repetitionEstimator.estimate(data: data)
+                        return best.copy(offsetDelta: startOffset, repetitions: repetitions)
+                    }
+                }
+                return nil
+            }
+        } catch {
+            return []
+        }
+    }
+    
     public func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) {
         guard let index = sessionIndex(session) else { return }
-        let exerciseSession = MKExerciseSession(exerciseConnectivitySession: session)
+        var exerciseSession = MKExerciseSession(exerciseConnectivitySession: session)
         if (sessions[index].end == nil && session.end != nil) {
             // didn't know this session has ended - issue ``didEnd`` event
             dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEnd(exerciseSession, sensorData: session.sensorData) }
         }
-        sessions[index] = exerciseSession
-        
-        // compute the exercise start date: new.start + exercise offset
-        let shift = shiftOffset(new.start)
         
         dispatch_async(classificationQueue) {
-            let classified = self.classify(exerciseModelId: session.exerciseModelId, sensorData: new) ?? []
-            // always issue a ``didClassify`` event in order to save accumulated data
-            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidClassify(exerciseSession, classified: classified.map(shift), sensorData: accumulated) }
-        }
-        
-        if session.last {
-            // session completed: all data received
-            sessions.removeAtIndex(index)
+            // split the accumulated data into areas of suspected exercise
+            let (completed, partial, newStart) = self.sensorDataSplitter.split(from: exerciseSession.classificationStart, data: accumulated)
+            exerciseSession.classificationStart = newStart
+            self.sessions[index] = exerciseSession
+
+            // report the completely classified exercises
+            let classifiedCompleted = self.classifySplits(completed, session: session)
+            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidClassify(exerciseSession, classified: classifiedCompleted, sensorData: accumulated) }
+            
+            // report the estimated exercises
+            let classifiedPartial = self.classifySplits(partial, session: session)
+            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEstimate(exerciseSession, estimated: classifiedPartial) }
+
+            if session.last {
+                // session completed: all data received
+                self.sessions.removeAtIndex(index)
+            }
         }
     }
     
@@ -163,14 +145,4 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         return sessions.indexOf { $0.id == session.id }
     }
     
-    ///
-    /// returns a function that shift the exercise's offset by the specified value
-    ///
-    private func shiftOffset(offset: MKTimestamp)(x: MKClassifiedExercise) -> MKClassifiedExercise {
-        return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset + offset, repetitions: x.repetitions, intensity: x.intensity, weight: x.weight)
-    }
-    
-    private func updateRepetitions(repetitions: Int32)(x: MKClassifiedExercise) -> MKClassifiedExercise {
-        return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset, repetitions: repetitions, intensity: x.intensity, weight: x.weight)
-    }
 }

@@ -142,6 +142,7 @@
 		54E9131C1BC306A500B7F9F0 /* model-3.raw in Resources */ = {isa = PBXBuildFile; fileRef = 54E913191BC306A500B7F9F0 /* model-3.raw */; };
 		54EFE97B1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EFE97A1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift */; };
 		54FD504E1BDBD27C0015771D /* MRSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */; };
+		54FEB0FA1C39587300EC5293 /* MKPhoneSensorDataSplitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEB0F81C39583800EC5293 /* MKPhoneSensorDataSplitter.swift */; };
 		640CC2A41BF62B9000764C4C /* MRSessionProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A31BF62B9000764C4C /* MRSessionProgressRing.swift */; };
 		640CC2A61BF62BF600764C4C /* MRSessionProgressRingRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A51BF62BF600764C4C /* MRSessionProgressRingRenderer.swift */; };
 		642363481C189A2400ABF4CA /* MRStorageAccessProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642363471C189A2400ABF4CA /* MRStorageAccessProtocol.swift */; };
@@ -423,6 +424,7 @@
 		54E913191BC306A500B7F9F0 /* model-3.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "model-3.raw"; sourceTree = "<group>"; };
 		54EFE97A1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRAppDelegate+UITesting.swift"; sourceTree = "<group>"; };
 		54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionViewController.swift; sourceTree = "<group>"; };
+		54FEB0F81C39583800EC5293 /* MKPhoneSensorDataSplitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneSensorDataSplitter.swift; sourceTree = "<group>"; };
 		640CC2A31BF62B9000764C4C /* MRSessionProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionProgressRing.swift; sourceTree = "<group>"; };
 		640CC2A51BF62BF600764C4C /* MRSessionProgressRingRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionProgressRingRenderer.swift; sourceTree = "<group>"; };
 		642363471C189A2400ABF4CA /* MRStorageAccessProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRStorageAccessProtocol.swift; sourceTree = "<group>"; };
@@ -862,6 +864,7 @@
 				5488080E1BD57BA500419CD8 /* MKPhoneExerciseSessionClassifier.swift */,
 				548808101BD57D7400419CD8 /* MKPhoneExerciseSessionClassifierDelegates.swift */,
 				548808121BD57D8800419CD8 /* MKPhoneExerciseSession.swift */,
+				54FEB0F81C39583800EC5293 /* MKPhoneSensorDataSplitter.swift */,
 			);
 			name = Connectivity;
 			sourceTree = "<group>";
@@ -1478,6 +1481,7 @@
 				5488080F1BD57BA500419CD8 /* MKPhoneExerciseSessionClassifier.swift in Sources */,
 				547791011C235E1900763197 /* MKMarkovChain.swift in Sources */,
 				547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */,
+				54FEB0FA1C39587300EC5293 /* MKPhoneSensorDataSplitter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
