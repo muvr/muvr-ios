@@ -81,7 +81,7 @@ enum MKSensorDataSplit {
     var end: NSTimeInterval {
         switch self {
         case .Hinted(_, let data, _): return data.end
-        case .Automatic(let _, let data): return data.end
+        case .Automatic(_, let data): return data.end
         }
     }
     
