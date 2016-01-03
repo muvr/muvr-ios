@@ -2,6 +2,7 @@ import UIKit
 import HealthKit
 import MuvrKit
 import CoreData
+import CoreLocation
 
 ///
 /// The notifications: when creating a new notification, be sure to add it only here
@@ -32,6 +33,11 @@ protocol MRApp {
     var managedObjectContext: NSManagedObjectContext { get }
     
     ///
+    /// The user's current location
+    ///
+    var locationName: String? { get }
+    
+    ///
     /// Saves the pending changes in the app's ``managedObjectContext``.
     ///
     func saveContext()
@@ -46,7 +52,8 @@ protocol MRApp {
 }
 
 @UIApplicationMain
-class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDelegate, MKClassificationHintSource, MRApp {
+class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate,
+    MKSessionClassifierDelegate, MKClassificationHintSource, MRApp {
     
     var window: UIWindow?
     
@@ -56,6 +63,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
     private var classifier: MKSessionClassifier!
     private var sensorDataSplitter: MKSensorDataSplitter!
     private var sessions: [MRManagedExerciseSession] = []
+    private var locationManager: CLLocationManager!
+    private var currentLocation: MRManagedLocation?
     private var currentSession: MRManagedExerciseSession? {
         for (session) in sessions where session.end == nil {
             return session
@@ -63,12 +72,21 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
         return nil
     }
     
-    // Implements the MKClassificationHintSource
+    // MARK: - MKClassificationHintSource
     var exercisingHints: [MKClassificationHint]? {
         get {
             return currentSession?.exercisingHints
         }
     }
+    
+    // MARK: - MRApp
+    var locationName: String? {
+        get {
+            return currentLocation?.name
+        }
+    }
+    
+    // MARK: - Other
     
     ///
     /// Downloads the models
@@ -137,6 +155,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
     static func sharedDelegate() -> MRApp {
         return UIApplication.sharedApplication().delegate as! MRAppDelegate
     }
+    
+    // MARK: - UIApplicationDelegate code
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         let remoteStorage = MRS3StorageAccess(accessKey: AwsCredentials.accessKey, secretKey: AwsCredentials.secretKey)
@@ -146,6 +166,12 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
         sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: modelStore, hintSource: self)
         classifier = MKSessionClassifier(exerciseModelSource: modelStore, sensorDataSplitter: sensorDataSplitter, delegate: self)
         connectivity = MKConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.AuthorizedWhenInUse {
+            locationManager.requestWhenInUseAuthorization()
+        }
         
         authorizeHealthKit()
         
@@ -162,6 +188,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
     
         // download the models
         downloadModels()
+        
+        // sync
+        do {
+            try MRLocationSynchronisation().synchronise(inManagedObjectContext: managedObjectContext)
+            saveContext()
+        } catch let e {
+            NSLog(":( \(e)")
+        }
         
         return true
     }
@@ -191,12 +225,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
     
     func applicationDidBecomeActive(application: UIApplication) {
         application.idleTimerDisabled = true
+        locationManager.requestLocation()
         uploadSessions()
     }
     
     func applicationWillResignActive(application: UIApplication) {
         application.idleTimerDisabled = false
     }
+    
+    // MARK: - Session classification
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
         NSLog("Received session end for \(session)")
@@ -250,6 +287,23 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
             sessions.append(persistedSession!)
         }
 
+    }
+    
+    // MARK: - Core Location stack
+    
+    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+        NSLog("We're at \(newLocation)")
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        NSLog("We're at \(locations)")
+    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        #if (arch(i386) || arch(x86_64)) && os(iOS)
+            let location = CLLocation(latitude: CLLocationDegrees(53.425416), longitude: CLLocationDegrees(-2.225455))
+            currentLocation = MRManagedLocation.findAtLocation(location, inManagedObjectContext: managedObjectContext)
+        #endif
     }
     
     // MARK: - Core Data stack
