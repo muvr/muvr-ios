@@ -37,13 +37,16 @@ class MRExerciseSessionStore {
         }
     
         // generate CSV file with sensor data
-        guard let data = session.sensorData,
-              let labelledExercises = session.labelledExercises.allObjects as? [MRManagedLabelledExercise],
-              let sensorData = try? MKSensorData(decoding: data) else { return }
-              let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises)
-        storageAccess.uploadFile("/sessions/\(session.id)_\(session.exerciseModelId).csv", data: csvData) {
-            csvUploaded = true
-            checkCompletion()
+        
+        if let data = session.sensorData,
+           let labelledExercises = session.labelledExercises.allObjects as? [MRManagedLabelledExercise],
+           let sensorData = try? MKSensorData(decoding: data) {
+            
+            let csvData = sensorData.encodeAsCsv(labelledExercises: labelledExercises.map { $0.label })
+            storageAccess.uploadFile("/sessions/\(session.id)_\(session.exerciseModelId).csv", data: csvData) {
+                csvUploaded = true
+                checkCompletion()
+            }
         }
     }
     

@@ -10,14 +10,14 @@ import MuvrKit
 /// then we implement the ``MKExercise`` protocol by delegating to those CD
 /// properties.
 ///
-extension MRManagedLabelledExercise : MKLabelledExercise {
+extension MRManagedLabelledExercise : MKExercise {
     
     var confidence: Double {
         get {
             return 1.0
         }
     }
-    
+        
     var repetitions: Int32? {
         get {
             return cdRepetitions

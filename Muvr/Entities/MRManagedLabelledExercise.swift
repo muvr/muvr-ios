@@ -21,5 +21,30 @@ class MRManagedLabelledExercise: NSManagedObject {
     func isBefore(other: MRManagedClassifiedExercise) -> Bool {
         return start.compare(other.start) == .OrderedAscending
     }
+    
+    var label: MKLabelledExercise {
+        return Label(from: self)
+    }
+    
+    struct Label : MKLabelledExercise {
+        let start: NSDate
+        let exerciseId: MKExerciseId
+        let duration: Double
+        
+        let repetitionsLabel: Int32
+        let intensityLabel: MKExerciseIntensity
+        let weightLabel: Double
+
+        init(from: MRManagedLabelledExercise) {
+            start = from.start
+            exerciseId = from.exerciseId
+            duration = from.duration
+            repetitionsLabel = from.cdRepetitions
+            intensityLabel = from.cdIntensity
+            weightLabel = from.cdWeight
+        }
+        
+    }
 
 }
+
