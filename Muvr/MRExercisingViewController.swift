@@ -1,14 +1,24 @@
 import UIKit
 import MuvrKit
 
+///
+/// Handles the in-session explicit exercise
+///
 class MRExercisingViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var timedView: MRTimedView!
     
+    /// The controller's state
     private enum State {
+        /// 4..3..2... go!
         case CountingDown
+        /// started exercising at the given ``start``
+        /// - parameter start: the exercise start for future labelling
         case Exercising(start: NSDate)
-        case Done(start: NSDate)
+        /// done exercising: whatever label is going to be added, it happened between ``start`` for ``duration``
+        /// - parameter start: the start of the label
+        /// - parameter duration: the duration of the label
+        case Done(start: NSDate, duration: NSTimeInterval)
     }
 
     private var state: State = State.CountingDown
@@ -57,7 +67,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
             timedView.start(10, onTimerElapsed: ignoreLabel)
             tableView.allowsSelection = true
             tableView.reloadData()
-            state = .Done(start: start)
+            state = .Done(start: start, duration: NSDate().timeIntervalSinceDate(start))
         }
     }
     
@@ -65,9 +75,9 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         navigationController?.popViewControllerAnimated(true)
     }
     
-    private func addLabel(e: MKExercise) {
-        if case .Done(let start) = state {
-            session.addLabel(e, start: start, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+    private func addLabel(e: MKIncompleteExercise) {
+        if case .Done(let start, let duration) = state {
+            session.addLabel(e, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
             MRAppDelegate.sharedDelegate().saveContext()
             navigationController?.popViewControllerAnimated(true)
         }

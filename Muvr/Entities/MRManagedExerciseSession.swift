@@ -11,7 +11,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     ///
     /// The list of exercises the user is likely to be doing
     ///
-    var exercises: [MKExercise] {
+    var exercises: [MKIncompleteExercise] {
         if currentClassificationHint != nil {
             // we're exercising for sure
             return currentExercises
@@ -24,17 +24,17 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     ///
     /// The list of exercises that the user has most likely just finished doing
     ///
-    private var nextExercises: [MKExercise] {
+    private var nextExercises: [MKIncompleteExercise] {
         let modelExercises = MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId)
         let planExercises = plan.nextExercises
         let notPlannedModelExercises = modelExercises.filter { me in
             return !planExercises.contains { pe in pe == me }
         }
-        let a: [MKExercise] = planExercises.map { exerciseId in
-            return MRExercise(exerciseId: exerciseId, duration: 30, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
+        let a: [MKIncompleteExercise] = planExercises.map { exerciseId in
+            return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
         }
-        let b: [MKExercise] = notPlannedModelExercises.sort { (l, r) in l < r } . map { exerciseId in
-            return MRExercise(exerciseId: exerciseId, duration: 30, repetitions: nil, intensity: nil, weight: nil, confidence: 0)
+        let b: [MKIncompleteExercise] = notPlannedModelExercises.sort { (l, r) in l < r } . map { exerciseId in
+            return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 0)
         }
         
         return a + b
@@ -43,11 +43,11 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     ///
     /// The list of exercises that the user is most likely currently doing
     ///
-    private var currentExercises: [MKExercise] {
+    private var currentExercises: [MKIncompleteExercise] {
         let planExercises = plan.nextExercises
         
-        return (estimated.map { $0 as MKExercise }) + planExercises.map { exerciseId in
-            return MRExercise(exerciseId: exerciseId, duration: 30, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
+        return (estimated.map { $0 as MKIncompleteExercise }) + planExercises.map { exerciseId in
+            return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
         }
     }
     
@@ -86,13 +86,14 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     ///
     /// - parameter label: the completed exercise
     /// - parameter start: the exercise's start date
+    /// - parameter duration: the exercise's duration
     /// - parameter managedObjectContext: the CD context into which the label is going to be inserted.
     ///
-    func addLabel(label: MKExercise, start: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
+    func addLabel(label: MKIncompleteExercise, start: NSDate, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
         let l = MRManagedLabelledExercise.insertNewObject(into: self, inManagedObjectContext: managedObjectContext)
         
         l.start = start
-        l.duration = label.duration
+        l.duration = duration
         l.exerciseId = label.exerciseId
         l.cdIntensity = label.intensity ?? 0
         l.cdRepetitions = label.repetitions ?? 0

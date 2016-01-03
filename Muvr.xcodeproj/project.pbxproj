@@ -143,6 +143,9 @@
 		54EFE97B1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EFE97A1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift */; };
 		54FD504E1BDBD27C0015771D /* MRSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */; };
 		54FEB0FA1C39587300EC5293 /* MKPhoneSensorDataSplitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEB0F81C39583800EC5293 /* MKPhoneSensorDataSplitter.swift */; };
+		54FEB0FE1C39838F00EC5293 /* MKIncompleteExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEB0FD1C39838F00EC5293 /* MKIncompleteExercise.swift */; };
+		54FEB0FF1C39838F00EC5293 /* MKIncompleteExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEB0FD1C39838F00EC5293 /* MKIncompleteExercise.swift */; };
+		54FEB1011C39844000EC5293 /* MRIncompleteExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEB1001C39844000EC5293 /* MRIncompleteExercise.swift */; };
 		640CC2A41BF62B9000764C4C /* MRSessionProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A31BF62B9000764C4C /* MRSessionProgressRing.swift */; };
 		640CC2A61BF62BF600764C4C /* MRSessionProgressRingRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A51BF62BF600764C4C /* MRSessionProgressRingRenderer.swift */; };
 		642363481C189A2400ABF4CA /* MRStorageAccessProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642363471C189A2400ABF4CA /* MRStorageAccessProtocol.swift */; };
@@ -425,6 +428,8 @@
 		54EFE97A1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRAppDelegate+UITesting.swift"; sourceTree = "<group>"; };
 		54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionViewController.swift; sourceTree = "<group>"; };
 		54FEB0F81C39583800EC5293 /* MKPhoneSensorDataSplitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneSensorDataSplitter.swift; sourceTree = "<group>"; };
+		54FEB0FD1C39838F00EC5293 /* MKIncompleteExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKIncompleteExercise.swift; sourceTree = "<group>"; };
+		54FEB1001C39844000EC5293 /* MRIncompleteExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRIncompleteExercise.swift; sourceTree = "<group>"; };
 		640CC2A31BF62B9000764C4C /* MRSessionProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionProgressRing.swift; sourceTree = "<group>"; };
 		640CC2A51BF62BF600764C4C /* MRSessionProgressRingRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionProgressRingRenderer.swift; sourceTree = "<group>"; };
 		642363471C189A2400ABF4CA /* MRStorageAccessProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRStorageAccessProtocol.swift; sourceTree = "<group>"; };
@@ -635,6 +640,7 @@
 				64DC9FD61BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift */,
 				642CBCA41C1ED6E30043E5EE /* UIView+Rotation.swift */,
 				541950781C38318600578FFD /* MRExercise.swift */,
+				54FEB1001C39844000EC5293 /* MRIncompleteExercise.swift */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -822,6 +828,7 @@
 				54A775FA1BB81467001586DD /* Infoi.plist */,
 				54A7761E1BB81509001586DD /* Infow.plist */,
 				54730CC11C36998500BE1704 /* MKExercise.swift */,
+				54FEB0FD1C39838F00EC5293 /* MKIncompleteExercise.swift */,
 			);
 			path = MuvrKit;
 			sourceTree = "<group>";
@@ -1354,6 +1361,7 @@
 				642CBCA31C1ED1D50043E5EE /* MRExerciseModelStore.swift in Sources */,
 				54BEC0D71C34334C00D63A04 /* MRTimedView.swift in Sources */,
 				54EFE97B1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift in Sources */,
+				54FEB1011C39844000EC5293 /* MRIncompleteExercise.swift in Sources */,
 				541950751C382C7800578FFD /* MRManagedClassifiedExercise+MKExercise.swift in Sources */,
 				642363531C18A03700ABF4CA /* NSURLRequest+Canonical.swift in Sources */,
 				543C9A1A1BDD439B00291EC5 /* MRManagedClassifiedExercise+CoreDataProperties.swift in Sources */,
@@ -1470,6 +1478,7 @@
 				54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */,
 				5487F59C1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift in Sources */,
 				5474E8A41BF3E9D900A29D3B /* MKExerciseModel+Parsing.swift in Sources */,
+				54FEB0FE1C39838F00EC5293 /* MKIncompleteExercise.swift in Sources */,
 				5477910B1C24713000763197 /* MKExercisePlan.swift in Sources */,
 				5477910E1C2474AF00763197 /* MKPlannedExercise.swift in Sources */,
 				54730CC31C3699C200BE1704 /* MKExercise.swift in Sources */,
@@ -1490,6 +1499,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				547A445A1BB8585300C2CC06 /* MKWatchConnectivity.swift in Sources */,
+				54FEB0FF1C39838F00EC5293 /* MKIncompleteExercise.swift in Sources */,
 				54730CC41C3699C300BE1704 /* MKExercise.swift in Sources */,
 				54D3458C1BB928B600F65091 /* MKClassificationPipeline.swift in Sources */,
 				5477910C1C24713000763197 /* MKExercisePlan.swift in Sources */,
