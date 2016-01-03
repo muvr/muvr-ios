@@ -33,6 +33,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     
     override func viewDidAppear(animated: Bool) {
         tableView.allowsSelection = false
+        timedView.setConstantTitle("ready")
         timedView.start(5, onTimerElapsed: beginExercising)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEstimate", name: MRNotifications.SessionDidEstimate.rawValue, object: nil)
     }
@@ -51,22 +52,28 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     private func beginExercising(tv: MRTimedView) {
         state = .Exercising(start: NSDate())
         session.beginExercising()
+        
         timedView.setColourScheme(MRColourSchemes.red)
-        timedView.setButtonTitle("done")
-        tableView.reloadData()
+        timedView.countingStyle = .Elapsed
+        timedView.setConstantTitle("done")
         timedView.buttonTouched = stopExercising
+        timedView.start(60)
+
+        tableView.reloadData()
     }
     
     private func stopExercising(tv: MRTimedView) {
         if case .Exercising(let start) = state {
             session.endExercise()
+            
             timedView.setColourScheme(MRColourSchemes.green)
-            let text = "✓"
-            timedView.setButtonTitle(text)
-            timedView.textTransform = { _ in return text }
+            timedView.setConstantTitle("✓")
+            timedView.countingStyle = .Remaining
             timedView.start(10, onTimerElapsed: ignoreLabel)
+            
             tableView.allowsSelection = true
             tableView.reloadData()
+            
             state = .Done(start: start, duration: NSDate().timeIntervalSinceDate(start))
         }
     }
@@ -144,4 +151,9 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
 
     }
     
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        if case .Done(_, _) = state {
+            timedView.stop()
+        }
+    }
 }

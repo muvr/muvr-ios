@@ -60,12 +60,25 @@ class MRTimedView : UIView {
         circularProgressBarView.hidden = true
     }
     
+    private func constantTitle(s: String)(_: Double) -> String {
+        return s
+    }
+    
     ///
     /// Sets the button title
     /// - parameter title: the new title
     ///
     func setButtonTitle(title: String) {
         button.setTitle(title, forState: UIControlState.Normal)
+    }
+    
+    ///
+    /// Sets title that will stay regardless of time
+    /// - parameter title: the new title
+    ///
+    func setConstantTitle(title: String) {
+        button.setTitle(title, forState: UIControlState.Normal)
+        textTransform = constantTitle(title)
     }
     
     ///
@@ -87,52 +100,62 @@ class MRTimedView : UIView {
     /// - parameter onTimerElapsed: function to be called when the timer is up
     ///
     func start(duration: NSTimeInterval, onTimerElapsed: Event? = nil) {
-        self.duration = duration
-        self.onTimerElapsed = onTimerElapsed
-
         timer?.invalidate()
-        start = NSDate()
+        timer = nil
+        
         circularProgressBarView.hidden = false
         circularProgressBarView.maxValue = CGFloat(duration)
-        onTimerTick()
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "onTimerTick", userInfo: nil, repeats: true)
+        let ttd = timeToDisplay(duration: duration, elapsed: 0)
+        circularProgressBarView.value = CGFloat(ttd)
+        button.setTitle(textTransform(ttd), forState: UIControlState.Normal)
+
+        self.start = NSDate()
+        self.duration = duration
+        self.onTimerElapsed = onTimerElapsed
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "onTimerTick", userInfo: nil, repeats: true)
     }
     
     ///
     /// Resets the counter and stops the timer
     ///
     func stop() {
+        timer?.invalidate()
+        timer = nil
+
         circularProgressBarView.value = 0
         circularProgressBarView.hidden = true
-        timer?.invalidate()
     }
     
     @IBAction func onButtonTouched() {
         if let buttonTouched = buttonTouched {
+            if buttonTouchResets { stop() }
             buttonTouched(self)
         }
-        if buttonTouchResets { stop() }
+    }
+    
+    private func timeToDisplay(duration duration: NSTimeInterval, elapsed: NSTimeInterval) -> NSTimeInterval {
+        switch countingStyle {
+        case .Elapsed: return elapsed
+        case .Remaining: return max(duration - elapsed, 0)
+        }
     }
     
     ///
     /// Intended to be called on timer tick; do not call explicitly
     ///
     func onTimerTick() {
-        guard let start = start, duration = duration, onTimerElapsed = onTimerElapsed else { return }
+        if timer == nil { return }
+        guard let start = start, duration = duration else { return }
+        
         let elapsed = -start.timeIntervalSinceNow
         if elapsed > duration {
             if elapsedResets { stop() }
-            onTimerElapsed(self)
+            if let event = onTimerElapsed { event(self) }
         }
         if !elapsedResets || elapsed < duration {
-            var timeToDisplay: NSTimeInterval = 0
-            switch countingStyle {
-            case .Elapsed: timeToDisplay = elapsed
-            case .Remaining: timeToDisplay = duration - elapsed
-            }
-            
-            circularProgressBarView.value = CGFloat(timeToDisplay)
-            button.setTitle(textTransform(timeToDisplay), forState: UIControlState.Normal)
+            let ttd = timeToDisplay(duration: duration, elapsed: elapsed)
+            circularProgressBarView.setValue(CGFloat(ttd), animateWithDuration: 0.5)
+            button.setTitle(textTransform(ttd), forState: UIControlState.Normal)
         }
     }
     
