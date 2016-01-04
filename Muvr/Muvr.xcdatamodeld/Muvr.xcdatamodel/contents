@@ -15,6 +15,7 @@
         <attribute name="end" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="exerciseModelId" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="locationId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sensorData" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="start" attributeType="Date" indexed="YES" syncable="YES"/>
         <attribute name="uploaded" attributeType="Boolean" syncable="YES"/>
@@ -50,7 +51,7 @@
     <fetchRequest name="FetchRequest" entity="MRManagedExerciseSession" predicateString="id == &quot;@id&quot;"/>
     <elements>
         <element name="MRManagedClassifiedExercise" positionX="-1098" positionY="-459" width="128" height="165"/>
-        <element name="MRManagedExerciseSession" positionX="-765" positionY="-162" width="128" height="180"/>
+        <element name="MRManagedExerciseSession" positionX="-765" positionY="-162" width="128" height="195"/>
         <element name="MRManagedLabelledExercise" positionX="-1746" positionY="-531" width="128" height="150"/>
         <element name="MRManagedLocation" positionX="-1539" positionY="-378" width="128" height="135"/>
         <element name="MRManagedLocationLabel" positionX="-1530" positionY="-369" width="128" height="150"/>

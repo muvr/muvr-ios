@@ -5,6 +5,7 @@ extension MRManagedExerciseSession {
 
     @NSManaged var exerciseModelId: String
     @NSManaged var id: String
+    @NSManaged var locationId: String?
     @NSManaged var sensorData: NSData?
     @NSManaged var start: NSDate
     @NSManaged var labelledExercises: NSSet

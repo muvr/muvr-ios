@@ -117,7 +117,7 @@
 		54A776211BB81562001586DD /* MuvrKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A7761C1BB8149E001586DD /* MuvrKit.framework */; };
 		54A776221BB81562001586DD /* MuvrKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 54A7761C1BB8149E001586DD /* MuvrKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		54B86D0B1BD197830016DDA0 /* MRBuildDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 54B86D0A1BD197470016DDA0 /* MRBuildDetail.m */; };
-		54BD57B71BC53137008B5BC4 /* MKPhoneConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BD57B61BC53137008B5BC4 /* MKPhoneConnectivity.swift */; };
+		54BD57B71BC53137008B5BC4 /* MKPhoneAppleWatchConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BD57B61BC53137008B5BC4 /* MKPhoneAppleWatchConnectivity.swift */; };
 		54BD57B91BC546EE008B5BC4 /* UI.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54BD57B81BC546EE008B5BC4 /* UI.xcassets */; };
 		54BEC0D21C34246200D63A04 /* MRExerciseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BEC0D11C34246200D63A04 /* MRExerciseTableViewCell.swift */; };
 		54BEC0D51C34248200D63A04 /* MRExerciseSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BEC0D41C34248200D63A04 /* MRExerciseSetTableViewCell.swift */; };
@@ -407,7 +407,7 @@
 		54A7761E1BB81509001586DD /* Infow.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Infow.plist; sourceTree = "<group>"; };
 		54B86D091BD196190016DDA0 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		54B86D0A1BD197470016DDA0 /* MRBuildDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRBuildDetail.m; sourceTree = "<group>"; };
-		54BD57B61BC53137008B5BC4 /* MKPhoneConnectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneConnectivity.swift; sourceTree = "<group>"; };
+		54BD57B61BC53137008B5BC4 /* MKPhoneAppleWatchConnectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneAppleWatchConnectivity.swift; sourceTree = "<group>"; };
 		54BD57B81BC546EE008B5BC4 /* UI.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = UI.xcassets; sourceTree = "<group>"; };
 		54BEC0D11C34246200D63A04 /* MRExerciseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseTableViewCell.swift; sourceTree = "<group>"; };
 		54BEC0D41C34248200D63A04 /* MRExerciseSetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSetTableViewCell.swift; sourceTree = "<group>"; };
@@ -904,7 +904,7 @@
 				547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */,
 				546908191BC701BC00BA1047 /* MKWatchExerciseConnectivitySession.swift */,
 				547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */,
-				54BD57B61BC53137008B5BC4 /* MKPhoneConnectivity.swift */,
+				54BD57B61BC53137008B5BC4 /* MKPhoneAppleWatchConnectivity.swift */,
 				54D5E9711BD3C6F70002CDB5 /* MKPhoneConnectivityDelegates.swift */,
 				5488080C1BD5710500419CD8 /* MKPhoneExerciseConnectivitySession.swift */,
 				5488080E1BD57BA500419CD8 /* MKPhoneExerciseSessionClassifier.swift */,
@@ -1519,7 +1519,7 @@
 				547791061C2365F400763197 /* MKInputPreparator.swift in Sources */,
 				5469D38B1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift in Sources */,
 				54D345841BB9251700F65091 /* MKClassifiedExercise.swift in Sources */,
-				54BD57B71BC53137008B5BC4 /* MKPhoneConnectivity.swift in Sources */,
+				54BD57B71BC53137008B5BC4 /* MKPhoneAppleWatchConnectivity.swift in Sources */,
 				54D345821BB924A500F65091 /* MKClassificationDelegate.swift in Sources */,
 				5469D3851BBA764900EE5ADB /* MKRepetitionEstimator.swift in Sources */,
 				548808111BD57D7400419CD8 /* MKPhoneExerciseSessionClassifierDelegates.swift in Sources */,
