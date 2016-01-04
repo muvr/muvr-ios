@@ -1,9 +1,12 @@
 import Foundation
 import CoreData
-
+import MuvrKit
 
 class MRManagedLocation: NSManagedObject {
 
-// Insert code here to add functionality to your managed object subclass
+    /// The exercise ids at the given location
+    var exerciseIds: [MKExerciseId] {
+        return (labels.allObjects as! [MRManagedLocationLabel]).map { $0.exerciseId }
+    }
 
 }

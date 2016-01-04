@@ -40,11 +40,11 @@
     </entity>
     <entity name="MRManagedLocationLabel" representedClassName=".MRManagedLocationLabel" syncable="YES">
         <attribute name="exerciseId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="maxWeight" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="maxWeight" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="minWeight" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="station" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="stationProximityUUID" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="weightIncrement" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="weightIncrement" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedLocation" inverseName="labels" inverseEntity="MRManagedLocation" syncable="YES"/>
     </entity>
     <fetchRequest name="FetchRequest" entity="MRManagedExerciseSession" predicateString="id == &quot;@id&quot;"/>

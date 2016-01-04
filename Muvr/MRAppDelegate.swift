@@ -147,7 +147,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// - returns: the unordered array of exercise ids
     ///
     func exerciseIds(model model: MKExerciseModelId) -> [MKExerciseId] {
-        return modelStore.exerciseIds(model: model)
+        let locationExerciseIds = currentLocation?.exerciseIds ?? []
+        let modelExerciseIds = modelStore.exerciseIds(model: model)
+        
+        return locationExerciseIds + modelExerciseIds.filter { !locationExerciseIds.contains($0) }
     }
     
     ///
@@ -308,6 +311,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             let location = CLLocation(latitude: CLLocationDegrees(53.435739), longitude: CLLocationDegrees(-2.165993))
             currentLocation = MRManagedLocation.findAtLocation(location, inManagedObjectContext: managedObjectContext)
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+            NSLog("\(currentLocation?.exerciseIds)")
         #endif
     }
     
