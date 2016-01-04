@@ -53,6 +53,10 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         } else {
             timedView.hidden = true
         }
+
+        timedView.hidden = false
+        timedView.start(60) { $0.setColourScheme(MRColourSchemes.amber) }
+        timedView.buttonTouched = timedViewButtonTouched
     }
     
     ///

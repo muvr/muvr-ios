@@ -60,6 +60,13 @@ class MRTimedView : UIView {
         circularProgressBarView.hidden = true
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        button.layer.cornerRadius = (frame.height - 8) / 2
+        let f = button.titleLabel!.font
+        button.titleLabel!.font = UIFont(name: f.fontName, size: frame.height / 4)
+    }
+    
     private func constantTitle(s: String)(_: Double) -> String {
         return s
     }
