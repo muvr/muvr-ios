@@ -70,9 +70,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="227"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="227" id="9y3-jR-X9v">
-                                        <variation key="widthClass=compact" constant="120"/>
-                                    </constraint>
+                                    <constraint firstAttribute="height" constant="227" id="9y3-jR-X9v"/>
                                 </constraints>
                             </view>
                         </subviews>
