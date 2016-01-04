@@ -174,9 +174,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         locationManager = CLLocationManager()
         locationManager.delegate = self
-        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.AuthorizedWhenInUse {
-            locationManager.requestWhenInUseAuthorization()
-        }
         
         authorizeHealthKit()
         
@@ -229,6 +226,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
+        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.AuthorizedWhenInUse {
+            locationManager.requestWhenInUseAuthorization()
+        }
         application.idleTimerDisabled = true
         locationManager.requestLocation()
         uploadSessions()
@@ -295,6 +295,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     // MARK: - Core Location stack
+    
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        
+    }
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         currentLocation = MRManagedLocation.findAtLocation(newLocation, inManagedObjectContext: managedObjectContext)
