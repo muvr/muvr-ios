@@ -2,57 +2,145 @@ import Foundation
 import CoreData
 import MuvrKit
 
-class MRManagedExerciseSession: NSManagedObject {
+class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
+    private var plan = MKExercisePlan<MKExerciseId>()
+    private var currentClassificationHint: MKClassificationHint?
+    /// The estimated exercises
+    var estimated: [MKClassifiedExercise] = []
     
-    static func sessionsOnDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
-        let midnightToday = date.dateOnly
-        let midnightTomorrow = midnightToday.addDays(1)
-        fetchRequest.predicate = NSPredicate(format: "(start >= %@ AND start < %@)", midnightToday, midnightTomorrow)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "start", ascending: false)]
-        
-        return try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]
-    }
-    
-    static func sessionById(sessionId: String, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession? {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
-        fetchRequest.predicate = NSPredicate(format: "(id == %@)", sessionId)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "start", ascending: false)]
-        fetchRequest.fetchLimit = 1
-        
-        let result = try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]
-        if result.count == 0 {
-            return nil
+    ///
+    /// The list of exercises the user is likely to be doing
+    ///
+    var exercises: [MKIncompleteExercise] {
+        if currentClassificationHint != nil {
+            // we're exercising for sure
+            return currentExercises
         } else {
-            return result[0]
+            // we're not exercising
+            return nextExercises
         }
     }
     
-    static func hasSessionsOnDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> Bool {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
-        let midnightToday = date.dateOnly
-        let midnightTomorrow = midnightToday.addDays(1)
-        fetchRequest.predicate = NSPredicate(format: "(start >= %@ AND start < %@)", midnightToday, midnightTomorrow)
-        fetchRequest.fetchLimit = 1
+    ///
+    /// The list of exercises that the user has most likely just finished doing
+    ///
+    private var nextExercises: [MKIncompleteExercise] {
+        let modelExercises = MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId)
+        let planExercises = plan.nextExercises
+        let notPlannedModelExercises = modelExercises.filter { me in
+            return !planExercises.contains { pe in pe == me }
+        }
+        let a: [MKIncompleteExercise] = planExercises.map { exerciseId in
+            return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
+        }
+        let b: [MKIncompleteExercise] = notPlannedModelExercises.sort { (l, r) in l < r } . map { exerciseId in
+            return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 0)
+        }
         
-        return managedObjectContext.countForFetchRequest(fetchRequest).map { count in count > 0 } ?? false
-        
+        return a + b
     }
     
-    static func insertNewObject(inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession {
-        let mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExerciseSession", inManagedObjectContext: managedObjectContext) as! MRManagedExerciseSession
+    ///
+    /// The list of exercises that the user is most likely currently doing
+    ///
+    private var currentExercises: [MKIncompleteExercise] {
+        let planExercises = plan.nextExercises
         
-        return mo
+        return (estimated.map { $0 as MKIncompleteExercise }) + planExercises.map { exerciseId in
+            return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
+        }
     }
     
-    static func insertNewObject(from session: MKExerciseSession, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession {
-        let mo = insertNewObject(inManagedObjectContext: managedObjectContext)
-        mo.id = session.id
-        mo.start = session.start
-        mo.exerciseModelId = session.exerciseModelId
-        mo.completed = session.completed
-        
-        return mo
+    // Implements the ``MKSessionClassifierHintSource.exercisingHints`` property
+    var exercisingHints: [MKClassificationHint]? {
+        get {
+            var hints: [MKClassificationHint] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).map { le in
+                return .ExplicitExercise(start: le.start.timeIntervalSinceDate(self.start), duration: le.duration, expectedExercises: [le])
+            }
+            if let currentClassificationHint = currentClassificationHint {
+                hints.append(currentClassificationHint)
+            }
+            return hints
+        }
     }
     
+    ///
+    /// Explicitly begins exercising. This call must be followed by ``addLabel`` at some point
+    /// in the future.
+    ///
+    func beginExercising() {
+        currentClassificationHint =
+            .ExplicitExercise(start: NSDate().timeIntervalSinceDate(start), duration: nil, expectedExercises: currentExercises)
+    }
+    
+    ///
+    /// Explicitly ends exercising.
+    ///
+    func endExercise() {
+        currentClassificationHint = nil
+    }
+    
+    ///
+    /// Adds the completed exercise to the plan. Do not forget to save the given ``managedObjectContext``, this
+    /// method does not flush automatically.
+    ///
+    /// - parameter label: the completed exercise
+    /// - parameter start: the exercise's start date
+    /// - parameter duration: the exercise's duration
+    /// - parameter managedObjectContext: the CD context into which the label is going to be inserted.
+    ///
+    func addLabel(label: MKIncompleteExercise, start: NSDate, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
+        let l = MRManagedLabelledExercise.insertNewObject(into: self, inManagedObjectContext: managedObjectContext)
+        
+        l.start = start
+        l.duration = duration
+        l.exerciseId = label.exerciseId
+        l.cdIntensity = label.intensity ?? 0
+        l.cdRepetitions = label.repetitions ?? 0
+        l.cdWeight = label.weight ?? 0
+
+        plan.addExercise(label.exerciseId)
+        currentClassificationHint = nil
+    }
+    
+    ///
+    /// Combined labelled and classified exercises for this entire session
+    ///
+    private var combinedExercises: [MKExercise] {
+        let labelled: [(NSDate, MKExercise)] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).map { e in return (e.start, e as MKExercise) }
+        let classified: [(NSDate, MKExercise)] = (classifiedExercises.allObjects as! [MRManagedClassifiedExercise]).map { e in return (e.start, e as MKExercise) }
+        
+        // filter out from the classified exercises those that fall into a label (with some tolerance)
+        let classifiedOutsideLabels = classified.filter { (ceStart, _) in
+            let timeTolerance: NSTimeInterval = 10
+            return !labelled.contains { (leStart, _) in
+                return leStart.timeIntervalSinceDate(ceStart) < timeTolerance
+            }
+        }
+        
+        // combine the labels with classified exercises
+        let merged = (classifiedOutsideLabels + labelled).sort { l, r in return l.0.compare(r.0) == NSComparisonResult.OrderedAscending }
+        
+        // TODO: remove overlapping
+        
+        return merged.map { $0.1 }
+    }
+    
+    ///
+    /// Combined labelled and classified exercises grouped into sets
+    ///
+    var sets: [[MKExercise]] {
+        get {
+            var em: [MKExerciseId : [MKExercise]] = [:]
+            combinedExercises.forEach { x in
+                if let l = em[x.exerciseId] {
+                    em[x.exerciseId] = l + [x]
+                } else {
+                    em[x.exerciseId] = [x]
+                }
+            }
+            return em.values.sort { l, r in l.first!.exerciseId > r.first!.exerciseId }
+        }
+    }
+        
 }

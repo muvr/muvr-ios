@@ -89,8 +89,11 @@ class MRS3StorageAccess: MRStorageAccessProtocol {
     func uploadFile(path: String, data: NSData, continuation: () -> Void) {
         let request = createRequest(method: "PUT", path: path, params: nil, payload: data)
         let task = NSURLSession.sharedSession().uploadTaskWithRequest(request, fromData: data) { data, response, error in
-            guard let response = response as? NSHTTPURLResponse where response.statusCode == 200 else { return }
-            continuation()
+            guard let response = response as? NSHTTPURLResponse else { return }
+            NSLog("-> \(response.statusCode)")
+            if response.statusCode == 200 {
+                continuation()
+            }
         }
         task.resume()
     }

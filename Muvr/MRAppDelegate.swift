@@ -2,51 +2,178 @@ import UIKit
 import HealthKit
 import MuvrKit
 import CoreData
+import CoreLocation
 
+///
+/// The notifications: when creating a new notification, be sure to add it only here
+/// and never use notification key constants anywhere else.
+///
 enum MRNotifications : String {
     case CurrentSessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
     case CurrentSessionDidStart = "MRNotificationsCurrentSessionDidStart"
     case SessionDidComplete = "MRNotificationSessionDidComplete"
+    case SessionDidEstimate = "MRNotificationSessionDidEstimate"
+    case SessionDidClassify = "MRNotificationSessionDidClassify"
+    
+    case LocationDidObtain = "MRNotificationLocationDidObtain"
+    
+    case DownloadingModels = "MRNotificationDownloadingModels"
+    case ModelsDownloaded = "MRNotificationModelsDownloaded"
+    
+    case UploadingSessions = "MRNotificationUploadingSessions"
+    case SessionsUploaded = "MRNotificationSessionsUploaded"
+}
+
+///
+/// The public interface to the app delegate
+///
+protocol MRApp {
+    
+    ///
+    /// The NSManagedObjectContext for the Core Data operations.
+    ///
+    var managedObjectContext: NSManagedObjectContext { get }
+    
+    ///
+    /// The user's current location
+    ///
+    var locationName: String? { get }
+    
+    ///
+    /// Saves the pending changes in the app's ``managedObjectContext``.
+    ///
+    func saveContext()
+    
+    ///
+    /// Returns the exercise ids for the given ``model`` identity
+    /// - parameter model: the model identity
+    /// - returns: the exercise ids
+    ///
+    func exerciseIds(model model: MKExerciseModelId) -> [MKExerciseId]
+    
 }
 
 @UIApplicationMain
-class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDelegate {
+class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate,
+    MKSessionClassifierDelegate, MKClassificationHintSource, MRApp {
     
     var window: UIWindow?
     
-    private(set) var sessionStore: MRExerciseSessionStore!
-    private(set) var modelStore: MRExerciseModelStore!
-    private var connectivity: MKConnectivity!
+    private var sessionStore: MRExerciseSessionStore!
+    private var modelStore: MRExerciseModelStore!
+    private var connectivity: MKAppleWatchConnectivity!
     private var classifier: MKSessionClassifier!
+    private var sensorDataSplitter: MKSensorDataSplitter!
     private var sessions: [MRManagedExerciseSession] = []
-    internal var currentSession: MRManagedExerciseSession? {
+    private var locationManager: CLLocationManager!
+    private var currentLocation: MRManagedLocation?
+    private var currentSession: MRManagedExerciseSession? {
         for (session) in sessions where session.end == nil {
             return session
         }
         return nil
     }
     
+    // MARK: - MKClassificationHintSource
+    var exercisingHints: [MKClassificationHint]? {
+        get {
+            return currentSession?.exercisingHints
+        }
+    }
+    
+    // MARK: - MRApp
+    var locationName: String? {
+        get {
+            return currentLocation?.name
+        }
+    }
+    
+    // MARK: - Other
+    
+    ///
+    /// Downloads the models
+    ///
+    private func downloadModels() {
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.DownloadingModels.rawValue, object: nil)
+            self.modelStore.downloadModels() {
+                NSLog("Stored \(self.modelStore.modelsMetadata)")
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.ModelsDownloaded.rawValue, object: nil)
+            }
+        }
+    }
+
+    ///
+    /// Uploads all incomplete sessions
+    ///
+    private func uploadSessions() {
+        func uploadSessions(sessions: [MRManagedExerciseSession]) {
+            if let session = sessions.first {
+                sessionStore.uploadSession(session) {
+                    session.uploaded = true
+                    self.saveContext()
+                    uploadSessions(Array(sessions.dropFirst()))
+                }
+            } else {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionsUploaded.rawValue, object: nil)
+            }
+        }
+        
+        let sessions = MRManagedExerciseSession.findUploadableSessions(inManagedObjectContext: managedObjectContext)
+        if sessions.isEmpty { return }
+        
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.UploadingSessions.rawValue, object: nil)
+            uploadSessions(sessions)
+        }
+    }
+
     ///
     /// Returns the index of a given session
+    /// - parameter session: the session to find the index of
+    /// - returns: the index if found
     ///
     private func sessionIndex(session: MKExerciseSession) -> Int? {
         return sessions.indexOf { $0.id == session.id }
     }
     
     ///
-    /// Returns this shared delegate
+    /// Returns the exercise ids for the given ``model``.
+    /// - parameter model: the model identity
+    /// - returns: the unordered array of exercise ids
     ///
-    static func sharedDelegate() -> MRAppDelegate {
+    func exerciseIds(model model: MKExerciseModelId) -> [MKExerciseId] {
+        let locationExerciseIds = currentLocation?.exerciseIds ?? []
+        let modelExerciseIds = modelStore.exerciseIds(model: model)
+        
+        return locationExerciseIds + modelExerciseIds.filter { !locationExerciseIds.contains($0) }
+    }
+    
+    ///
+    /// Returns this shared delegate
+    /// - returns: this delegate ``MRApp``
+    ///
+    static func sharedDelegate() -> MRApp {
         return UIApplication.sharedApplication().delegate as! MRAppDelegate
     }
+    
+    // MARK: - UIApplicationDelegate code
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         let remoteStorage = MRS3StorageAccess(accessKey: AwsCredentials.accessKey, secretKey: AwsCredentials.secretKey)
         sessionStore = MRExerciseSessionStore(storageAccess: remoteStorage)
         modelStore = MRExerciseModelStore(storageAccess: remoteStorage)
         // set up the classification and connectivity
-        classifier = MKSessionClassifier(exerciseModelSource: modelStore, delegate: self)
-        connectivity = MKConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: modelStore, hintSource: self)
+        classifier = MKSessionClassifier(exerciseModelSource: modelStore, sensorDataSplitter: sensorDataSplitter, delegate: self)
+        connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
         
         authorizeHealthKit()
         
@@ -61,6 +188,17 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
         pageControlAppearance.currentPageIndicatorTintColor = UIColor.blackColor()
         pageControlAppearance.backgroundColor = UIColor.whiteColor()
     
+        // download the models
+        downloadModels()
+        
+        // sync
+        do {
+            try MRLocationSynchronisation().synchronise(inManagedObjectContext: managedObjectContext)
+            saveContext()
+        } catch let e {
+            NSLog(":( \(e)")
+        }
+        
         return true
     }
     
@@ -88,12 +226,19 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
+        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.AuthorizedWhenInUse {
+            locationManager.requestWhenInUseAuthorization()
+        }
         application.idleTimerDisabled = true
+        locationManager.requestLocation()
+        uploadSessions()
     }
     
     func applicationWillResignActive(application: UIApplication) {
         application.idleTimerDisabled = false
     }
+    
+    // MARK: - Session classification
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
         NSLog("Received session end for \(session)")
@@ -116,6 +261,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
             let currentSession = sessions[index]
             currentSession.sensorData = sensorData.encode()
             currentSession.completed = session.completed
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidClassify.rawValue, object: currentSession.objectID)
             if session.completed {
                 sessions.removeAtIndex(index)
                 NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidComplete.rawValue, object: currentSession.objectID)
@@ -125,11 +271,20 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
         saveContext()
     }
     
+    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKClassifiedExercise]) {
+        if let index = sessionIndex(session) {
+            let currentSession = sessions[index]
+            currentSession.estimated = estimated
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidEstimate.rawValue, object: currentSession.objectID)
+        }
+    }
+    
     func sessionClassifierDidStart(session: MKExerciseSession) {
-         NSLog("Received session start for \(session)")
+        NSLog("Received session start for \(session)")
         let persistedSession = MRManagedExerciseSession.sessionById(session.id, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
         if persistedSession == nil && sessionIndex(session) == nil {
             let currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
+            currentSession.locationId = currentLocation?.id
             sessions.append(currentSession)
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: currentSession.objectID)
             saveContext()
@@ -138,6 +293,31 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, MKSessionClassifierDele
             sessions.append(persistedSession!)
         }
 
+    }
+    
+    // MARK: - Core Location stack
+    
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+        currentLocation = MRManagedLocation.findAtLocation(newLocation, inManagedObjectContext: managedObjectContext)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        currentLocation = MRManagedLocation.findAtLocation(locations.last!, inManagedObjectContext: managedObjectContext)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        #if (arch(i386) || arch(x86_64)) && os(iOS)
+            let location = CLLocation(latitude: CLLocationDegrees(53.435739), longitude: CLLocationDegrees(-2.165993))
+            currentLocation = MRManagedLocation.findAtLocation(location, inManagedObjectContext: managedObjectContext)
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+            NSLog("\(currentLocation?.exerciseIds)")
+        #endif
     }
     
     // MARK: - Core Data stack

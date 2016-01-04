@@ -28,7 +28,7 @@ class MRExerciseModelTest: XCTestCase {
         let (id, version, type) = MRExerciseModel.parseFilename(validFile)!
         XCTAssertEqual("arms", id)
         XCTAssertEqual(12, version)
-        XCTAssertEqual(MRExerciseModelFileType.weights, type)
+        XCTAssertEqual(MRExerciseModelFileType.Weights, type)
         
         let badVersionFile = "arms_1.0_model.weights.raw"
         XCTAssertNil(MRExerciseModel.parseFilename(badVersionFile))

@@ -84,7 +84,7 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "--reset-container"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--default-data"

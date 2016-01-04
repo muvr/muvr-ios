@@ -1,17 +1,9 @@
-//
-//  MKInputPreperatorTests.swift
-//  Muvr
-//
-//  Created by Tom Bocklisch on 14.12.15.
-//  Copyright © 2015 Muvr. All rights reserved.
-//
-
 import Foundation
 import XCTest
 @testable import MuvrKit
 
 class MKInputPreperatorTests : XCTestCase {
-    lazy var preperator: MKInputPreperator = MKInputPreperator()
+    lazy var preperator: MKInputPreparator = MKInputPreparator()
     
     func testScaling() {
         let block: [Float] = [-4, 4, 0, 1, -1, 0.5, -0.5]

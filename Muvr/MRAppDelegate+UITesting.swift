@@ -27,21 +27,21 @@ extension MRAppDelegate  {
             exercise.exerciseId = exerciseIds()[index % 3]
             exercise.exerciseSession = session
             exercise.duration = 12
-            exercise.intensity = 1
-            exercise.repetitions = 10
-            exercise.weight = 10
+            exercise.cdIntensity = 1
+            exercise.cdRepetitions = 10
+            exercise.cdWeight = 10
             exercise.start = date.addSeconds(index * 60)
         }
         
         func generateLabelledExercise(date date: NSDate, session: MRManagedExerciseSession, index: Int) {
             let exercise = MRManagedLabelledExercise.insertNewObject(into: session, inManagedObjectContext: managedObjectContext)
             exercise.start = date.addSeconds(index * 60)
-            exercise.end = date.addSeconds(index * 60 + 30)
+            exercise.duration = 30
             exercise.exerciseId = exerciseIds()[index % 3]
             exercise.exerciseSession = session
-            exercise.intensity = 1
-            exercise.weight = 2
-            exercise.repetitions = 15
+            exercise.cdIntensity = 1
+            exercise.cdWeight = 2
+            exercise.cdRepetitions = 15
         }
         
 
@@ -49,9 +49,11 @@ extension MRAppDelegate  {
         session.id = NSUUID().UUIDString
         session.exerciseModelId = "arms"
         session.start = date
+        session.completed = true
+        session.uploaded = true
         
         (0..<10).forEach { i in generateClassifiedExercise(date: date, session: session, index: i) }
-        (0..<2).forEach { i in generateLabelledExercise(date: date, session: session, index: i) }
+        // (0..<2).forEach { i in generateLabelledExercise(date: date, session: session, index: i) }
     }
     
     private func getSessionDates() -> [NSDate] {
@@ -75,7 +77,7 @@ extension MRAppDelegate  {
             let fileManager = NSFileManager.defaultManager()
             [NSSearchPathDirectory.DocumentDirectory, NSSearchPathDirectory.ApplicationSupportDirectory].forEach { directory  in
                 if let docs = NSSearchPathForDirectoriesInDomains(directory, NSSearchPathDomainMask.UserDomainMask, true).first {
-                    try! fileManager.contentsOfDirectoryAtPath(docs).forEach { file in
+                    (try? fileManager.contentsOfDirectoryAtPath(docs))?.forEach { file in
                         do {
                             try fileManager.removeItemAtPath("\(docs)/\(file)")
                         } catch {

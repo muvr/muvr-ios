@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MRTimedView" customModule="Muvr" customModuleProvider="target">
+            <connections>
+                <outlet property="button" destination="D0n-2p-SgJ" id="S1O-Gc-AiM"/>
+                <outlet property="circularProgressBarView" destination="111-mF-hGw" id="KiK-2K-XKf"/>
+                <outlet property="titleLabel" destination="qog-Rh-w2m" id="DQc-C4-Rbs"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="oZh-jf-3PQ">
+            <rect key="frame" x="0.0" y="0.0" width="443" height="227"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D0n-2p-SgJ">
+                    <rect key="frame" x="111" y="3" width="221" height="221"/>
+                    <color key="backgroundColor" red="0.25098040700000002" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="D0n-2p-SgJ" secondAttribute="height" multiplier="1:1" id="fTE-dk-GEz"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                    <color key="tintColor" red="0.51764705879999995" green="0.83921568629999999" blue="0.058823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                            <color key="value" red="0.50196081400000003" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="onButtonTouched" destination="-1" eventType="touchUpInside" id="i2l-9B-wfh"/>
+                    </connections>
+                </button>
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="111-mF-hGw" customClass="MBCircularProgressBarView">
+                    <rect key="frame" x="-3" y="0.0" width="448" height="227"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qog-Rh-w2m">
+                            <rect key="frame" x="0.0" y="195" width="448" height="24"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="qog-Rh-w2m" firstAttribute="leading" secondItem="111-mF-hGw" secondAttribute="leading" id="BUr-Th-tkY"/>
+                        <constraint firstAttribute="trailing" secondItem="qog-Rh-w2m" secondAttribute="trailing" id="NUl-je-3X4"/>
+                        <constraint firstAttribute="bottom" secondItem="qog-Rh-w2m" secondAttribute="bottom" constant="8" id="UPb-3r-E3g"/>
+                        <constraint firstItem="qog-Rh-w2m" firstAttribute="centerX" secondItem="111-mF-hGw" secondAttribute="centerX" id="syr-Xm-bvm"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="value">
+                            <real key="value" value="0.0"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="string" keyPath="unitString" value="s"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="maxValue">
+                            <real key="value" value="60"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="progressColor">
+                            <color key="value" red="0.51764705879999995" green="0.83921568629999999" blue="0.058823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="progressStrokeColor">
+                            <color key="value" red="0.51764705879999995" green="0.83921568629999999" blue="0.058823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="showValueString" value="NO"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="progressLineWidth">
+                            <real key="value" value="16"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="111-mF-hGw" secondAttribute="trailing" constant="-2" id="584-Uw-wb1"/>
+                <constraint firstAttribute="bottom" secondItem="D0n-2p-SgJ" secondAttribute="bottom" constant="3" id="F9N-AV-gC5"/>
+                <constraint firstItem="111-mF-hGw" firstAttribute="top" secondItem="oZh-jf-3PQ" secondAttribute="top" id="RZ4-np-dNl"/>
+                <constraint firstAttribute="bottom" secondItem="111-mF-hGw" secondAttribute="bottom" id="fCI-Tx-gS8"/>
+                <constraint firstItem="111-mF-hGw" firstAttribute="leading" secondItem="oZh-jf-3PQ" secondAttribute="leading" constant="-3" id="jB3-wX-DVh"/>
+                <constraint firstItem="D0n-2p-SgJ" firstAttribute="top" secondItem="oZh-jf-3PQ" secondAttribute="top" constant="3" id="wZJ-uk-EVq"/>
+                <constraint firstItem="D0n-2p-SgJ" firstAttribute="centerX" secondItem="oZh-jf-3PQ" secondAttribute="centerX" id="wft-qH-gJx"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-184.5" y="-82.5"/>
+        </view>
+    </objects>
+</document>

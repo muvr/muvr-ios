@@ -1,11 +1,3 @@
-//
-//  MRManagedClassifiedExercise.swift
-//  Muvr
-//
-//  Created by Jan Machacek on 10/25/15.
-//  Copyright © 2015 Muvr. All rights reserved.
-//
-
 import Foundation
 import CoreData
 import MuvrKit
@@ -21,13 +13,13 @@ class MRManagedClassifiedExercise: NSManagedObject {
         let mo = insertNewObject(inManagedObjectContext: managedObjectContext)
         
         mo.exerciseSession = session
-        mo.start = NSDate(timeIntervalSince1970: classifiedExercise.offset)
+        mo.start = session.start.dateByAddingTimeInterval(classifiedExercise.offset)
         mo.confidence = classifiedExercise.confidence
         mo.duration = classifiedExercise.duration
         mo.exerciseId = classifiedExercise.exerciseId
-        mo.repetitions = classifiedExercise.repetitions
-        mo.intensity = classifiedExercise.intensity
-        mo.weight = classifiedExercise.weight
+        mo.cdRepetitions = classifiedExercise.repetitions.map { NSNumber(int: $0) }
+        mo.cdIntensity = classifiedExercise.intensity
+        mo.cdWeight = classifiedExercise.weight
         
         return mo
     }
