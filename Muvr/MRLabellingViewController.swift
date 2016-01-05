@@ -16,7 +16,8 @@ class MRLabellingViewController : UIViewController {
     var duration: NSTimeInterval!
     
     override func viewDidAppear(animated: Bool) {
-        title = exercise.exerciseId
+        let components = exercise.exerciseId.componentsSeparatedByString("/")
+        title = components[components.count - 1]
     }
     
     @IBAction func onDone(sender: AnyObject) {
