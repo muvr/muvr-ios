@@ -79,6 +79,7 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     
     override func viewDidAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationDidObtain:", name: MRNotifications.LocationDidObtain.rawValue, object: nil)
+        showSessionsOn(date: calendar.date())
     }
     
     override func viewDidDisappear(animated: Bool) {

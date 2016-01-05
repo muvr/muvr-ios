@@ -309,7 +309,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             presentSessionControllerForSession(currentSession)
             saveContext()
         } else if persistedSession != nil && sessionIndex(session) == nil {
-            NSLog("cach persisted session into memory: \(persistedSession!)")
+            NSLog("cache persisted session into memory: \(persistedSession!)")
             sessions.append(persistedSession!)
         }
 

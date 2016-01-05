@@ -13,7 +13,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     
     // the displayed session
     private var session: MRManagedExerciseSession?
-    // indicates if the displayed session is active (i.e. not finished)
     
     ///
     /// Provides the session to display
@@ -42,7 +41,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationDidObtain:", name: MRNotifications.LocationDidObtain.rawValue, object: nil)
         tableView.reloadData()
-        if let session = session where !session.completed && NSDate().timeIntervalSinceDate(session.start) < 24*60*60 {
+        if let session = session where session.end == nil && NSDate().timeIntervalSinceDate(session.start) < 24*60*60 {
             timedView.hidden = false
             timedView.start(60) { $0.setColourScheme(MRColourSchemes.amber) }
             timedView.buttonTouched = timedViewButtonTouched
@@ -76,9 +75,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        if let lc = segue.destinationViewController as? MRLabelViewController, let session = sender as? MRManagedExerciseSession {
-//            lc.session = session
-//        }
         if let c = segue.destinationViewController as? MRExercisingViewController, let session = sender as? MRManagedExerciseSession {
             c.navigationItem.hidesBackButton = true
             c.session = session

@@ -24,18 +24,26 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4 sets" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cDK-25-lh7">
                     <rect key="frame" x="37" y="29" width="171" height="16"/>
                     <fontDescription key="fontDescription" type="system" weight="thin" pointSize="13"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XO6-ze-aD1" customClass="MRStackView" customModule="Muvr" customModuleProvider="target">
+                    <rect key="frame" x="206" y="0.0" width="242" height="105"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="XO6-ze-aD1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="0Y0-ah-HQU"/>
+                <constraint firstAttribute="trailing" secondItem="XO6-ze-aD1" secondAttribute="trailing" id="2gF-en-Emd"/>
                 <constraint firstItem="JLr-Qd-5z3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="37" id="9jA-cF-H8B"/>
+                <constraint firstAttribute="bottom" secondItem="XO6-ze-aD1" secondAttribute="bottom" id="Hsc-0o-3Qm"/>
                 <constraint firstItem="cDK-25-lh7" firstAttribute="leading" secondItem="JLr-Qd-5z3" secondAttribute="leading" id="Icl-mM-FMZ"/>
                 <constraint firstItem="cDK-25-lh7" firstAttribute="top" secondItem="JLr-Qd-5z3" secondAttribute="bottom" id="OqZ-01-9nX"/>
                 <constraint firstItem="cDK-25-lh7" firstAttribute="trailing" secondItem="JLr-Qd-5z3" secondAttribute="trailing" id="ToW-6G-T71"/>
                 <constraint firstItem="JLr-Qd-5z3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="topMargin" id="n5e-wk-U6b"/>
                 <constraint firstItem="cDK-25-lh7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="29" id="qfz-65-crw"/>
+                <constraint firstItem="XO6-ze-aD1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="206" id="soa-0C-n4Z"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
@@ -44,6 +52,7 @@
             <connections>
                 <outlet property="exerciseLabel" destination="JLr-Qd-5z3" id="Rwk-aG-Cxt"/>
                 <outlet property="setSizeLabel" destination="cDK-25-lh7" id="8s1-OT-T3b"/>
+                <outlet property="stacksView" destination="XO6-ze-aD1" id="BPE-DL-wRt"/>
             </connections>
             <point key="canvasLocation" x="532" y="266.5"/>
         </view>

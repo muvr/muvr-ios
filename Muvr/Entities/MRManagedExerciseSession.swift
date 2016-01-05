@@ -17,27 +17,54 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
             return currentExercises
         } else {
             // we're not exercising
-            return nextExercises
+            return plannedExercises
         }
+    }
+    
+    var exerciseGroups: [String] {
+        let groups = MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId).map {
+            return $0.componentsSeparatedByString("/")[0]
+        }
+        return Array(Set(groups)).sort()
+    }
+    
+    func exercisesInGroup(group: String) -> [MKIncompleteExercise] {
+        return MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId)
+            .filter { $0.componentsSeparatedByString("/")[0] == group }
+            .map { exerciseId in
+                return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 0)
+            }
     }
     
     ///
     /// The list of exercises that the user has most likely just finished doing
     ///
-    private var nextExercises: [MKIncompleteExercise] {
-        let modelExercises = MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId)
-        let planExercises = plan.nextExercises
-        let notPlannedModelExercises = modelExercises.filter { me in
-            return !planExercises.contains { pe in pe == me }
-        }
-        let a: [MKIncompleteExercise] = planExercises.map { exerciseId in
+    var plannedExercises: [MKIncompleteExercise] {
+        return plan.nextExercises.map { exerciseId in
             return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
         }
-        let b: [MKIncompleteExercise] = notPlannedModelExercises.sort { (l, r) in l < r } . map { exerciseId in
+    }
+    
+    ///
+    /// The other exercises that the user was probably not doing
+    ///
+    var unplannedExercises: [MKIncompleteExercise] {
+        let modelExercises = MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId)
+        let planExercises = plan.nextExercises
+        return modelExercises.filter { me in
+            return !planExercises.contains { pe in pe == me }
+        }.sort { (l, r) in
+            l < r
+        }.map { exerciseId in
             return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 0)
         }
-        
-        return a + b
+    }
+    
+    ///
+    /// The whole list of exercises starting with exercises that the user has most likely just finished doing
+    ///
+    private var nextExercises: [MKIncompleteExercise] {
+        return plannedExercises + unplannedExercises
     }
     
     ///

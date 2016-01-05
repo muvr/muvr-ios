@@ -164,6 +164,7 @@
 		54FEB1011C39844000EC5293 /* MRIncompleteExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEB1001C39844000EC5293 /* MRIncompleteExercise.swift */; };
 		640CC2A41BF62B9000764C4C /* MRSessionProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A31BF62B9000764C4C /* MRSessionProgressRing.swift */; };
 		640CC2A61BF62BF600764C4C /* MRSessionProgressRingRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A51BF62BF600764C4C /* MRSessionProgressRingRenderer.swift */; };
+		641780CE1C3BBB6F00B1FCCE /* MRStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641780CD1C3BBB6F00B1FCCE /* MRStackView.swift */; };
 		642363481C189A2400ABF4CA /* MRStorageAccessProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642363471C189A2400ABF4CA /* MRStorageAccessProtocol.swift */; };
 		6423634B1C189ABC00ABF4CA /* DigestAlgotithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6423634A1C189ABC00ABF4CA /* DigestAlgotithm.swift */; };
 		6423634D1C189BF900ABF4CA /* MRExerciseSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6423634C1C189BF900ABF4CA /* MRExerciseSessionStore.swift */; };
@@ -464,6 +465,7 @@
 		54FEB1001C39844000EC5293 /* MRIncompleteExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRIncompleteExercise.swift; sourceTree = "<group>"; };
 		640CC2A31BF62B9000764C4C /* MRSessionProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionProgressRing.swift; sourceTree = "<group>"; };
 		640CC2A51BF62BF600764C4C /* MRSessionProgressRingRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionProgressRingRenderer.swift; sourceTree = "<group>"; };
+		641780CD1C3BBB6F00B1FCCE /* MRStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRStackView.swift; sourceTree = "<group>"; };
 		642363471C189A2400ABF4CA /* MRStorageAccessProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRStorageAccessProtocol.swift; sourceTree = "<group>"; };
 		6423634A1C189ABC00ABF4CA /* DigestAlgotithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigestAlgotithm.swift; sourceTree = "<group>"; };
 		6423634C1C189BF900ABF4CA /* MRExerciseSessionStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionStore.swift; sourceTree = "<group>"; };
@@ -889,6 +891,7 @@
 				54BEC0D11C34246200D63A04 /* MRExerciseTableViewCell.swift */,
 				54BEC0D41C34248200D63A04 /* MRExerciseSetTableViewCell.swift */,
 				54BEC0D61C34334C00D63A04 /* MRTimedView.swift */,
+				641780CD1C3BBB6F00B1FCCE /* MRStackView.swift */,
 				54C528511C359D9500341D2B /* MRExerciseTableViewCell.xib */,
 				54C528491C343BF300341D2B /* MRExerciseSetTableViewCell.xib */,
 				54C5284D1C35688700341D2B /* MRTimedView.xib */,
@@ -1447,6 +1450,7 @@
 				54CAADE01C39C87C00A7B0E6 /* MRManagedLocation+CoreDataOperations.swift in Sources */,
 				543C9A1B1BDD439B00291EC5 /* MRManagedClassifiedExercise.swift in Sources */,
 				54706F6C1BD6D89F005BABF0 /* MRSessionsViewController.swift in Sources */,
+				641780CE1C3BBB6F00B1FCCE /* MRStackView.swift in Sources */,
 				642363551C18A09600ABF4CA /* String+Digest.swift in Sources */,
 				642CBCA51C1ED6E30043E5EE /* UIView+Rotation.swift in Sources */,
 				549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */,
