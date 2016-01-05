@@ -30,10 +30,10 @@ extension MRAppDelegate  {
             exercise.confidence = 1
             exercise.exerciseId = exerciseIds()[index % exerciseIds().count]
             exercise.exerciseSession = session
-            exercise.duration = 12
+            exercise.duration = 20 + NSTimeInterval(arc4random() % 30)
             exercise.cdIntensity = 1
-            exercise.cdRepetitions = 10
-            exercise.cdWeight = 10
+            exercise.cdRepetitions = 5 + Int(arc4random() % 10)
+            exercise.cdWeight = Double(arc4random() % 50)
             exercise.start = date.addSeconds(index * 60)
         }
         

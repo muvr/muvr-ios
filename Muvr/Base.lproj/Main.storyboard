@@ -44,10 +44,10 @@
             </objects>
             <point key="canvasLocation" x="-3607" y="395"/>
         </scene>
-        <!--View Controller-->
+        <!--Home View Controller-->
         <scene sceneID="k5A-4Z-PYA">
             <objects>
-                <viewController id="k9I-oM-iXu" sceneMemberID="viewController">
+                <viewController id="k9I-oM-iXu" customClass="MRHomeViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8TE-3H-U3y"/>
                         <viewControllerLayoutGuide type="bottom" id="uUC-vn-soj"/>
