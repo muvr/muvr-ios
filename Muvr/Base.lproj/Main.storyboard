@@ -3,6 +3,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Sessions-->
@@ -56,24 +58,63 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Here be sessions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mow-gI-E3J">
-                                <rect key="frame" x="141" y="222" width="132" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wnD-hc-8AK" customClass="PieChartView" customModule="Charts">
+                                <rect key="frame" x="20" y="114" width="374" height="374"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNW-SJ-6Dt">
+                                        <rect key="frame" x="101" y="97" width="173" height="180"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="180" id="0KL-Iu-B9Z"/>
+                                            <constraint firstAttribute="width" secondItem="rNW-SJ-6Dt" secondAttribute="height" multiplier="173:180" id="FW5-dN-WMH"/>
+                                        </constraints>
+                                        <state key="normal" title="Back"/>
+                                        <connections>
+                                            <action selector="resetExerciseIdPrefix" destination="k9I-oM-iXu" eventType="touchUpInside" id="c5Y-KS-ngp"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="rNW-SJ-6Dt" firstAttribute="centerY" secondItem="wnD-hc-8AK" secondAttribute="centerY" id="Cxp-Mm-MVK"/>
+                                    <constraint firstItem="rNW-SJ-6Dt" firstAttribute="centerX" secondItem="wnD-hc-8AK" secondAttribute="centerX" id="ZRd-ye-4Sx"/>
+                                    <constraint firstAttribute="height" constant="374" id="eW6-PE-weg"/>
+                                </constraints>
+                            </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="zJx-4N-ka1">
+                                <rect key="frame" x="20" y="75" width="374" height="29"/>
+                                <segments>
+                                    <segment title="#"/>
+                                    <segment title="W"/>
+                                    <segment title="R"/>
+                                    <segment title="I"/>
+                                    <segment title="D"/>
+                                </segments>
+                                <connections>
+                                    <action selector="transformSelected:" destination="k9I-oM-iXu" eventType="valueChanged" id="M6R-JC-tWn"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="wnD-hc-8AK" secondAttribute="trailing" id="6nr-xN-bjy"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="wnD-hc-8AK" secondAttribute="leading" id="KuE-sw-eWV"/>
+                            <constraint firstItem="zJx-4N-ka1" firstAttribute="top" secondItem="8TE-3H-U3y" secondAttribute="bottom" constant="11" id="MA9-Ji-N8d"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="zJx-4N-ka1" secondAttribute="leading" id="R2d-Wo-q78"/>
+                            <constraint firstItem="wnD-hc-8AK" firstAttribute="top" secondItem="zJx-4N-ka1" secondAttribute="bottom" constant="11" id="dbV-A2-bbf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="zJx-4N-ka1" secondAttribute="trailing" id="uZR-hk-s9g"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9yB-Xu-xmD"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="pieChartBackButton" destination="rNW-SJ-6Dt" id="NSg-Zk-fIV"/>
+                        <outlet property="pieChartView" destination="wnD-hc-8AK" id="86l-RY-EcS"/>
                         <segue destination="xl4-18-EiY" kind="showDetail" identifier="detail" id="4Pc-1v-fDj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tXt-yF-dah" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3607" y="-505"/>
+            <point key="canvasLocation" x="-3607" y="-485"/>
         </scene>
         <!--initial-->
         <scene sceneID="MUk-QB-pHq">
