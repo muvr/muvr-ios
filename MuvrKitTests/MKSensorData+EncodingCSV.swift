@@ -18,11 +18,11 @@ class MKSensorDataEncodingCSVTests : XCTestCase {
         /// The end date
         var duration: Double
         /// # repetitions; > 0
-        var repetitions: Int32?
+        var repetitionsLabel: Int32
         /// The intensity; (0..1.0)
-        var intensity: MKExerciseIntensity?
+        var intensityLabel: MKExerciseIntensity
         /// The weight in kg; > 0
-        var weight: Double?
+        var weightLabel: Double
         /// The confidence
         var confidence: Double { get { return 1.0 } }
         
@@ -30,9 +30,9 @@ class MKSensorDataEncodingCSVTests : XCTestCase {
             self.exerciseId = exerciseId
             self.start = start
             self.duration = duration
-            self.repetitions = repetitions
-            self.intensity = intensity
-            self.weight = weight
+            self.repetitionsLabel = repetitions
+            self.intensityLabel = intensity
+            self.weightLabel = weight
         }
         
     }

@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 @testable import MuvrKit
 
-class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource {
+class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassificationHintSource {
  
     ///
     /// Implementation of the ``MKSessionClassifierDelegate`` that fires the matching ``XCTestExpectation``s
@@ -34,7 +34,13 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource {
         func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
             self.ended = session
         }
+        
+        func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKClassifiedExercise]) {
+            // noop
+        }
     }
+    
+    let exercisingHints: [MKClassificationHint]? = nil
     
     func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
         let modelPath = NSBundle(forClass: MKClassifierTests.self).pathForResource("model-3", ofType: "raw")!
@@ -58,7 +64,8 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource {
         let classifyExpectation = expectationWithDescription("classify")
         
         let delegate = Delegate(onClassify: classifyExpectation)
-        let classifier = MKSessionClassifier(exerciseModelSource: self, delegate: delegate)
+        let splitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
+        let classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: splitter, delegate: delegate)
         let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 1200, repeatedValue: 0.3))
         let session = MKExerciseConnectivitySession(id: "1234", exerciseModelId: "arms", start: NSDate(), end: nil, last: true)
 

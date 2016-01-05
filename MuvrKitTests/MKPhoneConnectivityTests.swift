@@ -67,7 +67,7 @@ class MKConnectivityTests : XCTestCase {
     ///
     func testStartEnd() {
         let delegates = Delegates()
-        let c = MKConnectivity(sensorDataConnectivityDelegate: delegates, exerciseConnectivitySessionDelegate: delegates)
+        let c = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: delegates, exerciseConnectivitySessionDelegate: delegates)
         let start = NSDate(timeIntervalSince1970: 1000)
         c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"start", "sessionId":"1234", "exerciseModelId":"arms", "start":start.timeIntervalSince1970])
         XCTAssertEqual(delegates.session!.id, "1234")
@@ -87,7 +87,7 @@ class MKConnectivityTests : XCTestCase {
     ///
     func testSendSensorData() {
         let delegates = Delegates()
-        let c = MKConnectivity(sensorDataConnectivityDelegate: delegates, exerciseConnectivitySessionDelegate: delegates)
+        let c = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: delegates, exerciseConnectivitySessionDelegate: delegates)
         let start = NSDate()
         c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"start", "sessionId":"1234", "exerciseModelId":"arms", "start":start.timeIntervalSince1970])
         
