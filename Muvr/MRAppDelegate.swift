@@ -59,6 +59,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     var window: UIWindow?
     
+    private let sessionStoryboard = UIStoryboard(name: "Session", bundle: nil)
+    private var sessionViewController: UIViewController?
     private var sessionStore: MRExerciseSessionStore!
     private var modelStore: MRExerciseModelStore!
     private var connectivity: MKAppleWatchConnectivity!
@@ -238,6 +240,22 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         application.idleTimerDisabled = false
     }
     
+    // MARK: - Session UI
+    
+    private func presentSessionControllerForSession(session: MRManagedExerciseSession) {
+        let snvc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? UINavigationController
+        let svc = snvc?.topViewController as? MRSessionViewController
+        svc!.setSession(session)
+        // window!.rootViewController!.navigationController?.presentViewController(sessionViewController!, animated: true, completion: nil)
+        window!.rootViewController!.presentViewController(snvc!, animated: true, completion: nil)
+        sessionViewController = snvc
+    }
+    
+    private func dismissSessionController() {
+        sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
+        sessionViewController = nil
+    }
+    
     // MARK: - Session classification
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
@@ -253,6 +271,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
             saveContext()
         }
+        dismissSessionController()
     }
     
     func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData) {
@@ -287,6 +306,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             currentSession.locationId = currentLocation?.id
             sessions.append(currentSession)
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: currentSession.objectID)
+            presentSessionControllerForSession(currentSession)
             saveContext()
         } else if persistedSession != nil && sessionIndex(session) == nil {
             NSLog("cach persisted session into memory: \(persistedSession!)")

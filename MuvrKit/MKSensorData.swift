@@ -109,6 +109,9 @@ public struct MKSensorData {
         }
         let sampleStart = dimension * Int(freq * offset)
         let sampleEnd = sampleStart + dimension * Int(freq * duration)
+        if sampleStart < 0 || sampleEnd >= samples.count {
+            throw MKSensorDataError.SliceOutOfRange
+        }
         let data = samples[sampleStart..<sampleEnd]
         return try MKSensorData(types: types, start: start + offset, samplesPerSecond: samplesPerSecond, samples: Array(data))
     }
