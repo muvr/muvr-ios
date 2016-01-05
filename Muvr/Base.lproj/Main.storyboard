@@ -46,7 +46,7 @@
             </objects>
             <point key="canvasLocation" x="-3607" y="395"/>
         </scene>
-        <!--Home View Controller-->
+        <!--Muvr-->
         <scene sceneID="k5A-4Z-PYA">
             <objects>
                 <viewController id="k9I-oM-iXu" customClass="MRHomeViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
@@ -93,18 +93,29 @@
                                     <action selector="transformSelected:" destination="k9I-oM-iXu" eventType="valueChanged" id="M6R-JC-tWn"/>
                                 </connections>
                             </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XcF-KD-ktC">
+                                <rect key="frame" x="20" y="669" width="374" height="47"/>
+                                <string key="text">Here be line chart with selected (or all) data over last x sessions. Maybe showing some regressions, too.
+</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="wnD-hc-8AK" secondAttribute="trailing" id="6nr-xN-bjy"/>
+                            <constraint firstItem="uUC-vn-soj" firstAttribute="top" secondItem="XcF-KD-ktC" secondAttribute="bottom" constant="20" id="DJh-Qy-M7g"/>
                             <constraint firstAttribute="leadingMargin" secondItem="wnD-hc-8AK" secondAttribute="leading" id="KuE-sw-eWV"/>
                             <constraint firstItem="zJx-4N-ka1" firstAttribute="top" secondItem="8TE-3H-U3y" secondAttribute="bottom" constant="11" id="MA9-Ji-N8d"/>
                             <constraint firstAttribute="leadingMargin" secondItem="zJx-4N-ka1" secondAttribute="leading" id="R2d-Wo-q78"/>
                             <constraint firstItem="wnD-hc-8AK" firstAttribute="top" secondItem="zJx-4N-ka1" secondAttribute="bottom" constant="11" id="dbV-A2-bbf"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="XcF-KD-ktC" secondAttribute="leading" id="g2V-8V-AYh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XcF-KD-ktC" secondAttribute="trailing" id="oAs-CY-9Of"/>
                             <constraint firstAttribute="trailingMargin" secondItem="zJx-4N-ka1" secondAttribute="trailing" id="uZR-hk-s9g"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="9yB-Xu-xmD"/>
+                    <navigationItem key="navigationItem" title="Muvr" id="9yB-Xu-xmD"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="pieChartBackButton" destination="rNW-SJ-6Dt" id="NSg-Zk-fIV"/>
