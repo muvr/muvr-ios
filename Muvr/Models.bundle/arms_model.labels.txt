@@ -15,7 +15,7 @@ core/side-dips
 core/crunches
 arms/reverse-cable-curl
 legs/lunges
-core/cable-crossover
+chest/cable-crossover
 core/oblique-crunches
 whole-body/iron-cross
 legs/squat
@@ -29,4 +29,4 @@ chest/chest-press-machine
 shoulders/pull-up
 arms/overhead-cable-curl
 core/alternate-heel-touchers
-back/upright-barbell-row
+back/barbell-row
