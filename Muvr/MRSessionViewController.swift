@@ -50,6 +50,8 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         }
     }
     
+    @IBAction func unwindFromLabelling(unwindSegue: UIStoryboardSegue) { }
+    
     ///
     /// Local notification callback function intended to be used when location is set.
     /// - parameter notification: the details of the local notification

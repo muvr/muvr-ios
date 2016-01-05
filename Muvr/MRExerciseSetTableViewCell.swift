@@ -29,8 +29,7 @@ class MRExerciseSetTableViewCell : UITableViewCell {
                 default: color = UIColor.redColor()
                 }
             }
-            var reps = Int(exercise.repetitions ?? 0)
-            if reps == 0 { reps = 10 } // TODO Remove
+            let reps = Int(exercise.repetitions ?? 0)
             self.stacksView.addStack(color: color, count: reps)
         }
     }

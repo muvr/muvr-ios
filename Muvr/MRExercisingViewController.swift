@@ -46,6 +46,16 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let c = segue.destinationViewController as? MRLabellingViewController,
+           case .ExerciseSelected(let start, let duration, let exercise) = state {
+            c.session = session
+            c.exercise = exercise
+            c.start = start
+            c.duration = duration
+        }
+    }
+    
     ///
     /// This is a notification callback from the sessionDidEstimate. Do not call explicitly.
     ///
@@ -73,7 +83,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
             timedView.setColourScheme(MRColourSchemes.green)
             timedView.setConstantTitle("✓")
             timedView.countingStyle = .Remaining
-            timedView.start(10, onTimerElapsed: ignoreLabel)
+            timedView.start(15, onTimerElapsed: ignoreLabel)
             
             state = .Done(start: start, duration: NSDate().timeIntervalSinceDate(start))
             
@@ -83,10 +93,12 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     }
     
     private func ignoreLabel(tv: MRTimedView) {
-        navigationController?.popViewControllerAnimated(true)
+        if case .Done(_) = state {
+            navigationController?.popViewControllerAnimated(true)
+        }
     }
     
-    private func addLabel(e: MKIncompleteExercise) {
+    func addLabel(e: MKIncompleteExercise) {
         if case .ExerciseSelected(let start, let duration, _) = state {
             session.addLabel(e, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
             MRAppDelegate.sharedDelegate().saveContext()
@@ -194,7 +206,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
             if case .ExerciseGroupSelected(let start, let duration, _) = state {
                 state = .ExerciseSelected(start: start, duration: duration, exercise: e)
             }
-            addLabel(e)
+            performSegueWithIdentifier("labelling", sender: self)
             return
         }
         if case .Done(let start, let duration) = state where indexPath.section == 1 {
