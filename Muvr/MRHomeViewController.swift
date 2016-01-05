@@ -23,7 +23,7 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
 
         pieChartView.drawHoleEnabled = true
         pieChartView.rotationAngle = 0.0
-        pieChartView.rotationEnabled = true
+        pieChartView.rotationEnabled = false
         pieChartView.highlightPerTapEnabled = true
         
         pieChartView.usePercentValuesEnabled = false
@@ -66,7 +66,7 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
         switch sender.selectedSegmentIndex {
         case 0: /* # */ transform = { Double($0.count) }
         case 1: /* W */ transform = { $0.averageWeight }
-        case 2: /* R */ transform = { $0.averageRepetitions }
+        case 2: /* R */ transform = { Double($0.averageRepetitions) }
         case 3: /* I */ transform = { $0.averageIntensity }
         case 4: /* D */ transform = { $0.averageDuration }
         default: fatalError("Match error")

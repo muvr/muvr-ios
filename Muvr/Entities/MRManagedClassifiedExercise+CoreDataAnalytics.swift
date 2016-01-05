@@ -4,12 +4,17 @@ import CoreData
 
 extension MRManagedClassifiedExercise {
     
+    ///
+    /// Average view of an exercise with the given ``exerciseId``. For simple 
+    /// analytics, it appears to be sufficient to record average intensity,
+    /// repetitions, weight and duration.
+    ///
     struct Average {
         let exerciseId: MKExerciseId
         let count: Int
 
         let averageIntensity: Double
-        let averageRepetitions: Double
+        let averageRepetitions: Int
         let averageWeight: Double
         let averageDuration: NSTimeInterval
         
@@ -33,7 +38,7 @@ extension MRManagedClassifiedExercise {
             return Average(exerciseId: exerciseId,
                 count: count,
                 averageIntensity: averageIntensity / by,
-                averageRepetitions: averageRepetitions / by,
+                averageRepetitions: Int(Double(averageRepetitions) / by),
                 averageWeight: averageWeight / by,
                 averageDuration: averageDuration / by
             )
@@ -87,7 +92,7 @@ extension MRManagedClassifiedExercise {
                         exerciseId: exerciseId,
                         count: (entry["count"] as! NSNumber).integerValue,
                         averageIntensity: (entry["cdIntensity"] as! NSNumber).doubleValue,
-                        averageRepetitions: (entry["cdRepetitions"] as! NSNumber).doubleValue,
+                        averageRepetitions: (entry["cdRepetitions"] as! NSNumber).integerValue,
                         averageWeight: (entry["cdWeight"] as! NSNumber).doubleValue,
                         averageDuration: (entry["duration"] as! NSNumber).doubleValue
                     )
