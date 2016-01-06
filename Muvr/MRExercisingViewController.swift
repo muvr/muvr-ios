@@ -89,9 +89,13 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         }
     }
     
+    private func popView() {
+        navigationController?.popViewControllerAnimated(true)
+    }
+    
     private func ignoreLabel(tv: MRTimedView) {
         if case .Done(_, _, let selecting) = state where !selecting {
-            navigationController?.popViewControllerAnimated(true)
+            popView()
         }
     }
     
@@ -100,7 +104,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
             session.addLabel(e, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
             MRAppDelegate.sharedDelegate().saveContext()
             changeState(.CountingDown)
-            navigationController?.popViewControllerAnimated(true)
+            popView()
         }
     }
     
@@ -222,7 +226,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
                 controller.changeState(.ExerciseGroupSelected(start: start, duration: duration, group: group))
                 tableView.reloadData()
             }
-            if indexPath.section == 2 { controller.ignoreLabel(controller.timedView) }
+            if indexPath.section == 2 { controller.popView() }
         }
     }
     
