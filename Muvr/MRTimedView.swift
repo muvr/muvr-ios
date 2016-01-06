@@ -98,7 +98,7 @@ class MRTimedView : UIView {
         titleLabel.textColor = colourScheme.tint
         circularProgressBarView.progressColor = colourScheme.light
         circularProgressBarView.progressStrokeColor = colourScheme.background
-        circularProgressBarView.emptyLineColor = colourScheme.darker.background
+        circularProgressBarView.emptyLineColor = colourScheme.darker.tint
     }
     
     ///
@@ -128,7 +128,7 @@ class MRTimedView : UIView {
     func stop() {
         timer?.invalidate()
         timer = nil
-
+        
         circularProgressBarView.value = 0
         circularProgressBarView.hidden = true
     }
@@ -155,14 +155,15 @@ class MRTimedView : UIView {
         guard let start = start, duration = duration else { return }
         
         let elapsed = -start.timeIntervalSinceNow
-        if elapsed > duration {
-            if elapsedResets { stop() }
-            if let event = onTimerElapsed { event(self) }
-        }
         if !elapsedResets || elapsed < duration {
             let ttd = timeToDisplay(duration: duration, elapsed: elapsed)
             circularProgressBarView.setValue(CGFloat(ttd), animateWithDuration: 0.5)
             button.setTitle(textTransform(ttd), forState: UIControlState.Normal)
+        }
+        // need to stop and invoke callback after display is updated
+        if elapsed > duration {
+            if elapsedResets { stop() }
+            if let event = onTimerElapsed { event(self) }
         }
     }
     

@@ -31,7 +31,8 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     
     override func viewDidLoad() {
         timedView.setColourScheme(MRColourSchemes.amber)
-        timedView.elapsedResets = true
+        timedView.elapsedResets = false
+        timedView.buttonTouchResets = false
         tableView.registerNib(MRExerciseTableViewCell.nib, forCellReuseIdentifier: MRExerciseTableViewCell.cellReuseIdentifier)
     }
     
@@ -66,6 +67,12 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     }
     
     private func beginExercising(tv: MRTimedView) {
+        timedView.setColourScheme(MRColourSchemes.red)
+        timedView.countingStyle = .Elapsed
+        timedView.setConstantTitle("done")
+        timedView.buttonTouched = stopExercising
+        timedView.start(60)
+        
         changeState(.Exercising(start: NSDate()))
     }
     
@@ -105,11 +112,6 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
             break
         case .Exercising(_):
             session.beginExercising()
-            timedView.setColourScheme(MRColourSchemes.red)
-            timedView.countingStyle = .Elapsed
-            timedView.setConstantTitle("done")
-            timedView.buttonTouched = stopExercising
-            timedView.start(60)
             tableController = InExerciseTableController(controller: self)
             tableView.reloadData()
             break
@@ -157,9 +159,9 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        if case .Done(_, _) = state {
-            timedView.stop()
-        }
+//        if case .Done(_, _) = state {
+//            timedView.stop()
+//        }
     }
     
     private func textCell(text: String, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {

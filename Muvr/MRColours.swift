@@ -63,8 +63,9 @@ struct MRColourScheme {
 /// Defines the basic colour schemes
 ///
 struct MRColourSchemes {
-    static let green = MRColourScheme(tint: MRColours.lightGreen, light: MRColours.lightGreen, background: MRColours.green)
-    static let amber = MRColourScheme(tint: MRColours.lightAmber, light: MRColours.lightAmber, background: MRColours.amber)
-    static let red   = MRColourScheme(tint: MRColours.lightRed,   light: MRColours.lightRed,   background: MRColours.red)
+    
+    static let green = MRColourScheme(tint: MRColours.green, light: MRColours.green, background: UIColor.clearColor())
+    static let amber = MRColourScheme(tint: MRColours.amber, light: MRColours.amber, background: UIColor.clearColor())
+    static let red   = MRColourScheme(tint: MRColours.red,   light: MRColours.red, background: UIColor.clearColor())
 }
 
