@@ -18,7 +18,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         /// done exercising: whatever label is going to be added, it happened between ``start`` for ``duration``
         /// - parameter start: the start of the label
         /// - parameter duration: the duration of the label
-        case Done(start: NSDate, duration: NSTimeInterval)
+        case Done(start: NSDate, duration: NSTimeInterval, labelling: Bool)
         /// done exercising: user has selected a group in the list
         case ExerciseGroupSelected(start: NSDate, duration: NSTimeInterval, group: String)
         /// done exercising: user has selected his exercise in the list
@@ -85,12 +85,12 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
             timedView.countingStyle = .Remaining
             timedView.start(15, onTimerElapsed: ignoreLabel)
             
-            changeState(.Done(start: start, duration: NSDate().timeIntervalSinceDate(start)))
+            changeState(.Done(start: start, duration: NSDate().timeIntervalSinceDate(start), labelling: false))
         }
     }
     
     private func ignoreLabel(tv: MRTimedView) {
-        if case .Done(_) = state {
+        if case .Done(_, _, let selecting) = state where !selecting {
             navigationController?.popViewControllerAnimated(true)
         }
     }
@@ -106,7 +106,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     
     private func changeState(newState: State) {
         state = newState
-        switch (state) {
+        switch (newState) {
         case .CountingDown:
             tableView.allowsSelection = false
             break
@@ -115,7 +115,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
             tableController = InExerciseTableController(controller: self)
             tableView.reloadData()
             break
-        case .Done(let start, let duration):
+        case .Done(let start, let duration, _):
             tableController = DoneTableController(controller: self, start: start, duration: duration)
             tableView.allowsSelection = true
             tableView.reloadData()
@@ -136,14 +136,6 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableController?.tableView(tableView, numberOfRowsInSection: section) ?? 0
-    }
-    
-    func tableView(tableView: UITableView, accessoryTypeForRowWithIndexPath indexPath: NSIndexPath) -> UITableViewCellAccessoryType {
-        if tableView.allowsSelection {
-            return UITableViewCellAccessoryType.DisclosureIndicator
-        } else {
-            return UITableViewCellAccessoryType.None
-        }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -168,12 +160,14 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         let cell = tableView.dequeueReusableCellWithIdentifier("other", forIndexPath: indexPath)
         cell.textLabel?.text = text
         cell.detailTextLabel?.text = ""
+        cell.accessoryType = tableView.allowsSelection ? .DisclosureIndicator : .None
         return cell
     }
     
     private func exerciseCell(exercise: MKIncompleteExercise, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(MRExerciseTableViewCell.cellReuseIdentifier, forIndexPath: indexPath) as! MRExerciseTableViewCell
         cell.setExercise(exercise, lastExercise: nil)
+        cell.accessoryType = tableView.allowsSelection ? .DisclosureIndicator : .None
         return cell
     }
     
@@ -289,7 +283,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
                     controller.changeState(.ExerciseSelected(start: start, duration: duration, exercise: e))
             }
             if indexPath.section == 1 {
-                controller.changeState(.Done(start: start, duration: duration))
+                controller.changeState(.Done(start: start, duration: duration, labelling: true))
             }
         }
     }
