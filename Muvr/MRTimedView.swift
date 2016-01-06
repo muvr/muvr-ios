@@ -27,6 +27,7 @@ class MRTimedView : UIView {
     private var start: NSDate?
     private var timer: NSTimer?
     private var onTimerElapsed: Event?
+    private var timerChanged: Bool = false
     
     /// when ``true``, button touch resets the counter and stops the timer
     var buttonTouchResets: Bool = true
@@ -109,7 +110,7 @@ class MRTimedView : UIView {
     func start(duration: NSTimeInterval, onTimerElapsed: Event? = nil) {
         timer?.invalidate()
         timer = nil
-        
+        timerChanged = true
         circularProgressBarView.hidden = false
         circularProgressBarView.maxValue = CGFloat(duration)
         let ttd = timeToDisplay(duration: duration, elapsed: 0)
@@ -153,17 +154,18 @@ class MRTimedView : UIView {
     func onTimerTick() {
         if timer == nil { return }
         guard let start = start, duration = duration else { return }
-        
+        timerChanged = false
         let elapsed = -start.timeIntervalSinceNow
-        if !elapsedResets || elapsed < duration {
-            let ttd = timeToDisplay(duration: duration, elapsed: elapsed)
-            circularProgressBarView.setValue(CGFloat(ttd), animateWithDuration: 0.5)
-            button.setTitle(textTransform(ttd), forState: UIControlState.Normal)
-        }
-        // need to stop and invoke callback after display is updated
         if elapsed > duration {
             if elapsedResets { stop() }
             if let event = onTimerElapsed { event(self) }
+        }
+        // timerChanged might now be true if restarted by event
+        // in this case do not play the animation
+        if !timerChanged && (!elapsedResets || elapsed < duration) {
+            let ttd = timeToDisplay(duration: duration, elapsed: elapsed)
+            circularProgressBarView.setValue(CGFloat(ttd), animateWithDuration: 0.5)
+            button.setTitle(textTransform(ttd), forState: UIControlState.Normal)
         }
     }
     
