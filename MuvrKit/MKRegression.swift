@@ -58,6 +58,12 @@ public struct MKLinearRegression : MKRegression {
         let x = la_matrix_from_double_array(xValues, rows: m, columns: 2)
         let y = la_vector_column_from_double_array(Y)
         
+        // 𝜃 = inverse(X' * X) * X' * y
+        // Equivalent to (X' * X) * 𝜃 = X' * y hence can use la_solve
+        //let newTheta = la_solve(la_transpose(x) * x, la_transpose(x) * y)
+        
+        //return newTheta.toArray()
+        
         let thetaArray = [Double](count: Int(2), repeatedValue: 0.0)
         var theta = la_vector_row_from_double_array(thetaArray)
         
