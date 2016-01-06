@@ -146,10 +146,10 @@ extension MRManagedClassifiedExercise {
                     let average = Average(
                         exerciseId: exerciseId,
                         count: (entry["count"] as! NSNumber).integerValue,
-                        averageIntensity: (entry["cdIntensity"] as! NSNumber).doubleValue,
+                        averageIntensity: (entry["cdIntensity"] as? NSNumber)?.doubleValue ?? 0,
                         averageRepetitions: (entry["cdRepetitions"] as! NSNumber).integerValue,
-                        averageWeight: (entry["cdWeight"] as! NSNumber).doubleValue,
-                        averageDuration: (entry["duration"] as! NSNumber).doubleValue
+                        averageWeight: (entry["cdWeight"] as? NSNumber)?.doubleValue ?? 0,
+                        averageDuration: (entry["duration"] as? NSNumber)?.doubleValue ?? 0
                     )
                     
                     if let existingAverages = averages[exerciseId] {
