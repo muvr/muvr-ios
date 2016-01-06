@@ -38,6 +38,10 @@ class MRStackView: UIView {
         super.init(coder: aDecoder)
     }
     
+    override func drawRect(rect: CGRect) {
+        redraw()
+    }
+    
     func redraw() {
         stacks.enumerate().forEach { index, stack in
             stack.max = maxReps
@@ -50,7 +54,7 @@ class MRStackView: UIView {
         let barHeight = bounds.height / CGFloat(maxReps)
         return CGRect(
             x: bounds.origin.x + bounds.width - CGFloat((index + 1) * (sWidth + stackPadding)) - CGFloat(stackPadding),
-            y: bounds.origin.y + bounds.height - barHeight,
+            y: bounds.origin.y,
             width: CGFloat(sWidth),
             height: bounds.height - barHeight / 2
         )
@@ -110,7 +114,7 @@ private class MRCAStackLayer: CAReplicatorLayer {
         let barHeight = 0.8 * bounds.height / max
         barLayer.backgroundColor = color.CGColor
         barLayer.cornerRadius = barHeight / 4
-        barLayer.frame = CGRect(x: 0, y: 0, width: bounds.width, height: barHeight)
+        barLayer.frame = CGRect(x: 0, y: bounds.height - barHeight, width: bounds.width, height: barHeight)
         
         instanceRedOffset = -0.01
         instanceBlueOffset = -0.02
