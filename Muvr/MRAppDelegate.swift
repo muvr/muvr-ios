@@ -201,6 +201,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             NSLog(":( \(e)")
         }
         
+        // load today's sessions
+        MRManagedExerciseSession.sessionsOnDate(NSDate(), inManagedObjectContext: managedObjectContext).forEach{ session in
+            self.sessions.append(session)
+            if session.end == nil {
+                // show active session
+                presentSessionControllerForSession(session)
+            }
+        }
+        
         return true
     }
     

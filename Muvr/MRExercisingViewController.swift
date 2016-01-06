@@ -150,12 +150,6 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         tableController?.tableView?(tableView, didSelectRowAtIndexPath: indexPath)
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-//        if case .Done(_, _) = state {
-//            timedView.stop()
-//        }
-    }
-    
     private func textCell(text: String, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("other", forIndexPath: indexPath)
         cell.textLabel?.text = text
