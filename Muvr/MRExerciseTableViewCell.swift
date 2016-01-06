@@ -23,7 +23,8 @@ class MRExerciseTableViewCell : UITableViewCell {
     /// - parameter lastExercise: the last completed exercise of the same id
     ///
     func setExercise(exercise: MKIncompleteExercise, lastExercise: MKExercise?) {
-        exerciseLabel.text = exercise.exerciseId
+        let exerciseName = exercise.exerciseId.componentsSeparatedByString("/").last ?? exercise.exerciseId
+        exerciseLabel.text = exerciseName.capitalizedString
         repetitionsLabel.text = exercise.repetitions.map { String($0) } ?? ""
         intensityLabel.text = exercise.intensity.map { String($0) } ?? ""
         weightLabel.text = exercise.weight.map { "\($0) kg" } ?? ""

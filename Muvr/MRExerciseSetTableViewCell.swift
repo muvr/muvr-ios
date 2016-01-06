@@ -13,7 +13,8 @@ class MRExerciseSetTableViewCell : UITableViewCell {
         assert(!set.isEmpty, "The set cannot be empty")
         set.forEach { x in assert(x.exerciseId == set.first!.exerciseId, "The set must be all same exercise ids") }
         
-        exerciseLabel.text = set.first!.exerciseId
+        let exerciseId = set.first!.exerciseId.componentsSeparatedByString("/")
+        exerciseLabel.text = "\(exerciseId.first!.capitalizedString) - \(exerciseId.last!.capitalizedString)"
         if set.count == 1 {
             setSizeLabel.text = "1 set"
         } else {
