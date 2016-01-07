@@ -44,7 +44,7 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
             xs.append(NSLocalizedString(average.exerciseId, comment: "\(average.exerciseId) exercise").localizedCapitalizedString)
         }
         let dataSet = PieChartDataSet(yVals: ys)
-        dataSet.colors = ChartColorTemplates.pastel() + ChartColorTemplates.liberty()
+        dataSet.colors = ChartColorTemplates.colorful() + ChartColorTemplates.joyful()
         if ys.count > 1 { dataSet.sliceSpace = 2 }
         
         pieChartView.animate(xAxisDuration: 1.0, yAxisDuration: 1.0, easingOption: ChartEasingOption.EaseOutCirc)
