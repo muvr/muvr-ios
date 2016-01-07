@@ -21,11 +21,13 @@ class MRLabellingViewController : UIViewController {
     }
     
     @IBAction func onDone(sender: AnyObject) {
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         let e = MRIncompleteExercise(
             exerciseId: exercise.exerciseId,
-            repetitions: Int32(reps.text ?? "0"),
+            repetitions: formatter.numberFromString(reps.text ?? "0")?.intValue ?? 0,
             intensity: Double(intensity.value),
-            weight: Double(weight.text ?? "0"),
+            weight: formatter.numberFromString(weight.text ?? "0")?.doubleValue ?? 0,
             confidence: 0)
         
         session.addLabel(e, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)

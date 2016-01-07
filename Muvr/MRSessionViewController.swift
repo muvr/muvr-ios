@@ -24,7 +24,7 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     // MARK: UIViewController
     
     override func viewDidLoad() {
-        timedView.textTransform = { _ in return "go!" }
+        timedView.textTransform = { _ in return NSLocalizedString("go!", comment: "start exercising") }
         timedView.setColourScheme(MRColourSchemes.green)
         timedView.elapsedResets = false
         timedView.countingStyle = MRTimedView.CountingStyle.Elapsed
@@ -60,9 +60,11 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         guard let exerciseModelId = session?.exerciseModelId else { return }
         
         if let locationName = notification.object as? String {
-            title = "\(exerciseModelId) at \(locationName)"
+            title = String.localizedStringWithFormat(NSLocalizedString("%@ at %@", comment: "session type at location"),
+                NSLocalizedString(exerciseModelId, comment: "\(exerciseModelId) session").localizedCapitalizedString,
+                locationName)
         } else {
-            title = exerciseModelId
+            title = NSLocalizedString(exerciseModelId, comment: "\(exerciseModelId) session").localizedCapitalizedString
         }
     }
     

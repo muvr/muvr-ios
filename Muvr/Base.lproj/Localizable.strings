@@ -6,3 +6,104 @@
   Copyright (c) 2015 Muvr. All rights reserved.
 */
 "MRExerciseSessionViewController.elapsed"="Elapsed %d:%02d";
+
+/* something else (another exercise) */
+"something else" = "something else";
+/* nothing (slacking) */
+"nothing" = "nothing";
+/* start exercising */
+"go!" = "go!";
+/* get ready */
+"ready" = "ready";
+/* done exercising */
+"done" = "done";
+/* exercise ticked */
+"✓" = "✓";
+/* session type at location */
+"%@ at %@" = "%1$@ at %2$@";
+
+/* exercise with group format */
+"%@ - %@" = "%1$@ - %2$@";
+
+/* arms session */
+"arms" = "arms";
+
+/* shoulders exercise group */
+"shoulders" = "shoulders";
+/* arms exercise group */
+"arms" = "arms";
+/* core exercise group */
+"core" = "core";
+/* back exercise group */
+"back" = "back";
+/* chest exercise group */
+"chest" = "chest";
+/* legs exercise group */
+"legs" = "legs";
+
+/* whole-body exercise group */
+"whole-body" = "whole body";
+/* dumbbell-shoulder-press exercise */
+"dumbbell-shoulder-press" = "dumbbell shoulder press";
+/* dumbbell-bench-press exercise */
+"dumbbell-bench-press" = "dumbbell bench press";
+/* triceps-pushdown exercise */
+"triceps-pushdown" = "triceps pushdown";
+/* barbell-biceps-curl exercise */
+"barbell-biceps-curl" = "barbell biceps curls";
+/* suitcase-crunches exercise */
+"suitcase-crunches" = "suitcase crunches";
+/* lateral-raise exercise */
+"lateral-raise" = "lateral raise";
+/* back-extensions exercise */
+"back-extensions" = "back extensions";
+/* biceps-curl exercise */
+"biceps-curl" = "biceps curls";
+/* triceps-extension exercise */
+"triceps-extension" = "triceps extensions";
+/* lateral-pulldown-straight exercise */
+"lateral-pulldown-straight" = "lateral pulldown straight";
+/* angle-chest-press exercise */
+"angle-chest-press" = "angle chest press";
+/* vertical-swing exercise */
+"vertical-swing" = "vertical swing";
+/* dumbbell-flyes exercise */
+"dumbbell-flyes" = "dumbbell flyes";
+/* side-dips exercise */
+"side-dips" = "side dips";
+/* crunches exercise */
+"crunches" = "crunches";
+/* reverse-cable-curl exercise */
+"reverse-cable-curl" = "reverse cable curls";
+/* lunges exercise */
+"lunges" = "lunges";
+/* cable-crossover exercise */
+"cable-crossover" = "cable crossover";
+/* oblique-crunches exercise */
+"oblique-crunches" = "oblique crunches";
+/* iron-cross exercise */
+"iron-cross" = "iron cross";
+/* squat exercise */
+"squat" = "squat";
+/* triceps-dips exercise */
+"triceps-dips" = "triceps dips";
+/* dumbbell-calf-raise exercise */
+"dumbbell-calf-raise" = "dumbbell calf raise";
+/* reverse-flyes exercise */
+"reverse-flyes" = "reverse flyes";
+/* bench=press exercise */
+"bench-press" = "bench press";
+/* barbell-squat exercise */
+"barbell-squat" = "barbell squat";
+/* butterfly machine exercise */
+"butterfly-machine" = "butterfly machine";
+/* chest-press machine exercise */
+"chest-press-machine" = "chest press machine";
+/* pull-up exercise */
+"pull-up" = "pull-up";
+/* overhead-cable-curl exercise */
+"overhead-cable-curl" = "overhead cable curl";
+/* alternate-heel-tourchers exercise */
+"alternate-heel-touchers" = "alternate heel touchers";
+/* barbell-row exercise */
+"barbell-row" = "barbell row";

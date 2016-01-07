@@ -23,11 +23,19 @@ class MRExerciseTableViewCell : UITableViewCell {
     /// - parameter lastExercise: the last completed exercise of the same id
     ///
     func setExercise(exercise: MKIncompleteExercise, lastExercise: MKExercise?) {
-        let exerciseName = exercise.exerciseId.componentsSeparatedByString("/").last ?? exercise.exerciseId
-        exerciseLabel.text = exerciseName.capitalizedString
-        repetitionsLabel.text = exercise.repetitions.map { String($0) } ?? ""
-        intensityLabel.text = exercise.intensity.map { String($0) } ?? ""
-        weightLabel.text = exercise.weight.map { "\($0) kg" } ?? ""
+        let formatter = MRExerciseIdFormatter(style: .Short)
+        exerciseLabel.text = formatter.format(exercise.exerciseId).localizedCapitalizedString
+        
+        let nbFormatter = NSNumberFormatter()
+        repetitionsLabel.text = exercise.repetitions.flatMap { reps in nbFormatter.stringFromNumber(NSNumber(int: reps)) } ?? ""
+        intensityLabel.text = exercise.intensity.flatMap { intensity in
+            let percent = Int32(round(intensity * 100))
+            return nbFormatter.stringFromNumber(NSNumber(int: percent))
+        } ?? ""
+        weightLabel.text = exercise.weight.map { kg in
+            let formatter = NSMassFormatter()
+            return formatter.stringFromKilograms(kg)
+        } ?? ""
         
         self.exercise = exercise
     }

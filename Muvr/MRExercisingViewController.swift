@@ -39,7 +39,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     override func viewDidAppear(animated: Bool) {
         if case .CountingDown = state {
             tableView.allowsSelection = false
-            timedView.setConstantTitle("ready")
+            timedView.setConstantTitle(NSLocalizedString("ready", comment: "get ready"))
             timedView.start(5, onTimerElapsed: beginExercising)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEstimate", name: MRNotifications.SessionDidEstimate.rawValue, object: nil)
         }
@@ -69,7 +69,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     private func beginExercising(tv: MRTimedView) {
         timedView.setColourScheme(MRColourSchemes.red)
         timedView.countingStyle = .Elapsed
-        timedView.setConstantTitle("done")
+        timedView.setConstantTitle(NSLocalizedString("done", comment: "done exercising"))
         timedView.buttonTouched = stopExercising
         timedView.start(60)
         
@@ -81,7 +81,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
             session.endExercise()
             
             timedView.setColourScheme(MRColourSchemes.green)
-            timedView.setConstantTitle("✓")
+            timedView.setConstantTitle(NSLocalizedString("✓", comment: "exercise ticked"))
             timedView.countingStyle = .Remaining
             timedView.start(15, onTimerElapsed: ignoreLabel)
             
@@ -210,8 +210,13 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
             switch indexPath.section {
             case 0: return controller.exerciseCell(controller.session.exercises[indexPath.row], forIndexPath: indexPath)
-            case 1: return controller.textCell(controller.session.exerciseGroups[indexPath.row], forIndexPath: indexPath)
-            case 2: return controller.textCell("Nothing", forIndexPath: indexPath)
+            case 1:
+                let group = controller.session.exerciseGroups[indexPath.row]
+                let text = NSLocalizedString(group, comment: "\(group) exercise group").localizedCapitalizedString
+                return controller.textCell(text, forIndexPath: indexPath)
+            case 2:
+                let text = NSLocalizedString("nothing", comment: "nothing (slacking)").localizedCapitalizedString
+                return controller.textCell(text, forIndexPath: indexPath)
             default: fatalError("Match error")
             }
         }
@@ -270,7 +275,9 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
             switch indexPath.section {
             case 0: return controller.exerciseCell(controller.session.exercisesInGroup(group)[indexPath.row], forIndexPath: indexPath)
-            case 1: return controller.textCell("Something else", forIndexPath: indexPath)
+            case 1:
+                let text = NSLocalizedString("something else", comment: "something else (another exercise)").localizedCapitalizedString
+                return controller.textCell(text, forIndexPath: indexPath)
             default: fatalError("Match error")
             }
         }
