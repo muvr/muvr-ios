@@ -252,6 +252,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - Session UI
     
     private func presentSessionControllerForSession(session: MRManagedExerciseSession) {
+        guard session.end == nil else { return }
         let snvc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? UINavigationController
         let svc = snvc?.topViewController as? MRSessionViewController
         svc!.setSession(session)
@@ -260,7 +261,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         sessionViewController = snvc
     }
     
-    private func dismissSessionController() {
+    private func dismissSessionControllerForSession(session: MRManagedExerciseSession) {
+        guard let currentSession = currentSession where currentSession == session else { return }
         sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
         sessionViewController = nil
     }
@@ -273,6 +275,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         if let index = sessionIndex(session) {
             let currentSession = sessions[index]
             let objectId = currentSession.objectID
+            dismissSessionControllerForSession(currentSession)
             currentSession.end = session.end
             if let data = sensorData {
                 currentSession.sensorData = data.encode()
@@ -280,7 +283,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
             saveContext()
         }
-        dismissSessionController()
     }
     
     func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData) {
