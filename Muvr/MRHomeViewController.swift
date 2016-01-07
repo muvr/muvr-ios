@@ -41,7 +41,7 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
         var xs: [String] = []
         for (index, average) in averages.enumerate() {
             ys.append(BarChartDataEntry(value: transform(average), xIndex: index, data: average.exerciseId))
-            xs.append(average.exerciseId)
+            xs.append(NSLocalizedString(average.exerciseId, comment: "\(average.exerciseId) exercise").localizedCapitalizedString)
         }
         let dataSet = PieChartDataSet(yVals: ys)
         dataSet.colors = ChartColorTemplates.pastel() + ChartColorTemplates.liberty()
