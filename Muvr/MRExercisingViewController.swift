@@ -8,6 +8,8 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var timedView: MRTimedView!
     
+    static let cellHeight = CGFloat(80)
+    
     /// The controller's state
     private enum State {
         /// 4..3..2... go!
@@ -201,8 +203,8 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
             switch indexPath.section {
             case 0: return MRExerciseTableViewCell.height
-            case 1: return 40
-            case 2: return 40
+            case 1: return MRExercisingViewController.cellHeight
+            case 2: return MRExercisingViewController.cellHeight
             default: fatalError("Match error")
             }
         }
@@ -267,7 +269,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
             switch indexPath.section {
             case 0: return MRExerciseTableViewCell.height
-            case 1: return 40
+            case 1: return MRExercisingViewController.cellHeight
             default: fatalError("Match error")
             }
         }
