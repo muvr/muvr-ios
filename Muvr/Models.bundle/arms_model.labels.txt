@@ -30,3 +30,6 @@ shoulders/pull-up
 arms/overhead-cable-curl
 core/alternate-heel-touchers
 back/upright-barbell-row
+cardio/cross-trainer
+cardio/running-machine
+cardio/rowing-machine
