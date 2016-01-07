@@ -95,10 +95,10 @@ public struct MKClassifier {
             // NSLog("bytes \(offset)-\(offset + windowSize * sizeof(Double)); length \(doubleM.count * sizeof(Double))")
             let featureMatrix: UnsafePointer<Float> = UnsafePointer(m).advancedBy(offset)
             let windowPrediction = try neuralNet.predictFeatureMatrix(featureMatrix, dimensions: dimensions, length: dimensions * windowSize)
-            let classRanking = (0..<numClasses).sort { x, y in
+            let classRanking = (0..<windowPrediction.count).sort { x, y in
                 return windowPrediction[x] > windowPrediction[y]
             }
-            let resultCount = min(maxResults, numClasses)
+            let resultCount = min(maxResults, windowPrediction.count)
             let start = duration * Double(window)
             let classifiedExerciseBlocks: [MKClassifiedExerciseBlock] = (0..<resultCount).flatMap { i in
                 let labelIndex = classRanking[i]
