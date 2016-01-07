@@ -58,13 +58,11 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
     ///
     func locationDidObtain(notification: NSNotification) {
         guard let exerciseModelId = session?.exerciseModelId else { return }
-        
+        let sessionName = NSLocalizedString("\(exerciseModelId)-session", comment: "\(exerciseModelId) session").localizedCapitalizedString
         if let locationName = notification.object as? String {
-            title = String.localizedStringWithFormat(NSLocalizedString("%@ at %@", comment: "session type at location"),
-                NSLocalizedString(exerciseModelId, comment: "\(exerciseModelId) session").localizedCapitalizedString,
-                locationName)
+            title = String.localizedStringWithFormat(NSLocalizedString("%@ at %@", comment: "session type at location"), sessionName, locationName)
         } else {
-            title = NSLocalizedString(exerciseModelId, comment: "\(exerciseModelId) session").localizedCapitalizedString
+            title = sessionName
         }
     }
     

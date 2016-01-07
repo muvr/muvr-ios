@@ -26,7 +26,7 @@
 "%@ - %@" = "%1$@ - %2$@";
 
 /* arms session */
-"arms" = "arms";
+"arms-session" = "gym";
 
 /* shoulders exercise group */
 "shoulders" = "shoulders";
@@ -40,6 +40,8 @@
 "chest" = "chest";
 /* legs exercise group */
 "legs" = "legs";
+/* cardio exercise group */
+"cardio" = "cardio";
 
 /* whole-body exercise group */
 "whole-body" = "whole body";
@@ -106,4 +108,10 @@
 /* alternate-heel-tourchers exercise */
 "alternate-heel-touchers" = "alternate heel touchers";
 /* barbell-row exercise */
-"barbell-row" = "barbell row";
+"upright-barbell-row" = "upright barbell row";
+/* rowing-machine exercise */
+"rowing-machine" = "rowing machine";
+/* running-machine exercise */
+"running-machine" = "running machine";
+/* cross-trainer exercise */
+"cross-trainer" = "cross trainer";
