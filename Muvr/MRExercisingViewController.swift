@@ -21,14 +21,9 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         /// - parameter start: the start of the label
         /// - parameter duration: the duration of the label
         case Done(start: NSDate, duration: NSTimeInterval, labelling: Bool)
-        /// done exercising: user has selected a group in the list
-        case ExerciseGroupSelected(start: NSDate, duration: NSTimeInterval, group: String)
-        /// done exercising: user has selected his exercise in the list
-        case ExerciseSelected(start: NSDate, duration: NSTimeInterval, exercise: MKIncompleteExercise)
     }
 
     private var state: State = State.CountingDown
-    private var tableController: MRTableController? = nil
     var session: MRManagedExerciseSession!
     
     override func viewDidLoad() {
@@ -50,17 +45,7 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
     override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let c = segue.destinationViewController as? MRLabellingViewController,
-           case .ExerciseSelected(let start, let duration, let exercise) = state {
-            c.session = session
-            c.exercise = exercise
-            c.start = start
-            c.duration = duration
-        }
-    }
-    
+        
     ///
     /// This is a notification callback from the sessionDidEstimate. Do not call explicitly.
     ///
@@ -101,232 +86,41 @@ class MRExercisingViewController : UIViewController, UITableViewDataSource, UITa
         }
     }
     
-    func addLabel(e: MKIncompleteExercise) {
-        if case .ExerciseSelected(let start, let duration, _) = state {
-            session.addLabel(e, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
-            MRAppDelegate.sharedDelegate().saveContext()
-            changeState(.CountingDown)
-            popView()
-        }
-    }
-    
     private func changeState(newState: State) {
         state = newState
-        switch (newState) {
+        switch newState {
         case .CountingDown:
             tableView.allowsSelection = false
             break
         case .Exercising(_):
             session.beginExercising()
-            tableController = InExerciseTableController(controller: self)
             tableView.reloadData()
             break
-        case .Done(let start, let duration, _):
-            tableController = DoneTableController(controller: self, start: start, duration: duration)
+        case .Done(_, _, _):
             tableView.allowsSelection = true
             tableView.reloadData()
-            break
-        case .ExerciseGroupSelected(let start, let duration, let group):
-            tableController = GroupSelectedTableController(controller: self, start: start, duration: duration, group: group)
-            tableView.reloadData()
-            break
-        case .ExerciseSelected(_):
-            performSegueWithIdentifier("labelling", sender: self)
             break
         }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return tableController?.numberOfSectionsInTableView?(tableView) ?? 0
+        return 0
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableController?.tableView(tableView, numberOfRowsInSection: section) ?? 0
+        return 0
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return tableController?.tableView?(tableView, heightForRowAtIndexPath: indexPath) ?? 40
+        return 40
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return tableController!.tableView(tableView, cellForRowAtIndexPath: indexPath)
+        fatalError()
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableController?.tableView?(tableView, didSelectRowAtIndexPath: indexPath)
+        fatalError()
     }
-    
-    private func textCell(text: String, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("other", forIndexPath: indexPath)
-        cell.textLabel?.text = text
-        cell.detailTextLabel?.text = ""
-        cell.accessoryType = tableView.allowsSelection ? .DisclosureIndicator : .None
-        return cell
-    }
-    
-    private func exerciseCell(exercise: MKIncompleteExercise, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(MRExerciseTableViewCell.cellReuseIdentifier, forIndexPath: indexPath) as! MRExerciseTableViewCell
-        cell.setExercise(exercise, lastExercise: nil)
-        cell.accessoryType = tableView.allowsSelection ? .DisclosureIndicator : .None
-        return cell
-    }
-    
-    
-    ///
-    /// Table controller used when in .Done state
-    ///
-    class DoneTableController: NSObject, MRTableController {
-    
-        let controller: MRExercisingViewController
-        let start: NSDate
-        let duration: NSTimeInterval
-        
-        init(controller: MRExercisingViewController, start: NSDate, duration: NSTimeInterval) {
-            self.controller = controller
-            self.start = start
-            self.duration = duration
-        }
-        
-        func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-            return 3
-        }
-        
-        func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            switch section {
-            case 0: return controller.session.exercises.count
-            case 1: return controller.session.exerciseGroups.count
-            case 2: return 1
-            default: fatalError("Match error")
-            }
-        }
-        
-        func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-            switch indexPath.section {
-            case 0: return MRExerciseTableViewCell.height
-            case 1: return MRExercisingViewController.cellHeight
-            case 2: return MRExercisingViewController.cellHeight
-            default: fatalError("Match error")
-            }
-        }
-        
-        func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-            switch indexPath.section {
-            case 0: return controller.exerciseCell(controller.session.exercises[indexPath.row], forIndexPath: indexPath)
-            case 1:
-                let group = controller.session.exerciseGroups[indexPath.row]
-                let text = NSLocalizedString(group, comment: "\(group) exercise group").localizedCapitalizedString
-                return controller.textCell(text, forIndexPath: indexPath)
-            case 2:
-                let text = NSLocalizedString("nothing", comment: "nothing (slacking)").localizedCapitalizedString
-                return controller.textCell(text, forIndexPath: indexPath)
-            default: fatalError("Match error")
-            }
-        }
-        
-        func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? MRExerciseTableViewCell,
-                let e = cell.exercise {
-                    controller.changeState(.ExerciseSelected(start: start, duration: duration, exercise: e))
-            }
-            if indexPath.section == 1 {
-                let group = controller.session.exerciseGroups[indexPath.row]
-                controller.changeState(.ExerciseGroupSelected(start: start, duration: duration, group: group))
-                tableView.reloadData()
-            }
-            if indexPath.section == 2 { controller.popView() }
-        }
-    }
-    
-    ///
-    /// Table controller used when in .ExerciseGroupSelected state
-    ///
-    class GroupSelectedTableController: NSObject, MRTableController {
-        
-        let controller: MRExercisingViewController
-        let group: String
-        let start: NSDate
-        let duration: NSTimeInterval
-        
-        init(controller: MRExercisingViewController, start: NSDate, duration: NSTimeInterval, group: String) {
-            self.controller = controller
-            self.start = start
-            self.duration = duration
-            self.group = group
-        }
-        
-        func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-            return 2
-        }
-        
-        func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            switch section {
-            case 0: return controller.session.exercisesInGroup(group).count
-            case 1: return 1
-            default: fatalError("Match error")
-            }
-        }
-        
-        func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-            switch indexPath.section {
-            case 0: return MRExerciseTableViewCell.height
-            case 1: return MRExercisingViewController.cellHeight
-            default: fatalError("Match error")
-            }
-        }
-        
-        func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-            switch indexPath.section {
-            case 0: return controller.exerciseCell(controller.session.exercisesInGroup(group)[indexPath.row], forIndexPath: indexPath)
-            case 1:
-                let text = NSLocalizedString("something else", comment: "something else (another exercise)").localizedCapitalizedString
-                return controller.textCell(text, forIndexPath: indexPath)
-            default: fatalError("Match error")
-            }
-        }
-        
-        func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? MRExerciseTableViewCell,
-                let e = cell.exercise {
-                    controller.changeState(.ExerciseSelected(start: start, duration: duration, exercise: e))
-            }
-            if indexPath.section == 1 {
-                controller.changeState(.Done(start: start, duration: duration, labelling: true))
-            }
-        }
-    }
-    
-    ///
-    /// Table controller used when in .Exercising state
-    ///
-    class InExerciseTableController: NSObject, MRTableController {
-        
-        let controller: MRExercisingViewController
-        
-        init(controller: MRExercisingViewController) {
-            self.controller = controller
-        }
-        
-        func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-            return 1
-        }
-        
-        func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return controller.session.exercises.count
-        }
-        
-        func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-            return MRExerciseTableViewCell.height
-        }
-        
-        func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-            return controller.exerciseCell(controller.session.exercises[indexPath.row], forIndexPath: indexPath)
-        }
-        
-        func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-            
-        }
-        
-    }
-}
 
-protocol MRTableController: UITableViewDataSource, UITableViewDelegate { }
+}

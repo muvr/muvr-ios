@@ -49,7 +49,7 @@ protocol MRApp {
     /// - parameter model: the model identity
     /// - returns: the exercise ids
     ///
-    func exerciseIds(model model: MKExerciseModelId) -> [MKExerciseId]
+    func exerciseIds(inModel model: MKExerciseModelId) -> [MKExerciseId]
     
 }
 
@@ -148,7 +148,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// - parameter model: the model identity
     /// - returns: the unordered array of exercise ids
     ///
-    func exerciseIds(model model: MKExerciseModelId) -> [MKExerciseId] {
+    func exerciseIds(inModel model: MKExerciseModelId) -> [MKExerciseId] {
         let locationExerciseIds = currentLocation?.exerciseIds ?? []
         let modelExerciseIds = modelStore.exerciseIds(model: model)
         
@@ -200,16 +200,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         } catch let e {
             NSLog(":( \(e)")
         }
-        
-        // load today's sessions
-        MRManagedExerciseSession.sessionsOnDate(NSDate(), inManagedObjectContext: managedObjectContext).forEach{ session in
-            self.sessions.append(session)
-            if session.end == nil {
-                // show active session
-                presentSessionControllerForSession(session)
-            }
-        }
-        
+                
         return true
     }
     

@@ -1,4 +1,5 @@
 import UIKit
+import MuvrKit
 import Charts
 
 class MRHomeViewController : UIViewController, ChartViewDelegate {
@@ -8,7 +9,7 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
 
     private var averages: [MRManagedClassifiedExercise.Average] = []
 
-    private var exerciseIdPrefix: String?
+    private var exerciseType: MKExerciseType?
     private var transform: MRManagedClassifiedExercise.Average -> Double = { Double($0.count) }
 
     override func viewDidLoad() {
@@ -32,7 +33,7 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, exerciseIdPrefix: exerciseIdPrefix)
+        averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, forExerciseType: exerciseType)
         reloadAveragesChart()
     }
     
@@ -54,8 +55,8 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
     
     @IBAction
     func resetExerciseIdPrefix() {
-        exerciseIdPrefix = nil
-        averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, exerciseIdPrefix: exerciseIdPrefix)
+        exerciseType = nil
+        averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, forExerciseType: exerciseType)
         pieChartBackButton.hidden = true
         reloadAveragesChart()
     }
@@ -75,12 +76,14 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
     }
     
     func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight) {
+        /*
         if let exerciseId = entry.data as? String where exerciseIdPrefix == nil {
             exerciseIdPrefix = exerciseId + "/"
             pieChartBackButton.hidden = false
             averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, exerciseIdPrefix: exerciseIdPrefix)
             reloadAveragesChart()
         }
+        */
     }
     
 }

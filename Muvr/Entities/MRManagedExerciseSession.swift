@@ -7,7 +7,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     private var currentClassificationHint: MKClassificationHint?
     /// The estimated exercises
     var estimated: [MKClassifiedExercise] = []
-    
+        
     ///
     /// The list of exercises the user is likely to be doing
     ///
@@ -20,27 +20,12 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
             return plannedExercises
         }
     }
-    
-    var exerciseGroups: [String] {
-        let groups = MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId).map {
-            return $0.componentsSeparatedByString("/")[0]
-        }
-        return Array(Set(groups)).sort()
-    }
-    
-    func exercisesInGroup(group: String) -> [MKIncompleteExercise] {
-        return MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId)
-            .filter { $0.componentsSeparatedByString("/")[0] == group }
-            .map { exerciseId in
-                return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 0)
-            }
-    }
-    
+        
     ///
     /// The list of exercises that the user has most likely just finished doing
     ///
     var plannedExercises: [MKIncompleteExercise] {
-        return plan.nextExercises.map { exerciseId in
+        return plan.next.map { exerciseId in
             return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
         }
     }
@@ -49,10 +34,10 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     /// The other exercises that the user was probably not doing
     ///
     var unplannedExercises: [MKIncompleteExercise] {
-        let modelExercises = MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId)
-        let planExercises = plan.nextExercises
-        return modelExercises.filter { me in
-            return !planExercises.contains { pe in pe == me }
+        // let modelExercises = MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId)
+        let planExerciseIds = plan.next
+        return allExerciseIds.filter { me in
+            return !planExerciseIds.contains { pe in pe == me }
         }.sort { (l, r) in
             l < r
         }.map { exerciseId in
@@ -71,7 +56,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     /// The list of exercises that the user is most likely currently doing
     ///
     private var currentExercises: [MKIncompleteExercise] {
-        let planExercises = plan.nextExercises
+        let planExercises = plan.next
         
         return (estimated.map { $0 as MKIncompleteExercise }) + planExercises.map { exerciseId in
             return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
@@ -126,7 +111,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
         l.cdRepetitions = label.repetitions ?? 0
         l.cdWeight = label.weight ?? 0
 
-        plan.addExercise(label.exerciseId)
+        plan.insert(label.exerciseId)
         currentClassificationHint = nil
     }
     

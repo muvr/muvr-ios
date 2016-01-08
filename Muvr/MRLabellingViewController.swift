@@ -16,8 +16,7 @@ class MRLabellingViewController : UIViewController {
     var duration: NSTimeInterval!
     
     override func viewDidAppear(animated: Bool) {
-        let formatter = MRExerciseIdFormatter(style: .Short)
-        title = formatter.format(exercise.exerciseId).localizedCapitalizedString
+        title = exercise.title
     }
     
     @IBAction func onDone(sender: AnyObject) {

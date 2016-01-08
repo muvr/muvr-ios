@@ -23,8 +23,7 @@ class MRExerciseTableViewCell : UITableViewCell {
     /// - parameter lastExercise: the last completed exercise of the same id
     ///
     func setExercise(exercise: MKIncompleteExercise, lastExercise: MKExercise?) {
-        let formatter = MRExerciseIdFormatter(style: .Short)
-        exerciseLabel.text = formatter.format(exercise.exerciseId).localizedCapitalizedString
+        exerciseLabel.text = exercise.title
         
         let nbFormatter = NSNumberFormatter()
         repetitionsLabel.text = exercise.repetitions.flatMap { reps in nbFormatter.stringFromNumber(NSNumber(int: reps)) } ?? ""

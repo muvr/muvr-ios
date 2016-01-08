@@ -34,7 +34,7 @@ public class MKExercisePlan<E : Hashable> {
     ///
     /// - parameter exercise: the completed exercise
     ///
-    public func addExercise(exercise: E) {
+    public func insert(exercise: E) {
         chain.addTransition(states, next: exercise)
         states.addState(exercise)
         states.trim(statesCount)
@@ -44,7 +44,7 @@ public class MKExercisePlan<E : Hashable> {
     /// Returns the list of next exercises for the current state of the plan, or [] if no
     /// exercises are known yet.
     ///
-    public var nextExercises: [E] {
+    public var next: [E] {
         return uniq(chain.transitionProbabilities(states).sort { l, r in l.1 > r.1 }.map { $0.0 })
     }
     

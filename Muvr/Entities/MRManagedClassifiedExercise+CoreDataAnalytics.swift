@@ -14,8 +14,6 @@ extension MRManagedClassifiedExercise {
     /// repetitions, weight and duration.
     ///
     struct Average {
-        /// The exercise id (or part of the exercise id)
-        let exerciseId: MKExerciseId
         /// The number of entries that make up the average
         let count: Int
 
@@ -33,8 +31,8 @@ extension MRManagedClassifiedExercise {
         /// - parameter exerciseId: the exercise id
         /// - returns: the 0 element
         ///
-        static func zero(exerciseId: MKExerciseId) -> Average {
-            return Average(exerciseId: exerciseId, count: 0, averageIntensity: 0, averageRepetitions: 0, averageWeight: 0, averageDuration: 0)
+        static func zero() -> Average {
+            return Average(count: 0, averageIntensity: 0, averageRepetitions: 0, averageWeight: 0, averageDuration: 0)
         }
         
         ///
@@ -43,9 +41,7 @@ extension MRManagedClassifiedExercise {
         /// - returns: self + that
         ///
         private func plus(that: Average) -> Average {
-            assert(that.exerciseId == self.exerciseId)
-            
-            return Average(exerciseId: exerciseId,
+            return Average(
                 count: count + that.count,
                 averageIntensity: averageIntensity + that.averageIntensity,
                 averageRepetitions: averageRepetitions + that.averageRepetitions,
@@ -60,7 +56,7 @@ extension MRManagedClassifiedExercise {
         /// - returns: the updated value
         ///
         private func divideBy(const: Double) -> Average {
-            return Average(exerciseId: exerciseId,
+            return Average(
                 count: count,
                 averageIntensity: averageIntensity / const,
                 averageRepetitions: Int(Double(averageRepetitions) / const),
@@ -95,21 +91,11 @@ extension MRManagedClassifiedExercise {
         return expr
     }
     
-    ///
-    /// TODO: this is a bit odd. It would be best to define MKExerciseId a full
-    /// TODO: type, not just typealias, and then add this to the new type.
-    ///
-    /// Returns a component of the exerciseId at the given index
-    /// - parameter index: the index 0..(number of slashes)
-    /// - parameter exerciseId: the exercise id
-    /// - returns: the element at the given index
-    ///
-    private static func componentAt(index: Int, exerciseId: String) -> String? {
-        let components = exerciseId.componentsSeparatedByString("/")
-        if index >= 0 && index < components.count { return components[index] }
-        return nil
+    enum AggregateKey {
+        case Everything
+        case Type(type: MKExerciseType)
     }
-
+    
     ///
     /// Computes the averages for the ``MRManagedClassifiedExercise`` in the given ``managedObjectContext``,
     /// whose ``exerciseId`` starts with ``exerciseIdPrefix``, dropping the ``exerciseIdPrefix`` from the
@@ -118,7 +104,7 @@ extension MRManagedClassifiedExercise {
     /// - parameter exerciseIdPrefix: the exercise id prefix to match (i.e. back/, arms/)
     /// - returns: the average for the last 100 sessions
     ///
-    static func averages(inManagedObjectContext managedObjectContext: NSManagedObjectContext, exerciseIdPrefix: String?) -> [Average] {
+    static func averages(inManagedObjectContext managedObjectContext: NSManagedObjectContext, forExerciseType type: MKExerciseType?) -> [Average] {
         let fetchLimit = 100
         let entity = NSEntityDescription.entityForName("MRManagedClassifiedExercise", inManagedObjectContext: managedObjectContext)
         let exerciseId = entity!.propertiesByName["exerciseId"]!
@@ -126,23 +112,20 @@ extension MRManagedClassifiedExercise {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedClassifiedExercise")
         fetchRequest.propertiesToFetch = [exerciseId, countByEntity, averageFor("duration"), averageFor("cdWeight"), averageFor("cdIntensity"), averageFor("cdRepetitions")]
         fetchRequest.propertiesToGroupBy = [exerciseId]
-        if var exerciseIdPrefix = exerciseIdPrefix where !exerciseIdPrefix.isEmpty {
-            if exerciseIdPrefix.characters.last! != "/" {
-                exerciseIdPrefix = exerciseIdPrefix + "/"
-            }
-            fetchRequest.predicate = NSPredicate(format: "exerciseId LIKE %@", exerciseIdPrefix + "*")
+        if let type = type {
+            let predicates = type.prefixes.map { NSPredicate(format: "exerciseId LIKE %@", $0 + "*") }
+            fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
         }
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "exerciseSession.start", ascending: false)]
         fetchRequest.resultType = NSFetchRequestResultType.DictionaryResultType
         fetchRequest.fetchLimit = fetchLimit
         
-        // exerciseIdComponentIndex is the number of "/" in ``exerciseIdPrefix`` if given or 0
-        let exerciseIdComponentIndex = exerciseIdPrefix.map { $0.characters.reduce(0) { r, c in if c == "/" { return r + 1 } else { return r } } } ?? 0
-        
         if let result = (try? managedObjectContext.executeFetchRequest(fetchRequest)) as? [NSDictionary] {
             var averages: [MKExerciseId : [Average]] = [:]
             for entry in result {
-                if let exerciseId = componentAt(exerciseIdComponentIndex, exerciseId: entry["exerciseId"] as! String) {
+                let exerciseId = entry["exerciseId"] as! String
+                let matches = type.map { $0.containsExerciseId(exerciseId) } ?? true
+                if matches {
                     let average = Average(
                         exerciseId: exerciseId,
                         count: (entry["count"] as! NSNumber).integerValue,

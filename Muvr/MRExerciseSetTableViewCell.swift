@@ -13,8 +13,7 @@ class MRExerciseSetTableViewCell : UITableViewCell {
         assert(!set.isEmpty, "The set cannot be empty")
         set.forEach { x in assert(x.exerciseId == set.first!.exerciseId, "The set must be all same exercise ids") }
         
-        let formatter = MRExerciseIdFormatter(style: .Long)
-        exerciseLabel.text = formatter.format(set.first!.exerciseId).localizedCapitalizedString
+        exerciseLabel.text = set.first!.title
         setSizeLabel.text = String.localizedStringWithFormat(NSLocalizedString("%d set(s)", comment: "number of sets"), set.count)
         stacksView.empty()
         set.forEach { exercise in
