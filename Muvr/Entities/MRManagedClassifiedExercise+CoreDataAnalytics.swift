@@ -91,9 +91,24 @@ extension MRManagedClassifiedExercise {
         return expr
     }
     
-    enum AggregateKey {
-        case Everything
-        case Type(type: MKExerciseType)
+    enum Aggregate {
+        case Types
+        case MuscleGroups(inType: MKExerciseType)
+        case Exercises(inMuscleGroup: MKMuscleGroup)
+    }
+    
+    enum Key : Hashable {
+        case Tpe(type: MKExerciseType)
+        case MuscleGroup(muscleGroup: MKMuscleGroup)
+        case Exercise(id: MKExerciseId)
+        
+        var hashValue: Int {
+            switch self {
+            case .Tpe(let type): return type.hashValue
+            case .MuscleGroup(let muscleGroup): return Int.multiplyWithOverflow(17, muscleGroup.hashValue).0
+            case .Exercise(let exerciseId): return Int.multiplyWithOverflow(31, exerciseId.hashValue).0
+            }
+        }
     }
     
     ///
@@ -104,7 +119,7 @@ extension MRManagedClassifiedExercise {
     /// - parameter exerciseIdPrefix: the exercise id prefix to match (i.e. back/, arms/)
     /// - returns: the average for the last 100 sessions
     ///
-    static func averages(inManagedObjectContext managedObjectContext: NSManagedObjectContext, forExerciseType type: MKExerciseType?) -> [Average] {
+    static func averages(inManagedObjectContext managedObjectContext: NSManagedObjectContext, aggregate: Aggregate) -> [(Key, Average)] {
         let fetchLimit = 100
         let entity = NSEntityDescription.entityForName("MRManagedClassifiedExercise", inManagedObjectContext: managedObjectContext)
         let exerciseId = entity!.propertiesByName["exerciseId"]!
@@ -112,39 +127,52 @@ extension MRManagedClassifiedExercise {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedClassifiedExercise")
         fetchRequest.propertiesToFetch = [exerciseId, countByEntity, averageFor("duration"), averageFor("cdWeight"), averageFor("cdIntensity"), averageFor("cdRepetitions")]
         fetchRequest.propertiesToGroupBy = [exerciseId]
-        if let type = type {
-            let predicates = type.prefixes.map { NSPredicate(format: "exerciseId LIKE %@", $0 + "*") }
-            fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+        switch aggregate {
+        case .Exercises(let muscleGroup):
+            // exerciseId LIKE *:%@*
+            NSLog("xxx")
+        case .MuscleGroups(let type):
+            // exerciseId LIKE %@:*
+            NSLog("xxx")
+        case .Types:
+            NSLog("xxx")
         }
+        
+        var keyExtractor: MKExerciseId -> Key = { _ in return Key.Tpe(type: MKExerciseType.ResistanceWholeBody) }
+        
+//        if let type = type {
+//            let predicates = type.prefixes.map { NSPredicate(format: "exerciseId LIKE %@", $0 + "*") }
+//            fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+//        }
+        
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "exerciseSession.start", ascending: false)]
         fetchRequest.resultType = NSFetchRequestResultType.DictionaryResultType
         fetchRequest.fetchLimit = fetchLimit
         
         if let result = (try? managedObjectContext.executeFetchRequest(fetchRequest)) as? [NSDictionary] {
-            var averages: [MKExerciseId : [Average]] = [:]
+            var averages: [Key : [Average]] = [:]
             for entry in result {
                 let exerciseId = entry["exerciseId"] as! String
-                let matches = type.map { $0.containsExerciseId(exerciseId) } ?? true
-                if matches {
-                    let average = Average(
-                        count: (entry["count"] as! NSNumber).integerValue,
-                        averageIntensity: (entry["cdIntensity"] as? NSNumber)?.doubleValue ?? 0,
-                        averageRepetitions: (entry["cdRepetitions"] as! NSNumber).integerValue,
-                        averageWeight: (entry["cdWeight"] as? NSNumber)?.doubleValue ?? 0,
-                        averageDuration: (entry["duration"] as? NSNumber)?.doubleValue ?? 0
-                    )
-                    
-                    if let existingAverages = averages[exerciseId] {
-                        averages[exerciseId] = existingAverages + [average]
-                    } else {
-                        averages[exerciseId] = [average]
-                    }
+                let key = keyExtractor(exerciseId)
+
+                let average = Average(
+                    count: (entry["count"] as! NSNumber).integerValue,
+                    averageIntensity: (entry["cdIntensity"] as? NSNumber)?.doubleValue ?? 0,
+                    averageRepetitions: (entry["cdRepetitions"] as! NSNumber).integerValue,
+                    averageWeight: (entry["cdWeight"] as? NSNumber)?.doubleValue ?? 0,
+                    averageDuration: (entry["duration"] as? NSNumber)?.doubleValue ?? 0
+                )
+                
+                if let existingAverages = averages[key] {
+                    averages[key] = existingAverages + [average]
+                } else {
+                    averages[key] = [average]
                 }
             }
-            return averages.values.map { averages in
+            return averages.map { k, averages in
                 let z = Average.zero()
                 let reduced = averages.reduce(z) { $0.plus($1) }
-                return reduced.divideBy(Double(averages.count))
+                return (k, reduced.divideBy(Double(averages.count)))
             }
         }
         
@@ -152,3 +180,13 @@ extension MRManagedClassifiedExercise {
     }
 
 }
+
+func ==(lhs: MRManagedClassifiedExercise.Key, rhs: MRManagedClassifiedExercise.Key) -> Bool {
+    switch (lhs, rhs) {
+    case (.Exercise(let l), .Exercise(let r)): return l == r
+    case (.MuscleGroup(let l), .MuscleGroup(let r)): return l == r
+    case (.Tpe(let l), .Tpe(let r)): return l == r
+    default: return false
+    }
+}
+

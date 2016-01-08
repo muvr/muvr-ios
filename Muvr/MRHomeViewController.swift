@@ -7,7 +7,7 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var pieChartBackButton: UIButton!
 
-    private var averages: [MRManagedClassifiedExercise.Average] = []
+    private var averages: [(MRManagedClassifiedExercise.Key, MRManagedClassifiedExercise.Average)] = []
 
     private var exerciseType: MKExerciseType?
     private var transform: MRManagedClassifiedExercise.Average -> Double = { Double($0.count) }
@@ -33,16 +33,16 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, forExerciseType: exerciseType)
+        averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, aggregate: .Types)
         reloadAveragesChart()
     }
     
     private func reloadAveragesChart() {
         var ys: [BarChartDataEntry] = []
         var xs: [String] = []
-        for (index, average) in averages.enumerate() {
+        for (index, (key, average)) in averages.enumerate() {
             ys.append(BarChartDataEntry(value: transform(average), xIndex: index, data: nil))
-            xs.append("\(index)")
+            xs.append("\(key)")
         }
         let dataSet = PieChartDataSet(yVals: ys)
         dataSet.colors = ChartColorTemplates.colorful() + ChartColorTemplates.joyful()
@@ -56,7 +56,7 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
     @IBAction
     func resetExerciseIdPrefix() {
         exerciseType = nil
-        averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, forExerciseType: exerciseType)
+        averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, aggregate: .Types)
         pieChartBackButton.hidden = true
         reloadAveragesChart()
     }

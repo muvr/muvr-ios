@@ -34,9 +34,9 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     /// The other exercises that the user was probably not doing
     ///
     var unplannedExercises: [MKIncompleteExercise] {
-        // let modelExercises = MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId)
+        let modelExerciseIds = MRAppDelegate.sharedDelegate().exerciseIds(inModel: exerciseModelId)
         let planExerciseIds = plan.next
-        return allExerciseIds.filter { me in
+        return modelExerciseIds.filter { me in
             return !planExerciseIds.contains { pe in pe == me }
         }.sort { (l, r) in
             l < r
