@@ -15,16 +15,16 @@ extension MKMuscleGroup {
         }
     }
 
-    /// Defines the exercise id prefix
-    var prefix: String {
-        switch self {
-        case .Arms: return "arms"
-        case .Back: return "back"
-        case .Chest: return "chest"
-        case .Core: return "core"
-        case .Legs: return "legs"
-        case .Shoulders: return "shoulders"
-        }
-    }
+//    /// Defines the exercise id prefix
+//    var prefix: String {
+//        switch self {
+//        case .Arms: return "arms"
+//        case .Back: return "back"
+//        case .Chest: return "chest"
+//        case .Core: return "core"
+//        case .Legs: return "legs"
+//        case .Shoulders: return "shoulders"
+//        }
+//    }
     
 }

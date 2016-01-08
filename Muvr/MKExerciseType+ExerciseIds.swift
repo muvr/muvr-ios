@@ -17,20 +17,19 @@ extension MKExerciseType {
         }
     }
     
-    var prefixes: [String] {
-        switch self {
-        // case .Cardio: return ["cardio/"]
-        case .ResistanceTargeted(let muscleGroups): return muscleGroups.map { "\(MKExerciseType.resistanceTargeted)/\($0.prefix)" }
-        case .ResistanceWholeBody: return ["\(MKExerciseType.resistanceTargeted)//" ]
-        }
-    }
-    
-    func containsExerciseId(id: MKExerciseId) -> Bool {
-        for prefix in prefixes {
-            if id.hasPrefix(prefix) { return true }
-        }
-        return false
-    }
+//    var prefixes: [String] {
+//        switch self {
+//        case .Cardio: return ["cardio:"]
+//        case .ResistanceTargeted(let muscleGroups): return muscleGroups.map { "\(MKExerciseType.resistanceTargeted)/\($0.prefix)" }
+//        case .ResistanceWholeBody: return ["\(MKExerciseType.resistanceTargeted)//" ]
+//        }
+//    }
+//    
+//    func containsExerciseId(id: MKExerciseId) -> Bool {
+//        for prefix in prefixes {
+//            if id.hasPrefix(prefix) { return true }
+//        }
+//        return false
+//    }
     
 }
-
