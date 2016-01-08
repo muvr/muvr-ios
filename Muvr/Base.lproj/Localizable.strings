@@ -29,19 +29,19 @@
 /* arms session */
 "arms-session" = "gym";
 
-/* shoulders exercise group */
-"shoulders" = "shoulders";
-/* arms exercise group */
-"arms" = "arms";
-/* core exercise group */
-"core" = "core";
-/* back exercise group */
-"back" = "back";
-/* chest exercise group */
-"chest" = "chest";
-/* legs exercise group */
-"legs" = "legs";
-/* cardio exercise group */
+/* MKExerciseType keys */
+"MKExerciseType.cardio" = "cardio";
+"MKExerciseType.resistanceTargeted" = "resistance";
+"MKExerciseType.resistanceWholeBody" = "whole body";
+
+/* MKMuscleGroup keys */
+"MKMuscleGroup.shoulders" = "shoulders";
+"MKMuscleGroup.arms" = "arms";
+"MKMuscleGroup.core" = "core";
+"MKMuscleGroup.back" = "back";
+"MKMuscleGroup.chest" = "chest";
+"MKMuscleGroup.legs" = "legs";
+
 "cardio" = "cardio";
 /* whole-body exercise group */
 "whole-body" = "whole body";

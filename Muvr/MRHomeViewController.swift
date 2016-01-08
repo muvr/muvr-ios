@@ -9,6 +9,7 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
 
     private var averages: [(MRManagedClassifiedExercise.Key, MRManagedClassifiedExercise.Average)] = []
 
+    private var aggregate: MRManagedClassifiedExercise.Aggregate = .MuscleGroups(inType: .ResistanceTargeted)
     private var exerciseType: MKExerciseType?
     private var transform: MRManagedClassifiedExercise.Average -> Double = { Double($0.count) }
 
@@ -33,7 +34,7 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, aggregate: .Types)
+        averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, aggregate: aggregate)
         reloadAveragesChart()
     }
     
@@ -42,7 +43,7 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
         var xs: [String] = []
         for (index, (key, average)) in averages.enumerate() {
             ys.append(BarChartDataEntry(value: transform(average), xIndex: index, data: nil))
-            xs.append("\(key)")
+            xs.append(key.title)
         }
         let dataSet = PieChartDataSet(yVals: ys)
         dataSet.colors = ChartColorTemplates.colorful() + ChartColorTemplates.joyful()
@@ -56,7 +57,7 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
     @IBAction
     func resetExerciseIdPrefix() {
         exerciseType = nil
-        averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, aggregate: .Types)
+        averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, aggregate: aggregate)
         pieChartBackButton.hidden = true
         reloadAveragesChart()
     }

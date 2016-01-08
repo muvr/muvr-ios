@@ -17,9 +17,9 @@ extension MRAppDelegate  {
     ///
     private func exerciseIds() -> [String] {
         return [
-            "arms/biceps-curl", "arms/triceps-extension", "shoulders/lateral-raise", "legs/squat",
-            "back/barbell-row", "core/oblique-crunches", "back/back-extensions", "core/suitcase-crunches",
-            "core/side-dips", "core/crunches", "arms/reverse-cable-curl", "chest/dumbbell-flyes"
+            "resistanceTargeted:arms/biceps-curl", "resistanceTargeted:arms/triceps-extension", "resistanceTargeted:shoulders/lateral-raise", "resistanceTargeted:legs/squat",
+            "resistanceTargeted:back/barbell-row", "resistanceTargeted:core/oblique-crunches", "resistanceTargeted:back/back-extensions", "resistanceTargeted:core/suitcase-crunches",
+            "resistanceTargeted:core/side-dips", "resistanceTargeted:core/crunches", "resistanceTargeted:arms/reverse-cable-curl", "resistanceTargeted:chest/dumbbell-flyes"
         ]
     }
     
