@@ -25,11 +25,12 @@ class MRExerciseTableViewCell : UITableViewCell {
     func setExercise(exercise: MKIncompleteExercise, lastExercise: MKExercise?) {
         exerciseLabel.text = exercise.title
         
-        let nbFormatter = NSNumberFormatter()
-        repetitionsLabel.text = exercise.repetitions.flatMap { reps in nbFormatter.stringFromNumber(NSNumber(int: reps)) } ?? ""
-        intensityLabel.text = exercise.intensity.flatMap { intensity in
+        repetitionsLabel.text = exercise.repetitions.map { reps in
+            return String.localizedStringWithFormat(NSLocalizedString("%d rep(s)", comment: "number of reps"), reps)
+        } ?? ""
+        intensityLabel.text = exercise.intensity.map { intensity in
             let percent = Int32(round(intensity * 100))
-            return nbFormatter.stringFromNumber(NSNumber(int: percent))
+            return String.localizedStringWithFormat(NSLocalizedString("%d %%", comment: "intensity percentage"), percent)
         } ?? ""
         weightLabel.text = exercise.weight.map { kg in
             let formatter = NSMassFormatter()

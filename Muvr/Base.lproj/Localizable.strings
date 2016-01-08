@@ -19,9 +19,10 @@
 "done" = "done";
 /* exercise ticked */
 "✓" = "✓";
+/* percentage */
+"%d %%" = "%d %%";
 /* session type at location */
 "%@ at %@" = "%1$@ at %2$@";
-
 /* exercise with group format */
 "%@ - %@" = "%1$@ - %2$@";
 
@@ -42,9 +43,9 @@
 "legs" = "legs";
 /* cardio exercise group */
 "cardio" = "cardio";
-
 /* whole-body exercise group */
 "whole-body" = "whole body";
+
 /* dumbbell-shoulder-press exercise */
 "dumbbell-shoulder-press" = "dumbbell shoulder press";
 /* dumbbell-bench-press exercise */
