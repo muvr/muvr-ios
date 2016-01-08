@@ -60,7 +60,11 @@ class MRExerciseModelStore: MKExerciseModelSource {
     private static var downloadedModels: [MKExerciseModelId: MRExerciseModel] {
         let fileManager = NSFileManager.defaultManager()
         guard let dir = supportDir else { return [:]}
-    
+        if let path = dir.path where !fileManager.fileExistsAtPath(path) {
+            // directory doesn't exists, create it
+            do { try fileManager.createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil) }
+            catch let e { NSLog("Failed to create support dir - won't be able to download new models: \(e)") }
+        }
         guard let modelUrls = try? fileManager.contentsOfDirectoryAtURL(dir, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions.SkipsHiddenFiles)
         else { return [:] }
         
