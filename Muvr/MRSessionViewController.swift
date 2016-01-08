@@ -41,10 +41,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationDidObtain:", name: MRNotifications.LocationDidObtain.rawValue, object: nil)
-        if let objectId = session?.objectID {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidComplete", name: MRNotifications.SessionDidComplete.rawValue, object: objectId)
-        }
         tableView.reloadData()
         if let session = session where !session.completed && NSDate().timeIntervalSinceDate(session.start) < 24*60*60 {
             timedView.hidden = false
@@ -79,15 +75,6 @@ class MRSessionViewController : UIViewController, UITableViewDataSource {
         tableView.reloadData()
     }
     
-    func sessionDidEnd() {
-        timedView.hidden = true
-        navigationController?.popToRootViewControllerAnimated(true)
-    }
-    
-    func sessionDidComplete() {
-        timedView.hidden = true
-    }
-        
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 //        if let lc = segue.destinationViewController as? MRLabelViewController, let session = sender as? MRManagedExerciseSession {
 //            lc.session = session

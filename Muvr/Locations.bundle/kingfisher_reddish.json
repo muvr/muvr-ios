@@ -5,6 +5,7 @@
     "name":"Kingfisher Health Club",
     "labels":[
         {"exerciseId":"arms/biceps-curl", "minWeight":2.5, "weightIncrement":2.5},
-        {"exerciseId":"shoulders/shrugs", "minWeight":2.5, "weightIncrement":2.5}
+        {"exerciseId":"shoulders/shrugs", "minWeight":2.5, "weightIncrement":2.5},
+        {"exerciseId":"chest/angled-chest-press"}
     ]
 }

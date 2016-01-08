@@ -16,7 +16,11 @@ extension MRAppDelegate  {
     /// Comments
     ///
     private func exerciseIds() -> [String] {
-        return ["arms/biceps-curl", "arms/triceps-extension", "shoulders/lateral-raise"]
+        return [
+            "arms/biceps-curl", "arms/triceps-extension", "shoulders/lateral-raise", "legs/squat",
+            "back/barbell-row", "core/oblique-crunches", "back/back-extensions", "core/suitcase-crunches",
+            "core/side-dips", "core/crunches", "arms/reverse-cable-curl", "chest/dumbbell-flyes"
+        ]
     }
     
     private func generateSessionData(date date: NSDate) {
@@ -24,24 +28,24 @@ extension MRAppDelegate  {
         func generateClassifiedExercise(date date: NSDate, session: MRManagedExerciseSession, index: Int) {
             let exercise = MRManagedClassifiedExercise.insertNewObject(inManagedObjectContext: managedObjectContext)
             exercise.confidence = 1
-            exercise.exerciseId = exerciseIds()[index % 3]
+            exercise.exerciseId = exerciseIds()[index % exerciseIds().count]
             exercise.exerciseSession = session
-            exercise.duration = 12
+            exercise.duration = 20 + NSTimeInterval(arc4random() % 30)
             exercise.cdIntensity = 1
-            exercise.cdRepetitions = 10
-            exercise.cdWeight = 10
+            exercise.cdRepetitions = 5 + Int(arc4random() % 10)
+            exercise.cdWeight = Double(arc4random() % 50)
             exercise.start = date.addSeconds(index * 60)
         }
         
         func generateLabelledExercise(date date: NSDate, session: MRManagedExerciseSession, index: Int) {
             let exercise = MRManagedLabelledExercise.insertNewObject(into: session, inManagedObjectContext: managedObjectContext)
             exercise.start = date.addSeconds(index * 60)
-            exercise.duration = 30
-            exercise.exerciseId = exerciseIds()[index % 3]
+            exercise.duration = 20 + NSTimeInterval(arc4random() % 30)
+            exercise.exerciseId = exerciseIds()[index % exerciseIds().count]
             exercise.exerciseSession = session
             exercise.cdIntensity = 1
-            exercise.cdWeight = 2
-            exercise.cdRepetitions = 15
+            exercise.cdWeight = Double(arc4random() % 50)
+            exercise.cdRepetitions = 5 + Int(arc4random() % 10)
         }
         
 
@@ -52,7 +56,7 @@ extension MRAppDelegate  {
         session.completed = true
         session.uploaded = true
         
-        (0..<10).forEach { i in generateClassifiedExercise(date: date, session: session, index: i) }
+        (0..<30).forEach { i in generateClassifiedExercise(date: date, session: session, index: i) }
         // (0..<2).forEach { i in generateLabelledExercise(date: date, session: session, index: i) }
     }
     

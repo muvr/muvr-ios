@@ -37,14 +37,6 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     }
     
     ///
-    /// Local notification callback function intended to be used when the session starts.
-    /// - parameter notification: the details of the local notification
-    ///
-    func sessionDidStart(notification: NSNotification) {
-        performSegueWithIdentifier("exercise", sender: notification.object)
-    }
-    
-    ///
     /// Local notification callback function intended to be used when location is set.
     /// - parameter notification: the details of the local notification
     ///
@@ -86,7 +78,6 @@ class MRSessionsViewController : UIViewController, UIPageViewControllerDataSourc
     }
     
     override func viewDidAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidStart:", name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationDidObtain:", name: MRNotifications.LocationDidObtain.rawValue, object: nil)
     }
     
