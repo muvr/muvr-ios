@@ -127,7 +127,6 @@ extension MRManagedClassifiedExercise {
                 let matches = type.map { $0.containsExerciseId(exerciseId) } ?? true
                 if matches {
                     let average = Average(
-                        exerciseId: exerciseId,
                         count: (entry["count"] as! NSNumber).integerValue,
                         averageIntensity: (entry["cdIntensity"] as? NSNumber)?.doubleValue ?? 0,
                         averageRepetitions: (entry["cdRepetitions"] as! NSNumber).integerValue,
@@ -143,7 +142,7 @@ extension MRManagedClassifiedExercise {
                 }
             }
             return averages.values.map { averages in
-                let z = Average.zero(averages.first!.exerciseId)
+                let z = Average.zero()
                 let reduced = averages.reduce(z) { $0.plus($1) }
                 return reduced.divideBy(Double(averages.count))
             }
