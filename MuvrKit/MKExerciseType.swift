@@ -1,13 +1,18 @@
 import Foundation
 
+/// The exercise type
 public enum MKExerciseType : Equatable, Hashable {
         
     // case Cardio
-    
+
+    /// Whole-body resistance exercise, it targets all muscle groups
     case ResistanceWholeBody
     
+    /// Specific resistance exercise targeting the given ``muscleGroups``
+    /// - parameter muscleGroups: the muscle groups
     case ResistanceTargeted(muscleGroups: [MKMuscleGroup])
 
+    // Implements Hashable
     public var hashValue: Int {
         get {
             switch self {
@@ -21,7 +26,7 @@ public enum MKExerciseType : Equatable, Hashable {
     
 }
 
-
+// Implementation of Equatable
 public func ==(lhs: MKExerciseType, rhs: MKExerciseType) -> Bool {
     switch (lhs, rhs) {
     // case (.Cardio, .Cardio): return true

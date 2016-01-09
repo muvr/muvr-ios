@@ -144,6 +144,7 @@
 		54C5284E1C35688700341D2B /* MRTimedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54C5284D1C35688700341D2B /* MRTimedView.xib */; };
 		54C528501C358BE300341D2B /* MRExercisingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C5284F1C358BE300341D2B /* MRExercisingViewController.swift */; };
 		54C528521C359D9500341D2B /* MRExerciseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54C528511C359D9500341D2B /* MRExerciseTableViewCell.xib */; };
+		54C648851C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C648841C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift */; };
 		54CAADD21C39AF3000A7B0E6 /* MRManagedLocation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CAADCE1C39AF3000A7B0E6 /* MRManagedLocation+CoreDataProperties.swift */; };
 		54CAADD31C39AF3000A7B0E6 /* MRManagedLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CAADCF1C39AF3000A7B0E6 /* MRManagedLocation.swift */; };
 		54CAADD41C39AF3000A7B0E6 /* MRManagedLocationLabel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CAADD01C39AF3000A7B0E6 /* MRManagedLocationLabel+CoreDataProperties.swift */; };
@@ -200,7 +201,6 @@
 		642CBC9F1C1ED07F0043E5EE /* MRExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CBC9E1C1ED07F0043E5EE /* MRExerciseModel.swift */; };
 		642CBCA11C1ED0FF0043E5EE /* MRExerciseModel+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CBCA01C1ED0FF0043E5EE /* MRExerciseModel+Parsing.swift */; };
 		642CBCA31C1ED1D50043E5EE /* MRExerciseModelStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CBCA21C1ED1D50043E5EE /* MRExerciseModelStore.swift */; };
-		642CBCA51C1ED6E30043E5EE /* UIView+Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CBCA41C1ED6E30043E5EE /* UIView+Rotation.swift */; };
 		642CBCA71C1ED7D70043E5EE /* String+Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CBCA61C1ED7D70043E5EE /* String+Regex.swift */; };
 		642CBCA91C1ED9960043E5EE /* MRExerciseModelStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CBCA81C1ED9960043E5EE /* MRExerciseModelStoreTest.swift */; };
 		642CBCAB1C1EDA2E0043E5EE /* MRExerciseModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CBCAA1C1EDA2E0043E5EE /* MRExerciseModelTest.swift */; };
@@ -208,7 +208,6 @@
 		64655B7F1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */; };
 		647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */; };
 		6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */; };
-		64DC9FD71BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DC9FD61BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift */; };
 		64FB23BC1C3E899E005312C2 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
 		9D4A51491BE77BE70065BEF8 /* MKActivationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */; };
@@ -461,6 +460,7 @@
 		54C5284D1C35688700341D2B /* MRTimedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRTimedView.xib; sourceTree = "<group>"; };
 		54C5284F1C358BE300341D2B /* MRExercisingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisingViewController.swift; sourceTree = "<group>"; };
 		54C528511C359D9500341D2B /* MRExerciseTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRExerciseTableViewCell.xib; sourceTree = "<group>"; };
+		54C648841C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+CountRequest.swift"; sourceTree = "<group>"; };
 		54CAADCE1C39AF3000A7B0E6 /* MRManagedLocation+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedLocation+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		54CAADCF1C39AF3000A7B0E6 /* MRManagedLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedLocation.swift; sourceTree = "<group>"; };
 		54CAADD01C39AF3000A7B0E6 /* MRManagedLocationLabel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedLocationLabel+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -520,7 +520,6 @@
 		642CBC9E1C1ED07F0043E5EE /* MRExerciseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModel.swift; sourceTree = "<group>"; };
 		642CBCA01C1ED0FF0043E5EE /* MRExerciseModel+Parsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseModel+Parsing.swift"; sourceTree = "<group>"; };
 		642CBCA21C1ED1D50043E5EE /* MRExerciseModelStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModelStore.swift; sourceTree = "<group>"; };
-		642CBCA41C1ED6E30043E5EE /* UIView+Rotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Rotation.swift"; sourceTree = "<group>"; };
 		642CBCA61C1ED7D70043E5EE /* String+Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Regex.swift"; sourceTree = "<group>"; };
 		642CBCA81C1ED9960043E5EE /* MRExerciseModelStoreTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModelStoreTest.swift; sourceTree = "<group>"; };
 		642CBCAA1C1EDA2E0043E5EE /* MRExerciseModelTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModelTest.swift; sourceTree = "<group>"; };
@@ -528,7 +527,6 @@
 		64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRWorkoutSessionDelegate.swift; sourceTree = "<group>"; };
 		647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoderTests.swift; sourceTree = "<group>"; };
 		6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+DateUtils.swift"; sourceTree = "<group>"; };
-		64DC9FD61BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+CountRequest.swift"; sourceTree = "<group>"; };
 		64FB23BD1C3E899E005312C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
 		9D6D27AE1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKForwardPropagatorTests.swift; sourceTree = "<group>"; };
@@ -717,8 +715,6 @@
 				54477CFB1AF4E82E00F502EC /* Localizable.strings */,
 				549A30081BDD0BC6006A70EB /* Muvr.xcdatamodeld */,
 				6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */,
-				64DC9FD61BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift */,
-				642CBCA41C1ED6E30043E5EE /* UIView+Rotation.swift */,
 				541950781C38318600578FFD /* MRExercise.swift */,
 				54FEB1001C39844000EC5293 /* MRIncompleteExercise.swift */,
 				64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */,
@@ -776,6 +772,7 @@
 				54CAADD11C39AF3000A7B0E6 /* MRManagedLocationLabel.swift */,
 				54CAADD01C39AF3000A7B0E6 /* MRManagedLocationLabel+CoreDataProperties.swift */,
 				54CAADDA1C39B77900A7B0E6 /* MRManagedLocationLabel+JSON.swift */,
+				54C648841C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1509,7 +1506,6 @@
 				5437BD411C404A4000B518D9 /* MKGeneralExerciseType+Localisation.swift in Sources */,
 				641780D21C3C08C100B1FCCE /* MRLabellingViewController.swift in Sources */,
 				642CBC9F1C1ED07F0043E5EE /* MRExerciseModel.swift in Sources */,
-				64DC9FD71BE1310400C18060 /* NSManagedObjectContext+CountRequest.swift in Sources */,
 				543E90B21C26FF640050F87A /* Aws.swift in Sources */,
 				642CBCA71C1ED7D70043E5EE /* String+Regex.swift in Sources */,
 				543C9A181BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift in Sources */,
@@ -1521,9 +1517,9 @@
 				54CAADE01C39C87C00A7B0E6 /* MRManagedLocation+CoreDataOperations.swift in Sources */,
 				543C9A1B1BDD439B00291EC5 /* MRManagedClassifiedExercise.swift in Sources */,
 				54706F6C1BD6D89F005BABF0 /* MRSessionsViewController.swift in Sources */,
+				54C648851C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift in Sources */,
 				641780CE1C3BBB6F00B1FCCE /* MRStackView.swift in Sources */,
 				642363551C18A09600ABF4CA /* String+Digest.swift in Sources */,
-				642CBCA51C1ED6E30043E5EE /* UIView+Rotation.swift in Sources */,
 				544DE96E1C401C8100297C6B /* MKIncompleteExercise+Type.swift in Sources */,
 				549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */,
 				54CAADD91C39B52000A7B0E6 /* MRManagedLocation+JSON.swift in Sources */,
