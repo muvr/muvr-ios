@@ -67,9 +67,11 @@
                                             <constraint firstAttribute="height" constant="180" id="0KL-Iu-B9Z"/>
                                             <constraint firstAttribute="width" secondItem="rNW-SJ-6Dt" secondAttribute="height" multiplier="173:180" id="FW5-dN-WMH"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="Back"/>
                                         <connections>
-                                            <action selector="resetExerciseIdPrefix" destination="k9I-oM-iXu" eventType="touchUpInside" id="c5Y-KS-ngp"/>
+                                            <action selector="back" destination="k9I-oM-iXu" eventType="touchUpInside" id="Xhw-5d-HCN"/>
                                         </connections>
                                     </button>
                                 </subviews>

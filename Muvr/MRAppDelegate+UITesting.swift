@@ -17,9 +17,12 @@ extension MRAppDelegate  {
     ///
     private func exerciseIds() -> [String] {
         return [
-            "resistanceTargeted:arms/biceps-curl", "resistanceTargeted:arms/triceps-extension", "resistanceTargeted:shoulders/lateral-raise", "resistanceTargeted:legs/squat",
-            "resistanceTargeted:back/barbell-row", "resistanceTargeted:core/oblique-crunches", "resistanceTargeted:back/back-extensions", "resistanceTargeted:core/suitcase-crunches",
-            "resistanceTargeted:core/side-dips", "resistanceTargeted:core/crunches", "resistanceTargeted:arms/reverse-cable-curl", "resistanceTargeted:chest/dumbbell-flyes"
+            "resistanceTargeted:arms/biceps-curl", "resistanceTargeted:arms/triceps-extension", "resistanceTargeted:shoulders/lateral-raise", "resistanceTargeted:arms/reverse-cable-curl",
+            "resistanceTargeted:legs/squat", "resistanceTargeted:legs/lunges", "resistanceTargeted:legs/dumbbell-calf-raise",
+            "resistanceTargeted:back/barbell-row", "resistanceTargeted:back/back-extensions", "resistanceTargeted:back/lateral-pulldown-straight",
+            "resistanceTargeted:core/oblique-crunches", "resistanceTargeted:core/suitcase-crunches", "resistanceTargeted:core/side-dips", "resistanceTargeted:core/crunches",
+            "resistanceTargeted:chest/dumbbell-flyes", "resistanceTargeted:chest/angle-chest-press", "resistanceTargeted:chest/butterfly-machine",
+            "resistanceWholeBody:iron-cross",
         ]
     }
     

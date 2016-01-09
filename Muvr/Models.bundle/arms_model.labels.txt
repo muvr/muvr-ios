@@ -17,7 +17,7 @@ resistanceTargeted:arms/reverse-cable-curl
 resistanceTargeted:legs/lunges
 resistanceTargeted:core/cable-crossover
 resistanceTargeted:core/oblique-crunches
-resistanceWholebody:iron-cross
+resistanceWholeBody:iron-cross
 resistanceTargeted:legs/squat
 resistanceTargeted:arms/triceps-dips
 resistanceTargeted:legs/dumbbell-calf-raise

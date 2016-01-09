@@ -4,13 +4,13 @@ import MuvrKit
 ///
 /// Adds localised properties to ``Key``
 ///
-extension MRManagedClassifiedExercise.Key {
+extension MRAggregateKey {
     
     /// Localised title
     var title: String {
         switch self {
         case ExerciseType(let exerciseType): return exerciseType.title
-        case NoMuscleGroup: return ""
+        case NoMuscleGroup: return NSLocalizedString("MRAggregateKey.noMuscleGroup", comment: "").localizedCapitalizedString
         case MuscleGroup(let muscleGroup): return muscleGroup.title
         case Exercise(let exerciseId): return MRExerciseId.title(exerciseId)
         }

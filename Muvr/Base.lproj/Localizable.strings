@@ -29,9 +29,15 @@
 /* arms session */
 "arms-session" = "gym";
 
+/* MRAggregate */
+"MRAggregate.types" = "types";
+
+/* MRAggregateKey */
+"MRAggregateKey.noMuscleGroup" = "whole body";
+
 /* MKExerciseType keys */
 "MKExerciseType.cardio" = "cardio";
-"MKExerciseType.resistanceTargeted" = "resistance";
+"MKExerciseType.resistanceTargeted" = "weights";
 "MKExerciseType.resistanceWholeBody" = "whole body";
 
 /* MKMuscleGroup keys */

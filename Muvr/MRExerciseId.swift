@@ -7,7 +7,9 @@ struct MRExerciseId {
         let components = exerciseId.componentsSeparatedByString(":")
         if components.count == 2 {
             let restComponents = components[1].componentsSeparatedByString("/")
-            if restComponents.count == 0 { return nil }
+            if restComponents.count == 0 {
+                return (components[0], [components[1]])
+            }
             return (components[0], restComponents)
         }
         return nil
