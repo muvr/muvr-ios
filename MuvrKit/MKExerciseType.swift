@@ -19,12 +19,6 @@ public enum MKExerciseType : Equatable, Hashable {
         }
     }
     
-    var general: MKGeneralExerciseType {
-        switch self {
-        case .ResistanceTargeted(_): return .ResistanceTargeted
-        case .ResistanceWholeBody: return .ResistanceWholeBody
-        }
-    }
 }
 
 
