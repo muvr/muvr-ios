@@ -66,7 +66,6 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
             image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
             pieChartBackButton.setImage(image, forState: UIControlState.Normal)
         }
-        
     }
     
     // On appearance, show all .Types

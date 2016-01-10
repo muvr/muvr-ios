@@ -74,7 +74,6 @@
 		546E685E1BB98D0800DC0FEF /* MuvrKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A775F61BB81467001586DD /* MuvrKit.framework */; };
 		546E68671BB98D1D00DC0FEF /* MKSensorDataSingleTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546E68641BB98D1D00DC0FEF /* MKSensorDataSingleTypeTests.swift */; };
 		546E68691BB98D1D00DC0FEF /* MKSensorDataMultipleTypesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546E68661BB98D1D00DC0FEF /* MKSensorDataMultipleTypesTests.swift */; };
-		54706F6C1BD6D89F005BABF0 /* MRSessionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54706F6B1BD6D89F005BABF0 /* MRSessionsViewController.swift */; };
 		5471DD3A1BC13911007D1034 /* MKSensorData+Scaffolding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5471DD341BC13760007D1034 /* MKSensorData+Scaffolding.swift */; };
 		54730CC31C3699C200BE1704 /* MKExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54730CC11C36998500BE1704 /* MKExercise.swift */; };
 		54730CC41C3699C300BE1704 /* MKExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54730CC11C36998500BE1704 /* MKExercise.swift */; };
@@ -395,7 +394,6 @@
 		546E685D1BB98D0800DC0FEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		546E68641BB98D1D00DC0FEF /* MKSensorDataSingleTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataSingleTypeTests.swift; sourceTree = "<group>"; };
 		546E68661BB98D1D00DC0FEF /* MKSensorDataMultipleTypesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataMultipleTypesTests.swift; sourceTree = "<group>"; };
-		54706F6B1BD6D89F005BABF0 /* MRSessionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionsViewController.swift; sourceTree = "<group>"; };
 		5471DD341BC13760007D1034 /* MKSensorData+Scaffolding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Scaffolding.swift"; sourceTree = "<group>"; };
 		54730CC11C36998500BE1704 /* MKExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExercise.swift; sourceTree = "<group>"; };
 		54730CC51C37F9A600BE1704 /* MRManagedExerciseSession+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedExerciseSession+CoreDataOperations.swift"; sourceTree = "<group>"; };
@@ -709,7 +707,6 @@
 				541ABBA31AC577E00056A81B /* MRAppDelegate.swift */,
 				54EFE97A1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift */,
 				54B27DCC1C3BE6A8000A07A2 /* MRHomeViewController.swift */,
-				54706F6B1BD6D89F005BABF0 /* MRSessionsViewController.swift */,
 				54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */,
 				54C5284F1C358BE300341D2B /* MRExercisingViewController.swift */,
 				641780D11C3C08C100B1FCCE /* MRLabellingViewController.swift */,
@@ -1526,7 +1523,6 @@
 				54CAADD31C39AF3000A7B0E6 /* MRManagedLocation.swift in Sources */,
 				54CAADE01C39C87C00A7B0E6 /* MRManagedLocation+CoreDataOperations.swift in Sources */,
 				543C9A1B1BDD439B00291EC5 /* MRManagedClassifiedExercise.swift in Sources */,
-				54706F6C1BD6D89F005BABF0 /* MRSessionsViewController.swift in Sources */,
 				54C648851C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift in Sources */,
 				641780CE1C3BBB6F00B1FCCE /* MRStackView.swift in Sources */,
 				642363551C18A09600ABF4CA /* String+Digest.swift in Sources */,
