@@ -23,6 +23,10 @@ class MRExerciseView : UIView {
     var delegate: MRExerciseViewDelegate?
     
     @IBOutlet private weak var button: UIButton!
+    @IBOutlet private weak var repetitionsImage: UIImageView!
+    @IBOutlet private weak var weightImage: UIImageView!
+    @IBOutlet private weak var intensityImage: UIImageView!
+    @IBOutlet private weak var headerLabel: UILabel!
         
     /// set progress colors
     var progressEmptyColor : UIColor = UIColor.grayColor()
@@ -67,6 +71,7 @@ class MRExerciseView : UIView {
         button.layer.cornerRadius = (frame.height - 8) / 2
         let f = button.titleLabel!.font
         button.titleLabel!.font = UIFont(name: f.fontName, size: frame.height / 8)
+        headerLabel.font = UIFont(name: f.fontName, size: frame.height / 12)
     }
     
     override func drawRect(rect: CGRect) {
@@ -91,7 +96,11 @@ class MRExerciseView : UIView {
         view.backgroundColor = UIColor.clearColor()
         backgroundColor = UIColor.clearColor()
         
+        headerLabel.text = ""
+        button.setTitle("", forState: UIControlState.Normal)
+                
         addSubview(view)
+        updateUI()
     }
     
     private func loadViewFromNib() -> UIView {
@@ -104,13 +113,12 @@ class MRExerciseView : UIView {
         return view
     }
     
-    private func addCirle(arcRadius: CGFloat, capRadius: CGFloat, color: UIColor, strokeStart : CGFloat, strokeEnd : CGFloat) {
-
+    private func addCirle(arcRadius: CGFloat, capRadius: CGFloat, color: UIColor, strokeStart: CGFloat, strokeEnd: CGFloat) {
         let centerPoint = CGPointMake(CGRectGetMidX(self.bounds) , CGRectGetMidY(self.bounds))
         let startAngle = CGFloat(M_PI_2)
         let endAngle = CGFloat(M_PI * 2 + M_PI_2)
         
-        let path = UIBezierPath(arcCenter:centerPoint, radius: CGRectGetWidth(frame)/2+5, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
+        let path = UIBezierPath(arcCenter:centerPoint, radius: CGRectGetWidth(frame) / 2 + 5, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
         
         let arc = CAShapeLayer()
         arc.lineWidth = lineWidth
@@ -124,7 +132,6 @@ class MRExerciseView : UIView {
         arc.shadowOpacity = 0
         arc.shadowOffset = CGSizeZero
         layer.addSublayer(arc)
-        
     }
     
     private func createProgressCircle() {
@@ -178,13 +185,13 @@ class MRExerciseView : UIView {
         circleLayer.addAnimation(animation, forKey: "animateCircle")
     }
     
-    private func pauseLayer(layer : CALayer) {
+    private func pauseLayer(layer: CALayer) {
         let pauseTime = layer.convertTime(CACurrentMediaTime(), fromLayer: nil)
         layer.speed = 0.0
         layer.timeOffset = pauseTime
     }
     
-    private func resumeLayer(layer : CALayer) {
+    private func resumeLayer(layer: CALayer) {
         let pausedTime = layer.timeOffset
         layer.speed = 1.0
         layer.timeOffset = 0.0
@@ -195,14 +202,46 @@ class MRExerciseView : UIView {
     
 
     // MARK: - public functions
+    
+    private func updateUI() {
+        let edgeInsets = UIEdgeInsets(top: frame.height / 3, left: 0, bottom: 0, right: 0)
+        button.setTitle(exercise?.title, forState: UIControlState.Normal)
+        button.titleEdgeInsets = UIEdgeInsets()
+        
+        if let _ = exercise?.weight {
+            button.titleEdgeInsets = edgeInsets
+            weightImage.hidden = false
+        } else {
+            weightImage.hidden = true
+        }
+        
+        if let _ = exercise?.repetitions {
+            button.titleEdgeInsets = edgeInsets
+            repetitionsImage.hidden = false
+        } else {
+            repetitionsImage.hidden = true
+        }
+        
+        if let _ = exercise?.intensity {
+            button.titleEdgeInsets = edgeInsets
+            intensityImage.hidden = false
+        } else {
+            intensityImage.hidden = true
+        }
+    }
 
     ///
     /// The exercise being displayed
     ///
     var exercise: MKIncompleteExercise? {
         didSet {
-            button.setTitle(exercise?.title, forState: UIControlState.Normal)
-            // TODO: display repetitions, intensity and weight
+            UIView.performWithoutAnimation(updateUI)
+        }
+    }
+    
+    var headerTitle: String? {
+        didSet {
+            headerLabel.text = headerTitle
         }
     }
     
@@ -215,7 +254,7 @@ class MRExerciseView : UIView {
         }
     }
     
-    /* Stop timer and animation */
+    /// Stop the animation
     func stop() {
         if isAnimating {
             pauseLayer(circleLayer)

@@ -10,6 +10,7 @@ class MRSessionViewController : UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
+        mainExerciseView.headerTitle = "Coming up".localized()
         mainExerciseView.exercise = session.exercises.first
         mainExerciseView.start(60)
     }
