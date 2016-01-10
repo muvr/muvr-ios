@@ -97,8 +97,8 @@
 		547A445C1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */; };
 		547F92831BA8BA1700A69295 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 547F92821BA8BA1700A69295 /* WatchConnectivity.framework */; };
 		547F92851BA8BA4A00A69295 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 547F92841BA8BA4A00A69295 /* WatchConnectivity.framework */; };
-		547FD9D01C42C17100B01904 /* MRInteractivePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547FD9CE1C42C17100B01904 /* MRInteractivePlayerView.swift */; };
-		547FD9D11C42C17100B01904 /* MRInteractivePlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 547FD9CF1C42C17100B01904 /* MRInteractivePlayerView.xib */; };
+		547FD9D01C42C17100B01904 /* MRExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547FD9CE1C42C17100B01904 /* MRExerciseView.swift */; };
+		547FD9D11C42C17100B01904 /* MRExerciseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 547FD9CF1C42C17100B01904 /* MRExerciseView.xib */; };
 		547FD9D31C42C31700B01904 /* Session.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 547FD9D21C42C31700B01904 /* Session.storyboard */; };
 		5487F59C1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5487F59B1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift */; };
 		5487F59F1BB9B77E00ED2E97 /* MKCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5487F59E1BB9B77E00ED2E97 /* MKCodec.swift */; };
@@ -140,13 +140,6 @@
 		54B86D0B1BD197830016DDA0 /* MRBuildDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 54B86D0A1BD197470016DDA0 /* MRBuildDetail.m */; };
 		54BD57B71BC53137008B5BC4 /* MKPhoneAppleWatchConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BD57B61BC53137008B5BC4 /* MKPhoneAppleWatchConnectivity.swift */; };
 		54BD57B91BC546EE008B5BC4 /* UI.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54BD57B81BC546EE008B5BC4 /* UI.xcassets */; };
-		54BEC0D21C34246200D63A04 /* MRExerciseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BEC0D11C34246200D63A04 /* MRExerciseTableViewCell.swift */; };
-		54BEC0D51C34248200D63A04 /* MRExerciseSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BEC0D41C34248200D63A04 /* MRExerciseSetTableViewCell.swift */; };
-		54BEC0D71C34334C00D63A04 /* MRTimedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BEC0D61C34334C00D63A04 /* MRTimedView.swift */; };
-		54C5284A1C343BF300341D2B /* MRExerciseSetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54C528491C343BF300341D2B /* MRExerciseSetTableViewCell.xib */; };
-		54C5284C1C35640200341D2B /* MRColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C5284B1C35640200341D2B /* MRColours.swift */; };
-		54C5284E1C35688700341D2B /* MRTimedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54C5284D1C35688700341D2B /* MRTimedView.xib */; };
-		54C528521C359D9500341D2B /* MRExerciseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54C528511C359D9500341D2B /* MRExerciseTableViewCell.xib */; };
 		54C648851C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C648841C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift */; };
 		54CAADD21C39AF3000A7B0E6 /* MRManagedLocation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CAADCE1C39AF3000A7B0E6 /* MRManagedLocation+CoreDataProperties.swift */; };
 		54CAADD31C39AF3000A7B0E6 /* MRManagedLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CAADCF1C39AF3000A7B0E6 /* MRManagedLocation.swift */; };
@@ -171,6 +164,8 @@
 		54E4CB401BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4CB3F1BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift */; };
 		54E9131B1BC306A500B7F9F0 /* class-1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54E913181BC306A500B7F9F0 /* class-1.csv */; };
 		54E9131C1BC306A500B7F9F0 /* model-3.raw in Resources */ = {isa = PBXBuildFile; fileRef = 54E913191BC306A500B7F9F0 /* model-3.raw */; };
+		54EC60671C42F62A00B3D2A8 /* MRManagedExercisePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EC60661C42F62A00B3D2A8 /* MRManagedExercisePlan.swift */; };
+		54EC60691C42F7A700B3D2A8 /* MRManagedExercisePlan+CoreDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EC60681C42F7A700B3D2A8 /* MRManagedExercisePlan+CoreDataOperations.swift */; };
 		54ECB7341C3FF38300B6E042 /* MKTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ECB7331C3FF38300B6E042 /* MKTypes.swift */; };
 		54ECB7351C3FF38300B6E042 /* MKTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ECB7331C3FF38300B6E042 /* MKTypes.swift */; };
 		54ECB7371C3FF68200B6E042 /* MKMuscleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ECB7361C3FF68200B6E042 /* MKMuscleGroup.swift */; };
@@ -188,7 +183,6 @@
 		54FEB1011C39844000EC5293 /* MRIncompleteExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEB1001C39844000EC5293 /* MRIncompleteExercise.swift */; };
 		640CC2A41BF62B9000764C4C /* MRSessionProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A31BF62B9000764C4C /* MRSessionProgressRing.swift */; };
 		640CC2A61BF62BF600764C4C /* MRSessionProgressRingRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A51BF62BF600764C4C /* MRSessionProgressRingRenderer.swift */; };
-		641780CE1C3BBB6F00B1FCCE /* MRStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641780CD1C3BBB6F00B1FCCE /* MRStackView.swift */; };
 		642363481C189A2400ABF4CA /* MRStorageAccessProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642363471C189A2400ABF4CA /* MRStorageAccessProtocol.swift */; };
 		6423634B1C189ABC00ABF4CA /* DigestAlgotithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6423634A1C189ABC00ABF4CA /* DigestAlgotithm.swift */; };
 		6423634D1C189BF900ABF4CA /* MRExerciseSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6423634C1C189BF900ABF4CA /* MRExerciseSessionStore.swift */; };
@@ -412,8 +406,8 @@
 		547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKWatchConnectivity+Defaults.swift"; sourceTree = "<group>"; };
 		547F92821BA8BA1700A69295 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
 		547F92841BA8BA4A00A69295 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
-		547FD9CE1C42C17100B01904 /* MRInteractivePlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRInteractivePlayerView.swift; sourceTree = "<group>"; };
-		547FD9CF1C42C17100B01904 /* MRInteractivePlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRInteractivePlayerView.xib; sourceTree = "<group>"; };
+		547FD9CE1C42C17100B01904 /* MRExerciseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseView.swift; sourceTree = "<group>"; };
+		547FD9CF1C42C17100B01904 /* MRExerciseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRExerciseView.xib; sourceTree = "<group>"; };
 		547FD9D21C42C31700B01904 /* Session.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Session.storyboard; sourceTree = "<group>"; };
 		548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Muvr-Bridging-Header.h"; sourceTree = "<group>"; };
 		5487F59B1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKUnsafeBufferReader.swift; sourceTree = "<group>"; };
@@ -459,13 +453,6 @@
 		54B86D0A1BD197470016DDA0 /* MRBuildDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRBuildDetail.m; sourceTree = "<group>"; };
 		54BD57B61BC53137008B5BC4 /* MKPhoneAppleWatchConnectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneAppleWatchConnectivity.swift; sourceTree = "<group>"; };
 		54BD57B81BC546EE008B5BC4 /* UI.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = UI.xcassets; sourceTree = "<group>"; };
-		54BEC0D11C34246200D63A04 /* MRExerciseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseTableViewCell.swift; sourceTree = "<group>"; };
-		54BEC0D41C34248200D63A04 /* MRExerciseSetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSetTableViewCell.swift; sourceTree = "<group>"; };
-		54BEC0D61C34334C00D63A04 /* MRTimedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRTimedView.swift; sourceTree = "<group>"; };
-		54C528491C343BF300341D2B /* MRExerciseSetTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRExerciseSetTableViewCell.xib; sourceTree = "<group>"; };
-		54C5284B1C35640200341D2B /* MRColours.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRColours.swift; sourceTree = "<group>"; };
-		54C5284D1C35688700341D2B /* MRTimedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRTimedView.xib; sourceTree = "<group>"; };
-		54C528511C359D9500341D2B /* MRExerciseTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRExerciseTableViewCell.xib; sourceTree = "<group>"; };
 		54C648841C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+CountRequest.swift"; sourceTree = "<group>"; };
 		54CAADCE1C39AF3000A7B0E6 /* MRManagedLocation+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedLocation+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		54CAADCF1C39AF3000A7B0E6 /* MRManagedLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedLocation.swift; sourceTree = "<group>"; };
@@ -495,6 +482,8 @@
 		54E4CB3F1BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+EncodingCSV.swift"; sourceTree = "<group>"; };
 		54E913181BC306A500B7F9F0 /* class-1.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "class-1.csv"; sourceTree = "<group>"; };
 		54E913191BC306A500B7F9F0 /* model-3.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "model-3.raw"; sourceTree = "<group>"; };
+		54EC60661C42F62A00B3D2A8 /* MRManagedExercisePlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedExercisePlan.swift; sourceTree = "<group>"; };
+		54EC60681C42F7A700B3D2A8 /* MRManagedExercisePlan+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedExercisePlan+CoreDataOperations.swift"; sourceTree = "<group>"; };
 		54ECB7331C3FF38300B6E042 /* MKTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKTypes.swift; sourceTree = "<group>"; };
 		54ECB7361C3FF68200B6E042 /* MKMuscleGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMuscleGroup.swift; sourceTree = "<group>"; };
 		54ECB7391C3FF70900B6E042 /* MKExerciseType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseType.swift; sourceTree = "<group>"; };
@@ -508,7 +497,6 @@
 		54FEB1001C39844000EC5293 /* MRIncompleteExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRIncompleteExercise.swift; sourceTree = "<group>"; };
 		640CC2A31BF62B9000764C4C /* MRSessionProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionProgressRing.swift; sourceTree = "<group>"; };
 		640CC2A51BF62BF600764C4C /* MRSessionProgressRingRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionProgressRingRenderer.swift; sourceTree = "<group>"; };
-		641780CD1C3BBB6F00B1FCCE /* MRStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRStackView.swift; sourceTree = "<group>"; };
 		642363471C189A2400ABF4CA /* MRStorageAccessProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRStorageAccessProtocol.swift; sourceTree = "<group>"; };
 		6423634A1C189ABC00ABF4CA /* DigestAlgotithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigestAlgotithm.swift; sourceTree = "<group>"; };
 		6423634C1C189BF900ABF4CA /* MRExerciseSessionStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionStore.swift; sourceTree = "<group>"; };
@@ -763,6 +751,8 @@
 				543C9A101BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift */,
 				6423634E1C189CB400ABF4CA /* MRManagedExerciseSession+JSON.swift */,
 				543C9A131BDD439B00291EC5 /* MRManagedLabelledExercise.swift */,
+				54EC60661C42F62A00B3D2A8 /* MRManagedExercisePlan.swift */,
+				54EC60681C42F7A700B3D2A8 /* MRManagedExercisePlan+CoreDataOperations.swift */,
 				543C9A121BDD439B00291EC5 /* MRManagedLabelledExercise+CoreDataProperties.swift */,
 				5419507C1C38427A00578FFD /* MRManagedLabelledExercise+JSON.swift */,
 				541950761C382D7C00578FFD /* MRManagedLabelledExercise+MKLabelledExercise.swift */,
@@ -955,16 +945,8 @@
 		54BEC0D01C34243700D63A04 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				547FD9CE1C42C17100B01904 /* MRInteractivePlayerView.swift */,
-				547FD9CF1C42C17100B01904 /* MRInteractivePlayerView.xib */,
-				54C5284B1C35640200341D2B /* MRColours.swift */,
-				54BEC0D11C34246200D63A04 /* MRExerciseTableViewCell.swift */,
-				54BEC0D41C34248200D63A04 /* MRExerciseSetTableViewCell.swift */,
-				54BEC0D61C34334C00D63A04 /* MRTimedView.swift */,
-				641780CD1C3BBB6F00B1FCCE /* MRStackView.swift */,
-				54C528511C359D9500341D2B /* MRExerciseTableViewCell.xib */,
-				54C528491C343BF300341D2B /* MRExerciseSetTableViewCell.xib */,
-				54C5284D1C35688700341D2B /* MRTimedView.xib */,
+				547FD9CE1C42C17100B01904 /* MRExerciseView.swift */,
+				547FD9CF1C42C17100B01904 /* MRExerciseView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1363,13 +1345,10 @@
 				5403815F1AED28A0000C8B15 /* Settings.bundle in Resources */,
 				64FB23BC1C3E899E005312C2 /* Localizable.stringsdict in Resources */,
 				541ABBA91AC577E00056A81B /* Main.storyboard in Resources */,
-				54C528521C359D9500341D2B /* MRExerciseTableViewCell.xib in Resources */,
 				9D30379C1B95CCC500426C70 /* Models.bundle in Resources */,
-				54C5284E1C35688700341D2B /* MRTimedView.xib in Resources */,
-				547FD9D11C42C17100B01904 /* MRInteractivePlayerView.xib in Resources */,
+				547FD9D11C42C17100B01904 /* MRExerciseView.xib in Resources */,
 				54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */,
 				547FD9D31C42C31700B01904 /* Session.storyboard in Resources */,
-				54C5284A1C343BF300341D2B /* MRExerciseSetTableViewCell.xib in Resources */,
 				541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */,
 				54CAADD71C39B19F00A7B0E6 /* Locations.bundle in Resources */,
 				541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */,
@@ -1495,7 +1474,6 @@
 				54CAADD51C39AF3000A7B0E6 /* MRManagedLocationLabel.swift in Sources */,
 				54B27DD11C3BE9F4000A07A2 /* MRManagedClassifiedExercise+CoreDataOperations.swift in Sources */,
 				642CBCA31C1ED1D50043E5EE /* MRExerciseModelStore.swift in Sources */,
-				54BEC0D71C34334C00D63A04 /* MRTimedView.swift in Sources */,
 				54EFE97B1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift in Sources */,
 				54FEB1011C39844000EC5293 /* MRIncompleteExercise.swift in Sources */,
 				5421AEC31C404039009CB4FA /* MKMuscleGroup+Localisation.swift in Sources */,
@@ -1528,30 +1506,28 @@
 				54CAADE01C39C87C00A7B0E6 /* MRManagedLocation+CoreDataOperations.swift in Sources */,
 				543C9A1B1BDD439B00291EC5 /* MRManagedClassifiedExercise.swift in Sources */,
 				54C648851C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift in Sources */,
-				641780CE1C3BBB6F00B1FCCE /* MRStackView.swift in Sources */,
 				642363551C18A09600ABF4CA /* String+Digest.swift in Sources */,
 				544DE96E1C401C8100297C6B /* MKIncompleteExercise+Type.swift in Sources */,
 				5493FC1F1C42C9C400317A15 /* MRSessionViewController.swift in Sources */,
 				549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */,
 				54CAADD91C39B52000A7B0E6 /* MRManagedLocation+JSON.swift in Sources */,
+				54EC60691C42F7A700B3D2A8 /* MRManagedExercisePlan+CoreDataOperations.swift in Sources */,
 				544DE9721C4023C200297C6B /* MKMuscleGroup+ExerciseId.swift in Sources */,
 				54585FF11C41A4A40050D770 /* MRAggregate+Localisation.swift in Sources */,
 				6423634F1C189CB400ABF4CA /* MRManagedExerciseSession+JSON.swift in Sources */,
 				541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */,
 				54CAADDB1C39B77900A7B0E6 /* MRManagedLocationLabel+JSON.swift in Sources */,
 				543C9A171BDD439B00291EC5 /* MRManagedExerciseSession.swift in Sources */,
-				54C5284C1C35640200341D2B /* MRColours.swift in Sources */,
-				54BEC0D21C34246200D63A04 /* MRExerciseTableViewCell.swift in Sources */,
+				54EC60671C42F62A00B3D2A8 /* MRManagedExercisePlan.swift in Sources */,
 				5419507D1C38427A00578FFD /* MRManagedLabelledExercise+JSON.swift in Sources */,
 				6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */,
 				5421AEC81C4042B2009CB4FA /* MRExerciseId+Localisation.swift in Sources */,
-				54BEC0D51C34248200D63A04 /* MRExerciseSetTableViewCell.swift in Sources */,
 				5421AEC61C40422F009CB4FA /* MRAggregateKey+Localisation.swift in Sources */,
 				5421AEC11C40402B009CB4FA /* MKExerciseType+Localisation.swift in Sources */,
 				541950791C38318600578FFD /* MRExercise.swift in Sources */,
 				54CAADD41C39AF3000A7B0E6 /* MRManagedLocationLabel+CoreDataProperties.swift in Sources */,
 				543C9A191BDD439B00291EC5 /* MRManagedLabelledExercise.swift in Sources */,
-				547FD9D01C42C17100B01904 /* MRInteractivePlayerView.swift in Sources */,
+				547FD9D01C42C17100B01904 /* MRExerciseView.swift in Sources */,
 				5419507B1C38425800578FFD /* MRManagedClassifiedExercise+JSON.swift in Sources */,
 				54F959C11C419D7F00D6A07D /* MRAnalyticTypes.swift in Sources */,
 			);

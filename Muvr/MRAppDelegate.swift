@@ -310,10 +310,16 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
         NSLog("Received session start for \(session)")
-        let persistedSession = MRManagedExerciseSession.sessionById(session.id, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+        let persistedSession = MRManagedExerciseSession.sessionById(session.id, inManagedObjectContext: managedObjectContext)
         if persistedSession == nil && sessionIndex(session) == nil {
+            // TODO: load the appropriate plan for type, location and day
+            let type = MKExerciseType.ResistanceTargeted(muscleGroups: [.Arms])
+            let plan = MRManagedExercisePlan.planForExerciseType(type, location: nil, date: session.start, inManagedObjectContext: managedObjectContext)
+            
             let currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
             currentSession.locationId = currentLocation?.id
+            currentSession.plan = plan
+            
             sessions.append(currentSession)
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: currentSession.objectID)
             presentSessionControllerForSession(currentSession)

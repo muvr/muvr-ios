@@ -2,16 +2,16 @@ import UIKit
 import MuvrKit
 
 class MRSessionViewController : UIViewController {
-    @IBOutlet weak var mainExerciseView: MRInteractivePlayerView!
-
+    @IBOutlet weak var mainExerciseView: MRExerciseView!
+    private var session: MRManagedExerciseSession!
+    
     func setSession(session: MRManagedExerciseSession) {
-        
+        self.session = session
     }
     
     override func viewDidAppear(animated: Bool) {
-        mainExerciseView.progress = 60
-        mainExerciseView.progressFullColor = UIColor.redColor()
-        mainExerciseView.start()
+        mainExerciseView.exercise = session.exercises.first
+        mainExerciseView.start(60)
     }
     
 }

@@ -3,11 +3,12 @@ import CoreData
 import MuvrKit
 
 class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
-    private var plan = MKExercisePlan<MKExerciseId>()
     private var currentClassificationHint: MKClassificationHint?
     /// The estimated exercises
     var estimated: [MKClassifiedExercise] = []
-        
+    /// The exercise plan
+    var plan = MKExercisePlan<MKExerciseId>()
+    
     ///
     /// The list of exercises the user is likely to be doing
     ///
