@@ -1,6 +1,9 @@
 import UIKit
 import MuvrKit
 
+///
+/// Displays details of an exercise set in a table cell
+///
 class MRExerciseSetTableViewCell : UITableViewCell {
     static let nib: UINib = UINib(nibName: "MRExerciseSetTableViewCell", bundle: nil)
     static let cellReuseIdentifier: String = "set"
@@ -8,7 +11,11 @@ class MRExerciseSetTableViewCell : UITableViewCell {
     @IBOutlet weak var exerciseLabel: UILabel!
     @IBOutlet weak var setSizeLabel: UILabel!
     @IBOutlet weak var stacksView: MRStackView!
-    
+
+    ///
+    /// Set the ``set`` to be displayed. Typically used in ``tableView.dequeueCellWithIdentifier:forIndexPath:``.
+    /// - parameter sets: the exercise sets to be displayed; must not be empty and must have same exercise ids.
+    ///
     func setSet(set: [MKExercise]) {
         assert(!set.isEmpty, "The set cannot be empty")
         set.forEach { x in assert(x.exerciseId == set.first!.exerciseId, "The set must be all same exercise ids") }
