@@ -140,6 +140,13 @@
                                     <constraint firstAttribute="height" constant="374" id="eW6-PE-weg"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ngj-ju-m1W">
+                                <rect key="frame" x="20" y="460" width="374" height="30"/>
+                                <state key="normal" title="Start arms session"/>
+                                <connections>
+                                    <action selector="start" destination="k9I-oM-iXu" eventType="touchUpInside" id="6bW-9C-PxD"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -162,6 +169,7 @@
                     <connections>
                         <outlet property="pieChartBackButton" destination="rNW-SJ-6Dt" id="NSg-Zk-fIV"/>
                         <outlet property="pieChartView" destination="wnD-hc-8AK" id="86l-RY-EcS"/>
+                        <outlet property="startButton" destination="Ngj-ju-m1W" id="AdH-yc-Sm2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tXt-yF-dah" userLabel="First Responder" sceneMemberID="firstResponder"/>

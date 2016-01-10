@@ -7,4 +7,12 @@ public enum MKGeneralExerciseType {
     case ResistanceWholeBody
     /// Targeted resistance exercise
     case ResistanceTargeted
+    
+    /// Returns a concrete type from this general one
+    public var concrete: MKExerciseType {
+        switch self {
+        case .ResistanceWholeBody: return .ResistanceWholeBody
+        case .ResistanceTargeted: return .ResistanceTargeted(muscleGroups: [.Arms, .Core, .Chest, .Shoulders, .Legs, .Back])
+        }
+    }
 }

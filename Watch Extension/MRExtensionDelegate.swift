@@ -52,9 +52,9 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     ///
     /// Starts the session
     ///
-    func startSession(exerciseModelMetadataIndex exerciseModelMetadataIndex: Int, demo: Bool) {
+    func startSession(exerciseModelMetadataIndex exerciseModelMetadataIndex: Int) {
         let (modelId, _) = exerciseModelMetadata[exerciseModelMetadataIndex]
-        connectivity.startSession(modelId, demo: demo)
+        connectivity.startSession(modelId)
         workoutDelegate.startSession(start: NSDate(), model: modelId)
     }
     
@@ -64,10 +64,6 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     func endLastSession() {
         connectivity.endLastSession()
         workoutDelegate.stopSession(end: currentSession?.1.end ?? NSDate())
-    }
-    
-    func sendSamples(fileUrl: NSURL) {
-        connectivity.transferDemoSensorDataForCurrentSession(fileUrl)
     }
     
     func applicationDidFinishLaunching() {

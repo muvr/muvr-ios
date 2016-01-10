@@ -97,6 +97,9 @@
 		547A445C1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */; };
 		547F92831BA8BA1700A69295 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 547F92821BA8BA1700A69295 /* WatchConnectivity.framework */; };
 		547F92851BA8BA4A00A69295 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 547F92841BA8BA4A00A69295 /* WatchConnectivity.framework */; };
+		547FD9D01C42C17100B01904 /* MRInteractivePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547FD9CE1C42C17100B01904 /* MRInteractivePlayerView.swift */; };
+		547FD9D11C42C17100B01904 /* MRInteractivePlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 547FD9CF1C42C17100B01904 /* MRInteractivePlayerView.xib */; };
+		547FD9D31C42C31700B01904 /* Session.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 547FD9D21C42C31700B01904 /* Session.storyboard */; };
 		5487F59C1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5487F59B1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift */; };
 		5487F59F1BB9B77E00ED2E97 /* MKCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5487F59E1BB9B77E00ED2E97 /* MKCodec.swift */; };
 		5487F5A41BB9C4C500ED2E97 /* MKSensorData+InternalCodecTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5487F5A31BB9C4C500ED2E97 /* MKSensorData+InternalCodecTests.swift */; };
@@ -115,6 +118,8 @@
 		548E277C1BF3FD7600899EBC /* arms_model.layers.txt in Resources */ = {isa = PBXBuildFile; fileRef = 548E27791BF3FD7600899EBC /* arms_model.layers.txt */; };
 		548E277D1BF3FD7600899EBC /* arms_model.weights.raw in Resources */ = {isa = PBXBuildFile; fileRef = 548E277A1BF3FD7600899EBC /* arms_model.weights.raw */; };
 		548E277F1BF3FFA700899EBC /* MKActivationFunction+ApplyOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548E277E1BF3FFA700899EBC /* MKActivationFunction+ApplyOn.swift */; };
+		5493FC1F1C42C9C400317A15 /* MRSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5493FC1E1C42C9C400317A15 /* MRSessionViewController.swift */; };
+		5493FC221C42D17100317A15 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5493FC211C42D17100317A15 /* String+Localization.swift */; };
 		549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 549A30081BDD0BC6006A70EB /* Muvr.xcdatamodeld */; };
 		54A48ACB1BA474F300F4A81B /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54A48AC91BA474F300F4A81B /* Interface.storyboard */; };
 		54A48ACD1BA474F300F4A81B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54A48ACC1BA474F300F4A81B /* Assets.xcassets */; };
@@ -129,7 +134,6 @@
 		54A776171BB8149E001586DD /* MuvrKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 54A775F81BB81467001586DD /* MuvrKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54A776211BB81562001586DD /* MuvrKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A7761C1BB8149E001586DD /* MuvrKit.framework */; };
 		54A776221BB81562001586DD /* MuvrKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 54A7761C1BB8149E001586DD /* MuvrKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		54B27DCB1C3BDE4D000A07A2 /* Session.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54B27DCA1C3BDE4D000A07A2 /* Session.storyboard */; };
 		54B27DCD1C3BE6A8000A07A2 /* MRHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B27DCC1C3BE6A8000A07A2 /* MRHomeViewController.swift */; };
 		54B27DCF1C3BE9C8000A07A2 /* MRManagedClassifiedExercise+CoreDataAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B27DCE1C3BE9C8000A07A2 /* MRManagedClassifiedExercise+CoreDataAnalytics.swift */; };
 		54B27DD11C3BE9F4000A07A2 /* MRManagedClassifiedExercise+CoreDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B27DD01C3BE9F4000A07A2 /* MRManagedClassifiedExercise+CoreDataOperations.swift */; };
@@ -142,7 +146,6 @@
 		54C5284A1C343BF300341D2B /* MRExerciseSetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54C528491C343BF300341D2B /* MRExerciseSetTableViewCell.xib */; };
 		54C5284C1C35640200341D2B /* MRColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C5284B1C35640200341D2B /* MRColours.swift */; };
 		54C5284E1C35688700341D2B /* MRTimedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54C5284D1C35688700341D2B /* MRTimedView.xib */; };
-		54C528501C358BE300341D2B /* MRExercisingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C5284F1C358BE300341D2B /* MRExercisingViewController.swift */; };
 		54C528521C359D9500341D2B /* MRExerciseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54C528511C359D9500341D2B /* MRExerciseTableViewCell.xib */; };
 		54C648851C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C648841C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift */; };
 		54CAADD21C39AF3000A7B0E6 /* MRManagedLocation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CAADCE1C39AF3000A7B0E6 /* MRManagedLocation+CoreDataProperties.swift */; };
@@ -179,7 +182,6 @@
 		54F959C11C419D7F00D6A07D /* MRAnalyticTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F959C01C419D7F00D6A07D /* MRAnalyticTypes.swift */; };
 		54FBA9671C3C692000FC4F8E /* MKRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FBA9661C3C692000FC4F8E /* MKRegression.swift */; };
 		54FBA9691C3C6D8900FC4F8E /* MKLinearRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FBA9681C3C6D8900FC4F8E /* MKLinearRegressionTests.swift */; };
-		54FD504E1BDBD27C0015771D /* MRSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */; };
 		54FEB0FA1C39587300EC5293 /* MKPhoneSensorDataSplitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEB0F81C39583800EC5293 /* MKPhoneSensorDataSplitter.swift */; };
 		54FEB0FE1C39838F00EC5293 /* MKIncompleteExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEB0FD1C39838F00EC5293 /* MKIncompleteExercise.swift */; };
 		54FEB0FF1C39838F00EC5293 /* MKIncompleteExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEB0FD1C39838F00EC5293 /* MKIncompleteExercise.swift */; };
@@ -187,7 +189,6 @@
 		640CC2A41BF62B9000764C4C /* MRSessionProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A31BF62B9000764C4C /* MRSessionProgressRing.swift */; };
 		640CC2A61BF62BF600764C4C /* MRSessionProgressRingRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A51BF62BF600764C4C /* MRSessionProgressRingRenderer.swift */; };
 		641780CE1C3BBB6F00B1FCCE /* MRStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641780CD1C3BBB6F00B1FCCE /* MRStackView.swift */; };
-		641780D21C3C08C100B1FCCE /* MRLabellingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641780D11C3C08C100B1FCCE /* MRLabellingViewController.swift */; };
 		642363481C189A2400ABF4CA /* MRStorageAccessProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642363471C189A2400ABF4CA /* MRStorageAccessProtocol.swift */; };
 		6423634B1C189ABC00ABF4CA /* DigestAlgotithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6423634A1C189ABC00ABF4CA /* DigestAlgotithm.swift */; };
 		6423634D1C189BF900ABF4CA /* MRExerciseSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6423634C1C189BF900ABF4CA /* MRExerciseSessionStore.swift */; };
@@ -411,6 +412,9 @@
 		547A445B1BB8600F00C2CC06 /* MKWatchConnectivity+Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKWatchConnectivity+Defaults.swift"; sourceTree = "<group>"; };
 		547F92821BA8BA1700A69295 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
 		547F92841BA8BA4A00A69295 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
+		547FD9CE1C42C17100B01904 /* MRInteractivePlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRInteractivePlayerView.swift; sourceTree = "<group>"; };
+		547FD9CF1C42C17100B01904 /* MRInteractivePlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRInteractivePlayerView.xib; sourceTree = "<group>"; };
+		547FD9D21C42C31700B01904 /* Session.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Session.storyboard; sourceTree = "<group>"; };
 		548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Muvr-Bridging-Header.h"; sourceTree = "<group>"; };
 		5487F59B1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKUnsafeBufferReader.swift; sourceTree = "<group>"; };
 		5487F59E1BB9B77E00ED2E97 /* MKCodec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKCodec.swift; sourceTree = "<group>"; };
@@ -431,6 +435,8 @@
 		548E27791BF3FD7600899EBC /* arms_model.layers.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arms_model.layers.txt; sourceTree = "<group>"; };
 		548E277A1BF3FD7600899EBC /* arms_model.weights.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = arms_model.weights.raw; sourceTree = "<group>"; };
 		548E277E1BF3FFA700899EBC /* MKActivationFunction+ApplyOn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKActivationFunction+ApplyOn.swift"; sourceTree = "<group>"; };
+		5493FC1E1C42C9C400317A15 /* MRSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionViewController.swift; sourceTree = "<group>"; };
+		5493FC211C42D17100317A15 /* String+Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
 		549A30091BDD0BC6006A70EB /* Muvr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Muvr.xcdatamodel; sourceTree = "<group>"; };
 		54A48AC71BA474F300F4A81B /* Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54A48ACA1BA474F300F4A81B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
@@ -446,7 +452,6 @@
 		54A775FA1BB81467001586DD /* Infoi.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Infoi.plist; sourceTree = "<group>"; };
 		54A7761C1BB8149E001586DD /* MuvrKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MuvrKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		54A7761E1BB81509001586DD /* Infow.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Infow.plist; sourceTree = "<group>"; };
-		54B27DCA1C3BDE4D000A07A2 /* Session.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Session.storyboard; sourceTree = "<group>"; };
 		54B27DCC1C3BE6A8000A07A2 /* MRHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRHomeViewController.swift; sourceTree = "<group>"; };
 		54B27DCE1C3BE9C8000A07A2 /* MRManagedClassifiedExercise+CoreDataAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedClassifiedExercise+CoreDataAnalytics.swift"; sourceTree = "<group>"; };
 		54B27DD01C3BE9F4000A07A2 /* MRManagedClassifiedExercise+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedClassifiedExercise+CoreDataOperations.swift"; sourceTree = "<group>"; };
@@ -460,7 +465,6 @@
 		54C528491C343BF300341D2B /* MRExerciseSetTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRExerciseSetTableViewCell.xib; sourceTree = "<group>"; };
 		54C5284B1C35640200341D2B /* MRColours.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRColours.swift; sourceTree = "<group>"; };
 		54C5284D1C35688700341D2B /* MRTimedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRTimedView.xib; sourceTree = "<group>"; };
-		54C5284F1C358BE300341D2B /* MRExercisingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisingViewController.swift; sourceTree = "<group>"; };
 		54C528511C359D9500341D2B /* MRExerciseTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRExerciseTableViewCell.xib; sourceTree = "<group>"; };
 		54C648841C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+CountRequest.swift"; sourceTree = "<group>"; };
 		54CAADCE1C39AF3000A7B0E6 /* MRManagedLocation+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedLocation+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -499,14 +503,12 @@
 		54F959C01C419D7F00D6A07D /* MRAnalyticTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRAnalyticTypes.swift; sourceTree = "<group>"; };
 		54FBA9661C3C692000FC4F8E /* MKRegression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRegression.swift; sourceTree = "<group>"; };
 		54FBA9681C3C6D8900FC4F8E /* MKLinearRegressionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKLinearRegressionTests.swift; sourceTree = "<group>"; };
-		54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionViewController.swift; sourceTree = "<group>"; };
 		54FEB0F81C39583800EC5293 /* MKPhoneSensorDataSplitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneSensorDataSplitter.swift; sourceTree = "<group>"; };
 		54FEB0FD1C39838F00EC5293 /* MKIncompleteExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKIncompleteExercise.swift; sourceTree = "<group>"; };
 		54FEB1001C39844000EC5293 /* MRIncompleteExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRIncompleteExercise.swift; sourceTree = "<group>"; };
 		640CC2A31BF62B9000764C4C /* MRSessionProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionProgressRing.swift; sourceTree = "<group>"; };
 		640CC2A51BF62BF600764C4C /* MRSessionProgressRingRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionProgressRingRenderer.swift; sourceTree = "<group>"; };
 		641780CD1C3BBB6F00B1FCCE /* MRStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRStackView.swift; sourceTree = "<group>"; };
-		641780D11C3C08C100B1FCCE /* MRLabellingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRLabellingViewController.swift; sourceTree = "<group>"; };
 		642363471C189A2400ABF4CA /* MRStorageAccessProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRStorageAccessProtocol.swift; sourceTree = "<group>"; };
 		6423634A1C189ABC00ABF4CA /* DigestAlgotithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigestAlgotithm.swift; sourceTree = "<group>"; };
 		6423634C1C189BF900ABF4CA /* MRExerciseSessionStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionStore.swift; sourceTree = "<group>"; };
@@ -707,12 +709,10 @@
 				541ABBA31AC577E00056A81B /* MRAppDelegate.swift */,
 				54EFE97A1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift */,
 				54B27DCC1C3BE6A8000A07A2 /* MRHomeViewController.swift */,
-				54FD504D1BDBD27C0015771D /* MRSessionViewController.swift */,
-				54C5284F1C358BE300341D2B /* MRExercisingViewController.swift */,
-				641780D11C3C08C100B1FCCE /* MRLabellingViewController.swift */,
+				5493FC1E1C42C9C400317A15 /* MRSessionViewController.swift */,
 				541ABBAA1AC577E00056A81B /* Images.xcassets */,
 				541ABBA71AC577E00056A81B /* Main.storyboard */,
-				54B27DCA1C3BDE4D000A07A2 /* Session.storyboard */,
+				547FD9D21C42C31700B01904 /* Session.storyboard */,
 				541ABBAC1AC577E00056A81B /* LaunchScreen.xib */,
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
 				FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */,
@@ -750,6 +750,7 @@
 				5421AEC51C40422F009CB4FA /* MRAggregateKey+Localisation.swift */,
 				5421AEC71C4042B2009CB4FA /* MRExerciseId+Localisation.swift */,
 				54585FF01C41A4A40050D770 /* MRAggregate+Localisation.swift */,
+				5493FC211C42D17100317A15 /* String+Localization.swift */,
 			);
 			name = Localisation;
 			sourceTree = "<group>";
@@ -954,6 +955,8 @@
 		54BEC0D01C34243700D63A04 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				547FD9CE1C42C17100B01904 /* MRInteractivePlayerView.swift */,
+				547FD9CF1C42C17100B01904 /* MRInteractivePlayerView.xib */,
 				54C5284B1C35640200341D2B /* MRColours.swift */,
 				54BEC0D11C34246200D63A04 /* MRExerciseTableViewCell.swift */,
 				54BEC0D41C34248200D63A04 /* MRExerciseSetTableViewCell.swift */,
@@ -1362,9 +1365,10 @@
 				541ABBA91AC577E00056A81B /* Main.storyboard in Resources */,
 				54C528521C359D9500341D2B /* MRExerciseTableViewCell.xib in Resources */,
 				9D30379C1B95CCC500426C70 /* Models.bundle in Resources */,
-				54B27DCB1C3BDE4D000A07A2 /* Session.storyboard in Resources */,
 				54C5284E1C35688700341D2B /* MRTimedView.xib in Resources */,
+				547FD9D11C42C17100B01904 /* MRInteractivePlayerView.xib in Resources */,
 				54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */,
+				547FD9D31C42C31700B01904 /* Session.storyboard in Resources */,
 				54C5284A1C343BF300341D2B /* MRExerciseSetTableViewCell.xib in Resources */,
 				541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */,
 				54CAADD71C39B19F00A7B0E6 /* Locations.bundle in Resources */,
@@ -1499,6 +1503,7 @@
 				5437BD3F1C40493400B518D9 /* MKGeneralExerciseType+ExerciseId.swift in Sources */,
 				642363531C18A03700ABF4CA /* NSURLRequest+Canonical.swift in Sources */,
 				543C9A1A1BDD439B00291EC5 /* MRManagedClassifiedExercise+CoreDataProperties.swift in Sources */,
+				5493FC221C42D17100317A15 /* String+Localization.swift in Sources */,
 				FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */,
 				543C9A161BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift in Sources */,
 				544DE9741C4023FB00297C6B /* MKIncompleteExercise+Locatlisation.swift in Sources */,
@@ -1511,7 +1516,6 @@
 				54730CC61C37F9A600BE1704 /* MRManagedExerciseSession+CoreDataOperations.swift in Sources */,
 				54B27DCF1C3BE9C8000A07A2 /* MRManagedClassifiedExercise+CoreDataAnalytics.swift in Sources */,
 				5437BD411C404A4000B518D9 /* MKGeneralExerciseType+Localisation.swift in Sources */,
-				641780D21C3C08C100B1FCCE /* MRLabellingViewController.swift in Sources */,
 				642CBC9F1C1ED07F0043E5EE /* MRExerciseModel.swift in Sources */,
 				543E90B21C26FF640050F87A /* Aws.swift in Sources */,
 				642CBCA71C1ED7D70043E5EE /* String+Regex.swift in Sources */,
@@ -1527,6 +1531,7 @@
 				641780CE1C3BBB6F00B1FCCE /* MRStackView.swift in Sources */,
 				642363551C18A09600ABF4CA /* String+Digest.swift in Sources */,
 				544DE96E1C401C8100297C6B /* MKIncompleteExercise+Type.swift in Sources */,
+				5493FC1F1C42C9C400317A15 /* MRSessionViewController.swift in Sources */,
 				549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */,
 				54CAADD91C39B52000A7B0E6 /* MRManagedLocation+JSON.swift in Sources */,
 				544DE9721C4023C200297C6B /* MKMuscleGroup+ExerciseId.swift in Sources */,
@@ -1538,7 +1543,6 @@
 				54C5284C1C35640200341D2B /* MRColours.swift in Sources */,
 				54BEC0D21C34246200D63A04 /* MRExerciseTableViewCell.swift in Sources */,
 				5419507D1C38427A00578FFD /* MRManagedLabelledExercise+JSON.swift in Sources */,
-				54FD504E1BDBD27C0015771D /* MRSessionViewController.swift in Sources */,
 				6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */,
 				5421AEC81C4042B2009CB4FA /* MRExerciseId+Localisation.swift in Sources */,
 				54BEC0D51C34248200D63A04 /* MRExerciseSetTableViewCell.swift in Sources */,
@@ -1547,7 +1551,7 @@
 				541950791C38318600578FFD /* MRExercise.swift in Sources */,
 				54CAADD41C39AF3000A7B0E6 /* MRManagedLocationLabel+CoreDataProperties.swift in Sources */,
 				543C9A191BDD439B00291EC5 /* MRManagedLabelledExercise.swift in Sources */,
-				54C528501C358BE300341D2B /* MRExercisingViewController.swift in Sources */,
+				547FD9D01C42C17100B01904 /* MRInteractivePlayerView.swift in Sources */,
 				5419507B1C38425800578FFD /* MRManagedClassifiedExercise+JSON.swift in Sources */,
 				54F959C11C419D7F00D6A07D /* MRAnalyticTypes.swift in Sources */,
 			);

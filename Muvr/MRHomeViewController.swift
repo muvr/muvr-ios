@@ -9,8 +9,16 @@ extension MRAggregate {
     /// Indicates whether there is a previous step to go to
     var hasPrevious: Bool {
         switch self {
-        case .Types: return true
-        default: return false
+        case .Types: return false
+        default: return true
+        }
+    }
+    
+    /// Indicates whether it is possible to start a session for this aggregate
+    var isStartable: Bool {
+        switch self {
+        case .Types: return false
+        default: return true
         }
     }
     
@@ -32,6 +40,7 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
     
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var pieChartBackButton: UIButton!
+    @IBOutlet weak var startButton: UIButton!
     
     /// The averages computed for the given ``aggregate``. Keep these two in sync!
     private var averages: [(MRAggregateKey, MRAverage)] = []
@@ -66,6 +75,8 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
             image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
             pieChartBackButton.setImage(image, forState: UIControlState.Normal)
         }
+        
+        startButton.hidden = true
     }
     
     // On appearance, show all .Types
@@ -76,6 +87,17 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
     // Goes one step back
     @IBAction func back() {
         reloadAverages(aggregate.previous)
+    }
+    
+    // Starts the selected session
+    @IBAction func start() {
+        switch aggregate {
+        case .MuscleGroups(let type):
+            MRAppDelegate.sharedDelegate().startSessionForExerciseType(type.concrete)
+        case .Exercises(let muscleGroup):
+            MRAppDelegate.sharedDelegate().startSessionForExerciseType(MKExerciseType.ResistanceTargeted(muscleGroups: [muscleGroup]))
+        default: break
+        }
     }
     
     // The user has tapped on the toolbar, wanting to see a different field from the averages
@@ -114,8 +136,12 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
         UIView.performWithoutAnimation {
             self.pieChartBackButton.setTitle(aggregate.title, forState: UIControlState.Normal)
             self.pieChartBackButton.layoutIfNeeded()
+            if aggregate.isStartable {
+                self.startButton.setTitle("Start %@ session".localized(aggregate.title), forState: UIControlState.Normal)
+            }
         }
-        pieChartBackButton.hidden = aggregate.hasPrevious
+        pieChartBackButton.hidden = !aggregate.hasPrevious
+        startButton.hidden = !aggregate.isStartable
         averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, aggregate: aggregate)
         reloadAveragesChart()
     }

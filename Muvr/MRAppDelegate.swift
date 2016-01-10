@@ -51,6 +51,11 @@ protocol MRApp {
     ///
     func exerciseIds(inModel model: MKExerciseModelId) -> [MKExerciseId]
     
+    ///
+    /// Explicitly starts an exercise session for the given ``type``.
+    /// - parameter type: the exercise type that the session initially starts with
+    ///
+    func startSessionForExerciseType(type: MKExerciseType)
 }
 
 @UIApplicationMain
@@ -243,19 +248,22 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - Session UI
     
     private func presentSessionControllerForSession(session: MRManagedExerciseSession) {
-        guard session.end == nil else { return }
-        let snvc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? UINavigationController
-        let svc = snvc?.topViewController as? MRSessionViewController
+        if session.end != nil { return }
+        
+        //let snvc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? UINavigationController
+        //let svc = snvc?.topViewController as? MRSessionViewController
+        let svc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? MRSessionViewController
         svc!.setSession(session)
         // window!.rootViewController!.navigationController?.presentViewController(sessionViewController!, animated: true, completion: nil)
-        window!.rootViewController!.presentViewController(snvc!, animated: true, completion: nil)
-        sessionViewController = snvc
+        window!.rootViewController!.presentViewController(svc!, animated: true, completion: nil)
+        sessionViewController = svc
     }
     
     private func dismissSessionControllerForSession(session: MRManagedExerciseSession) {
-        guard let currentSession = currentSession where currentSession == session else { return }
-        sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
-        sessionViewController = nil
+        if let currentSession = currentSession where currentSession == session {
+            sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
+            sessionViewController = nil
+        }
     }
     
     // MARK: - Session classification
@@ -314,7 +322,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             NSLog("cache persisted session into memory: \(persistedSession!)")
             sessions.append(persistedSession!)
         }
-
+    }
+    
+    func startSessionForExerciseType(type: MKExerciseType) {
+        // TODO: resolve model from type
+        sessionClassifierDidStart(MKExerciseSession(exerciseModelId: "arms"))
     }
     
     // MARK: - Core Location stack

@@ -29,6 +29,9 @@
 /* arms session */
 "arms-session" = "gym";
 
+/* Home */
+"Start %@ session" = "Start %@ session";
+
 /* MRAggregate */
 "MRAggregate.types" = "types";
 
