@@ -25,7 +25,7 @@ extension MRManagedExercisePlan {
             predicate =
                 NSCompoundPredicate(andPredicateWithSubpredicates: [
                     predicate,
-                    NSPredicate(format: "SUBQUERY(muscleGroups, $mg, $mg IN %@).@count=%d", muscleGroups.map { $0.id }, muscleGroups.count)
+                    NSPredicate(format: "SUBQUERY(muscleGroups, $mg, $mg.value IN %@).@count = %d", muscleGroups.map { $0.id }, muscleGroups.count)
                     //NSPredicate(format: "muscleGroups.value in %@", muscleGroups.map { $0.id })
                 ])
         }

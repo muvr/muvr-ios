@@ -31,7 +31,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     }
     
     ///
-    /// The list of exercises the user is likely to be doing
+    /// The non-empty list of exercises the user is likely to be doing
     ///
     var exercises: [MKIncompleteExercise] {
         if currentClassificationHint != nil {

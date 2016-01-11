@@ -21,6 +21,9 @@ extension MKGeneralExerciseType {
         return nil
     }
 
+    ///
+    /// The first portion of the Muvr exerciseId for this value.
+    ///
     var id: String {
         switch self {
         case .ResistanceTargeted: return MKGeneralExerciseType.resistanceTargeted
