@@ -20,7 +20,7 @@ public class MKExercisePlan<E : Hashable> {
     /// The chain of states collected so far
     private(set) internal var states: MKStateChain<E> = MKStateChain()
     /// The maximum number of states to keep
-    private let statesCount: Int = 8
+    private let statesCount: Int = 16
     /// The first state, if known
     private(set) internal var first: E?
     

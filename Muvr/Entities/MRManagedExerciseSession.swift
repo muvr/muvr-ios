@@ -10,6 +10,22 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     var plan = MKExercisePlan<MKExerciseId>()
     
     ///
+    /// The exercise types in this session, ordered by the number of exercises in each type
+    ///
+    var types: [MKExerciseType] {
+        var counter: [MKExerciseType : Int] = [:]
+        for e in combinedExercises {
+            let type = MKExerciseType.fromExerciseId(e.exerciseId)!
+            if let count = counter[type] {
+                counter[type] = count + 1
+            } else {
+                counter[type] = 1
+            }
+        }
+        return counter.sort { l, r in return l.1 < r.1 } . map { $0.0 }
+    }
+    
+    ///
     /// The list of exercises the user is likely to be doing
     ///
     var exercises: [MKIncompleteExercise] {
