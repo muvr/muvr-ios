@@ -60,6 +60,10 @@
 		5450C2A11BC3FFF100B257E7 /* MuvrUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5450C2A01BC3FFF100B257E7 /* MuvrUITests.swift */; };
 		545269051BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545269031BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift */; };
 		54585FF11C41A4A40050D770 /* MRAggregate+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54585FF01C41A4A40050D770 /* MRAggregate+Localisation.swift */; };
+		5460A7991C443AAE00070ADC /* MRLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460A7981C443AAE00070ADC /* MRLocationCoordinate2D.swift */; };
+		5460A79B1C443B1B00070ADC /* MRManagedLocation+MRLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460A79A1C443B1B00070ADC /* MRManagedLocation+MRLocationCoordinate2D.swift */; };
+		5460A79D1C443B8400070ADC /* CLLocationCoordinate2D+MRLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460A79C1C443B8400070ADC /* CLLocationCoordinate2D+MRLocationCoordinate2D.swift */; };
+		5460A79F1C443FB400070ADC /* NSPredicate+Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460A79E1C443FB400070ADC /* NSPredicate+Location.swift */; };
 		5469081B1BC701C200BA1047 /* MKWatchExerciseConnectivitySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546908191BC701BC00BA1047 /* MKWatchExerciseConnectivitySession.swift */; };
 		5469D3821BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */; };
 		5469D3831BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */; };
@@ -379,6 +383,10 @@
 		545269031BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorDataType+Decoding.swift"; sourceTree = "<group>"; };
 		5455E71F1AF9022A0049BB6B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		54585FF01C41A4A40050D770 /* MRAggregate+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRAggregate+Localisation.swift"; sourceTree = "<group>"; };
+		5460A7981C443AAE00070ADC /* MRLocationCoordinate2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRLocationCoordinate2D.swift; sourceTree = "<group>"; };
+		5460A79A1C443B1B00070ADC /* MRManagedLocation+MRLocationCoordinate2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedLocation+MRLocationCoordinate2D.swift"; sourceTree = "<group>"; };
+		5460A79C1C443B8400070ADC /* CLLocationCoordinate2D+MRLocationCoordinate2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+MRLocationCoordinate2D.swift"; sourceTree = "<group>"; };
+		5460A79E1C443FB400070ADC /* NSPredicate+Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSPredicate+Location.swift"; sourceTree = "<group>"; };
 		546908191BC701BC00BA1047 /* MKWatchExerciseConnectivitySession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKWatchExerciseConnectivitySession.swift; sourceTree = "<group>"; };
 		5469D3811BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseModelTypes.swift; sourceTree = "<group>"; };
 		5469D3841BBA764900EE5ADB /* MKRepetitionEstimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRepetitionEstimator.swift; sourceTree = "<group>"; };
@@ -725,6 +733,8 @@
 				544DE9701C4023C200297C6B /* MKMuscleGroup+ExerciseId.swift */,
 				5437BD3E1C40493400B518D9 /* MKGeneralExerciseType+ExerciseId.swift */,
 				5421AEBE1C403AE4009CB4FA /* MRExerciseId.swift */,
+				5460A7981C443AAE00070ADC /* MRLocationCoordinate2D.swift */,
+				5460A79C1C443B8400070ADC /* CLLocationCoordinate2D+MRLocationCoordinate2D.swift */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -775,6 +785,7 @@
 				54CAADCF1C39AF3000A7B0E6 /* MRManagedLocation.swift */,
 				54CAADDF1C39C87C00A7B0E6 /* MRManagedLocation+CoreDataOperations.swift */,
 				54CAADCE1C39AF3000A7B0E6 /* MRManagedLocation+CoreDataProperties.swift */,
+				5460A79A1C443B1B00070ADC /* MRManagedLocation+MRLocationCoordinate2D.swift */,
 				54CAADD81C39B52000A7B0E6 /* MRManagedLocation+JSON.swift */,
 				54CAADD11C39AF3000A7B0E6 /* MRManagedLocationLabel.swift */,
 				54CAADD01C39AF3000A7B0E6 /* MRManagedLocationLabel+CoreDataProperties.swift */,
@@ -783,6 +794,7 @@
 				54BDDDD51C4427FC0054A059 /* MRManagedMuscleGroup+CoreDataProperties.swift */,
 				54C648841C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift */,
 				54F959C01C419D7F00D6A07D /* MRAnalyticTypes.swift */,
+				5460A79E1C443FB400070ADC /* NSPredicate+Location.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1497,7 +1509,9 @@
 				642363531C18A03700ABF4CA /* NSURLRequest+Canonical.swift in Sources */,
 				543C9A1A1BDD439B00291EC5 /* MRManagedClassifiedExercise+CoreDataProperties.swift in Sources */,
 				5493FC221C42D17100317A15 /* String+Localization.swift in Sources */,
+				5460A79B1C443B1B00070ADC /* MRManagedLocation+MRLocationCoordinate2D.swift in Sources */,
 				FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */,
+				5460A7991C443AAE00070ADC /* MRLocationCoordinate2D.swift in Sources */,
 				543C9A161BDD439B00291EC5 /* MRManagedExerciseSession+CoreDataProperties.swift in Sources */,
 				544DE9741C4023FB00297C6B /* MKIncompleteExercise+Locatlisation.swift in Sources */,
 				6423634D1C189BF900ABF4CA /* MRExerciseSessionStore.swift in Sources */,
@@ -1506,6 +1520,7 @@
 				5421AEBF1C403AE4009CB4FA /* MRExerciseId.swift in Sources */,
 				642CBCA11C1ED0FF0043E5EE /* MRExerciseModel+Parsing.swift in Sources */,
 				544DE9711C4023C200297C6B /* MKExerciseType+ExerciseId.swift in Sources */,
+				5460A79D1C443B8400070ADC /* CLLocationCoordinate2D+MRLocationCoordinate2D.swift in Sources */,
 				54BDDDDA1C4427FC0054A059 /* MRManagedExercisePlan+CoreDataProperties.swift in Sources */,
 				54730CC61C37F9A600BE1704 /* MRManagedExerciseSession+CoreDataOperations.swift in Sources */,
 				54B27DCF1C3BE9C8000A07A2 /* MRManagedClassifiedExercise+CoreDataAnalytics.swift in Sources */,
@@ -1526,6 +1541,7 @@
 				544DE96E1C401C8100297C6B /* MKIncompleteExercise+Type.swift in Sources */,
 				5493FC1F1C42C9C400317A15 /* MRSessionViewController.swift in Sources */,
 				549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */,
+				5460A79F1C443FB400070ADC /* NSPredicate+Location.swift in Sources */,
 				54CAADD91C39B52000A7B0E6 /* MRManagedLocation+JSON.swift in Sources */,
 				54EC60691C42F7A700B3D2A8 /* MRManagedExercisePlan+CoreDataOperations.swift in Sources */,
 				544DE9721C4023C200297C6B /* MKMuscleGroup+ExerciseId.swift in Sources */,

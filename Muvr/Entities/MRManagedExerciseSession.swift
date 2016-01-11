@@ -1,6 +1,7 @@
 import Foundation
 import CoreData
 import MuvrKit
+import CoreLocation
 
 class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     private var currentClassificationHint: MKClassificationHint?
@@ -8,7 +9,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     var estimated: [MKClassifiedExercise] = []
     /// The exercise plan
     var plan = MKExercisePlan<MKExerciseId>()
-    /// The session's intended exercise type
+    /// The intended exercise type
     var intendedType: MKExerciseType?
     
     ///
@@ -43,12 +44,16 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     }
         
     ///
-    /// The list of exercises that the user has most likely just finished doing
+    /// The list of exercises that the user is most likely to be doing next
     ///
     var plannedExercises: [MKIncompleteExercise] {
-        return plan.next.map { exerciseId in
+        let pes: [MKIncompleteExercise] = plan.next.map { exerciseId in
             return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
         }
+        if !pes.isEmpty {
+            return pes
+        }
+        return unplannedExercises
     }
     
     ///

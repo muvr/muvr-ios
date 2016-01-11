@@ -11,7 +11,7 @@ extension MKExercisePlan {
     /// - parameter stateTransform: the function to turn ``E`` into its ``String`` representation
     /// - returns: the JSON representation
     ///
-    func json(stateTransform: E -> String) -> NSData {
+    public func json(stateTransform: E -> String) -> NSData {
         var result: [String : AnyObject] = ["chain": chain.json(stateTransform)]
         if let first = first {
             result["first"] = stateTransform(first)
@@ -28,7 +28,7 @@ extension MKExercisePlan {
     /// - parameter stateTransform: the function to turn ``AnyObject`` into its ``E`` representation
     /// - returns: the loaded exercise plan.
     ///
-    static func fromJsonFirst<E>(data: NSData, stateTransform: AnyObject -> E?) -> MKExercisePlan<E>? {
+    public static func fromJsonFirst<E>(data: NSData, stateTransform: AnyObject -> E?) -> MKExercisePlan<E>? {
         guard let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) else { return nil }
         
         if let json = json as? [String : AnyObject],

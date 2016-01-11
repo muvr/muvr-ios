@@ -14,9 +14,10 @@ import CoreData
 
 extension MRManagedExercisePlan {
 
-    @NSManaged var lon: Double
-    @NSManaged var lat: Double
-    @NSManaged var exerciseType: Int32
+    @NSManaged var longitude: NSNumber?
+    @NSManaged var latitude: NSNumber?
+    @NSManaged var exerciseType: String
     @NSManaged var muscleGroups: NSSet?
+    @NSManaged var planData: NSData
 
 }
