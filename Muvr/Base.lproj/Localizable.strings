@@ -3,6 +3,9 @@
 
 /* Session */
 "Coming up" = "Coming up";
+"Get ready for" = "Get ready for";
+"Stop" = "Stop";
+"Finished" = "Finished";
 
 /* MRAggregate */
 "MRAggregate.types" = "types";
