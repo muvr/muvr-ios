@@ -8,11 +8,15 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     var estimated: [MKClassifiedExercise] = []
     /// The exercise plan
     var plan = MKExercisePlan<MKExerciseId>()
+    /// The session's intended exercise type
+    var intendedType: MKExerciseType?
     
     ///
-    /// The exercise types in this session, ordered by the number of exercises in each type
+    /// The exercise type inferred by taking the most frequently done exercise type in this session.
+    /// If the user does what he or she intended, then ``intendedType`` == ``inferredType``, and both
+    /// will be != nil.
     ///
-    var types: [MKExerciseType] {
+    var inferredType: MKExerciseType? {
         var counter: [MKExerciseType : Int] = [:]
         for e in combinedExercises {
             let type = MKExerciseType.fromExerciseId(e.exerciseId)!
@@ -22,7 +26,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
                 counter[type] = 1
             }
         }
-        return counter.sort { l, r in return l.1 < r.1 } . map { $0.0 }
+        return counter.sort { l, r in return l.1 < r.1 } . map { $0.0 } . first
     }
     
     ///
