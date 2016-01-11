@@ -10,6 +10,12 @@
         <attribute name="start" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="exerciseSession" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedExerciseSession" inverseName="classifiedExercises" inverseEntity="MRManagedExerciseSession" syncable="YES"/>
     </entity>
+    <entity name="MRManagedExercisePlan" representedClassName=".MRManagedExercisePlan" syncable="YES">
+        <attribute name="exerciseType" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lon" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="muscleGroups" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRManagedMuscleGroup" inverseName="exercisePlan" inverseEntity="MRManagedMuscleGroup" syncable="YES"/>
+    </entity>
     <entity name="MRManagedExerciseSession" representedClassName=".MRManagedExerciseSession" syncable="YES">
         <attribute name="completed" attributeType="Boolean" syncable="YES"/>
         <attribute name="end" optional="YES" attributeType="Date" syncable="YES"/>
@@ -48,11 +54,17 @@
         <attribute name="weightIncrement" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedLocation" inverseName="labels" inverseEntity="MRManagedLocation" syncable="YES"/>
     </entity>
+    <entity name="MRManagedMuscleGroup" representedClassName=".MRManagedMuscleGroup" syncable="YES">
+        <attribute name="value" attributeType="String" syncable="YES"/>
+        <relationship name="exercisePlan" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedExercisePlan" inverseName="muscleGroups" inverseEntity="MRManagedExercisePlan" syncable="YES"/>
+    </entity>
     <elements>
         <element name="MRManagedClassifiedExercise" positionX="-1098" positionY="-459" width="128" height="165"/>
         <element name="MRManagedExerciseSession" positionX="-765" positionY="-162" width="128" height="195"/>
         <element name="MRManagedLabelledExercise" positionX="-1746" positionY="-531" width="128" height="150"/>
         <element name="MRManagedLocation" positionX="-1539" positionY="-378" width="128" height="135"/>
         <element name="MRManagedLocationLabel" positionX="-1530" positionY="-369" width="128" height="150"/>
+        <element name="MRManagedExercisePlan" positionX="-1539" positionY="-378" width="128" height="105"/>
+        <element name="MRManagedMuscleGroup" positionX="-1530" positionY="-369" width="128" height="75"/>
     </elements>
 </model>
