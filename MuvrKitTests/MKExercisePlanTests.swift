@@ -10,9 +10,9 @@ class MKExercisePlanTests : XCTestCase {
         let estimates: [Bool] = (0..<exercises.count - 1).map { i in
             let completed = exercises[i]
             let expected = exercises[i + 1]
-            plan.addExercise(completed)
+            plan.insert(completed)
          
-            return plan.nextExercises.first.map { $0 == expected} ?? true
+            return plan.next.first.map { $0 == expected} ?? true
         }
         let successes = Double(estimates.filter { $0 == true }.count)
         let failures  = Double(estimates.filter { $0 == false }.count)
