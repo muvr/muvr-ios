@@ -497,7 +497,7 @@ private extension MKExerciseSession {
         return [
             "sessionId" : id,
             "start" : start.timeIntervalSince1970,
-            "exerciseType": exerciseType.fullname
+            "exerciseType": exerciseType.json
         ]
     }
     
@@ -512,7 +512,7 @@ private extension MKExerciseSession {
         return [
             "id":           self.id,
             "start":        self.start.timeIntervalSinceReferenceDate,
-            "exerciseType": self.exerciseType.fullname
+            "exerciseType": self.exerciseType.json
         ]
     }
     
@@ -525,7 +525,7 @@ private extension MKExerciseSession {
             start = NSDate(timeIntervalSinceReferenceDate: startDate)
         }
         
-        let exerciseType = MKExerciseType.fromStr(properties["exerciseType"] as? String)
+        let exerciseType = MKExerciseType.fromJson(properties["exerciseType"] as? MKExerciseTypeJson)
         
         if  id != nil && start != nil && exerciseType != nil {
             self.init(id: id!, start: start!, exerciseType: exerciseType!)

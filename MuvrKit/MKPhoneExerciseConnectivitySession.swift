@@ -43,7 +43,7 @@ public struct MKExerciseConnectivitySession {
         let last = (metadata["last"] as? Bool) ?? false
         if let sessionId = metadata["sessionId"] as? String,
                startTimestamp = metadata["start"] as? Double,
-               exerciseType = MKExerciseType.fromStr(metadata["exerciseType"] as? String) {
+               exerciseType = MKExerciseType.fromJson(metadata["exerciseType"] as? MKExerciseTypeJson) {
                 return MKExerciseConnectivitySession(
                     id: sessionId,
                     start: NSDate(timeIntervalSince1970: startTimestamp),

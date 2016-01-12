@@ -11,7 +11,7 @@ class MRExerciseTypeController: NSObject {
     
     func setType(type: MKExerciseType, mainCtrl: MRMainController) {
         exerciseType = type
-        startExerciseType.setTitle(exerciseType?.fullname)
+        startExerciseType.setTitle(exerciseType?.description)
         mainController = mainCtrl
     }
     
