@@ -10,13 +10,17 @@ class MRBarsView: UIView {
             setNeedsDisplay()
         }
     }
-
+    
     @IBInspectable
-    var value: Int = 3 {
-        didSet {
+    var value: Int {
+        get { return _value }
+        set(v) {
+            _value = v
             setNeedsDisplay()
         }
     }
+    
+    var _value: Int = 5
     
     @IBInspectable
     var barColor: UIColor = UIColor.blackColor() {

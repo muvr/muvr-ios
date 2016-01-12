@@ -209,6 +209,7 @@
 		6428CE261C44FC3000D17451 /* MRCircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE251C44FC3000D17451 /* MRCircleButton.swift */; };
 		6428CE2A1C45127500D17451 /* MRSessionComingUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE291C45127500D17451 /* MRSessionComingUpViewController.swift */; };
 		6428CE2C1C451FC700D17451 /* MRSessionLabellingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE2B1C451FC700D17451 /* MRSessionLabellingViewController.swift */; };
+		6428CE321C45340700D17451 /* MRAlternateExerciseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE311C45340700D17451 /* MRAlternateExerciseButton.swift */; };
 		642CBC9F1C1ED07F0043E5EE /* MRExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CBC9E1C1ED07F0043E5EE /* MRExerciseModel.swift */; };
 		642CBCA11C1ED0FF0043E5EE /* MRExerciseModel+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CBCA01C1ED0FF0043E5EE /* MRExerciseModel+Parsing.swift */; };
 		642CBCA31C1ED1D50043E5EE /* MRExerciseModelStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CBCA21C1ED1D50043E5EE /* MRExerciseModelStore.swift */; };
@@ -542,6 +543,7 @@
 		6428CE251C44FC3000D17451 /* MRCircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRCircleButton.swift; sourceTree = "<group>"; };
 		6428CE291C45127500D17451 /* MRSessionComingUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionComingUpViewController.swift; sourceTree = "<group>"; };
 		6428CE2B1C451FC700D17451 /* MRSessionLabellingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionLabellingViewController.swift; sourceTree = "<group>"; };
+		6428CE311C45340700D17451 /* MRAlternateExerciseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRAlternateExerciseButton.swift; sourceTree = "<group>"; };
 		642CBC9E1C1ED07F0043E5EE /* MRExerciseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModel.swift; sourceTree = "<group>"; };
 		642CBCA01C1ED0FF0043E5EE /* MRExerciseModel+Parsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseModel+Parsing.swift"; sourceTree = "<group>"; };
 		642CBCA21C1ED1D50043E5EE /* MRExerciseModelStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModelStore.swift; sourceTree = "<group>"; };
@@ -1007,6 +1009,7 @@
 				6428CE211C4416D300D17451 /* MRWeightView.swift */,
 				6428CE231C44EEAA00D17451 /* MRBarsView.swift */,
 				6428CE251C44FC3000D17451 /* MRCircleButton.swift */,
+				6428CE311C45340700D17451 /* MRAlternateExerciseButton.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1532,6 +1535,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				642363481C189A2400ABF4CA /* MRStorageAccessProtocol.swift in Sources */,
+				6428CE321C45340700D17451 /* MRAlternateExerciseButton.swift in Sources */,
 				54CAADD51C39AF3000A7B0E6 /* MRManagedLocationLabel.swift in Sources */,
 				6428CE241C44EEAA00D17451 /* MRBarsView.swift in Sources */,
 				54B27DD11C3BE9F4000A07A2 /* MRManagedClassifiedExercise+CoreDataOperations.swift in Sources */,

@@ -13,11 +13,15 @@ class MRWeightView: UIView {
     }
     
     @IBInspectable
-    var value: Double? = nil {
-        didSet {
-            label.text = value.map { NSMassFormatter().stringFromKilograms($0) } ?? nil
+    var value: Double? {
+        get { return _value }
+        set(v) {
+            _value = v.map { max(0, $0) }
+            label.text = v.map { NSMassFormatter().stringFromKilograms($0) } ?? nil
         }
     }
+    
+    var _value: Double? = nil
         
     var font: UIFont = UIFont.systemFontOfSize(17) {
         didSet {

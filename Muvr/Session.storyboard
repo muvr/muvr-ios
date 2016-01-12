@@ -179,7 +179,9 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="incrementRepetitions" destination="vj1-FS-bjP" eventType="touchUpInside" id="499-Ad-zsy"/>
+                                    <action selector="startIncRepetitions" destination="vj1-FS-bjP" eventType="touchDown" id="B0J-ZJ-lOi"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="TU1-Dv-uB4"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="zdv-LV-dks"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ruX-a2-Mdn" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
@@ -188,7 +190,9 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="decrementRepetitions" destination="vj1-FS-bjP" eventType="touchUpInside" id="nPO-gd-hSh"/>
+                                    <action selector="startDecRepetitions" destination="vj1-FS-bjP" eventType="touchDown" id="sSk-JC-geT"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="9JG-UQ-8T3"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="d5u-SJ-G2x"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dxu-gc-NrT" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
@@ -197,7 +201,9 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="incrementWeight" destination="vj1-FS-bjP" eventType="touchUpInside" id="YUl-NS-n4U"/>
+                                    <action selector="startIncWeight" destination="vj1-FS-bjP" eventType="touchDown" id="jEl-B7-T8V"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="s5m-5y-iyP"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="wnK-6g-9IQ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dha-EC-xUP" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
@@ -206,7 +212,9 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="decrementWeight" destination="vj1-FS-bjP" eventType="touchUpInside" id="62o-EF-Pf5"/>
+                                    <action selector="startDecWeight" destination="vj1-FS-bjP" eventType="touchDown" id="4Tk-af-2GV"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="3FR-26-joE"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="SCn-I6-Fjb"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WyZ-RK-fJq" customClass="MRWeightView" customModule="Muvr" customModuleProvider="target">
@@ -219,7 +227,9 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="incrementIntensity" destination="vj1-FS-bjP" eventType="touchUpInside" id="a9S-r6-wNa"/>
+                                    <action selector="startIncIntensity" destination="vj1-FS-bjP" eventType="touchDown" id="99e-qL-qyR"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="8ht-Tp-zjb"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="nMf-p8-SDn"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Us9-gI-WEZ" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
@@ -228,7 +238,9 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="decrementIntensity" destination="vj1-FS-bjP" eventType="touchUpInside" id="BQO-eP-iOl"/>
+                                    <action selector="startDecIntensity" destination="vj1-FS-bjP" eventType="touchDown" id="NDn-7Z-KsM"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="VMI-sL-aPD"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="t1u-pu-mbc"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pWj-ui-9rh" customClass="MRBarsView" customModule="Muvr" customModuleProvider="target">
