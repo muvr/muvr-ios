@@ -2,12 +2,22 @@ import Foundation
 import UIKit
 import MuvrKit
 
+///
+/// Displays a scroll view of exercises that are coming up in the exercise session.
+/// To use, call the ``setExercises`` function, providing the list of exercises to
+/// be displayed, and an action to be called when an execie is selected.
+///
 class MRSessionComingUpViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBAction func unwindToComingUp(unwindSegue: UIStoryboardSegue) { }
     
     private var onSelected: (MKIncompleteExercise -> Void)!
-    
+
+    ///
+    /// Sets the exercises to be displayed, and the function to be called when an exercise is tapped
+    /// - parameter exercises: the exercises to be displayed
+    /// - parameter onSelected: the function to be called on selection
+    ///
     func setExercises(exercises: [MKIncompleteExercise], onSelected: MKIncompleteExercise -> Void) {
         scrollView.subviews.forEach { $0.removeFromSuperview() }
         
@@ -26,6 +36,7 @@ class MRSessionComingUpViewController: UIViewController {
         }
     }
     
+    /// This needs to be public as a handler for the button tap event. Do not call.
     func exerciseSelected(sender: UIButton) {
         if let exercise = (sender as? MRAlternateExerciseButton)?.exercise {
             onSelected(exercise)

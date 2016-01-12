@@ -2,8 +2,11 @@ import UIKit
 import MuvrKit
 
 protocol MRExerciseViewDelegate {
-    func tapped()
-    func circleDidComplete()
+    func exerciseViewTapped(exerciseView: MRExerciseView)
+    
+    func exerciseViewLongTapped(exerciseView: MRExerciseView)
+    
+    func exerciseViewCircleDidComplete(exerciseView: MRExerciseView)
 }
 
 ///
@@ -48,22 +51,6 @@ class MRExerciseView : UIView {
     private var isAnimating : Bool = false
 
     private let circleLayer: CAShapeLayer = CAShapeLayer()
-
-    
-    /* 
-     *
-     * Set Images in storyBoard with IBInspectable variables
-     *
-     *
-    @IBInspectable var coverImage: UIImage? {
-        get {
-            return coverImageView.image
-        }
-        set(coverImage) {
-            coverImageView.image = coverImage
-        }
-    }
-    */
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -99,7 +86,7 @@ class MRExerciseView : UIView {
     override func animationDidStop(anim: CAAnimation, finished: Bool) {
         isAnimating = false
         if finished {
-            delegate?.circleDidComplete()
+            delegate?.exerciseViewCircleDidComplete(self)
         }
     }
     
@@ -122,6 +109,11 @@ class MRExerciseView : UIView {
                 
         addSubview(view)
         updateUI()
+        
+        let recognizer = UILongPressGestureRecognizer(target: self, action: "buttonDidLongPress")
+        recognizer.minimumPressDuration = 1
+        recognizer.allowableMovement = 100
+        button.addGestureRecognizer(recognizer)
     }
     
     private func loadViewFromNib() -> UIView {
@@ -236,8 +228,6 @@ class MRExerciseView : UIView {
     }
     
 
-    // MARK: - public functions
-    
     private func updateUI() {
         let edgeInsets = UIEdgeInsets(top: frame.height / 3, left: 0, bottom: 0, right: 0)
         
@@ -268,10 +258,16 @@ class MRExerciseView : UIView {
     }
     
     
-    @IBAction func buttonDidPressed(sender: UIButton) {
-        delegate?.tapped()
+    @IBAction private func buttonDidPressed(sender: UIButton) {
+        delegate?.exerciseViewTapped(self)
+    }
+    
+    func buttonDidLongPress() {
+        delegate?.exerciseViewLongTapped(self)
     }
 
+    // MARK: - public API
+    
     ///
     /// The exercise being displayed
     ///
