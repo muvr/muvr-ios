@@ -332,7 +332,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func startSessionForExerciseType(type: MKExerciseType) {
         // TODO: resolve model from type
-        sessionClassifierDidStart(MKExerciseSession(exerciseModelId: "arms", exerciseType: type))
+        sessionClassifierDidStart(MKExerciseSession(exerciseType: type))
     }
     
     // MARK: - Core Location stack

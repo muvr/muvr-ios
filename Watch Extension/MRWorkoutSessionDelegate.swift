@@ -6,6 +6,7 @@
 //  Copyright © 2015 Muvr. All rights reserved.
 //
 import HealthKit
+import MuvrKit
 
 public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate {
 
@@ -14,7 +15,7 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
     }()
     
     private var workoutSession: HKWorkoutSession? = nil
-    private var model: String? = nil
+    private var exerciseType: MKExerciseType? = nil
     private var start: NSDate? = nil
     private var end: NSDate? = nil
     
@@ -47,7 +48,7 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
         }
     }
     
-    func startSession(start start: NSDate, model: String) {
+    func startSession(start start: NSDate, exerciseType type: MKExerciseType) {
         // Only proceed if health data is available.
         guard HKHealthStore.isHealthDataAvailable() else {
             NSLog("HealthKit not available")
@@ -57,10 +58,10 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
         let workoutSession = HKWorkoutSession(activityType: .TraditionalStrengthTraining, locationType: .Indoor)
         workoutSession.delegate = self
         resetSession()
-        self.model = model
         self.start = start
         self.healthStore.startWorkoutSession(workoutSession)
         self.workoutSession = workoutSession
+        self.exerciseType = type
     }
     
     func stopSession(end end: NSDate) {
@@ -145,7 +146,7 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
     
     /// save workout into healthkit
     private func saveWorkout() {
-        guard let start = start, let model = model, let end = end else {
+        guard let start = start, let exerciseType = exerciseType, let end = end else {
             NSLog("Incomplete workout")
             return
         }
@@ -155,7 +156,7 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
         }
         let totalEnergyBurned = energyBurned.map { HKQuantity(unit: HKUnit.kilocalorieUnit(), doubleValue: $0) }
         let duration = end.timeIntervalSinceDate(start)
-        let workout = HKWorkout(activityType: HKWorkoutActivityType.TraditionalStrengthTraining, startDate: start, endDate: end, duration: duration, totalEnergyBurned: totalEnergyBurned, totalDistance: nil, metadata: ["model":model])
+        let workout = HKWorkout(activityType: HKWorkoutActivityType.TraditionalStrengthTraining, startDate: start, endDate: end, duration: duration, totalEnergyBurned: totalEnergyBurned, totalDistance: nil, metadata: ["model": exerciseType.fullname])
         healthStore.saveObject(workout) { success, error in
             if let error = error where !success {
                 NSLog("Failed to save workout: \(error)")
@@ -170,7 +171,7 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
         self.workoutSession = nil
         self.start = nil
         self.end = nil
-        self.model = nil
+        self.exerciseType = nil
         self.heartrate = nil
         self.energyBurned = nil
     }

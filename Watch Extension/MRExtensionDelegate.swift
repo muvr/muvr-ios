@@ -52,10 +52,9 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     ///
     /// Starts the session
     ///
-    func startSession(exerciseModelMetadataIndex exerciseModelMetadataIndex: Int, exerciseType: MKExerciseType) {
-        let (modelId, _) = exerciseModelMetadata[exerciseModelMetadataIndex]
-        connectivity.startSession(modelId, exerciseType: exerciseType)
-        workoutDelegate.startSession(start: NSDate(), model: modelId)
+    func startSession(exerciseType: MKExerciseType) {
+        connectivity.startSession(exerciseType)
+        workoutDelegate.startSession(start: NSDate(), exerciseType: exerciseType)
     }
     
     ///

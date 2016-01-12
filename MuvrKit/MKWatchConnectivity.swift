@@ -453,8 +453,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter modelId: the model id so that the phone can properly classify the data
     /// - parameter demo: set for demo mode
     ///
-    public func startSession(modelId: MKExerciseModelId, exerciseType: MKExerciseType) {
-        let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), modelId: modelId, exerciseType: exerciseType)
+    public func startSession(exerciseType: MKExerciseType) {
+        let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), exerciseType: exerciseType)
         sessions.add(session)
         WCSession.defaultSession().transferUserInfo(session.metadata)
     }
@@ -495,7 +495,6 @@ private extension MKExerciseSession {
 
     var metadata: [String : AnyObject] {
         return [
-            "exerciseModelId" : modelId,
             "sessionId" : id,
             "start" : start.timeIntervalSince1970,
             "exerciseType": exerciseType.fullname
@@ -513,7 +512,6 @@ private extension MKExerciseSession {
         return [
             "id":           self.id,
             "start":        self.start.timeIntervalSinceReferenceDate,
-            "modelId":      self.modelId,
             "exerciseType": self.exerciseType.fullname
         ]
     }
@@ -527,11 +525,10 @@ private extension MKExerciseSession {
             start = NSDate(timeIntervalSinceReferenceDate: startDate)
         }
         
-        let modelId = properties["modelId"] as? String
         let exerciseType = MKExerciseType.fromStr(properties["exerciseType"] as? String)
         
-        if  id != nil && start != nil && modelId != nil && exerciseType != nil {
-            self.init(id: id!, start: start!, modelId: modelId!, exerciseType: exerciseType!)
+        if  id != nil && start != nil && exerciseType != nil {
+            self.init(id: id!, start: start!, exerciseType: exerciseType!)
         } else {
             return nil
         }
