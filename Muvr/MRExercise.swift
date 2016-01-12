@@ -1,6 +1,7 @@
 import Foundation
 import MuvrKit
 
+/// Implements the MKExercise
 struct MRExercise : MKExercise {
     let exerciseId: MKExerciseId
     let duration: Double

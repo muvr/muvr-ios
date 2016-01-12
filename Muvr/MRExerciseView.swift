@@ -3,6 +3,7 @@ import MuvrKit
 
 protocol MRExerciseViewDelegate {
     func tapped()
+    func circleDidComplete()
 }
 
 ///
@@ -30,7 +31,16 @@ class MRExerciseView : UIView {
         
     /// set progress colors
     var progressEmptyColor : UIColor = UIColor.grayColor()
-    var progressFullColor : UIColor = UIColor.redColor()
+    var progressFullColor : UIColor = UIColor.clearColor() {
+        didSet {
+            let animation = CABasicAnimation(keyPath: "strokeColor")
+            animation.fromValue = circleLayer.strokeColor
+            animation.toValue = progressFullColor.CGColor
+            animation.duration = 0.3
+            circleLayer.strokeColor = progressFullColor.CGColor
+            circleLayer.addAnimation(animation, forKey: "animateColor")
+        }
+    }
     
     private let lineWidth: CGFloat = 4
     
@@ -80,13 +90,24 @@ class MRExerciseView : UIView {
     }
     
     override func animationDidStart(anim: CAAnimation) {
-        circleLayer.strokeColor = progressFullColor.CGColor
-        isAnimating = true
+        if isCircleAnimation(anim) {
+            circleLayer.strokeColor = progressFullColor.CGColor
+            isAnimating = true
+        }
     }
     
-    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+    override func animationDidStop(anim: CAAnimation, finished: Bool) {
         isAnimating = false
-        circleLayer.strokeColor = UIColor.clearColor().CGColor
+        if finished {
+            delegate?.circleDidComplete()
+        }
+    }
+    
+    private func isCircleAnimation(anim: CAAnimation) -> Bool {
+        if let circleAnim = circleLayer.animationForKey("animateCircle") {
+            return circleAnim == anim
+        }
+        return false
     }
     
     private func createUI() {
@@ -118,8 +139,8 @@ class MRExerciseView : UIView {
         let startAngle = CGFloat(M_PI_2)
         let endAngle = CGFloat(M_PI * 2 + M_PI_2)
         
-        let path = UIBezierPath(arcCenter:centerPoint, radius: CGRectGetWidth(frame) / 2 + 5, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
-        
+        let path = UIBezierPath(arcCenter:centerPoint, radius: (CGRectGetWidth(frame) - 4 * lineWidth) / 2 + 5, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
+
         let arc = CAShapeLayer()
         arc.lineWidth = lineWidth
         arc.path = path
@@ -141,7 +162,7 @@ class MRExerciseView : UIView {
         
         // Use UIBezierPath as an easy way to create the CGPath for the layer.
         // The path should be the entire circle.
-        let circlePath = UIBezierPath(arcCenter:centerPoint, radius: CGRectGetWidth(frame)/2+5, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
+        let circlePath = UIBezierPath(arcCenter:centerPoint, radius: (CGRectGetWidth(frame) - 4 * lineWidth) / 2 + 5, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
         
         // Setup the CAShapeLayer with the path, colors, and line width
 
@@ -149,11 +170,12 @@ class MRExerciseView : UIView {
         circleLayer.fillColor = UIColor.clearColor().CGColor
         circleLayer.shadowColor = UIColor.blackColor().CGColor
         circleLayer.strokeColor = self.progressFullColor.CGColor
-        circleLayer.lineWidth = lineWidth * 1.5
+        circleLayer.lineWidth = lineWidth * 4
         circleLayer.strokeStart = 0.0
         circleLayer.shadowRadius = 1
         circleLayer.shadowOpacity = 0
         circleLayer.shadowOffset = CGSizeZero
+        circleLayer.lineCap = kCALineCapRound
         
         // Don't draw the circle initially
         circleLayer.strokeEnd = 0.0
@@ -200,12 +222,27 @@ class MRExerciseView : UIView {
         layer.beginTime = timeSincePause
     }
     
+    private var buttonFontSize: CGFloat {
+        guard let exercise = exercise else { return button.titleLabel!.font.pointSize }
+        let text = exercise.title as NSString
+        let font = button.titleLabel!.font
+        var fontSize = frame.height / 8
+        var size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
+        while (size.width > button.bounds.width - 6 * lineWidth) {
+            fontSize -= 1
+            size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
+        }
+        return fontSize
+    }
+    
 
     // MARK: - public functions
     
     private func updateUI() {
         let edgeInsets = UIEdgeInsets(top: frame.height / 3, left: 0, bottom: 0, right: 0)
+        
         button.setTitle(exercise?.title, forState: UIControlState.Normal)
+        button.titleLabel?.font = UIFont.systemFontOfSize(buttonFontSize)
         button.titleEdgeInsets = UIEdgeInsets()
         
         if let _ = exercise?.weight {
@@ -228,6 +265,11 @@ class MRExerciseView : UIView {
         } else {
             intensityImage.hidden = true
         }
+    }
+    
+    
+    @IBAction func buttonDidPressed(sender: UIButton) {
+        delegate?.tapped()
     }
 
     ///
@@ -261,6 +303,13 @@ class MRExerciseView : UIView {
         }
     }
     
-
+    /// Reset the animation
+    func reset() {
+        if isAnimating {
+            layer.removeAnimationForKey("animateCircle")
+            isAnimating = false
+            circleLayer.strokeColor = UIColor.clearColor().CGColor
+        }
+    }
     
 }

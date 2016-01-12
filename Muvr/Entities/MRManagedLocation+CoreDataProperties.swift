@@ -3,8 +3,8 @@ import CoreData
 
 extension MRManagedLocation {
 
-    @NSManaged var lat: Double
-    @NSManaged var lon: Double
+    @NSManaged var longitude: Double
+    @NSManaged var latitude: Double
     @NSManaged var name: String
     @NSManaged var id: String
     @NSManaged var link: String?
