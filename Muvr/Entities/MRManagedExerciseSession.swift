@@ -1,6 +1,7 @@
 import Foundation
 import CoreData
 import MuvrKit
+import CoreLocation
 
 class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     private var currentClassificationHint: MKClassificationHint?
@@ -8,9 +9,29 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     var estimated: [MKClassifiedExercise] = []
     /// The exercise plan
     var plan = MKExercisePlan<MKExerciseId>()
+    /// The intended exercise type
+    var intendedType: MKExerciseType?
     
     ///
-    /// The list of exercises the user is likely to be doing
+    /// The exercise type inferred by taking the most frequently done exercise type in this session.
+    /// If the user does what he or she intended, then ``intendedType`` == ``inferredType``, and both
+    /// will be != nil.
+    ///
+    var inferredType: MKExerciseType? {
+        var counter: [MKExerciseType : Int] = [:]
+        for e in combinedExercises {
+            let type = MKExerciseType.fromExerciseId(e.exerciseId)!
+            if let count = counter[type] {
+                counter[type] = count + 1
+            } else {
+                counter[type] = 1
+            }
+        }
+        return counter.sort { l, r in return l.1 < r.1 } . map { $0.0 } . first
+    }
+    
+    ///
+    /// The non-empty list of exercises the user is likely to be doing
     ///
     var exercises: [MKIncompleteExercise] {
         if currentClassificationHint != nil {
@@ -23,12 +44,16 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     }
         
     ///
-    /// The list of exercises that the user has most likely just finished doing
+    /// The list of exercises that the user is most likely to be doing next
     ///
     var plannedExercises: [MKIncompleteExercise] {
-        return plan.next.map { exerciseId in
+        let pes: [MKIncompleteExercise] = plan.next.map { exerciseId in
             return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
         }
+        if !pes.isEmpty {
+            return pes
+        }
+        return unplannedExercises
     }
     
     ///

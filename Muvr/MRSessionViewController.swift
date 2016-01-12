@@ -2,7 +2,8 @@ import UIKit
 import MuvrKit
 
 class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
-    
+    @IBOutlet weak var mainExerciseView: MRExerciseView!
+
     enum State {
         case Pick
         case Ready(exercise: MKIncompleteExercise)
@@ -19,7 +20,6 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         }
     }
     
-    @IBOutlet weak var mainExerciseView: MRExerciseView!
     private var session: MRManagedExerciseSession!
     private var state: State = .Pick
     
@@ -62,8 +62,11 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         session.addLabel(exercise, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
     }
     
+    @IBAction func end() {
+        MRAppDelegate.sharedDelegate().endCurrentSession()
+    }
     
-    /// MARK : MRExerciseViewDelegate
+    // MARK: - MRExerciseViewDelegate
     
     func tapped() {
         switch state {

@@ -20,7 +20,7 @@ import Foundation
 ///
 ///
 struct MKMarkovChain<State where State : Hashable> {
-    private var transitionMap: [MKStateChain<State> : MKMarkovTransitionSet<State>] = [:]
+    private(set) internal var transitionMap: [MKStateChain<State> : MKMarkovTransitionSet<State>] = [:]
 
     ///
     /// Convenience method that adds a transition [previous] -> next
@@ -85,7 +85,7 @@ struct MKMarkovChain<State where State : Hashable> {
 /// State chain that holds a sequence of states
 ///
 struct MKStateChain<State where State : Hashable> : Hashable {
-    private var states: [State]
+    private(set) internal var states: [State]
     
     ///
     /// Empty chain
@@ -175,7 +175,7 @@ func ==<State where State : Equatable>(lhs: MKStateChain<State>, rhs: MKStateCha
 /// The transition set
 ///
 struct MKMarkovTransitionSet<State where State : Hashable> {
-    private var transitionCounter: [State : Int] = [:]
+    private(set) internal var transitionCounter: [State : Int] = [:]
     
     func countFor(state: State) -> Int {
         return transitionCounter[state] ?? 0
