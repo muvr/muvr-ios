@@ -97,6 +97,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         }
     }
     
+    /// Called when the label is updated by the subcontroller
+    /// - parameter newExercise: the updated label
     private func labelUpdated(newExercise: MKIncompleteExercise) {
         mainExerciseView.reset()
         if case .Done(_, let start, let duration) = state {
@@ -104,8 +106,10 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         }
     }
     
-    private func selectedExercise(exercise: MKIncompleteExercise) {
-        mainExerciseView.exercise = exercise
+    /// Called when an exercise is selected
+    /// - parameter exercise: the selected exercise
+    private func selectedExercise(selectedExercise: MKIncompleteExercise) {
+        mainExerciseView.exercise = selectedExercise
     }
     
     // MARK: - MRExerciseViewDelegate
@@ -127,7 +131,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         case .InExercise(let exercise, let start):
             state = .Done(exercise: exercise, start: start, duration: NSDate().timeIntervalSinceDate(start))
         case .Done(let exercise, let start, let duration):
-            // The user has completed the exercise.
+            // The user has completed the exercise, and accepted our labels
             session.addLabel(exercise, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
             state = .ComingUp
             sessionNavigationController?.topViewController?.performSegueWithIdentifier("exitLabelling", sender: session)
@@ -145,7 +149,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             state = .InExercise(exercise: exercise, start: NSDate())
             refresh()
         case .Done(let exercise, let start, let duration):
-            // The user has completed the exercise.
+            // The user has completed the exercise, modified our labels, and accepted.
             session.addLabel(exercise, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
             state = .ComingUp
             sessionNavigationController?.topViewController?.performSegueWithIdentifier("exitLabelling", sender: session)
