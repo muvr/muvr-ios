@@ -1,9 +1,20 @@
 import UIKit
 import MuvrKit
 
+/// Provides callbacks for the users of the ``MRExerciseView``
 protocol MRExerciseViewDelegate {
-    func tapped()
-    func circleDidComplete()
+    
+    /// Called when the exercise button is tapped
+    /// - parameter exerciseView: the view where the tap originated
+    func exerciseViewTapped(exerciseView: MRExerciseView)
+    
+    /// Called when the exercise button is long-tapped
+    /// - parameter exerciseView: the view where the long tap originated
+    func exerciseViewLongTapped(exerciseView: MRExerciseView)
+    
+    /// Called when the circle animation gets to the end
+    /// - parameter exerciseView: the view that has finished animating
+    func exerciseViewCircleDidComplete(exerciseView: MRExerciseView)
 }
 
 ///
@@ -48,22 +59,6 @@ class MRExerciseView : UIView {
     private var isAnimating : Bool = false
 
     private let circleLayer: CAShapeLayer = CAShapeLayer()
-
-    
-    /* 
-     *
-     * Set Images in storyBoard with IBInspectable variables
-     *
-     *
-    @IBInspectable var coverImage: UIImage? {
-        get {
-            return coverImageView.image
-        }
-        set(coverImage) {
-            coverImageView.image = coverImage
-        }
-    }
-    */
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -99,7 +94,7 @@ class MRExerciseView : UIView {
     override func animationDidStop(anim: CAAnimation, finished: Bool) {
         isAnimating = false
         if finished {
-            delegate?.circleDidComplete()
+            delegate?.exerciseViewCircleDidComplete(self)
         }
     }
     
@@ -122,6 +117,11 @@ class MRExerciseView : UIView {
                 
         addSubview(view)
         updateUI()
+        
+        let recognizer = UILongPressGestureRecognizer(target: self, action: "buttonDidLongPress")
+        recognizer.minimumPressDuration = 4
+        recognizer.allowableMovement = 100
+        button.addGestureRecognizer(recognizer)
     }
     
     private func loadViewFromNib() -> UIView {
@@ -236,8 +236,6 @@ class MRExerciseView : UIView {
     }
     
 
-    // MARK: - public functions
-    
     private func updateUI() {
         let edgeInsets = UIEdgeInsets(top: frame.height / 3, left: 0, bottom: 0, right: 0)
         
@@ -268,10 +266,16 @@ class MRExerciseView : UIView {
     }
     
     
-    @IBAction func buttonDidPressed(sender: UIButton) {
-        delegate?.tapped()
+    @IBAction private func buttonDidPressed(sender: UIButton) {
+        delegate?.exerciseViewTapped(self)
+    }
+    
+    func buttonDidLongPress() {
+        delegate?.exerciseViewLongTapped(self)
     }
 
+    // MARK: - public API
+    
     ///
     /// The exercise being displayed
     ///
@@ -296,20 +300,11 @@ class MRExerciseView : UIView {
         }
     }
     
-    /// Stop the animation
-    func stop() {
-        if isAnimating {
-            pauseLayer(circleLayer)
-        }
-    }
-    
     /// Reset the animation
     func reset() {
-        if isAnimating {
-            layer.removeAnimationForKey("animateCircle")
-            isAnimating = false
-            circleLayer.strokeColor = UIColor.clearColor().CGColor
-        }
+        layer.removeAnimationForKey("animateCircle")
+        isAnimating = false
+        circleLayer.strokeColor = UIColor.clearColor().CGColor
     }
     
 }

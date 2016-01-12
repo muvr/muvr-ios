@@ -1,101 +1,91 @@
 import Foundation
 import UIKit
+import MuvrKit
 
+///
+/// Displays indicators that allow the user to select the repetitions, weight and intensity
+/// To use, call ``setExercise`` supplying the predicted exercise, and a function that will
+/// be called when the user changes the inputs.
+///
 class MRSessionLabellingViewController: UIViewController {
+    @IBOutlet private weak var repetitionsView: MRRepetitionsView!
+    @IBOutlet private weak var weightView: MRWeightView!
+    @IBOutlet private weak var intensityView: MRBarsView!
     
-    @IBOutlet weak var repetitionsView: MRRepetitionsView!
-    @IBOutlet weak var weightView: MRWeightView!
-    @IBOutlet weak var intensityView: MRBarsView!
+    /// A function that carries the new values: (repetitions, weight, intensity)
+    typealias OnLabelUpdated = MKIncompleteExercise -> Void
+    /// The function that will be called whenever a value changes
+    private var onLabelUpdated: OnLabelUpdated!
     
-    var repetitions: Int? {
-        return repetitionsView.value
+    private var exercise: MKIncompleteExercise!
+    
+    // TODO: Configurable
+    /// The default repetitions
+    private let defaultRepetitions = 10
+    /// The default weight
+    private let defaultWeight = 10.0
+    /// The weight increment
+    private let weightIncrement: Double = 1.0
+    
+    ///
+    /// Sets the repetitions, weight and intensity from the given ``exercise``, 
+    /// calling the ``onUpdate`` function whenever the user changes the given
+    /// values.
+    ///
+    /// - parameter exercise: the exercise whose values to be displayed
+    /// - parameter onUpdate: a function that will be called on change of values
+    ///
+    func setExercise(exercise: MKIncompleteExercise, onLabelUpdated: OnLabelUpdated) {
+        self.onLabelUpdated = onLabelUpdated
+        self.exercise = exercise
     }
-    
-    var weight: Double? {
-        return weightView.value
-    }
-    
-    var intensity: Double {
-        return Double(intensityView.value) / Double(intensityView.bars)
-    }
-    
-    enum State {
-        case Idle
-        case IntensityChanged(inc: Int)
-        case WeightChanged(inc: Double)
-        case RepetitionsChanged(inc: Int)
-    }
-    
-    var state: State = .Idle
-    var timer: NSTimer? = nil
     
     override func viewDidAppear(animated: Bool) {
-        repetitionsView.value = 10
-        intensityView.value = 3
-        weightView.value = 5
+        let defaultIntensity = 0.5
+
+        repetitionsView.value = exercise.repetitions.map { Int($0) }
+        weightView.value = exercise.weight
+        intensityView.value = Int(5 * (exercise.intensity ?? defaultIntensity))
+    }
+
+    /// Calls the onUpdate with the appropriate values
+    private func update() {
+        let newExercise = exercise.copy(
+            repetitions: repetitionsView.value.map { Int32($0) },
+            weight: weightView.value,
+            intensity: Double(intensityView.value) / 5.0
+        )
+        onLabelUpdated(newExercise)
     }
     
-    
-    @IBAction func startIncRepetitions() {
-        state = .RepetitionsChanged(inc: 1)
-        startTimer()
+    @IBAction private func startIncRepetitions() {
+        repetitionsView.value = repetitionsView.value.map { $0 + 1 } ?? defaultRepetitions
+        update()
     }
     
-    @IBAction func startIncWeight() {
-        state = .WeightChanged(inc: 0.5)
-        startTimer()
+    @IBAction private func startIncWeight() {
+        weightView.value = weightView.value.map { $0 + weightIncrement } ?? defaultWeight
+        update()
     }
     
-    @IBAction func startIncIntensity() {
-        state = .IntensityChanged(inc: 1)
-        startTimer()
+    @IBAction private func startIncIntensity() {
+        intensityView.value = min(intensityView.value + 1, 5)
+        update()
     }
     
-    @IBAction func startDecRepetitions() {
-        state = .RepetitionsChanged(inc: -1)
-        startTimer()
+    @IBAction private func startDecRepetitions() {
+        repetitionsView.value = repetitionsView.value.map { max($0 - 1, 0) } ?? defaultRepetitions
+        update()
     }
     
-    @IBAction func startDecWeight() {
-        state = .WeightChanged(inc: -0.5)
-        startTimer()
+    @IBAction private func startDecWeight() {
+        weightView.value = weightView.value.map { max($0 - weightIncrement, 0) } ?? defaultWeight
+        update()
     }
     
-    @IBAction func startDecIntensity() {
-        state = .IntensityChanged(inc: -1)
-        startTimer()
-    }
-    
-    private func startTimer() {
-        refresh()
-        if timer == nil {
-            timer = NSTimer.scheduledTimerWithTimeInterval(0.15, target: self, selector: "refresh", userInfo: nil, repeats: true)
-        }
-    }
-    
-    internal func refresh() {
-        switch state {
-        case .IntensityChanged(let inc):
-            intensityView.value += inc
-        case .WeightChanged(let inc):
-            if let value = weightView.value {
-                weightView.value = value + inc
-            }
-            if abs(inc) < 1 {
-                state = .WeightChanged(inc: inc * 2)
-            }
-        case .RepetitionsChanged(let inc):
-            if let value = repetitionsView.value {
-                repetitionsView.value = value + inc
-            }
-        case .Idle: return
-        }
-    }
-    
-    @IBAction func stopTimer() {
-        state = .Idle
-        timer?.invalidate()
-        timer = nil
+    @IBAction private func startDecIntensity() {
+        intensityView.value = max(intensityView.value - 1, 0)
+        update()
     }
     
 }

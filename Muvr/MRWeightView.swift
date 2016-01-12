@@ -91,8 +91,6 @@ class MRWeightView: UIView {
         path.moveToPoint(CGPoint(x: left, y: bottom))
         path.addLineToPoint(CGPoint(x: middleLeft, y: top))
 
-        
-        
         path.moveToPoint(CGPoint(x: center.x, y: top))
         path.addArcWithCenter(CGPoint(x: center.x, y: top - radius), radius: radius, startAngle: CGFloat(M_PI_2), endAngle: 5 * CGFloat(M_PI_2), clockwise: true)
         
@@ -101,11 +99,6 @@ class MRWeightView: UIView {
         
         iconLayer.path = path.CGPath
         path.stroke()
-        
-//        let circle = UIBezierPath(arcCenter: CGPoint(x: center.x, y: top - radius), radius: radius, startAngle: 0, endAngle: 2 * CGFloat(M_PI), clockwise: true)
-//        circle.lineWidth = lineWidth
-//        circle.lineCapStyle = .Round
-//        circle.stroke()
     }
     
 }
