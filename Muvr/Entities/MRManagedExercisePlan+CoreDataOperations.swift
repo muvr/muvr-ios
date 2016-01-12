@@ -85,7 +85,8 @@ extension MRManagedExercisePlan {
         inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan {
             
         if let existing = MRManagedExercisePlan.exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext) {
-            managedObjectContext.deleteObject(existing)
+            existing.planData = plan.json { $0 }
+            return existing
         }
         
         let managedPlan = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExercisePlan", inManagedObjectContext: managedObjectContext) as! MRManagedExercisePlan
