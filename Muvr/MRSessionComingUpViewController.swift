@@ -9,16 +9,15 @@ import MuvrKit
 ///
 class MRSessionComingUpViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBAction func unwindToComingUp(unwindSegue: UIStoryboardSegue) { }
-    
-    private var onSelected: (MKIncompleteExercise -> Void)!
+    typealias OnSelected = MKIncompleteExercise -> Void
+    private var onSelected: OnSelected!
 
     ///
     /// Sets the exercises to be displayed, and the function to be called when an exercise is tapped
     /// - parameter exercises: the exercises to be displayed
     /// - parameter onSelected: the function to be called on selection
     ///
-    func setExercises(exercises: [MKIncompleteExercise], onSelected: MKIncompleteExercise -> Void) {
+    func setExercises(exercises: [MKIncompleteExercise], onSelected: OnSelected) {
         scrollView.subviews.forEach { $0.removeFromSuperview() }
         
         self.onSelected = onSelected
@@ -43,4 +42,5 @@ class MRSessionComingUpViewController: UIViewController {
         }
     }
 
+    @IBAction private func unwindToComingUp(unwindSegue: UIStoryboardSegue) { }
 }

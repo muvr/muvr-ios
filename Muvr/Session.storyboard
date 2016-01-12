@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D9c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -202,8 +202,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="startDecRepetitions" destination="vj1-FS-bjP" eventType="touchDown" id="sSk-JC-geT"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="9JG-UQ-8T3"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="d5u-SJ-G2x"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dha-EC-xUP" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
@@ -217,8 +215,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="startDecWeight" destination="vj1-FS-bjP" eventType="touchDown" id="4Tk-af-2GV"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="3FR-26-joE"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="SCn-I6-Fjb"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WyZ-RK-fJq" customClass="MRWeightView" customModule="Muvr" customModuleProvider="target">
@@ -240,8 +236,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="startDecIntensity" destination="vj1-FS-bjP" eventType="touchDown" id="NDn-7Z-KsM"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="VMI-sL-aPD"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="t1u-pu-mbc"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pWj-ui-9rh" customClass="MRBarsView" customModule="Muvr" customModuleProvider="target">
@@ -271,8 +265,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="startIncRepetitions" destination="vj1-FS-bjP" eventType="touchDown" id="B0J-ZJ-lOi"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="TU1-Dv-uB4"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="zdv-LV-dks"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dxu-gc-NrT" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
@@ -286,8 +278,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="startIncWeight" destination="vj1-FS-bjP" eventType="touchDown" id="jEl-B7-T8V"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="s5m-5y-iyP"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="wnK-6g-9IQ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnR-Mi-8wc" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
@@ -301,8 +291,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="startIncIntensity" destination="vj1-FS-bjP" eventType="touchDown" id="99e-qL-qyR"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="8ht-Tp-zjb"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="nMf-p8-SDn"/>
                                 </connections>
                             </button>
                         </subviews>

@@ -137,6 +137,7 @@
 		54A776171BB8149E001586DD /* MuvrKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 54A775F81BB81467001586DD /* MuvrKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54A776211BB81562001586DD /* MuvrKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A7761C1BB8149E001586DD /* MuvrKit.framework */; };
 		54A776221BB81562001586DD /* MuvrKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 54A7761C1BB8149E001586DD /* MuvrKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		54ACD1201C459BAC00297470 /* MKIncompleteExercise+Copying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ACD11F1C459BAC00297470 /* MKIncompleteExercise+Copying.swift */; };
 		54B27DCD1C3BE6A8000A07A2 /* MRHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B27DCC1C3BE6A8000A07A2 /* MRHomeViewController.swift */; };
 		54B27DCF1C3BE9C8000A07A2 /* MRManagedClassifiedExercise+CoreDataAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B27DCE1C3BE9C8000A07A2 /* MRManagedClassifiedExercise+CoreDataAnalytics.swift */; };
 		54B27DD11C3BE9F4000A07A2 /* MRManagedClassifiedExercise+CoreDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B27DD01C3BE9F4000A07A2 /* MRManagedClassifiedExercise+CoreDataOperations.swift */; };
@@ -469,6 +470,7 @@
 		54A775FA1BB81467001586DD /* Infoi.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Infoi.plist; sourceTree = "<group>"; };
 		54A7761C1BB8149E001586DD /* MuvrKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MuvrKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		54A7761E1BB81509001586DD /* Infow.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Infow.plist; sourceTree = "<group>"; };
+		54ACD11F1C459BAC00297470 /* MKIncompleteExercise+Copying.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKIncompleteExercise+Copying.swift"; sourceTree = "<group>"; };
 		54B27DCC1C3BE6A8000A07A2 /* MRHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRHomeViewController.swift; sourceTree = "<group>"; };
 		54B27DCE1C3BE9C8000A07A2 /* MRManagedClassifiedExercise+CoreDataAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedClassifiedExercise+CoreDataAnalytics.swift"; sourceTree = "<group>"; };
 		54B27DD01C3BE9F4000A07A2 /* MRManagedClassifiedExercise+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedClassifiedExercise+CoreDataOperations.swift"; sourceTree = "<group>"; };
@@ -750,6 +752,7 @@
 				541950781C38318600578FFD /* MRExercise.swift */,
 				54FEB1001C39844000EC5293 /* MRIncompleteExercise.swift */,
 				544DE96D1C401C8100297C6B /* MKIncompleteExercise+Type.swift */,
+				54ACD11F1C459BAC00297470 /* MKIncompleteExercise+Copying.swift */,
 				544DE96F1C4023C200297C6B /* MKExerciseType+ExerciseId.swift */,
 				544DE9701C4023C200297C6B /* MKMuscleGroup+ExerciseId.swift */,
 				5437BD3E1C40493400B518D9 /* MKGeneralExerciseType+ExerciseId.swift */,
@@ -763,13 +766,8 @@
 		541ABBA11AC577E00056A81B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				549A30081BDD0BC6006A70EB /* Muvr.xcdatamodeld */,
-				54477CFB1AF4E82E00F502EC /* Localizable.strings */,
-				64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */,
 				541ABBA21AC577E00056A81B /* Info.plist */,
-				541ABBAA1AC577E00056A81B /* Images.xcassets */,
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
-				5403815E1AED28A0000C8B15 /* Settings.bundle */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1570,6 +1568,7 @@
 				54BDDDDA1C4427FC0054A059 /* MRManagedExercisePlan+CoreDataProperties.swift in Sources */,
 				54730CC61C37F9A600BE1704 /* MRManagedExerciseSession+CoreDataOperations.swift in Sources */,
 				54B27DCF1C3BE9C8000A07A2 /* MRManagedClassifiedExercise+CoreDataAnalytics.swift in Sources */,
+				54ACD1201C459BAC00297470 /* MKIncompleteExercise+Copying.swift in Sources */,
 				5437BD411C404A4000B518D9 /* MKGeneralExerciseType+Localisation.swift in Sources */,
 				642CBC9F1C1ED07F0043E5EE /* MRExerciseModel.swift in Sources */,
 				543E90B21C26FF640050F87A /* Aws.swift in Sources */,

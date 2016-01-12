@@ -22,8 +22,6 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         /// - parameter start: the start date
         /// - parameter duration: the duration
         case Done(exercise: MKIncompleteExercise, start: NSDate, duration: NSTimeInterval)
-        /// The user has finished
-        // case Labelled(label: MKLabelledExercise)
         
         var color: UIColor {
             switch self {
@@ -76,55 +74,46 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             mainExerciseView.reset()
             mainExerciseView.start(60)
             if let controller = sessionNavigationController?.topViewController as? MRSessionComingUpViewController {
-                controller.setExercises(session.exercises) { self.mainExerciseView.exercise = $0 }
+                controller.setExercises(session.exercises, onSelected: selectedExercise)
             }
         case .Ready:
             mainExerciseView.headerTitle = "Get ready for".localized()
             mainExerciseView.reset()
             mainExerciseView.start(5)
-            sessionNavigationController?.topViewController?.performSegueWithIdentifier("ready", sender: session)
+            sessionNavigationController?.topViewController?.performSegueWithIdentifier("ready", sender: nil)
         case .InExercise:
             mainExerciseView.headerTitle = "Stop".localized()
             mainExerciseView.reset()
             mainExerciseView.start(60)
-            sessionNavigationController?.topViewController?.performSegueWithIdentifier("exercising", sender: session)
+            sessionNavigationController?.topViewController?.performSegueWithIdentifier("exercising", sender: nil)
         case .Done:
             mainExerciseView.headerTitle = "Finished".localized()
             mainExerciseView.reset()
             mainExerciseView.start(15)
-            sessionNavigationController?.topViewController?.performSegueWithIdentifier("labelling", sender: session)
+            sessionNavigationController?.topViewController?.performSegueWithIdentifier("labelling", sender: nil)
+            if let controller = sessionNavigationController?.topViewController as? MRSessionLabellingViewController {
+                controller.setExercise(mainExerciseView.exercise!, onLabelUpdated: labelUpdated)
+            }
         }
     }
     
-    private func saveExercise(exercise: MKIncompleteExercise, start: NSDate, duration: NSTimeInterval) {
-        var ex: MKIncompleteExercise = exercise
-        if let controller = sessionNavigationController?.topViewController as? MRSessionLabellingViewController {
-            let intensity = controller.intensity
-            let weight = controller.weight
-            let reps = controller.repetitions.map { Int32($0) }
-            ex = MRIncompleteExercise(exerciseId: exercise.exerciseId, repetitions: reps, intensity: intensity, weight: weight, confidence: 1)
+    private func labelUpdated(newExercise: MKIncompleteExercise) {
+        mainExerciseView.reset()
+        if case .Done(_, let start, let duration) = state {
+            state = .Done(exercise: newExercise, start: start, duration: duration)
         }
-        session.addLabel(ex, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
     }
     
-    @IBAction func end() {
-        MRAppDelegate.sharedDelegate().endCurrentSession()
-    }
-    
-    private func labelChanged(exercise: MKIncompleteExercise) -> Bool {
-        if let controller = sessionNavigationController?.topViewController as? MRSessionLabellingViewController {
-            let intensity = controller.intensity
-            let weight = controller.weight
-            let reps = controller.repetitions.map { Int32($0) }
-            return intensity != exercise.intensity ?? 0 || weight != exercise.weight ?? 0 || reps != exercise.repetitions ?? 0
-        }
-        return false
+    private func selectedExercise(exercise: MKIncompleteExercise) {
+        mainExerciseView.exercise = exercise
     }
     
     // MARK: - MRExerciseViewDelegate
     
     func exerciseViewLongTapped(exerciseView: MRExerciseView) {
-        MRAppDelegate.sharedDelegate().endCurrentSession()
+        if case .ComingUp = state {
+            MRAppDelegate.sharedDelegate().endCurrentSession()
+        }
     }
     
     func exerciseViewTapped(exerciseView: MRExerciseView) {
@@ -138,7 +127,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         case .InExercise(let exercise, let start):
             state = .Done(exercise: exercise, start: start, duration: NSDate().timeIntervalSinceDate(start))
         case .Done(let exercise, let start, let duration):
-            saveExercise(exercise, start: start, duration: duration)
+            // The user has completed the exercise.
+            session.addLabel(exercise, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
             state = .ComingUp
             sessionNavigationController?.topViewController?.performSegueWithIdentifier("exitLabelling", sender: session)
         }
@@ -156,14 +146,10 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             refresh()
         case .Done(let exercise, let start, let duration):
             // The user has completed the exercise.
-            if !labelChanged(exercise) {
-                // if something changed wait for user to press circle
-                // otherwise save default values and move to next exercise
-                saveExercise(exercise, start: start, duration: duration)
-                state = .ComingUp
-                sessionNavigationController?.topViewController?.performSegueWithIdentifier("exitLabelling", sender: session)
-                refresh()
-            }
+            session.addLabel(exercise, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+            state = .ComingUp
+            sessionNavigationController?.topViewController?.performSegueWithIdentifier("exitLabelling", sender: session)
+            refresh()
         default: return
         }
     }

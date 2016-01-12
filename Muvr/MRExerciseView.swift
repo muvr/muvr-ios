@@ -1,11 +1,19 @@
 import UIKit
 import MuvrKit
 
+/// Provides callbacks for the users of the ``MRExerciseView``
 protocol MRExerciseViewDelegate {
+    
+    /// Called when the exercise button is tapped
+    /// - parameter exerciseView: the view where the tap originated
     func exerciseViewTapped(exerciseView: MRExerciseView)
     
+    /// Called when the exercise button is long-tapped
+    /// - parameter exerciseView: the view where the long tap originated
     func exerciseViewLongTapped(exerciseView: MRExerciseView)
     
+    /// Called when the circle animation gets to the end
+    /// - parameter exerciseView: the view that has finished animating
     func exerciseViewCircleDidComplete(exerciseView: MRExerciseView)
 }
 
@@ -111,7 +119,7 @@ class MRExerciseView : UIView {
         updateUI()
         
         let recognizer = UILongPressGestureRecognizer(target: self, action: "buttonDidLongPress")
-        recognizer.minimumPressDuration = 1
+        recognizer.minimumPressDuration = 4
         recognizer.allowableMovement = 100
         button.addGestureRecognizer(recognizer)
     }
@@ -292,20 +300,11 @@ class MRExerciseView : UIView {
         }
     }
     
-    /// Stop the animation
-    func stop() {
-        if isAnimating {
-            pauseLayer(circleLayer)
-        }
-    }
-    
     /// Reset the animation
     func reset() {
-        if isAnimating {
-            layer.removeAnimationForKey("animateCircle")
-            isAnimating = false
-            circleLayer.strokeColor = UIColor.clearColor().CGColor
-        }
+        layer.removeAnimationForKey("animateCircle")
+        isAnimating = false
+        circleLayer.strokeColor = UIColor.clearColor().CGColor
     }
     
 }
