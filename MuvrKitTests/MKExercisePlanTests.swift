@@ -30,8 +30,8 @@ class MKExercisePlanTests : XCTestCase {
             "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension",
             "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension",
             "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension"])
-        XCTAssertGreaterThan(s, 0.85)
-        XCTAssertLessThan(f, 0.1)
+        XCTAssertGreaterThan(s, 0.80)
+        XCTAssertLessThan(f, 0.2)
     }
     
 }
