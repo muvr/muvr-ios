@@ -99,6 +99,8 @@ public struct MKExerciseSession: Hashable, Equatable {
     public let start: NSDate
     /// the model id
     public let modelId: MKExerciseModelId
+    /// the exercise type
+    public let exerciseType: MKExerciseType
     
     /// implmenetation of Hashable.hashValue
     public var hashValue: Int {

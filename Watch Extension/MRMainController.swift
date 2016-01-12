@@ -134,7 +134,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     ///
     func beginSession(exerType: MKExerciseType) {
         renderer?.reset()
-        MRExtensionDelegate.sharedDelegate().startSession(exerciseModelMetadataIndex: exerciseModelMetadataIndex)
+        MRExtensionDelegate.sharedDelegate().startSession(exerciseModelMetadataIndex: exerciseModelMetadataIndex, exerciseType: exerType)
         updateUI()
     }
 

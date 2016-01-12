@@ -11,16 +11,19 @@ public struct MKExerciseSession {
     public let end: NSDate?
     /// the completed flag
     public let completed: Bool
+    /// the exercise type
+    public let exerciseType: MKExerciseType
     
     /// The offset of the last classified exercises
     internal var classificationStart: NSTimeInterval = 0
     
-    public init(exerciseModelId: MKExerciseModelId) {
+    public init(exerciseModelId: MKExerciseModelId, exerciseType: MKExerciseType) {
         self.id = NSUUID().UUIDString
         self.exerciseModelId = exerciseModelId
         self.start = NSDate()
         self.end = nil
         self.completed = false
+        self.exerciseType = exerciseType
     }
     
     ///
@@ -34,6 +37,7 @@ public struct MKExerciseSession {
         self.start = exerciseConnectivitySession.start
         self.end = exerciseConnectivitySession.end
         self.completed = exerciseConnectivitySession.last
+        self.exerciseType = exerciseConnectivitySession.exerciseType
     }
         
 }

@@ -33,7 +33,10 @@ public enum MKExerciseType : Equatable, Hashable {
         }
     }
     
-    static func fromStr(typeStr: String) -> MKExerciseType? {
+    static func fromStr(typeStr: String?) -> MKExerciseType? {
+        guard let typeStr = typeStr else {
+            return nil
+        }
         switch typeStr {
         case "Whole Body": return .ResistanceWholeBody
         default:
