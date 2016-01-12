@@ -24,6 +24,39 @@ public enum MKExerciseType : Equatable, Hashable {
         }
     }
     
+    public var fullname: String {
+        switch self {
+        case .ResistanceTargeted(let muscleGroups):
+            return (muscleGroups.map {"\($0)"}).joinWithSeparator(", ")
+        case .ResistanceWholeBody:
+            return "Whole Body"
+        }
+    }
+    
+    static func fromStr(typeStr: String) -> MKExerciseType? {
+        switch typeStr {
+        case "Whole Body": return .ResistanceWholeBody
+        default:
+            let result = typeStr.characters.split{$0 == ","}.map(String.init)
+            let muscleGroup: [MKMuscleGroup?] = result.map { muscle in
+                switch muscle {
+                case "Arms": return MKMuscleGroup.Arms
+                case "Core": return MKMuscleGroup.Core
+                case "Shoulders": return MKMuscleGroup.Shoulders
+                case "Chest": return MKMuscleGroup.Chest
+                case "Back": return MKMuscleGroup.Back
+                case "Legs": return MKMuscleGroup.Legs
+                default: return nil
+                }
+            }
+            let existedNil = muscleGroup.filter {$0 == nil}
+            if existedNil.count > 0 {
+                return nil
+            }
+            return .ResistanceTargeted(muscleGroups: muscleGroup.map {$0!})
+        }
+    }
+
 }
 
 // Implementation of Equatable
