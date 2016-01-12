@@ -15,6 +15,13 @@ class MRAlternateExerciseButton: UIButton {
     }
     
     override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        titleLabel?.numberOfLines = 3
+        titleLabel?.lineBreakMode = .ByWordWrapping
+        titleLabel?.textAlignment = .Center
+        titleEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+
         let radius = min(frame.width, frame.height) / 2
         let lineWidth = radius / 16
 
