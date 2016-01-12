@@ -1,13 +1,19 @@
 import Foundation
 import UIKit
 
+///
+/// Draws a round button with a (+) or (-) symbol, depending on the value of the ``increase`` property.
+/// This turns out to be visually more pleasing than the alternative, which is simply a normal button with
+/// layer.borderRadius = x, and the text "+" or "-".
+///
 @IBDesignable
 class MRCircleButton: UIButton {
 
+    /// When ``true``, display the (+) symbol; otherwise, display the (-) symbol
     @IBInspectable
     var increase: Bool = true
     
-    let circleLayer = CAShapeLayer()
+    private let circleLayer = CAShapeLayer()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

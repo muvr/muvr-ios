@@ -1,7 +1,7 @@
 import UIKit
 import MuvrKit
 
-class MRSessionViewController : UIViewController, MRExerciseViewDelegate, MRAlternateExerciseDelegate {
+class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     
     enum State {
         case ComingUp
@@ -53,8 +53,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate, MRAlte
             mainExerciseView.reset()
             mainExerciseView.start(60)
             if let controller = sessionNavigationController?.topViewController as? MRSessionComingUpViewController {
-                controller.delegate = self
-                controller.session = session
+                controller.setExercises(session.exercises) { self.mainExerciseView.exercise = $0 }
             }
         case .Ready:
             mainExerciseView.headerTitle = "Get ready for".localized()
@@ -134,12 +133,6 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate, MRAlte
             }
         default: return
         }
-    }
-    
-    /// Mark : MRAlternateExerciseDelegate
-    
-    func alternateExerciseSelected(exercise: MKIncompleteExercise) {
-        mainExerciseView.exercise = exercise
     }
     
 }

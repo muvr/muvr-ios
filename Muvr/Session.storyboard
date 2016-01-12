@@ -83,11 +83,25 @@
                     <view key="view" contentMode="scaleToFill" id="aZe-Gr-4hr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTE-1K-VgU">
+                                <rect key="frame" x="20" y="304" width="374" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="4nM-r1-JuC"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hTE-1K-VgU" firstAttribute="centerY" secondItem="aZe-Gr-4hr" secondAttribute="centerY" id="XhE-sq-EeH"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hTE-1K-VgU" secondAttribute="trailing" id="izg-sq-TbE"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="hTE-1K-VgU" secondAttribute="leading" id="n6b-ts-g82"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3wG-mO-nS9"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="scrollView" destination="hTE-1K-VgU" id="zHa-gC-Xrt"/>
                         <segue destination="BTC-yE-mHF" kind="show" identifier="ready" id="FNr-bK-nnD"/>
                     </connections>
                 </viewController>
@@ -169,23 +183,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mNH-oM-thm" customClass="MRRepetitionsView" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="126" y="44" width="79" height="52"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mNH-oM-thm" customClass="MRRepetitionsView" customModule="Muvr" customModuleProvider="target">
+                                <rect key="frame" x="168" y="276" width="79" height="52"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="52" id="BZ3-Jz-wlh"/>
+                                    <constraint firstAttribute="width" constant="79" id="FQz-a2-UZd"/>
+                                </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dzH-Dc-klp" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="277" y="52" width="38" height="37"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="YES"/>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="startIncRepetitions" destination="vj1-FS-bjP" eventType="touchDown" id="B0J-ZJ-lOi"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="TU1-Dv-uB4"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="zdv-LV-dks"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ruX-a2-Mdn" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="51" width="55" height="38"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ruX-a2-Mdn" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
+                                <rect key="frame" x="67" y="282" width="55" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ruX-a2-Mdn" secondAttribute="height" multiplier="55:38" id="IYO-Kr-kAK"/>
+                                    <constraint firstAttribute="width" constant="55" id="pxa-8B-M5p"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="NO"/>
                                 </userDefinedRuntimeAttributes>
@@ -195,19 +206,12 @@
                                     <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="d5u-SJ-G2x"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dxu-gc-NrT" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="277" y="119" width="38" height="37"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="YES"/>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="startIncWeight" destination="vj1-FS-bjP" eventType="touchDown" id="jEl-B7-T8V"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="s5m-5y-iyP"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="wnK-6g-9IQ"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dha-EC-xUP" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="118" width="55" height="38"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dha-EC-xUP" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
+                                <rect key="frame" x="67" y="349" width="55" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="55" id="Csc-kg-rBV"/>
+                                    <constraint firstAttribute="width" secondItem="dha-EC-xUP" secondAttribute="height" multiplier="55:38" id="q7u-kn-kCj"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="NO"/>
                                 </userDefinedRuntimeAttributes>
@@ -217,23 +221,20 @@
                                     <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="SCn-I6-Fjb"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WyZ-RK-fJq" customClass="MRWeightView" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="126" y="109" width="79" height="55"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WyZ-RK-fJq" customClass="MRWeightView" customModule="Muvr" customModuleProvider="target">
+                                <rect key="frame" x="168" y="341" width="79" height="55"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="UfR-PK-zk4"/>
+                                    <constraint firstAttribute="width" constant="79" id="qDz-Kc-wxe"/>
+                                </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnR-Mi-8wc" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="277" y="187" width="38" height="37"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="YES"/>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="startIncIntensity" destination="vj1-FS-bjP" eventType="touchDown" id="99e-qL-qyR"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="8ht-Tp-zjb"/>
-                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="nMf-p8-SDn"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Us9-gI-WEZ" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="186" width="55" height="38"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Us9-gI-WEZ" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
+                                <rect key="frame" x="67" y="417" width="55" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Us9-gI-WEZ" secondAttribute="height" multiplier="55:38" id="Ce1-2w-R6T"/>
+                                    <constraint firstAttribute="width" constant="55" id="aXp-HI-PFY"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="NO"/>
                                 </userDefinedRuntimeAttributes>
@@ -243,9 +244,13 @@
                                     <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="t1u-pu-mbc"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pWj-ui-9rh" customClass="MRBarsView" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="126" y="180" width="79" height="44"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pWj-ui-9rh" customClass="MRBarsView" customModule="Muvr" customModuleProvider="target">
+                                <rect key="frame" x="168" y="412" width="79" height="44"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="79" id="nDD-Hm-iuk"/>
+                                    <constraint firstAttribute="height" constant="44" id="uUO-IQ-AJo"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="bars">
                                         <integer key="value" value="5"/>
@@ -255,9 +260,74 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dzH-Dc-klp" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
+                                <rect key="frame" x="309" y="283" width="38" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="dzH-Dc-klp" secondAttribute="height" multiplier="38:37" id="ZAg-S4-mNp"/>
+                                    <constraint firstAttribute="width" constant="38" id="j5v-oh-Nsr"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="startIncRepetitions" destination="vj1-FS-bjP" eventType="touchDown" id="B0J-ZJ-lOi"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="TU1-Dv-uB4"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="zdv-LV-dks"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dxu-gc-NrT" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
+                                <rect key="frame" x="309" y="350" width="38" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="dxu-gc-NrT" secondAttribute="height" multiplier="38:37" id="LyE-CZ-xjT"/>
+                                    <constraint firstAttribute="width" constant="38" id="cbG-xk-s9q"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="startIncWeight" destination="vj1-FS-bjP" eventType="touchDown" id="jEl-B7-T8V"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="s5m-5y-iyP"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="wnK-6g-9IQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnR-Mi-8wc" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
+                                <rect key="frame" x="309" y="418" width="38" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="38" id="hct-Iy-wMi"/>
+                                    <constraint firstAttribute="width" secondItem="cnR-Mi-8wc" secondAttribute="height" multiplier="38:37" id="n6F-Rv-LjA"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="startIncIntensity" destination="vj1-FS-bjP" eventType="touchDown" id="99e-qL-qyR"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpOutside" id="8ht-Tp-zjb"/>
+                                    <action selector="stopTimer" destination="vj1-FS-bjP" eventType="touchUpInside" id="nMf-p8-SDn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="WyZ-RK-fJq" firstAttribute="centerY" secondItem="zQj-ZN-jcM" secondAttribute="centerY" id="2Dr-HV-Kwd"/>
+                            <constraint firstItem="dxu-gc-NrT" firstAttribute="centerY" secondItem="zQj-ZN-jcM" secondAttribute="centerY" id="2YA-Dq-ow2"/>
+                            <constraint firstItem="dha-EC-xUP" firstAttribute="top" secondItem="ruX-a2-Mdn" secondAttribute="bottom" constant="29" id="7d4-08-aMY"/>
+                            <constraint firstItem="Us9-gI-WEZ" firstAttribute="top" secondItem="dha-EC-xUP" secondAttribute="bottom" constant="30" id="AXS-B0-Vd8"/>
+                            <constraint firstItem="cnR-Mi-8wc" firstAttribute="top" secondItem="dxu-gc-NrT" secondAttribute="bottom" constant="31" id="GSe-UW-aZQ"/>
+                            <constraint firstItem="WyZ-RK-fJq" firstAttribute="top" secondItem="mNH-oM-thm" secondAttribute="bottom" constant="13" id="IhZ-P9-GQt"/>
+                            <constraint firstItem="WyZ-RK-fJq" firstAttribute="centerX" secondItem="zQj-ZN-jcM" secondAttribute="centerX" id="T8T-zB-Jls"/>
+                            <constraint firstItem="cnR-Mi-8wc" firstAttribute="leading" secondItem="pWj-ui-9rh" secondAttribute="trailing" constant="62" id="YGY-jI-UEV"/>
+                            <constraint firstItem="WyZ-RK-fJq" firstAttribute="leading" secondItem="dha-EC-xUP" secondAttribute="trailing" constant="46" id="b1q-QA-ewt"/>
+                            <constraint firstItem="mNH-oM-thm" firstAttribute="leading" secondItem="ruX-a2-Mdn" secondAttribute="trailing" constant="46" id="bNM-ye-5rw"/>
+                            <constraint firstItem="dxu-gc-NrT" firstAttribute="top" secondItem="dzH-Dc-klp" secondAttribute="bottom" constant="30" id="cdI-Gf-DRr"/>
+                            <constraint firstItem="pWj-ui-9rh" firstAttribute="centerX" secondItem="zQj-ZN-jcM" secondAttribute="centerX" id="gmw-p5-qjG"/>
+                            <constraint firstItem="pWj-ui-9rh" firstAttribute="leading" secondItem="Us9-gI-WEZ" secondAttribute="trailing" constant="46" id="iMz-hd-zQA"/>
+                            <constraint firstItem="dha-EC-xUP" firstAttribute="centerY" secondItem="zQj-ZN-jcM" secondAttribute="centerY" id="m7O-5l-ni7"/>
+                            <constraint firstItem="mNH-oM-thm" firstAttribute="centerX" secondItem="zQj-ZN-jcM" secondAttribute="centerX" id="nVi-vI-SgO"/>
+                            <constraint firstItem="pWj-ui-9rh" firstAttribute="top" secondItem="WyZ-RK-fJq" secondAttribute="bottom" constant="16" id="tG3-gG-3Gj"/>
+                            <constraint firstItem="dzH-Dc-klp" firstAttribute="leading" secondItem="mNH-oM-thm" secondAttribute="trailing" constant="62" id="vl9-kp-cxQ"/>
+                            <constraint firstItem="dxu-gc-NrT" firstAttribute="leading" secondItem="WyZ-RK-fJq" secondAttribute="trailing" constant="62" id="zkI-8l-Cw9"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
