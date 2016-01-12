@@ -56,7 +56,8 @@ class MRExerciseView : UIView {
     private let lineWidth: CGFloat = 4
     
     /* Controlling progress bar animation with isAnimating */
-    private var isAnimating : Bool = false
+    private var isAnimating: Bool = false
+    private var fireCircleDidComplete: Bool = true
 
     private let circleLayer: CAShapeLayer = CAShapeLayer()
     
@@ -93,7 +94,7 @@ class MRExerciseView : UIView {
     
     override func animationDidStop(anim: CAAnimation, finished: Bool) {
         isAnimating = false
-        if finished {
+        if finished && fireCircleDidComplete {
             delegate?.exerciseViewCircleDidComplete(self)
         }
     }
@@ -293,6 +294,7 @@ class MRExerciseView : UIView {
     
     /// Starts the animation for the given duration
     func start(duration: NSTimeInterval) {
+        fireCircleDidComplete = true
         if !isAnimating {
             animateCircle(duration)
         } else {
@@ -304,6 +306,7 @@ class MRExerciseView : UIView {
     func reset() {
         layer.removeAnimationForKey("animateCircle")
         isAnimating = false
+        fireCircleDidComplete = false
         circleLayer.strokeColor = UIColor.clearColor().CGColor
     }
     
