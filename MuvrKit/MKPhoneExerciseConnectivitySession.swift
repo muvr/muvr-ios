@@ -3,8 +3,6 @@ import Foundation
 public struct MKExerciseConnectivitySession {
     /// the session id
     internal(set) public var id: String
-    /// the model id
-    internal(set) public var exerciseModelId: MKExerciseModelId
     /// the start timestamp
     internal(set) public var start: NSDate
     /// the end timestamp
@@ -15,6 +13,8 @@ public struct MKExerciseConnectivitySession {
     internal(set) public var sensorData: MKSensorData?
     /// the file datastamps
     internal var sensorDataFileTimestamps = Set<NSTimeInterval>()
+    // the exercise type
+    internal(set) public var exerciseType: MKExerciseType
  
     ///
     /// Initialises this instance, assigning the fields
@@ -23,12 +23,12 @@ public struct MKExerciseConnectivitySession {
     /// - parameter exerciseModelId: the exercise model identity
     /// - parameter startDate: the start date
     ///
-    internal init(id: String, exerciseModelId: String, start: NSDate, end: NSDate?, last: Bool) {
+    internal init(id: String, start: NSDate, end: NSDate?, last: Bool, exerciseType: MKExerciseType) {
         self.id = id
-        self.exerciseModelId = exerciseModelId
         self.start = start
         self.end = end
         self.last = last
+        self.exerciseType = exerciseType
     }
     
     ///
@@ -41,15 +41,15 @@ public struct MKExerciseConnectivitySession {
     internal static func fromMetadata(metadata: [String : AnyObject]) -> MKExerciseConnectivitySession? {
         let end = (metadata["end"] as? Double).map { NSDate(timeIntervalSince1970: $0) }
         let last = (metadata["last"] as? Bool) ?? false
-        if let exerciseModelId = metadata["exerciseModelId"] as? MKExerciseModelId,
-               sessionId = metadata["sessionId"] as? String,
-               startTimestamp = metadata["start"] as? Double {
+        if let sessionId = metadata["sessionId"] as? String,
+               startTimestamp = metadata["start"] as? Double,
+               exerciseType = MKExerciseType.fromJson(metadata["exerciseType"] as? MKExerciseTypeJson) {
                 return MKExerciseConnectivitySession(
                     id: sessionId,
-                    exerciseModelId: exerciseModelId,
                     start: NSDate(timeIntervalSince1970: startTimestamp),
                     end: end,
-                    last: last)
+                    last: last,
+                    exerciseType: exerciseType)
         }
         return nil
     }

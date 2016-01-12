@@ -221,6 +221,10 @@
 		647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */; };
 		6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */; };
 		64FB23BC1C3E899E005312C2 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */; };
+		992A81781C4555D9003518C9 /* MKExerciseType+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992A81741C454E1B003518C9 /* MKExerciseType+JSON.swift */; };
+		992A81791C4555DA003518C9 /* MKExerciseType+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992A81741C454E1B003518C9 /* MKExerciseType+JSON.swift */; };
+		992A817A1C4555E8003518C9 /* MKMuscleGroup+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992A81761C454F53003518C9 /* MKMuscleGroup+JSON.swift */; };
+		992A817B1C4555E8003518C9 /* MKMuscleGroup+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992A81761C454F53003518C9 /* MKMuscleGroup+JSON.swift */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
 		9D4A51491BE77BE70065BEF8 /* MKActivationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */; };
 		9D6D27AF1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27AE1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift */; };
@@ -555,6 +559,8 @@
 		647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoderTests.swift; sourceTree = "<group>"; };
 		6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+DateUtils.swift"; sourceTree = "<group>"; };
 		64FB23BD1C3E899E005312C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		992A81741C454E1B003518C9 /* MKExerciseType+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseType+JSON.swift"; sourceTree = "<group>"; };
+		992A81761C454F53003518C9 /* MKMuscleGroup+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMuscleGroup+JSON.swift"; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
 		9D6D27AE1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKForwardPropagatorTests.swift; sourceTree = "<group>"; };
 		9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKActivationFunctions.swift; sourceTree = "<group>"; };
@@ -996,6 +1002,8 @@
 				54ECB7361C3FF68200B6E042 /* MKMuscleGroup.swift */,
 				54ECB7391C3FF70900B6E042 /* MKExerciseType.swift */,
 				5421AEC91C40485F009CB4FA /* MKGeneralExerciseType.swift */,
+				992A81741C454E1B003518C9 /* MKExerciseType+JSON.swift */,
+				992A81761C454F53003518C9 /* MKMuscleGroup+JSON.swift */,
 			);
 			path = MuvrKit;
 			sourceTree = "<group>";
@@ -1700,8 +1708,10 @@
 				54FBA9671C3C692000FC4F8E /* MKRegression.swift in Sources */,
 				5474E8A41BF3E9D900A29D3B /* MKExerciseModel+Parsing.swift in Sources */,
 				54FEB0FE1C39838F00EC5293 /* MKIncompleteExercise.swift in Sources */,
+				992A817A1C4555E8003518C9 /* MKMuscleGroup+JSON.swift in Sources */,
 				5477910B1C24713000763197 /* MKExercisePlan.swift in Sources */,
 				54730CC31C3699C200BE1704 /* MKExercise.swift in Sources */,
+				992A81781C4555D9003518C9 /* MKExerciseType+JSON.swift in Sources */,
 				5469D3821BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */,
 				546E68521BB969DD00DC0FEF /* MKSensorData+Encoding.swift in Sources */,
 				54BDDDC81C4409060054A059 /* MKMarkovChain+JSON.swift in Sources */,
@@ -1730,10 +1740,12 @@
 				5469081B1BC701C200BA1047 /* MKWatchExerciseConnectivitySession.swift in Sources */,
 				5469D3831BBA6ECD00EE5ADB /* MKExerciseModelTypes.swift in Sources */,
 				544DC9CA1BF8B2B200D79E67 /* MKSensorDataEncoder.swift in Sources */,
+				992A81791C4555DA003518C9 /* MKExerciseType+JSON.swift in Sources */,
 				54ECB7381C3FF68200B6E042 /* MKMuscleGroup.swift in Sources */,
 				5421AECC1C40489E009CB4FA /* MKGeneralExerciseType.swift in Sources */,
 				547A44541BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift in Sources */,
 				5420C04F1BFA7462000CEDA1 /* MKSensorDataType.swift in Sources */,
+				992A817B1C4555E8003518C9 /* MKMuscleGroup+JSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

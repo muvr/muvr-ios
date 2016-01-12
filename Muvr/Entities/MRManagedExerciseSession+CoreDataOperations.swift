@@ -92,7 +92,7 @@ extension MRManagedExerciseSession {
         let mo = insertNewObject(inManagedObjectContext: managedObjectContext)
         mo.id = session.id
         mo.start = session.start
-        mo.exerciseModelId = session.exerciseModelId
+        mo.exerciseModelId = "arms"
         mo.completed = session.completed
         mo.uploaded = false
         

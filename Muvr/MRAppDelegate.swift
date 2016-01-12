@@ -296,7 +296,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData) {
-        NSLog("Received session classify for \(session)")
+        NSLog("Received session classify for \(session) with type \(session.exerciseType)")
         if let index = sessionIndex(session) {
             let currentSession = sessions[index]
             currentSession.sensorData = sensorData.encode()
@@ -346,7 +346,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func startSessionForExerciseType(type: MKExerciseType) {
         // TODO: resolve model from type
-        sessionClassifierDidStart(MKExerciseSession(exerciseModelId: "arms"))
+        sessionClassifierDidStart(MKExerciseSession(exerciseType: type))
     }
     
     func endCurrentSession() {

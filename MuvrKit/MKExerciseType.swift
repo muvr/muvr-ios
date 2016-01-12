@@ -24,6 +24,16 @@ public enum MKExerciseType : Equatable, Hashable {
         }
     }
     
+    /// Description of the exercise type
+    public var description: String {
+        switch self {
+        case .ResistanceTargeted(let muscleGroups):
+            return (muscleGroups.map {"\($0)"}).joinWithSeparator(", ")
+        case .ResistanceWholeBody:
+            return "Whole Body"
+        }
+    }
+
     ///
     /// A more general representation of this type; think of it as less specific type.
     /// For example, for type .RT([a, b, c]) more generic type is .RT([a, b])
@@ -36,7 +46,6 @@ public enum MKExerciseType : Equatable, Hashable {
         default: return nil
         }
     }
-    
 }
 
 // Implementation of Equatable
