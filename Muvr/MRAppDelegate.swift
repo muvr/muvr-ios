@@ -49,8 +49,18 @@ protocol MRApp {
     /// - parameter model: the model identity
     /// - returns: the exercise ids
     ///
-    func exerciseIds(model model: MKExerciseModelId) -> [MKExerciseId]
+    func exerciseIds(inModel model: MKExerciseModelId) -> [MKExerciseId]
     
+    ///
+    /// Explicitly starts an exercise session for the given ``type``.
+    /// - parameter type: the exercise type that the session initially starts with
+    ///
+    func startSessionForExerciseType(type: MKExerciseType)
+    
+    ///
+    /// Ends the current exercise session, if any
+    ///
+    func endCurrentSession()
 }
 
 @UIApplicationMain
@@ -148,7 +158,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// - parameter model: the model identity
     /// - returns: the unordered array of exercise ids
     ///
-    func exerciseIds(model model: MKExerciseModelId) -> [MKExerciseId] {
+    func exerciseIds(inModel model: MKExerciseModelId) -> [MKExerciseId] {
         let locationExerciseIds = currentLocation?.exerciseIds ?? []
         let modelExerciseIds = modelStore.exerciseIds(model: model)
         
@@ -243,35 +253,46 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - Session UI
     
     private func presentSessionControllerForSession(session: MRManagedExerciseSession) {
-        let snvc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? UINavigationController
-        let svc = snvc?.topViewController as? MRSessionViewController
+        if session.end != nil { return }
+        
+        //let snvc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? UINavigationController
+        //let svc = snvc?.topViewController as? MRSessionViewController
+        let svc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? MRSessionViewController
         svc!.setSession(session)
         // window!.rootViewController!.navigationController?.presentViewController(sessionViewController!, animated: true, completion: nil)
-        window!.rootViewController!.presentViewController(snvc!, animated: true, completion: nil)
-        sessionViewController = snvc
+        window!.rootViewController!.presentViewController(svc!, animated: true, completion: nil)
+        sessionViewController = svc
     }
     
-    private func dismissSessionController() {
-        sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
-        sessionViewController = nil
+    private func dismissSessionControllerForSession(session: MRManagedExerciseSession) {
+        if let currentSession = currentSession where currentSession == session {
+            sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
+            sessionViewController = nil
+        }
     }
     
     // MARK: - Session classification
+    
+    private func endSession(session: MRManagedExerciseSession) {
+        dismissSessionControllerForSession(session)
+        MRManagedExercisePlan.upsertPlan(session.plan, exerciseType: session.intendedType!, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
+        if session.completed {
+            if let index = (sessions.indexOf { $0.objectID == session.objectID }) {
+                sessions.removeAtIndex(index)
+            }
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidComplete.rawValue, object: session.objectID)
+        }
+        saveContext()
+    }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
         NSLog("Received session end for \(session)")
         // current session may be null in case of no running session
         if let index = sessionIndex(session) {
             let currentSession = sessions[index]
-            let objectId = currentSession.objectID
-            currentSession.end = session.end
-            if let data = sensorData {
-                currentSession.sensorData = data.encode()
-            }
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: objectId)
-            saveContext()
+            endSession(currentSession)
         }
-        dismissSessionController()
     }
     
     func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData) {
@@ -300,19 +321,38 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
         NSLog("Received session start for \(session)")
-        let persistedSession = MRManagedExerciseSession.sessionById(session.id, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+        let persistedSession = MRManagedExerciseSession.sessionById(session.id, inManagedObjectContext: managedObjectContext)
         if persistedSession == nil && sessionIndex(session) == nil {
+            // TODO: load the appropriate plan for type, location and day
+            let type = MKExerciseType.ResistanceTargeted(muscleGroups: [.Arms])
+            let plan = MRManagedExercisePlan.planForExerciseType(type, location: currentLocation, inManagedObjectContext: managedObjectContext)
+            
             let currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
             currentSession.locationId = currentLocation?.id
+            currentSession.intendedType = type
+            if let plan = plan?.plan {
+                currentSession.plan = plan
+            }
+            
             sessions.append(currentSession)
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: currentSession.objectID)
             presentSessionControllerForSession(currentSession)
             saveContext()
         } else if persistedSession != nil && sessionIndex(session) == nil {
-            NSLog("cach persisted session into memory: \(persistedSession!)")
+            NSLog("cache persisted session into memory: \(persistedSession!)")
             sessions.append(persistedSession!)
         }
-
+    }
+    
+    func startSessionForExerciseType(type: MKExerciseType) {
+        // TODO: resolve model from type
+        sessionClassifierDidStart(MKExerciseSession(exerciseModelId: "arms"))
+    }
+    
+    func endCurrentSession() {
+        if let currentSession = currentSession {
+            endSession(currentSession)
+        }
     }
     
     // MARK: - Core Location stack
@@ -322,19 +362,19 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
-        currentLocation = MRManagedLocation.findAtLocation(newLocation, inManagedObjectContext: managedObjectContext)
+        currentLocation = MRManagedLocation.findAtLocation(newLocation.coordinate, inManagedObjectContext: managedObjectContext)
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        currentLocation = MRManagedLocation.findAtLocation(locations.last!, inManagedObjectContext: managedObjectContext)
+        currentLocation = MRManagedLocation.findAtLocation(locations.last!.coordinate, inManagedObjectContext: managedObjectContext)
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         #if (arch(i386) || arch(x86_64)) && os(iOS)
             let location = CLLocation(latitude: CLLocationDegrees(53.435739), longitude: CLLocationDegrees(-2.165993))
-            currentLocation = MRManagedLocation.findAtLocation(location, inManagedObjectContext: managedObjectContext)
+            currentLocation = MRManagedLocation.findAtLocation(location.coordinate, inManagedObjectContext: managedObjectContext)
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
             NSLog("\(currentLocation?.exerciseIds)")
         #endif

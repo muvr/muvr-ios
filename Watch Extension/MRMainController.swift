@@ -23,7 +23,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     @IBOutlet weak var energyLabel: WKInterfaceLabel!
     @IBOutlet weak var energyGroup: WKInterfaceGroup!
     @IBOutlet weak var sessionLabel: WKInterfaceLabel!
-    @IBOutlet weak var exerciseModel: WKInterfacePicker!
     @IBOutlet weak var startGroup: WKInterfaceGroup!
     @IBOutlet weak var exercisesTable: WKInterfaceTable!
     
@@ -43,8 +42,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     }
     
     private func activate() {
-        let sd = MRExtensionDelegate.sharedDelegate()
-        exerciseModel.setItems(sd.exerciseModelMetadata.map { _, title in return WKPickerItem.withTitle(title) })
         updateUI()
         if renderer == nil {
             renderer = MRSessionProgressRingRenderer(ring: self, health: self)
@@ -66,20 +63,12 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     private func updateUI() {
         let sd = MRExtensionDelegate.sharedDelegate()
         clearAllMenuItems()
-        if let (session, _) = sd.currentSession {
+        if let (_, _) = sd.currentSession {
             addMenuItemWithItemIcon(WKMenuItemIcon.Pause, title: "Pause", action: "pause")
             addMenuItemWithItemIcon(WKMenuItemIcon.Trash, title: "Stop",  action: "stop")
 
-            if session.demo {
-                exercisesTable.setNumberOfRows(exercises.count, withRowType: "exercise")
-                (0..<exercisesTable.numberOfRows).forEach { i in
-                    let row = exercisesTable.rowControllerAtIndex(i) as! MRExerciseRow
-                    row.setExercise(exercises[i])
-                }
-            } else {
-                // TODO: real session will probably want to display plan or something
-                exercisesTable.setNumberOfRows(0, withRowType: "exercise")
-            }
+            // TODO: real session will probably want to display plan or something
+            exercisesTable.setNumberOfRows(0, withRowType: "exercise")
         } else {
             // NB. this is correct; even though it looks exactly like the line above,
             // NB. it will stay like this.
@@ -90,11 +79,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     }
     
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
-        if MRExtensionDelegate.sharedDelegate().currentSession?.0.demo ?? false {
-            let (resourceName, _) = exercises[rowIndex]
-            let fileUrl = NSBundle.mainBundle().URLForResource(resourceName, withExtension: "raw")!
-            MRExtensionDelegate.sharedDelegate().sendSamples(fileUrl)
-        }
     }
     
     func pause() {
@@ -112,23 +96,8 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     ///
     @IBAction func beginSession() {
         renderer?.reset()
-        MRExtensionDelegate.sharedDelegate().startSession(exerciseModelMetadataIndex: exerciseModelMetadataIndex, demo: false)
+        MRExtensionDelegate.sharedDelegate().startSession(exerciseModelMetadataIndex: exerciseModelMetadataIndex)
         updateUI()
-    }
-    
-    ///
-    /// Called when the user clicks the start demo button
-    ///
-    @IBAction func beginDemo() {
-        MRExtensionDelegate.sharedDelegate().startSession(exerciseModelMetadataIndex: exerciseModelMetadataIndex, demo: true)
-        updateUI()
-    }
-    
-    ///
-    /// Updates the currently-selected box
-    ///
-    @IBAction func exerciseModelPickerAction(index: Int) {
-        exerciseModelMetadataIndex = index
     }
 
 }

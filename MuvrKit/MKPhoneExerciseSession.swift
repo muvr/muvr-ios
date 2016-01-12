@@ -15,6 +15,14 @@ public struct MKExerciseSession {
     /// The offset of the last classified exercises
     internal var classificationStart: NSTimeInterval = 0
     
+    public init(exerciseModelId: MKExerciseModelId) {
+        self.id = NSUUID().UUIDString
+        self.exerciseModelId = exerciseModelId
+        self.start = NSDate()
+        self.end = nil
+        self.completed = false
+    }
+    
     ///
     /// Constructs this instance from the values in ``exerciseConnectivitySession``
     ///

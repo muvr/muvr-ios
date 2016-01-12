@@ -267,20 +267,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     }
     
     ///
-    /// Transfer sensor data if there is a not-yet-ended demo session
-    ///
-    /// - parameter sensorData: the sensor data to be transferred
-    ///
-    public func transferDemoSensorDataForCurrentSession(fileUrl: NSURL) {
-        if let (session, props) = sessions.currentSession where session.demo {
-            sessions.update(session) { return $0.with(accelerometerEnd: NSDate()) }
-            transferSensorDataBatch(fileUrl, session: session, props: props) {
-                self.sessions.update(session) { return $0.with(accelerometerStart: NSDate()) }
-            }
-        }
-    }
-    
-    ///
     /// Called when the file transfer completes.
     ///
     public func session(session: WCSession, didFinishFileTransfer fileTransfer: WCSessionFileTransfer, error: NSError?) {
@@ -330,7 +316,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         ///      - flag indicating if it's the last chunk of data
         ///
         func encodeSamples(from from: NSDate, to: NSDate?) -> (NSURL, NSDate, Bool)? {
-            
             // Indicates if the expected sample is in the requested range
             func isAfterFromDate(sample: CMRecordedAccelerometerData) -> Bool {
                 return from.timeIntervalSince1970 <= sample.startDate.timeIntervalSince1970
@@ -397,17 +382,16 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
                 NSLog("No session")
                 return
             }
-            
-            // Remove demo session
-            if session.demo {
-                self.sessions.remove(session)
-                NSLog("Demo session removed")
-                return
-            }
-            
+                        
             // compute the dates
             let from = props.accelerometerStart ?? session.start
             let to = props.end ?? NSDate()
+            
+            // drop if older than 3 days
+            if NSDate().timeIntervalSinceDate(from) > 60 * 24 * 3 {
+                sessions.remove(session)
+                return
+            }
             
             if (!props.ended && to.timeIntervalSinceDate(from) < MKConnectivitySettings.windowDuration) {
                 NSLog("Skip transfer for chunk smaller than a single window")
@@ -469,8 +453,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter modelId: the model id so that the phone can properly classify the data
     /// - parameter demo: set for demo mode
     ///
-    public func startSession(modelId: MKExerciseModelId, demo: Bool) {
-        let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), demo: demo, modelId: modelId)
+    public func startSession(modelId: MKExerciseModelId) {
+        let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), modelId: modelId)
         sessions.add(session)
         WCSession.defaultSession().transferUserInfo(session.metadata)
     }
@@ -528,7 +512,6 @@ private extension MKExerciseSession {
         return [
             "id":           self.id,
             "start":        self.start.timeIntervalSinceReferenceDate,
-            "demo":         self.demo,
             "modelId":      self.modelId
         ]
     }
@@ -542,11 +525,10 @@ private extension MKExerciseSession {
             start = NSDate(timeIntervalSinceReferenceDate: startDate)
         }
         
-        let demo = properties["demo"] as? Bool
         let modelId = properties["modelId"] as? String
         
-        if  id != nil && start != nil && demo != nil && modelId != nil {
-            self.init(id: id!, start: start!, demo: demo!, modelId: modelId!)
+        if  id != nil && start != nil && modelId != nil {
+            self.init(id: id!, start: start!, modelId: modelId!)
         } else {
             return nil
         }

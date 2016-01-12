@@ -1,15 +1,37 @@
 import Foundation
 import CoreData
 import MuvrKit
+import CoreLocation
 
 class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
-    private var plan = MKExercisePlan<MKExerciseId>()
     private var currentClassificationHint: MKClassificationHint?
     /// The estimated exercises
     var estimated: [MKClassifiedExercise] = []
+    /// The exercise plan
+    var plan = MKExercisePlan<MKExerciseId>()
+    /// The intended exercise type
+    var intendedType: MKExerciseType?
     
     ///
-    /// The list of exercises the user is likely to be doing
+    /// The exercise type inferred by taking the most frequently done exercise type in this session.
+    /// If the user does what he or she intended, then ``intendedType`` == ``inferredType``, and both
+    /// will be != nil.
+    ///
+    var inferredType: MKExerciseType? {
+        var counter: [MKExerciseType : Int] = [:]
+        for e in combinedExercises {
+            let type = MKExerciseType.fromExerciseId(e.exerciseId)!
+            if let count = counter[type] {
+                counter[type] = count + 1
+            } else {
+                counter[type] = 1
+            }
+        }
+        return counter.sort { l, r in return l.1 < r.1 } . map { $0.0 } . first
+    }
+    
+    ///
+    /// The non-empty list of exercises the user is likely to be doing
     ///
     var exercises: [MKIncompleteExercise] {
         if currentClassificationHint != nil {
@@ -17,34 +39,47 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
             return currentExercises
         } else {
             // we're not exercising
-            return nextExercises
+            return plannedExercises
+        }
+    }
+        
+    ///
+    /// The list of exercises that the user is most likely to be doing next
+    ///
+    var plannedExercises: [MKIncompleteExercise] {
+        let pes: [MKIncompleteExercise] = plan.next.map { exerciseId in
+            return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
+        }
+        return pes + unplannedExercises.filter { ue in return !pes.contains { pe in return pe.exerciseId == ue.exerciseId } }
+    }
+    
+    ///
+    /// The other exercises that the user was probably not doing
+    ///
+    var unplannedExercises: [MKIncompleteExercise] {
+        let modelExerciseIds = MRAppDelegate.sharedDelegate().exerciseIds(inModel: exerciseModelId)
+        let planExerciseIds = plan.next
+        return modelExerciseIds.filter { me in
+            return !planExerciseIds.contains { pe in pe == me }
+        }.sort { (l, r) in
+            l < r
+        }.map { exerciseId in
+            return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 0)
         }
     }
     
     ///
-    /// The list of exercises that the user has most likely just finished doing
+    /// The whole list of exercises starting with exercises that the user has most likely just finished doing
     ///
     private var nextExercises: [MKIncompleteExercise] {
-        let modelExercises = MRAppDelegate.sharedDelegate().exerciseIds(model: exerciseModelId)
-        let planExercises = plan.nextExercises
-        let notPlannedModelExercises = modelExercises.filter { me in
-            return !planExercises.contains { pe in pe == me }
-        }
-        let a: [MKIncompleteExercise] = planExercises.map { exerciseId in
-            return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
-        }
-        let b: [MKIncompleteExercise] = notPlannedModelExercises.sort { (l, r) in l < r } . map { exerciseId in
-            return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 0)
-        }
-        
-        return a + b
+        return plannedExercises + unplannedExercises
     }
     
     ///
     /// The list of exercises that the user is most likely currently doing
     ///
     private var currentExercises: [MKIncompleteExercise] {
-        let planExercises = plan.nextExercises
+        let planExercises = plan.next
         
         return (estimated.map { $0 as MKIncompleteExercise }) + planExercises.map { exerciseId in
             return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
@@ -99,7 +134,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
         l.cdRepetitions = label.repetitions ?? 0
         l.cdWeight = label.weight ?? 0
 
-        plan.addExercise(label.exerciseId)
+        plan.insert(label.exerciseId)
         currentClassificationHint = nil
     }
     

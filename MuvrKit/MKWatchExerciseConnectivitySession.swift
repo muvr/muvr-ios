@@ -97,8 +97,6 @@ public struct MKExerciseSession: Hashable, Equatable {
     let id: String
     /// the start date
     public let start: NSDate
-    /// indicates that this is a demo session
-    public let demo: Bool
     /// the model id
     public let modelId: MKExerciseModelId
     

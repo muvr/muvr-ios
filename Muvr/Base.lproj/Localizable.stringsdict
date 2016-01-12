@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>%d set(s)</key>
+        <dict>
+            <key>NSStringLocalizedFormatKey</key>
+            <string>%#@sets@</string>
+            <key>sets</key>
+            <dict>
+                <key>NSStringFormatSpecTypeKey</key>
+                <string>NSStringPluralRuleType</string>
+                <key>NSStringFormatValueTypeKey</key>
+                <string>d</string>
+                <key>one</key>
+                <string>%d set</string>
+                <key>other</key>
+                <string>%d sets</string>
+            </dict>
+        </dict>
+        <key>%d rep(s)</key>
+        <dict>
+            <key>NSStringLocalizedFormatKey</key>
+            <string>%#@reps@</string>
+            <key>reps</key>
+            <dict>
+                <key>NSStringFormatSpecTypeKey</key>
+                <string>NSStringPluralRuleType</string>
+                <key>NSStringFormatValueTypeKey</key>
+                <string>d</string>
+                <key>one</key>
+                <string>%d rep</string>
+                <key>other</key>
+                <string>%d reps</string>
+            </dict>
+        </dict>
+    </dict>
+</plist>

@@ -1,105 +1,161 @@
 import UIKit
-import CoreData
 import MuvrKit
 
 ///
-/// This class shows the exercises of the displayed session.
-/// To display a session, you must call the ``setSession(session:)`` method and provide a valid ``MRManagedExerciseSesssion``.
+/// The session view controller displays the session in progress
 ///
-class MRSessionViewController : UIViewController, UITableViewDataSource {
+class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var timedView: MRTimedView!
+    /// The state this controller is in
+    enum State {
+        /// Some exercises are coming up
+        case ComingUp
+        /// The user should get ready to start the given ``exercise``
+        /// - parameter exercise: the exercise the user selected
+        case Ready(exercise: MKIncompleteExercise)
+        /// The user is exercising
+        /// - parameter exercise: the exercise in progress
+        /// - parameter start: the start date
+        case InExercise(exercise: MKIncompleteExercise, start: NSDate)
+        /// The user has finished exercising
+        /// - parameter exercise: the exercise
+        /// - parameter start: the start date
+        /// - parameter duration: the duration
+        case Done(exercise: MKIncompleteExercise, start: NSDate, duration: NSTimeInterval)
+        
+        var color: UIColor {
+            switch self {
+            case .ComingUp: return UIColor.greenColor()
+            case .Ready: return UIColor.orangeColor()
+            case .InExercise: return UIColor.redColor()
+            case .Done: return UIColor.grayColor()
+            }
+        }
+    }
     
-    // the displayed session
-    private var session: MRManagedExerciseSession?
-    // indicates if the displayed session is active (i.e. not finished)
+    /// The circle that displays an exercise and a round bar
+    @IBOutlet private weak var mainExerciseView: MRExerciseView!
+    
+    private var sessionNavigationController: UINavigationController? = nil
+    /// The session–in–progress
+    private var session: MRManagedExerciseSession!
+    /// The current state
+    private var state: State = .ComingUp
     
     ///
-    /// Provides the session to display
+    /// Sets the session to be displayed by this controller
+    /// - parameter session: the session
     ///
     func setSession(session: MRManagedExerciseSession) {
         self.session = session
     }
     
-    // MARK: UIViewController
-    
     override func viewDidLoad() {
-        timedView.textTransform = { _ in return "go!" }
-        timedView.setColourScheme(MRColourSchemes.green)
-        timedView.elapsedResets = false
-        timedView.countingStyle = MRTimedView.CountingStyle.Elapsed
-        tableView.registerNib(MRExerciseSetTableViewCell.nib, forCellReuseIdentifier: MRExerciseSetTableViewCell.cellReuseIdentifier)
-    }
-
-    override func viewDidDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        mainExerciseView.delegate = self
     }
     
     override func viewDidAppear(animated: Bool) {
-        timedView.setColourScheme(MRColourSchemes.green)
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationDidObtain:", name: MRNotifications.LocationDidObtain.rawValue, object: nil)
-        tableView.reloadData()
-        if let session = session where !session.completed && NSDate().timeIntervalSinceDate(session.start) < 24*60*60 {
-            timedView.hidden = false
-            timedView.start(60) { $0.setColourScheme(MRColourSchemes.amber) }
-            timedView.buttonTouched = timedViewButtonTouched
-        } else {
-            timedView.hidden = true
-        }
-    }
-    
-    ///
-    /// Local notification callback function intended to be used when location is set.
-    /// - parameter notification: the details of the local notification
-    ///
-    func locationDidObtain(notification: NSNotification) {
-        guard let exerciseModelId = session?.exerciseModelId else { return }
-        
-        if let locationName = notification.object as? String {
-            title = "\(exerciseModelId) at \(locationName)"
-        } else {
-            title = exerciseModelId
-        }
-    }
-    
-    private func timedViewButtonTouched(tv: MRTimedView) {
-        performSegueWithIdentifier("exercise", sender: session)
-    }
-    
-    // MARK: notification callbacks
-    
-    func update() {
-        tableView.reloadData()
+        refresh()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        if let lc = segue.destinationViewController as? MRLabelViewController, let session = sender as? MRManagedExerciseSession {
-//            lc.session = session
-//        }
-        if let c = segue.destinationViewController as? MRExercisingViewController, let session = sender as? MRManagedExerciseSession {
-            c.navigationItem.hidesBackButton = true
-            c.session = session
+        if let controller = segue.destinationViewController as? UINavigationController {
+            controller.navigationBarHidden = true
+            sessionNavigationController = controller
         }
     }
     
-    // MARK: UITableViewDataSource
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+    private func refresh() {
+        mainExerciseView.progressFullColor = state.color
+        switch state {
+        case .ComingUp:
+            mainExerciseView.headerTitle = "Coming up".localized()
+            mainExerciseView.exercise = session.exercises.first
+            mainExerciseView.reset()
+            mainExerciseView.start(60)
+            if let controller = sessionNavigationController?.topViewController as? MRSessionComingUpViewController {
+                controller.setExercises(session.exercises, onSelected: selectedExercise)
+            }
+        case .Ready:
+            mainExerciseView.headerTitle = "Get ready for".localized()
+            mainExerciseView.reset()
+            mainExerciseView.start(5)
+            sessionNavigationController?.topViewController?.performSegueWithIdentifier("ready", sender: nil)
+        case .InExercise:
+            mainExerciseView.headerTitle = "Stop".localized()
+            mainExerciseView.reset()
+            mainExerciseView.start(60)
+            sessionNavigationController?.topViewController?.performSegueWithIdentifier("exercising", sender: nil)
+        case .Done:
+            mainExerciseView.headerTitle = "Finished".localized()
+            mainExerciseView.reset()
+            mainExerciseView.start(15)
+            sessionNavigationController?.topViewController?.performSegueWithIdentifier("labelling", sender: nil)
+            if let controller = sessionNavigationController?.topViewController as? MRSessionLabellingViewController {
+                controller.setExercise(mainExerciseView.exercise!, onLabelUpdated: labelUpdated)
+            }
+        }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return session?.sets.count ?? 0
+    /// Called when the label is updated by the subcontroller
+    /// - parameter newExercise: the updated label
+    private func labelUpdated(newExercise: MKIncompleteExercise) {
+        mainExerciseView.reset()
+        if case .Done(_, let start, let duration) = state {
+            state = .Done(exercise: newExercise, start: start, duration: duration)
+        }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let set = session!.sets[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier(MRExerciseSetTableViewCell.cellReuseIdentifier, forIndexPath: indexPath) as! MRExerciseSetTableViewCell
-        cell.setSet(set)
-        return cell
+    /// Called when an exercise is selected
+    /// - parameter exercise: the selected exercise
+    private func selectedExercise(selectedExercise: MKIncompleteExercise) {
+        mainExerciseView.exercise = selectedExercise
+    }
+    
+    // MARK: - MRExerciseViewDelegate
+    
+    func exerciseViewLongTapped(exerciseView: MRExerciseView) {
+        if case .ComingUp = state {
+            MRAppDelegate.sharedDelegate().endCurrentSession()
+        }
+    }
+    
+    func exerciseViewTapped(exerciseView: MRExerciseView) {
+        switch state {
+        case .ComingUp:
+            // The user has tapped on the exercise. Let's get ready
+            state = .Ready(exercise: mainExerciseView.exercise!)
+        case .Ready:
+            state = .ComingUp
+            sessionNavigationController?.topViewController?.performSegueWithIdentifier("exitReady", sender: session)
+        case .InExercise(let exercise, let start):
+            state = .Done(exercise: exercise, start: start, duration: NSDate().timeIntervalSinceDate(start))
+        case .Done(let exercise, let start, let duration):
+            // The user has completed the exercise, and accepted our labels
+            session.addLabel(exercise, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+            state = .ComingUp
+            sessionNavigationController?.topViewController?.performSegueWithIdentifier("exitLabelling", sender: session)
+        }
+        refresh()
+    }
+    
+    func exerciseViewCircleDidComplete(exerciseView: MRExerciseView) {
+        switch state {
+        case .ComingUp:
+            // We've exhausted our rest time. Turn orange to give the user a kick.
+            mainExerciseView.progressFullColor = UIColor.orangeColor()
+        case .Ready(let exercise):
+            // We've had the time to get ready. Now time to exercise.
+            state = .InExercise(exercise: exercise, start: NSDate())
+            refresh()
+        case .Done(let exercise, let start, let duration):
+            // The user has completed the exercise, modified our labels, and accepted.
+            session.addLabel(exercise, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+            state = .ComingUp
+            sessionNavigationController?.topViewController?.performSegueWithIdentifier("exitLabelling", sender: session)
+            refresh()
+        default: return
+        }
     }
     
 }

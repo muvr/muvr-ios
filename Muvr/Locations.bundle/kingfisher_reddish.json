@@ -1,11 +1,11 @@
 {
-    "lat":53.435739,
-    "lon":-2.165993,
+    "latitude":53.435739,
+    "longitude":-2.165993,
     "id":"B73F0752-63F3-4662-AAD3-94E5499DA6F9",
     "name":"Kingfisher Health Club",
     "labels":[
-        {"exerciseId":"arms/biceps-curl", "minWeight":2.5, "weightIncrement":2.5},
-        {"exerciseId":"shoulders/shrugs", "minWeight":2.5, "weightIncrement":2.5},
-        {"exerciseId":"chest/angled-chest-press"}
+        {"exerciseId":"resistanceTargeted:arms/biceps-curl", "minWeight":2.5, "weightIncrement":2.5},
+        {"exerciseId":"resistanceTargeted:shoulders/shrugs", "minWeight":2.5, "s":2.5},
+        {"exerciseId":"resistanceTargeted:chest/angled-chest-press"}
     ]
 }

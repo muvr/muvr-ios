@@ -1,8 +1,63 @@
-/* 
-  Localizable.strings
-  Muvr
+/* Home */
+"Start %@ session" = "Start %@ session";
 
-  Created by Jan Machacek on 5/2/15.
-  Copyright (c) 2015 Muvr. All rights reserved.
-*/
-"MRExerciseSessionViewController.elapsed"="Elapsed %d:%02d";
+/* Session */
+"Coming up" = "Coming up";
+"Get ready for" = "Get ready for";
+"Stop" = "Stop";
+"Finished" = "Finished";
+
+/* MRAggregate */
+"MRAggregate.types" = "types";
+
+/* MRAggregateKey */
+"MRAggregateKey.noMuscleGroup" = "whole body";
+
+/* MKExerciseType */
+"MKExerciseType.cardio" = "cardio";
+"MKExerciseType.resistanceTargeted" = "weights";
+"MKExerciseType.resistanceWholeBody" = "whole body";
+
+/* MKMuscleGroup */
+"MKMuscleGroup.shoulders" = "shoulders";
+"MKMuscleGroup.arms" = "arms";
+"MKMuscleGroup.core" = "core";
+"MKMuscleGroup.back" = "back";
+"MKMuscleGroup.chest" = "chest";
+"MKMuscleGroup.legs" = "legs";
+
+"dumbbell-shoulder-press" = "dumbbell shoulder press";
+"dumbbell-bench-press" = "dumbbell bench press";
+"triceps-pushdown" = "triceps pushdown";
+"barbell-biceps-curl" = "barbell biceps curls";
+"suitcase-crunches" = "suitcase crunches";
+"lateral-raise" = "lateral raise";
+"back-extensions" = "back extensions";
+"biceps-curl" = "biceps curls";
+"triceps-extension" = "triceps extensions";
+"lateral-pulldown-straight" = "lateral pulldown straight";
+"angle-chest-press" = "angle chest press";
+"vertical-swing" = "vertical swing";
+"dumbbell-flyes" = "dumbbell flyes";
+"side-dips" = "side dips";
+"crunches" = "crunches";
+"reverse-cable-curl" = "reverse cable curls";
+"lunges" = "lunges";
+"cable-crossover" = "cable crossover";
+"oblique-crunches" = "oblique crunches";
+"iron-cross" = "iron cross";
+"squat" = "squat";
+"triceps-dips" = "triceps dips";
+"dumbbell-calf-raise" = "dumbbell calf raise";
+"reverse-flyes" = "reverse flyes";
+"bench-press" = "bench press";
+"barbell-squat" = "barbell squat";
+"butterfly-machine" = "butterfly machine";
+"chest-press-machine" = "chest press machine";
+"pull-up" = "pull-up";
+"overhead-cable-curl" = "overhead cable curl";
+"alternate-heel-touchers" = "alternate heel touchers";
+"upright-barbell-row" = "upright barbell row";
+"rowing-machine" = "rowing machine";
+"running-machine" = "running machine";
+"cross-trainer" = "cross trainer";
