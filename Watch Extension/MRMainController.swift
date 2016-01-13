@@ -6,17 +6,17 @@ import MuvrKit
 class MRExerciseTypeController: NSObject {
     @IBOutlet var startExerciseType: WKInterfaceButton!
     
-    var exerciseType: MKExerciseType? = nil
-    var mainController: MRMainController? = nil
+    var exerciseType: MKExerciseType!
+    var mainController: MRMainController!
     
-    func setType(type: MKExerciseType, mainCtrl: MRMainController) {
-        exerciseType = type
-        startExerciseType.setTitle(exerciseType?.title)
-        mainController = mainCtrl
+    func setExerciseType(exerciseType: MKExerciseType, mainController: MRMainController) {
+        self.exerciseType = exerciseType
+        startExerciseType.setTitle(exerciseType.title)
+        self.mainController = mainController
     }
     
     @IBAction func beginSessionWithType() {
-        mainController?.beginSession(exerciseType!)
+        mainController.beginSession(exerciseType)
     }
 }
 
@@ -55,8 +55,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     ]
 
     private var renderer: MRSessionProgressRingRenderer?
-
-    private var exerciseModelMetadataIndex: Int = 0
     
     override func willActivate() {
         super.willActivate()
@@ -87,14 +85,12 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
         clearAllMenuItems()
         
         exerciseTypeTable.setNumberOfRows(exerciseType.count, withRowType: "MRExerciseTypeController")
-                NSLog("count = \(exerciseType.count)")
-                NSLog("table = \(exerciseTypeTable.numberOfRows)")
         (0..<exerciseTypeTable.numberOfRows).forEach { i in
             let row = exerciseTypeTable.rowControllerAtIndex(i) as! MRExerciseTypeController
-            row.setType(exerciseType[i], mainCtrl: self)
+            row.setExerciseType(exerciseType[i], mainController: self)
         }
         
-        if let (_, _) = sd.currentSession {
+        if sd.currentSession != nil {
             addMenuItemWithItemIcon(WKMenuItemIcon.Pause, title: "Pause", action: "pause")
             addMenuItemWithItemIcon(WKMenuItemIcon.Trash, title: "Stop",  action: "stop")
 
@@ -125,9 +121,9 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     ///
     /// Called when the user clicks the session start button
     ///
-    func beginSession(exerType: MKExerciseType) {
+    func beginSession(exerciseType: MKExerciseType) {
         renderer?.reset()
-        MRExtensionDelegate.sharedDelegate().startSession(exerType)
+        MRExtensionDelegate.sharedDelegate().startSession(exerciseType)
         updateUI()
     }
 

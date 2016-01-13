@@ -983,9 +983,9 @@
 				64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */,
 				54B86D091BD196190016DDA0 /* BridgingHeader.h */,
 				54B86D0A1BD197470016DDA0 /* MRBuildDetail.m */,
+				543BB4221C465E7E009FB47F /* MKExerciseType+Localisation.swift */,
 				54A48AE01BA474F300F4A81B /* Info.plist */,
 				54BD57B81BC546EE008B5BC4 /* UI.xcassets */,
-				543BB4221C465E7E009FB47F /* MKExerciseType+Localisation.swift */,
 			);
 			path = "Watch Extension";
 			sourceTree = "<group>";
