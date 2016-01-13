@@ -11,8 +11,6 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
         return MRWorkoutSessionDelegate()
     }()
     
-    private(set) internal var exerciseModelMetadata: [MKExerciseModelMetadata] = []
-
     ///
     /// Convenience method that returns properly typed reference to this instance
     ///
@@ -52,10 +50,9 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     ///
     /// Starts the session
     ///
-    func startSession(exerciseModelMetadataIndex exerciseModelMetadataIndex: Int) {
-        let (modelId, _) = exerciseModelMetadata[exerciseModelMetadataIndex]
-        connectivity.startSession(modelId)
-        workoutDelegate.startSession(start: NSDate(), model: modelId)
+    func startSession(exerciseType: MKExerciseType) {
+        connectivity.startSession(exerciseType)
+        workoutDelegate.startSession(start: NSDate(), exerciseType: exerciseType)
     }
     
     ///
@@ -79,10 +76,4 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
 
     }
     
-    // MARK: MKMetadataConnectivityDelegate
-
-    func metadataConnectivityDidReceiveExerciseModelMetadata(exerciseModelMetadata: [MKExerciseModelMetadata]) {
-        self.exerciseModelMetadata = exerciseModelMetadata
-    }
-
 }

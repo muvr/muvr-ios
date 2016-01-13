@@ -67,7 +67,7 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
         let splitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
         let classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: splitter, delegate: delegate)
         let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 1200, repeatedValue: 0.3))
-        let session = MKExerciseConnectivitySession(id: "1234", exerciseModelId: "arms", start: NSDate(), end: nil, last: true)
+        let session = MKExerciseConnectivitySession(id: "1234", start: NSDate(), end: nil, last: true, exerciseType: .ResistanceWholeBody)
 
         classifier.exerciseConnectivitySessionDidStart(session: session)
         classifier.sensorDataConnectivityDidReceiveSensorData(accumulated: sd, new: sd, session: session)

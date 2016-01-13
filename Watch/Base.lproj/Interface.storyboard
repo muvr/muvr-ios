@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9531" systemVersion="14F1021" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="9515"/>
@@ -10,16 +10,30 @@
             <objects>
                 <controller title="Muvr" id="AgC-eL-Hgc" customClass="MRMainController" customModule="Watch_Extension">
                     <items>
-                        <group width="1" height="153" alignment="left" layout="vertical" id="ys7-T7-jXZ">
+                        <group width="1" alignment="left" layout="vertical" id="ys7-T7-jXZ">
                             <items>
-                                <button width="1" alignment="left" title="Start" id="qph-6j-6Ky">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="font" type="boldSystem" pointSize="15"/>
-                                    <connections>
-                                        <action selector="beginSession" destination="AgC-eL-Hgc" id="ddT-ri-yoG"/>
-                                    </connections>
-                                </button>
+                                <table alignment="left" id="aLB-77-XAj">
+                                    <items>
+                                        <tableRow identifier="MRExerciseTypeController" id="fa4-pc-tYU" customClass="MRExerciseTypeController" customModule="Watch_Extension">
+                                            <group key="rootItem" width="1" height="0.0" alignment="left" id="B8O-6b-bfX">
+                                                <items>
+                                                    <button width="1" height="50" alignment="left" title="ExerType" id="y2I-MC-GPU">
+                                                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <fontDescription key="font" type="boldSystem" pointSize="15"/>
+                                                        <connections>
+                                                            <action selector="beginSessionWithType" destination="fa4-pc-tYU" id="hql-ES-mNR"/>
+                                                        </connections>
+                                                    </button>
+                                                </items>
+                                                <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            </group>
+                                            <connections>
+                                                <outlet property="startExerciseType" destination="y2I-MC-GPU" id="FDQ-7v-ayZ"/>
+                                            </connections>
+                                        </tableRow>
+                                    </items>
+                                </table>
                                 <table alignment="left" id="t9X-s3-pCm">
                                     <items>
                                         <tableRow identifier="exercise" id="lX0-fg-QRi" customClass="MRExerciseRow" customModule="Watch_Extension">
@@ -91,6 +105,7 @@
                     <connections>
                         <outlet property="energyGroup" destination="evM-n1-iMt" id="GNp-jf-63k"/>
                         <outlet property="energyLabel" destination="FJJ-l6-qmB" id="fdC-6D-wE2"/>
+                        <outlet property="exerciseTypeTable" destination="aLB-77-XAj" id="izL-wx-njV"/>
                         <outlet property="exercisesTable" destination="t9X-s3-pCm" id="hhq-Su-ZPu"/>
                         <outlet property="heartGroup" destination="ygo-Es-duq" id="UNe-Mr-wKr"/>
                         <outlet property="heartLabel" destination="3oQ-9H-lFI" id="xuE-Tt-4re"/>

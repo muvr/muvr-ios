@@ -2,7 +2,10 @@ import Foundation
 
 /// The exercise type
 public enum MKExerciseType : Equatable, Hashable {
-        
+    
+    public static let resistanceTargeted = "resistanceTargeted"
+    public static let resistanceWholeBody = "resistanceWholeBody"
+    
     // case Cardio
 
     /// Whole-body resistance exercise, it targets all muscle groups
@@ -25,6 +28,16 @@ public enum MKExerciseType : Equatable, Hashable {
     }
     
     ///
+    /// Returns the identity of the type
+    ///
+    public var id: String {
+        switch self {
+        case .ResistanceTargeted: return MKExerciseType.resistanceTargeted
+        case .ResistanceWholeBody: return MKExerciseType.resistanceWholeBody
+        }
+    }
+
+    ///
     /// A more general representation of this type; think of it as less specific type.
     /// For example, for type .RT([a, b, c]) more generic type is .RT([a, b])
     ///
@@ -36,7 +49,6 @@ public enum MKExerciseType : Equatable, Hashable {
         default: return nil
         }
     }
-    
 }
 
 // Implementation of Equatable
