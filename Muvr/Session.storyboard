@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D9c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -26,22 +26,12 @@
                                     <constraint firstAttribute="width" secondItem="UaB-VL-s9m" secondAttribute="height" multiplier="1:1" id="qCp-Hs-LGy"/>
                                 </constraints>
                             </view>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oCJ-b6-lFK">
-                                <rect key="frame" x="0.0" y="410" width="414" height="326"/>
-                                <connections>
-                                    <segue destination="FBZ-OQ-2am" kind="embed" id="4vl-vQ-MJf"/>
-                                </connections>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="UaB-VL-s9m" firstAttribute="top" secondItem="65O-mu-fcy" secondAttribute="bottom" constant="8" id="0tw-lD-D4z"/>
-                            <constraint firstItem="oCJ-b6-lFK" firstAttribute="leading" secondItem="K0h-cg-yrp" secondAttribute="leading" id="6SL-FQ-nPm"/>
-                            <constraint firstItem="oCJ-b6-lFK" firstAttribute="centerX" secondItem="UaB-VL-s9m" secondAttribute="centerX" id="BSc-mP-CbB"/>
-                            <constraint firstItem="oCJ-b6-lFK" firstAttribute="top" secondItem="UaB-VL-s9m" secondAttribute="bottom" constant="8" symbolic="YES" id="YV1-dp-frT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="UaB-VL-s9m" secondAttribute="trailing" id="mgh-SG-21y"/>
                             <constraint firstItem="UaB-VL-s9m" firstAttribute="leading" secondItem="K0h-cg-yrp" secondAttribute="leadingMargin" id="ofw-bt-EpS"/>
-                            <constraint firstItem="oCJ-b6-lFK" firstAttribute="bottom" secondItem="BKL-3V-v4m" secondAttribute="top" id="ypG-kx-sAr"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -55,27 +45,10 @@
             </objects>
             <point key="canvasLocation" x="-2922" y="-456"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="a6r-Z0-scM">
-            <objects>
-                <navigationController id="FBZ-OQ-2am" sceneMemberID="viewController">
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bkX-hb-eMZ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="KOW-iP-27d" kind="relationship" relationship="rootViewController" id="xbq-nh-a5U"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7XY-6d-RRv" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2922" y="479"/>
-        </scene>
         <!--Session Coming Up View Controller-->
         <scene sceneID="B0z-N9-GBH">
             <objects>
-                <viewController id="KOW-iP-27d" customClass="MRSessionComingUpViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ComingUpViewController" id="KOW-iP-27d" customClass="MRSessionComingUpViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="7PG-BM-jiU"/>
                         <viewControllerLayoutGuide type="bottom" id="dah-1j-I90"/>
@@ -102,17 +75,16 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="scrollView" destination="hTE-1K-VgU" id="zHa-gC-Xrt"/>
-                        <segue destination="BTC-yE-mHF" kind="show" identifier="ready" id="FNr-bK-nnD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nd3-eV-3Fu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2418" y="479"/>
+            <point key="canvasLocation" x="-2922" y="457"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="XPU-zT-bD2">
             <objects>
-                <viewController id="BTC-yE-mHF" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ReadyViewController" id="BTC-yE-mHF" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FtX-YL-AOH"/>
                         <viewControllerLayoutGuide type="bottom" id="2RD-Yh-mYg"/>
@@ -131,20 +103,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                    <connections>
-                        <segue destination="8cS-9e-RtE" kind="show" identifier="exercising" id="DJk-br-QFo"/>
-                        <segue destination="hVj-Jh-VZN" kind="unwind" identifier="exitReady" unwindAction="unwindToComingUp:" id="ztQ-HT-32w"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ggo-S3-3a5" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="hVj-Jh-VZN" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-1904" y="479"/>
+            <point key="canvasLocation" x="-2408" y="457"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="2bx-dl-QpH">
             <objects>
-                <viewController id="8cS-9e-RtE" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InExerciseViewController" id="8cS-9e-RtE" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iRp-EL-aYP"/>
                         <viewControllerLayoutGuide type="bottom" id="0Ev-wc-Tgj"/>
@@ -163,18 +130,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                    <connections>
-                        <segue destination="vj1-FS-bjP" kind="show" identifier="labelling" id="asG-xc-Yo9"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cuP-X1-fUm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1376" y="479"/>
+            <point key="canvasLocation" x="-1880" y="457"/>
         </scene>
         <!--Session Labelling View Controller-->
         <scene sceneID="4B1-cN-1mU">
             <objects>
-                <viewController id="vj1-FS-bjP" customClass="MRSessionLabellingViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LabellingViewController" id="vj1-FS-bjP" customClass="MRSessionLabellingViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5c6-F1-M18"/>
                         <viewControllerLayoutGuide type="bottom" id="YSH-v9-Aja"/>
@@ -322,13 +286,11 @@
                         <outlet property="intensityView" destination="pWj-ui-9rh" id="VIy-ND-Iyw"/>
                         <outlet property="repetitionsView" destination="mNH-oM-thm" id="FgS-ys-Qju"/>
                         <outlet property="weightView" destination="WyZ-RK-fJq" id="6Iv-V1-o7o"/>
-                        <segue destination="Zel-ON-fYI" kind="unwind" identifier="exitLabelling" unwindAction="unwindToComingUp:" id="kBx-YO-5mp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v3Z-bc-2Dn" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="Zel-ON-fYI" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-815" y="479"/>
+            <point key="canvasLocation" x="-1325" y="457"/>
         </scene>
     </scenes>
 </document>
