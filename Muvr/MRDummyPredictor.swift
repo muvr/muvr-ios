@@ -9,9 +9,9 @@
 import Foundation
 import MuvrKit
 
-class MRDummyPredictor : MKPredictor {
+class MRDummyPredictor<K: Hashable> : MKPredictor {
     
-    func predicAt<K where K : Hashable>(x: Int, forKey: K) -> Double {
+    func predicAt(x: Int, forKey: K) -> Double? {
         return 10
     }
     
