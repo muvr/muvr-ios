@@ -50,10 +50,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
         let pes: [MKIncompleteExercise] = plan.next.map { exerciseId in
             return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
         }
-        if !pes.isEmpty {
-            return pes
-        }
-        return unplannedExercises
+        return pes + unplannedExercises.filter { ue in return !pes.contains { pe in return pe.exerciseId == ue.exerciseId } }
     }
     
     ///
