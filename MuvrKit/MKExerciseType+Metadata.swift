@@ -16,9 +16,12 @@ extension MKExerciseType {
             } else if let muscleGroupsIds = (metadata["muscleGroups"] as? [String]) where id == MKExerciseType.resistanceTargeted {
                 let muscleGroups = muscleGroupsIds.flatMap { MKMuscleGroup(id: $0) }
                 self = .ResistanceTargeted(muscleGroups: muscleGroups)
+            } else {
+                return nil
             }
+        } else {
+            return nil
         }
-        return nil
     }
     
 }

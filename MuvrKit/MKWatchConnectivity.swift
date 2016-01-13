@@ -69,9 +69,8 @@ struct MKConnectivitySessions {
     /// Add a new session
     /// - parameter session: the session to be added
     ///
-    mutating func add(session: MKExerciseSession) {
-        let props = MKExerciseSessionProperties(start: NSDate())
-        sessions[session] = props
+    mutating func add(session: MKExerciseSession, properties: MKExerciseSessionProperties) {
+        sessions[session] = properties
         saveSessions(sessions)
     }
     
@@ -449,8 +448,9 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func startSession(exerciseType: MKExerciseType) {
         let session = MKExerciseSession(id: NSUUID().UUIDString, exerciseType: exerciseType)
-        sessions.add(session)
-        WCSession.defaultSession().transferUserInfo(session.metadata)
+        let properties = MKExerciseSessionProperties(start: NSDate())
+        sessions.add(session, properties: properties)
+        WCSession.defaultSession().transferUserInfo(session.metadata.plus(properties.metadata))
     }
     
     /// the description
