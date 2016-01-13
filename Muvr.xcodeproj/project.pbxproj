@@ -54,7 +54,6 @@
 		54430EC51BC2CFD300541979 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54DE161F1BAD94A400F0752B /* HealthKit.framework */; };
 		54477CFD1AF4E82E00F502EC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 54477CFB1AF4E82E00F502EC /* Localizable.strings */; };
 		544B4A691C45372B005703E1 /* MRManagedExercisePlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B4A681C45372B005703E1 /* MRManagedExercisePlanTests.swift */; };
-		544B4A6D1C455896005703E1 /* MKPositionalPredictorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B4A6C1C455896005703E1 /* MKPositionalPredictorTests.swift */; };
 		544C73581BE7E99600B76F25 /* MBCircularProgressBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 544C73571BE7E99600B76F25 /* MBCircularProgressBar.framework */; };
 		544DC9C91BF8B2B200D79E67 /* MKSensorDataEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544DC9C81BF8B2B200D79E67 /* MKSensorDataEncoder.swift */; };
 		544DC9CA1BF8B2B200D79E67 /* MKSensorDataEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544DC9C81BF8B2B200D79E67 /* MKSensorDataEncoder.swift */; };
@@ -173,8 +172,8 @@
 		54D5275E1B94D79F00B56719 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D527581B94D79F00B56719 /* Charts.framework */; };
 		54D5275F1B94D79F00B56719 /* JTCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D527591B94D79F00B56719 /* JTCalendar.framework */; };
 		54D5E9721BD3C6F70002CDB5 /* MKPhoneConnectivityDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D5E9711BD3C6F70002CDB5 /* MKPhoneConnectivityDelegates.swift */; };
-		54E430861C46BF2C00FA01A8 /* MKPredictorXXX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B4A6A1C454C2D005703E1 /* MKPredictorXXX.swift */; };
 		54E430881C46BFEB00FA01A8 /* MKPolynomialFittingPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E430871C46BFEB00FA01A8 /* MKPolynomialFittingPredictor.swift */; };
+		54E4308A1C46C46600FA01A8 /* MKPolynomialFittingPredictorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E430891C46C46600FA01A8 /* MKPolynomialFittingPredictorTests.swift */; };
 		54E4CB401BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4CB3F1BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift */; };
 		54E9131B1BC306A500B7F9F0 /* class-1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54E913181BC306A500B7F9F0 /* class-1.csv */; };
 		54E9131C1BC306A500B7F9F0 /* model-3.raw in Resources */ = {isa = PBXBuildFile; fileRef = 54E913191BC306A500B7F9F0 /* model-3.raw */; };
@@ -391,8 +390,6 @@
 		54430EC61BC2CFD300541979 /* Muvr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Muvr.entitlements; sourceTree = "<group>"; };
 		54477CFC1AF4E82E00F502EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		544B4A681C45372B005703E1 /* MRManagedExercisePlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedExercisePlanTests.swift; sourceTree = "<group>"; };
-		544B4A6A1C454C2D005703E1 /* MKPredictorXXX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPredictorXXX.swift; sourceTree = "<group>"; };
-		544B4A6C1C455896005703E1 /* MKPositionalPredictorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPositionalPredictorTests.swift; sourceTree = "<group>"; };
 		544C73571BE7E99600B76F25 /* MBCircularProgressBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBCircularProgressBar.framework; path = "Pods/../build/Debug-iphoneos/MBCircularProgressBar.framework"; sourceTree = "<group>"; };
 		544DC9C81BF8B2B200D79E67 /* MKSensorDataEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoder.swift; sourceTree = "<group>"; };
 		544DE96D1C401C8100297C6B /* MKIncompleteExercise+Type.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKIncompleteExercise+Type.swift"; sourceTree = "<group>"; };
@@ -519,6 +516,7 @@
 		54DE161F1BAD94A400F0752B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		54E3A21D1BA21482001D9EA5 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		54E430871C46BFEB00FA01A8 /* MKPolynomialFittingPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPolynomialFittingPredictor.swift; sourceTree = "<group>"; };
+		54E430891C46C46600FA01A8 /* MKPolynomialFittingPredictorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPolynomialFittingPredictorTests.swift; sourceTree = "<group>"; };
 		54E4CB3F1BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+EncodingCSV.swift"; sourceTree = "<group>"; };
 		54E913181BC306A500B7F9F0 /* class-1.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "class-1.csv"; sourceTree = "<group>"; };
 		54E913191BC306A500B7F9F0 /* model-3.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "model-3.raw"; sourceTree = "<group>"; };
@@ -914,7 +912,6 @@
 				5477910A1C24713000763197 /* MKExercisePlan.swift */,
 				54BDDDCB1C440DC70054A059 /* MKExercisePlan+JSON.swift */,
 				54FBA9661C3C692000FC4F8E /* MKPolynomialFitter.swift */,
-				544B4A6A1C454C2D005703E1 /* MKPredictorXXX.swift */,
 				6428CE331C46ABAF00D17451 /* MKPredictor.swift */,
 				54E430871C46BFEB00FA01A8 /* MKPolynomialFittingPredictor.swift */,
 			);
@@ -930,7 +927,7 @@
 				547791101C247EAE00763197 /* MKExercisePlanTests.swift */,
 				54BDDDCD1C440EF60054A059 /* MKExercisePlan+JSONTests.swift */,
 				54FBA9681C3C6D8900FC4F8E /* MKPolynomialFitterTests.swift */,
-				544B4A6C1C455896005703E1 /* MKPositionalPredictorTests.swift */,
+				54E430891C46C46600FA01A8 /* MKPolynomialFittingPredictorTests.swift */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -1645,6 +1642,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54E4308A1C46C46600FA01A8 /* MKPolynomialFittingPredictorTests.swift in Sources */,
 				546E685C1BB98D0800DC0FEF /* MKMuvrKitTests.swift in Sources */,
 				546E68671BB98D1D00DC0FEF /* MKSensorDataSingleTypeTests.swift in Sources */,
 				5487F5A41BB9C4C500ED2E97 /* MKSensorData+InternalCodecTests.swift in Sources */,
@@ -1653,7 +1651,6 @@
 				647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */,
 				547791111C247EAE00763197 /* MKExercisePlanTests.swift in Sources */,
 				54BDDDCE1C440EF60054A059 /* MKExercisePlan+JSONTests.swift in Sources */,
-				544B4A6D1C455896005703E1 /* MKPositionalPredictorTests.swift in Sources */,
 				9D6D27AF1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift in Sources */,
 				548E277F1BF3FFA700899EBC /* MKActivationFunction+ApplyOn.swift in Sources */,
 				548CAB3D1BBAF72600A34D81 /* MKClassifierTests.swift in Sources */,
@@ -1707,7 +1704,6 @@
 				54D3457E1BB9232A00F65091 /* MKClassifier.swift in Sources */,
 				54D3458B1BB928B600F65091 /* MKClassificationPipeline.swift in Sources */,
 				544DC9C91BF8B2B200D79E67 /* MKSensorDataEncoder.swift in Sources */,
-				54E430861C46BF2C00FA01A8 /* MKPredictorXXX.swift in Sources */,
 				548808131BD57D8800419CD8 /* MKPhoneExerciseSession.swift in Sources */,
 				541950711C3827C600578FFD /* MKLabelledExercise.swift in Sources */,
 				543BB4201C465B28009FB47F /* MKExerciseType+Metadata.swift in Sources */,
