@@ -1,5 +1,8 @@
 import Foundation
 
+// TODO: Remove the const term
+// TODO: Comments
+// TODO: Integration
 public class MKPolynomialFittingPredictor<A where A : Hashable> : MKPredictor {
     private var coefficients: [K:[Float]] = [:]
     private let round: RoundForKeyAndValue!
