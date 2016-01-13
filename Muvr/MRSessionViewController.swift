@@ -186,6 +186,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             state = .ComingUp(exercise: exercise)
         case .InExercise(let exercise, let start):
             state = .Done(exercise: exercise, start: start, duration: NSDate().timeIntervalSinceDate(start))
+            session.endExercising()
         case .Done(let exercise, let start, let duration):
             // The user has completed the exercise, and accepted our labels
             session.addLabel(exercise, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
@@ -201,6 +202,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             mainExerciseView.progressFullColor = UIColor.orangeColor()
         case .Ready(let exercise):
             // We've had the time to get ready. Now time to exercise.
+            session.beginExercising(exercise)
             state = .InExercise(exercise: exercise, start: NSDate())
             refreshViewsForState(state)
         case .Done(let exercise, let start, let duration):

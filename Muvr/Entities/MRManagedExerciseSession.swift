@@ -31,59 +31,38 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     }
     
     ///
-    /// The non-empty list of exercises the user is likely to be doing
+    /// The complete list of exercises the user is likely to be doing
     ///
     var exercises: [MKIncompleteExercise] {
-        if currentClassificationHint != nil {
-            // we're exercising for sure
-            return currentExercises
-        } else {
-            // we're not exercising
-            return plannedExercises
-        }
+        let estimated = currentClassificationHint.map { _ in return self.estimatedExercises } ?? []
+        let exercises = estimated + plannedExercises
+        return exercises + allExercises(notIn: exercises)
     }
         
     ///
     /// The list of exercises that the user is most likely to be doing next
     ///
-    var plannedExercises: [MKIncompleteExercise] {
-        let pes: [MKIncompleteExercise] = plan.next.map { exerciseId in
-            return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
+    private var plannedExercises: [MKIncompleteExercise] {
+        return plan.next.map {
+            MRIncompleteExercise(exerciseId: $0, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
         }
-        return pes + unplannedExercises.filter { ue in return !pes.contains { pe in return pe.exerciseId == ue.exerciseId } }
-    }
-    
-    ///
-    /// The other exercises that the user was probably not doing
-    ///
-    var unplannedExercises: [MKIncompleteExercise] {
-        let modelExerciseIds = MRAppDelegate.sharedDelegate().exerciseIds(inModel: exerciseModelId)
-        let planExerciseIds = plan.next
-        return modelExerciseIds.filter { me in
-            return !planExerciseIds.contains { pe in pe == me }
-        }.sort { (l, r) in
-            l < r
-        }.map { exerciseId in
-            return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 0)
-        }
-    }
-    
-    ///
-    /// The whole list of exercises starting with exercises that the user has most likely just finished doing
-    ///
-    private var nextExercises: [MKIncompleteExercise] {
-        return plannedExercises + unplannedExercises
     }
     
     ///
     /// The list of exercises that the user is most likely currently doing
     ///
-    private var currentExercises: [MKIncompleteExercise] {
-        let planExercises = plan.next
-        
-        return (estimated.map { $0 as MKIncompleteExercise }) + planExercises.map { exerciseId in
-            return MRIncompleteExercise(exerciseId: exerciseId, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
-        }
+    private var estimatedExercises: [MKIncompleteExercise] {
+        return estimated.map { $0 as MKIncompleteExercise }
+    }
+    
+    ///
+    /// Returns all the exercises available in the current session and not present in the given list
+    ///
+    private func allExercises(notIn exercises: [MKIncompleteExercise]) -> [MKIncompleteExercise] {
+        let allIds = MRAppDelegate.sharedDelegate().exerciseIds(inModel: exerciseModelId)
+        let knownIds = exercises.map { $0.exerciseId }
+        let otherIds = allIds.filter { !knownIds.contains($0) }
+        return otherIds.map { MRIncompleteExercise(exerciseId: $0, repetitions: nil, intensity: nil, weight: nil, confidence: 0) }
     }
     
     // Implements the ``MKSessionClassifierHintSource.exercisingHints`` property
@@ -100,18 +79,17 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     }
     
     ///
-    /// Explicitly begins exercising. This call must be followed by ``addLabel`` at some point
-    /// in the future.
+    /// Explicitly begins exercising. This call must be followed by ``addLabel`` at some point in the future.
     ///
-    func beginExercising() {
+    func beginExercising(exercise: MKIncompleteExercise) {
         currentClassificationHint =
-            .ExplicitExercise(start: NSDate().timeIntervalSinceDate(start), duration: nil, expectedExercises: currentExercises)
+            .ExplicitExercise(start: NSDate().timeIntervalSinceDate(start), duration: nil, expectedExercises: [exercise])
     }
     
     ///
     /// Explicitly ends exercising.
     ///
-    func endExercise() {
+    func endExercising() {
         currentClassificationHint = nil
     }
     
