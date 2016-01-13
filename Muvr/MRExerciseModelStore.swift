@@ -12,14 +12,6 @@ class MRExerciseModelStore: MKExerciseModelSource {
     private let storageAccess: MRStorageAccessProtocol
     private(set) var models: [MKExerciseModelId:MRExerciseModel]
     
-    /// Returns list of models metadata (excluding slacking model)
-    var modelsMetadata: [MKExerciseModelMetadata] {
-        return models.keys.flatMap { id in
-            guard id != "slacking" else { return nil }
-            return (id, id.capitalizedString)
-        }
-    }
-    
     private static var supportDir: NSURL? {
         return NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.ApplicationSupportDirectory, inDomains: .UserDomainMask).first
     }

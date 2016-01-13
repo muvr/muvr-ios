@@ -6,11 +6,7 @@ import Foundation
 ///
 public protocol MKMetadataConnectivityDelegate {
 
-    ///
-    /// Called when the application receives new exercise models
-    ///
-    /// - parameter models: the new models
-    ///
-    func metadataConnectivityDidReceiveExerciseModelMetadata(modelMetadata: [MKExerciseModelMetadata])
+    // TODO: send the exercise types here: the phone drives the ordering
+    // func metadataConnectivityDidReceiveExerciseModelMetadata(modelMetadata: [MKExerciseModelMetadata])
     
 }

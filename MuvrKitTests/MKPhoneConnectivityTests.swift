@@ -69,9 +69,9 @@ class MKConnectivityTests : XCTestCase {
         let delegates = Delegates()
         let c = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: delegates, exerciseConnectivitySessionDelegate: delegates)
         let start = NSDate(timeIntervalSince1970: 1000)
-        c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"start", "sessionId":"1234", "exerciseModelId":"arms", "start":start.timeIntervalSince1970])
+        c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"start", "sessionId":"1234", "exerciseType":["id":"resistanceTargeted", "muscleGroups":["arms"]], "start":start.timeIntervalSince1970])
         XCTAssertEqual(delegates.session!.id, "1234")
-        XCTAssertEqual(delegates.session!.exerciseModelId, "arms")
+        XCTAssertEqual(delegates.session!.exerciseType, MKExerciseType.ResistanceTargeted(muscleGroups: [.Arms]))
         XCTAssertEqual(delegates.session!.start, start)
         
         let sensorData = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 300, repeatedValue: 0))

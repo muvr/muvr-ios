@@ -11,7 +11,7 @@ class MRExerciseTypeController: NSObject {
     
     func setType(type: MKExerciseType, mainCtrl: MRMainController) {
         exerciseType = type
-        startExerciseType.setTitle(exerciseType?.description)
+        startExerciseType.setTitle(exerciseType?.title)
         mainController = mainCtrl
     }
     
@@ -44,13 +44,6 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     @IBOutlet weak var exercisesTable: WKInterfaceTable!
     @IBOutlet var exerciseTypeTable: WKInterfaceTable!
 
-    
-    private let exercises = [
-        ("demo-bc-only", "Biceps curl"),
-        ("demo-te-only", "Triceps extension"),
-        ("demo-lr-only", "Lateral raise")
-    ]
-    
     private let exerciseType: [MKExerciseType] = [
         MKExerciseType.ResistanceWholeBody,
         MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Arms]),

@@ -66,7 +66,7 @@ class MRSessionProgressRingRenderer : NSObject {
         ring.outerRing.setBackgroundImageNamed("outer\(outerFrame)ring.png") // elapsed time ring
         ring.innerRing.setBackgroundImageNamed("inner\(innerFrame)ring.png") // data sent ring
         if let health = health {
-            ring.titleLabel.setText("\(session.exerciseType.description)") // title
+            ring.titleLabel.setText("\(session.exerciseType.title)") // title
             ring.sessionLabel.setText("") // session label not used
             if let heartrate = sd.heartrate {
                 health.heartGroup.setBackgroundImageNamed("heart") // heart image
@@ -83,7 +83,7 @@ class MRSessionProgressRingRenderer : NSObject {
                 health.energyLabel.setText("")
             }
         } else {
-            ring.titleLabel.setText("Muvr - \(session.exerciseType.description)") // title on glance
+            ring.titleLabel.setText("Muvr - \(session.exerciseType.title)") // title on glance
             ring.sessionLabel.setText("\(sd.sessionsCount) sessions") // number of pending (incomplete) session
         }
     }
@@ -94,7 +94,7 @@ class MRSessionProgressRingRenderer : NSObject {
         let readDuration = (props.accelerometerStart ?? props.start).timeIntervalSinceDate(props.start)
         let innerFrame = (Int(100 * readDuration / duration) ?? 0) % 100
         let time = NSDateComponentsFormatter().stringFromTimeInterval(props.duration)!
-        ring.titleLabel.setText("Muvr - \(session.exerciseType.description)") // title on glance
+        ring.titleLabel.setText("Muvr - \(session.exerciseType.title)") // title on glance
         ring.timeLabel.setText("\(time)") // session duration
         ring.ringLabel.setText("\(innerFrame)%") // percent of data sent
         ring.outerRing.setBackgroundImageNamed("outer100ring.png") // elapsed time is always 100%

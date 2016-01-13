@@ -20,7 +20,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     var inferredType: MKExerciseType? {
         var counter: [MKExerciseType : Int] = [:]
         for e in combinedExercises {
-            let type = MKExerciseType.fromExerciseId(e.exerciseId)!
+            let type = MKExerciseType(exerciseId: e.exerciseId)!
             if let count = counter[type] {
                 counter[type] = count + 1
             } else {

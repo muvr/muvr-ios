@@ -7,7 +7,7 @@ extension MKIncompleteExercise {
     
     /// The exercise type
     var type: MKExerciseType {
-        return MKExerciseType.fromExerciseId(exerciseId)!
+        return MKExerciseType(exerciseId: exerciseId)!
     }
         
 }

@@ -2,7 +2,10 @@ import Foundation
 
 /// The exercise type
 public enum MKExerciseType : Equatable, Hashable {
-        
+    
+    public static let resistanceTargeted = "resistanceTargeted"
+    public static let resistanceWholeBody = "resistanceWholeBody"
+    
     // case Cardio
 
     /// Whole-body resistance exercise, it targets all muscle groups
@@ -24,13 +27,13 @@ public enum MKExerciseType : Equatable, Hashable {
         }
     }
     
-    /// Description of the exercise type
-    public var description: String {
+    ///
+    /// Returns the identity of the type
+    ///
+    public var id: String {
         switch self {
-        case .ResistanceTargeted(let muscleGroups):
-            return (muscleGroups.map {"\($0)"}).joinWithSeparator(", ")
-        case .ResistanceWholeBody:
-            return "Whole Body"
+        case .ResistanceTargeted: return MKExerciseType.resistanceTargeted
+        case .ResistanceWholeBody: return MKExerciseType.resistanceWholeBody
         }
     }
 

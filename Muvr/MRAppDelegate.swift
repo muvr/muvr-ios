@@ -110,7 +110,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.DownloadingModels.rawValue, object: nil)
             self.modelStore.downloadModels() {
-                NSLog("Stored \(self.modelStore.modelsMetadata)")
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.ModelsDownloaded.rawValue, object: nil)
             }

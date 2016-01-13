@@ -39,17 +39,17 @@ public struct MKExerciseConnectivitySession {
     /// - returns: the parsed instance
     ///
     internal static func fromMetadata(metadata: [String : AnyObject]) -> MKExerciseConnectivitySession? {
+        
         let end = (metadata["end"] as? Double).map { NSDate(timeIntervalSince1970: $0) }
         let last = (metadata["last"] as? Bool) ?? false
         if let sessionId = metadata["sessionId"] as? String,
-               startTimestamp = metadata["start"] as? Double,
-               exerciseType = MKExerciseType.fromJson(metadata["exerciseType"] as? MKExerciseTypeJson) {
+               startTimestamp = metadata["start"] as? Double {
                 return MKExerciseConnectivitySession(
                     id: sessionId,
                     start: NSDate(timeIntervalSince1970: startTimestamp),
                     end: end,
                     last: last,
-                    exerciseType: exerciseType)
+                    exerciseType: .ResistanceTargeted(muscleGroups: [.Arms]))
         }
         return nil
     }

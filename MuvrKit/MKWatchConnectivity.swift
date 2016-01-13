@@ -70,7 +70,7 @@ struct MKConnectivitySessions {
     /// - parameter session: the session to be added
     ///
     mutating func add(session: MKExerciseSession) {
-        let props = MKExerciseSessionProperties(start: session.start)
+        let props = MKExerciseSessionProperties(start: NSDate())
         sessions[session] = props
         saveSessions(sessions)
     }
@@ -135,12 +135,9 @@ struct MKConnectivitySessions {
     }
     
     private static func serializeSessions(sessions: [MKExerciseSession: MKExerciseSessionProperties]) -> String? {
-        var data = [[String: NSObject]]()
+        var data = [[String: AnyObject]]()
         for (session, properties) in sessions {
-            var sessionData = session.asDictionary
-            for prop in properties.asDictionary {
-                sessionData[prop.0] = prop.1
-            }
+            let sessionData = session.metadata.plus(properties.metadata)
             data.append(sessionData)
         }
         
@@ -159,10 +156,9 @@ struct MKConnectivitySessions {
         do {
             if let sessionsData = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as? [[String: NSObject]] {
                 for sessionDetails in sessionsData {
-                    let session = MKExerciseSession(properties: sessionDetails)
-                    let properties = MKExerciseSessionProperties(properties: sessionDetails)
-                    if (session != nil && properties != nil) {
-                        sessions[session!] = properties!
+                    if let session = MKExerciseSession(metadata: sessionDetails),
+                       let properties = MKExerciseSessionProperties(metadata: sessionDetails) {
+                        sessions[session] = properties
                     }
                 }
             } else {
@@ -233,8 +229,6 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         super.init()
         WCSession.defaultSession().delegate = self
         WCSession.defaultSession().activateSession()
-        
-        delegate.metadataConnectivityDidReceiveExerciseModelMetadata(defaultExerciseModelMetadata)
     }
     
     /// the current session
@@ -384,7 +378,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             }
                         
             // compute the dates
-            let from = props.accelerometerStart ?? session.start
+            let from = props.accelerometerStart ?? props.start
             let to = props.end ?? NSDate()
             
             // drop if older than 3 days
@@ -454,7 +448,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// - parameter demo: set for demo mode
     ///
     public func startSession(exerciseType: MKExerciseType) {
-        let session = MKExerciseSession(id: NSUUID().UUIDString, start: NSDate(), exerciseType: exerciseType)
+        let session = MKExerciseSession(id: NSUUID().UUIDString, exerciseType: exerciseType)
         sessions.add(session)
         WCSession.defaultSession().transferUserInfo(session.metadata)
     }
@@ -496,39 +490,17 @@ private extension MKExerciseSession {
     var metadata: [String : AnyObject] {
         return [
             "sessionId" : id,
-            "start" : start.timeIntervalSince1970,
-            "exerciseType": exerciseType.json
+            "exerciseType": exerciseType.metadata
         ]
     }
     
-}
-
-///
-/// For JSON serialization
-///
-private extension MKExerciseSession {
+    //let start = ((metadata["start"] as? NSTimeInterval).map { NSDate(timeIntervalSinceReferenceDate: $0) })
     
-    var asDictionary: [String: NSObject] {
-        return [
-            "id":           self.id,
-            "start":        self.start.timeIntervalSinceReferenceDate,
-            "exerciseType": self.exerciseType.json
-        ]
-    }
-    
-    init?(properties: [String: NSObject]) {
-        
-        let id = properties["id"] as? String
-        
-        var start: NSDate? = nil
-        if let startDate = properties["start"] as? NSTimeInterval {
-            start = NSDate(timeIntervalSinceReferenceDate: startDate)
-        }
-        
-        let exerciseType = MKExerciseType.fromJson(properties["exerciseType"] as? MKExerciseTypeJson)
-        
-        if  id != nil && start != nil && exerciseType != nil {
-            self.init(id: id!, start: start!, exerciseType: exerciseType!)
+    init?(metadata: [String: NSObject]) {
+        if let id = metadata["sessionId"] as? String,
+           let exerciseTypeMetadata = metadata["exerciseType"] as? [String : AnyObject],
+           let exerciseType = MKExerciseType(metadata: exerciseTypeMetadata) {
+           self.init(id: id, exerciseType: exerciseType)
         } else {
             return nil
         }
@@ -543,63 +515,26 @@ private extension MKExerciseSession {
 private extension MKExerciseSessionProperties {
     
     var metadata: [String : AnyObject] {
-        var md: [String : AnyObject] = [
-            "recorded" : recorded,
-            "sent" : sent,
-        ]
+        var md: [String : AnyObject] = [:]
         if let end = end { md["end"] = end.timeIntervalSince1970 }
         if completed { md["last"] = true }
+        md["start"] = self.start.timeIntervalSinceReferenceDate
+        md["accelerometerStart"] = self.accelerometerStart?.timeIntervalSinceReferenceDate
+        md["accelerometerEnd"] = self.accelerometerEnd?.timeIntervalSinceReferenceDate
         return md
     }
     
-}
-
-///
-/// For JSON serialization
-///
-private extension MKExerciseSessionProperties {
-    
-    //Names are prefixed by "prop" to avoid clash with the ExerciseSession properties when serializing
-    var asDictionary: [String: NSObject] {
-        get {
-            var properties = [String: NSObject]()
-            properties["propStart"] = self.start.timeIntervalSinceReferenceDate
-            properties["propAccelerometerStart"] = self.accelerometerStart?.timeIntervalSinceReferenceDate
-            properties["propAccelerometerEnd"] = self.accelerometerEnd?.timeIntervalSinceReferenceDate
-            properties["propEnd"] = self.end?.timeIntervalSinceReferenceDate
-            return properties
-        }
-    }
-    
-    init?(properties: [String: NSObject]) {
-        
-        var start: NSDate? = nil
-        if let startDate = properties["propStart"] as? NSTimeInterval {
-            start = NSDate(timeIntervalSinceReferenceDate: startDate)
-        }
-        
-        var accStart: NSDate? = nil
-        if let accStartDate = properties["propAccelerometerStart"] as? NSTimeInterval {
-            accStart = NSDate(timeIntervalSinceReferenceDate: accStartDate)
-        }
-        
-        var accEnd: NSDate? = nil
-        if let accEndDate = properties["propAccelerometerEnd"] as? NSTimeInterval {
-            accEnd = NSDate(timeIntervalSinceReferenceDate: accEndDate)
-        }
-        
-        var end: NSDate? = nil
-        if let endDate = properties["propEnd"] as? NSTimeInterval {
-            end = NSDate(timeIntervalSinceReferenceDate: endDate)
-        }
-        
-        if  start != nil {
-            self.init(start: start!, accelerometerStart: accStart, accelerometerEnd: accEnd, end: end, completed: false)
+    init?(metadata: [String: NSObject]) {
+        let accStart = (metadata["accelerometerStart"] as? NSTimeInterval).map { NSDate(timeIntervalSinceReferenceDate: $0) }
+        let accEnd = (metadata["accelerometerEnd"] as? NSTimeInterval).map { NSDate(timeIntervalSinceReferenceDate: $0) }
+        let end = (metadata["end"] as? NSTimeInterval).map { NSDate(timeIntervalSinceReferenceDate: $0) }
+        if let start = ((metadata["start"] as? NSTimeInterval).map { NSDate(timeIntervalSinceReferenceDate: $0) }) {
+            self.init(start: start, accelerometerStart: accStart, accelerometerEnd: accEnd, end: end, completed: false)
         } else {
             return nil
         }
-        
     }
+    
 }
 
 ///
@@ -612,15 +547,3 @@ extension CMSensorDataList : SequenceType {
         return NSFastGenerator(self)
     }
 }
-
-#if (arch(i386) || arch(x86_64))
-    
-    class CMFakeAccelerometerData : CMAccelerometerData {
-        override internal var acceleration: CMAcceleration {
-            get {
-                return CMAcceleration(x: 0, y: 0, z: 0)
-            }
-        }
-    }
-    
-#endif
