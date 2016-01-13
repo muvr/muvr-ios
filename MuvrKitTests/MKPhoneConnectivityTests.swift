@@ -75,7 +75,7 @@ class MKConnectivityTests : XCTestCase {
         XCTAssertEqual(delegates.session!.start, start)
         
         let sensorData = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 300, repeatedValue: 0))
-        let f = WCMockSessionFile(sensorData: sensorData, metadata: ["timestamp":NSTimeInterval(0), "sessionId":"1234", "exerciseModelId":"arms", "start":start.timeIntervalSince1970, "end": NSDate().timeIntervalSince1970])
+        let f = WCMockSessionFile(sensorData: sensorData, metadata: ["timestamp":NSTimeInterval(0), "sessionId":"1234", "exerciseType":["id":"resistanceTargeted", "muscleGroups":["arms"]], "start":start.timeIntervalSince1970, "end": NSDate().timeIntervalSince1970])
         // sends last chunk of data
         c.session(WCSession.defaultSession(), didReceiveFile: f)
         
@@ -89,10 +89,10 @@ class MKConnectivityTests : XCTestCase {
         let delegates = Delegates()
         let c = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: delegates, exerciseConnectivitySessionDelegate: delegates)
         let start = NSDate()
-        c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"start", "sessionId":"1234", "exerciseModelId":"arms", "start":start.timeIntervalSince1970])
+        c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"start", "sessionId":"1234", "exerciseType":["id":"resistanceTargeted", "muscleGroups":["arms"]], "start":start.timeIntervalSince1970])
         
         let sensorData = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 300, repeatedValue: 0))
-        let f = WCMockSessionFile(sensorData: sensorData, metadata: ["timestamp":NSTimeInterval(0), "sessionId":"1234", "exerciseModelId":"arms", "start":start.timeIntervalSince1970])
+        let f = WCMockSessionFile(sensorData: sensorData, metadata: ["timestamp":NSTimeInterval(0), "sessionId":"1234", "exerciseType":["id":"resistanceTargeted", "muscleGroups":["arms"]], "start":start.timeIntervalSince1970])
         c.session(WCSession.defaultSession(), didReceiveFile: f)
         c.session(WCSession.defaultSession(), didReceiveFile: f)
         
