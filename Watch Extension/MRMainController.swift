@@ -3,6 +3,23 @@ import Foundation
 import WatchConnectivity
 import MuvrKit
 
+class MRExerciseTypeController: NSObject {
+    @IBOutlet var startExerciseType: WKInterfaceButton!
+    
+    var exerciseType: MKExerciseType!
+    var mainController: MRMainController!
+    
+    func setExerciseType(exerciseType: MKExerciseType, mainController: MRMainController) {
+        self.exerciseType = exerciseType
+        startExerciseType.setTitle(exerciseType.title)
+        self.mainController = mainController
+    }
+    
+    @IBAction func beginSessionWithType() {
+        mainController.beginSession(exerciseType)
+    }
+}
+
 class MRExerciseRow: NSObject {
     @IBOutlet weak var textLabel: WKInterfaceLabel!
     
@@ -25,16 +42,19 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     @IBOutlet weak var sessionLabel: WKInterfaceLabel!
     @IBOutlet weak var startGroup: WKInterfaceGroup!
     @IBOutlet weak var exercisesTable: WKInterfaceTable!
-    
-    private let exercises = [
-        ("demo-bc-only", "Biceps curl"),
-        ("demo-te-only", "Triceps extension"),
-        ("demo-lr-only", "Lateral raise")
+    @IBOutlet var exerciseTypeTable: WKInterfaceTable!
+
+    private let exerciseType: [MKExerciseType] = [
+        MKExerciseType.ResistanceWholeBody,
+        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Arms]),
+        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Back]),
+        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Chest]),
+        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Core]),
+        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Legs]),
+        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Shoulders])
     ]
 
     private var renderer: MRSessionProgressRingRenderer?
-
-    private var exerciseModelMetadataIndex: Int = 0
     
     override func willActivate() {
         super.willActivate()
@@ -63,7 +83,14 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     private func updateUI() {
         let sd = MRExtensionDelegate.sharedDelegate()
         clearAllMenuItems()
-        if let (_, _) = sd.currentSession {
+        
+        exerciseTypeTable.setNumberOfRows(exerciseType.count, withRowType: "MRExerciseTypeController")
+        (0..<exerciseTypeTable.numberOfRows).forEach { i in
+            let row = exerciseTypeTable.rowControllerAtIndex(i) as! MRExerciseTypeController
+            row.setExerciseType(exerciseType[i], mainController: self)
+        }
+        
+        if sd.currentSession != nil {
             addMenuItemWithItemIcon(WKMenuItemIcon.Pause, title: "Pause", action: "pause")
             addMenuItemWithItemIcon(WKMenuItemIcon.Trash, title: "Stop",  action: "stop")
 
@@ -94,9 +121,9 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     ///
     /// Called when the user clicks the session start button
     ///
-    @IBAction func beginSession() {
+    func beginSession(exerciseType: MKExerciseType) {
         renderer?.reset()
-        MRExtensionDelegate.sharedDelegate().startSession(exerciseModelMetadataIndex: exerciseModelMetadataIndex)
+        MRExtensionDelegate.sharedDelegate().startSession(exerciseType)
         updateUI()
     }
 

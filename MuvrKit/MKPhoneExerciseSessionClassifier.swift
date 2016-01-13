@@ -85,7 +85,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     
     private func classifySplits(splits: [MKSensorDataSplit], session: MKExerciseConnectivitySession) -> [MKClassifiedExercise] {
         do {
-            let exerciseModel = try exerciseModelSource.getExerciseModel(id: session.exerciseModelId)
+            let exerciseModel = try exerciseModelSource.getExerciseModel(id: "arms")
             let exerciseClassifier = try MKClassifier(model: exerciseModel)
             return try splits.flatMap { split in
                 switch split {
