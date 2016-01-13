@@ -6,6 +6,6 @@
     "labels":[
         {"exerciseId":"resistanceTargeted:arms/biceps-curl", "minWeight":2.5, "weightIncrement":2.5},
         {"exerciseId":"resistanceTargeted:shoulders/shrugs", "minWeight":2.5, "s":2.5},
-        {"exerciseId":"resistanceTargeted:chest/angled-chest-press"}
+        {"exerciseId":"resistanceTargeted:chest/angle-chest-press"}
     ]
 }

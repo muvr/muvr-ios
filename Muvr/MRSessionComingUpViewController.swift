@@ -11,7 +11,19 @@ class MRSessionComingUpViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     typealias OnSelected = MKIncompleteExercise -> Void
     private var onSelected: OnSelected!
-
+    
+    ///
+    /// Compute the buttons' frames after scrollView layout
+    ///
+    override func viewDidLayoutSubviews() {
+        let buttonWidth = scrollView.frame.width / 3
+        let buttonPadding: CGFloat = 5
+        scrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(scrollView.subviews.count), scrollView.frame.height)
+        for (index, button) in scrollView.subviews.enumerate() {
+            button.frame = CGRectMake(CGFloat(index) * buttonWidth + buttonPadding, buttonPadding, buttonWidth - buttonPadding, buttonWidth - buttonPadding)
+        }
+    }
+    
     ///
     /// Sets the exercises to be displayed, and the function to be called when an exercise is tapped
     /// - parameter exercises: the exercises to be displayed
@@ -21,13 +33,12 @@ class MRSessionComingUpViewController: UIViewController {
         scrollView.subviews.forEach { $0.removeFromSuperview() }
         
         self.onSelected = onSelected
+        
         let buttonWidth = scrollView.frame.width / 3
         scrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(exercises.count), scrollView.frame.height)
         
-        let buttonPadding: CGFloat = 5
-        for (index, exercise) in exercises.enumerate() {
+        for exercise in exercises {
             let button = MRAlternateExerciseButton(type: UIButtonType.System)
-            button.frame = CGRectMake(CGFloat(index) * buttonWidth + buttonPadding, buttonPadding, buttonWidth - buttonPadding, buttonWidth - buttonPadding)
             button.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
             button.addTarget(self, action: "exerciseSelected:", forControlEvents: UIControlEvents.TouchUpInside)
             button.exercise = exercise
@@ -41,6 +52,4 @@ class MRSessionComingUpViewController: UIViewController {
             onSelected(exercise)
         }
     }
-
-    @IBAction private func unwindToComingUp(unwindSegue: UIStoryboardSegue) { }
 }

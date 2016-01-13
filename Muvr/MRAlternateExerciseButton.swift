@@ -20,7 +20,7 @@ class MRAlternateExerciseButton: UIButton {
         titleLabel?.numberOfLines = 3
         titleLabel?.lineBreakMode = .ByWordWrapping
         titleLabel?.textAlignment = .Center
-        titleEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+        titleEdgeInsets = UIEdgeInsets(top: 3, left: 6, bottom: 3, right: 6)
 
         let radius = min(frame.width, frame.height) / 2
         let lineWidth = radius / 16
