@@ -58,10 +58,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     
     override func viewDidLoad() {
         mainExerciseView.delegate = self
-        createDetailsViewControllers()
-    }
-    
-    private func createDetailsViewControllers() {
+
         comingUpViewController = storyboard!.instantiateViewControllerWithIdentifier("ComingUpViewController") as! MRSessionComingUpViewController
         readyViewController = storyboard!.instantiateViewControllerWithIdentifier("ReadyViewController")
         inExerciseViewController = storyboard!.instantiateViewControllerWithIdentifier("InExerciseViewController")
@@ -69,10 +66,14 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        refresh()
+        refreshViewsForState(state)
     }
     
-    private func refresh() {
+    ///
+    /// Updates the main title and the detail controller according the ``state``.
+    /// - parameter state: the state to be displayed
+    ///
+    private func refreshViewsForState(state: State) {
         mainExerciseView.progressFullColor = state.color
         switch state {
         case .ComingUp(let exercise):
@@ -97,14 +98,17 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             mainExerciseView.reset()
             mainExerciseView.start(15)
             switchToViewController(labellingViewController)
+            // TODO: Use the classified exercise instead of the selected one.
             labellingViewController.setExercise(mainExerciseView.exercise!, onLabelUpdated: labelUpdated)
         }
     }
     
     ///
-    /// transition to a new view controller
+    /// Show the given ``controller`` in the container pane; below the main button.
+    /// The first controller appears from below.
+    ///
+    /// - parameter controller: the controller whose view is to be displayed in the container
     /// - parameter fromRight: true if the new controller appears from the right of the screen
-    /// The first controller appears from below
     ///
     private func switchToViewController(controller: UIViewController, fromRight: Bool = true) {
         /// The frame where the details view are displayed (takes all available space below the main circle view)
@@ -187,7 +191,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             session.addLabel(exercise, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
             state = .ComingUp(exercise: nil)
         }
-        refresh()
+        refreshViewsForState(state)
     }
     
     func exerciseViewCircleDidComplete(exerciseView: MRExerciseView) {
@@ -198,12 +202,12 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         case .Ready(let exercise):
             // We've had the time to get ready. Now time to exercise.
             state = .InExercise(exercise: exercise, start: NSDate())
-            refresh()
+            refreshViewsForState(state)
         case .Done(let exercise, let start, let duration):
             // The user has completed the exercise, modified our labels, and accepted.
             session.addLabel(exercise, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
             state = .ComingUp(exercise: nil)
-            refresh()
+            refreshViewsForState(state)
         default: return
         }
     }
