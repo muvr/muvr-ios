@@ -78,7 +78,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         switch state {
         case .ComingUp(let exercise):
             mainExerciseView.headerTitle = "Coming up".localized()
-            mainExerciseView.exercise = exercise ?? session.exercises.first
+            mainExerciseView.exercise = (exercise ?? session.exercises.first).map(session.exerciseWithPredictions)
             mainExerciseView.reset()
             mainExerciseView.start(60)
             switchToViewController(comingUpViewController, fromRight: exercise == nil)
@@ -166,7 +166,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     /// Called when an exercise is selected
     /// - parameter exercise: the selected exercise
     private func selectedExercise(selectedExercise: MKIncompleteExercise) {
-        mainExerciseView.exercise = selectedExercise
+        mainExerciseView.exercise = session.exerciseWithPredictions(selectedExercise)
     }
     
     // MARK: - MRExerciseViewDelegate

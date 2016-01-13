@@ -5,12 +5,15 @@ import CoreLocation
 
 class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     private var currentClassificationHint: MKClassificationHint?
+    private var exerciseIdCounts: [MKExerciseId : Int] = [:]
     /// The estimated exercises
     var estimated: [MKClassifiedExercise] = []
     /// The exercise plan
     var plan = MKExercisePlan<MKExerciseId>()
     /// The intended exercise type
     var intendedType: MKExerciseType?
+    /// The weight predictor
+    var weightPredictor: MKWeightPredictor!
     
     ///
     /// The exercise type inferred by taking the most frequently done exercise type in this session.
@@ -38,13 +41,24 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
         let exercises = estimated + plannedExercises
         return exercises + allExercises(notIn: exercises)
     }
-        
+    
+    ///
+    /// Fills in the missing predictions for the given exercise
+    /// - parameter exercise: the exercise
+    /// - returns: the exercise with the predictions filled in
+    ///
+    func exerciseWithPredictions(exercise: MKIncompleteExercise) -> MKIncompleteExercise {
+        let n = exerciseIdCounts[exercise.exerciseId] ?? 0
+        let weight = weightPredictor.predictWeightForExerciseId(exercise.exerciseId, n: n)
+        return exercise.copy(repetitions: nil, weight: weight, intensity: nil)
+    }
+    
     ///
     /// The list of exercises that the user is most likely to be doing next
     ///
     private var plannedExercises: [MKIncompleteExercise] {
         return plan.next.map {
-            MRIncompleteExercise(exerciseId: $0, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
+            return MRIncompleteExercise(exerciseId: $0, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
         }
     }
     
@@ -112,7 +126,14 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
         l.cdRepetitions = label.repetitions ?? 0
         l.cdWeight = label.weight ?? 0
 
+        // add to plan so we can get prediction for the next exercise
         plan.insert(label.exerciseId)
+        
+        // update internal counters for weight (and in the future) other predictions
+        let n = exerciseIdCounts[label.exerciseId] ?? 0
+        exerciseIdCounts[label.exerciseId] = n + 1
+        
+        // reset classification hint
         currentClassificationHint = nil
     }
     

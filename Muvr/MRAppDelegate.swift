@@ -65,7 +65,8 @@ protocol MRApp {
 
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate,
-    MKSessionClassifierDelegate, MKClassificationHintSource, MRApp {
+    MKSessionClassifierDelegate, MKClassificationHintSource, MKExercisePropertySource,
+    MRApp {
     
     var window: UIWindow?
     
@@ -85,6 +86,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
         return nil
     }
+    private var weightPredictor: MKPolynomialFittingWeightPredictor!
     
     // MARK: - MKClassificationHintSource
     var exercisingHints: [MKClassificationHint]? {
@@ -182,6 +184,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: modelStore, hintSource: self)
         classifier = MKSessionClassifier(exerciseModelSource: modelStore, sensorDataSplitter: sensorDataSplitter, delegate: self)
         connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        weightPredictor = MKPolynomialFittingWeightPredictor(exercisePropertySource: self)
+
+        let data = "{\"coefficients\":{\"resistanceTargeted:arms/biceps-curl\":[9.658963,3.635822,0.01747483,-0.2823316,0.05526688,-0.00425901,0.000119253]}}".dataUsingEncoding(NSUTF8StringEncoding)!
+        weightPredictor.mergeJSON(data)
         
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -329,6 +335,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             let currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
             currentSession.locationId = currentLocation?.id
             currentSession.intendedType = type
+            currentSession.weightPredictor = weightPredictor
+
             if let plan = plan?.plan {
                 currentSession.plan = plan
             }
@@ -354,6 +362,12 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
     
+    // MARK: - Exercise properties
+    func exercisePropertiesForExerciseId(exerciseId: MKExerciseId) -> [MKExerciseProperty] {
+        // TODO: configurable at location!
+        return [.WeightProgression(minimum: 2.5, increment: 2.5, maximum: nil)]
+    }
+    
     // MARK: - Core Location stack
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -362,11 +376,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         currentLocation = MRManagedLocation.findAtLocation(newLocation.coordinate, inManagedObjectContext: managedObjectContext)
+//        let data = "{\"coefficients\":{\"biceps-curl\":[9.658963,3.635822,0.01747483,-0.2823316,0.05526688,-0.00425901,0.000119253]}}".dataUsingEncoding(NSUTF8StringEncoding)!
+//        weightPredictor.mergeJSON(data)
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = MRManagedLocation.findAtLocation(locations.last!.coordinate, inManagedObjectContext: managedObjectContext)
+//        let data = "{\"coefficients\":{\"biceps-curl\":[9.658963,3.635822,0.01747483,-0.2823316,0.05526688,-0.00425901,0.000119253]}}".dataUsingEncoding(NSUTF8StringEncoding)!
+//        weightPredictor.mergeJSON(data)
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
     }
     

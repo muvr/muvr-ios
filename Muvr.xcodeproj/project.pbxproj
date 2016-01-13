@@ -25,6 +25,9 @@
 		541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBAC1AC577E00056A81B /* LaunchScreen.xib */; };
 		5420C04E1BFA7462000CEDA1 /* MKSensorDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420C04D1BFA7462000CEDA1 /* MKSensorDataType.swift */; };
 		5420C04F1BFA7462000CEDA1 /* MKSensorDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420C04D1BFA7462000CEDA1 /* MKSensorDataType.swift */; };
+		542192081C46EC15002FD224 /* MKPolynomialFittingWeightPredictor+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542192071C46EC15002FD224 /* MKPolynomialFittingWeightPredictor+JSON.swift */; };
+		5421920C1C46EF2C002FD224 /* MKExerciseProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5421920B1C46EF2C002FD224 /* MKExerciseProperty.swift */; };
+		5421920E1C46F82C002FD224 /* MKExercisePropertySource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5421920D1C46F82C002FD224 /* MKExercisePropertySource.swift */; };
 		5421AEBF1C403AE4009CB4FA /* MRExerciseId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5421AEBE1C403AE4009CB4FA /* MRExerciseId.swift */; };
 		5421AEC11C40402B009CB4FA /* MKExerciseType+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5421AEC01C40402B009CB4FA /* MKExerciseType+Localisation.swift */; };
 		5421AEC31C404039009CB4FA /* MKMuscleGroup+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5421AEC21C404039009CB4FA /* MKMuscleGroup+Localisation.swift */; };
@@ -172,8 +175,8 @@
 		54D5275E1B94D79F00B56719 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D527581B94D79F00B56719 /* Charts.framework */; };
 		54D5275F1B94D79F00B56719 /* JTCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D527591B94D79F00B56719 /* JTCalendar.framework */; };
 		54D5E9721BD3C6F70002CDB5 /* MKPhoneConnectivityDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D5E9711BD3C6F70002CDB5 /* MKPhoneConnectivityDelegates.swift */; };
-		54E430881C46BFEB00FA01A8 /* MKPolynomialFittingPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E430871C46BFEB00FA01A8 /* MKPolynomialFittingPredictor.swift */; };
-		54E4308A1C46C46600FA01A8 /* MKPolynomialFittingPredictorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E430891C46C46600FA01A8 /* MKPolynomialFittingPredictorTests.swift */; };
+		54E430881C46BFEB00FA01A8 /* MKPolynomialFittingWeightPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E430871C46BFEB00FA01A8 /* MKPolynomialFittingWeightPredictor.swift */; };
+		54E4308A1C46C46600FA01A8 /* MKPolynomialFittingWeightPredictorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E430891C46C46600FA01A8 /* MKPolynomialFittingWeightPredictorTests.swift */; };
 		54E4CB401BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4CB3F1BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift */; };
 		54E9131B1BC306A500B7F9F0 /* class-1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54E913181BC306A500B7F9F0 /* class-1.csv */; };
 		54E9131C1BC306A500B7F9F0 /* model-3.raw in Resources */ = {isa = PBXBuildFile; fileRef = 54E913191BC306A500B7F9F0 /* model-3.raw */; };
@@ -215,8 +218,7 @@
 		6428CE2A1C45127500D17451 /* MRSessionComingUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE291C45127500D17451 /* MRSessionComingUpViewController.swift */; };
 		6428CE2C1C451FC700D17451 /* MRSessionLabellingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE2B1C451FC700D17451 /* MRSessionLabellingViewController.swift */; };
 		6428CE321C45340700D17451 /* MRAlternateExerciseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE311C45340700D17451 /* MRAlternateExerciseButton.swift */; };
-		6428CE341C46ABAF00D17451 /* MKPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE331C46ABAF00D17451 /* MKPredictor.swift */; };
-		6428CE361C46ACC900D17451 /* MRDummyPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE351C46ACC900D17451 /* MRDummyPredictor.swift */; };
+		6428CE341C46ABAF00D17451 /* MKWeightPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE331C46ABAF00D17451 /* MKWeightPredictor.swift */; };
 		642CBC9F1C1ED07F0043E5EE /* MRExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CBC9E1C1ED07F0043E5EE /* MRExerciseModel.swift */; };
 		642CBCA11C1ED0FF0043E5EE /* MRExerciseModel+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CBCA01C1ED0FF0043E5EE /* MRExerciseModel+Parsing.swift */; };
 		642CBCA31C1ED1D50043E5EE /* MRExerciseModelStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CBCA21C1ED1D50043E5EE /* MRExerciseModelStore.swift */; };
@@ -359,6 +361,9 @@
 		541ABBAA1AC577E00056A81B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		541ABBAD1AC577E00056A81B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5420C04D1BFA7462000CEDA1 /* MKSensorDataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataType.swift; sourceTree = "<group>"; };
+		542192071C46EC15002FD224 /* MKPolynomialFittingWeightPredictor+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKPolynomialFittingWeightPredictor+JSON.swift"; sourceTree = "<group>"; };
+		5421920B1C46EF2C002FD224 /* MKExerciseProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseProperty.swift; sourceTree = "<group>"; };
+		5421920D1C46F82C002FD224 /* MKExercisePropertySource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExercisePropertySource.swift; sourceTree = "<group>"; };
 		5421AEBE1C403AE4009CB4FA /* MRExerciseId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseId.swift; sourceTree = "<group>"; };
 		5421AEC01C40402B009CB4FA /* MKExerciseType+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseType+Localisation.swift"; sourceTree = "<group>"; };
 		5421AEC21C404039009CB4FA /* MKMuscleGroup+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMuscleGroup+Localisation.swift"; sourceTree = "<group>"; };
@@ -515,8 +520,8 @@
 		54DE161B1BAD941000F0752B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		54DE161F1BAD94A400F0752B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		54E3A21D1BA21482001D9EA5 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
-		54E430871C46BFEB00FA01A8 /* MKPolynomialFittingPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPolynomialFittingPredictor.swift; sourceTree = "<group>"; };
-		54E430891C46C46600FA01A8 /* MKPolynomialFittingPredictorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPolynomialFittingPredictorTests.swift; sourceTree = "<group>"; };
+		54E430871C46BFEB00FA01A8 /* MKPolynomialFittingWeightPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPolynomialFittingWeightPredictor.swift; sourceTree = "<group>"; };
+		54E430891C46C46600FA01A8 /* MKPolynomialFittingWeightPredictorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPolynomialFittingWeightPredictorTests.swift; sourceTree = "<group>"; };
 		54E4CB3F1BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+EncodingCSV.swift"; sourceTree = "<group>"; };
 		54E913181BC306A500B7F9F0 /* class-1.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "class-1.csv"; sourceTree = "<group>"; };
 		54E913191BC306A500B7F9F0 /* model-3.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "model-3.raw"; sourceTree = "<group>"; };
@@ -556,8 +561,7 @@
 		6428CE291C45127500D17451 /* MRSessionComingUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionComingUpViewController.swift; sourceTree = "<group>"; };
 		6428CE2B1C451FC700D17451 /* MRSessionLabellingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionLabellingViewController.swift; sourceTree = "<group>"; };
 		6428CE311C45340700D17451 /* MRAlternateExerciseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRAlternateExerciseButton.swift; sourceTree = "<group>"; };
-		6428CE331C46ABAF00D17451 /* MKPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPredictor.swift; sourceTree = "<group>"; };
-		6428CE351C46ACC900D17451 /* MRDummyPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRDummyPredictor.swift; sourceTree = "<group>"; };
+		6428CE331C46ABAF00D17451 /* MKWeightPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKWeightPredictor.swift; sourceTree = "<group>"; };
 		642CBC9E1C1ED07F0043E5EE /* MRExerciseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModel.swift; sourceTree = "<group>"; };
 		642CBCA01C1ED0FF0043E5EE /* MRExerciseModel+Parsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRExerciseModel+Parsing.swift"; sourceTree = "<group>"; };
 		642CBCA21C1ED1D50043E5EE /* MRExerciseModelStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseModelStore.swift; sourceTree = "<group>"; };
@@ -769,7 +773,6 @@
 				5421AEBE1C403AE4009CB4FA /* MRExerciseId.swift */,
 				5460A7981C443AAE00070ADC /* MRLocationCoordinate2D.swift */,
 				5460A79C1C443B8400070ADC /* CLLocationCoordinate2D+MRLocationCoordinate2D.swift */,
-				6428CE351C46ACC900D17451 /* MRDummyPredictor.swift */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -912,8 +915,9 @@
 				5477910A1C24713000763197 /* MKExercisePlan.swift */,
 				54BDDDCB1C440DC70054A059 /* MKExercisePlan+JSON.swift */,
 				54FBA9661C3C692000FC4F8E /* MKPolynomialFitter.swift */,
-				6428CE331C46ABAF00D17451 /* MKPredictor.swift */,
-				54E430871C46BFEB00FA01A8 /* MKPolynomialFittingPredictor.swift */,
+				6428CE331C46ABAF00D17451 /* MKWeightPredictor.swift */,
+				54E430871C46BFEB00FA01A8 /* MKPolynomialFittingWeightPredictor.swift */,
+				542192071C46EC15002FD224 /* MKPolynomialFittingWeightPredictor+JSON.swift */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -927,7 +931,7 @@
 				547791101C247EAE00763197 /* MKExercisePlanTests.swift */,
 				54BDDDCD1C440EF60054A059 /* MKExercisePlan+JSONTests.swift */,
 				54FBA9681C3C6D8900FC4F8E /* MKPolynomialFitterTests.swift */,
-				54E430891C46C46600FA01A8 /* MKPolynomialFittingPredictorTests.swift */,
+				54E430891C46C46600FA01A8 /* MKPolynomialFittingWeightPredictorTests.swift */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -1014,6 +1018,8 @@
 				54ECB7391C3FF70900B6E042 /* MKExerciseType.swift */,
 				5421AEC91C40485F009CB4FA /* MKGeneralExerciseType.swift */,
 				54C330231C46521800B6BE0A /* MKExerciseModelId.swift */,
+				5421920B1C46EF2C002FD224 /* MKExerciseProperty.swift */,
+				5421920D1C46F82C002FD224 /* MKExercisePropertySource.swift */,
 			);
 			path = MuvrKit;
 			sourceTree = "<group>";
@@ -1599,7 +1605,6 @@
 				54C648851C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift in Sources */,
 				642363551C18A09600ABF4CA /* String+Digest.swift in Sources */,
 				544DE96E1C401C8100297C6B /* MKIncompleteExercise+Type.swift in Sources */,
-				6428CE361C46ACC900D17451 /* MRDummyPredictor.swift in Sources */,
 				5493FC1F1C42C9C400317A15 /* MRSessionViewController.swift in Sources */,
 				549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */,
 				5460A79F1C443FB400070ADC /* NSPredicate+Location.swift in Sources */,
@@ -1642,7 +1647,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54E4308A1C46C46600FA01A8 /* MKPolynomialFittingPredictorTests.swift in Sources */,
+				54E4308A1C46C46600FA01A8 /* MKPolynomialFittingWeightPredictorTests.swift in Sources */,
 				546E685C1BB98D0800DC0FEF /* MKMuvrKitTests.swift in Sources */,
 				546E68671BB98D1D00DC0FEF /* MKSensorDataSingleTypeTests.swift in Sources */,
 				5487F5A41BB9C4C500ED2E97 /* MKSensorData+InternalCodecTests.swift in Sources */,
@@ -1694,6 +1699,7 @@
 				9D4A51491BE77BE70065BEF8 /* MKActivationFunctions.swift in Sources */,
 				5487F59F1BB9B77E00ED2E97 /* MKCodec.swift in Sources */,
 				54D5E9721BD3C6F70002CDB5 /* MKPhoneConnectivityDelegates.swift in Sources */,
+				542192081C46EC15002FD224 /* MKPolynomialFittingWeightPredictor+JSON.swift in Sources */,
 				54ECB73A1C3FF70900B6E042 /* MKExerciseType.swift in Sources */,
 				54D345801BB9245E00F65091 /* MKSensorDataDelegate.swift in Sources */,
 				5421AECB1C40489B009CB4FA /* MKGeneralExerciseType.swift in Sources */,
@@ -1701,16 +1707,18 @@
 				543C54091BF3C8D80059F80A /* MKLayerConfiguration+Parsing.swift in Sources */,
 				54266B141BB92F16007A8A8A /* MKSensorData+Decoding.swift in Sources */,
 				545269051BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift in Sources */,
+				5421920C1C46EF2C002FD224 /* MKExerciseProperty.swift in Sources */,
 				54D3457E1BB9232A00F65091 /* MKClassifier.swift in Sources */,
 				54D3458B1BB928B600F65091 /* MKClassificationPipeline.swift in Sources */,
 				544DC9C91BF8B2B200D79E67 /* MKSensorDataEncoder.swift in Sources */,
 				548808131BD57D8800419CD8 /* MKPhoneExerciseSession.swift in Sources */,
 				541950711C3827C600578FFD /* MKLabelledExercise.swift in Sources */,
 				543BB4201C465B28009FB47F /* MKExerciseType+Metadata.swift in Sources */,
-				54E430881C46BFEB00FA01A8 /* MKPolynomialFittingPredictor.swift in Sources */,
+				54E430881C46BFEB00FA01A8 /* MKPolynomialFittingWeightPredictor.swift in Sources */,
 				54ECB7341C3FF38300B6E042 /* MKTypes.swift in Sources */,
+				5421920E1C46F82C002FD224 /* MKExercisePropertySource.swift in Sources */,
 				5488080D1BD5710500419CD8 /* MKPhoneExerciseConnectivitySession.swift in Sources */,
-				6428CE341C46ABAF00D17451 /* MKPredictor.swift in Sources */,
+				6428CE341C46ABAF00D17451 /* MKWeightPredictor.swift in Sources */,
 				5487F5A61BB9C9AB00ED2E97 /* MKSensorData+Equatable.swift in Sources */,
 				547791061C2365F400763197 /* MKInputPreparator.swift in Sources */,
 				54ECB7371C3FF68200B6E042 /* MKMuscleGroup.swift in Sources */,
