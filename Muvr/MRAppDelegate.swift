@@ -40,6 +40,11 @@ protocol MRApp {
     var locationName: String? { get }
     
     ///
+    /// Performs initial setup
+    ///
+    func initialSetup()
+    
+    ///
     /// Saves the pending changes in the app's ``managedObjectContext``.
     ///
     func saveContext()
@@ -363,6 +368,33 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         if let currentSession = currentSession {
             endSession(currentSession)
         }
+    }
+    
+    func initialSetup() {
+        let generalWeightProgression: [Double] = [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5, 10]
+        let allExerciseIds = exerciseIds(inModel: "arms")
+        
+        for exerciseId in allExerciseIds {
+            weightPredictor.trainPositional(generalWeightProgression, forExerciseId: exerciseId)
+        }
+        MRManagedScalarPredictor.upsertScalarPredictor("polynomialFitting", location: nil, data: weightPredictor.json, inManagedObjectContext: managedObjectContext)
+        
+        // Next, construct some default plans
+        /*
+        let plan = MKExercisePlan<MKExerciseId>()
+        let allExerciseTypes: [MKExerciseType] = [
+            .ResistanceTargeted(muscleGroups: [.Arms]),
+            .ResistanceTargeted(muscleGroups: [.Core]),
+            .ResistanceTargeted(muscleGroups: [.Back]),
+            .ResistanceTargeted(muscleGroups: [.Chest]),
+            .ResistanceTargeted(muscleGroups: [.Legs]),
+            .ResistanceTargeted(muscleGroups: [.Shoulders]),
+            .ResistanceWholeBody,
+            .IndoorsCardio
+        ]
+        */
+        
+        saveContext()
     }
     
     // MARK: - Exercise properties

@@ -13,6 +13,8 @@ extension MKExerciseType {
             return (muscleGroups.map {"\($0)"}).joinWithSeparator(", ")
         case .ResistanceWholeBody:
             return "Whole Body"
+        case .IndoorsCardio:
+            return "Indoors Cardio"
         }
     }
     

@@ -38,7 +38,7 @@
         <!--Log-->
         <scene sceneID="OuP-f3-XRY">
             <objects>
-                <viewController id="Mou-Np-bON" sceneMemberID="viewController">
+                <viewController id="Mou-Np-bON" customClass="MRProfileViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QIT-zm-QbZ"/>
                         <viewControllerLayoutGuide type="bottom" id="HkM-yw-VV5"/>
@@ -47,16 +47,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Here be log of all sessions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bGW-Bb-6qQ">
-                                <rect key="frame" x="20" y="28" width="200" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQr-sd-xQy">
+                                <rect key="frame" x="20" y="649" width="374" height="30"/>
+                                <state key="normal" title="Initial setup"/>
+                                <connections>
+                                    <action selector="initialSetup" destination="Mou-Np-bON" eventType="touchUpInside" id="5rG-4M-s4V"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="HkM-yw-VV5" firstAttribute="top" secondItem="kQr-sd-xQy" secondAttribute="bottom" constant="8" id="6Eb-MB-vhn"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="kQr-sd-xQy" secondAttribute="leading" id="BMB-lD-1Vr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="kQr-sd-xQy" secondAttribute="trailing" id="laV-k3-B0f"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Log" image="exercise" id="eXs-wO-wdl"/>
+                    <tabBarItem key="tabBarItem" title="Log" image="profile" id="eXs-wO-wdl"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CI9-an-Vqg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -181,7 +187,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="exercise" width="25" height="25"/>
+        <image name="profile" width="25" height="25"/>
         <image name="sessions" width="25" height="25"/>
     </resources>
 </document>

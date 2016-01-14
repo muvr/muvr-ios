@@ -5,8 +5,10 @@ public enum MKExerciseType : Equatable, Hashable {
     
     public static let resistanceTargeted = "resistanceTargeted"
     public static let resistanceWholeBody = "resistanceWholeBody"
+    public static let indoorsCardio = "indoorsCardio"
     
-    // case Cardio
+    /// General indoors cardio: treadmill, cross-trainer, even spinning at the moment
+    case IndoorsCardio
 
     /// Whole-body resistance exercise, it targets all muscle groups
     case ResistanceWholeBody
@@ -19,9 +21,8 @@ public enum MKExerciseType : Equatable, Hashable {
     public var hashValue: Int {
         get {
             switch self {
-            // case .Cardio: return 1
+            case .IndoorsCardio: return 1
             case .ResistanceWholeBody: return 17
-            // case .ResistanceTargeted(_): return 31
             case .ResistanceTargeted(let mgs): return 31 + mgs.reduce(0) { Int.addWithOverflow($0, $1.hashValue).0 }
             }
         }
@@ -34,6 +35,7 @@ public enum MKExerciseType : Equatable, Hashable {
         switch self {
         case .ResistanceTargeted: return MKExerciseType.resistanceTargeted
         case .ResistanceWholeBody: return MKExerciseType.resistanceWholeBody
+        case .IndoorsCardio: return MKExerciseType.indoorsCardio
         }
     }
 
@@ -43,7 +45,6 @@ public enum MKExerciseType : Equatable, Hashable {
     ///
     public var moreGeneral: MKExerciseType? {
         switch self {
-        case .ResistanceWholeBody: return nil
         case .ResistanceTargeted(let muscleGroups) where muscleGroups.count > 1:
             return .ResistanceTargeted(muscleGroups: Array(muscleGroups[0..<muscleGroups.count - 1]))
         default: return nil
@@ -54,9 +55,8 @@ public enum MKExerciseType : Equatable, Hashable {
 // Implementation of Equatable
 public func ==(lhs: MKExerciseType, rhs: MKExerciseType) -> Bool {
     switch (lhs, rhs) {
-    // case (.Cardio, .Cardio): return true
+    case (.IndoorsCardio, .IndoorsCardio): return true
     case (.ResistanceWholeBody, .ResistanceWholeBody): return true
-    // case (.ResistanceTargeted(_), .ResistanceTargeted(_)): return true
     case (.ResistanceTargeted(let mgl), .ResistanceTargeted(let mgr)): return mgl.reduce(true) { r, mg in return r && mgr.contains(mg) }
     default: return false
     }

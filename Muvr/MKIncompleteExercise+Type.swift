@@ -7,7 +7,10 @@ extension MKIncompleteExercise {
     
     /// The exercise type
     var type: MKExerciseType {
-        return MKExerciseType(exerciseId: exerciseId)!
+        if let type = MKExerciseType(exerciseId: exerciseId) {
+            return type
+        }
+        fatalError("Cannot get type for \(exerciseId)")
     }
         
 }

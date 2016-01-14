@@ -13,13 +13,19 @@ extension MKExerciseType {
             if type == MKExerciseType.resistanceTargeted {
                 if let x = (MKMuscleGroup(id: rest.first!).map { MKExerciseType.ResistanceTargeted(muscleGroups: [$0]) }) {
                     self = x
+                } else {
+                    return nil
                 }
+            } else if type == MKExerciseType.indoorsCardio {
+                self = .IndoorsCardio
             } else if type == MKExerciseType.resistanceWholeBody {
                 self = .ResistanceWholeBody
+            } else {
+                return nil
             }
+        } else {
+            return nil
         }
-        
-        return nil
     }
         
 }

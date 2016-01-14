@@ -76,7 +76,16 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
         let allIds = MRAppDelegate.sharedDelegate().exerciseIds(inModel: exerciseModelId)
         let knownIds = exercises.map { $0.exerciseId }
         let otherIds = allIds.filter { !knownIds.contains($0) }
-        return otherIds.map { MRIncompleteExercise(exerciseId: $0, repetitions: nil, intensity: nil, weight: nil, confidence: 0) }
+        var allExercises: [MKIncompleteExercise] = otherIds.map { MRIncompleteExercise(exerciseId: $0, repetitions: nil, intensity: nil, weight: nil, confidence: 0) }
+        allExercises.sortInPlace { l, r in
+            switch (l.type == self.intendedType, r.type == self.intendedType) {
+            case (true, true): return l.title < r.title
+            case (true, false): return true
+            case (false, true): return false
+            case (false, false): return l.title < r.title
+            }
+        }
+        return allExercises
     }
     
     // Implements the ``MKSessionClassifierHintSource.exercisingHints`` property

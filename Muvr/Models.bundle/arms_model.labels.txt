@@ -30,6 +30,6 @@ resistanceTargeted:shoulders/pull-up
 resistanceTargeted:arms/overhead-cable-curl
 resistanceTargeted:core/alternate-heel-touches
 resistanceTargeted:back/upright-barbell-row
-cardio:cross-trainer
-cardio:running-machine
-cardio:rowing-machine
+indoorsCardio:cross-trainer
+indoorsCardio:running-machine
+indoorsCardio:rowing-machine
