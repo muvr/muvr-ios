@@ -333,12 +333,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         let persistedSession = MRManagedExerciseSession.sessionById(session.id, inManagedObjectContext: managedObjectContext)
         if persistedSession == nil && sessionIndex(session) == nil {
             // TODO: load the appropriate plan for type, location and day
-            let type = MKExerciseType.ResistanceTargeted(muscleGroups: [.Arms])
-            let plan = MRManagedExercisePlan.planForExerciseType(type, location: currentLocation, inManagedObjectContext: managedObjectContext)
+            let plan = MRManagedExercisePlan.planForExerciseType(session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext)
             
             let currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
             currentSession.locationId = currentLocation?.id
-            currentSession.intendedType = type
+            currentSession.intendedType = session.exerciseType
             currentSession.weightPredictor = weightPredictor
 
             if let plan = plan?.plan {
