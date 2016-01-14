@@ -47,6 +47,7 @@ class MKConnectivityTests : XCTestCase {
         var accumulated: MKSensorData?
         var new: MKSensorData?
         var session: MKExerciseConnectivitySession?
+        var endedSession: MKExerciseConnectivitySession? = nil
         
         func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) {
             self.accumulated = accumulated
@@ -54,7 +55,10 @@ class MKConnectivityTests : XCTestCase {
         }
         
         func exerciseConnectivitySessionDidEnd(session session: MKExerciseConnectivitySession) {
-            if self.session!.id == session.id { self.session = nil }
+            if self.session!.id == session.id {
+                self.endedSession = session
+                self.session = nil
+            }
         }
         
         func exerciseConnectivitySessionDidStart(session session: MKExerciseConnectivitySession) {
@@ -74,12 +78,15 @@ class MKConnectivityTests : XCTestCase {
         XCTAssertEqual(delegates.session!.exerciseType, MKExerciseType.ResistanceTargeted(muscleGroups: [.Arms]))
         XCTAssertEqual(delegates.session!.start, start)
         
+        let end = NSDate()
         let sensorData = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 300, repeatedValue: 0))
-        let f = WCMockSessionFile(sensorData: sensorData, metadata: ["timestamp":NSTimeInterval(0), "sessionId":"1234", "exerciseType":["id":"resistanceTargeted", "muscleGroups":["arms"]], "start":start.timeIntervalSinceReferenceDate, "end": NSDate().timeIntervalSinceReferenceDate])
+        let f = WCMockSessionFile(sensorData: sensorData, metadata: ["timestamp":NSTimeInterval(0), "sessionId":"1234", "exerciseType":["id":"resistanceTargeted", "muscleGroups":["arms"]], "start":start.timeIntervalSinceReferenceDate, "end": end.timeIntervalSinceReferenceDate])
         // sends last chunk of data
         c.session(WCSession.defaultSession(), didReceiveFile: f)
         
         XCTAssertTrue(delegates.session == nil)
+        XCTAssertTrue(delegates.endedSession != nil)
+        XCTAssertEqual(delegates.endedSession!.end, end)
     }
 
     ///
