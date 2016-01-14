@@ -375,7 +375,17 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         let allExerciseIds = exerciseIds(inModel: "arms")
         
         for exerciseId in allExerciseIds {
-            weightPredictor.trainPositional(generalWeightProgression, forExerciseId: exerciseId)
+            if let type = MKExerciseType(exerciseId: exerciseId) {
+                var multiplier: Double = 1.0
+                switch type {
+                case .ResistanceTargeted(let muscleGroups) where muscleGroups == [.Legs]: multiplier = 5
+                case .ResistanceTargeted(let muscleGroups) where muscleGroups == [.Chest]: multiplier = 3
+                case .ResistanceTargeted(let muscleGroups) where muscleGroups == [.Back]: multiplier = 3
+                case .ResistanceTargeted(let muscleGroups) where muscleGroups == [.Core]: multiplier = 4
+                default: multiplier = 1
+                }
+                weightPredictor.trainPositional(generalWeightProgression.map { $0 * multiplier }, forExerciseId: exerciseId)
+            }
         }
         MRManagedScalarPredictor.upsertScalarPredictor("polynomialFitting", location: nil, data: weightPredictor.json, inManagedObjectContext: managedObjectContext)
         

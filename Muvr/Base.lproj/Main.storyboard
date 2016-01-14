@@ -126,10 +126,9 @@
                                 <rect key="frame" x="20" y="70" width="374" height="374"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNW-SJ-6Dt">
-                                        <rect key="frame" x="101" y="97" width="173" height="180"/>
+                                        <rect key="frame" x="97" y="97" width="180" height="180"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="180" id="0KL-Iu-B9Z"/>
-                                            <constraint firstAttribute="width" secondItem="rNW-SJ-6Dt" secondAttribute="height" multiplier="173:180" id="FW5-dN-WMH"/>
+                                            <constraint firstAttribute="width" secondItem="rNW-SJ-6Dt" secondAttribute="height" multiplier="1:1" id="FW5-dN-WMH"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -144,6 +143,8 @@
                                     <constraint firstItem="rNW-SJ-6Dt" firstAttribute="centerY" secondItem="wnD-hc-8AK" secondAttribute="centerY" id="Cxp-Mm-MVK"/>
                                     <constraint firstAttribute="width" secondItem="wnD-hc-8AK" secondAttribute="height" multiplier="1:1" id="GcX-KW-j3L"/>
                                     <constraint firstItem="rNW-SJ-6Dt" firstAttribute="centerX" secondItem="wnD-hc-8AK" secondAttribute="centerX" id="ZRd-ye-4Sx"/>
+                                    <constraint firstAttribute="trailing" secondItem="rNW-SJ-6Dt" secondAttribute="trailing" constant="97" id="dnf-KP-Dev"/>
+                                    <constraint firstItem="rNW-SJ-6Dt" firstAttribute="leading" secondItem="wnD-hc-8AK" secondAttribute="leading" constant="97" id="nhl-iB-SoZ"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ngj-ju-m1W">
