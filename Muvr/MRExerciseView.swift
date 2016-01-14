@@ -35,10 +35,8 @@ class MRExerciseView : UIView {
     var delegate: MRExerciseViewDelegate?
     
     @IBOutlet private weak var button: UIButton!
-    @IBOutlet private weak var repetitionsImage: UIImageView!
-    @IBOutlet private weak var weightImage: UIImageView!
-    @IBOutlet private weak var intensityImage: UIImageView!
     @IBOutlet private weak var headerLabel: UILabel!
+    @IBOutlet private weak var weightView: MRWeightView!
         
     /// set progress colors
     var progressEmptyColor : UIColor = UIColor.grayColor()
@@ -115,6 +113,7 @@ class MRExerciseView : UIView {
         
         headerLabel.text = ""
         button.setTitle("", forState: UIControlState.Normal)
+        weightView.hidden = true
                 
         addSubview(view)
         updateUI()
@@ -237,32 +236,16 @@ class MRExerciseView : UIView {
     }
     
 
-    private func updateUI() {
-        let edgeInsets = UIEdgeInsets(top: frame.height / 3, left: 0, bottom: 0, right: 0)
-        
+    private func updateUI() {       
         button.setTitle(exercise?.title, forState: UIControlState.Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(buttonFontSize)
         button.titleEdgeInsets = UIEdgeInsets()
         
-        if let _ = exercise?.weight {
-            button.titleEdgeInsets = edgeInsets
-            weightImage.hidden = false
+        if let weight = exercise?.weight {
+            weightView.hidden = false
+            weightView.value = weight
         } else {
-            weightImage.hidden = true
-        }
-        
-        if let _ = exercise?.repetitions {
-            button.titleEdgeInsets = edgeInsets
-            repetitionsImage.hidden = false
-        } else {
-            repetitionsImage.hidden = true
-        }
-        
-        if let _ = exercise?.intensity {
-            button.titleEdgeInsets = edgeInsets
-            intensityImage.hidden = false
-        } else {
-            intensityImage.hidden = true
+            weightView.hidden = true
         }
     }
     

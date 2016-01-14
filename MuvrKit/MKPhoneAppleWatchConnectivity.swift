@@ -75,7 +75,7 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate {
         
         // decode the file
         let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
-        let timestamp = String(NSDate().timeIntervalSince1970)
+        let timestamp = String(NSDate().timeIntervalSinceReferenceDate)
         let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata-\(timestamp).raw")
         
         do {

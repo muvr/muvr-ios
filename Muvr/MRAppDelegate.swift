@@ -65,7 +65,8 @@ protocol MRApp {
 
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate,
-    MKSessionClassifierDelegate, MKClassificationHintSource, MRApp {
+    MKSessionClassifierDelegate, MKClassificationHintSource, MKScalarRounder,
+    MRApp {
     
     var window: UIWindow?
     
@@ -85,6 +86,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
         return nil
     }
+    private var weightPredictor: MKPolynomialFittingScalarPredictor!
     
     // MARK: - MKClassificationHintSource
     var exercisingHints: [MKClassificationHint]? {
@@ -155,7 +157,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///
     /// Returns the exercise ids for the given ``model``.
     /// - parameter model: the model identity
-    /// - returns: the unordered array of exercise ids
+    /// - returns: the unordered array of exercise ids (excluding exercise ids not available at current location)
     ///
     func exerciseIds(inModel model: MKExerciseModelId) -> [MKExerciseId] {
         let locationExerciseIds = currentLocation?.exerciseIds ?? []
@@ -182,6 +184,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: modelStore, hintSource: self)
         classifier = MKSessionClassifier(exerciseModelSource: modelStore, sensorDataSplitter: sensorDataSplitter, delegate: self)
         connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        weightPredictor = MKPolynomialFittingScalarPredictor(scalarRounder: self)
+
+        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: nil, inManagedObjectContext: managedObjectContext) {
+            weightPredictor.mergeJSON(p.data)
+        }
         
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -275,6 +282,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private func endSession(session: MRManagedExerciseSession) {
         dismissSessionControllerForSession(session)
         MRManagedExercisePlan.upsertPlan(session.plan, exerciseType: session.intendedType!, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        MRManagedScalarPredictor.upsertScalarPredictor("polynomialFitting", location: currentLocation, data: weightPredictor.json, inManagedObjectContext: managedObjectContext)
+        
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
         if session.completed {
             if let index = (sessions.indexOf { $0.objectID == session.objectID }) {
@@ -282,6 +291,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             }
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidComplete.rawValue, object: session.objectID)
         }
+        
         saveContext()
     }
     
@@ -329,6 +339,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             let currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
             currentSession.locationId = currentLocation?.id
             currentSession.intendedType = type
+            currentSession.weightPredictor = weightPredictor
+
             if let plan = plan?.plan {
                 currentSession.plan = plan
             }
@@ -354,6 +366,17 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
     
+    // MARK: - Exercise properties
+    func exercisePropertiesForExerciseId(exerciseId: MKExerciseId) -> [MKExerciseProperty] {
+        // TODO: configurable at location!
+        return [.WeightProgression(minimum: 2.5, increment: 2.5, maximum: nil)]
+    }
+    
+    // MARK: - Scalar rounder
+    func roundValue(value: Float, forExerciseId exerciseId: MKExerciseId) -> Float {
+        return MKScalarRounderFunction.roundMinMax(value, minimum: 2.5, increment: 2.5, maximum: nil)
+    }
+    
     // MARK: - Core Location stack
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -362,11 +385,17 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         currentLocation = MRManagedLocation.findAtLocation(newLocation.coordinate, inManagedObjectContext: managedObjectContext)
+        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: newLocation.coordinate, inManagedObjectContext: managedObjectContext) {
+            weightPredictor.mergeJSON(p.data)
+        }
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = MRManagedLocation.findAtLocation(locations.last!.coordinate, inManagedObjectContext: managedObjectContext)
+        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: locations.last!.coordinate, inManagedObjectContext: managedObjectContext) {
+            weightPredictor.mergeJSON(p.data)
+        }
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
     }
     

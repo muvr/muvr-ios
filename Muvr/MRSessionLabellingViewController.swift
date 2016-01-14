@@ -28,7 +28,7 @@ class MRSessionLabellingViewController: UIViewController {
     private let weightIncrement: Double = 1.0
     
     ///
-    /// Sets the repetitions, weight and intensity from the given ``exercise``, 
+    /// Sets the repetitions, weight and intensity from the given ``exercise``,
     /// calling the ``onUpdate`` function whenever the user changes the given
     /// values.
     ///
@@ -42,12 +42,12 @@ class MRSessionLabellingViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         let defaultIntensity = 0.5
-
+        
         repetitionsView.value = exercise.repetitions.map { Int($0) }
         weightView.value = exercise.weight
         intensityView.value = Int(5 * (exercise.intensity ?? defaultIntensity))
     }
-
+    
     /// Calls the onUpdate with the appropriate values
     private func update() {
         let newExercise = exercise.copy(

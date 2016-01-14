@@ -10,9 +10,7 @@
             <connections>
                 <outlet property="button" destination="2St-qC-a3j" id="CDW-Pd-qe4"/>
                 <outlet property="headerLabel" destination="7pg-7b-bw1" id="bSG-Ya-ajj"/>
-                <outlet property="intensityImage" destination="lo4-9J-8QG" id="cXr-hT-D7M"/>
-                <outlet property="repetitionsImage" destination="Heg-RJ-CGc" id="w3a-Rx-E4B"/>
-                <outlet property="weightImage" destination="dPb-ZM-ynj" id="9bS-x1-yGU"/>
+                <outlet property="weightView" destination="RaH-er-3p5" id="yJO-8C-jvq"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -34,56 +32,34 @@
                         <action selector="buttonDidPressed:" destination="-1" eventType="touchUpInside" id="PiS-hG-HZG"/>
                     </connections>
                 </button>
-                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="repetitions" translatesAutoresizingMaskIntoConstraints="NO" id="Heg-RJ-CGc">
-                    <rect key="frame" x="79" y="251" width="64" height="72"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="64" id="Znj-T0-e8L"/>
-                        <constraint firstAttribute="width" secondItem="Heg-RJ-CGc" secondAttribute="height" multiplier="8:9" id="pF8-QP-033"/>
-                    </constraints>
-                </imageView>
-                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="weight" translatesAutoresizingMaskIntoConstraints="NO" id="dPb-ZM-ynj">
-                    <rect key="frame" x="168" y="251" width="64" height="72"/>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="dPb-ZM-ynj" secondAttribute="height" multiplier="8:9" id="MrO-A7-KaE"/>
-                        <constraint firstAttribute="width" constant="64" id="qx5-92-jZx"/>
-                    </constraints>
-                </imageView>
-                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intensity" translatesAutoresizingMaskIntoConstraints="NO" id="lo4-9J-8QG">
-                    <rect key="frame" x="257" y="251" width="64" height="72"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="64" id="8ad-ab-UmR"/>
-                        <constraint firstAttribute="width" secondItem="lo4-9J-8QG" secondAttribute="height" multiplier="8:9" id="Etp-Ft-bOP"/>
-                    </constraints>
-                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coming up" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7pg-7b-bw1">
                     <rect key="frame" x="0.0" y="62" width="400" height="35"/>
                     <fontDescription key="fontDescription" type="system" pointSize="29"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="RaH-er-3p5" customClass="MRWeightView" customModule="Muvr" customModuleProvider="target">
+                    <rect key="frame" x="160" y="280" width="80" height="70"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="70" id="2bP-XP-RGI"/>
+                        <constraint firstAttribute="width" secondItem="RaH-er-3p5" secondAttribute="height" multiplier="8:7" id="iEP-j3-qZw"/>
+                    </constraints>
+                </view>
             </subviews>
             <constraints>
-                <constraint firstItem="dPb-ZM-ynj" firstAttribute="leading" secondItem="Heg-RJ-CGc" secondAttribute="trailing" constant="25" id="CFj-BA-yDk"/>
                 <constraint firstItem="2St-qC-a3j" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Dq9-ag-HCH"/>
+                <constraint firstAttribute="bottom" secondItem="RaH-er-3p5" secondAttribute="bottom" constant="50" id="HcF-nx-Pe4"/>
                 <constraint firstAttribute="trailing" secondItem="7pg-7b-bw1" secondAttribute="trailing" id="IAV-C3-Btm"/>
-                <constraint firstItem="dPb-ZM-ynj" firstAttribute="top" secondItem="2St-qC-a3j" secondAttribute="bottom" constant="-149" id="Veb-DP-kVi"/>
                 <constraint firstItem="2St-qC-a3j" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="WHw-mG-oQQ"/>
-                <constraint firstItem="Heg-RJ-CGc" firstAttribute="top" secondItem="2St-qC-a3j" secondAttribute="bottom" constant="-149" id="WP8-wL-hOw"/>
                 <constraint firstItem="2St-qC-a3j" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="e93-dh-6hw"/>
                 <constraint firstItem="7pg-7b-bw1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="62" id="i6X-Rz-0xA"/>
                 <constraint firstItem="7pg-7b-bw1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lFR-9p-v1R"/>
-                <constraint firstItem="dPb-ZM-ynj" firstAttribute="centerX" secondItem="2St-qC-a3j" secondAttribute="centerX" id="qAq-Sx-HND"/>
-                <constraint firstItem="lo4-9J-8QG" firstAttribute="leading" secondItem="dPb-ZM-ynj" secondAttribute="trailing" constant="25" id="t1o-cY-QgU"/>
-                <constraint firstItem="lo4-9J-8QG" firstAttribute="top" secondItem="2St-qC-a3j" secondAttribute="bottom" constant="-149" id="xx0-hB-Ggr"/>
+                <constraint firstItem="RaH-er-3p5" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="zl6-so-rM5"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="359" y="201"/>
         </view>
     </objects>
-    <resources>
-        <image name="intensity" width="96" height="107"/>
-        <image name="repetitions" width="96" height="107"/>
-        <image name="weight" width="96" height="107"/>
-    </resources>
 </document>
