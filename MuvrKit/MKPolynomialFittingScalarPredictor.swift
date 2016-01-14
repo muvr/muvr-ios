@@ -5,6 +5,7 @@ import Foundation
 // TODO: Integration
 public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     private(set) internal var coefficients: [Key:[Float]] = [:]
+    private var boost: Float = 1.0
     private var simpleScalars: [Key:Float] = [:]
     private let exercisePropertySource: MKExercisePropertySource
 
@@ -62,7 +63,11 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
             let (n, c) = e
             return result + c * powf(x, Float(n))
         }
-        return roundValue(raw, forExerciseId: exerciseId)
+        return roundValue(raw * boost, forExerciseId: exerciseId)
+    }
+    
+    public func setBoost(boost: Float) {
+        self.boost = boost
     }
     
     public func trainPositional(trainingSet: [Double], forExerciseId exerciseId: Key) {

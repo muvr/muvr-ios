@@ -282,6 +282,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         dismissSessionControllerForSession(session)
         MRManagedExercisePlan.upsertPlan(session.plan, exerciseType: session.intendedType!, location: currentLocation, inManagedObjectContext: managedObjectContext)
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
+        print(String(data: weightPredictor.json, encoding: NSUTF8StringEncoding)!)
+        
         if session.completed {
             if let index = (sessions.indexOf { $0.objectID == session.objectID }) {
                 sessions.removeAtIndex(index)

@@ -19,5 +19,11 @@ public protocol MKScalarPredictor {
     /// - returns: the predicted weight
     ///
     func predictWeightForExerciseId(exerciseId: MKExerciseId, n: Int) -> Double?
+ 
+    ///
+    /// Sets the boosting function to "motivate the headcounts"
+    /// - parameter boost: the multiplier, typically close to 1.0
+    ///
+    func setBoost(boost: Float)
     
 }
