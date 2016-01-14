@@ -5,6 +5,7 @@ import Foundation
 // TODO: Integration
 public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     private(set) internal var coefficients: [Key:[Float]] = [:]
+    private var simpleScalars: [Key:Float] = [:]
     private let exercisePropertySource: MKExercisePropertySource
 
     public typealias Key = MKExerciseId
@@ -81,9 +82,9 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         }
 
         let minimumTrainingSetSize = 2
-        if trainingSet.count > minimumTrainingSetSize {
+        if trainingSet.count >= minimumTrainingSetSize {
             // next, see if the new training set provides a better match
-            for degree in minimumTrainingSetSize..<min(trainingSet.count, 15) {
+            for degree in 1...min(trainingSet.count, 15) {
                 if let coefficients = try? MKPolynomialFitter.fit(x: x, y: y, degree: degree) {
                     let cost = naiveCost(y, predicted: x.map { predictAndRound($0, coefficients: coefficients, forExerciseId: exerciseId) })
                     if let (bestCost, _) = best {
@@ -98,12 +99,25 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
             if let (_, bestCoefficients) = best {
                 NSLog("Trained \(bestCoefficients) for exercise \(exerciseId)")
                 coefficients[exerciseId] = bestCoefficients
+                simpleScalars[exerciseId] = nil
             }
+        } else if let last = trainingSet.last {
+            simpleScalars[exerciseId] = Float(last)
         }
     }
     
     public func predictWeightForExerciseId(exerciseId: MKExerciseId, n: Int) -> Double? {
-        return coefficients[exerciseId].map { Double(predictAndRound(Float(n), coefficients: $0, forExerciseId: exerciseId)) }
+        let prediction = coefficients[exerciseId].map {
+            predictAndRound(Float(n), coefficients: $0, forExerciseId: exerciseId)
+        }
+        if let prediction = prediction {
+            return Double(prediction)
+        }
+        if let simpleScalar = simpleScalars[exerciseId] {
+            return Double(simpleScalar)
+        }
+        
+        return nil
     }
     
 }

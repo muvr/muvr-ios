@@ -38,5 +38,22 @@ class MKPolynomialFittingScalarPredictorTests : XCTestCase, MKExercisePropertySo
         print(String(data: predictor.json, encoding: NSUTF8StringEncoding)!)
     }
     
+    func testTrainInProgress() {
+        let predictor = MKPolynomialFittingScalarPredictor(exercisePropertySource: self)
+        
+        // first, we seem to be going in a linear fashion
+        predictor.trainPositional([10], forExerciseId: "biceps-curl")
+        // after the first element, we just get the last value
+        XCTAssertEqual(predictor.predictWeightForExerciseId("biceps-curl", n: 1)!, 10)
+        
+        predictor.trainPositional([10, 12.5], forExerciseId: "biceps-curl")
+        XCTAssertEqual(predictor.predictWeightForExerciseId("biceps-curl", n: 2)!, 15)
+        
+        // then, we level off: it's getting tough, we might even drop
+        predictor.trainPositional([10, 12.5, 15], forExerciseId: "biceps-curl")
+        predictor.trainPositional([10, 12.5, 15, 15], forExerciseId: "biceps-curl")
+        predictor.trainPositional([10, 12.5, 15, 15, 15], forExerciseId: "biceps-curl")
+        XCTAssertEqual(predictor.predictWeightForExerciseId("biceps-curl", n: 5)!, 12.5)
+    }
     
 }
