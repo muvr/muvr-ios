@@ -161,7 +161,7 @@ public final class MKSensorDataEncoder {
         var typesCount: UInt8 = UInt8(self.types.count)
         var samplesPerSecond: UInt8 = UInt8(self.samplesPerSecond)
         var sampleCount: UInt32 = self.sampleCount * UInt32(self.dimension)
-        var start: Double = startDate?.timeIntervalSince1970 ?? 0
+        var start: Double = startDate?.timeIntervalSinceReferenceDate ?? 0
         var types = self.types.flatMap { (type: MKSensorDataType) -> [UInt8] in
             switch type {
             case .Accelerometer(location: MKSensorDataType.Location.LeftWrist):  return [UInt8(0x74), UInt8(0x61), UInt8(0x6c), UInt8(0x0)]

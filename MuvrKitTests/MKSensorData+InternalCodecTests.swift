@@ -77,4 +77,23 @@ class MKSensorDataInternalCodecTests : XCTestCase {
         }
     }
 
+    func testEncodeDecodeWithStartDate() {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let start = dateFormatter.dateFromString("2030-02-28")
+        
+        let d = try! MKSensorData(
+            types: [.Accelerometer(location: .RightWrist), .Accelerometer(location: .LeftWrist),
+                .Gyroscope(location: .RightWrist), .Gyroscope(location: .LeftWrist), .HeartRate],
+            start: (start?.timeIntervalSinceReferenceDate)!,
+            samplesPerSecond: 1,
+            samples: [Float](count: 1300, repeatedValue: 0)
+        )
+        
+        let encoded = d.encode()
+        let dx = try! MKSensorData(decoding: encoded)
+        let decodeStart = NSDate(timeIntervalSinceReferenceDate: dx.start)
+        XCTAssertEqual(d, dx)
+        XCTAssertEqual(start, decodeStart)
+    }
 }

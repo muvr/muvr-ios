@@ -254,7 +254,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             onFileTransferDone = onDone
             var metadata = session.metadata
             if let props = props { metadata = metadata.plus(props.metadata) }
-            metadata["timestamp"] = NSDate().timeIntervalSince1970
+            metadata["timestamp"] = NSDate().timeIntervalSinceReferenceDate
             WCSession.defaultSession().transferFile(fileUrl, metadata: metadata)
         }
     }
@@ -311,7 +311,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         func encodeSamples(from from: NSDate, to: NSDate?) -> (NSURL, NSDate, Bool)? {
             // Indicates if the expected sample is in the requested range
             func isAfterFromDate(sample: CMRecordedAccelerometerData) -> Bool {
-                return from.timeIntervalSince1970 <= sample.startDate.timeIntervalSince1970
+                return from.timeIntervalSinceReferenceDate <= sample.startDate.timeIntervalSinceReferenceDate
             }
 
             do {
@@ -516,7 +516,7 @@ private extension MKExerciseSessionProperties {
     
     var metadata: [String : AnyObject] {
         var md: [String : AnyObject] = [:]
-        if let end = end { md["end"] = end.timeIntervalSince1970 }
+        if let end = end { md["end"] = end.timeIntervalSinceReferenceDate }
         if completed { md["last"] = true }
         md["start"] = self.start.timeIntervalSinceReferenceDate
         md["accelerometerStart"] = self.accelerometerStart?.timeIntervalSinceReferenceDate
