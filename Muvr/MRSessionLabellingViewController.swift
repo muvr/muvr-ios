@@ -21,14 +21,14 @@ class MRSessionLabellingViewController: UIViewController {
     
     // TODO: Configurable
     /// The default repetitions
-    private let defaultRepetitions: Int32 = 10
+    private let defaultRepetitions = 10
     /// The default weight
     private let defaultWeight = 10.0
     /// The weight increment
     private let weightIncrement: Double = 1.0
     
     ///
-    /// Sets the repetitions, weight and intensity from the given ``exercise``, 
+    /// Sets the repetitions, weight and intensity from the given ``exercise``,
     /// calling the ``onUpdate`` function whenever the user changes the given
     /// values.
     ///
@@ -42,12 +42,12 @@ class MRSessionLabellingViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         let defaultIntensity = 0.5
-
-        repetitionsView.value = Int(exercise.repetitions ?? defaultRepetitions)
-        weightView.value = exercise.weight ?? defaultWeight
+        
+        repetitionsView.value = exercise.repetitions.map { Int($0) }
+        weightView.value = exercise.weight
         intensityView.value = Int(5 * (exercise.intensity ?? defaultIntensity))
     }
-
+    
     /// Calls the onUpdate with the appropriate values
     private func update() {
         let newExercise = exercise.copy(
@@ -59,12 +59,12 @@ class MRSessionLabellingViewController: UIViewController {
     }
     
     @IBAction private func startIncRepetitions() {
-        repetitionsView.value = repetitionsView.value.map { $0 + 1 }
+        repetitionsView.value = repetitionsView.value.map { $0 + 1 } ?? defaultRepetitions
         update()
     }
     
     @IBAction private func startIncWeight() {
-        weightView.value = weightView.value.map { $0 + weightIncrement }
+        weightView.value = weightView.value.map { $0 + weightIncrement } ?? defaultWeight
         update()
     }
     
@@ -74,12 +74,12 @@ class MRSessionLabellingViewController: UIViewController {
     }
     
     @IBAction private func startDecRepetitions() {
-        repetitionsView.value = repetitionsView.value.map { max($0 - 1, 0) }
+        repetitionsView.value = repetitionsView.value.map { max($0 - 1, 0) } ?? defaultRepetitions
         update()
     }
     
     @IBAction private func startDecWeight() {
-        weightView.value = weightView.value.map { max($0 - weightIncrement, 0) }
+        weightView.value = weightView.value.map { max($0 - weightIncrement, 0) } ?? defaultWeight
         update()
     }
     
