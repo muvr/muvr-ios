@@ -10,7 +10,7 @@ public protocol MKScalarPredictor {
     /// - parameter trainingSet: the training set
     /// - parameter exerciseId: the exercise id
     ///
-    func trainPositional(trainingSet: [Double], forExerciseId exerciseId: MKExerciseId) throws
+    func trainPositional(trainingSet: [Double], forExerciseId exerciseId: MKExerciseId)
     
     ///
     /// Returns the weight prediction for the ``n`` the instance of the ``exerciseId``

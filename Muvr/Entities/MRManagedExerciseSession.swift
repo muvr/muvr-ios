@@ -133,6 +133,15 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
         let n = exerciseIdCounts[label.exerciseId] ?? 0
         exerciseIdCounts[label.exerciseId] = n + 1
         
+        // retrain for the given exercise
+        let trainingSet: [Double] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).flatMap { existingLabel in
+            if existingLabel.exerciseId == label.exerciseId {
+                return existingLabel.weight
+            }
+            return nil
+        }
+        weightPredictor.trainPositional(trainingSet, forExerciseId: label.exerciseId)
+        
         // reset classification hint
         currentClassificationHint = nil
     }

@@ -8,11 +8,6 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     private let exercisePropertySource: MKExercisePropertySource
 
     public typealias Key = MKExerciseId
-
-    init(coefficients: [Key:[Float]], exercisePropertySource: MKExercisePropertySource) {
-        self.coefficients = coefficients
-        self.exercisePropertySource = exercisePropertySource
-    }
     
     ///
     /// Merges the coefficients in this instance with ``otherCoefficients``. This is typically
@@ -69,24 +64,42 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         return roundValue(raw, forExerciseId: exerciseId)
     }
     
-    public func trainPositional(trainingSet: [Double], forExerciseId exerciseId: Key) throws {
+    public func trainPositional(trainingSet: [Double], forExerciseId exerciseId: Key) {
         let x = trainingSet.enumerate().map { i, _ in return Float(i) }
         let y = trainingSet.map { Float($0) }
 
         var best: (Float, [Float])?
-        for degree in 1..<min(trainingSet.count, 15) {
-            if let coefficients = try? MKPolynomialFitter.fit(x: x, y: y, degree: degree) {
-                let cost = naiveCost(y, predicted: x.map { predictAndRound($0, coefficients: coefficients, forExerciseId: exerciseId) })
-                if let (bestCost, _) = best {
-                    if bestCost > cost { best = (cost, coefficients) }
-                    if cost == 0 { break }
-                } else {
-                    best = (cost, coefficients)
+
+        if let coefficients = coefficients[exerciseId] {
+            // first, re-evaluate what we already have.
+            let cost = naiveCost(y, predicted: x.map { predictAndRound($0, coefficients: coefficients, forExerciseId: exerciseId) })
+            if cost == 0 {
+                // what we have is perfect. no need for any more work.
+                return
+            }
+            best = (cost, coefficients)
+        }
+
+        let minimumTrainingSetSize = 2
+        if trainingSet.count > minimumTrainingSetSize {
+            // next, see if the new training set provides a better match
+            for degree in minimumTrainingSetSize..<min(trainingSet.count, 15) {
+                if let coefficients = try? MKPolynomialFitter.fit(x: x, y: y, degree: degree) {
+                    let cost = naiveCost(y, predicted: x.map { predictAndRound($0, coefficients: coefficients, forExerciseId: exerciseId) })
+                    if let (bestCost, _) = best {
+                        if bestCost > cost { best = (cost, coefficients) }
+                        if cost == 0 { break }
+                    } else {
+                        best = (cost, coefficients)
+                    }
                 }
             }
+            
+            if let (_, bestCoefficients) = best {
+                NSLog("Trained \(bestCoefficients) for exercise \(exerciseId)")
+                coefficients[exerciseId] = bestCoefficients
+            }
         }
-        
-        coefficients[exerciseId] = best!.1
     }
     
     public func predictWeightForExerciseId(exerciseId: MKExerciseId, n: Int) -> Double? {
