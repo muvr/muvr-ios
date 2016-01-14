@@ -186,8 +186,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
         weightPredictor = MKPolynomialFittingScalarPredictor(exercisePropertySource: self)
 
-        let data = "{\"coefficients\":{\"resistanceTargeted:arms/biceps-curl\":[9.658963,3.635822,0.01747483,-0.2823316,0.05526688,-0.00425901,0.000119253]}}".dataUsingEncoding(NSUTF8StringEncoding)!
-        weightPredictor.mergeJSON(data)
+        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: nil, inManagedObjectContext: managedObjectContext) {
+            weightPredictor.mergeJSON(p.data)
+        }
         
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -281,15 +282,16 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private func endSession(session: MRManagedExerciseSession) {
         dismissSessionControllerForSession(session)
         MRManagedExercisePlan.upsertPlan(session.plan, exerciseType: session.intendedType!, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
-        print(String(data: weightPredictor.json, encoding: NSUTF8StringEncoding)!)
+        MRManagedScalarPredictor.upsertScalarPredictor("polynomialFitting", data: weightPredictor.json, location: currentLocation, inManagedObjectContext: managedObjectContext)
         
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
         if session.completed {
             if let index = (sessions.indexOf { $0.objectID == session.objectID }) {
                 sessions.removeAtIndex(index)
             }
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidComplete.rawValue, object: session.objectID)
         }
+        
         saveContext()
     }
     
@@ -378,15 +380,17 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         currentLocation = MRManagedLocation.findAtLocation(newLocation.coordinate, inManagedObjectContext: managedObjectContext)
-//        let data = "{\"coefficients\":{\"biceps-curl\":[9.658963,3.635822,0.01747483,-0.2823316,0.05526688,-0.00425901,0.000119253]}}".dataUsingEncoding(NSUTF8StringEncoding)!
-//        weightPredictor.mergeJSON(data)
+        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: newLocation.coordinate, inManagedObjectContext: managedObjectContext) {
+            weightPredictor.mergeJSON(p.data)
+        }
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = MRManagedLocation.findAtLocation(locations.last!.coordinate, inManagedObjectContext: managedObjectContext)
-//        let data = "{\"coefficients\":{\"biceps-curl\":[9.658963,3.635822,0.01747483,-0.2823316,0.05526688,-0.00425901,0.000119253]}}".dataUsingEncoding(NSUTF8StringEncoding)!
-//        weightPredictor.mergeJSON(data)
+        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: locations.last!.coordinate, inManagedObjectContext: managedObjectContext) {
+            weightPredictor.mergeJSON(p.data)
+        }
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
     }
     
