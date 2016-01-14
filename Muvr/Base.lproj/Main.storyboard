@@ -136,11 +136,11 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="rNW-SJ-6Dt" firstAttribute="centerY" secondItem="wnD-hc-8AK" secondAttribute="centerY" id="Cxp-Mm-MVK"/>
+                                    <constraint firstAttribute="width" secondItem="wnD-hc-8AK" secondAttribute="height" multiplier="1:1" id="GcX-KW-j3L"/>
                                     <constraint firstItem="rNW-SJ-6Dt" firstAttribute="centerX" secondItem="wnD-hc-8AK" secondAttribute="centerX" id="ZRd-ye-4Sx"/>
-                                    <constraint firstAttribute="height" constant="374" id="eW6-PE-weg"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ngj-ju-m1W">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ngj-ju-m1W">
                                 <rect key="frame" x="20" y="460" width="374" height="30"/>
                                 <state key="normal" title="Start arms session"/>
                                 <connections>
@@ -152,9 +152,12 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="wnD-hc-8AK" secondAttribute="trailing" id="6nr-xN-bjy"/>
                             <constraint firstItem="uUC-vn-soj" firstAttribute="top" secondItem="XcF-KD-ktC" secondAttribute="bottom" constant="20" id="DJh-Qy-M7g"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Ngj-ju-m1W" secondAttribute="trailing" id="Jtw-XX-Qcd"/>
                             <constraint firstAttribute="leadingMargin" secondItem="wnD-hc-8AK" secondAttribute="leading" id="KuE-sw-eWV"/>
                             <constraint firstItem="zJx-4N-ka1" firstAttribute="top" secondItem="8TE-3H-U3y" secondAttribute="bottom" constant="11" id="MA9-Ji-N8d"/>
                             <constraint firstAttribute="leadingMargin" secondItem="zJx-4N-ka1" secondAttribute="leading" id="R2d-Wo-q78"/>
+                            <constraint firstItem="Ngj-ju-m1W" firstAttribute="top" secondItem="wnD-hc-8AK" secondAttribute="bottom" constant="16" id="dLM-Mi-fPd"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="Ngj-ju-m1W" secondAttribute="leading" id="db4-V5-kcc"/>
                             <constraint firstItem="wnD-hc-8AK" firstAttribute="top" secondItem="zJx-4N-ka1" secondAttribute="bottom" constant="11" id="dbV-A2-bbf"/>
                             <constraint firstAttribute="leadingMargin" secondItem="XcF-KD-ktC" secondAttribute="leading" id="g2V-8V-AYh"/>
                             <constraint firstAttribute="trailingMargin" secondItem="XcF-KD-ktC" secondAttribute="trailing" id="oAs-CY-9Of"/>

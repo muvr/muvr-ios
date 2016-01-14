@@ -38,23 +38,23 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RaH-er-3p5" customClass="MRWeightView" customModule="Muvr" customModuleProvider="target">
-                    <rect key="frame" x="160" y="240" width="80" height="70"/>
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="RaH-er-3p5" customClass="MRWeightView" customModule="Muvr" customModuleProvider="target">
+                    <rect key="frame" x="160" y="280" width="80" height="70"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="70" id="2bP-XP-RGI"/>
-                        <constraint firstAttribute="width" constant="80" id="7py-S4-ize"/>
+                        <constraint firstAttribute="width" secondItem="RaH-er-3p5" secondAttribute="height" multiplier="8:7" id="iEP-j3-qZw"/>
                     </constraints>
                 </view>
             </subviews>
             <constraints>
                 <constraint firstItem="2St-qC-a3j" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Dq9-ag-HCH"/>
+                <constraint firstAttribute="bottom" secondItem="RaH-er-3p5" secondAttribute="bottom" constant="50" id="HcF-nx-Pe4"/>
                 <constraint firstAttribute="trailing" secondItem="7pg-7b-bw1" secondAttribute="trailing" id="IAV-C3-Btm"/>
                 <constraint firstItem="2St-qC-a3j" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="WHw-mG-oQQ"/>
                 <constraint firstItem="2St-qC-a3j" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="e93-dh-6hw"/>
                 <constraint firstItem="7pg-7b-bw1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="62" id="i6X-Rz-0xA"/>
                 <constraint firstItem="7pg-7b-bw1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lFR-9p-v1R"/>
-                <constraint firstItem="RaH-er-3p5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="240" id="th6-Hi-JP9"/>
                 <constraint firstItem="RaH-er-3p5" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="zl6-so-rM5"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
