@@ -70,6 +70,7 @@
 		545EFC451C47BCDB00987610 /* MRManagedScalarPredictor+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545EFC431C47BCDB00987610 /* MRManagedScalarPredictor+CoreDataProperties.swift */; };
 		545EFC461C47BCDB00987610 /* MRManagedScalarPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545EFC441C47BCDB00987610 /* MRManagedScalarPredictor.swift */; };
 		545EFC481C47BD4200987610 /* MRManagedScalarPredictor+CoreDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545EFC471C47BD4200987610 /* MRManagedScalarPredictor+CoreDataOperations.swift */; };
+		545EFC4B1C47DA6A00987610 /* MKScalarRounder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545EFC491C47D9E600987610 /* MKScalarRounder.swift */; };
 		5460A7991C443AAE00070ADC /* MRLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460A7981C443AAE00070ADC /* MRLocationCoordinate2D.swift */; };
 		5460A79B1C443B1B00070ADC /* MRManagedLocation+MRLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460A79A1C443B1B00070ADC /* MRManagedLocation+MRLocationCoordinate2D.swift */; };
 		5460A79D1C443B8400070ADC /* CLLocationCoordinate2D+MRLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460A79C1C443B8400070ADC /* CLLocationCoordinate2D+MRLocationCoordinate2D.swift */; };
@@ -413,6 +414,7 @@
 		545EFC431C47BCDB00987610 /* MRManagedScalarPredictor+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedScalarPredictor+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		545EFC441C47BCDB00987610 /* MRManagedScalarPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedScalarPredictor.swift; sourceTree = "<group>"; };
 		545EFC471C47BD4200987610 /* MRManagedScalarPredictor+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedScalarPredictor+CoreDataOperations.swift"; sourceTree = "<group>"; };
+		545EFC491C47D9E600987610 /* MKScalarRounder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKScalarRounder.swift; sourceTree = "<group>"; };
 		5460A7981C443AAE00070ADC /* MRLocationCoordinate2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		5460A79A1C443B1B00070ADC /* MRManagedLocation+MRLocationCoordinate2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedLocation+MRLocationCoordinate2D.swift"; sourceTree = "<group>"; };
 		5460A79C1C443B8400070ADC /* CLLocationCoordinate2D+MRLocationCoordinate2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+MRLocationCoordinate2D.swift"; sourceTree = "<group>"; };
@@ -927,6 +929,7 @@
 				6428CE331C46ABAF00D17451 /* MKScalarPredictor.swift */,
 				54E430871C46BFEB00FA01A8 /* MKPolynomialFittingScalarPredictor.swift */,
 				542192071C46EC15002FD224 /* MKPolynomialFittingScalarPredictor+JSON.swift */,
+				545EFC491C47D9E600987610 /* MKScalarRounder.swift */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -1740,6 +1743,7 @@
 				54D345821BB924A500F65091 /* MKClassificationDelegate.swift in Sources */,
 				5469D3851BBA764900EE5ADB /* MKRepetitionEstimator.swift in Sources */,
 				548808111BD57D7400419CD8 /* MKPhoneExerciseSessionClassifierDelegates.swift in Sources */,
+				545EFC4B1C47DA6A00987610 /* MKScalarRounder.swift in Sources */,
 				54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */,
 				5487F59C1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift in Sources */,
 				54FBA9671C3C692000FC4F8E /* MKPolynomialFitter.swift in Sources */,

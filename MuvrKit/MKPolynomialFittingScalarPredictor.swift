@@ -1,13 +1,13 @@
 import Foundation
 
-// TODO: Consider the const term
-// TODO: Comments
-// TODO: Integration
+///
+/// Implements the scalar predictor
+///
 public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     private(set) internal var coefficients: [Key:[Float]] = [:]
     private var boost: Float = 1.0
     private var simpleScalars: [Key:Float] = [:]
-    private let exercisePropertySource: MKExercisePropertySource
+    private let scalarRounder: MKScalarRounder
 
     public typealias Key = MKExerciseId
     
@@ -24,32 +24,32 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         }
     }
     
-    public init(exercisePropertySource: MKExercisePropertySource) {
-        self.exercisePropertySource = exercisePropertySource
+    public init(scalarRounder: MKScalarRounder) {
+        self.scalarRounder = scalarRounder
     }
     
-    private func roundValue(value: Float, forExerciseId exerciseId: Key) -> Float {
-        for property in exercisePropertySource.exercisePropertiesForExerciseId(exerciseId) {
-            switch property {
-            case .WeightProgression(let minimum, let increment, let maximum):
-                if value < minimum { return minimum }
-                for var weight: Float = minimum; weight < maximum ?? 999; weight += increment {
-                    let dcw = value - weight
-                    let dnw = value - (weight + increment)
-                    if dcw >= 0 && dnw <= 0 {
-                        // value is in range
-                        if abs(dcw) > abs(dnw) {
-                            return weight + increment
-                        } else {
-                            return weight
-                        }
-                    }
-                }
-                return value
-            }
-        }
-        return value
-    }
+//    private func roundValue(value: Float, forExerciseId exerciseId: Key) -> Float {
+//        for property in exercisePropertySource.exercisePropertiesForExerciseId(exerciseId) {
+//            switch property {
+//            case .WeightProgression(let minimum, let increment, let maximum):
+//                if value < minimum { return minimum }
+//                for var weight: Float = minimum; weight < maximum ?? 999; weight += increment {
+//                    let dcw = value - weight
+//                    let dnw = value - (weight + increment)
+//                    if dcw >= 0 && dnw <= 0 {
+//                        // value is in range
+//                        if abs(dcw) > abs(dnw) {
+//                            return weight + increment
+//                        } else {
+//                            return weight
+//                        }
+//                    }
+//                }
+//                return value
+//            }
+//        }
+//        return value
+//    }
     
     private func naiveCost(actual: [Float], predicted: [Float]) -> Float {
         return predicted.enumerate().reduce(0) { result, e in
@@ -63,7 +63,7 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
             let (n, c) = e
             return result + c * powf(x, Float(n))
         }
-        return roundValue(raw * boost, forExerciseId: exerciseId)
+        return scalarRounder.roundValue(raw * boost, forExerciseId: exerciseId)
     }
     
     public func setBoost(boost: Float) {

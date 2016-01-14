@@ -65,7 +65,7 @@ protocol MRApp {
 
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate,
-    MKSessionClassifierDelegate, MKClassificationHintSource, MKExercisePropertySource,
+    MKSessionClassifierDelegate, MKClassificationHintSource, MKScalarRounder,
     MRApp {
     
     var window: UIWindow?
@@ -184,7 +184,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: modelStore, hintSource: self)
         classifier = MKSessionClassifier(exerciseModelSource: modelStore, sensorDataSplitter: sensorDataSplitter, delegate: self)
         connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
-        weightPredictor = MKPolynomialFittingScalarPredictor(exercisePropertySource: self)
+        weightPredictor = MKPolynomialFittingScalarPredictor(scalarRounder: self)
 
         if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: nil, inManagedObjectContext: managedObjectContext) {
             weightPredictor.mergeJSON(p.data)
@@ -370,6 +370,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     func exercisePropertiesForExerciseId(exerciseId: MKExerciseId) -> [MKExerciseProperty] {
         // TODO: configurable at location!
         return [.WeightProgression(minimum: 2.5, increment: 2.5, maximum: nil)]
+    }
+    
+    // MARK: - Scalar rounder
+    func roundValue(value: Float, forExerciseId exerciseId: MKExerciseId) -> Float {
+        return MKScalarRounderFunction.roundMinMax(value, minimum: 2.5, increment: 2.5, maximum: nil)
     }
     
     // MARK: - Core Location stack

@@ -2,20 +2,16 @@ import Foundation
 import XCTest
 @testable import MuvrKit
 
-class MKPolynomialFittingScalarPredictorTests : XCTestCase, MKExercisePropertySource {
+class MKPolynomialFittingScalarPredictorTests : XCTestCase, MKScalarRounder {
     
-    func exercisePropertiesForExerciseId(exerciseId: MKExerciseId) -> [MKExerciseProperty] {
-        if exerciseId == "biceps-curl" {
-            return [.WeightProgression(minimum: 2.5, increment: 2.5, maximum: nil)]
-        }
-        
-        return []
+    func roundValue(value: Float, forExerciseId exerciseId: MKExerciseId) -> Float {
+        return MKScalarRounderFunction.roundMinMax(value, minimum: 2.5, increment: 2.5, maximum: nil)
     }
     
     func testConstantPattern() {
-        let predictor = MKPolynomialFittingScalarPredictor(exercisePropertySource: self)
+        let predictor = MKPolynomialFittingScalarPredictor(scalarRounder: self)
         let weights: [Double] = [Double](count: 20, repeatedValue: 10)
-        try! predictor.trainPositional(weights, forExerciseId: "biceps-curl")
+        predictor.trainPositional(weights, forExerciseId: "biceps-curl")
 
         for (i, actual) in weights.enumerate() {
             let predicted = predictor.predictWeightForExerciseId("biceps-curl", n: i)!
@@ -24,11 +20,11 @@ class MKPolynomialFittingScalarPredictorTests : XCTestCase, MKExercisePropertySo
     }
     
     func testInterestingPattern() {
-        let predictor = MKPolynomialFittingScalarPredictor(exercisePropertySource: self)
+        let predictor = MKPolynomialFittingScalarPredictor(scalarRounder: self)
 
         // a more adventurous may do 10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 10 progression
         let weights: [Double] = [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5]
-        try! predictor.trainPositional(weights, forExerciseId: "biceps-curl")
+        predictor.trainPositional(weights, forExerciseId: "biceps-curl")
         
         for (i, actual) in weights.enumerate() {
             let predicted = predictor.predictWeightForExerciseId("biceps-curl", n: i)!
@@ -39,7 +35,7 @@ class MKPolynomialFittingScalarPredictorTests : XCTestCase, MKExercisePropertySo
     }
     
     func testTrainInProgress() {
-        let predictor = MKPolynomialFittingScalarPredictor(exercisePropertySource: self)
+        let predictor = MKPolynomialFittingScalarPredictor(scalarRounder: self)
         
         // first, we seem to be going in a linear fashion
         predictor.trainPositional([10], forExerciseId: "biceps-curl")
