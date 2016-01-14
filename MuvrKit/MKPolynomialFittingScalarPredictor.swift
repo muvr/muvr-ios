@@ -102,7 +102,7 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
             }
             
             if let (_, bestCoefficients) = best {
-                NSLog("Trained \(bestCoefficients) for exercise \(exerciseId)")
+                NSLog("Trained \(bestCoefficients) for scalars \(trainingSet) for exercise \(exerciseId)")
                 coefficients[exerciseId] = bestCoefficients
                 simpleScalars[exerciseId] = nil
             }
