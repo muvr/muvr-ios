@@ -23,7 +23,7 @@ public extension MKSensorData {
             let now = start + (Double(row) / Double(samplesPerSecond))
             
             func sampleBelongsTo(label: MKLabelledExercise) -> Bool {
-                let start = label.start.timeIntervalSince1970
+                let start = label.start.timeIntervalSinceReferenceDate
                 let end = start + label.duration
                 return start <= now && now < end
             }
