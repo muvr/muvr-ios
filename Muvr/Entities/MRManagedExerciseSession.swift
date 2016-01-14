@@ -49,7 +49,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     ///
     func exerciseWithPredictions(exercise: MKIncompleteExercise) -> MKIncompleteExercise {
         let n = exerciseIdCounts[exercise.exerciseId] ?? 0
-        let weight = weightPredictor.predictWeightForExerciseId(exercise.exerciseId, n: n)
+        let weight = weightPredictor.predictScalarForExerciseId(exercise.exerciseId, n: n)
         return exercise.copy(repetitions: nil, weight: weight, intensity: nil)
     }
     

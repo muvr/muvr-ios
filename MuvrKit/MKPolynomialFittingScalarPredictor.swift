@@ -1,12 +1,16 @@
 import Foundation
 
 ///
-/// Implements the scalar predictor
+/// Implements the scalar predictor using nth degree polynomial approximation
 ///
 public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     private(set) internal var coefficients: [Key:[Float]] = [:]
+    /// The initial boost—no boost, really
     private var boost: Float = 1.0
+    /// When there are too few values in the training set, this keeps the last value to provide
+    /// at least some kind of prediction.
     private var simpleScalars: [Key:Float] = [:]
+    /// The rounder to be used
     private let scalarRounder: MKScalarRounder
 
     public typealias Key = MKExerciseId
@@ -24,33 +28,20 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         }
     }
     
+    ///
+    /// Initializes empty instance with a given ``scalarRounder``.
+    /// - parameter scalarRounder: the rounder
+    ///
     public init(scalarRounder: MKScalarRounder) {
         self.scalarRounder = scalarRounder
     }
     
-//    private func roundValue(value: Float, forExerciseId exerciseId: Key) -> Float {
-//        for property in exercisePropertySource.exercisePropertiesForExerciseId(exerciseId) {
-//            switch property {
-//            case .WeightProgression(let minimum, let increment, let maximum):
-//                if value < minimum { return minimum }
-//                for var weight: Float = minimum; weight < maximum ?? 999; weight += increment {
-//                    let dcw = value - weight
-//                    let dnw = value - (weight + increment)
-//                    if dcw >= 0 && dnw <= 0 {
-//                        // value is in range
-//                        if abs(dcw) > abs(dnw) {
-//                            return weight + increment
-//                        } else {
-//                            return weight
-//                        }
-//                    }
-//                }
-//                return value
-//            }
-//        }
-//        return value
-//    }
-    
+    ///
+    /// Computes naive cost as a sum of absolute differences between ``actual`` and ``predicted``.
+    /// - parameter actual: the actual values
+    /// - parameter predicted: the predicted values
+    /// - returns: the cost
+    ///
     private func naiveCost(actual: [Float], predicted: [Float]) -> Float {
         return predicted.enumerate().reduce(0) { result, e in
             let (i, p) = e
@@ -58,6 +49,14 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         }
     }
     
+    ///
+    /// Computes the prediction at ``x`` given the ``coefficients`` for, applying the rounding
+    /// and according to ``exerciseId``. 
+    /// - parameter x: the independent value
+    /// - parameter coefficients: the coefficients
+    /// - parameter exerciseId: the exercise id (for rounding)
+    /// - returns: the predicted value, boosted and rounded
+    ///
     private func predictAndRound(x: Float, coefficients: [Float], forExerciseId exerciseId: Key) -> Float {
         let raw: Float = coefficients.enumerate().reduce(0) { (result, e) in
             let (n, c) = e
@@ -66,10 +65,18 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         return scalarRounder.roundValue(raw * boost, forExerciseId: exerciseId)
     }
     
+    // Implements MKScalarPredictor
     public func setBoost(boost: Float) {
         self.boost = boost
     }
     
+    // Implements MKScalarPredictor
+    //
+    // This function can be executed very frequently; it first checks whether the current
+    // coefficients are still applicable to the ``trainingSet``, only recomputing the
+    // coefficients if not
+    //
+    // If the training set is too small, this function keeps at least the last value
     public func trainPositional(trainingSet: [Double], forExerciseId exerciseId: Key) {
         let x = trainingSet.enumerate().map { i, _ in return Float(i) }
         let y = trainingSet.map { Float($0) }
@@ -111,7 +118,7 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         }
     }
     
-    public func predictWeightForExerciseId(exerciseId: MKExerciseId, n: Int) -> Double? {
+    public func predictScalarForExerciseId(exerciseId: MKExerciseId, n: Int) -> Double? {
         let prediction = coefficients[exerciseId].map {
             predictAndRound(Float(n), coefficients: $0, forExerciseId: exerciseId)
         }
