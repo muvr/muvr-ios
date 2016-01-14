@@ -3,7 +3,14 @@ import Foundation
 ///
 /// Provides simple predictions
 ///
-public protocol MKWeightPredictor {
+public protocol MKScalarPredictor {
+    
+    ///
+    /// Trains the predictor with the given ``trainingSet`` and ``exerciseId``
+    /// - parameter trainingSet: the training set
+    /// - parameter exerciseId: the exercise id
+    ///
+    func trainPositional(trainingSet: [Double], forExerciseId exerciseId: MKExerciseId) throws
     
     ///
     /// Returns the weight prediction for the ``n`` the instance of the ``exerciseId``

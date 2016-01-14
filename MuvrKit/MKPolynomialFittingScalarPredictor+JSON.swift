@@ -1,6 +1,6 @@
 import Foundation
 
-public extension MKPolynomialFittingWeightPredictor {
+public extension MKPolynomialFittingScalarPredictor {
 
     public var json: NSData {
         return try! NSJSONSerialization.dataWithJSONObject(["coefficients":coefficients], options: [])

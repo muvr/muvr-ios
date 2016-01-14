@@ -3,7 +3,7 @@ import Foundation
 // TODO: Consider the const term
 // TODO: Comments
 // TODO: Integration
-public class MKPolynomialFittingWeightPredictor : MKWeightPredictor {
+public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     private(set) internal var coefficients: [Key:[Float]] = [:]
     private let exercisePropertySource: MKExercisePropertySource
 

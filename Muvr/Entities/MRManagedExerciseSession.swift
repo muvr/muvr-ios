@@ -13,7 +13,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     /// The intended exercise type
     var intendedType: MKExerciseType?
     /// The weight predictor
-    var weightPredictor: MKWeightPredictor!
+    var weightPredictor: MKScalarPredictor!
     
     ///
     /// The exercise type inferred by taking the most frequently done exercise type in this session.

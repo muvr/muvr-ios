@@ -86,7 +86,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
         return nil
     }
-    private var weightPredictor: MKPolynomialFittingWeightPredictor!
+    private var weightPredictor: MKPolynomialFittingScalarPredictor!
     
     // MARK: - MKClassificationHintSource
     var exercisingHints: [MKClassificationHint]? {
@@ -184,7 +184,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: modelStore, hintSource: self)
         classifier = MKSessionClassifier(exerciseModelSource: modelStore, sensorDataSplitter: sensorDataSplitter, delegate: self)
         connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
-        weightPredictor = MKPolynomialFittingWeightPredictor(exercisePropertySource: self)
+        weightPredictor = MKPolynomialFittingScalarPredictor(exercisePropertySource: self)
 
         let data = "{\"coefficients\":{\"resistanceTargeted:arms/biceps-curl\":[9.658963,3.635822,0.01747483,-0.2823316,0.05526688,-0.00425901,0.000119253]}}".dataUsingEncoding(NSUTF8StringEncoding)!
         weightPredictor.mergeJSON(data)
