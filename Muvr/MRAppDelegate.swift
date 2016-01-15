@@ -332,7 +332,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     private func completeSession(session: MRManagedExerciseSession) {
-        session.complete(inManagedObjectContext: managedObjectContext)
+        session.completed = true
         saveContext()
         if let index = (sessions.indexOf { $0.objectID == session.objectID }) {
             sessions.removeAtIndex(index)
@@ -360,7 +360,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             let currentSession = sessions[index]
             currentSession.standalone = false
             currentSession.sensorData = sensorData.encode()
-            currentSession.classified += classified
+            classified.forEach { e in
+                MRManagedClassifiedExercise.insertNewObject(from: e, into: currentSession, inManagedObjectContext: self.managedObjectContext)
+            }
             saveContext()
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidClassify.rawValue, object: currentSession.objectID)
             if session.completed {

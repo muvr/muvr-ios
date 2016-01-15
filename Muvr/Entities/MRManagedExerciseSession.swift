@@ -14,8 +14,6 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     var intendedType: MKExerciseType?
     /// The weight predictor
     var weightPredictor: MKScalarPredictor!
-    /// The classified exercises for the whole session
-    var classified: [MKClassifiedExercise] = []
     /// true if the session runs on the phone only
     var standalone: Bool = true
     
@@ -26,7 +24,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     ///
     var inferredType: MKExerciseType? {
         var counter: [MKExerciseType : Int] = [:]
-        for (_, e) in combinedExercises {
+        for e in combinedExercises {
             let type = MKExerciseType(exerciseId: e.exerciseId)!
             if let count = counter[type] {
                 counter[type] = count + 1
@@ -160,31 +158,11 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     }
     
     ///
-    /// merge the classified and labelled exercises
-    ///
-    func complete(inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
-        combinedExercises.forEach { (start, exercise) in
-            let c = MRManagedClassifiedExercise.insertNewObject(inManagedObjectContext: managedObjectContext)
-            c.start = start
-            c.duration = exercise.duration
-            c.exerciseId = exercise.exerciseId
-            c.cdIntensity = exercise.intensity
-            c.cdRepetitions = exercise.repetitions.map { NSNumber(int: $0) }
-            c.cdWeight = exercise.weight
-            c.confidence = exercise.confidence
-            c.exerciseSession = self
-        }
-        completed = true
-    }
-    
-    ///
     /// Combined labelled and classified exercises for this entire session
     ///
-    private var combinedExercises: [(NSDate, MKExercise)] {
+    private var combinedExercises: [MKExercise] {
         let labelled: [(NSDate, MKExercise)] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).map { e in return (e.start, e as MKExercise) }
-        let classified: [(NSDate, MKExercise)] = self.classified.map { e in
-            return (NSDate(timeInterval: e.offset, sinceDate: self.start), e as MKExercise)
-        }
+        let classified: [(NSDate, MKExercise)] = (classifiedExercises.allObjects as! [MRManagedClassifiedExercise]).map { e in return (e.start, e as MKExercise) }
         
         // filter out from the classified exercises those that fall into a label (with some tolerance)
         let classifiedOutsideLabels = classified.filter { (ceStart, _) in
@@ -199,7 +177,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
         
         // TODO: remove overlapping
         
-        return merged
+        return merged.map { $0.1 }
     }
     
     ///
@@ -208,7 +186,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     var sets: [[MKExercise]] {
         get {
             var em: [MKExerciseId : [MKExercise]] = [:]
-            combinedExercises.forEach { (_, x) in
+            combinedExercises.forEach { x in
                 if let l = em[x.exerciseId] {
                     em[x.exerciseId] = l + [x]
                 } else {
