@@ -9,7 +9,7 @@ import MuvrKit
 ///
 class MRSessionComingUpViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
-    typealias OnSelected = MKIncompleteExercise -> Void
+    typealias OnSelected = MKExercise.Id -> Void
     private var onSelected: OnSelected!
     
     ///
@@ -29,7 +29,7 @@ class MRSessionComingUpViewController: UIViewController {
     /// - parameter exercises: the exercises to be displayed
     /// - parameter onSelected: the function to be called on selection
     ///
-    func setExercises(exercises: [MKIncompleteExercise], onSelected: OnSelected) {
+    func setExercises(exercises: [MKExercise.Id], onSelected: OnSelected) {
         scrollView.subviews.forEach { $0.removeFromSuperview() }
         
         self.onSelected = onSelected
@@ -37,18 +37,18 @@ class MRSessionComingUpViewController: UIViewController {
         let buttonWidth = scrollView.frame.width / 3
         scrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(exercises.count), scrollView.frame.height)
         
-        for exercise in exercises {
+        for exerciseId in exercises {
             let button = MRAlternateExerciseButton(type: UIButtonType.System)
             button.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
             button.addTarget(self, action: "exerciseSelected:", forControlEvents: UIControlEvents.TouchUpInside)
-            button.exercise = exercise
+            button.exerciseId = exerciseId
             scrollView.addSubview(button)
         }
     }
     
     /// This needs to be public as a handler for the button tap event. Do not call.
     func exerciseSelected(sender: UIButton) {
-        if let exercise = (sender as? MRAlternateExerciseButton)?.exercise {
+        if let exercise = (sender as? MRAlternateExerciseButton)?.exerciseId {
             onSelected(exercise)
         }
     }

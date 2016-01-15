@@ -223,8 +223,9 @@ class MRExerciseView : UIView {
     }
     
     private var buttonFontSize: CGFloat {
-        guard let exercise = exercise else { return button.titleLabel!.font.pointSize }
-        let text = exercise.title as NSString
+        guard let exerciseId = exerciseId else { return button.titleLabel!.font.pointSize }
+        
+        let text = MKExercise.title(exerciseId)
         let font = button.titleLabel!.font
         var fontSize = frame.height / 8
         var size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
@@ -236,17 +237,13 @@ class MRExerciseView : UIView {
     }
     
 
-    private func updateUI() {       
-        button.setTitle(exercise?.title, forState: UIControlState.Normal)
+    private func updateUI() {
+        let title = exerciseId.map(MKExercise.title)
+        button.setTitle(title, forState: UIControlState.Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(buttonFontSize)
         button.titleEdgeInsets = UIEdgeInsets()
-        
-        if let weight = exercise?.weight {
-            weightView.hidden = false
-            weightView.value = weight
-        } else {
-            weightView.hidden = true
-        }
+
+        // TODO: labels
     }
     
     
@@ -260,10 +257,16 @@ class MRExerciseView : UIView {
 
     // MARK: - public API
     
+    var exerciseLabels: [MKExerciseLabel] = [] {
+        didSet {
+            UIView.performWithoutAnimation(updateUI)
+        }
+    }
+    
     ///
     /// The exercise being displayed
     ///
-    var exercise: MKIncompleteExercise? {
+    var exerciseId: MKExercise.Id? {
         didSet {
             UIView.performWithoutAnimation(updateUI)
         }

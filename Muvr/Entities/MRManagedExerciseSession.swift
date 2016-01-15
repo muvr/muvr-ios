@@ -18,10 +18,8 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     ///
     /// The complete list of exercises the user is likely to be doing
     ///
-    var exercises: [MKExercise] {
-        let estimated = currentClassificationHint.map { _ in return self.estimatedExercises } ?? []
-        let exercises = estimated// + plannedExercises
-        return exercises + allExercises(notIn: exercises)
+    var exercises: [MKExercise.Id] {
+        return []
     }
     
     ///
@@ -55,7 +53,8 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     /// Returns all the exercises available in the current session and not present in the given list
     ///
     private func allExercises(notIn exercises: [MKExercise.Id]) -> [MKExercise.Id] {
-        let allIds = MRAppDelegate.sharedDelegate().exerciseIds(inModel: exerciseModelId)
+        let allIds = MRAppDelegate.sharedDelegate().exerciseIds(inModel: exerciseModelId).map { $0.0 }
+        
         let knownIds = exercises
         let otherIds = allIds.filter { !knownIds.contains($0) }
         var allExerciseIds = otherIds
@@ -63,10 +62,10 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
             let lType = MKExerciseType(exerciseId: l)
             let rType = MKExerciseType(exerciseId: r)
             switch (lType == self.intendedType, rType == self.intendedType) {
-            case (true, true): return l.title < r.title
+            case (true, true): return MKExercise.title(l) < MKExercise.title(r)
             case (true, false): return true
             case (false, true): return false
-            case (false, false): return l.title < r.title
+            case (false, false): return MKExercise.title(l) < MKExercise.title(r)
             }
         }
         return allExerciseIds
@@ -89,9 +88,10 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     ///
     /// Explicitly begins exercising. This call must be followed by ``addLabel`` at some point in the future.
     ///
-    func beginExercising(exercise: MKExerciseWithLabels) {
+    func beginExercising(exerciseId: MKExercise.Id, labels: [MKExerciseLabel]) {
+        let expected = (exerciseId, labels)
         currentClassificationHint =
-            .ExplicitExercise(start: NSDate().timeIntervalSinceDate(start), duration: nil, expectedExercises: [exercise])
+            .ExplicitExercise(start: NSDate().timeIntervalSinceDate(start), duration: nil, expectedExercises: [expected])
     }
     
     ///
@@ -105,20 +105,19 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     /// Adds the completed exercise to the plan. Do not forget to save the given ``managedObjectContext``, this
     /// method does not flush automatically.
     ///
-    /// - parameter label: the completed exercise
+    /// - parameter exerciseId: the exercise identity
+    /// - parameter labels: the labels
     /// - parameter start: the exercise's start date
     /// - parameter duration: the exercise's duration
     /// - parameter managedObjectContext: the CD context into which the label is going to be inserted.
     ///
-    func adExerciseWithLabels(exerciseWithLabels: MKExerciseWithLabels, start: NSDate, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
-        let (exercise, labels) = exerciseWithLabels
-
+    func addExerciseId(exerciseId: MKExercise.Id, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
         // add to plan so we can get prediction for the next exercise
-        plan.insert(exercise.id)
+        plan.insert(exerciseId)
         
         // update internal counters for weight (and in the future) other predictions
-        let n = exerciseIdCounts[exercise.id] ?? 0
-        exerciseIdCounts[exercise.id] = n + 1
+        let n = exerciseIdCounts[exerciseId] ?? 0
+        exerciseIdCounts[exerciseId] = n + 1
         
         // retrain for the given exercise
 //        let trainingSet: [Double] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).flatMap { existingLabel in

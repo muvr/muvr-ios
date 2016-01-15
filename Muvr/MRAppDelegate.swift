@@ -54,7 +54,7 @@ protocol MRApp {
     /// - parameter model: the model identity
     /// - returns: the exercise ids
     ///
-    func exerciseIds(inModel model: MKExerciseModel.Id) -> [MKExercise.Id]
+    func exerciseIds(inModel model: MKExerciseModel.Id) -> [MKExerciseModel.Label]
     
     ///
     /// Explicitly starts an exercise session for the given ``type``.
@@ -71,6 +71,7 @@ protocol MRApp {
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate,
     MKSessionClassifierDelegate, MKClassificationHintSource, MKScalarRounder,
+    MKExerciseModelSource,
     MRApp {
     
     var window: UIWindow?
@@ -105,49 +106,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
     
-    // MARK: - Other
-    
-    ///
-    /// Downloads the models
-    ///
-    private func downloadModels() {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.DownloadingModels.rawValue, object: nil)
-            self.modelStore.downloadModels() {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.ModelsDownloaded.rawValue, object: nil)
-            }
-        }
-    }
-
-    ///
-    /// Uploads all incomplete sessions
-    ///
-    private func uploadSessions() {
-        func uploadSessions(sessions: [MRManagedExerciseSession]) {
-            if let session = sessions.first {
-                sessionStore.uploadSession(session) {
-                    session.uploaded = true
-                    self.saveContext()
-                    uploadSessions(Array(sessions.dropFirst()))
-                }
-            } else {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionsUploaded.rawValue, object: nil)
-            }
-        }
-        
-        let sessions = MRManagedExerciseSession.findUploadableSessions(inManagedObjectContext: managedObjectContext)
-        if sessions.isEmpty { return }
-        
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.UploadingSessions.rawValue, object: nil)
-            uploadSessions(sessions)
-        }
-    }
-
     ///
     /// Returns the index of a given session
     /// - parameter session: the session to find the index of
@@ -163,10 +121,12 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// - returns: the unordered array of exercise ids (excluding exercise ids not available at current location)
     ///
     func exerciseIds(inModel model: MKExerciseModel.Id) -> [MKExerciseModel.Label] {
-        let locationExerciseIds = currentLocation?.exerciseIds ?? []
-        let modelExerciseIds = modelStore.exerciseIds(model: model)
+        let locationExerciseIds = (currentLocation?.exerciseIds ?? []).map(exerciseIdToLabel)
+        let modelExerciseIds = (try? getExerciseModel(id: model).labels) ?? []
         
-        return locationExerciseIds + modelExerciseIds.filter { !locationExerciseIds.contains($0) }
+        return locationExerciseIds + modelExerciseIds.filter { (me, _) in
+            return !locationExerciseIds.contains { (le, _) in le == me }
+        }
     }
     
     ///
@@ -180,12 +140,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - UIApplicationDelegate code
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        let remoteStorage = MRS3StorageAccess(accessKey: AwsCredentials.accessKey, secretKey: AwsCredentials.secretKey)
-        sessionStore = MRExerciseSessionStore(storageAccess: remoteStorage)
-        modelStore = MRExerciseModelStore(storageAccess: remoteStorage)
         // set up the classification and connectivity
-        sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: modelStore, hintSource: self)
-        classifier = MKSessionClassifier(exerciseModelSource: modelStore, sensorDataSplitter: sensorDataSplitter, delegate: self)
+        sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
+        classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: sensorDataSplitter, delegate: self)
         connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
         weightPredictor = MKPolynomialFittingScalarPredictor(scalarRounder: self)
 
@@ -209,8 +166,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         pageControlAppearance.currentPageIndicatorTintColor = UIColor.blackColor()
         pageControlAppearance.backgroundColor = UIColor.whiteColor()
     
-        // download the models
-        downloadModels()
         
         // sync
         do {
@@ -252,11 +207,27 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
         application.idleTimerDisabled = true
         locationManager.requestLocation()
-        uploadSessions()
     }
     
     func applicationWillResignActive(application: UIApplication) {
         application.idleTimerDisabled = false
+    }
+    
+    private func exerciseIdToLabel(exerciseId: String) -> (MKExercise.Id, MKExerciseTypeDescriptor) {
+        if let descriptor = MKExerciseTypeDescriptor(exerciseId: exerciseId) {
+            return (exerciseId, descriptor)
+        }
+        fatalError("Could not extract MKExerciseTypeDescriptor from \(exerciseId).")
+    }
+    
+    // MARK: - Exercise model source
+    
+    func getExerciseModel(id id: MKExerciseModel.Id) throws -> MKExerciseModel {
+        let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
+        let modelsBundle = NSBundle(path: path)!
+        return try MKExerciseModel(fromBundle: modelsBundle, id: id) { x in
+            return (x, MKExerciseTypeDescriptor(exerciseId: x)!)
+        }
     }
     
     // MARK: - Session UI
@@ -370,7 +341,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func initialSetup() {
         let generalWeightProgression: [Double] = [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5, 10]
-        let allExerciseIds = exerciseIds(inModel: "arms")
+        let allExerciseIds = exerciseIds(inModel: "arms").map { $0.0 }
         
         for exerciseId in allExerciseIds {
             if let type = MKExerciseType(exerciseId: exerciseId) {
