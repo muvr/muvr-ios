@@ -9,13 +9,13 @@ enum MRExerciseModelFileType: String {
 }
 
 struct MRExerciseModel {
-    let id: MKExerciseModelId
+    let id: MKExerciseModel.Id
     let version: MRExerciseModelVersion
     let labels: NSURL?
     let layers: NSURL?
     let weights: NSURL?
     
-    init(id: MKExerciseModelId, version: MRExerciseModelVersion, labels: NSURL?, layers: NSURL?, weights: NSURL?) {
+    init(id: MKExerciseModel.Id, version: MRExerciseModelVersion, labels: NSURL?, layers: NSURL?, weights: NSURL?) {
         self.id = id
         self.version = version
         self.labels = labels
@@ -23,7 +23,7 @@ struct MRExerciseModel {
         self.weights = weights
     }
     
-    init(id: MKExerciseModelId, version: MRExerciseModelVersion) {
+    init(id: MKExerciseModel.Id, version: MRExerciseModelVersion) {
         self.init(id: id, version: version, labels: nil, layers: nil, weights: nil)
     }
     

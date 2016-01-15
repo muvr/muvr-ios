@@ -16,7 +16,7 @@ public enum MKExerciseType : Equatable, Hashable {
     /// Specific resistance exercise targeting the given ``muscleGroups``
     /// - parameter muscleGroups: the muscle groups
     case ResistanceTargeted(muscleGroups: [MKMuscleGroup])
-
+    
     // Implements Hashable
     public var hashValue: Int {
         get {

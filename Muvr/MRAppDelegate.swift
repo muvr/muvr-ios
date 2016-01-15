@@ -164,7 +164,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// - parameter model: the model identity
     /// - returns: the unordered array of exercise ids (excluding exercise ids not available at current location)
     ///
-    func exerciseIds(inModel model: MKExerciseModelId) -> [MKExerciseId] {
+    func exerciseIds(inModel model: MKExerciseModel.Id) -> [MKExerciseModel.Label] {
         let locationExerciseIds = currentLocation?.exerciseIds ?? []
         let modelExerciseIds = modelStore.exerciseIds(model: model)
         

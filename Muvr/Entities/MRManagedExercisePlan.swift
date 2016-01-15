@@ -4,8 +4,8 @@ import CoreData
 
 class MRManagedExercisePlan : NSManagedObject {
  
-    var plan: MKExercisePlan<MKExerciseId> {
-        return MKExercisePlan<MKExerciseId>.fromJsonFirst(planData) { $0 as? String }!
+    var plan: MKExercisePlan<MKExercise.Id> {
+        return MKExercisePlan<MKExercise.Id>.fromJsonFirst(planData) { $0 as? String }!
     }
     
 }

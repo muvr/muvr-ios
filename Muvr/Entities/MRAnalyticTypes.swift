@@ -6,17 +6,17 @@ enum MRAggregate {
     /// All types, returning ``Key.ExerciseType``
     case Types
     /// All muscle groups in a given type, returning ``Key.MuscleGroup`` or ``Key.NoMuscleGroup``
-    case MuscleGroups(inType: MKGeneralExerciseType)
+    case MuscleGroups(inType: MKExerciseTypeDescriptor)
     /// All exercises in a given muscle group, returning ``Key.Exercise``
     case Exercises(inMuscleGroup: MKMuscleGroup)
 }
 
 /// The aggregation key
 enum MRAggregateKey : Hashable {
-    case ExerciseType(exerciseType: MKGeneralExerciseType)
+    case ExerciseType(exerciseType: MKExerciseTypeDescriptor)
     case NoMuscleGroup
     case MuscleGroup(muscleGroup: MKMuscleGroup)
-    case Exercise(id: MKExerciseId)
+    case Exercise(id: MKExercise.Id)
     
     var hashValue: Int {
         switch self {

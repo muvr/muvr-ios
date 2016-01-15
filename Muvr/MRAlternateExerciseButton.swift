@@ -8,7 +8,7 @@ import MuvrKit
 class MRAlternateExerciseButton: UIButton {
     
     /// When set, update the button with the exercise's title
-    var exercise: MKIncompleteExercise? = nil {
+    var exercise: MKExercise? = nil {
         didSet {
             setTitle(exercise?.title, forState: .Normal)
         }
