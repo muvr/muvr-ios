@@ -22,7 +22,7 @@ extension MKExerciseModel {
     /// Moreover, the contents of the files must be parseable using the basic text parsing mechanism
     /// in ``MKActivationFunction`` and ``MKLayerConfiguration``.
     ///
-    public init(fromBundle bundle: NSBundle, id: MKExerciseModel.Id) throws {
+    public init(fromBundle bundle: NSBundle, id: MKExerciseModel.Id,  labelExtractor: String -> Label) throws {
         guard let layersConfigurationPath = bundle.pathForResource("\(id)_model.layers", ofType: "txt") else {
             throw LoadError.MissingModelComponent(name: "\(id)_model.layers")
         }
@@ -32,17 +32,18 @@ extension MKExerciseModel {
         guard let weightsPath = bundle.pathForResource("\(id)_model.weights", ofType: "raw") else {
             throw LoadError.MissingModelComponent(name: "\(id)_model.weights")
         }
-        try self.init(layersPath: layersConfigurationPath, labelsPath: labelsPath, weightsPath: weightsPath)
+        try self.init(layersPath: layersConfigurationPath, labelsPath: labelsPath, weightsPath: weightsPath, labelExtractor: labelExtractor)
     }
     
-    public init(layersPath: String, labelsPath: String, weightsPath: String) throws {
+    public init(layersPath: String, labelsPath: String, weightsPath: String, labelExtractor: String -> Label) throws {
         // load the layer configuration
         let layerConfiguration = try MKLayerConfiguration.parse(text: try! String(contentsOfFile: layersPath, encoding: NSUTF8StringEncoding))
         
         // load the labels
-        let labels = try String(contentsOfFile: labelsPath, encoding: NSUTF8StringEncoding)
+        let labelNames = try String(contentsOfFile: labelsPath, encoding: NSUTF8StringEncoding)
             .stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
             .componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+        let labels = labelNames.map(labelExtractor)
         
         // load the weights
         let weightsData = NSData(contentsOfFile: weightsPath)!
@@ -58,7 +59,7 @@ extension MKExerciseModel {
         
         self.init(layerConfiguration: layerConfiguration, weights: weights,
             sensorDataTypes: sensorDataTypes,
-            exerciseIds: labels,
+            labels: labels,
             minimumDuration: minimumDuration)
     }
     

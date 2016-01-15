@@ -9,7 +9,7 @@ public extension MKPolynomialFittingScalarPredictor {
     public func mergeJSON(data: NSData) {
         if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments),
            let dict = json as? [String : AnyObject],
-           let otherCoefficients = dict["coefficients"] as? [MKExerciseId : [Float]] {
+           let otherCoefficients = dict["coefficients"] as? [MKExercise.Id : [Float]] {
            merge(otherCoefficients)
         }
     }

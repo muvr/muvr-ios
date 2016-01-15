@@ -13,7 +13,7 @@ public protocol MKScalarRounder {
     /// - parameter exerciseId: the exercise identity
     /// - returns: the rounded value
     ///
-    func roundValue(value: Float, forExerciseId exerciseId: MKExerciseId) -> Float
+    func roundValue(value: Float, forExerciseId exerciseId: MKExercise.Id) -> Float
     
 }
 

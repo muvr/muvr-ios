@@ -1,11 +1,3 @@
-//
-//  MKExerciseLabel.swift
-//  Muvr
-//
-//  Created by Jan Machacek on 15/01/2016.
-//  Copyright © 2016 Muvr. All rights reserved.
-//
-
 import Foundation
 
 public enum MKExerciseLabel {
@@ -13,19 +5,21 @@ public enum MKExerciseLabel {
     case Weight(weight: Double)
     
     case Repetitions(repetitions: Int)
-        
+    
+    case Intensity(intensity: Double)
+    
     // case AverageHeartRate(heartRate: Double)
     
     // case Distance(distance: Double)
     
     // ...
     
-}
-
-public enum MKExerciseLabelDescriptor {
-    
-    case Weight
-    
-    case Repetitions
+    var descriptor: MKExerciseLabelDescriptor {
+        switch self {
+        case .Weight: return .Weight
+        case .Intensity: return .Intensity
+        case .Repetitions: return .Repetitions
+        }
+    }
     
 }

@@ -6,8 +6,8 @@ import Foundation
 public struct MKExercise {
     public typealias Id = String
     
-    public let confidence: Double
-    public let exerciseId: Id
+    public let type: MKExerciseTypeDescriptor
+    public let id: Id
     public let duration: NSTimeInterval
     public let offset: NSTimeInterval // exercise starting offset from begining of session
     
@@ -20,6 +20,6 @@ public struct MKExercise {
     /// - returns: the updated instance
     ///
     func copy(offsetDelta offsetDelta: NSTimeInterval) -> MKExercise {
-        return MKExercise(confidence: confidence, exerciseId: exerciseId, duration: duration, offset: offset + offsetDelta)
+        return MKExercise(type: type, id: id, duration: duration, offset: offset + offsetDelta)
     }
 }

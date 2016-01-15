@@ -13,7 +13,7 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     /// The rounder to be used
     private let scalarRounder: MKScalarRounder
 
-    public typealias Key = MKExerciseId
+    public typealias Key = MKExercise.Id
     
     ///
     /// Merges the coefficients in this instance with ``otherCoefficients``. This is typically
@@ -118,7 +118,7 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         }
     }
     
-    public func predictScalarForExerciseId(exerciseId: MKExerciseId, n: Int) -> Double? {
+    public func predictScalarForExerciseId(exerciseId: MKExercise.Id, n: Int) -> Double? {
         let prediction = coefficients[exerciseId].map {
             predictAndRound(Float(n), coefficients: $0, forExerciseId: exerciseId)
         }

@@ -10,7 +10,7 @@ public protocol MKScalarPredictor {
     /// - parameter trainingSet: the training set
     /// - parameter exerciseId: the exercise id
     ///
-    func trainPositional(trainingSet: [Double], forExerciseId exerciseId: MKExerciseId)
+    func trainPositional(trainingSet: [Double], forExerciseId exerciseId: MKExercise.Id)
     
     ///
     /// Returns the scalar prediction for the ``n`` the instance of the ``exerciseId``
@@ -18,7 +18,7 @@ public protocol MKScalarPredictor {
     /// - parameter n: the exercise number, starting at 0
     /// - returns: the predicted weight
     ///
-    func predictScalarForExerciseId(exerciseId: MKExerciseId, n: Int) -> Double?
+    func predictScalarForExerciseId(exerciseId: MKExercise.Id, n: Int) -> Double?
  
     ///
     /// Sets the boosting function to "motivate the headcounts"

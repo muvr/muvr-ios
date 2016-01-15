@@ -1,5 +1,7 @@
 import Foundation
 
+public typealias MKExerciseWithLabels = (MKExercise, [MKExerciseLabel])
+
 ///
 /// Implementations will receive the results of session classification and summarisation
 ///
@@ -13,7 +15,7 @@ public protocol MKSessionClassifierDelegate {
     /// - parameter classified: the classified exercises
     /// - parameter sensorData: the sensor data collected so far
     ///
-    func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData)
+    func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKExerciseWithLabels], sensorData: MKSensorData)
     
     ///
     /// Called when the session classification estimates the exercise that has not yet ended.
@@ -21,7 +23,7 @@ public protocol MKSessionClassifierDelegate {
     /// - parameter session: the current snapshot of the session
     /// - parameter estimated: the estimated exercises
     ///
-    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKClassifiedExercise])
+    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels])
     
     ///
     /// The session has ended

@@ -16,7 +16,7 @@ public enum MKClassificationHint {
     /// - parameter duration: the duration
     /// - parameter expectedExercises: the exercises the user is likely to be performing
     ///
-    case ExplicitExercise(start: NSTimeInterval, duration: NSTimeInterval?, expectedExercises: [MKIncompleteExercise])
+    case ExplicitExercise(start: NSTimeInterval, duration: NSTimeInterval?, expectedExercises: [MKExerciseWithLabels])
     
     ///
     /// The user is expected to be resting

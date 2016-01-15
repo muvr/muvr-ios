@@ -33,9 +33,9 @@ public enum MKExerciseType : Equatable, Hashable {
     ///
     var labelDescriptors: [MKExerciseLabelDescriptor] {
         switch self {
-        case .IndoorsCardio: return []
-        case .ResistanceTargeted: return [.Repetitions, .Weight]
-        case .ResistanceWholeBody: return [.Repetitions, .Weight]
+        case .IndoorsCardio: return [.Intensity]
+        case .ResistanceTargeted: return [.Repetitions, .Weight, .Intensity]
+        case .ResistanceWholeBody: return [.Repetitions, .Weight, .Intensity]
         }
     }
     

@@ -83,23 +83,23 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         }
     }
     
-    private func classifySplits(splits: [MKSensorDataSplit], session: MKExerciseConnectivitySession) -> [MKClassifiedExercise] {
+    private func classifySplits(splits: [MKSensorDataSplit], session: MKExerciseConnectivitySession) -> [MKExerciseWithLabels] {
         do {
             let exerciseModel = try exerciseModelSource.getExerciseModel(id: "arms")
             let exerciseClassifier = try MKClassifier(model: exerciseModel)
             return try splits.flatMap { split in
                 switch split {
                 case .Automatic(let startOffset, let data):
-                    if let best = (try exerciseClassifier.classify(block: data, maxResults: 10)).first {
+                    if let (bestExercise, _) = (try exerciseClassifier.classify(block: data, maxResults: 10)).first {
                         let (repetitions, _) = try self.repetitionEstimator.estimate(data: data)
-                        return best.copy(offsetDelta: startOffset, repetitions: repetitions)
+                        return (bestExercise.copy(offsetDelta: startOffset), [MKExerciseLabel.Repetitions(repetitions: repetitions)])
                     }
                     
                 case .Hinted(let startOffset, let data, _):
                     // TODO: improve the way in which we handle hint
-                    if let best = (try exerciseClassifier.classify(block: data, maxResults: 10)).first {
+                    if let (bestExercise, _) = (try exerciseClassifier.classify(block: data, maxResults: 10)).first {
                         let (repetitions, _) = try self.repetitionEstimator.estimate(data: data)
-                        return best.copy(offsetDelta: startOffset, repetitions: repetitions)
+                        return (bestExercise.copy(offsetDelta: startOffset), [MKExerciseLabel.Repetitions(repetitions: repetitions)])
                     }
                 }
                 return nil
