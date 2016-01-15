@@ -136,11 +136,12 @@ public struct MKClassifier {
                     }
                 }
             }
-            let exIds = avg.keys.sort { id1, id2 in
+            let exerciseIds = avg.keys.sort { id1, id2 in
                 return avg[id1] > avg[id2]
             }
-            if let exId = exIds.first {
-                return MKClassifiedExerciseBlock(confidence: Double(avg[exId]!), exerciseId: exId, duration: duration, offset: Double(i) * duration )
+            if let exerciseId = exerciseIds.first,
+               let exerciseType = model.exerciseTypeDescriptorForExerciseId(exerciseId) {
+                return MKClassifiedExerciseBlock(confidence: Double(avg[exerciseId]!), type: exerciseType, id: exerciseId, duration: duration, offset: Double(i) * duration )
             } else {
                 return nil
             }

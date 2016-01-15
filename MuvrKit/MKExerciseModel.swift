@@ -23,4 +23,13 @@ public struct MKExerciseModel {
         self.minimumDuration = minimumDuration
     }
     
+    func exerciseTypeDescriptorForExerciseId(id: MKExercise.Id) -> MKExerciseTypeDescriptor? {
+        for (labelId, labelTypeDescriptor) in labels {
+            if labelId == id {
+                return labelTypeDescriptor
+            }
+        }
+        return nil
+    }
+    
 }

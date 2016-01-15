@@ -10,7 +10,7 @@ class MKClassifierTests : XCTestCase {
         let model = MKExerciseModel(layerConfiguration: layerConfiguration,
             weights: weights,
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
-            exerciseIds: ["1", "2", "3"],
+            labels: [("1", .ResistanceWholeBody), ("2", .ResistanceWholeBody), ("3", .ResistanceWholeBody)],
             minimumDuration: 0)
         return try! MKClassifier(model: model)
     }()
@@ -47,9 +47,9 @@ class MKClassifierTests : XCTestCase {
     func testClassA() {
         let fileName = NSBundle(forClass: MuvrKitTests.self).pathForResource("class-1", ofType: "csv")!
         let block = try! MKSensorData.sensorData(types: [MKSensorDataType.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, loading: fileName)
-        let cls = try! classifier.classify(block: block, maxResults: 100).first!
-        XCTAssertEqual(cls.exerciseId, "1")
-        XCTAssertGreaterThan(cls.confidence, 0.99)
+        let (exercise, confidence) = try! classifier.classify(block: block, maxResults: 100).first!
+        XCTAssertEqual(exercise.id, "1")
+        XCTAssertGreaterThan(confidence, 0.99)
         
         let bc = try! classifier.classify(block: block, maxResults: 100)
         print(bc)
@@ -60,8 +60,8 @@ class MKClassifierTests : XCTestCase {
     ///
     func testLargeZeros() {
         let block = MKSensorData.sensorData(types: [MKSensorDataType.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, generating: 50000, withValue: .Constant(value: 0))
-        let cls = try! classifier.classify(block: block, maxResults: 100).first!
-        XCTAssertLessThan(cls.confidence, 0.5)
+        let (_, confidence) = try! classifier.classify(block: block, maxResults: 100).first!
+        XCTAssertLessThan(confidence, 0.5)
     }
     
     ///
@@ -74,12 +74,12 @@ class MKClassifierTests : XCTestCase {
         try! block.append(block2)
         try! block.append(block3)
         let cls = try! classifier.classify(block: block, maxResults: 10)
-        XCTAssertEqual(cls.first!.offset, 0.0)
+        XCTAssertEqual(cls.first!.0.offset, 0.0)
         var end = 0.0
-        cls.forEach { x in
-            XCTAssertGreaterThanOrEqual(x.offset, end)
-            NSLog("Exercise \(x.exerciseId) starts on or after \(end)s: \(x.offset)s")
-            end = end + x.duration
+        for (exercise, _) in cls {
+            XCTAssertGreaterThanOrEqual(exercise.offset, end)
+            NSLog("Exercise \(exercise.id) starts on or after \(end)s: \(exercise.offset)s")
+            end = end + exercise.duration
         }
     }
     

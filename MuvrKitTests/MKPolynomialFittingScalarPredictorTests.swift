@@ -4,7 +4,7 @@ import XCTest
 
 class MKPolynomialFittingScalarPredictorTests : XCTestCase, MKScalarRounder {
     
-    func roundValue(value: Float, forExerciseId exerciseId: MKExerciseId) -> Float {
+    func roundValue(value: Float, forExerciseId exerciseId: MKExercise.Id) -> Float {
         return MKScalarRounderFunction.roundMinMax(value, minimum: 2.5, increment: 2.5, maximum: nil)
     }
     
