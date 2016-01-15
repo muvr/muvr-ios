@@ -4,7 +4,7 @@ import MuvrKit
 extension MKExercise {
     
     var title: String {
-        return MRExerciseId.title(id)
+        return MKExercise.title(id)
     }
 
 }

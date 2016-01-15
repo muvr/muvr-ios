@@ -13,11 +13,11 @@ class MRSessionLabellingViewController: UIViewController {
     @IBOutlet private weak var intensityView: MRBarsView!
     
     /// A function that carries the new values: (repetitions, weight, intensity)
-    typealias OnLabelUpdated = MKIncompleteExercise -> Void
+    typealias OnLabelUpdated = MKExerciseLabel -> Void
     /// The function that will be called whenever a value changes
     private var onLabelUpdated: OnLabelUpdated!
     
-    private var exercise: MKIncompleteExercise!
+    private var exerciseId: MKExercise.Id!
     
     // TODO: Configurable
     /// The default repetitions
@@ -35,9 +35,9 @@ class MRSessionLabellingViewController: UIViewController {
     /// - parameter exercise: the exercise whose values to be displayed
     /// - parameter onUpdate: a function that will be called on change of values
     ///
-    func setExercise(exercise: MKIncompleteExercise, onLabelUpdated: OnLabelUpdated) {
+    func setExerciseId(exerciseId: MKExercise.Id, onLabelUpdated: OnLabelUpdated) {
         self.onLabelUpdated = onLabelUpdated
-        self.exercise = exercise
+        self.exerciseId = exerciseId
     }
     
     override func viewDidAppear(animated: Bool) {

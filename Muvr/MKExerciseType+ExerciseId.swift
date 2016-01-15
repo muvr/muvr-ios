@@ -9,7 +9,7 @@ extension MKExerciseType {
     /// - returns: the parsed ``MKExerciseType`` or ``nil``.
     ///
     init?(exerciseId: String) {
-        if let (type, rest) = MRExerciseId.componentsFromExerciseId(exerciseId) {
+        if let (type, rest) = MKExercise.componentsFromExerciseId(exerciseId) {
             if type == MKExerciseType.resistanceTargeted {
                 if let x = (MKMuscleGroup(id: rest.first!).map { MKExerciseType.ResistanceTargeted(muscleGroups: [$0]) }) {
                     self = x

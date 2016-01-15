@@ -28,28 +28,16 @@ extension MRAppDelegate  {
     private func generateSessionData(date date: NSDate) {
         
         func generateClassifiedExercise(date date: NSDate, session: MRManagedExerciseSession, index: Int) {
-            let exercise = MRManagedClassifiedExercise.insertNewObject(inManagedObjectContext: managedObjectContext)
-            exercise.confidence = 1
-            exercise.exerciseId = exerciseIds()[index % exerciseIds().count]
-            exercise.exerciseSession = session
-            exercise.duration = 20 + NSTimeInterval(arc4random() % 30)
-            exercise.cdIntensity = 1
-            exercise.cdRepetitions = 5 + Int(arc4random() % 10)
-            exercise.cdWeight = Double(arc4random() % 50)
-            exercise.start = date.addSeconds(index * 60)
+//            let exercise = MRManagedClassifiedExercise.insertNewObject(inManagedObjectContext: managedObjectContext)
+//            exercise.confidence = 1
+//            exercise.exerciseId = exerciseIds()[index % exerciseIds().count]
+//            exercise.exerciseSession = session
+//            exercise.duration = 20 + NSTimeInterval(arc4random() % 30)
+//            exercise.cdIntensity = 1
+//            exercise.cdRepetitions = 5 + Int(arc4random() % 10)
+//            exercise.cdWeight = Double(arc4random() % 50)
+//            exercise.start = date.addSeconds(index * 60)
         }
-        
-        func generateLabelledExercise(date date: NSDate, session: MRManagedExerciseSession, index: Int) {
-            let exercise = MRManagedLabelledExercise.insertNewObject(into: session, inManagedObjectContext: managedObjectContext)
-            exercise.start = date.addSeconds(index * 60)
-            exercise.duration = 20 + NSTimeInterval(arc4random() % 30)
-            exercise.exerciseId = exerciseIds()[index % exerciseIds().count]
-            exercise.exerciseSession = session
-            exercise.cdIntensity = 1
-            exercise.cdWeight = Double(arc4random() % 50)
-            exercise.cdRepetitions = 5 + Int(arc4random() % 10)
-        }
-        
 
         let session = MRManagedExerciseSession.insertNewObject(inManagedObjectContext: managedObjectContext)
         session.id = NSUUID().UUIDString

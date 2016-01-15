@@ -142,7 +142,8 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
         }
         pieChartBackButton.hidden = !aggregate.hasPrevious
         startButton.hidden = !aggregate.isStartable
-        averages = MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, aggregate: aggregate)
+        averages = []
+        //MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, aggregate: aggregate)
         reloadAveragesChart()
     }
     

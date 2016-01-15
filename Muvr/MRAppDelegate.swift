@@ -54,7 +54,7 @@ protocol MRApp {
     /// - parameter model: the model identity
     /// - returns: the exercise ids
     ///
-    func exerciseIds(inModel model: MKExerciseModelId) -> [MKExerciseId]
+    func exerciseIds(inModel model: MKExerciseModel.Id) -> [MKExercise.Id]
     
     ///
     /// Explicitly starts an exercise session for the given ``type``.
@@ -77,8 +77,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     private let sessionStoryboard = UIStoryboard(name: "Session", bundle: nil)
     private var sessionViewController: UIViewController?
-    private var sessionStore: MRExerciseSessionStore!
-    private var modelStore: MRExerciseModelStore!
     private var connectivity: MKAppleWatchConnectivity!
     private var classifier: MKSessionClassifier!
     private var sensorDataSplitter: MKSensorDataSplitter!
@@ -309,7 +307,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
     
-    func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData) {
+    func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKExerciseWithLabels], sensorData: MKSensorData) {
         NSLog("Received session classify for \(session) with type \(session.exerciseType)")
         if let index = sessionIndex(session) {
             let currentSession = sessions[index]
@@ -320,12 +318,12 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
                 sessions.removeAtIndex(index)
                 NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidComplete.rawValue, object: currentSession.objectID)
             }
-            classified.forEach { MRManagedClassifiedExercise.insertNewObject(from: $0, into: currentSession, inManagedObjectContext: managedObjectContext) }
+//            classified.forEach { MRManagedClassifiedExercise.insertNewObject(from: $0, into: currentSession, inManagedObjectContext: managedObjectContext) }
         }
         saveContext()
     }
     
-    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKClassifiedExercise]) {
+    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels]) {
         if let index = sessionIndex(session) {
             let currentSession = sessions[index]
             currentSession.estimated = estimated
@@ -408,13 +406,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     // MARK: - Exercise properties
-    func exercisePropertiesForExerciseId(exerciseId: MKExerciseId) -> [MKExerciseProperty] {
+    func exercisePropertiesForExerciseId(exerciseId: MKExercise.Id) -> [MKExerciseProperty] {
         // TODO: configurable at location!
         return [.WeightProgression(minimum: 2.5, increment: 2.5, maximum: nil)]
     }
     
     // MARK: - Scalar rounder
-    func roundValue(value: Float, forExerciseId exerciseId: MKExerciseId) -> Float {
+    func roundValue(value: Float, forExerciseId exerciseId: MKExercise.Id) -> Float {
         return MKScalarRounderFunction.roundMinMax(value, minimum: 2.5, increment: 2.5, maximum: nil)
     }
     

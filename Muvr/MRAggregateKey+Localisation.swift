@@ -12,7 +12,7 @@ extension MRAggregateKey {
         case ExerciseType(let exerciseType): return exerciseType.title
         case NoMuscleGroup: return NSLocalizedString("MRAggregateKey.noMuscleGroup", comment: "").localizedCapitalizedString
         case MuscleGroup(let muscleGroup): return muscleGroup.title
-        case Exercise(let exerciseId): return MRExerciseId.title(exerciseId)
+        case Exercise(let exerciseId): return MKExercise.title(exerciseId)
         }
     }
     

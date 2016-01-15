@@ -16,29 +16,11 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     var weightPredictor: MKScalarPredictor!
     
     ///
-    /// The exercise type inferred by taking the most frequently done exercise type in this session.
-    /// If the user does what he or she intended, then ``intendedType`` == ``inferredType``, and both
-    /// will be != nil.
-    ///
-    var inferredType: MKExerciseType? {
-        var counter: [MKExerciseType : Int] = [:]
-        for e in combinedExercises {
-            let type = MKExerciseType(exerciseId: e.exerciseId)!
-            if let count = counter[type] {
-                counter[type] = count + 1
-            } else {
-                counter[type] = 1
-            }
-        }
-        return counter.sort { l, r in return l.1 < r.1 } . map { $0.0 } . first
-    }
-    
-    ///
     /// The complete list of exercises the user is likely to be doing
     ///
     var exercises: [MKExercise] {
         let estimated = currentClassificationHint.map { _ in return self.estimatedExercises } ?? []
-        let exercises = estimated + plannedExercises
+        let exercises = estimated// + plannedExercises
         return exercises + allExercises(notIn: exercises)
     }
     
@@ -128,57 +110,27 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     /// - parameter duration: the exercise's duration
     /// - parameter managedObjectContext: the CD context into which the label is going to be inserted.
     ///
-    func addLabel(label: MKIncompleteExercise, start: NSDate, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
-        let l = MRManagedLabelledExercise.insertNewObject(into: self, inManagedObjectContext: managedObjectContext)
-        
-        l.start = start
-        l.duration = duration
-        l.exerciseId = label.exerciseId
-        l.cdIntensity = label.intensity ?? 0
-        l.cdRepetitions = label.repetitions ?? 0
-        l.cdWeight = label.weight ?? 0
+    func adExerciseWithLabels(exerciseWithLabels: MKExerciseWithLabels, start: NSDate, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
+        let (exercise, labels) = exerciseWithLabels
 
         // add to plan so we can get prediction for the next exercise
-        plan.insert(label.exerciseId)
+        plan.insert(exercise.id)
         
         // update internal counters for weight (and in the future) other predictions
-        let n = exerciseIdCounts[label.exerciseId] ?? 0
-        exerciseIdCounts[label.exerciseId] = n + 1
+        let n = exerciseIdCounts[exercise.id] ?? 0
+        exerciseIdCounts[exercise.id] = n + 1
         
         // retrain for the given exercise
-        let trainingSet: [Double] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).flatMap { existingLabel in
-            if existingLabel.exerciseId == label.exerciseId {
-                return existingLabel.weight
-            }
-            return nil
-        }
-        weightPredictor.trainPositional(trainingSet, forExerciseId: label.exerciseId)
-        
+//        let trainingSet: [Double] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).flatMap { existingLabel in
+//            if existingLabel.exerciseId == label.exerciseId {
+//                return existingLabel.weight
+//            }
+//            return nil
+//        }
+//        weightPredictor.trainPositional(trainingSet, forExerciseId: label.exerciseId)
+
         // reset classification hint
         currentClassificationHint = nil
-    }
-    
-    ///
-    /// Combined labelled and classified exercises for this entire session
-    ///
-    private var combinedExercises: [MKExercise] {
-        let labelled: [(NSDate, MKExercise)] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).map { e in return (e.start, e as MKExercise) }
-        let classified: [(NSDate, MKExercise)] = (classifiedExercises.allObjects as! [MRManagedClassifiedExercise]).map { e in return (e.start, e as MKExercise) }
-        
-        // filter out from the classified exercises those that fall into a label (with some tolerance)
-        let classifiedOutsideLabels = classified.filter { (ceStart, _) in
-            let timeTolerance: NSTimeInterval = 10
-            return !labelled.contains { (leStart, _) in
-                return leStart.timeIntervalSinceDate(ceStart) < timeTolerance
-            }
-        }
-        
-        // combine the labels with classified exercises
-        let merged = (classifiedOutsideLabels + labelled).sort { l, r in return l.0.compare(r.0) == NSComparisonResult.OrderedAscending }
-        
-        // TODO: remove overlapping
-        
-        return merged.map { $0.1 }
     }
     
     ///
@@ -186,15 +138,16 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     ///
     var sets: [[MKExercise]] {
         get {
-            var em: [MKExerciseId : [MKExercise]] = [:]
-            combinedExercises.forEach { x in
-                if let l = em[x.exerciseId] {
-                    em[x.exerciseId] = l + [x]
-                } else {
-                    em[x.exerciseId] = [x]
-                }
-            }
-            return em.values.sort { l, r in l.first!.exerciseId > r.first!.exerciseId }
+            return []
+//            var em: [MKExercise.Id : [MKExercise]] = [:]
+//            combinedExercises.forEach { x in
+//                if let l = em[x.exerciseId] {
+//                    em[x.exerciseId] = l + [x]
+//                } else {
+//                    em[x.exerciseId] = [x]
+//                }
+//            }
+//            return em.values.sort { l, r in l.first!.exerciseId > r.first!.exerciseId }
         }
     }
         
