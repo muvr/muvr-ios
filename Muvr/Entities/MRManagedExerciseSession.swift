@@ -14,6 +14,8 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     var intendedType: MKExerciseType?
     /// The weight predictor
     var weightPredictor: MKScalarPredictor!
+    /// true if the session runs on the phone only
+    var standalone: Bool = true
     
     ///
     /// The exercise type inferred by taking the most frequently done exercise type in this session.
@@ -195,4 +197,21 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
         }
     }
         
+}
+
+extension MKExerciseSession {
+    
+    /// transforms a managed session into a MKExerciseSession so that it can be passed
+    /// to MuvrKit to be sent over to the watch
+    init?(managedSession session: MRManagedExerciseSession) {
+        guard let exerciseType = session.intendedType ?? session.inferredType else { return nil }
+        self.init(
+            id: session.id,
+            start: session.start,
+            end: session.end,
+            completed: session.completed,
+            exerciseType: exerciseType
+        )
+    }
+    
 }

@@ -48,6 +48,16 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate {
         }
         return (sessions[index], index)
     }
+    
+    // session started on the phone so start it on the watch too
+    public func startSession(session: MKExerciseSession) {
+        WCSession.defaultSession().transferUserInfo(session.metadata)
+    }
+    
+    // session ended on the phone so end it on the watch too
+    public func endSession(session: MKExerciseSession) {
+        WCSession.defaultSession().transferUserInfo(session.metadata)
+    }
       
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
         resolveSession(userInfo)

@@ -208,6 +208,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     // the transfer queue
     private let transferQueue = dispatch_queue_create("io.muvr.transferQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0))
     
+    private let delegate: MKExerciseSessionConnectivityDelegate
+    
     public var sessionsCount: Int { get {
             return sessions.count
         }
@@ -220,11 +222,11 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// -parameter metadata: the metadata delegate
     /// -parameter sensorData: the sensor data delegate
     ///
-    public init(delegate: MKMetadataConnectivityDelegate) {
+    public init(delegate: MKExerciseSessionConnectivityDelegate) {
         // TODO: Check whether the watch is on the left or right wrist. For now, assume left.
         recordedTypes = [.Accelerometer(location: .LeftWrist)]
         dimension = recordedTypes.reduce(0) { r, t in return t.dimension + r }
-        
+        self.delegate = delegate
         super.init()
         WCSession.defaultSession().delegate = self
         WCSession.defaultSession().activateSession()
@@ -238,6 +240,21 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     // pending session (ended session but not yet complete)
     public var pendingSession: (MKExerciseSession, MKExerciseSessionProperties)? {
         return sessions.mostImportantSessionsEntry
+    }
+    
+    /// user info received from the phone
+    /// - session start/end events that occured on the phone
+    public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
+        guard let session = MKExerciseSession(metadata: userInfo),
+            let props = MKExerciseSessionProperties(metadata: userInfo) else { return }
+        
+        if props.end == nil && sessions.sessions[session] == nil {
+            sessions.add(session, properties: props)
+            delegate.sessionStarted(session, props: props)
+        } else if props.end != nil {
+            delegate.sessionEnded(session, props: props)
+            sessions.update(session) { $0.with(end: props.end!) }
+        }
     }
 
     ///
@@ -496,7 +513,7 @@ private extension MKExerciseSession {
     
     //let start = ((metadata["start"] as? NSTimeInterval).map { NSDate(timeIntervalSinceReferenceDate: $0) })
     
-    init?(metadata: [String: NSObject]) {
+    init?(metadata: [String: AnyObject]) {
         if let id = metadata["sessionId"] as? String,
            let exerciseTypeMetadata = metadata["exerciseType"] as? [String : AnyObject],
            let exerciseType = MKExerciseType(metadata: exerciseTypeMetadata) {
@@ -524,7 +541,7 @@ private extension MKExerciseSessionProperties {
         return md
     }
     
-    init?(metadata: [String: NSObject]) {
+    init?(metadata: [String: AnyObject]) {
         let accStart = (metadata["accelerometerStart"] as? NSTimeInterval).map { NSDate(timeIntervalSinceReferenceDate: $0) }
         let accEnd = (metadata["accelerometerEnd"] as? NSTimeInterval).map { NSDate(timeIntervalSinceReferenceDate: $0) }
         let end = (metadata["end"] as? NSTimeInterval).map { NSDate(timeIntervalSinceReferenceDate: $0) }

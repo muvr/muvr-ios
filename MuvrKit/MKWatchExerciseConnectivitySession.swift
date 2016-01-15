@@ -94,7 +94,7 @@ public struct MKExerciseSessionProperties {
 ///
 public struct MKExerciseSession: Hashable, Equatable {
     /// the session identity
-    let id: String
+    public let id: String
     /// the exercise type
     public let exerciseType: MKExerciseType
     

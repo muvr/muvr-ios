@@ -1,6 +1,7 @@
 import UIKit
 import MuvrKit
 import Charts
+import CoreData
 
 /// Adds support for "previous" steps; the usage is on tap of the back button 
 /// in the controller below.
@@ -65,7 +66,6 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
         pieChartView.drawHoleEnabled = true
         pieChartView.rotationAngle = 0.0
         pieChartView.rotationEnabled = false
-        pieChartView.highlightPerTapEnabled = true
         
         pieChartView.usePercentValuesEnabled = false
         
@@ -82,6 +82,16 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
     // On appearance, show all .Types
     override func viewDidAppear(animated: Bool) {
         reloadAverages(.Types)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "persistedDataChanged:", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    /// called when there is a change in persisted data
+    internal func persistedDataChanged(notif: NSNotification) {
+        reloadAverages(self.aggregate)
     }
     
     // Goes one step back

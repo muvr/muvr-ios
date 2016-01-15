@@ -2,7 +2,12 @@ import WatchKit
 import WatchConnectivity
 import MuvrKit
 
-class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivityDelegate {
+enum MRNotifications : String {
+    case CurrentSessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
+    case CurrentSessionDidStart = "MRNotificationsCurrentSessionDidStart"
+}
+
+class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKExerciseSessionConnectivityDelegate {
     private lazy var connectivity: MKConnectivity = {
         return MKConnectivity(delegate: self)
     }()
@@ -53,6 +58,18 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
     func startSession(exerciseType: MKExerciseType) {
         connectivity.startSession(exerciseType)
         workoutDelegate.startSession(start: NSDate(), exerciseType: exerciseType)
+    }
+    
+    func sessionStarted(session: MKExerciseSession, props: MKExerciseSessionProperties) {
+        guard let sessionId = currentSession?.0.id where sessionId == session.id else { return }
+        workoutDelegate.startSession(start: props.start, exerciseType: session.exerciseType)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: session.id)
+    }
+    
+    func sessionEnded(session: MKExerciseSession, props: MKExerciseSessionProperties) {
+        guard let sessionId = currentSession?.0.id where sessionId == session.id else { return }
+        workoutDelegate.stopSession(end: props.end!)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.id)
     }
     
     ///
