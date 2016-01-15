@@ -252,8 +252,8 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             sessions.add(session, properties: props)
             delegate.sessionStarted(session, props: props)
         } else if props.end != nil {
-            sessions.update(session) { $0.with(end: props.end!) }
             delegate.sessionEnded(session, props: props)
+            sessions.update(session) { $0.with(end: props.end!) }
         }
     }
 
