@@ -53,12 +53,18 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
         MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Legs]),
         MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Shoulders])
     ]
+    
+    override init() {
+        super.init()
+    }
 
     private var renderer: MRSessionProgressRingRenderer?
     
     override func willActivate() {
         super.willActivate()
         activate()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidChange:", name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidChange:", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: nil)
     }
     
     private func activate() {
@@ -75,9 +81,16 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     }
     
     override func didDeactivate() {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
         renderer?.deactivate()
         renderer = nil
         super.didDeactivate()
+    }
+    
+    /// callback function invoked when session is started/ended on the phone
+    internal func sessionDidChange(notif: NSNotification) {
+        updateUI()
+        renderer?.update()
     }
     
     private func updateUI() {
@@ -124,6 +137,16 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     func beginSession(exerciseType: MKExerciseType) {
         renderer?.reset()
         MRExtensionDelegate.sharedDelegate().startSession(exerciseType)
+        updateUI()
+    }
+    
+    func sessionStarted(session: MKExerciseSession) {
+        renderer?.reset()
+        updateUI()
+    }
+
+    func sessionEnded(session: MKExerciseSession) {
+        renderer?.reset()
         updateUI()
     }
 

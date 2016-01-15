@@ -23,6 +23,14 @@ public struct MKExerciseSession {
         self.exerciseType = exerciseType
     }
     
+    public init(id: String, start: NSDate, end: NSDate?, completed: Bool, exerciseType: MKExerciseType) {
+        self.id = id
+        self.start = start
+        self.end = end
+        self.completed = completed
+        self.exerciseType = exerciseType
+    }
+    
     ///
     /// Constructs this instance from the values in ``exerciseConnectivitySession``
     ///
@@ -36,4 +44,20 @@ public struct MKExerciseSession {
         self.exerciseType = exerciseConnectivitySession.exerciseType
     }
         
+}
+
+public extension MKExerciseSession {
+
+    public var metadata: [String: AnyObject] {
+        var dict: [String: AnyObject] = [
+            "sessionId": id,
+            "start": start.timeIntervalSinceReferenceDate,
+            "exerciseType": exerciseType.metadata
+        ]
+        if let end = end {
+            dict["end"] = end.timeIntervalSinceReferenceDate
+        }
+        return dict
+    }
+    
 }

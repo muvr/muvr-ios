@@ -65,7 +65,6 @@ class MRHomeViewController : UIViewController, ChartViewDelegate {
         pieChartView.drawHoleEnabled = true
         pieChartView.rotationAngle = 0.0
         pieChartView.rotationEnabled = false
-        pieChartView.highlightPerTapEnabled = true
         
         pieChartView.usePercentValuesEnabled = false
         
