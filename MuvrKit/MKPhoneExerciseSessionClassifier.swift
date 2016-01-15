@@ -11,7 +11,7 @@ public protocol MKExerciseModelSource {
     ///
     /// - parameter id: the exercise model id to load
     ///
-    func getExerciseModel(id id: MKExerciseModelId) throws -> MKExerciseModel
+    func getExerciseModel(id id: MKExerciseModel.Id) throws -> MKExerciseModel
     
 }
 

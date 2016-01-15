@@ -29,6 +29,17 @@ public enum MKExerciseType : Equatable, Hashable {
     }
     
     ///
+    /// Returns the label descriptors that an exercise type expects
+    ///
+    var labelDescriptors: [MKExerciseLabelDescriptor] {
+        switch self {
+        case .IndoorsCardio: return []
+        case .ResistanceTargeted: return [.Repetitions, .Weight]
+        case .ResistanceWholeBody: return [.Repetitions, .Weight]
+        }
+    }
+    
+    ///
     /// Returns the identity of the type
     ///
     public var id: String {

@@ -22,7 +22,7 @@ extension MKExerciseModel {
     /// Moreover, the contents of the files must be parseable using the basic text parsing mechanism
     /// in ``MKActivationFunction`` and ``MKLayerConfiguration``.
     ///
-    public init(fromBundle bundle: NSBundle, id: MKExerciseModelId) throws {
+    public init(fromBundle bundle: NSBundle, id: MKExerciseModel.Id) throws {
         guard let layersConfigurationPath = bundle.pathForResource("\(id)_model.layers", ofType: "txt") else {
             throw LoadError.MissingModelComponent(name: "\(id)_model.layers")
         }

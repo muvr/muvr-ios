@@ -57,7 +57,7 @@ public struct MKClassifier {
     ///
     /// - parameter block: the received sensor data
     ///
-    public func classify(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExercise] {
+    public func classify(block block: MKSensorData, maxResults: Int) throws -> [(MKExerciseId, Double)] {
         let cews = try classifyWindows(block: block, maxResults: maxResults)
         if cews.isEmpty { return [] }
         let steps = classifySteps(cews, samplesPerSecond: block.samplesPerSecond)
