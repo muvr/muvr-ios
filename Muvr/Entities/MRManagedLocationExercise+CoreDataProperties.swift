@@ -11,6 +11,7 @@
 
 import Foundation
 import CoreData
+import MuvrKit
 
 extension MRManagedLocationExercise {
 
@@ -20,3 +21,4 @@ extension MRManagedLocationExercise {
     @NSManaged var location: MRManagedLocation?
 
 }
+

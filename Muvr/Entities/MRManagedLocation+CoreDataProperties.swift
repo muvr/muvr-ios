@@ -18,7 +18,7 @@ extension MRManagedLocation {
     @NSManaged var link: String?
     @NSManaged var longitude: Double
     @NSManaged var name: String?
-    @NSManaged var exercises: NSSet?
+    @NSManaged var exercises: NSSet
     @NSManaged var sessions: NSSet?
 
 }
