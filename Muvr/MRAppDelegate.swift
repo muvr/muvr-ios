@@ -371,7 +371,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private func updatedLocation(location: CLLocation) {
         currentLocation = MRManagedLocation.findAtLocation(location.coordinate, inManagedObjectContext: managedObjectContext)
         if let currentLocation = currentLocation {
-            currentLocationExerciseDetails = (currentLocation.exercises.allObjects as! [MRManagedLocationExercise]).map { le in
+            currentLocationExerciseDetails = currentLocation.managedExercises.map { le in
                 return (le.id, MKExerciseType(exerciseId: le.id)!, le.properties)
             }
             exerciseDetails =
