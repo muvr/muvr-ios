@@ -42,7 +42,7 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
     
     let exercisingHints: [MKClassificationHint]? = nil
     
-    func getExerciseModel(id id: MKExerciseModel.Id) -> MKExerciseModel {
+    func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel {
         let modelPath = NSBundle(forClass: MKClassifierTests.self).pathForResource("model-3", ofType: "raw")!
         let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
         let model = MKExerciseModel(
@@ -51,10 +51,10 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
             labels: [("1", .ResistanceWholeBody), ("2", .ResistanceWholeBody), ("3", .ResistanceWholeBody)],
             minimumDuration: 0)
-
+        
         return model
     }
-    
+        
     ///
     /// Tests that the simple flow of start -> one block of sensor data -> end works as expected, namely that:
     /// - classification triggers some time after receiving sensor data
