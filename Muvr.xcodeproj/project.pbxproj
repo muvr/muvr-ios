@@ -113,6 +113,7 @@
 		547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */; };
 		547A44541BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */; };
 		547A445A1BB8585300C2CC06 /* MKWatchConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */; };
+		547BA5AF1C4AE85900CFD14A /* MRApp+Exercises.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547BA5AE1C4AE85900CFD14A /* MRApp+Exercises.swift */; };
 		547F92831BA8BA1700A69295 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 547F92821BA8BA1700A69295 /* WatchConnectivity.framework */; };
 		547F92851BA8BA4A00A69295 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 547F92841BA8BA4A00A69295 /* WatchConnectivity.framework */; };
 		547FD9D01C42C17100B01904 /* MRExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547FD9CE1C42C17100B01904 /* MRExerciseView.swift */; };
@@ -425,6 +426,7 @@
 		547A444F1BB8166C00C2CC06 /* MKExerciseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseModel.swift; sourceTree = "<group>"; };
 		547A44521BB817CD00C2CC06 /* MKWatchConnectivityDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKWatchConnectivityDelegates.swift; sourceTree = "<group>"; };
 		547A44581BB8585300C2CC06 /* MKWatchConnectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKWatchConnectivity.swift; sourceTree = "<group>"; };
+		547BA5AE1C4AE85900CFD14A /* MRApp+Exercises.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRApp+Exercises.swift"; sourceTree = "<group>"; };
 		547F92821BA8BA1700A69295 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
 		547F92841BA8BA4A00A69295 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
 		547FD9CE1C42C17100B01904 /* MRExerciseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseView.swift; sourceTree = "<group>"; };
@@ -701,6 +703,7 @@
 				54BEC0D01C34243700D63A04 /* Views */,
 				5421AEC41C40420F009CB4FA /* Localisation */,
 				548C26241C4A63CF009F299B /* Controllers */,
+				547BA5AE1C4AE85900CFD14A /* MRApp+Exercises.swift */,
 				541ABBA31AC577E00056A81B /* MRAppDelegate.swift */,
 				54EFE97A1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift */,
 				541ABBAA1AC577E00056A81B /* Images.xcassets */,
@@ -1536,6 +1539,7 @@
 				543E32781C4AAAD400D9922D /* MRManagedExerciseType.swift in Sources */,
 				545EFC461C47BCDB00987610 /* MRManagedScalarPredictor.swift in Sources */,
 				543E328A1C4ABD4600D9922D /* MRManagedLocationExercise.swift in Sources */,
+				547BA5AF1C4AE85900CFD14A /* MRApp+Exercises.swift in Sources */,
 				54F959C11C419D7F00D6A07D /* MRAnalyticTypes.swift in Sources */,
 				543E32661C4A997500D9922D /* MRManagedLocation.swift in Sources */,
 				543E32681C4A997500D9922D /* MRManagedExerciseScalarLabel.swift in Sources */,

@@ -31,7 +31,7 @@ public enum MKExerciseType : Equatable, Hashable {
     ///
     /// Returns the label descriptors that an exercise type expects
     ///
-    var labelDescriptors: [MKExerciseLabelDescriptor] {
+    public var labelDescriptors: [MKExerciseLabelDescriptor] {
         switch self {
         case .IndoorsCardio: return [.Intensity]
         case .ResistanceTargeted: return [.Repetitions, .Weight, .Intensity]
@@ -50,17 +50,6 @@ public enum MKExerciseType : Equatable, Hashable {
         }
     }
 
-    ///
-    /// A more general representation of this type; think of it as less specific type.
-    /// For example, for type .RT([a, b, c]) more generic type is .RT([a, b])
-    ///
-    public var moreGeneral: MKExerciseType? {
-        switch self {
-        case .ResistanceTargeted(let muscleGroups) where muscleGroups.count > 1:
-            return .ResistanceTargeted(muscleGroups: Array(muscleGroups[0..<muscleGroups.count - 1]))
-        default: return nil
-        }
-    }
 }
 
 // Implementation of Equatable

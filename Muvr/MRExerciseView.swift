@@ -223,7 +223,7 @@ class MRExerciseView : UIView {
     }
     
     private var buttonFontSize: CGFloat {
-        guard let exerciseId = exerciseId else { return button.titleLabel!.font.pointSize }
+        guard let (exerciseId, _, _) = exerciseDetail else { return button.titleLabel!.font.pointSize }
         
         let text = MKExercise.title(exerciseId)
         let font = button.titleLabel!.font
@@ -238,7 +238,7 @@ class MRExerciseView : UIView {
     
 
     private func updateUI() {
-        let title = exerciseId.map(MKExercise.title)
+        let title = exerciseDetail.map { MKExercise.title($0.0) }
         button.setTitle(title, forState: UIControlState.Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(buttonFontSize)
         button.titleEdgeInsets = UIEdgeInsets()
@@ -266,7 +266,7 @@ class MRExerciseView : UIView {
     ///
     /// The exercise being displayed
     ///
-    var exerciseId: MKExercise.Id? {
+    var exerciseDetail: MRExerciseDetail? {
         didSet {
             UIView.performWithoutAnimation(updateUI)
         }

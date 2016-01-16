@@ -4,6 +4,8 @@ import MuvrKit
 import CoreData
 import CoreLocation
 
+typealias MRExerciseDetail = (MKExercise.Id, MKExerciseType, [MKExerciseProperty])
+
 ///
 /// The notifications: when creating a new notification, be sure to add it only here
 /// and never use notification key constants anywhere else.
@@ -36,7 +38,7 @@ enum MRAppError : ErrorType {
 ///
 /// The public interface to the app delegate
 ///
-protocol MRApp {
+protocol MRApp : MKExercisePropertySource {
     
     ///
     /// The NSManagedObjectContext for the Core Data operations.
@@ -51,7 +53,7 @@ protocol MRApp {
     ///
     /// The list of exercise ids at the current location
     ///
-    var exerciseIdsAndProperties: [(MKExercise.Id, [MKExerciseProperty])] { get }
+    var exerciseDetails: [MRExerciseDetail] { get }
     
     ///
     /// Performs initial setup
@@ -94,12 +96,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private var locationManager: CLLocationManager!
     private var currentLocation: MRManagedLocation?
     private var weightPredictor: MKPolynomialFittingScalarPredictor!
-    private var baseExerciseIdsAndProperties: [(MKExercise.Id, [MKExerciseProperty])] = []
-    private var currentLocationExerciseIdsAndProperties: [(MKExercise.Id, [MKExerciseProperty])] {
-        return (currentLocation?.exercises.allObjects as! [MRManagedLocationExercise]).map { me in
-            return (me.id, me.properties)
-        } ?? []
-    }
+    private var baseExerciseDetails: [MRExerciseDetail] = []
+    private var currentLocationExerciseDetails: [MRExerciseDetail] = []
     
     // MARK: - MKClassificationHintSource
     var exercisingHints: [MKClassificationHint]? {
@@ -115,23 +113,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
 
-    var exerciseIdsAndProperties: [(MKExercise.Id, [MKExerciseProperty])] {
-        return currentLocationExerciseIdsAndProperties + baseExerciseIdsAndProperties
-    }
-        
-//    ///
-//    /// Returns the exercise ids for the given ``model``.
-//    /// - parameter model: the model identity
-//    /// - returns: the unordered array of exercise ids (excluding exercise ids not available at current location)
-//    ///
-//    func exerciseIds(inModel model: MKExerciseModel.Id) -> [MKExerciseModel.Label] {
-//        let locationExerciseIds = (currentLocation?.exerciseIds ?? []).map(exerciseIdToLabel)
-//        let modelExerciseIds = (try? getExerciseModel(id: model).labels) ?? []
-//        
-//        return locationExerciseIds + modelExerciseIds.filter { (me, _) in
-//            return !locationExerciseIds.contains { (le, _) in le == me }
-//        }
-//    }
+    var exerciseDetails: [MRExerciseDetail] = []
     
     ///
     /// Returns this shared delegate
@@ -155,13 +137,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         let baseConfiguration = NSBundle(path: baseConfigurationPath)!
         let data = NSData(contentsOfFile: baseConfiguration.pathForResource("exercises", ofType: "json")!)!
         if let allExercises = try! NSJSONSerialization.JSONObjectWithData(data, options: []) as? [[String:AnyObject]] {
-            baseExerciseIdsAndProperties = allExercises.map { exercise in
+            baseExerciseDetails = allExercises.map { exercise in
                 guard let id = exercise["id"] as? String,
-                      let properties = exercise["properties"] as? [AnyObject]?
+                      let properties = exercise["properties"] as? [AnyObject]?,
+                      let exerciseType = MKExerciseType(exerciseId: id)
                       else { fatalError() }
                 
-                return (id, properties?.flatMap { MKExerciseProperty(json: $0) } ?? [])
+                return (id, exerciseType, properties?.flatMap { MKExerciseProperty(json: $0) } ?? [])
             }
+            exerciseDetails = baseExerciseDetails
         } else {
             fatalError()
         }
@@ -384,31 +368,47 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     // MARK: - Core Location stack
     
+    private func updatedLocation(location: CLLocation) {
+        currentLocation = MRManagedLocation.findAtLocation(location.coordinate, inManagedObjectContext: managedObjectContext)
+        if let currentLocation = currentLocation {
+            currentLocationExerciseDetails = (currentLocation.exercises.allObjects as! [MRManagedLocationExercise]).map { le in
+                return (le.id, MKExerciseType(exerciseId: le.id)!, le.properties)
+            }
+            exerciseDetails =
+                currentLocationExerciseDetails +
+                baseExerciseDetails.filter { bed in
+                    let (beId, _, _) = bed
+                    return !currentLocationExerciseDetails.contains { ced in
+                        let (ceId, _, _) = ced
+                        return ceId == beId
+                    }
+                }
+        } else {
+            exerciseDetails = baseExerciseDetails
+        }
+        
+        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: location.coordinate, inManagedObjectContext: managedObjectContext) {
+            weightPredictor.mergeJSON(p.data)
+        }
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+    }
+    
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
     }
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
-        currentLocation = MRManagedLocation.findAtLocation(newLocation.coordinate, inManagedObjectContext: managedObjectContext)
-        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: newLocation.coordinate, inManagedObjectContext: managedObjectContext) {
-            weightPredictor.mergeJSON(p.data)
-        }
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+        updatedLocation(newLocation)
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        currentLocation = MRManagedLocation.findAtLocation(locations.last!.coordinate, inManagedObjectContext: managedObjectContext)
-        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: locations.last!.coordinate, inManagedObjectContext: managedObjectContext) {
-            weightPredictor.mergeJSON(p.data)
-        }
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+        updatedLocation(locations.last!)
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         #if (arch(i386) || arch(x86_64)) && os(iOS)
             let location = CLLocation(latitude: CLLocationDegrees(53.435739), longitude: CLLocationDegrees(-2.165993))
-            currentLocation = MRManagedLocation.findAtLocation(location.coordinate, inManagedObjectContext: managedObjectContext)
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+            updatedLocation(location)
         #endif
     }
     

@@ -9,7 +9,7 @@ import MuvrKit
 ///
 class MRSessionComingUpViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
-    typealias OnSelected = MKExercise.Id -> Void
+    typealias OnSelected = MRExerciseDetail -> Void
     private var onSelected: OnSelected!
     
     ///
@@ -26,29 +26,29 @@ class MRSessionComingUpViewController: UIViewController {
     
     ///
     /// Sets the exercises to be displayed, and the function to be called when an exercise is tapped
-    /// - parameter exercises: the exercises to be displayed
+    /// - parameter exerciseDetails: the exercises details
     /// - parameter onSelected: the function to be called on selection
     ///
-    func setExercises(exercises: [MKExercise.Id], onSelected: OnSelected) {
+    func setExerciseDetails(exerciseDetails: [MRExerciseDetail], onSelected: OnSelected) {
         scrollView.subviews.forEach { $0.removeFromSuperview() }
         
         self.onSelected = onSelected
         
         let buttonWidth = scrollView.frame.width / 3
-        scrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(exercises.count), scrollView.frame.height)
+        scrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(exerciseDetails.count), scrollView.frame.height)
         
-        for exerciseId in exercises {
+        for exerciseDetail in exerciseDetails {
             let button = MRAlternateExerciseButton(type: UIButtonType.System)
             button.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
             button.addTarget(self, action: "exerciseSelected:", forControlEvents: UIControlEvents.TouchUpInside)
-            button.exerciseId = exerciseId
+            button.exerciseDetail = exerciseDetail
             scrollView.addSubview(button)
         }
     }
     
     /// This needs to be public as a handler for the button tap event. Do not call.
     func exerciseSelected(sender: UIButton) {
-        if let exercise = (sender as? MRAlternateExerciseButton)?.exerciseId {
+        if let exercise = (sender as? MRAlternateExerciseButton)?.exerciseDetail {
             onSelected(exercise)
         }
     }

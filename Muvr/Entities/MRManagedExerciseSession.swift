@@ -11,6 +11,8 @@ import CoreData
 import MuvrKit
 
 class MRManagedExerciseSession: NSManagedObject {
+    private var exerciseIdCounts: [MKExercise.Id : Int] = [:]
+    
     var estimated: [MKExerciseWithLabels] = []
     var weightPredictor: MKScalarPredictor!
     var plan: MKExercisePlan<MKExercise.Id>!
@@ -19,11 +21,28 @@ class MRManagedExerciseSession: NSManagedObject {
         fatalError()
     }
     
-    var exerciseIdsComingUp: [MKExercise.Id] {
-        fatalError()
+    var exerciseIdsComingUp: [MRExerciseDetail] {
+        return MRAppDelegate.sharedDelegate().exerciseDetailsForExerciseIds(plan.next, favouring: exerciseType)
     }
     
-    func beginExerciseId(exerciseId: MKExercise.Id, labels: [MKExerciseLabel]) {
+    ///
+    /// Predicts labels for the given ``exerciseDetail``.
+    /// - parameter exerciseDetail: the ED
+    /// - returns: the predicted labels (may be empty)
+    ///
+    func predictExerciseLabelsForExerciseDetail(exerciseDetail: MRExerciseDetail) -> [MKExerciseLabel] {
+        let (id, exerciseType, _) = exerciseDetail
+        let n = exerciseIdCounts[id] ?? 0
+        return exerciseType.labelDescriptors.flatMap {
+            switch $0 {
+            case .Repetitions: return nil
+            case .Weight: return weightPredictor.predictScalarForExerciseId(id, n: n).map { .Weight(weight: $0) }
+            case .Intensity: return nil
+            }
+        }
+    }
+    
+    func beginExerciseDetail(exerciseDetail: MRExerciseDetail, labels: [MKExerciseLabel]) {
         fatalError()
     }
     
@@ -31,7 +50,7 @@ class MRManagedExerciseSession: NSManagedObject {
         fatalError()
     }
     
-    func addExerciseId(exerciseId: MKExercise.Id, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
+    func addExerciseDetail(exerciseDetail: MRExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
         fatalError()
     }
     
