@@ -15,7 +15,7 @@ import MuvrKit
 
 extension MRManagedLocationExercise {
 
-    @NSManaged var id: String?
+    @NSManaged var id: String
     @NSManaged var station: String?
     @NSManaged var stationProximityUUID: String?
     @NSManaged var location: MRManagedLocation?

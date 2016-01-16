@@ -51,7 +51,7 @@ protocol MRApp {
     ///
     /// The list of exercise ids at the current location
     ///
-    var exerciseIds: [MKExercise.Id] { get }
+    var exerciseIdsAndProperties: [(MKExercise.Id, [MKExerciseProperty])] { get }
     
     ///
     /// Performs initial setup
@@ -95,6 +95,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private var currentLocation: MRManagedLocation?
     private var weightPredictor: MKPolynomialFittingScalarPredictor!
     private var baseExerciseIdsAndProperties: [(MKExercise.Id, [MKExerciseProperty])] = []
+    private var currentLocationExerciseIdsAndProperties: [(MKExercise.Id, [MKExerciseProperty])] {
+        return (currentLocation?.exercises.allObjects as! [MRManagedLocationExercise]).map { me in
+            return (me.id, me.properties)
+        } ?? []
+    }
     
     // MARK: - MKClassificationHintSource
     var exercisingHints: [MKClassificationHint]? {
@@ -109,9 +114,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             return currentLocation?.name
         }
     }
-    
-    var exerciseIds: [MKExercise.Id] {
-        return baseExerciseIdsAndProperties.map { $0.0 }
+
+    var exerciseIdsAndProperties: [(MKExercise.Id, [MKExerciseProperty])] {
+        return currentLocationExerciseIdsAndProperties + baseExerciseIdsAndProperties
     }
         
 //    ///
