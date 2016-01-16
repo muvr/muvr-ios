@@ -11,7 +11,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         /// An exercise ``exericseId`` with the ``labels`` is next
         /// - parameter exerciseId: the exercise identity
         /// - parameter labels: the labels
-        case ComingUp(exerciseDetail: MRExerciseDetail?, labels: [MKExerciseLabel])
+        case ComingUp(exerciseDetail: MRExerciseDetail?)
         /// The user should get ready to start the given ``exercise``
         /// - parameter exerciseId: the exercise identity
         /// - parameter labels: the labels
@@ -45,7 +45,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     /// The session–in–progress
     private var session: MRManagedExerciseSession!
     /// The current state
-    private var state: State = .ComingUp(exerciseDetail: nil, labels: [])
+    private var state: State = .ComingUp(exerciseDetail: nil)
     
     /// The details view controllers
     private var comingUpViewController: MRSessionComingUpViewController!
@@ -81,11 +81,12 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     private func refreshViewsForState(state: State) {
         mainExerciseView.progressFullColor = state.color
         switch state {
-        case .ComingUp(let exerciseDetail, let exerciseLabels):
+        case .ComingUp(let exerciseDetail):
             let comingUp = session.exerciseIdsComingUp
+            let ed = exerciseDetail ?? comingUp.first
             mainExerciseView.headerTitle = "Coming up".localized()
-            mainExerciseView.exerciseDetail = exerciseDetail ?? comingUp.first
-            mainExerciseView.exerciseLabels = exerciseLabels
+            mainExerciseView.exerciseDetail = ed
+            mainExerciseView.exerciseLabels = ed.map(session.predictExerciseLabelsForExerciseDetail)
             mainExerciseView.reset()
             mainExerciseView.start(60)
             switchToViewController(comingUpViewController, fromRight: exerciseDetail == nil)
@@ -189,16 +190,16 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         switch state {
         case .ComingUp:
             // The user has tapped on the exercise. Let's get ready
-            state = .Ready(exerciseDetail: mainExerciseView.exerciseDetail!, labels: mainExerciseView.exerciseLabels)
-        case .Ready(let exerciseDetail, let labels):
-            state = .ComingUp(exerciseDetail: exerciseDetail, labels: labels)
+            state = .Ready(exerciseDetail: mainExerciseView.exerciseDetail!, labels: mainExerciseView.exerciseLabels!)
+        case .Ready(let exerciseDetail, _):
+            state = .ComingUp(exerciseDetail: exerciseDetail)
         case .InExercise(let exerciseDetail, let labels, let start):
             state = .Done(exerciseDetail: exerciseDetail, labels: labels, start: start, duration: NSDate().timeIntervalSinceDate(start))
             session.endExercise()
         case .Done(let exerciseDetail, let labels, let start, let duration):
             // The user has completed the exercise, and accepted our labels
             session.addExerciseDetail(exerciseDetail, labels: labels, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
-            state = .ComingUp(exerciseDetail: nil, labels: [])
+            state = .ComingUp(exerciseDetail: nil)
         }
         refreshViewsForState(state)
     }
@@ -216,7 +217,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         case .Done(let exerciseDetail, let labels, let start, let duration):
             // The user has completed the exercise, modified our labels, and accepted.
             session.addExerciseDetail(exerciseDetail, labels: labels, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
-            state = .ComingUp(exerciseDetail: nil, labels: [])
+            state = .ComingUp(exerciseDetail: nil)
             refreshViewsForState(state)
         default: return
         }

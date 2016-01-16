@@ -36,7 +36,7 @@ class MRExerciseView : UIView {
     
     @IBOutlet private weak var button: UIButton!
     @IBOutlet private weak var headerLabel: UILabel!
-    @IBOutlet private weak var weightView: MRWeightView!
+    @IBOutlet private weak var labelsView: UIScrollView!
         
     /// set progress colors
     var progressEmptyColor : UIColor = UIColor.grayColor()
@@ -113,8 +113,7 @@ class MRExerciseView : UIView {
         
         headerLabel.text = ""
         button.setTitle("", forState: UIControlState.Normal)
-        weightView.hidden = true
-                
+        
         addSubview(view)
         updateUI()
         
@@ -243,7 +242,41 @@ class MRExerciseView : UIView {
         button.titleLabel?.font = UIFont.systemFontOfSize(buttonFontSize)
         button.titleEdgeInsets = UIEdgeInsets()
 
-        // TODO: labels
+        labelsView.subviews.forEach { $0.removeFromSuperview() }
+        labelsView.pagingEnabled = true
+        
+        if let exerciseLabels = exerciseLabels {
+            let padding: CGFloat = 10
+            let height: CGFloat = labelsView.frame.height / 2
+            let width: CGFloat = height + padding
+            let allWidth: CGFloat = CGFloat(exerciseLabels.count) * width
+            var left: CGFloat = 0
+            if allWidth < labelsView.frame.width {
+                left = (labelsView.frame.width - allWidth) / 2
+            }
+            
+            for exerciseLabel in exerciseLabels {
+                let frame = CGRect(x: left, y: 0, width: width - padding, height: height - padding)
+                left += width
+                switch exerciseLabel {
+                case .Intensity(let intensity):
+                    let view = MRBarsView(frame: frame)
+                    view.backgroundColor = UIColor.whiteColor()
+                    view.value = Int(intensity * 5)
+                    labelsView.addSubview(view)
+                case .Repetitions(let repetitions):
+                    let view = MRRepetitionsView(frame: frame)
+                    view.backgroundColor = UIColor.whiteColor()
+                    view.value = repetitions
+                    labelsView.addSubview(view)
+                case .Weight(let weight):
+                    let view = MRWeightView(frame: frame)
+                    view.value = weight
+                    view.backgroundColor = UIColor.whiteColor()
+                    labelsView.addSubview(view)
+                }
+            }
+        }
     }
     
     
@@ -257,7 +290,7 @@ class MRExerciseView : UIView {
 
     // MARK: - public API
     
-    var exerciseLabels: [MKExerciseLabel] = [] {
+    var exerciseLabels: [MKExerciseLabel]? = [] {
         didSet {
             UIView.performWithoutAnimation(updateUI)
         }

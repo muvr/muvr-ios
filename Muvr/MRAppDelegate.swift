@@ -320,9 +320,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func initialSetup() {
         let generalWeightProgression: [Double] = [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5, 10]
-        let allExerciseIds: [MKExercise.Id] = [] //exerciseIds(inModel: "arms").map { $0.0 }
         
-        for exerciseId in allExerciseIds {
+        for (exerciseId, _, _) in exerciseDetails {
             if let type = MKExerciseType(exerciseId: exerciseId) {
                 var multiplier: Double = 1.0
                 switch type {
