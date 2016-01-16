@@ -1,5 +1,5 @@
 //
-//  MRManagedLocation.swift
+//  MRManagedLocationExerciseScalarLabel.swift
 //  Muvr
 //
 //  Created by Jan Machacek on 1/16/16.
@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class MRManagedLocation: NSManagedObject, MRLocationCoordinate2D {
+class MRManagedLocationExerciseScalarLabel: MRAbstractExerciseScalarLabel {
 
 // Insert code here to add functionality to your managed object subclass
 

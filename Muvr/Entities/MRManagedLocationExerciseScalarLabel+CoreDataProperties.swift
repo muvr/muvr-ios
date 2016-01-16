@@ -1,8 +1,8 @@
 //
-//  MRManagedMuscleGroup+CoreDataProperties.swift
+//  MRManagedLocationExerciseScalarLabel+CoreDataProperties.swift
 //  Muvr
 //
-//  Created by Jan Machacek on 11/01/2016.
+//  Created by Jan Machacek on 1/16/16.
 //  Copyright © 2016 Muvr. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -12,9 +12,8 @@
 import Foundation
 import CoreData
 
-extension MRManagedMuscleGroup {
+extension MRManagedLocationExerciseScalarLabel {
 
-    @NSManaged var value: String
-    @NSManaged var exercisePlan: MRManagedExercisePlan?
+    @NSManaged var exercise: MRManagedLocationLabel?
 
 }

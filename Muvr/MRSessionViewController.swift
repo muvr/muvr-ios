@@ -83,12 +83,12 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         switch state {
         case .ComingUp(let exerciseId, let exerciseLabels):
             mainExerciseView.headerTitle = "Coming up".localized()
-            mainExerciseView.exerciseId = exerciseId ?? session.exercises.first
+            mainExerciseView.exerciseId = exerciseId ?? session.exerciseIdsComingUp.first
             mainExerciseView.exerciseLabels = exerciseLabels
             mainExerciseView.reset()
             mainExerciseView.start(60)
             switchToViewController(comingUpViewController, fromRight: exerciseId == nil)
-            comingUpViewController.setExercises(session.exercises, onSelected: selectedExercise)
+            comingUpViewController.setExercises(session.exerciseIdsComingUp, onSelected: selectedExercise)
         case .Ready:
             mainExerciseView.headerTitle = "Get ready for".localized()
             mainExerciseView.reset()
@@ -192,7 +192,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             state = .ComingUp(exerciseId: exerciseId, labels: labels)
         case .InExercise(let exerciseId, let labels, let start):
             state = .Done(exerciseId: exerciseId, labels: labels, start: start, duration: NSDate().timeIntervalSinceDate(start))
-            session.endExercising()
+            session.endExercise()
         case .Done(let exerciseId, let labels, let start, let duration):
             // The user has completed the exercise, and accepted our labels
             session.addExerciseId(exerciseId, labels: labels, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
@@ -208,7 +208,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             mainExerciseView.progressFullColor = UIColor.orangeColor()
         case .Ready(let exerciseId, let labels):
             // We've had the time to get ready. Now time to exercise.
-            session.beginExercising(exerciseId, labels: labels)
+            session.beginExerciseId(exerciseId, labels: labels)
             state = .InExercise(exerciseId: exerciseId, labels: labels, start: NSDate())
             refreshViewsForState(state)
         case .Done(let exerciseId, let labels, let start, let duration):

@@ -8,7 +8,7 @@ import CoreLocation
 class MRManagedExercisePlanTests : MRCoreDataTestCase {
 
     func testUpsert() {
-        let plan = MKExercisePlan<MKExerciseId>()
+        let plan = MKExercisePlan<MKExercise.Id>()
         let location = CLLocationCoordinate2D(latitude: 0, longitude: 0)
         let exerciseType = MKExerciseType.ResistanceTargeted(muscleGroups: [.Arms, .Legs])
 

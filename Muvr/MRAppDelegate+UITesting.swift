@@ -39,14 +39,14 @@ extension MRAppDelegate  {
 //            exercise.start = date.addSeconds(index * 60)
         }
 
-        let session = MRManagedExerciseSession.insertNewObject(inManagedObjectContext: managedObjectContext)
-        session.id = NSUUID().UUIDString
-        session.exerciseModelId = "arms"
-        session.start = date
-        session.completed = true
-        session.uploaded = true
+//        let session = MRManagedExerciseSession.insertNewObject(inManagedObjectContext: managedObjectContext)
+//        session.id = NSUUID().UUIDString
+//        session.exerciseModelId = "arms"
+//        session.start = date
+//        session.completed = true
+//        session.uploaded = true
         
-        (0..<30).forEach { i in generateClassifiedExercise(date: date, session: session, index: i) }
+//        (0..<30).forEach { i in generateClassifiedExercise(date: date, session: session, index: i) }
         // (0..<2).forEach { i in generateLabelledExercise(date: date, session: session, index: i) }
     }
     

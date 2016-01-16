@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D9c" minimumToolsVersion="Xcode 7.0">
-    <entity name="MRAbstractExerciseScalarLabel" isAbstract="YES" syncable="YES">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15C50" minimumToolsVersion="Xcode 7.0">
+    <entity name="MRAbstractExerciseScalarLabel" representedClassName=".MRAbstractExerciseScalarLabel" isAbstract="YES" syncable="YES">
         <attribute name="type" attributeType="String" syncable="YES"/>
         <attribute name="value" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
     </entity>
-    <entity name="MRManagedExercise" syncable="YES">
+    <entity name="MRManagedExercise" representedClassName=".MRManagedExercise" syncable="YES">
         <attribute name="duration" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="exerciseType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="managedExerciseType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="offset" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="scalarLabels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRManagedExerciseScalarLabel" inverseName="exercise" inverseEntity="MRManagedExerciseScalarLabel" syncable="YES"/>
         <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedExerciseSession" inverseName="exercises" inverseEntity="MRManagedExerciseSession" syncable="YES"/>
     </entity>
     <entity name="MRManagedExercisePlan" representedClassName=".MRManagedExercisePlan" syncable="YES">
-        <attribute name="exerciseType" attributeType="String" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="planData" attributeType="Binary" syncable="YES"/>
+        <attribute name="managedExerciseType" attributeType="String" syncable="YES"/>
+        <attribute name="managedPlan" attributeType="Binary" syncable="YES"/>
     </entity>
-    <entity name="MRManagedExerciseScalarLabel" parentEntity="MRAbstractExerciseScalarLabel" syncable="YES">
+    <entity name="MRManagedExerciseScalarLabel" representedClassName=".MRManagedExerciseScalarLabel" parentEntity="MRAbstractExerciseScalarLabel" syncable="YES">
         <relationship name="exercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedExercise" inverseName="scalarLabels" inverseEntity="MRManagedExercise" syncable="YES"/>
     </entity>
     <entity name="MRManagedExerciseSession" representedClassName=".MRManagedExerciseSession" syncable="YES">
@@ -47,9 +47,7 @@
         <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedLocation" inverseName="labels" inverseEntity="MRManagedLocation" syncable="YES"/>
         <relationship name="scalarLabels" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedLocationExerciseScalarLabel" inverseName="exercise" inverseEntity="MRManagedLocationExerciseScalarLabel" syncable="YES"/>
     </entity>
-    <entity name="MRManagedLocationExerciseScalarLabel" syncable="YES">
-        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="value" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+    <entity name="MRManagedLocationExerciseScalarLabel" representedClassName=".MRManagedLocationExerciseScalarLabel" parentEntity="MRAbstractExerciseScalarLabel" syncable="YES">
         <relationship name="exercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedLocationExercise" inverseName="scalarLabels" inverseEntity="MRManagedLocationExercise" syncable="YES"/>
     </entity>
     <entity name="MRManagedScalarPredictor" representedClassName=".MRManagedScalarPredictor" syncable="YES">
@@ -59,14 +57,14 @@
         <attribute name="type" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MRManagedExercisePlan" positionX="-1539" positionY="-378" width="128" height="105"/>
-        <element name="MRManagedExerciseSession" positionX="-765" positionY="-162" width="128" height="180"/>
-        <element name="MRManagedLocation" positionX="-1539" positionY="-378" width="128" height="135"/>
-        <element name="MRManagedLocationExercise" positionX="-1530" positionY="-369" width="128" height="120"/>
-        <element name="MRManagedScalarPredictor" positionX="-1539" positionY="-378" width="128" height="105"/>
-        <element name="MRManagedExercise" positionX="-1332" positionY="-225" width="128" height="135"/>
-        <element name="MRManagedExerciseScalarLabel" positionX="-1323" positionY="-216" width="128" height="60"/>
-        <element name="MRAbstractExerciseScalarLabel" positionX="-1314" positionY="-207" width="128" height="75"/>
-        <element name="MRManagedLocationExerciseScalarLabel" positionX="-1305" positionY="-198" width="128" height="90"/>
+        <element name="MRAbstractExerciseScalarLabel" positionX="-1368" positionY="-225" width="207" height="73"/>
+        <element name="MRManagedExercise" positionX="-1667" positionY="-81" width="128" height="133"/>
+        <element name="MRManagedExercisePlan" positionX="-1701" positionY="-477" width="216" height="103"/>
+        <element name="MRManagedExerciseScalarLabel" positionX="-1370" positionY="-99" width="218" height="58"/>
+        <element name="MRManagedExerciseSession" positionX="-893" positionY="-171" width="128" height="180"/>
+        <element name="MRManagedLocation" positionX="-1422" positionY="-432" width="128" height="135"/>
+        <element name="MRManagedLocationExercise" positionX="-2016" positionY="-387" width="234" height="120"/>
+        <element name="MRManagedLocationExerciseScalarLabel" positionX="-1737" positionY="-216" width="279" height="58"/>
+        <element name="MRManagedScalarPredictor" positionX="-1224" positionY="-474" width="243" height="105"/>
     </elements>
 </model>
