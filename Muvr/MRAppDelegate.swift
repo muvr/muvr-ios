@@ -11,7 +11,6 @@ import CoreLocation
 enum MRNotifications : String {
     case CurrentSessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
     case CurrentSessionDidStart = "MRNotificationsCurrentSessionDidStart"
-    case SessionDidComplete = "MRNotificationSessionDidComplete"
     case SessionDidEstimate = "MRNotificationSessionDidEstimate"
     case SessionDidClassify = "MRNotificationSessionDidClassify"
     
@@ -22,6 +21,16 @@ enum MRNotifications : String {
     
     case UploadingSessions = "MRNotificationUploadingSessions"
     case SessionsUploaded = "MRNotificationSessionsUploaded"
+}
+
+///
+/// The MRApp errors
+///
+enum MRAppError : ErrorType {
+    /// A session has not ended yet and a new one tries to start
+    case SessionAlreadyInProgress
+    /// No active session
+    case SessionNotStarted
 }
 
 ///
@@ -51,14 +60,16 @@ protocol MRApp {
     
     ///
     /// Explicitly starts an exercise session for the given ``type``.
-    /// - parameter type: the exercise type that the session initially starts with
+    /// - parameter exerciseType: the exercise type that the session initially starts with
+    /// - parameter start: the start date, typically value ``NSDate()``
+    /// - parameter id: the session identity, typically ``NSUUID().UUIDString``
     ///
-    func startSessionForExerciseType(type: MKExerciseType)
+    func startSessionForExerciseType(exerciseType: MKExerciseType, start: NSDate, id: String) throws
     
     ///
     /// Ends the current exercise session, if any
     ///
-    func endCurrentSession()
+    func endCurrentSession() throws
 }
 
 @UIApplicationMain
@@ -209,12 +220,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - Session UI
     
     private func presentSessionControllerForSession(session: MRManagedExerciseSession) {
-        //let snvc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? UINavigationController
-        //let svc = snvc?.topViewController as? MRSessionViewController
         let svc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? MRSessionViewController
         svc!.setSession(session)
-        // window!.rootViewController!.navigationController?.presentViewController(sessionViewController!, animated: true, completion: nil)
-        window!.rootViewController!.presentViewController(svc!, animated: true, completion: nil)
+        window?.rootViewController!.presentViewController(svc!, animated: true, completion: nil)
         sessionViewController = svc
     }
     
@@ -229,14 +237,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     private func endSession(session: MRManagedExerciseSession) {
         dismissSessionControllerForSession(session)
-        //MRManagedExercisePlan.upsertPlan(session.plan, exerciseType: session.intendedType!, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        //MRManagedScalarPredictor.upsertScalarPredictor("polynomialFitting", location: currentLocation, data: weightPredictor.json, inManagedObjectContext: managedObjectContext)
+        MRManagedExercisePlan.upsert(session.plan, exerciseType: session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        MRManagedScalarPredictor.upsertScalarPredictor("polynomialFitting", location: currentLocation, data: weightPredictor.json, inManagedObjectContext: managedObjectContext)
         
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidComplete.rawValue, object: session.objectID)
-        currentSession = nil
         
         saveContext()
+
+        currentSession = nil
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
@@ -247,14 +255,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKExerciseWithLabels], sensorData: MKSensorData) {
-        NSLog("Received session classify for \(session) with type \(session.exerciseType)")
         if let currentSession = currentSession where session.id == currentSession.id {
             currentSession.sensorData = sensorData.encode()
             currentSession.completed = session.completed
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidClassify.rawValue, object: currentSession.objectID)
-            if session.completed {
-                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidComplete.rawValue, object: currentSession.objectID)
-            }
         }
         saveContext()
     }
@@ -267,33 +271,34 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
+        try! startSessionForExerciseType(session.exerciseType, start: session.start, id: session.id)
+    }
+    
+    func startSessionForExerciseType(exerciseType: MKExerciseType, start: NSDate, id: String) throws {
         if currentSession != nil {
-            fatalError()
+            throw MRAppError.SessionAlreadyInProgress
         }
         
-        let plan = MRManagedExercisePlan.planForExerciseType(session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext)
-//        currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
-//        currentSession.locationId = currentLocation?.id
-//        currentSession.intendedType = session.exerciseType
-//        currentSession.weightPredictor = weightPredictor
-//
-//        if let plan = plan?.plan {
-//            currentSession.plan = plan
-//        }
-//        
-//        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: currentSession.objectID)
-//
-//        presentSessionControllerForSession(currentSession)
+        let session = MRManagedExerciseSession.insert(id, exerciseType: exerciseType, start: start, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        if let plan = MRManagedExercisePlan.planForExerciseType(exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext) {
+            session.plan = plan.plan
+        } else {
+            session.plan = MKExercisePlan<MKExercise.Id>()
+        }
+        session.weightPredictor = weightPredictor
+
+        currentSession = session
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: session.objectID)
+        presentSessionControllerForSession(session)
         saveContext()
     }
     
-    func startSessionForExerciseType(type: MKExerciseType) {
-        sessionClassifierDidStart(MKExerciseSession(exerciseType: type))
-    }
-    
-    func endCurrentSession() {
+    func endCurrentSession() throws {
         if let currentSession = currentSession {
             endSession(currentSession)
+        } else {
+            throw MRAppError.SessionNotStarted
         }
     }
     

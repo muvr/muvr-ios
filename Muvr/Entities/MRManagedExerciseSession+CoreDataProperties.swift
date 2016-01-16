@@ -12,16 +12,15 @@
 import Foundation
 import CoreData
 
-extension MRManagedExerciseSession {
+extension MRManagedExerciseSession : MRManagedExerciseType {
 
     @NSManaged var completed: Bool
-    @NSManaged var end: NSTimeInterval
-    @NSManaged var exerciseType: NSObject?
+    @NSManaged var end: NSDate?
     @NSManaged var id: String?
     @NSManaged var sensorData: NSData?
-    @NSManaged var start: NSTimeInterval
+    @NSManaged var start: NSDate
     @NSManaged var uploaded: Bool
-    @NSManaged var exercises: MRManagedExercise?
-    @NSManaged var location: NSSet?
+    @NSManaged var exercises: NSSet?
+    @NSManaged var location: MRManagedLocation?
 
 }

@@ -179,7 +179,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     
     func exerciseViewLongTapped(exerciseView: MRExerciseView) {
         if case .ComingUp = state {
-            MRAppDelegate.sharedDelegate().endCurrentSession()
+            try! MRAppDelegate.sharedDelegate().endCurrentSession()
         }
     }
     

@@ -5,7 +5,7 @@ import MuvrKit
 ///
 /// Protocol that is fully implemented by ``NSManagedObject``, used here
 /// as a marker interface for ``NSManagedObject`` subclasses that include
-/// the ``managedExerciseType`` attribute, which the application wishes
+/// the ``exerciseType: String`` attribute, which the application wishes
 /// to use as ``MKExerciseType``.
 ///
 /// To construct predicates for the ``managedExerciseType``, consider using
@@ -29,7 +29,7 @@ extension MRManagedExerciseType {
     
     var exerciseType: MKExerciseType {
         get {
-            let rawValue = valueForKey("managedExerciseType")
+            let rawValue = valueForKey("exerciseType")
             if let value = rawValue as? String,
                let exerciseType = MKExerciseType(exerciseId: value) {
                 return exerciseType
@@ -37,7 +37,7 @@ extension MRManagedExerciseType {
             fatalError("\(rawValue) cannot be converted to MKExerciseType.")
         }
         set {
-            setValue(newValue.exerciseIdPrefix, forKey: "managedExerciseType")
+            setValue(newValue.exerciseIdPrefix, forKey: "exerciseType")
         }
     }
     
@@ -56,7 +56,7 @@ extension NSPredicate {
     */
     
     convenience init(exerciseType: MKExerciseType) {
-        self.init(format: "managedExerciseType = %@", exerciseType.exerciseIdPrefix)
+        self.init(format: "exerciseType = %@", exerciseType.exerciseIdPrefix)
     }
     
 }

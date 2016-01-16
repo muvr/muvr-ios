@@ -12,6 +12,8 @@ import MuvrKit
 
 class MRManagedExerciseSession: NSManagedObject {
     var estimated: [MKExerciseWithLabels] = []
+    var weightPredictor: MKScalarPredictor!
+    var plan: MKExercisePlan<MKExercise.Id>!
 
     var exercisingHints: [MKClassificationHint]? {
         fatalError()
