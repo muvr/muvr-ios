@@ -1,5 +1,5 @@
 //
-//  MRManagedLocationExerciseScalarLabel+CoreDataProperties.swift
+//  MRManagedLocationExercise+CoreDataProperties.swift
 //  Muvr
 //
 //  Created by Jan Machacek on 1/16/16.
@@ -12,8 +12,11 @@
 import Foundation
 import CoreData
 
-extension MRManagedLocationExerciseScalarLabel {
+extension MRManagedLocationExercise {
 
-    @NSManaged var exercise: MRManagedLocationLabel?
+    @NSManaged var id: String?
+    @NSManaged var station: String?
+    @NSManaged var stationProximityUUID: String?
+    @NSManaged var location: MRManagedLocation?
 
 }

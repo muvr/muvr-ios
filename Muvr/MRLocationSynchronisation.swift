@@ -14,7 +14,7 @@ class MRLocationSynchronisation {
                 let data = NSData(contentsOfURL: fileURL)!
                 let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
                 if let root = json as? NSDictionary {
-                    try MRManagedLocation.upsertObject(from: root, inManagedObjectContext: managedObjectContext)
+                    try MRManagedLocation.upsertFromJSON(root, inManagedObjectContext: managedObjectContext)
                 }
             }
         }

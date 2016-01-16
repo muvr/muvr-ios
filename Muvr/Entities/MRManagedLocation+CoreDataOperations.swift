@@ -18,7 +18,7 @@ extension MRManagedLocation {
         return (try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedLocation]).first
     }
 
-    static func upsertObject(from json: NSDictionary, inManagedObjectContext managedObjectContext: NSManagedObjectContext) throws {
+    static func upsertFromJSON(json: NSDictionary, inManagedObjectContext managedObjectContext: NSManagedObjectContext) throws {
         guard let latitude = json["latitude"] as? NSNumber,
             let longitude = json["longitude"] as? NSNumber,
             let name = json["name"] as? String else { return }
@@ -36,10 +36,9 @@ extension MRManagedLocation {
         mo.longitude = longitude.doubleValue
         mo.name = name
         
-        (json["labels"] as? NSArray)?.forEach { e in
+        (json["exercises"] as? NSArray)?.forEach { e in
             if let l = e as? NSDictionary {
-                // TODO: Fixme
-                // MRManagedLocationLabel.insertNewObject(from: l, at: mo, inManagedObjectContext: managedObjectContext)
+                MRManagedLocationExercise.insertNewObjectFromJSON(l, location: mo, inManagedObjectContext: managedObjectContext)
             }
         }
     }

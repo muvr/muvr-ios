@@ -20,7 +20,7 @@ extension MKExercise {
     /// Computes a title for the given exercise id
     ///
     static func title(exerciseId: Id) -> String {
-        let (_, e) = componentsFromExerciseId(exerciseId)!
+        let (_, e, _) = componentsFromExerciseId(exerciseId)!
         return NSLocalizedString(e.last!, comment: "\(e.last!) exercise").localizedCapitalizedString
     }
 
@@ -28,16 +28,23 @@ extension MKExercise {
     /// Parses the exercise id in Muvr app format to the a tuple containing the type
     /// and a non-empty list of further components. 
     /// - parameter exerciseId: the Muvr formatted exercise id
-    /// - returns: (exercise-type, [(muscle-group-1, muscle-group-2, ..., exercise-id)])
+    /// - returns: (exercise-type, [(muscle-group-1, muscle-group-2, ...], exercise-id, station?))
     ///
-    static func componentsFromExerciseId(exerciseId: MKExercise.Id) -> (String, [String])? {
+    static func componentsFromExerciseId(exerciseId: MKExercise.Id) -> (String, [String], String?)? {
         let components = exerciseId.componentsSeparatedByString(":")
         if components.count == 2 {
             let restComponents = components[1].componentsSeparatedByString("/")
             if restComponents.count == 0 {
-                return (components[0], [components[1]])
+                return (components[0], [components[1]], nil)
             }
-            return (components[0], restComponents)
+            // restComponents is NEL
+            let nas = restComponents.last!.componentsSeparatedByString("@")
+            if nas.count == 2 {
+                // the last component is station
+                return (components[0], restComponents.dropLast() + [nas.first!], nas.last!)
+            }
+            // the last component is not a station
+            return (components[0], restComponents, nil)
         }
         return nil
     }

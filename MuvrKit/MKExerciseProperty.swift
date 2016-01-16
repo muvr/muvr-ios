@@ -1,5 +1,8 @@
 import Foundation
 
+///
+/// An exercise property that describes a particular exercise (and even more 
+///
 public enum MKExerciseProperty {
     
     case WeightProgression(minimum: Float, increment: Float, maximum: Float?)

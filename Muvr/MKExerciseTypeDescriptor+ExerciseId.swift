@@ -9,7 +9,7 @@ extension MKExerciseTypeDescriptor {
     /// - returns: the parsed ``MKExerciseType`` or ``nil``.
     ///
     init?(exerciseId: MKExercise.Id) {
-        guard let (type, _) = MKExercise.componentsFromExerciseId(exerciseId) else { return nil }
+        guard let (type, _, _) = MKExercise.componentsFromExerciseId(exerciseId) else { return nil }
         if type == MKExerciseType.resistanceTargeted {
             self = .ResistanceTargeted
         } else if type == MKExerciseType.resistanceWholeBody {

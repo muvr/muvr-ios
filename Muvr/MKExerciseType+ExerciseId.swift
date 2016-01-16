@@ -9,7 +9,7 @@ extension MKExerciseType {
     /// - returns: the parsed ``MKExerciseType`` or ``nil``.
     ///
     init?(exerciseId: String) {
-        guard let (type, rest) = MKExercise.componentsFromExerciseId(exerciseId) else { return nil }
+        guard let (type, rest, _) = MKExercise.componentsFromExerciseId(exerciseId) else { return nil }
         if type == MKExerciseType.resistanceTargeted {
             guard let first = rest.first else { return nil }
             let mgs = first.componentsSeparatedByString(",").flatMap { MKMuscleGroup(id: $0) }

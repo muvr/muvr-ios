@@ -3,7 +3,7 @@
     "longitude":-2.225455,
     "id":"E7DE2DBC-BAC4-43F7-BD82-8862D7843B6F",
     "name":"Jan's Lair",
-    "labels":[
-        {"exerciseId":"resistanceWholeBody:gardening"}
+    "exercises":[
+        {"id":"resistanceWholeBody:gardening"}
     ]
 }

@@ -22,7 +22,7 @@ protocol MRManagedExerciseType {
 }
 
 ///
-/// Converts the value in ``managedExerciseType`` to values of type
+/// Converts the value in ``exerciseType`` KV to values of type
 /// ``MKExerciseType``.
 ///
 extension MRManagedExerciseType {
@@ -43,17 +43,12 @@ extension MRManagedExerciseType {
     
 }
 
+///
+/// Adds the convenience ``exerciseType:`` initializer. It is preferable to 
+/// use this initializer particularly when the ``MKExerciseType`` is managed
+/// in an object that conforms to ``MRManagedExerciseType``.
+///
 extension NSPredicate {
-    /*
-    if case .ResistanceTargeted(let muscleGroups) = exerciseType {
-    predicate =
-    NSCompoundPredicate(andPredicateWithSubpredicates: [
-    predicate,
-    NSPredicate(format: "SUBQUERY(muscleGroups, $mg, $mg.value IN %@).@count = %d", muscleGroups.map { $0.id }, muscleGroups.count)
-    //NSPredicate(format: "muscleGroups.value in %@", muscleGroups.map { $0.id })
-    ])
-    }
-    */
     
     convenience init(exerciseType: MKExerciseType) {
         self.init(format: "exerciseType = %@", exerciseType.exerciseIdPrefix)
