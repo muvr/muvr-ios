@@ -35,9 +35,9 @@ class MRManagedExerciseSession: NSManagedObject {
         let n = exerciseIdCounts[id] ?? 0
         return exerciseType.labelDescriptors.flatMap {
             switch $0 {
-            case .Repetitions: return .Repetitions(repetitions: 10)
+            case .Repetitions: return nil
             case .Weight: return weightPredictor.predictScalarForExerciseId(id, n: n).map { .Weight(weight: $0) }
-            case .Intensity: return .Intensity(intensity: 0.8)
+            case .Intensity: return nil 
             }
         }
     }
