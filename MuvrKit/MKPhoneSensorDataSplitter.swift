@@ -92,12 +92,12 @@ public class MKSensorDataSplitter {
     
     typealias Split = ([MKSensorDataSplit], [MKSensorDataSplit], NSTimeInterval)
     
-    private let eneClassifier: MKClassifier
+    //private let eneClassifier: MKClassifier
 
     public init(exerciseModelSource: MKExerciseModelSource, hintSource: MKClassificationHintSource) {
         self.hintSource = hintSource
-        let slackingModel = try! exerciseModelSource.getExerciseModel(id: "slacking")
-        eneClassifier = try! MKClassifier(model: slackingModel)
+        //let slackingModel = try! exerciseModelSource.getExerciseModel(id: "slacking")
+        //eneClassifier = try! MKClassifier(model: slackingModel)
     }
     
     private func hintedSplit(from: NSTimeInterval, data: MKSensorData, hints: [MKClassificationHint]) -> Split {

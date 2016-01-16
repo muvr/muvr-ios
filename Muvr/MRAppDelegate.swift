@@ -225,9 +225,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     func getExerciseModel(id id: MKExerciseModel.Id) throws -> MKExerciseModel {
         let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
         let modelsBundle = NSBundle(path: path)!
-        return try MKExerciseModel(fromBundle: modelsBundle, id: id) { x in
-            return (x, MKExerciseTypeDescriptor(exerciseId: x)!)
-        }
+        return try MKExerciseModel(fromBundle: modelsBundle, id: id, labelExtractor: exerciseIdToLabel)
     }
     
     // MARK: - Session UI
