@@ -18,7 +18,7 @@ class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
     ///
     /// The complete list of exercises the user is likely to be doing
     ///
-    var exercises: [MKExercise.Id] {
+    var exercisesComingUp: [MKExercise.Id] {
         return []
     }
     

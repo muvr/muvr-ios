@@ -88,11 +88,11 @@ extension MRManagedExerciseSession {
     /// - parameter managedObjectContext: the MOC
     /// - returns: Self with all properties unset
     ///
-    static func insertNewObject(from session: MKExerciseSession, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession {
+    static func insertNewObject(id: String, exerciseType: MKExerciseType, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession {
         let mo = insertNewObject(inManagedObjectContext: managedObjectContext)
         mo.id = session.id
         mo.start = session.start
-        mo.exerciseModelId = "arms"
+        mo.exerciseType = exerciseType
         mo.completed = session.completed
         mo.uploaded = false
         
