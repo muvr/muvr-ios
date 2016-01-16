@@ -6,15 +6,15 @@ extension MRManagedLocationExercise {
     
     /// Transforms the underlying ``properties`` attribute
     /// to the expected type ``[MKExerciseProperty]?``
-    var properties: [MKExerciseProperty]? {
+    var properties: [MKExerciseProperty] {
         get {
             if let raw = valueForKey("properties") as? [AnyObject] {
                 return raw.flatMap { MKExerciseProperty(json: $0) }
             }
-            return nil
+            return []
         }
         set {
-            setValue(newValue?.map { $0.json }, forKey: "properties")
+            setValue(newValue.map { $0.json }, forKey: "properties")
         }
     }
     

@@ -27,7 +27,7 @@ extension MRManagedLocation {
         fetchRequest.predicate = NSPredicate(latitude: latitude.doubleValue, longitude: longitude.doubleValue)
         if let existing = try managedObjectContext.executeFetchRequest(fetchRequest).first as? NSManagedObject {
             // TODO: fixme
-            return
+            // fatalError()
         }
         
         let mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedLocation", inManagedObjectContext: managedObjectContext) as! MRManagedLocation

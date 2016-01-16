@@ -63,6 +63,7 @@
 		543E328E1C4AC18B00D9922D /* MKExercise+ExerciseIdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543E328D1C4AC18B00D9922D /* MKExercise+ExerciseIdTests.swift */; };
 		543E32911C4ACFC800D9922D /* MKExerciseProperty+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543E32901C4ACFC800D9922D /* MKExerciseProperty+JSON.swift */; };
 		543E32931C4AD47A00D9922D /* MRManagedLocationExercise+CoreDataTransformables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543E32921C4AD47A00D9922D /* MRManagedLocationExercise+CoreDataTransformables.swift */; };
+		543E32951C4AD71400D9922D /* BaseConfiguration.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 543E32941C4AD71400D9922D /* BaseConfiguration.bundle */; };
 		543E90B21C26FF640050F87A /* Aws.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543E90B11C26FF640050F87A /* Aws.swift */; };
 		544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 544201381B9384B500354DB7 /* CoreBluetooth.framework */; };
 		54430EC01BC2CF5200541979 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54DE161B1BAD941000F0752B /* CoreMotion.framework */; };
@@ -73,7 +74,6 @@
 		544DC9C91BF8B2B200D79E67 /* MKSensorDataEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544DC9C81BF8B2B200D79E67 /* MKSensorDataEncoder.swift */; };
 		544DC9CA1BF8B2B200D79E67 /* MKSensorDataEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544DC9C81BF8B2B200D79E67 /* MKSensorDataEncoder.swift */; };
 		544DE9711C4023C200297C6B /* MKExerciseType+ExerciseId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544DE96F1C4023C200297C6B /* MKExerciseType+ExerciseId.swift */; };
-		544DE9741C4023FB00297C6B /* MKExercise+Locatlisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544DE9731C4023FB00297C6B /* MKExercise+Locatlisation.swift */; };
 		5450C2A11BC3FFF100B257E7 /* MuvrUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5450C2A01BC3FFF100B257E7 /* MuvrUITests.swift */; };
 		545269051BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545269031BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift */; };
 		54585FF11C41A4A40050D770 /* MRAggregate+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54585FF01C41A4A40050D770 /* MRAggregate+Localisation.swift */; };
@@ -374,6 +374,7 @@
 		543E328D1C4AC18B00D9922D /* MKExercise+ExerciseIdTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExercise+ExerciseIdTests.swift"; sourceTree = "<group>"; };
 		543E32901C4ACFC800D9922D /* MKExerciseProperty+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseProperty+JSON.swift"; sourceTree = "<group>"; };
 		543E32921C4AD47A00D9922D /* MRManagedLocationExercise+CoreDataTransformables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedLocationExercise+CoreDataTransformables.swift"; sourceTree = "<group>"; };
+		543E32941C4AD71400D9922D /* BaseConfiguration.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BaseConfiguration.bundle; sourceTree = "<group>"; };
 		543E90B11C26FF640050F87A /* Aws.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Aws.swift; sourceTree = "<group>"; };
 		544201361B93847100354DB7 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		544201381B9384B500354DB7 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -386,7 +387,6 @@
 		544C73571BE7E99600B76F25 /* MBCircularProgressBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBCircularProgressBar.framework; path = "Pods/../build/Debug-iphoneos/MBCircularProgressBar.framework"; sourceTree = "<group>"; };
 		544DC9C81BF8B2B200D79E67 /* MKSensorDataEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoder.swift; sourceTree = "<group>"; };
 		544DE96F1C4023C200297C6B /* MKExerciseType+ExerciseId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseType+ExerciseId.swift"; sourceTree = "<group>"; };
-		544DE9731C4023FB00297C6B /* MKExercise+Locatlisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExercise+Locatlisation.swift"; sourceTree = "<group>"; };
 		5450C29E1BC3FFF100B257E7 /* MuvrUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MuvrUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5450C2A01BC3FFF100B257E7 /* MuvrUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuvrUITests.swift; sourceTree = "<group>"; };
 		5450C2A21BC3FFF100B257E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -693,6 +693,7 @@
 			children = (
 				9D30379B1B95CCC500426C70 /* Models.bundle */,
 				54CAADD61C39B19F00A7B0E6 /* Locations.bundle */,
+				543E32941C4AD71400D9922D /* BaseConfiguration.bundle */,
 				543C9A031BDD425900291EC5 /* Entities */,
 				541ABBA11AC577E00056A81B /* Supporting Files */,
 				54CAADDC1C39BA6F00A7B0E6 /* Synchronisation */,
@@ -738,7 +739,6 @@
 				5421AEC01C40402B009CB4FA /* MKExerciseType+Localisation.swift */,
 				5437BD401C404A4000B518D9 /* MKExerciseTypeDescriptor+Localisation.swift */,
 				5421AEC21C404039009CB4FA /* MKMuscleGroup+Localisation.swift */,
-				544DE9731C4023FB00297C6B /* MKExercise+Locatlisation.swift */,
 				5421AEC51C40422F009CB4FA /* MRAggregateKey+Localisation.swift */,
 				54585FF01C41A4A40050D770 /* MRAggregate+Localisation.swift */,
 				5493FC211C42D17100317A15 /* String+Localization.swift */,
@@ -1362,6 +1362,7 @@
 				547FD9D31C42C31700B01904 /* Session.storyboard in Resources */,
 				541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */,
 				54CAADD71C39B19F00A7B0E6 /* Locations.bundle in Resources */,
+				543E32951C4AD71400D9922D /* BaseConfiguration.bundle in Resources */,
 				541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1491,7 +1492,6 @@
 				543E326D1C4A997500D9922D /* MRManagedExerciseSession+CoreDataProperties.swift in Sources */,
 				5460A7991C443AAE00070ADC /* MRLocationCoordinate2D.swift in Sources */,
 				543E32721C4A9A2B00D9922D /* MRManagedLocation+CoreDataOperations.swift in Sources */,
-				544DE9741C4023FB00297C6B /* MKExercise+Locatlisation.swift in Sources */,
 				543E32931C4AD47A00D9922D /* MRManagedLocationExercise+CoreDataTransformables.swift in Sources */,
 				543E32611C4A997500D9922D /* MRAbstractExerciseScalarLabel+CoreDataProperties.swift in Sources */,
 				543E328C1C4ABEC500D9922D /* MRManagedLocationExercise+CoreDataOperations.swift in Sources */,

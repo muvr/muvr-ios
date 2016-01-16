@@ -7,11 +7,11 @@ import Foundation
 public protocol MKExerciseModelSource {
     
     ///
-    /// Gets the exercise model for the given ``id``.
+    /// Gets the exercise model for the given ``exerciseType``.
     ///
-    /// - parameter id: the exercise model id to load
+    /// - parameter exerciseType: the exercise type for which to load a model
     ///
-    func getExerciseModel(id id: MKExerciseModel.Id) throws -> MKExerciseModel
+    func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel
     
 }
 
@@ -84,8 +84,8 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     }
     
     private func classifySplits(splits: [MKSensorDataSplit], session: MKExerciseConnectivitySession) -> [MKExerciseWithLabels] {
-        do {
-            let exerciseModel = try exerciseModelSource.getExerciseModel(id: "arms")
+        do {            
+            let exerciseModel = try exerciseModelSource.exerciseModelForExerciseType(session.exerciseType)
             let exerciseClassifier = try MKClassifier(model: exerciseModel)
             return try splits.flatMap { split in
                 switch split {

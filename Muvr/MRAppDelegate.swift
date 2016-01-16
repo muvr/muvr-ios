@@ -47,6 +47,11 @@ protocol MRApp {
     /// The user's current location
     ///
     var locationName: String? { get }
+
+    ///
+    /// The list of exercise ids at the current location
+    ///
+    var exerciseIds: [MKExercise.Id] { get }
     
     ///
     /// Performs initial setup
@@ -89,6 +94,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private var locationManager: CLLocationManager!
     private var currentLocation: MRManagedLocation?
     private var weightPredictor: MKPolynomialFittingScalarPredictor!
+    private var baseExerciseIdsAndProperties: [(MKExercise.Id, [MKExerciseProperty])] = []
     
     // MARK: - MKClassificationHintSource
     var exercisingHints: [MKClassificationHint]? {
@@ -104,6 +110,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
     
+    var exerciseIds: [MKExercise.Id] {
+        return baseExerciseIdsAndProperties.map { $0.0 }
+    }
+        
 //    ///
 //    /// Returns the exercise ids for the given ``model``.
 //    /// - parameter model: the model identity
@@ -135,6 +145,23 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
         weightPredictor = MKPolynomialFittingScalarPredictor(scalarRounder: self)
 
+        // Load base configuration
+        let baseConfigurationPath = NSBundle.mainBundle().pathForResource("BaseConfiguration", ofType: "bundle")!
+        let baseConfiguration = NSBundle(path: baseConfigurationPath)!
+        let data = NSData(contentsOfFile: baseConfiguration.pathForResource("exercises", ofType: "json")!)!
+        if let allExercises = try! NSJSONSerialization.JSONObjectWithData(data, options: []) as? [[String:AnyObject]] {
+            baseExerciseIdsAndProperties = allExercises.map { exercise in
+                guard let id = exercise["id"] as? String,
+                      let properties = exercise["properties"] as? [AnyObject]?
+                      else { fatalError() }
+                
+                return (id, properties?.flatMap { MKExerciseProperty(json: $0) } ?? [])
+            }
+        } else {
+            fatalError()
+        }
+        
+        
         if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: nil, inManagedObjectContext: managedObjectContext) {
             weightPredictor.mergeJSON(p.data)
         }
@@ -211,10 +238,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     // MARK: - Exercise model source
     
-    func getExerciseModel(id id: MKExerciseModel.Id) throws -> MKExerciseModel {
+    func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel {
         let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
         let modelsBundle = NSBundle(path: path)!
-        return try MKExerciseModel(fromBundle: modelsBundle, id: id, labelExtractor: exerciseIdToLabel)
+        return try MKExerciseModel(fromBundle: modelsBundle, id: "default", labelExtractor: exerciseIdToLabel)
     }
     
     // MARK: - Session UI
