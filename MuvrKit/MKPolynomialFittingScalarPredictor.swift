@@ -45,7 +45,7 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     private func naiveCost(actual: [Float], predicted: [Float]) -> Float {
         return predicted.enumerate().reduce(0) { result, e in
             let (i, p) = e
-            return result + abs(actual[i] - p)
+            return result + powf(2, abs(actual[i] - p))
         }
     }
     

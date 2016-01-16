@@ -36,7 +36,7 @@ extension MRAggregate {
 ///
 /// Displays the basic stats for this user
 ///
-class MRHomeViewController : UIViewController, ChartViewDelegate {
+class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var pieChartBackButton: UIButton!

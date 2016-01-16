@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wdg-mi-HgG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D9c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wdg-mi-HgG">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -7,10 +7,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Goals-->
+        <!--Manual-->
         <scene sceneID="JL1-Iw-8WF">
             <objects>
-                <viewController id="e3O-P6-qPY" sceneMemberID="viewController">
+                <viewController id="e3O-P6-qPY" customClass="MRGoalsViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6zv-lr-PxA"/>
                         <viewControllerLayoutGuide type="bottom" id="5Qi-ZJ-mwA"/>
@@ -25,10 +25,17 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0gg-0F-aCJ">
+                                <rect key="frame" x="20" y="91" width="46" height="30"/>
+                                <state key="normal" title="XXX"/>
+                                <connections>
+                                    <action selector="xxx" destination="e3O-P6-qPY" eventType="touchUpInside" id="EXD-fq-q8K"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Goals" id="fi2-5k-ObL"/>
+                    <tabBarItem key="tabBarItem" title="Manual" id="fi2-5k-ObL"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Maq-PK-msg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -92,7 +99,7 @@
         <!--Statistics-->
         <scene sceneID="k5A-4Z-PYA">
             <objects>
-                <viewController id="k9I-oM-iXu" customClass="MRHomeViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="k9I-oM-iXu" customClass="MRStatisticsViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8TE-3H-U3y"/>
                         <viewControllerLayoutGuide type="bottom" id="uUC-vn-soj"/>
