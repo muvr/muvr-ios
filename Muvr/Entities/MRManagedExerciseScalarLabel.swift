@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class MRManagedExerciseScalarLabel: MRAbstractExerciseScalarLabel {
+class MRManagedExerciseScalarLabel: NSManagedObject {
 
 // Insert code here to add functionality to your managed object subclass
 

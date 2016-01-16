@@ -14,6 +14,8 @@ import CoreData
 
 extension MRManagedExerciseScalarLabel {
 
-    @NSManaged var exercise: NSManagedObject?
+    @NSManaged var type: String?
+    @NSManaged var value: NSDecimalNumber?
+    @NSManaged var exercise: MRManagedExercise?
 
 }
