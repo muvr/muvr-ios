@@ -12,11 +12,13 @@ import MuvrKit
 
 extension MRManagedExerciseScalarLabel {
     
-    static func insertNewObjectIntoExercise(exercise: MRManagedExercise, type: String, value: NSDecimalNumber, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
+    static func insertNewObjectIntoExercise(exercise: MRManagedExercise, type: String, value: NSDecimalNumber, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseScalarLabel{
         let mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExerciseScalarLabel", inManagedObjectContext: managedObjectContext) as! MRManagedExerciseScalarLabel
         
         mo.exercise = exercise
         mo.type = type
-        mo.value = value        
+        mo.value = value
+        
+        return mo
     }
 }

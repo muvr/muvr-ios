@@ -4,6 +4,10 @@ import MuvrKit
 @testable import Muvr
 
 class MRManagedExerciseSessionTests : MRCoreDataTestCase {
+    
+    private func noRound(value: Double, exerciseId: String) -> Double {
+        return value
+    }
 
     func testClassificationHints() {
         let session = MRManagedExerciseSession.insert("12312", exerciseType: .IndoorsCardio, start: NSDate(), location: nil, inManagedObjectContext: managedObjectContext)
@@ -21,10 +25,18 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
     
     func testAddExerciseDetail() {
         let session = MRManagedExerciseSession.insert("12312", exerciseType: .IndoorsCardio, start: NSDate(), location: nil, inManagedObjectContext: managedObjectContext)
-        let givenDetail: MKExerciseDetail = ("foo/bar", MKExerciseType.IndoorsCardio, [])
-        let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10)]
+        session.plan = MKExercisePlan<MKExercise.Id>()
+        session.weightPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
+        session.intensityPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
+        session.durationPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
+        session.repetitionsPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
+        
+        let givenDetail: MKExerciseDetail = ("foo/bar", MKExerciseType.ResistanceWholeBody, [])
+        let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10), .Intensity(intensity: 0.5), .Weight(weight: 40)]
         
         session.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10, inManagedObjectContext: managedObjectContext)
+        XCTAssertEqual(session.predictDurationForExerciseDetail(givenDetail), 10)
+        print(session.predictExerciseLabelsForExerciseDetail(givenDetail))
         saveContext()
     }
     

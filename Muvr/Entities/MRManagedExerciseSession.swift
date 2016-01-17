@@ -111,7 +111,7 @@ class MRManagedExerciseSession: NSManagedObject {
         func scalarValueType(type: String, inExerciseId exerciseId: MKExercise.Id)(exercise: MRManagedExercise) -> Double? {
             if exercise.id == exerciseId {
                 for label in exercise.scalarLabels.allObjects as! [MRManagedExerciseScalarLabel] {
-                    if label.type == MKExerciseLabelDescriptor.Weight.id {
+                    if label.type == type {
                         return label.value.doubleValue
                     }
                 }

@@ -62,9 +62,20 @@ class MRSessionLabellingViewController: UIViewController, UITableViewDataSource 
     /// - parameter onUpdate: a function that will be called on change of values
     ///
     func setExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], onLabelsUpdated: OnLabelsUpdated) {
+        let missingLabelDescriptors = exerciseDetail.1.labelDescriptors.filter { ld in
+            return !labels.contains { l in l.descriptor == ld }
+        }
+        let missingLabels: [MKExerciseLabel] = missingLabelDescriptors.flatMap {
+            switch $0 {
+            case .Intensity: return .Intensity(intensity: 0.5)
+            case .Repetitions: return .Repetitions(repetitions: 10)
+            case .Weight: return .Weight(weight: 10)
+            }
+        }
+        
         self.onLabelsUpdated = onLabelsUpdated
         self.exerciseDetail = exerciseDetail
-        self.labels = labels
+        self.labels = labels + missingLabels
         tableView.reloadData()
     }
         
