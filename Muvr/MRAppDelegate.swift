@@ -355,7 +355,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - Exercise properties
     func exercisePropertiesForExerciseId(exerciseId: MKExercise.Id) -> [MKExerciseProperty] {
         // TODO: configurable at location!
-        return [.WeightProgression(minimum: 2.5, increment: 2.5, maximum: nil)]
+        return [.WeightProgression(minimum: 2.5, step: 2.5, maximum: nil)]
     }
     
     // MARK: - Scalar rounder

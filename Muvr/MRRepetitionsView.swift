@@ -14,15 +14,11 @@ class MRRepetitionsView: UIView {
     
     @IBInspectable
     var value: Int? {
-        get { return _value }
-        set(v) {
-            _value = v.map { max(0, $0) }
-            label.text = v.map { NSNumberFormatter().stringFromNumber($0) } ?? nil
+        didSet {
+            label.text = value.map { NSNumberFormatter().stringFromNumber($0) } ?? nil
         }
     }
-    
-    var _value: Int? = nil
-    
+        
     var font: UIFont = UIFont.systemFontOfSize(17) {
         didSet {
             label.font = font

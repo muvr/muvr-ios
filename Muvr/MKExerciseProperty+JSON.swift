@@ -10,10 +10,10 @@ extension MKExerciseProperty {
               let type = json["type"] as? String else { return nil}
         
         if let minimum = json["minimum"] as? NSNumber,
-           let increment = json["increment"] as? NSNumber,
+           let step = json["step"] as? NSNumber,
            let maximum = json["maximum"] as? NSNumber?
            where type == MKExerciseProperty.weightProgression {
-            self = .WeightProgression(minimum: minimum.floatValue, increment: increment.floatValue, maximum: maximum?.floatValue)
+            self = .WeightProgression(minimum: minimum.doubleValue, step: step.doubleValue, maximum: maximum?.doubleValue)
         } else {
             return nil
         }
@@ -21,8 +21,8 @@ extension MKExerciseProperty {
     
     var json: [String : AnyObject] {
         switch self {
-        case .WeightProgression(let minimum, let increment, let maximum):
-            var result: [String : AnyObject] = ["type":MKExerciseProperty.weightProgression, "minimum":minimum, "increment":increment]
+        case .WeightProgression(let minimum, let step, let maximum):
+            var result: [String : AnyObject] = ["type":MKExerciseProperty.weightProgression, "minimum":minimum, "step":step]
             if let maximum = maximum {
                 result["maximum"] = maximum
             }

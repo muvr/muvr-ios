@@ -5,7 +5,7 @@
     "exercises":[
                  {
                     "id":"resistanceWholeBody:gardening",
-                    "properties":[{"type":"weightProgression", "minimum":2.5, "increment":2.5}]
+                    "properties":[{"type":"weightProgression", "minimum":2.5, "step":2.5}]
                  }
     ]
 }

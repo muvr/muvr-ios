@@ -5,14 +5,14 @@
     "exercises":[
                  {
                     "id":"resistanceTargeted:arms/biceps-curl",
-                    "properties":[{"type":"weightProgression", "minimum":2.5, "increment":2.5}]
+                    "properties":[{"type":"weightProgression", "minimum":2.5, "step":2.5}]
                  },
                  {"id":"resistanceTargeted:shoulders/shrugs"},
-                 {"id":"resistanceTargeted:chest/angle-chest-press"},
-                 {"id":"resistanceTargeted:back/leverage-high-row"},
+                 {"id":"resistanceTargeted:chest/angle chest press"},
+                 {"id":"resistanceTargeted:back/leverage high row"},
                  {
-                    "id":"resistanceTargeted:back/lateral-pulldown",
-                    "properties":[{"type":"weightProgression", "minimum":7, "increment":7}]
+                    "id":"resistanceTargeted:back/lateral pulldown",
+                    "properties":[{"type":"weightProgression", "minimum":7, "step":7}]
                  }
     ]
 }

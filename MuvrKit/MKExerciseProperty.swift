@@ -8,10 +8,10 @@ public enum MKExerciseProperty {
     ///
     /// The exercise has a selection of weights from minimum..maximum by increment
     /// - parameter minimum: the minimum weight
-    /// - parameter increment: the increment
+    /// - parameter step: the step
     /// - parameter maximum: the maximum weight
     ///
-    case WeightProgression(minimum: Float, increment: Float, maximum: Float?)
+    case WeightProgression(minimum: Double, step: Double, maximum: Double?)
     
     // A special sequence of weights
     // case WeightSequence(weights: [Float])

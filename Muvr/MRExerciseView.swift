@@ -259,7 +259,7 @@ class MRExerciseView : UIView {
             for exerciseLabel in exerciseLabels {
                 let frame = CGRect(x: left, y: 0, width: width - padding, height: height - padding)
                 left += width
-                let view = MRExerciseLabelViews.viewForLabel(exerciseLabel, frame: frame)!
+                let (view, _) = MRExerciseLabelViews.scalarViewForLabel(exerciseLabel, frame: frame)!
                 labelsView.addSubview(view)
             }
         }

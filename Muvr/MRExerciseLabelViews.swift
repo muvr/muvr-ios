@@ -1,33 +1,78 @@
 import Foundation
 import MuvrKit
 
-protocol MRExerciseLabelSetter {
+struct MRExerciseLabelViews {
     
-    func increment() -> MKExerciseLabel
-    
-    func decrement() -> MKExerciseLabel
+    static func scalarViewForLabel(label: MKExerciseLabel, frame: CGRect) -> (UIView, MRScalarExerciseLabelSettable)? {
+        switch label {
+        case .Intensity:
+            let view = MRBarsView(frame: frame)
+            view.backgroundColor = UIColor.whiteColor()
+            try! view.setExerciseLabel(label)
+            return (view, view)
+        case .Repetitions:
+            let view = MRRepetitionsView(frame: frame)
+            view.backgroundColor = UIColor.whiteColor()
+            try! view.setExerciseLabel(label)
+            return (view, view)
+        case .Weight:
+            let view = MRWeightView(frame: frame)
+            try! view.setExerciseLabel(label)
+            view.backgroundColor = UIColor.whiteColor()
+            return (view, view)
+        }
+    }
     
 }
 
-struct MRExerciseLabelViews {
+extension MRWeightView : MRScalarExerciseLabelSettable {
     
-    static func viewForLabel(label: MKExerciseLabel, frame: CGRect) -> UIView? {
-        switch label {
-        case .Intensity(let intensity):
-            let view = MRBarsView(frame: frame)
-            view.backgroundColor = UIColor.whiteColor()
-            view.value = Int(intensity * 5)
-            return view
-        case .Repetitions(let repetitions):
-            let view = MRRepetitionsView(frame: frame)
-            view.backgroundColor = UIColor.whiteColor()
-            view.value = repetitions
-            return view
-        case .Weight(let weight):
-            let view = MRWeightView(frame: frame)
-            view.value = weight
-            view.backgroundColor = UIColor.whiteColor()
-            return view
+    static func supports(exerciseLabel: MKExerciseLabel) -> Bool {
+        switch exerciseLabel {
+        case .Weight: return true
+        default: return false
+        }
+    }
+    
+    func setExerciseLabel(exerciseLabel: MKExerciseLabel) throws {
+        if !MRWeightView.supports(exerciseLabel) { throw MRScalarExerciseLabelSettableError.LabelNotSupported }
+        if case .Weight(let weight) = exerciseLabel {
+            value = weight
+        }
+    }
+    
+}
+
+extension MRRepetitionsView : MRScalarExerciseLabelSettable {
+    
+    static func supports(exerciseLabel: MKExerciseLabel) -> Bool {
+        switch exerciseLabel {
+        case .Repetitions: return true
+        default: return false
+        }
+    }
+    
+    func setExerciseLabel(exerciseLabel: MKExerciseLabel) throws {
+        if !MRRepetitionsView.supports(exerciseLabel) { throw MRScalarExerciseLabelSettableError.LabelNotSupported }
+        if case .Repetitions(let repetitions) = exerciseLabel {
+            value = repetitions
+        }
+    }
+}
+
+extension MRBarsView : MRScalarExerciseLabelSettable {
+    
+    static func supports(exerciseLabel: MKExerciseLabel) -> Bool {
+        switch exerciseLabel {
+        case .Intensity: return true
+        default: return false
+        }
+    }
+    
+    func setExerciseLabel(exerciseLabel: MKExerciseLabel) throws {
+        if !MRBarsView.supports(exerciseLabel) { throw MRScalarExerciseLabelSettableError.LabelNotSupported }
+        if case .Intensity(let intensity) = exerciseLabel {
+            value = intensity
         }
     }
     

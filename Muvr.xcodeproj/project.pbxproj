@@ -67,6 +67,7 @@
 		543E329C1C4BB1ED00D9922D /* MRExerciseLabelViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543E329B1C4BB1ED00D9922D /* MRExerciseLabelViews.swift */; };
 		543E329E1C4BC53000D9922D /* MRManagedExercise+CoreDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543E329D1C4BC53000D9922D /* MRManagedExercise+CoreDataOperations.swift */; };
 		543E32A01C4BC69B00D9922D /* MRManagedExerciseScalarLabel+CoreDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543E329F1C4BC69B00D9922D /* MRManagedExerciseScalarLabel+CoreDataOperations.swift */; };
+		543E32A21C4BDBD200D9922D /* MRScalarExerciseLabelSettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543E32A11C4BDBD200D9922D /* MRScalarExerciseLabelSettable.swift */; };
 		543E90B21C26FF640050F87A /* Aws.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543E90B11C26FF640050F87A /* Aws.swift */; };
 		544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 544201381B9384B500354DB7 /* CoreBluetooth.framework */; };
 		54430EC01BC2CF5200541979 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54DE161B1BAD941000F0752B /* CoreMotion.framework */; };
@@ -382,6 +383,7 @@
 		543E329B1C4BB1ED00D9922D /* MRExerciseLabelViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseLabelViews.swift; sourceTree = "<group>"; };
 		543E329D1C4BC53000D9922D /* MRManagedExercise+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedExercise+CoreDataOperations.swift"; sourceTree = "<group>"; };
 		543E329F1C4BC69B00D9922D /* MRManagedExerciseScalarLabel+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedExerciseScalarLabel+CoreDataOperations.swift"; sourceTree = "<group>"; };
+		543E32A11C4BDBD200D9922D /* MRScalarExerciseLabelSettable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRScalarExerciseLabelSettable.swift; sourceTree = "<group>"; };
 		543E90B11C26FF640050F87A /* Aws.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Aws.swift; sourceTree = "<group>"; };
 		544201361B93847100354DB7 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		544201381B9384B500354DB7 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -1016,6 +1018,7 @@
 				6428CE251C44FC3000D17451 /* MRCircleButton.swift */,
 				6428CE311C45340700D17451 /* MRAlternateExerciseButton.swift */,
 				543E329B1C4BB1ED00D9922D /* MRExerciseLabelViews.swift */,
+				543E32A11C4BDBD200D9922D /* MRScalarExerciseLabelSettable.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1525,6 +1528,7 @@
 				6428CE2C1C451FC700D17451 /* MRSessionLabellingViewController.swift in Sources */,
 				545EFC481C47BD4200987610 /* MRManagedScalarPredictor+CoreDataOperations.swift in Sources */,
 				543E32911C4ACFC800D9922D /* MKExerciseProperty+JSON.swift in Sources */,
+				543E32A21C4BDBD200D9922D /* MRScalarExerciseLabelSettable.swift in Sources */,
 				54C648851C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift in Sources */,
 				5493FC1F1C42C9C400317A15 /* MRSessionViewController.swift in Sources */,
 				549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */,
