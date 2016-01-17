@@ -4,7 +4,7 @@ import MuvrKit
 
 extension MRManagedExercise {
     
-    static func insertNewObjectIntoSession(session: MRManagedExerciseSession, id: MKExercise.Id, exerciseType: MKExerciseType, labels: [MKExerciseLabel], offset: NSTimeInterval, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
+    static func insertNewObjectIntoSession(session: MRManagedExerciseSession, id: MKExercise.Id, exerciseType: MKExerciseType, labels: [MKExerciseLabel], offset: NSTimeInterval, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercise {
         var mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExercise", inManagedObjectContext: managedObjectContext) as! MRManagedExercise
         
         mo.id = id
@@ -23,6 +23,8 @@ extension MRManagedExercise {
             }
         }
         mo.scalarLabels = NSSet(array: insertedLabels)
+        
+        return mo
     }
 
 }
