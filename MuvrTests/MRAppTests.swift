@@ -29,7 +29,7 @@ class MRAppTests : XCTestCase {
         let bc = app.currentSession!.exerciseDetailsComingUp.first!
         XCTAssertEqual(bc.0, givenDetail.0)
         let labels = app.currentSession!.predictExerciseLabelsForExerciseDetail(bc)
-        print(labels)
+        XCTAssertEqual(givenLabels, labels)
         try! app.endCurrentSession()
     }
     

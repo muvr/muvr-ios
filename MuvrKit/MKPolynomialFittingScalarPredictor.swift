@@ -11,7 +11,7 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     private var boost: Float = 1.0
     /// When there are too few values in the training set, this keeps the last value to provide
     /// at least some kind of prediction.
-    private var simpleScalars: [Key:Float] = [:]
+    private(set) internal var simpleScalars: [Key:Float] = [:]
     /// The rounder to be used
     private let round: Round
 
@@ -23,10 +23,16 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     /// actually vary their weight selection depending on location.
     ///
     /// - parameter otherCoefficients: the new (typically loaded for a new location) coefficients
+    /// - parameter otherSimpleScalars: the new simple scalars
     ///
-    public func merge(otherCoefficients: [Key:[Float]]) {
+    public func mergeCoefficients(otherCoefficients: [Key:[Float]], otherSimpleScalars: [Key:Float]?) {
         for (nk, nv) in otherCoefficients {
             coefficients[nk] = nv
+        }
+        if let otherSimpleScalars = otherSimpleScalars {
+            for (nk, nv) in otherSimpleScalars {
+                simpleScalars[nk] = nv
+            }
         }
     }
     
