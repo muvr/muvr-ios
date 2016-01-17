@@ -7,9 +7,24 @@
                     "id":"resistanceTargeted:arms/biceps-curl",
                     "properties":[{"type":"weightProgression", "minimum":2.5, "step":2.5}]
                  },
+                 {
+                    "id":"resistanceTargeted:arms/cable biceps curl",
+                    "properties":[{"type":"weightProgression", "minimum":5, "step":5}]
+                 },
+                 {
+                    "id":"resistanceTargeted:arms/cable hammer curl",
+                    "properties":[{"type":"weightProgression", "minimum":5, "step":5}]
+                 },
                  {"id":"resistanceTargeted:shoulders/shrugs"},
                  {"id":"resistanceTargeted:chest/angle-chest-press"},
-                 {"id":"resistanceTargeted:back/leverage high row"},
+                 {
+                    "id":"resistanceTargeted:back/upright row",
+                    "properties":[{"type":"weightProgression", "minimum":2, "step":2}]
+                 },
+                 {
+                    "id":"resistanceTargeted:back/leverage high row",
+                    "properties":[{"type":"weightProgression", "minimum":2.5, "step":2.5}]
+                 },
                  {
                     "id":"resistanceTargeted:back/lateral pulldown",
                     "properties":[{"type":"weightProgression", "minimum":7, "step":7}]
