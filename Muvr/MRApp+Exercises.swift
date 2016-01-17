@@ -3,7 +3,14 @@ import MuvrKit
 
 extension MRApp {
     
-    func exerciseDetailsForExerciseIds(exerciseIds: [MKExercise.Id], favouring: MKExerciseType) -> [MKExerciseDetail] {
+    ///
+    /// Combines the given ``exerciseIds`` with all other exericses at the current location,
+    /// favouring the given ``type``.
+    /// - parameter exerciseIds: the exercise ids to start with
+    /// - parameter type: the types to appear first
+    /// - returns: the combined list of exercise details
+    ///
+    func exerciseDetailsForExerciseIds(exerciseIds: [MKExercise.Id], favouringType type: MKExerciseType) -> [MKExerciseDetail] {
         let plannedDetails: [MKExerciseDetail] = exerciseIds.map { exerciseId in
             let properties = exercisePropertiesForExerciseId(exerciseId)
             let type = MKExerciseType(exerciseId: exerciseId)!
@@ -14,7 +21,7 @@ extension MRApp {
         }
         
         otherDetails.sortInPlace { l, r in
-            switch (l.1 == favouring, r.1 == favouring) {
+            switch (l.1 == type, r.1 == type) {
             case (true, true): return MKExercise.title(l.0) < MKExercise.title(r.0)
             case (true, false): return true
             case (false, true): return false

@@ -2,6 +2,9 @@ import Foundation
 import UIKit
 import MuvrKit
 
+///
+/// A cell that displays a scalar value, like weight, repetitions or intensity
+///
 class MRSessionLabellingScalarTableViewCell : UITableViewCell {
     private var increment: (MKExerciseLabel -> MKExerciseLabel)!
     private var decrement: (MKExerciseLabel -> MKExerciseLabel)!

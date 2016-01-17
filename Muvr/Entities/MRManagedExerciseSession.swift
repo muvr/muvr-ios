@@ -17,7 +17,7 @@ class MRManagedExerciseSession: NSManagedObject {
     var plan: MKExercisePlan<MKExercise.Id>!
     
     var exerciseIdsComingUp: [MKExerciseDetail] {
-        return MRAppDelegate.sharedDelegate().exerciseDetailsForExerciseIds(plan.next, favouring: exerciseType)
+        return MRAppDelegate.sharedDelegate().exerciseDetailsForExerciseIds(plan.next, favouringType: exerciseType)
     }
     
     ///

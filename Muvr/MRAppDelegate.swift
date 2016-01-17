@@ -79,8 +79,7 @@ protocol MRApp : MKExercisePropertySource {
 
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate,
-    MKSessionClassifierDelegate, MKClassificationHintSource, MKScalarRounder,
-    MKExerciseModelSource,
+    MKSessionClassifierDelegate, MKClassificationHintSource, MKExerciseModelSource,
     MRApp {
     
     var window: UIWindow?
@@ -128,7 +127,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
         classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: sensorDataSplitter, delegate: self)
         connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
-        weightPredictor = MKPolynomialFittingScalarPredictor(scalarRounder: self)
+        weightPredictor = MKPolynomialFittingScalarPredictor(round: roundWeight)
 
         // Load base configuration
         let baseConfigurationPath = NSBundle.mainBundle().pathForResource("BaseConfiguration", ofType: "bundle")!
@@ -354,13 +353,22 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     // MARK: - Exercise properties
     func exercisePropertiesForExerciseId(exerciseId: MKExercise.Id) -> [MKExerciseProperty] {
-        // TODO: configurable at location!
-        return [.WeightProgression(minimum: 2.5, step: 2.5, maximum: nil)]
+        for (id, _, properties) in exerciseDetails where id == exerciseId {
+            return properties
+        }
+        
+        return []
     }
     
     // MARK: - Scalar rounder
-    func roundValue(value: Float, forExerciseId exerciseId: MKExercise.Id) -> Float {
-        return MKScalarRounderFunction.roundMinMax(value, minimum: 2.5, increment: 2.5, maximum: nil)
+    private func roundWeight(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        for property in exercisePropertiesForExerciseId(exerciseId) {
+            switch property {
+            case .WeightProgression(let minimum, let step, let maximum):
+                return MKScalarRounderFunction.roundMinMax(value, minimum: minimum, step: step, maximum: maximum)
+            }
+        }
+        return value
     }
     
     // MARK: - Core Location stack

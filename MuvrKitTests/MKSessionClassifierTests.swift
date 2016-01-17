@@ -40,7 +40,7 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
         }
     }
     
-    let exercisingHints: [MKClassificationHint]? = nil
+    let classificationHints: [MKClassificationHint]? = nil
     
     func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel {
         let modelPath = NSBundle(forClass: MKClassifierTests.self).pathForResource("model-3", ofType: "raw")!

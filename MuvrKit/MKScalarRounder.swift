@@ -1,21 +1,21 @@
 import Foundation
 
-///
-/// Provides mechanism to round a value (of some kind, think weight) for the 
-/// given exercise. To help you with the implementation, consider using the 
-/// functions in ``MKScalarRounderFunction``.
-///
-public protocol MKScalarRounder {
-
-    ///
-    /// Rounds the ``value`` for the ``exerciseId``.
-    /// - parameter value: the value to be rounded
-    /// - parameter exerciseId: the exercise identity
-    /// - returns: the rounded value
-    ///
-    func roundValue(value: Float, forExerciseId exerciseId: MKExercise.Id) -> Float
-    
-}
+/////
+///// Provides mechanism to round a value (of some kind, think weight) for the 
+///// given exercise. To help you with the implementation, consider using the 
+///// functions in ``MKScalarRounderFunction``.
+/////
+//public protocol MKScalarRounder {
+//
+//    ///
+//    /// Rounds the ``value`` for the ``exerciseId``.
+//    /// - parameter value: the value to be rounded
+//    /// - parameter exerciseId: the exercise identity
+//    /// - returns: the rounded value
+//    ///
+//    func roundValue(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double
+//    
+//}
 
 ///
 /// Provides functions that simplify implementation of ``MKScalarRounder``
@@ -35,18 +35,18 @@ public struct MKScalarRounderFunction {
     /// - parameter maximum: the maximum value
     /// - returns: rounded
     ///
-    public static func roundMinMax(value: Float, minimum: Float, increment: Float, maximum: Float?) -> Float {
+    public static func roundMinMax(value: Double, minimum: Double, step: Double, maximum: Double?) -> Double {
         if value < minimum { return minimum }
         if let maximum = maximum where value >= maximum {
             return maximum
         }
-        for var weight: Float = minimum; weight < maximum ?? 999; weight += increment {
+        for var weight: Double = minimum; weight < maximum ?? 999; weight += step {
             let dcw = value - weight
-            let dnw = value - (weight + increment)
+            let dnw = value - (weight + step)
             if dcw >= 0 && dnw <= 0 {
                 // value is in range
                 if abs(dcw) > abs(dnw) {
-                    return weight + increment
+                    return weight + step
                 } else {
                     return weight
                 }

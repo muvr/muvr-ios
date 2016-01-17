@@ -4,6 +4,8 @@ import Foundation
 /// Implements the scalar predictor using nth degree polynomial approximation
 ///
 public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
+    public typealias Round = (Double, MKExercise.Id) -> Double
+    
     private(set) internal var coefficients: [Key:[Float]] = [:]
     /// The initial boost—no boost, really
     private var boost: Float = 1.0
@@ -11,7 +13,7 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     /// at least some kind of prediction.
     private var simpleScalars: [Key:Float] = [:]
     /// The rounder to be used
-    private let scalarRounder: MKScalarRounder
+    private let round: Round
 
     public typealias Key = MKExercise.Id
     
@@ -32,8 +34,8 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     /// Initializes empty instance with a given ``scalarRounder``.
     /// - parameter scalarRounder: the rounder
     ///
-    public init(scalarRounder: MKScalarRounder) {
-        self.scalarRounder = scalarRounder
+    public init(round: Round) {
+        self.round = round
     }
     
     ///
@@ -62,7 +64,7 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
             let (n, c) = e
             return result + c * powf(x, Float(n))
         }
-        return scalarRounder.roundValue(raw * boost, forExerciseId: exerciseId)
+        return Float(round(Double(raw * boost), exerciseId))
     }
     
     // Implements MKScalarPredictor
