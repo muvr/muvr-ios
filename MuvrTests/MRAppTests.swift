@@ -23,6 +23,8 @@ class MRAppTests : XCTestCase {
 
         try! app.startSessionForExerciseType(.ResistanceTargeted(muscleGroups: [.Arms, .Chest]), start: NSDate(), id: NSUUID().UUIDString)
         app.currentSession!.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10)
+        let l1 = app.currentSession!.predictExerciseLabelsForExerciseDetail(givenDetail)
+        XCTAssertEqual(givenLabels, l1)
         try! app.endCurrentSession()
         
         try! app.startSessionForExerciseType(.ResistanceTargeted(muscleGroups: [.Arms, .Chest]), start: NSDate(), id: NSUUID().UUIDString)
