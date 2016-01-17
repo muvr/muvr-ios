@@ -23,6 +23,24 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
         }
     }
     
+    func testPredictions() {
+        let session = MRManagedExerciseSession.insert("12312", exerciseType: .IndoorsCardio, start: NSDate(), location: nil, inManagedObjectContext: managedObjectContext)
+        session.plan = MKExercisePlan<MKExercise.Id>()
+        session.weightPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
+        session.intensityPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
+        session.durationPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
+        session.repetitionsPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
+
+        let detail: MKExerciseDetail = ("foo/bar", MKExerciseType.ResistanceWholeBody, [])
+        session.addExerciseDetail(detail, labels: [.Weight(weight: 10)], start: NSDate(), duration: 10)
+        session.addExerciseDetail(detail, labels: [.Weight(weight: 11)], start: NSDate(), duration: 15)
+        session.addExerciseDetail(detail, labels: [.Weight(weight: 12)], start: NSDate(), duration: 20)
+        session.addExerciseDetail(detail, labels: [.Weight(weight: 13)], start: NSDate(), duration: 25)
+        
+        XCTAssertEqual(session.predictDurationForExerciseDetail(detail), 30)
+        XCTAssertEqual(session.predictExerciseLabelsForExerciseDetail(detail).first!, MKExerciseLabel.Weight(weight: 14))
+    }
+    
     func testAddExerciseDetail() {
         let session = MRManagedExerciseSession.insert("12312", exerciseType: .IndoorsCardio, start: NSDate(), location: nil, inManagedObjectContext: managedObjectContext)
         session.plan = MKExercisePlan<MKExercise.Id>()

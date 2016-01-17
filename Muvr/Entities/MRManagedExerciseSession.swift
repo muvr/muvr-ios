@@ -133,14 +133,14 @@ class MRManagedExerciseSession: NSManagedObject {
         let weights = historyForThisExercise.flatMap(extractLabelScalar { if case .Weight(let weight) = $0 { return weight } else { return nil } } )
         let intensities = historyForThisExercise.flatMap(extractLabelScalar { if case .Intensity(let intensity) = $0 { return intensity } else { return nil } } )
         let repetitions = historyForThisExercise.flatMap(extractLabelScalar { if case .Repetitions(let repetitions) = $0 { return Double(repetitions) } else { return nil } } )
-        let durations = exerciseWithLabels.map { $0.2 }
+        let durations = exerciseWithLabels.map { $0.3 }
         weightPredictor.trainPositional(weights, forExerciseId: id)
         durationPredictor.trainPositional(durations, forExerciseId: id)
         intensityPredictor.trainPositional(intensities, forExerciseId: id)
         repetitionsPredictor.trainPositional(repetitions, forExerciseId: id)
         
         // update counts
-        exerciseIdCounts[id] = exerciseIdCounts[id].map { $0 + 1 } ?? 0
+        exerciseIdCounts[id] = exerciseIdCounts[id].map { $0 + 1 } ?? 1
     }
     
 }
