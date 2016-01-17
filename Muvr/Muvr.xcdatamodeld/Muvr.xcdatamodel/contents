@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D9c" minimumToolsVersion="Xcode 7.0">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15C50" minimumToolsVersion="Xcode 7.0">
     <entity name="MRManagedExercise" representedClassName=".MRManagedExercise" syncable="YES">
         <attribute name="duration" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="exerciseType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="offset" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="scalarLabels" toMany="YES" deletionRule="Nullify" destinationEntity="MRManagedExerciseScalarLabel" inverseName="exercise" inverseEntity="MRManagedExerciseScalarLabel" syncable="YES"/>
-        <relationship name="session" toMany="YES" deletionRule="Nullify" destinationEntity="MRManagedExerciseSession" inverseName="exercises" inverseEntity="MRManagedExerciseSession" syncable="YES"/>
+        <relationship name="session" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedExerciseSession" inverseName="exercises" inverseEntity="MRManagedExerciseSession" syncable="YES"/>
     </entity>
     <entity name="MRManagedExercisePlan" representedClassName=".MRManagedExercisePlan" syncable="YES">
         <attribute name="exerciseType" attributeType="String" syncable="YES"/>
@@ -15,8 +15,8 @@
         <attribute name="managedPlan" attributeType="Binary" syncable="YES"/>
     </entity>
     <entity name="MRManagedExerciseScalarLabel" representedClassName=".MRManagedExerciseScalarLabel" syncable="YES">
-        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="value" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="type" attributeType="String" syncable="YES"/>
+        <attribute name="value" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <relationship name="exercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedExercise" inverseName="scalarLabels" inverseEntity="MRManagedExercise" syncable="YES"/>
     </entity>
     <entity name="MRManagedExerciseSession" representedClassName=".MRManagedExerciseSession" syncable="YES">
@@ -52,7 +52,7 @@
         <attribute name="type" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MRManagedExercise" positionX="-1667" positionY="-81" width="128" height="133"/>
+        <element name="MRManagedExercise" positionX="-1667" positionY="-81" width="128" height="135"/>
         <element name="MRManagedExercisePlan" positionX="-1701" positionY="-477" width="216" height="103"/>
         <element name="MRManagedExerciseScalarLabel" positionX="-1370" positionY="-99" width="218" height="90"/>
         <element name="MRManagedExerciseSession" positionX="-893" positionY="-171" width="128" height="178"/>

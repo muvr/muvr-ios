@@ -19,6 +19,13 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
         }
     }
     
+    func testAddExerciseDetail() {
+        let session = MRManagedExerciseSession.insert("12312", exerciseType: .IndoorsCardio, start: NSDate(), location: nil, inManagedObjectContext: managedObjectContext)
+        let givenDetail: MKExerciseDetail = ("foo/bar", MKExerciseType.IndoorsCardio, [])
+        let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10)]
+        
+        session.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10, inManagedObjectContext: managedObjectContext)
+        saveContext()
+    }
     
 }
-

@@ -12,10 +12,9 @@
 import Foundation
 import CoreData
 
-extension MRManagedExercise {
+extension MRManagedExercise : MRManagedExerciseType {
 
     @NSManaged var duration: Double
-    @NSManaged var exerciseType: NSObject?
     @NSManaged var id: String?
     @NSManaged var offset: Double
     @NSManaged var scalarLabels: NSSet?

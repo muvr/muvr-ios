@@ -65,7 +65,8 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - parameter managedObjectContext: the MOC
     ///
     func addExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
-        fatalError()
+        let offset = start.timeIntervalSinceDate(self.start)
+        MRManagedExercise.insertNewObjectIntoSession(self, exerciseDetail: exerciseDetail, labels: labels, offset: offset, duration: duration, inManagedObjectContext: managedObjectContext)
     }
     
 }

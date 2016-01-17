@@ -14,4 +14,15 @@ public enum MKExerciseLabelDescriptor {
     /// Intensity (for all exercises)
     case Intensity
     
+    ///
+    /// The identity of the descriptor
+    ///
+    public var id: String {
+        switch self {
+        case .Weight: return "weight"
+        case .Repetitions: return "repetitions"
+        case .Intensity: return "intensity"
+        }
+    }
+
 }

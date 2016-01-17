@@ -258,23 +258,8 @@ class MRExerciseView : UIView {
             for exerciseLabel in exerciseLabels {
                 let frame = CGRect(x: left, y: 0, width: width - padding, height: height - padding)
                 left += width
-                switch exerciseLabel {
-                case .Intensity(let intensity):
-                    let view = MRBarsView(frame: frame)
-                    view.backgroundColor = UIColor.whiteColor()
-                    view.value = Int(intensity * 5)
-                    labelsView.addSubview(view)
-                case .Repetitions(let repetitions):
-                    let view = MRRepetitionsView(frame: frame)
-                    view.backgroundColor = UIColor.whiteColor()
-                    view.value = repetitions
-                    labelsView.addSubview(view)
-                case .Weight(let weight):
-                    let view = MRWeightView(frame: frame)
-                    view.value = weight
-                    view.backgroundColor = UIColor.whiteColor()
-                    labelsView.addSubview(view)
-                }
+                let view = MRExerciseLabelViews.viewForExerciseDetail(exerciseDetail!, label: exerciseLabel, frame: frame)!
+                labelsView.addSubview(view)
             }
         }
     }

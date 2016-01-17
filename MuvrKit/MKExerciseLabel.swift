@@ -32,12 +32,19 @@ public enum MKExerciseLabel : Equatable {
     ///
     /// The descriptor for each specific value
     ///
-    var descriptor: MKExerciseLabelDescriptor {
+    public var descriptor: MKExerciseLabelDescriptor {
         switch self {
         case .Weight: return .Weight
         case .Intensity: return .Intensity
         case .Repetitions: return .Repetitions
         }
+    }
+
+    ///
+    /// The identity of this value
+    ///
+    public var id: String {
+        return descriptor.id
     }
 
 }

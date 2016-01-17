@@ -19,30 +19,19 @@ class MRSessionLabellingViewController: UIViewController {
     
     private var exerciseDetail: MKExerciseDetail!
     
-    // TODO: Configurable
-    /// The default repetitions
-    private let defaultRepetitions = 10
-    /// The default weight
-    private let defaultWeight = 10.0
-    /// The weight increment
-    private let weightIncrement: Double = 1.0
-    
     ///
-    /// Sets the repetitions, weight and intensity from the given ``exercise``,
-    /// calling the ``onUpdate`` function whenever the user changes the given
-    /// values.
+    /// Sets exercise detail and the labels for the users to verify.
     ///
-    /// - parameter exercise: the exercise whose values to be displayed
+    /// - parameter exerciseDetail: the exercise whose values to be displayed
     /// - parameter onUpdate: a function that will be called on change of values
     ///
-    func setExerciseDetail(exerciseDetail: MKExerciseDetail, onLabelsUpdated: OnLabelsUpdated) {
+    func setExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], onLabelsUpdated: OnLabelsUpdated) {
         self.onLabelsUpdated = onLabelsUpdated
         self.exerciseDetail = exerciseDetail
     }
         
     /// Calls the onUpdate with the appropriate values
     private func update() {
-        
         onLabelsUpdated([])
     }
     
