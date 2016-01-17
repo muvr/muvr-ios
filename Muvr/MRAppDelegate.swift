@@ -39,11 +39,6 @@ enum MRAppError : ErrorType {
 protocol MRApp : MKExercisePropertySource {
     
     ///
-    /// The NSManagedObjectContext for the Core Data operations.
-    ///
-    var managedObjectContext: NSManagedObjectContext { get }
-    
-    ///
     /// The user's current location
     ///
     var locationName: String? { get }
@@ -57,11 +52,6 @@ protocol MRApp : MKExercisePropertySource {
     /// Performs initial setup
     ///
     func initialSetup()
-    
-    ///
-    /// Saves the pending changes in the app's ``managedObjectContext``.
-    ///
-    func saveContext()
     
     ///
     /// Explicitly starts an exercise session for the given ``type``.
@@ -94,7 +84,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private var connectivity: MKAppleWatchConnectivity!
     private var classifier: MKSessionClassifier!
     private var sensorDataSplitter: MKSensorDataSplitter!
-    private var currentSession: MRManagedExerciseSession?
+    // :( But needed for tests
+    private(set) internal var currentSession: MRManagedExerciseSession?
     private var locationManager: CLLocationManager!
     private var currentLocation: MRManagedLocation?
 
@@ -250,6 +241,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     private func endSession(session: MRManagedExerciseSession) {
         dismissSessionControllerForSession(session)
+        
+        for (id, exerciseType, offset, duration, labels) in session.exerciseWithLabels {
+            MRManagedExercise.insertNewObjectIntoSession(session, id: id, exerciseType: exerciseType, labels: labels, offset: offset, duration: duration, inManagedObjectContext: managedObjectContext)
+        }
         MRManagedExercisePlan.upsert(session.plan, exerciseType: session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext)
         MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.weightPredictor.json, inManagedObjectContext: managedObjectContext)
         MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingDuration, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.durationPredictor.json, inManagedObjectContext: managedObjectContext)

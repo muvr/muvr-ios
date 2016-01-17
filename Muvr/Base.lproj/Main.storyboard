@@ -87,8 +87,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="k9I-oM-iXu" kind="relationship" relationship="viewControllers" id="eje-hJ-Blx"/>
                         <segue destination="e3O-P6-qPY" kind="relationship" relationship="viewControllers" id="58F-pW-e6f"/>
+                        <segue destination="k9I-oM-iXu" kind="relationship" relationship="viewControllers" id="eje-hJ-Blx"/>
                         <segue destination="Mou-Np-bON" kind="relationship" relationship="viewControllers" id="2jo-CA-uJW"/>
                     </connections>
                 </tabBarController>

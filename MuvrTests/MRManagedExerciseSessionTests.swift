@@ -34,9 +34,9 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
         let givenDetail: MKExerciseDetail = ("foo/bar", MKExerciseType.ResistanceWholeBody, [])
         let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10), .Intensity(intensity: 0.5), .Weight(weight: 40)]
         
-        session.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10, inManagedObjectContext: managedObjectContext)
+        session.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10)
         XCTAssertEqual(session.predictDurationForExerciseDetail(givenDetail), 10)
-        print(session.predictExerciseLabelsForExerciseDetail(givenDetail))
+        XCTAssertEqual(session.predictExerciseLabelsForExerciseDetail(givenDetail).count, 3)
         saveContext()
     }
     

@@ -3,11 +3,14 @@ import CoreData
 import MuvrKit
 
 class MRManagedExerciseSession: NSManagedObject {
+    typealias ExerciseRow = (MKExercise.Id, MKExerciseType, NSTimeInterval, NSTimeInterval, [MKExerciseLabel])
     /// The number of exercise ids for next estimates
     private var exerciseIdCounts: [MKExercise.Id : Int] = [:]
     /// The exercise detail the user has explicitly started
     /// Viz ``setClassificationHint(_:labels:)`` and ``clearClassificationHint``
     private(set) internal var classificationHints: [MKClassificationHint] = []
+    /// The accumulated exercise rows
+    private(set) internal var exerciseWithLabels: [ExerciseRow] = []
     
     /// The set of estimated exercises, used when the session is in real-time mode
     var estimated: [MKExerciseWithLabels] = []
@@ -107,37 +110,30 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - parameter duration: the duration
     /// - parameter managedObjectContext: the MOC
     ///
-    func addExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
-        func scalarValueType(type: String, inExerciseId exerciseId: MKExercise.Id)(exercise: MRManagedExercise) -> Double? {
-            if exercise.id == exerciseId {
-                for label in exercise.scalarLabels.allObjects as! [MRManagedExerciseScalarLabel] {
-                    if label.type == type {
-                        return label.value.doubleValue
-                    }
+    func addExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval) {
+        func extractLabelScalar(labelToScalar: MKExerciseLabel -> Double?)(row: ExerciseRow) -> Double? {
+            for label in row.4 {
+                if let value = labelToScalar(label) {
+                    return value
                 }
             }
             return nil
         }
         
-        
         let offset = start.timeIntervalSinceDate(self.start)
         let (id, exerciseType, _) = exerciseDetail
-        MRManagedExercise.insertNewObjectIntoSession(self, id: id, exerciseType: exerciseType, labels: labels, offset: offset, duration: duration, inManagedObjectContext: managedObjectContext)
+        exerciseWithLabels.append((id, exerciseType, offset, duration, labels))
         
         // add to the plan
         plan.insert(id)
         
         // train the various predictors
-        let sessionExercises = (exercises.allObjects as! [MRManagedExercise])
-        let weights: [Double] = sessionExercises.flatMap(scalarValueType(MKExerciseLabelDescriptor.Weight.id, inExerciseId: id))
-        let intensities: [Double] = sessionExercises.flatMap(scalarValueType(MKExerciseLabelDescriptor.Intensity.id, inExerciseId: id))
-        let repetitions: [Double] = sessionExercises.flatMap(scalarValueType(MKExerciseLabelDescriptor.Repetitions.id, inExerciseId: id))
-        let durations: [Double] = sessionExercises.flatMap { exercise in
-            if exercise.id == id {
-                return exercise.duration
-            }
-            return nil
-        }
+        let historyForThisExercise = exerciseWithLabels.filter { e in return e.0 == id }
+        
+        let weights = historyForThisExercise.flatMap(extractLabelScalar { if case .Weight(let weight) = $0 { return weight } else { return nil } } )
+        let intensities = historyForThisExercise.flatMap(extractLabelScalar { if case .Intensity(let intensity) = $0 { return intensity } else { return nil } } )
+        let repetitions = historyForThisExercise.flatMap(extractLabelScalar { if case .Repetitions(let repetitions) = $0 { return Double(repetitions) } else { return nil } } )
+        let durations = exerciseWithLabels.map { $0.2 }
         weightPredictor.trainPositional(weights, forExerciseId: id)
         durationPredictor.trainPositional(durations, forExerciseId: id)
         intensityPredictor.trainPositional(intensities, forExerciseId: id)

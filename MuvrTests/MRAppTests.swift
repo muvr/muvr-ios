@@ -18,8 +18,18 @@ class MRAppTests : XCTestCase {
     
     func testStartEndJansLair() {
         app.locationManager(CLLocationManager(), didUpdateLocations: [CLLocation(latitude: 53.425416, longitude: -2.225455)])
+        let givenDetail: MKExerciseDetail = ("resistanceTargeted:arms/biceps-curl", MKExerciseType.ResistanceWholeBody, [])
+        let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10), .Intensity(intensity: 0.5), .Weight(weight: 40)]
 
         try! app.startSessionForExerciseType(.ResistanceTargeted(muscleGroups: [.Arms, .Chest]), start: NSDate(), id: NSUUID().UUIDString)
+        app.currentSession!.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10)
+        try! app.endCurrentSession()
+        
+        try! app.startSessionForExerciseType(.ResistanceTargeted(muscleGroups: [.Arms, .Chest]), start: NSDate(), id: NSUUID().UUIDString)
+        let bc = app.currentSession!.exerciseDetailsComingUp.first!
+        XCTAssertEqual(bc.0, givenDetail.0)
+        let labels = app.currentSession!.predictExerciseLabelsForExerciseDetail(bc)
+        print(labels)
         try! app.endCurrentSession()
     }
     

@@ -199,7 +199,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             session.clearClassificationHints()
         case .Done(let exerciseDetail, let labels, let start, let duration):
             // The user has completed the exercise, and accepted our labels
-            session.addExerciseDetail(exerciseDetail, labels: labels, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+            session.addExerciseDetail(exerciseDetail, labels: labels, start: start, duration: duration)
             state = .ComingUp(exerciseDetail: nil)
         }
         refreshViewsForState(state)
@@ -218,7 +218,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             refreshViewsForState(state)
         case .Done(let exerciseDetail, let labels, let start, let duration):
             // The user has completed the exercise, modified our labels, and accepted.
-            session.addExerciseDetail(exerciseDetail, labels: labels, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
+            session.addExerciseDetail(exerciseDetail, labels: labels, start: start, duration: duration)
             state = .ComingUp(exerciseDetail: nil)
             refreshViewsForState(state)
         default: return
