@@ -363,8 +363,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - Scalar rounder
     private func roundWeight(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
         for property in exercisePropertiesForExerciseId(exerciseId) {
-            switch property {
-            case .WeightProgression(let minimum, let step, let maximum):
+            if case .WeightProgression(let minimum, let step, let maximum) = property {
                 return MKScalarRounderFunction.roundMinMax(value, minimum: minimum, step: step, maximum: maximum)
             }
         }

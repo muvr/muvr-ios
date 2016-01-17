@@ -13,11 +13,37 @@ class MRManagedExerciseSession: NSManagedObject {
     var estimated: [MKExerciseWithLabels] = []
     /// The weight predictor
     var weightPredictor: MKScalarPredictor!
+
     /// The exercise plan
     var plan: MKExercisePlan<MKExercise.Id>!
     
-    var exerciseIdsComingUp: [MKExerciseDetail] {
+    ///
+    /// The exercise details that are coming up, ordered by their score
+    ///
+    var exerciseDetailsComingUp: [MKExerciseDetail] {
         return MRAppDelegate.sharedDelegate().exerciseDetailsForExerciseIds(plan.next, favouringType: exerciseType)
+    }
+    
+    func predictDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
+        let (_, exerciseType, properties) = exerciseDetail
+        for property in properties {
+            switch property {
+            case .TypicalDuration(let duration): return duration
+            default: continue
+            }
+        }
+        switch exerciseType {
+        case .IndoorsCardio: return 45 * 60
+        case .ResistanceTargeted: return 60
+        case .ResistanceWholeBody: return 60
+        }
+    }
+    
+    ///
+    /// Predicts the needed rest duration
+    ///
+    func predictRestDuration() -> NSTimeInterval {
+        return 60
     }
     
     ///

@@ -94,8 +94,7 @@ class MRSessionLabellingViewController: UIViewController, UITableViewDataSource 
             return .Repetitions(repetitions: repetitions)
         case .Weight(var weight):
             for property in properties {
-                switch property {
-                case .WeightProgression(let minimum, let step, let maximum):
+                if case .WeightProgression(let minimum, let step, let maximum) = property {
                     if increment { weight = min(maximum ?? 999, weight + step) } else { weight = max(minimum, weight - step) }
                     return .Weight(weight: weight)
                 }

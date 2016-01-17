@@ -4,6 +4,8 @@ import MuvrKit
 extension MKExerciseProperty {
     
     static let weightProgression = "weightProgression"
+    static let oneRepetitionDuration = "oneRepetitionDuration"
+    static let typicalDuration = "typicalDuration"
 
     init?(json: AnyObject) {
         guard let json = json as? [String : AnyObject],
@@ -14,6 +16,10 @@ extension MKExerciseProperty {
            let maximum = json["maximum"] as? NSNumber?
            where type == MKExerciseProperty.weightProgression {
             self = .WeightProgression(minimum: minimum.doubleValue, step: step.doubleValue, maximum: maximum?.doubleValue)
+        } else if let duration = json["duration"] as? NSNumber where type == MKExerciseProperty.typicalDuration {
+            self = .TypicalDuration(duration: duration.doubleValue)
+        } else if let duration = json["duration"] as? NSNumber where type == MKExerciseProperty.oneRepetitionDuration {
+            self = .OneRepetitionDuration(duration: duration.doubleValue)
         } else {
             return nil
         }
@@ -27,6 +33,10 @@ extension MKExerciseProperty {
                 result["maximum"] = maximum
             }
             return result
+        case .TypicalDuration(let duration):
+            return ["type":MKExerciseProperty.typicalDuration, "duration":duration]
+        case .OneRepetitionDuration(let duration):
+            return ["type":MKExerciseProperty.oneRepetitionDuration, "duration":duration]
         }
     }
     

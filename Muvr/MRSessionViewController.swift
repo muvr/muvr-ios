@@ -82,13 +82,13 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         mainExerciseView.progressFullColor = state.color
         switch state {
         case .ComingUp(let exerciseDetail):
-            let comingUp = session.exerciseIdsComingUp
+            let comingUp = session.exerciseDetailsComingUp
             let ed = exerciseDetail ?? comingUp.first
             mainExerciseView.headerTitle = "Coming up".localized()
             mainExerciseView.exerciseDetail = ed
             mainExerciseView.exerciseLabels = ed.map(session.predictExerciseLabelsForExerciseDetail)
             mainExerciseView.reset()
-            mainExerciseView.start(60)
+            mainExerciseView.start(session.predictRestDuration())
             switchToViewController(comingUpViewController, fromRight: exerciseDetail == nil)
             comingUpViewController.setExerciseDetails(comingUp, onSelected: selectedExerciseDetail)
         case .Ready:
@@ -96,10 +96,10 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             mainExerciseView.reset()
             mainExerciseView.start(5)
             switchToViewController(readyViewController)
-        case .InExercise:
+        case .InExercise(let exerciseDetail, _):
             mainExerciseView.headerTitle = "Stop".localized()
             mainExerciseView.reset()
-            mainExerciseView.start(60)
+            mainExerciseView.start(session.predictDurationForExerciseDetail(exerciseDetail))
             switchToViewController(inExerciseViewController)
         case .Done(let exerciseDetail, _, _, _):
             mainExerciseView.headerTitle = "Finished".localized()
