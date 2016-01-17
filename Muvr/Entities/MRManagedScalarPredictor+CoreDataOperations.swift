@@ -23,6 +23,7 @@ extension MRManagedScalarPredictor {
         if let sessionExerciseType = sessionExerciseType {
             predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate, NSPredicate(exerciseType: sessionExerciseType)])
         }
+        fetchRequest.predicate = predicate
         fetchRequest.fetchLimit = 1
         
         return (try! managedObjectContext.executeFetchRequest(fetchRequest)).first as? MRManagedScalarPredictor
@@ -38,6 +39,7 @@ extension MRManagedScalarPredictor {
     ///
     static func scalarPredictorFor(type: String, location: MRLocationCoordinate2D?, sessionExerciseType: MKExerciseType?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedScalarPredictor? {
         if let exact = exactScalarPredictorFor(type, location: location, sessionExerciseType: sessionExerciseType, inManagedObjectContext: managedObjectContext) {
+            assert(exact.type == type)
             return exact
         } else if location != nil {
             return exactScalarPredictorFor(type, location: nil, sessionExerciseType: sessionExerciseType, inManagedObjectContext: managedObjectContext)
@@ -57,6 +59,7 @@ extension MRManagedScalarPredictor {
     ///
     static func upsertScalarPredictor(type: String, location: MRLocationCoordinate2D?, sessionExerciseType: MKExerciseType, data: NSData, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
         if let existing = exactScalarPredictorFor(type, location: location, sessionExerciseType: sessionExerciseType, inManagedObjectContext: managedObjectContext) {
+            assert(existing.type == type)
             existing.data = data
         } else {
             var mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedScalarPredictor", inManagedObjectContext: managedObjectContext) as! MRManagedScalarPredictor
