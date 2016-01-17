@@ -11,7 +11,7 @@ protocol MRExerciseLabelSetter {
 
 struct MRExerciseLabelViews {
     
-    static func viewForExerciseDetail(exerciseDetail: MKExerciseDetail, label: MKExerciseLabel, frame: CGRect) -> UIView? {
+    static func viewForLabel(label: MKExerciseLabel, frame: CGRect) -> UIView? {
         switch label {
         case .Intensity(let intensity):
             let view = MRBarsView(frame: frame)

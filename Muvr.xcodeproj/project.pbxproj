@@ -714,7 +714,6 @@
 				54EFE97A1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift */,
 				541ABBAA1AC577E00056A81B /* Images.xcassets */,
 				541ABBA71AC577E00056A81B /* Main.storyboard */,
-				547FD9D21C42C31700B01904 /* Session.storyboard */,
 				541ABBAC1AC577E00056A81B /* LaunchScreen.xib */,
 				FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */,
 				549A30081BDD0BC6006A70EB /* Muvr.xcdatamodeld */,
@@ -910,6 +909,7 @@
 		548C26261C4A63E9009F299B /* Session */ = {
 			isa = PBXGroup;
 			children = (
+				547FD9D21C42C31700B01904 /* Session.storyboard */,
 				5493FC1E1C42C9C400317A15 /* MRSessionViewController.swift */,
 				6428CE291C45127500D17451 /* MRSessionComingUpViewController.swift */,
 				6428CE2B1C451FC700D17451 /* MRSessionLabellingViewController.swift */,

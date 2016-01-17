@@ -120,7 +120,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     ///
     private func switchToViewController(controller: UIViewController, fromRight: Bool = true) {
         /// The frame where the details view are displayed (takes all available space below the main circle view)
-        let y = mainExerciseView.frame.origin.y + mainExerciseView.frame.height + 8
+        let y = mainExerciseView.frame.origin.y + mainExerciseView.frame.height + 20
         let frame = CGRectMake(0, y, view.bounds.width, view.bounds.height - y)
         
         if let previousController = childViewControllers.first {

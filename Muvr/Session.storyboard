@@ -147,41 +147,74 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="69" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="whI-rb-ilP">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="69" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="whI-rb-ilP">
+                                <rect key="frame" x="0.0" y="20" width="414" height="716"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="xxx" textLabel="Hjk-t3-ys1" detailTextLabel="agO-bl-G0w" rowHeight="69" style="IBUITableViewCellStyleValue2" id="HFF-1f-adO">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="label" rowHeight="69" id="HFF-1f-adO" customClass="MRSessionLabellingTableViewCell" customModule="Muvr" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="69"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HFF-1f-adO" id="aQW-4E-SNf">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="68"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hjk-t3-ys1">
-                                                    <rect key="frame" x="15" y="27" width="91" height="15"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="agO-bl-G0w">
-                                                    <rect key="frame" x="112" y="27" width="33" height="15"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xHg-dn-Rk2" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
+                                                    <rect key="frame" x="326" y="9" width="50" height="50"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="xHg-dn-Rk2" secondAttribute="height" multiplier="1:1" id="rVL-la-ihA"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="incrementTouched" destination="HFF-1f-adO" eventType="touchUpInside" id="wKU-KE-NkO"/>
+                                                    </connections>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dtX-v4-gen" customClass="MRCircleButton" customModule="Muvr" customModuleProvider="target">
+                                                    <rect key="frame" x="38" y="9" width="50" height="50"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="dtX-v4-gen" secondAttribute="height" multiplier="1:1" id="Y4x-T9-Saf"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="NO"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="decrementTouched" destination="HFF-1f-adO" eventType="touchUpInside" id="IAZ-5m-ppW"/>
+                                                    </connections>
+                                                </view>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="dtX-v4-gen" firstAttribute="centerY" secondItem="aQW-4E-SNf" secondAttribute="centerY" id="Pef-jU-UKB"/>
+                                                <constraint firstItem="xHg-dn-Rk2" firstAttribute="centerY" secondItem="aQW-4E-SNf" secondAttribute="centerY" id="Qai-jG-4Ik"/>
+                                                <constraint firstItem="xHg-dn-Rk2" firstAttribute="top" secondItem="aQW-4E-SNf" secondAttribute="topMargin" constant="1" id="X34-qz-lgG"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="xHg-dn-Rk2" secondAttribute="trailing" constant="30" id="Xmz-UL-rxt"/>
+                                                <constraint firstItem="dtX-v4-gen" firstAttribute="top" secondItem="aQW-4E-SNf" secondAttribute="topMargin" constant="1" id="XtE-ua-HUh"/>
+                                                <constraint firstItem="dtX-v4-gen" firstAttribute="leading" secondItem="aQW-4E-SNf" secondAttribute="leadingMargin" constant="30" id="lxw-eb-060"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="vj1-FS-bjP" id="14P-tZ-Eg9"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="whI-rb-ilP" firstAttribute="leading" secondItem="zQj-ZN-jcM" secondAttribute="leadingMargin" constant="-20" id="6ep-7d-GJ3"/>
+                            <constraint firstItem="whI-rb-ilP" firstAttribute="top" secondItem="5c6-F1-M18" secondAttribute="bottom" id="8UJ-zV-zcX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="whI-rb-ilP" secondAttribute="trailing" constant="-20" id="AYA-FT-uhx"/>
+                            <constraint firstItem="YSH-v9-Aja" firstAttribute="top" secondItem="whI-rb-ilP" secondAttribute="bottom" id="O5q-rv-z6d"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="tableView" destination="whI-rb-ilP" id="U5I-fW-EXp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v3Z-bc-2Dn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
