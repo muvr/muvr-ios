@@ -11,22 +11,22 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         /// An exercise ``exericseId`` with the ``labels`` is next
         /// - parameter exerciseId: the exercise identity
         /// - parameter labels: the labels
-        case ComingUp(exerciseDetail: MRExerciseDetail?)
+        case ComingUp(exerciseDetail: MKExerciseDetail?)
         /// The user should get ready to start the given ``exercise``
         /// - parameter exerciseId: the exercise identity
         /// - parameter labels: the labels
-        case Ready(exerciseDetail: MRExerciseDetail, labels: [MKExerciseLabel])
+        case Ready(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel])
         /// The user is exercising
         /// - parameter exerciseId: the exercise identity
         /// - parameter labels: the labels
         /// - parameter start: the start date
-        case InExercise(exerciseDetail: MRExerciseDetail, labels: [MKExerciseLabel], start: NSDate)
+        case InExercise(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate)
         /// The user has finished exercising
         /// - parameter exerciseId: the exercise identity
         /// - parameter labels: the labels
         /// - parameter start: the start date
         /// - parameter duration: the duration
-        case Done(exerciseDetail: MRExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval)
+        case Done(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval)
         
         var color: UIColor {
             switch self {
@@ -173,7 +173,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     
     /// Called when an exercise is selected
     /// - parameter exercise: the selected exercise
-    private func selectedExerciseDetail(selectedExerciseDetail: MRExerciseDetail) {
+    private func selectedExerciseDetail(selectedExerciseDetail: MKExerciseDetail) {
         mainExerciseView.exerciseDetail = selectedExerciseDetail
         mainExerciseView.exerciseLabels = session.predictExerciseLabelsForExerciseDetail(selectedExerciseDetail)
     }
@@ -195,7 +195,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             state = .ComingUp(exerciseDetail: exerciseDetail)
         case .InExercise(let exerciseDetail, let labels, let start):
             state = .Done(exerciseDetail: exerciseDetail, labels: labels, start: start, duration: NSDate().timeIntervalSinceDate(start))
-            session.endExercise()
+            session.clearClassificationHints()
         case .Done(let exerciseDetail, let labels, let start, let duration):
             // The user has completed the exercise, and accepted our labels
             session.addExerciseDetail(exerciseDetail, labels: labels, start: start, duration: duration, inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext)
@@ -211,7 +211,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             mainExerciseView.progressFullColor = UIColor.orangeColor()
         case .Ready(let exerciseDetail, let labels):
             // We've had the time to get ready. Now time to exercise.
-            session.beginExerciseDetail(exerciseDetail, labels: labels)
+            session.setClassificationHint(exerciseDetail, labels: labels)
             state = .InExercise(exerciseDetail: exerciseDetail, labels: labels, start: NSDate())
             refreshViewsForState(state)
         case .Done(let exerciseDetail, let labels, let start, let duration):

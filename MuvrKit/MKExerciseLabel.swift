@@ -3,7 +3,7 @@ import Foundation
 ///
 /// A "tag" that can be attached to an exercise
 ///
-public enum MKExerciseLabel {
+public enum MKExerciseLabel : Equatable {
     
     ///
     /// Weight in kilograms
@@ -39,5 +39,14 @@ public enum MKExerciseLabel {
         case .Repetitions: return .Repetitions
         }
     }
-    
+
+}
+
+public func ==(lhs: MKExerciseLabel, rhs: MKExerciseLabel) -> Bool {
+    switch (lhs, rhs) {
+    case (.Weight(let l), .Weight(let r)): return l == r
+    case (.Repetitions(let l), .Repetitions(let r)): return l == r
+    case (.Intensity(let l), .Intensity(let r)): return l == r
+    default: return false
+    }
 }

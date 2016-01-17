@@ -17,7 +17,7 @@ class MRSessionLabellingViewController: UIViewController {
     /// The function that will be called whenever a value changes
     private var onLabelsUpdated: OnLabelsUpdated!
     
-    private var exerciseDetail: MRExerciseDetail!
+    private var exerciseDetail: MKExerciseDetail!
     
     // TODO: Configurable
     /// The default repetitions
@@ -35,7 +35,7 @@ class MRSessionLabellingViewController: UIViewController {
     /// - parameter exercise: the exercise whose values to be displayed
     /// - parameter onUpdate: a function that will be called on change of values
     ///
-    func setExerciseDetail(exerciseDetail: MRExerciseDetail, onLabelsUpdated: OnLabelsUpdated) {
+    func setExerciseDetail(exerciseDetail: MKExerciseDetail, onLabelsUpdated: OnLabelsUpdated) {
         self.onLabelsUpdated = onLabelsUpdated
         self.exerciseDetail = exerciseDetail
     }

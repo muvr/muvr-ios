@@ -4,8 +4,6 @@ import MuvrKit
 import CoreData
 import CoreLocation
 
-typealias MRExerciseDetail = (MKExercise.Id, MKExerciseType, [MKExerciseProperty])
-
 ///
 /// The notifications: when creating a new notification, be sure to add it only here
 /// and never use notification key constants anywhere else.
@@ -53,7 +51,7 @@ protocol MRApp : MKExercisePropertySource {
     ///
     /// The list of exercise ids at the current location
     ///
-    var exerciseDetails: [MRExerciseDetail] { get }
+    var exerciseDetails: [MKExerciseDetail] { get }
     
     ///
     /// Performs initial setup
@@ -96,13 +94,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private var locationManager: CLLocationManager!
     private var currentLocation: MRManagedLocation?
     private var weightPredictor: MKPolynomialFittingScalarPredictor!
-    private var baseExerciseDetails: [MRExerciseDetail] = []
-    private var currentLocationExerciseDetails: [MRExerciseDetail] = []
+    private var baseExerciseDetails: [MKExerciseDetail] = []
+    private var currentLocationExerciseDetails: [MKExerciseDetail] = []
     
     // MARK: - MKClassificationHintSource
-    var exercisingHints: [MKClassificationHint]? {
+    var classificationHints: [MKClassificationHint]? {
         get {
-            return currentSession?.exercisingHints
+            return currentSession?.classificationHints
         }
     }
     
@@ -113,7 +111,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
 
-    var exerciseDetails: [MRExerciseDetail] = []
+    var exerciseDetails: [MKExerciseDetail] = []
     
     ///
     /// Returns this shared delegate

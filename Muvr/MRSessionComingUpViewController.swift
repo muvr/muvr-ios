@@ -9,7 +9,7 @@ import MuvrKit
 ///
 class MRSessionComingUpViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
-    typealias OnSelected = MRExerciseDetail -> Void
+    typealias OnSelected = MKExerciseDetail -> Void
     private var onSelected: OnSelected!
     
     ///
@@ -29,7 +29,7 @@ class MRSessionComingUpViewController: UIViewController {
     /// - parameter exerciseDetails: the exercises details
     /// - parameter onSelected: the function to be called on selection
     ///
-    func setExerciseDetails(exerciseDetails: [MRExerciseDetail], onSelected: OnSelected) {
+    func setExerciseDetails(exerciseDetails: [MKExerciseDetail], onSelected: OnSelected) {
         scrollView.subviews.forEach { $0.removeFromSuperview() }
         
         self.onSelected = onSelected

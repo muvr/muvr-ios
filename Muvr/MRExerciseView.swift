@@ -299,7 +299,7 @@ class MRExerciseView : UIView {
     ///
     /// The exercise being displayed
     ///
-    var exerciseDetail: MRExerciseDetail? {
+    var exerciseDetail: MKExerciseDetail? {
         didSet {
             UIView.performWithoutAnimation(updateUI)
         }
