@@ -15,9 +15,9 @@ import CoreData
 extension MRManagedExercise : MRManagedExerciseType {
 
     @NSManaged var duration: Double
-    @NSManaged var id: String?
+    @NSManaged var id: String
     @NSManaged var offset: Double
-    @NSManaged var scalarLabels: NSSet?
+    @NSManaged var scalarLabels: NSSet
     @NSManaged var session: MRManagedExerciseSession?
 
 }

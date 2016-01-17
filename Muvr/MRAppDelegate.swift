@@ -84,6 +84,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     var window: UIWindow?
     
+    private let polynomialFittingWeight = "pfw"
+    private let polynomialFittingDuration = "pfd"
+    private let polynomialFittingIntensity = "pfi"
+    private let polynomialFittingRepetitions = "pfr"
+    
     private let sessionStoryboard = UIStoryboard(name: "Session", bundle: nil)
     private var sessionViewController: UIViewController?
     private var connectivity: MKAppleWatchConnectivity!
@@ -92,7 +97,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private var currentSession: MRManagedExerciseSession?
     private var locationManager: CLLocationManager!
     private var currentLocation: MRManagedLocation?
-    private var weightPredictor: MKPolynomialFittingScalarPredictor!
+
     private var baseExerciseDetails: [MKExerciseDetail] = []
     private var currentLocationExerciseDetails: [MKExerciseDetail] = []
     
@@ -127,7 +132,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
         classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: sensorDataSplitter, delegate: self)
         connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
-        weightPredictor = MKPolynomialFittingScalarPredictor(round: roundWeight)
 
         // Load base configuration
         let baseConfigurationPath = NSBundle.mainBundle().pathForResource("BaseConfiguration", ofType: "bundle")!
@@ -147,10 +151,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             fatalError()
         }
         
-        
-        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: nil, inManagedObjectContext: managedObjectContext) {
-            weightPredictor.mergeJSON(p.data)
-        }
         
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -251,8 +251,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private func endSession(session: MRManagedExerciseSession) {
         dismissSessionControllerForSession(session)
         MRManagedExercisePlan.upsert(session.plan, exerciseType: session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        MRManagedScalarPredictor.upsertScalarPredictor("polynomialFitting", location: currentLocation, data: weightPredictor.json, inManagedObjectContext: managedObjectContext)
-        
+        MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.weightPredictor.json, inManagedObjectContext: managedObjectContext)
+        MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingDuration, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.durationPredictor.json, inManagedObjectContext: managedObjectContext)
+        MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingIntensity, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.intensityPredictor.json, inManagedObjectContext: managedObjectContext)
+        MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingRepetitions, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.repetitionsPredictor.json, inManagedObjectContext: managedObjectContext)
+
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
         
         saveContext()
@@ -291,7 +294,24 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         if currentSession != nil {
             throw MRAppError.SessionAlreadyInProgress
         }
-        
+
+        let weightPredictor = MKPolynomialFittingScalarPredictor(round: roundWeight)
+        let durationPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
+        let intensityPredictor = MKPolynomialFittingScalarPredictor(round: roundClip)
+        let repetitionsPredictor = MKPolynomialFittingScalarPredictor(round: roundInteger)
+        if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: exerciseType, inManagedObjectContext: managedObjectContext) {
+            weightPredictor.mergeJSON(p.data)
+        }
+        if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingDuration, location: currentLocation, sessionExerciseType: exerciseType, inManagedObjectContext: managedObjectContext) {
+            durationPredictor.mergeJSON(p.data)
+        }
+        if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingIntensity, location: currentLocation, sessionExerciseType: exerciseType, inManagedObjectContext: managedObjectContext) {
+            intensityPredictor.mergeJSON(p.data)
+        }
+        if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingRepetitions, location: currentLocation, sessionExerciseType: exerciseType, inManagedObjectContext: managedObjectContext) {
+            repetitionsPredictor.mergeJSON(p.data)
+        }
+
         let session = MRManagedExerciseSession.insert(id, exerciseType: exerciseType, start: start, location: currentLocation, inManagedObjectContext: managedObjectContext)
         if let plan = MRManagedExercisePlan.planForExerciseType(exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext) {
             session.plan = plan.plan
@@ -299,6 +319,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             session.plan = MKExercisePlan<MKExercise.Id>()
         }
         session.weightPredictor = weightPredictor
+        session.durationPredictor = durationPredictor
+        session.intensityPredictor = intensityPredictor
+        session.repetitionsPredictor = repetitionsPredictor
 
         currentSession = session
         
@@ -318,6 +341,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     func initialSetup() {
         let generalWeightProgression: [Double] = [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5, 10]
         
+        let weightPredictor = MKPolynomialFittingScalarPredictor(round: roundWeight)
         for (exerciseId, _, _) in exerciseDetails {
             if let type = MKExerciseType(exerciseId: exerciseId) {
                 var multiplier: Double = 1.0
@@ -331,11 +355,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
                 weightPredictor.trainPositional(generalWeightProgression.map { $0 * multiplier }, forExerciseId: exerciseId)
             }
         }
-        MRManagedScalarPredictor.upsertScalarPredictor("polynomialFitting", location: nil, data: weightPredictor.json, inManagedObjectContext: managedObjectContext)
         
         // Next, construct some default plans
-        /*
-        let plan = MKExercisePlan<MKExerciseId>()
         let allExerciseTypes: [MKExerciseType] = [
             .ResistanceTargeted(muscleGroups: [.Arms]),
             .ResistanceTargeted(muscleGroups: [.Core]),
@@ -346,7 +367,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             .ResistanceWholeBody,
             .IndoorsCardio
         ]
-        */
+        for exerciseType in allExerciseTypes {
+            MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingWeight, location: nil, sessionExerciseType: exerciseType, data: weightPredictor.json, inManagedObjectContext: managedObjectContext)
+        }
         
         saveContext()
     }
@@ -361,13 +384,26 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     // MARK: - Scalar rounder
+    
+    private func roundInteger(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        return Double(Int(value))
+    }
+    
+    private func noRound(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        return max(0, value)
+    }
+    
+    private func roundClip(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        return min(1, max(0, value))
+    }
+    
     private func roundWeight(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
         for property in exercisePropertiesForExerciseId(exerciseId) {
             if case .WeightProgression(let minimum, let step, let maximum) = property {
                 return MKScalarRounderFunction.roundMinMax(value, minimum: minimum, step: step, maximum: maximum)
             }
         }
-        return value
+        return max(0, value)
     }
     
     // MARK: - Core Location stack
@@ -391,9 +427,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             exerciseDetails = baseExerciseDetails
         }
         
-        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: location.coordinate, inManagedObjectContext: managedObjectContext) {
-            weightPredictor.mergeJSON(p.data)
-        }
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
     }
     

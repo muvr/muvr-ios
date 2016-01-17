@@ -5,6 +5,12 @@ import Foundation
 ///
 public protocol MKScalarPredictor {
     
+    /// The JSON representation of the predictor
+    var json: NSData { get }
+    
+    /// Merge this (possibly empty) predictor with the given ``data``
+    func mergeJSON(data: NSData)
+    
     ///
     /// Trains the predictor with the given ``trainingSet`` and ``exerciseId``
     /// - parameter trainingSet: the training set

@@ -47,6 +47,7 @@
     </entity>
     <entity name="MRManagedScalarPredictor" representedClassName=".MRManagedScalarPredictor" syncable="YES">
         <attribute name="data" attributeType="Binary" syncable="YES"/>
+        <attribute name="exerciseType" attributeType="String" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="type" attributeType="String" syncable="YES"/>
@@ -58,6 +59,6 @@
         <element name="MRManagedExerciseSession" positionX="-893" positionY="-171" width="128" height="178"/>
         <element name="MRManagedLocation" positionX="-1422" positionY="-432" width="128" height="133"/>
         <element name="MRManagedLocationExercise" positionX="-2016" positionY="-387" width="234" height="118"/>
-        <element name="MRManagedScalarPredictor" positionX="-1224" positionY="-474" width="243" height="105"/>
+        <element name="MRManagedScalarPredictor" positionX="-1224" positionY="-474" width="243" height="120"/>
     </elements>
 </model>

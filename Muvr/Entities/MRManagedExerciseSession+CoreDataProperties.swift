@@ -20,7 +20,7 @@ extension MRManagedExerciseSession : MRManagedExerciseType {
     @NSManaged var sensorData: NSData?
     @NSManaged var start: NSDate
     @NSManaged var uploaded: Bool
-    @NSManaged var exercises: NSSet?
+    @NSManaged var exercises: NSSet
     @NSManaged var location: MRManagedLocation?
 
 }

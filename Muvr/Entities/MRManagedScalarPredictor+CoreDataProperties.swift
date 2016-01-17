@@ -12,11 +12,11 @@
 import Foundation
 import CoreData
 
-extension MRManagedScalarPredictor {
+extension MRManagedScalarPredictor : MRManagedExerciseType {
 
     @NSManaged var data: NSData
     @NSManaged var latitude: NSNumber?
     @NSManaged var longitude: NSNumber?
-    @NSManaged var type: String?
+    @NSManaged var type: String
 
 }

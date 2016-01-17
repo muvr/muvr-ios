@@ -13,6 +13,12 @@ class MRManagedExerciseSession: NSManagedObject {
     var estimated: [MKExerciseWithLabels] = []
     /// The weight predictor
     var weightPredictor: MKScalarPredictor!
+    /// The weight predictor
+    var durationPredictor: MKScalarPredictor!
+    /// The repetitions predictor
+    var repetitionsPredictor: MKScalarPredictor!
+    /// The intensity predictor
+    var intensityPredictor: MKScalarPredictor!
 
     /// The exercise plan
     var plan: MKExercisePlan<MKExercise.Id>!
@@ -24,8 +30,19 @@ class MRManagedExerciseSession: NSManagedObject {
         return MRAppDelegate.sharedDelegate().exerciseDetailsForExerciseIds(plan.next, favouringType: exerciseType)
     }
     
+    ///
+    /// Predicts the duration for the given ``exerciseDetail``
+    /// - parameter exerciseDetail: the exercise detail
+    /// - returns: the expected duration
+    ///
     func predictDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
-        let (_, exerciseType, properties) = exerciseDetail
+        let (id, exerciseType, properties) = exerciseDetail
+        let n = exerciseIdCounts[id] ?? 0
+
+        if let prediction = durationPredictor.predictScalarForExerciseId(exerciseDetail.0, n: n) {
+            return prediction
+        }
+        
         for property in properties {
             switch property {
             case .TypicalDuration(let duration): return duration
@@ -56,9 +73,9 @@ class MRManagedExerciseSession: NSManagedObject {
         let n = exerciseIdCounts[id] ?? 0
         return exerciseType.labelDescriptors.flatMap {
             switch $0 {
-            case .Repetitions: return nil
+            case .Repetitions: return repetitionsPredictor.predictScalarForExerciseId(id, n: n).map { .Repetitions(repetitions: Int($0)) }
             case .Weight: return weightPredictor.predictScalarForExerciseId(id, n: n).map { .Weight(weight: $0) }
-            case .Intensity: return nil 
+            case .Intensity: return intensityPredictor.predictScalarForExerciseId(id, n: n).map { .Intensity(intensity: $0) }
             }
         }
     }
@@ -91,12 +108,40 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - parameter managedObjectContext: the MOC
     ///
     func addExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
+        func scalarValueType(type: String, inExerciseId exerciseId: MKExercise.Id)(exercise: MRManagedExercise) -> Double? {
+            if exercise.id == exerciseId {
+                for label in exercise.scalarLabels.allObjects as! [MRManagedExerciseScalarLabel] {
+                    if label.type == MKExerciseLabelDescriptor.Weight.id {
+                        return label.value.doubleValue
+                    }
+                }
+            }
+            return nil
+        }
+        
+        
         let offset = start.timeIntervalSinceDate(self.start)
         let (id, exerciseType, _) = exerciseDetail
         MRManagedExercise.insertNewObjectIntoSession(self, id: id, exerciseType: exerciseType, labels: labels, offset: offset, duration: duration, inManagedObjectContext: managedObjectContext)
         
         // add to the plan
         plan.insert(id)
+        
+        // train the various predictors
+        let sessionExercises = (exercises.allObjects as! [MRManagedExercise])
+        let weights: [Double] = sessionExercises.flatMap(scalarValueType(MKExerciseLabelDescriptor.Weight.id, inExerciseId: id))
+        let intensities: [Double] = sessionExercises.flatMap(scalarValueType(MKExerciseLabelDescriptor.Intensity.id, inExerciseId: id))
+        let repetitions: [Double] = sessionExercises.flatMap(scalarValueType(MKExerciseLabelDescriptor.Repetitions.id, inExerciseId: id))
+        let durations: [Double] = sessionExercises.flatMap { exercise in
+            if exercise.id == id {
+                return exercise.duration
+            }
+            return nil
+        }
+        weightPredictor.trainPositional(weights, forExerciseId: id)
+        durationPredictor.trainPositional(durations, forExerciseId: id)
+        intensityPredictor.trainPositional(intensities, forExerciseId: id)
+        repetitionsPredictor.trainPositional(repetitions, forExerciseId: id)
         
         // update counts
         exerciseIdCounts[id] = exerciseIdCounts[id].map { $0 + 1 } ?? 0
