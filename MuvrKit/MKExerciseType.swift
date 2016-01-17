@@ -17,6 +17,24 @@ public enum MKExerciseType : Equatable, Hashable {
     /// - parameter muscleGroups: the muscle groups
     case ResistanceTargeted(muscleGroups: [MKMuscleGroup])
     
+    ///
+    /// Indicates whether self is contained in that. This is useful for targeted 
+    /// resistance with multiple muscle groups, where strict equality does not work
+    /// - parameter that: the other ET
+    /// - returns: true if self is contained within that
+    ///
+    public func isContainedWithin(that: MKExerciseType) -> Bool {
+        switch (self, that) {
+        case (.ResistanceTargeted(let lmgs), .ResistanceTargeted(let rmgs)):
+            return lmgs.reduce(true) { result, lmg in
+                return rmgs.contains(lmg)
+            }
+        case (.IndoorsCardio, .IndoorsCardio): return true
+        case (.ResistanceWholeBody, .ResistanceWholeBody): return true
+        default: return false
+        }
+    }
+    
     // Implements Hashable
     public var hashValue: Int {
         get {

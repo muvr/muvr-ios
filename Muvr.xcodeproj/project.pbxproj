@@ -134,7 +134,6 @@
 		548808111BD57D7400419CD8 /* MKPhoneExerciseSessionClassifierDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548808101BD57D7400419CD8 /* MKPhoneExerciseSessionClassifierDelegates.swift */; };
 		548808131BD57D8800419CD8 /* MKPhoneExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548808121BD57D8800419CD8 /* MKPhoneExerciseSession.swift */; };
 		54880CAD1BC048A800349C2E /* MKRepetitionEstimatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54880CAC1BC048A800349C2E /* MKRepetitionEstimatorTests.swift */; };
-		548C26281C4A6480009F299B /* MRGoalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548C26271C4A6480009F299B /* MRGoalsViewController.swift */; };
 		548CAB3D1BBAF72600A34D81 /* MKClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548CAB3C1BBAF72600A34D81 /* MKClassifierTests.swift */; };
 		548CAB411BBB0FCA00A34D81 /* XCTestCase+Exceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548CAB401BBB0FCA00A34D81 /* XCTestCase+Exceptions.swift */; };
 		548E27771BF3FD3D00899EBC /* MKExerciseModel+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548E27761BF3FD3D00899EBC /* MKExerciseModel+Parsing.swift */; };
@@ -185,6 +184,9 @@
 		54E4CB401BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4CB3F1BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift */; };
 		54E9131B1BC306A500B7F9F0 /* class-1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 54E913181BC306A500B7F9F0 /* class-1.csv */; };
 		54E9131C1BC306A500B7F9F0 /* model-3.raw in Resources */ = {isa = PBXBuildFile; fileRef = 54E913191BC306A500B7F9F0 /* model-3.raw */; };
+		54EAC09D1C4C2E8C005AA3F4 /* MRManualViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EAC09C1C4C2E8C005AA3F4 /* MRManualViewController.swift */; };
+		54EAC09F1C4C2FF8005AA3F4 /* MKExerciseTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EAC09E1C4C2FF8005AA3F4 /* MKExerciseTypeTests.swift */; };
+		54EAC0A11C4C3043005AA3F4 /* MKExerciseType+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EAC0A01C4C3043005AA3F4 /* MKExerciseType+Comparable.swift */; };
 		54ECB7371C3FF68200B6E042 /* MKMuscleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ECB7361C3FF68200B6E042 /* MKMuscleGroup.swift */; };
 		54ECB7381C3FF68200B6E042 /* MKMuscleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ECB7361C3FF68200B6E042 /* MKMuscleGroup.swift */; };
 		54ECB73A1C3FF70900B6E042 /* MKExerciseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ECB7391C3FF70900B6E042 /* MKExerciseType.swift */; };
@@ -453,7 +455,6 @@
 		548808101BD57D7400419CD8 /* MKPhoneExerciseSessionClassifierDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneExerciseSessionClassifierDelegates.swift; sourceTree = "<group>"; };
 		548808121BD57D8800419CD8 /* MKPhoneExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneExerciseSession.swift; sourceTree = "<group>"; };
 		54880CAC1BC048A800349C2E /* MKRepetitionEstimatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRepetitionEstimatorTests.swift; sourceTree = "<group>"; };
-		548C26271C4A6480009F299B /* MRGoalsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRGoalsViewController.swift; sourceTree = "<group>"; };
 		548CAB3C1BBAF72600A34D81 /* MKClassifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKClassifierTests.swift; sourceTree = "<group>"; };
 		548CAB401BBB0FCA00A34D81 /* XCTestCase+Exceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Exceptions.swift"; sourceTree = "<group>"; };
 		548E27761BF3FD3D00899EBC /* MKExerciseModel+Parsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseModel+Parsing.swift"; sourceTree = "<group>"; };
@@ -511,6 +512,9 @@
 		54E4CB3F1BD8021C00E0B696 /* MKSensorData+EncodingCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+EncodingCSV.swift"; sourceTree = "<group>"; };
 		54E913181BC306A500B7F9F0 /* class-1.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "class-1.csv"; sourceTree = "<group>"; };
 		54E913191BC306A500B7F9F0 /* model-3.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "model-3.raw"; sourceTree = "<group>"; };
+		54EAC09C1C4C2E8C005AA3F4 /* MRManualViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManualViewController.swift; sourceTree = "<group>"; };
+		54EAC09E1C4C2FF8005AA3F4 /* MKExerciseTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseTypeTests.swift; sourceTree = "<group>"; };
+		54EAC0A01C4C3043005AA3F4 /* MKExerciseType+Comparable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseType+Comparable.swift"; sourceTree = "<group>"; };
 		54ECB7361C3FF68200B6E042 /* MKMuscleGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMuscleGroup.swift; sourceTree = "<group>"; };
 		54ECB7391C3FF70900B6E042 /* MKExerciseType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseType.swift; sourceTree = "<group>"; };
 		54EFE97A1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRAppDelegate+UITesting.swift"; sourceTree = "<group>"; };
@@ -721,6 +725,7 @@
 				549A30081BDD0BC6006A70EB /* Muvr.xcdatamodeld */,
 				6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */,
 				544DE96F1C4023C200297C6B /* MKExerciseType+ExerciseId.swift */,
+				54EAC0A01C4C3043005AA3F4 /* MKExerciseType+Comparable.swift */,
 				5437BD3E1C40493400B518D9 /* MKExerciseTypeDescriptor+ExerciseId.swift */,
 				5421AEBE1C403AE4009CB4FA /* MKExercise+ExerciseId.swift */,
 				5460A7981C443AAE00070ADC /* MRLocationCoordinate2D.swift */,
@@ -853,6 +858,7 @@
 				548CAB3B1BBAF71400A34D81 /* Classification */,
 				548CAB3A1BBAF70700A34D81 /* SensorData */,
 				546E685B1BB98D0800DC0FEF /* MKMuvrKitTests.swift */,
+				54EAC09E1C4C2FF8005AA3F4 /* MKExerciseTypeTests.swift */,
 				546E685D1BB98D0800DC0FEF /* Info.plist */,
 				548CAB401BBB0FCA00A34D81 /* XCTestCase+Exceptions.swift */,
 			);
@@ -901,9 +907,9 @@
 		548C26251C4A63DA009F299B /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				54EAC09C1C4C2E8C005AA3F4 /* MRManualViewController.swift */,
 				54B27DCC1C3BE6A8000A07A2 /* MRStatisticsViewController.swift */,
 				5430FD6D1C4839D3006780CF /* MRProfileViewController.swift */,
-				548C26271C4A6480009F299B /* MRGoalsViewController.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -1520,6 +1526,7 @@
 				544DE9711C4023C200297C6B /* MKExerciseType+ExerciseId.swift in Sources */,
 				5460A79D1C443B8400070ADC /* CLLocationCoordinate2D+MRLocationCoordinate2D.swift in Sources */,
 				5437BD411C404A4000B518D9 /* MKExerciseTypeDescriptor+Localisation.swift in Sources */,
+				54EAC09D1C4C2E8C005AA3F4 /* MRManualViewController.swift in Sources */,
 				543E90B21C26FF640050F87A /* Aws.swift in Sources */,
 				6428CE261C44FC3000D17451 /* MRCircleButton.swift in Sources */,
 				543E327E1C4AB57A00D9922D /* MRManagedExerciseSession+CoreDataOperations.swift in Sources */,
@@ -1542,7 +1549,6 @@
 				543E329C1C4BB1ED00D9922D /* MRExerciseLabelViews.swift in Sources */,
 				545EFC451C47BCDB00987610 /* MRManagedScalarPredictor+CoreDataProperties.swift in Sources */,
 				6428CE2A1C45127500D17451 /* MRSessionComingUpViewController.swift in Sources */,
-				548C26281C4A6480009F299B /* MRGoalsViewController.swift in Sources */,
 				6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */,
 				543E326A1C4A997500D9922D /* MRManagedExercise.swift in Sources */,
 				5430FD6E1C4839D3006780CF /* MRProfileViewController.swift in Sources */,
@@ -1552,6 +1558,7 @@
 				547FD9D01C42C17100B01904 /* MRExerciseView.swift in Sources */,
 				543E32781C4AAAD400D9922D /* MRManagedExerciseType.swift in Sources */,
 				545EFC461C47BCDB00987610 /* MRManagedScalarPredictor.swift in Sources */,
+				54EAC0A11C4C3043005AA3F4 /* MKExerciseType+Comparable.swift in Sources */,
 				543E328A1C4ABD4600D9922D /* MRManagedLocationExercise.swift in Sources */,
 				547BA5AF1C4AE85900CFD14A /* MRApp+Exercises.swift in Sources */,
 				54F959C11C419D7F00D6A07D /* MRAnalyticTypes.swift in Sources */,
@@ -1577,6 +1584,7 @@
 				546E68671BB98D1D00DC0FEF /* MKSensorDataSingleTypeTests.swift in Sources */,
 				5487F5A41BB9C4C500ED2E97 /* MKSensorData+InternalCodecTests.swift in Sources */,
 				540AA4511BDBFF6B00908F4B /* MKSessionClassifierTests.swift in Sources */,
+				54EAC09F1C4C2FF8005AA3F4 /* MKExerciseTypeTests.swift in Sources */,
 				543E169C1BF3FB2D00990ABE /* MKLayerConfiguration+ParsingTests.swift in Sources */,
 				647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */,
 				547791111C247EAE00763197 /* MKExercisePlanTests.swift in Sources */,

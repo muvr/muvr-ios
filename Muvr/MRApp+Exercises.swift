@@ -21,11 +21,15 @@ extension MRApp {
         }
         
         otherDetails.sortInPlace { l, r in
-            switch (l.1 == type, r.1 == type) {
-            case (true, true): return MKExercise.title(l.0) < MKExercise.title(r.0)
+            switch (l.1.isContainedWithin(type), r.1.isContainedWithin(type)) {
             case (true, false): return true
             case (false, true): return false
-            case (false, false): return MKExercise.title(l.0) < MKExercise.title(r.0)
+            default:
+                if l.1 == r.1 {
+                    return MKExercise.title(l.0) < MKExercise.title(r.0)
+                } else {
+                    return l.1 < r.1
+                }
             }
         }
         
