@@ -66,7 +66,14 @@ class MRManagedExerciseSession: NSManagedObject {
     ///
     func addExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
         let offset = start.timeIntervalSinceDate(self.start)
-        MRManagedExercise.insertNewObjectIntoSession(self, exerciseDetail: exerciseDetail, labels: labels, offset: offset, duration: duration, inManagedObjectContext: managedObjectContext)
+        let (id, exerciseType, _) = exerciseDetail
+        MRManagedExercise.insertNewObjectIntoSession(self, id: id, exerciseType: exerciseType, labels: labels, offset: offset, duration: duration, inManagedObjectContext: managedObjectContext)
+        
+        // add to the plan
+        plan.insert(id)
+        
+        // update counts
+        exerciseIdCounts[id] = exerciseIdCounts[id].map { $0 + 1 } ?? 0
     }
     
 }

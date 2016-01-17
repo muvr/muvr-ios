@@ -1,20 +1,11 @@
-//
-//  MRManagedExercise+CoreDataOperations.swift
-//  Muvr
-//
-//  Created by Jan Machacek on 1/17/16.
-//  Copyright © 2016 Muvr. All rights reserved.
-//
-
 import Foundation
 import CoreData
 import MuvrKit
 
 extension MRManagedExercise {
     
-    static func insertNewObjectIntoSession(session: MRManagedExerciseSession, exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], offset: NSTimeInterval, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
+    static func insertNewObjectIntoSession(session: MRManagedExerciseSession, id: MKExercise.Id, exerciseType: MKExerciseType, labels: [MKExerciseLabel], offset: NSTimeInterval, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
         var mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExercise", inManagedObjectContext: managedObjectContext) as! MRManagedExercise
-        let (id, exerciseType, _) = exerciseDetail
         
         mo.id = id
         mo.exerciseType = exerciseType
