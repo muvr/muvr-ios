@@ -14,7 +14,7 @@
 "MRAggregateKey.noMuscleGroup" = "whole body";
 
 /* MKExerciseType */
-"MKExerciseType.incoorsCardio" = "incoors cardio";
+"MKExerciseType.indoorsCardio" = "indoors cardio";
 "MKExerciseType.resistanceTargeted" = "weights";
 "MKExerciseType.resistanceWholeBody" = "whole body";
 
