@@ -14,7 +14,7 @@
 "MRAggregateKey.noMuscleGroup" = "whole body";
 
 /* MKExerciseType */
-"MKExerciseType.cardio" = "cardio";
+"MKExerciseType.incoorsCardio" = "incoors cardio";
 "MKExerciseType.resistanceTargeted" = "weights";
 "MKExerciseType.resistanceWholeBody" = "whole body";
 
@@ -36,6 +36,7 @@
 "biceps-curl" = "biceps curls";
 "triceps-extension" = "triceps extensions";
 "lateral-pulldown-straight" = "lateral pulldown straight";
+"lateral-pulldown" = "lateral pulldown";
 "angle-chest-press" = "angle chest press";
 "vertical-swing" = "vertical swing";
 "dumbbell-flyes" = "dumbbell flyes";
