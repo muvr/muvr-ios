@@ -12,13 +12,13 @@ protocol MKClassificationDelegate {
     /// - parameter classified: the array of classified exercises
     /// - parameter block: the block of data used for the classification
     ///
-    func classificationCompleted(classified: [MKClassifiedExercise], fromSensorData data: MKSensorData)
+    func classificationCompleted(classified: [(MKExercise, [MKExerciseLabel])], fromSensorData data: MKSensorData)
     
     ///
     /// Called when the classification has enough data to make an estimation
     ///
     /// - parameter estimated: the estimated exercises
     ///
-    func classificationEstimated(estimated: [MKClassifiedExercise])
+    func classificationEstimated(estimated: [(MKExercise, [MKExerciseLabel])])
     
 }

@@ -16,7 +16,25 @@ public enum MKExerciseType : Equatable, Hashable {
     /// Specific resistance exercise targeting the given ``muscleGroups``
     /// - parameter muscleGroups: the muscle groups
     case ResistanceTargeted(muscleGroups: [MKMuscleGroup])
-
+    
+    ///
+    /// Indicates whether self is contained in that. This is useful for targeted 
+    /// resistance with multiple muscle groups, where strict equality does not work
+    /// - parameter that: the other ET
+    /// - returns: true if self is contained within that
+    ///
+    public func isContainedWithin(that: MKExerciseType) -> Bool {
+        switch (self, that) {
+        case (.ResistanceTargeted(let lmgs), .ResistanceTargeted(let rmgs)):
+            return lmgs.reduce(true) { result, lmg in
+                return rmgs.contains(lmg)
+            }
+        case (.IndoorsCardio, .IndoorsCardio): return true
+        case (.ResistanceWholeBody, .ResistanceWholeBody): return true
+        default: return false
+        }
+    }
+    
     // Implements Hashable
     public var hashValue: Int {
         get {
@@ -25,6 +43,17 @@ public enum MKExerciseType : Equatable, Hashable {
             case .ResistanceWholeBody: return 17
             case .ResistanceTargeted(let mgs): return 31 + mgs.reduce(0) { Int.addWithOverflow($0, $1.hashValue).0 }
             }
+        }
+    }
+    
+    ///
+    /// Returns the label descriptors that an exercise type expects
+    ///
+    public var labelDescriptors: [MKExerciseLabelDescriptor] {
+        switch self {
+        case .IndoorsCardio: return [.Intensity]
+        case .ResistanceTargeted: return [.Repetitions, .Weight, .Intensity]
+        case .ResistanceWholeBody: return [.Repetitions, .Weight, .Intensity]
         }
     }
     
@@ -39,17 +68,6 @@ public enum MKExerciseType : Equatable, Hashable {
         }
     }
 
-    ///
-    /// A more general representation of this type; think of it as less specific type.
-    /// For example, for type .RT([a, b, c]) more generic type is .RT([a, b])
-    ///
-    public var moreGeneral: MKExerciseType? {
-        switch self {
-        case .ResistanceTargeted(let muscleGroups) where muscleGroups.count > 1:
-            return .ResistanceTargeted(muscleGroups: Array(muscleGroups[0..<muscleGroups.count - 1]))
-        default: return nil
-        }
-    }
 }
 
 // Implementation of Equatable

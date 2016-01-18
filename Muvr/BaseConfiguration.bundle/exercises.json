@@ -1,0 +1,44 @@
+[
+ {"id":"resistanceTargeted:arms/triceps-pushdown"},
+ {"id":"resistanceTargeted:arms/barbell-biceps-curl"},
+ {"id":"resistanceTargeted:arms/biceps-curl"},
+ {"id":"resistanceTargeted:arms/triceps-extension"},
+ {"id":"resistanceTargeted:arms/reverse-cable-curl"},
+ {"id":"resistanceTargeted:arms/overhead-cable-curl"},
+ {"id":"resistanceTargeted:arms/triceps-dips"},
+
+ {"id":"resistanceTargeted:back/back-extensions"},
+ {"id":"resistanceTargeted:back/lateral-pulldown"},
+ {"id":"resistanceTargeted:back/reverse-flyes"},
+ {"id":"resistanceTargeted:back/upright-barbell-row"},
+
+ {"id":"resistanceTargeted:chest/angle-chest-press"},
+ {"id":"resistanceTargeted:chest/dumbbell-flyes"},
+ {"id":"resistanceTargeted:chest/bench-press"},
+ {"id":"resistanceTargeted:chest/butterfly-machine"},
+ {"id":"resistanceTargeted:chest/chest-press-machine"},
+
+ {"id":"resistanceTargeted:core/suitcase-crunches"},
+ {"id":"resistanceTargeted:core/side-dips"},
+ {"id":"resistanceTargeted:core/crunches"},
+ {"id":"resistanceTargeted:core/cable-crossover"},
+ {"id":"resistanceTargeted:core/oblique-crunches"},
+ {"id":"resistanceTargeted:core/alternate-heel-touches"},
+
+ {"id":"resistanceTargeted:legs/lunges"},
+ {"id":"resistanceTargeted:legs/dumbbell-calf-raise"},
+ {"id":"resistanceTargeted:legs/barbell-squat"},
+ {"id":"resistanceTargeted:legs/squat"},
+
+ {"id":"resistanceTargeted:shoulders/dumbbell-shoulder-press"},
+ {"id":"resistanceTargeted:shoulders/dumbbell-bench-press"},
+ {"id":"resistanceTargeted:shoulders/lateral-raise"},
+ {"id":"resistanceTargeted:shoulders/vertical-swing"},
+
+ {"id":"resistanceWholeBody:iron-cross"},
+ {"id":"resistanceTargeted:shoulders/pull-up"},
+ 
+ {"id":"indoorsCardio:cross-trainer"},
+ {"id":"indoorsCardio:running-machine"},
+ {"id":"indoorsCardio:rowing-machine"}
+]

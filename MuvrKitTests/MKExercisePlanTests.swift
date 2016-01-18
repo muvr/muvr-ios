@@ -4,7 +4,7 @@ import XCTest
 
 class MKExercisePlanTests : XCTestCase {
 
-    func evaluatePlan(exerciseIds: [MKExerciseId]) -> (Double, Double) {
+    func evaluatePlan(exerciseIds: [MKExercise.Id]) -> (Double, Double) {
         let exercises = exerciseIds
         let plan = MKExercisePlan<String>()
         let estimates: [Bool] = (0..<exercises.count - 1).map { i in

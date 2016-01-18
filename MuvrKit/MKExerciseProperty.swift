@@ -1,8 +1,27 @@
 import Foundation
 
+///
+/// An exercise property that describes a particular exercise (and even more 
+///
 public enum MKExerciseProperty {
     
-    case WeightProgression(minimum: Float, increment: Float, maximum: Float?)
+    ///
+    /// The exercise has a selection of weights from minimum..maximum by increment
+    /// - parameter minimum: the minimum weight
+    /// - parameter step: the step
+    /// - parameter maximum: the maximum weight
+    ///
+    case WeightProgression(minimum: Double, step: Double, maximum: Double?)
+    
+    ///
+    /// A typical duration for an entire exercise
+    ///
+    case TypicalDuration(duration: NSTimeInterval)
+    
+    ///
+    /// A typical duration for one repetition
+    ///
+    case OneRepetitionDuration(duration: NSTimeInterval)
     
     // A special sequence of weights
     // case WeightSequence(weights: [Float])

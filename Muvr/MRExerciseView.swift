@@ -36,7 +36,7 @@ class MRExerciseView : UIView {
     
     @IBOutlet private weak var button: UIButton!
     @IBOutlet private weak var headerLabel: UILabel!
-    @IBOutlet private weak var weightView: MRWeightView!
+    @IBOutlet private weak var labelsView: UIScrollView!
         
     /// set progress colors
     var progressEmptyColor : UIColor = UIColor.grayColor()
@@ -53,6 +53,7 @@ class MRExerciseView : UIView {
     
     private let lineWidth: CGFloat = 4
     
+    private var longTapped: Bool = false
     /* Controlling progress bar animation with isAnimating */
     private var isAnimating: Bool = false
     private var fireCircleDidComplete: Bool = true
@@ -113,8 +114,7 @@ class MRExerciseView : UIView {
         
         headerLabel.text = ""
         button.setTitle("", forState: UIControlState.Normal)
-        weightView.hidden = true
-                
+        
         addSubview(view)
         updateUI()
         
@@ -223,8 +223,9 @@ class MRExerciseView : UIView {
     }
     
     private var buttonFontSize: CGFloat {
-        guard let exercise = exercise else { return button.titleLabel!.font.pointSize }
-        let text = exercise.title as NSString
+        guard let (exerciseId, _, _) = exerciseDetail else { return button.titleLabel!.font.pointSize }
+        
+        let text = MKExercise.title(exerciseId)
         let font = button.titleLabel!.font
         var fontSize = frame.height / 8
         var size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
@@ -236,16 +237,31 @@ class MRExerciseView : UIView {
     }
     
 
-    private func updateUI() {       
-        button.setTitle(exercise?.title, forState: UIControlState.Normal)
+    private func updateUI() {
+        let title = exerciseDetail.map { MKExercise.title($0.0) }
+        button.setTitle(title, forState: UIControlState.Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(buttonFontSize)
         button.titleEdgeInsets = UIEdgeInsets()
+
+        labelsView.subviews.forEach { $0.removeFromSuperview() }
+        labelsView.pagingEnabled = true
         
-        if let weight = exercise?.weight {
-            weightView.hidden = false
-            weightView.value = weight
-        } else {
-            weightView.hidden = true
+        if let exerciseLabels = exerciseLabels {
+            let padding: CGFloat = 10
+            let height: CGFloat = labelsView.frame.height / 2
+            let width: CGFloat = height + padding
+            let allWidth: CGFloat = CGFloat(exerciseLabels.count) * width
+            var left: CGFloat = 0
+            if allWidth < labelsView.frame.width {
+                left = (labelsView.frame.width - allWidth) / 2
+            }
+            
+            for exerciseLabel in exerciseLabels {
+                let frame = CGRect(x: left, y: 0, width: width - padding, height: height - padding)
+                left += width
+                let (view, _) = MRExerciseLabelViews.scalarViewForLabel(exerciseLabel, frame: frame)!
+                labelsView.addSubview(view)
+            }
         }
     }
     
@@ -255,15 +271,24 @@ class MRExerciseView : UIView {
     }
     
     func buttonDidLongPress() {
-        delegate?.exerciseViewLongTapped(self)
+        if !longTapped {
+            delegate?.exerciseViewLongTapped(self)
+            longTapped = true
+        }
     }
 
     // MARK: - public API
     
+    var exerciseLabels: [MKExerciseLabel]? = [] {
+        didSet {
+            UIView.performWithoutAnimation(updateUI)
+        }
+    }
+    
     ///
     /// The exercise being displayed
     ///
-    var exercise: MKIncompleteExercise? {
+    var exerciseDetail: MKExerciseDetail? {
         didSet {
             UIView.performWithoutAnimation(updateUI)
         }

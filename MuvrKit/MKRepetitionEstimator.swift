@@ -8,7 +8,7 @@ public enum MKRepetitionEstimatorError : ErrorType {
 }
 
 public struct MKRepetitionEstimator {
-    public typealias Estimate = (Int32, Double)
+    public typealias Estimate = (Int, Double)
     
     ///
     /// Holds information about a periodic profile
@@ -144,7 +144,7 @@ public struct MKRepetitionEstimator {
                 }
             }
             
-            return (Int32(count), 1)
+            return (count, 1)
         } else {
             return (0, 1)
         }

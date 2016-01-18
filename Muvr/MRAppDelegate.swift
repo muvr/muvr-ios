@@ -11,7 +11,6 @@ import CoreLocation
 enum MRNotifications : String {
     case CurrentSessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
     case CurrentSessionDidStart = "MRNotificationsCurrentSessionDidStart"
-    case SessionDidComplete = "MRNotificationSessionDidComplete"
     case SessionDidEstimate = "MRNotificationSessionDidEstimate"
     case SessionDidClassify = "MRNotificationSessionDidClassify"
     
@@ -25,19 +24,29 @@ enum MRNotifications : String {
 }
 
 ///
+/// The MRApp errors
+///
+enum MRAppError : ErrorType {
+    /// A session has not ended yet and a new one tries to start
+    case SessionAlreadyInProgress
+    /// No active session
+    case SessionNotStarted
+}
+
+///
 /// The public interface to the app delegate
 ///
-protocol MRApp {
-    
-    ///
-    /// The NSManagedObjectContext for the Core Data operations.
-    ///
-    var managedObjectContext: NSManagedObjectContext { get }
+protocol MRApp : MKExercisePropertySource {
     
     ///
     /// The user's current location
     ///
     var locationName: String? { get }
+
+    ///
+    /// The list of exercise ids at the current location
+    ///
+    var exerciseDetails: [MKExerciseDetail] { get }
     
     ///
     /// Performs initial setup
@@ -45,58 +54,48 @@ protocol MRApp {
     func initialSetup()
     
     ///
-    /// Saves the pending changes in the app's ``managedObjectContext``.
-    ///
-    func saveContext()
-    
-    ///
-    /// Returns the exercise ids for the given ``model`` identity
-    /// - parameter model: the model identity
-    /// - returns: the exercise ids
-    ///
-    func exerciseIds(inModel model: MKExerciseModelId) -> [MKExerciseId]
-    
-    ///
     /// Explicitly starts an exercise session for the given ``type``.
-    /// - parameter type: the exercise type that the session initially starts with
+    /// - parameter exerciseType: the exercise type that the session initially starts with
+    /// - parameter start: the start date, typically value ``NSDate()``
+    /// - parameter id: the session identity, typically ``NSUUID().UUIDString``
     ///
-    func startSessionForExerciseType(type: MKExerciseType)
+    func startSessionForExerciseType(exerciseType: MKExerciseType, start: NSDate, id: String) throws
     
     ///
     /// Ends the current exercise session, if any
     ///
-    func endCurrentSession()
+    func endCurrentSession() throws
 }
 
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate,
-    MKSessionClassifierDelegate, MKClassificationHintSource, MKScalarRounder,
+    MKSessionClassifierDelegate, MKClassificationHintSource, MKExerciseModelSource,
     MRApp {
     
     var window: UIWindow?
     
+    private let polynomialFittingWeight = "pfw"
+    private let polynomialFittingDuration = "pfd"
+    private let polynomialFittingIntensity = "pfi"
+    private let polynomialFittingRepetitions = "pfr"
+    
     private let sessionStoryboard = UIStoryboard(name: "Session", bundle: nil)
     private var sessionViewController: UIViewController?
-    private var sessionStore: MRExerciseSessionStore!
-    private var modelStore: MRExerciseModelStore!
     private var connectivity: MKAppleWatchConnectivity!
     private var classifier: MKSessionClassifier!
     private var sensorDataSplitter: MKSensorDataSplitter!
-    private var sessions: [MRManagedExerciseSession] = []
+    // :( But needed for tests
+    private(set) internal var currentSession: MRManagedExerciseSession?
     private var locationManager: CLLocationManager!
     private var currentLocation: MRManagedLocation?
-    private var currentSession: MRManagedExerciseSession? {
-        for (session) in sessions where session.end == nil {
-            return session
-        }
-        return nil
-    }
-    private var weightPredictor: MKPolynomialFittingScalarPredictor!
+
+    private var baseExerciseDetails: [MKExerciseDetail] = []
+    private var currentLocationExerciseDetails: [MKExerciseDetail] = []
     
     // MARK: - MKClassificationHintSource
-    var exercisingHints: [MKClassificationHint]? {
+    var classificationHints: [MKClassificationHint]? {
         get {
-            return currentSession?.exercisingHints
+            return currentSession?.classificationHints
         }
     }
     
@@ -106,70 +105,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             return currentLocation?.name
         }
     }
-    
-    // MARK: - Other
-    
-    ///
-    /// Downloads the models
-    ///
-    private func downloadModels() {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.DownloadingModels.rawValue, object: nil)
-            self.modelStore.downloadModels() {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.ModelsDownloaded.rawValue, object: nil)
-            }
-        }
-    }
 
-    ///
-    /// Uploads all incomplete sessions
-    ///
-    private func uploadSessions() {
-        func uploadSessions(sessions: [MRManagedExerciseSession]) {
-            if let session = sessions.first {
-                sessionStore.uploadSession(session) {
-                    session.uploaded = true
-                    self.saveContext()
-                    uploadSessions(Array(sessions.dropFirst()))
-                }
-            } else {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionsUploaded.rawValue, object: nil)
-            }
-        }
-        
-        let sessions = MRManagedExerciseSession.findUploadableSessions(inManagedObjectContext: managedObjectContext)
-        if sessions.isEmpty { return }
-        
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.UploadingSessions.rawValue, object: nil)
-            uploadSessions(sessions)
-        }
-    }
-
-    ///
-    /// Returns the index of a given session
-    /// - parameter session: the session to find the index of
-    /// - returns: the index if found
-    ///
-    private func sessionIndex(session: MKExerciseSession) -> Int? {
-        return sessions.indexOf { $0.id == session.id }
-    }
-    
-    ///
-    /// Returns the exercise ids for the given ``model``.
-    /// - parameter model: the model identity
-    /// - returns: the unordered array of exercise ids (excluding exercise ids not available at current location)
-    ///
-    func exerciseIds(inModel model: MKExerciseModelId) -> [MKExerciseId] {
-        let locationExerciseIds = currentLocation?.exerciseIds ?? []
-        let modelExerciseIds = modelStore.exerciseIds(model: model)
-        
-        return locationExerciseIds + modelExerciseIds.filter { !locationExerciseIds.contains($0) }
-    }
+    var exerciseDetails: [MKExerciseDetail] = []
     
     ///
     /// Returns this shared delegate
@@ -182,18 +119,29 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - UIApplicationDelegate code
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        let remoteStorage = MRS3StorageAccess(accessKey: AwsCredentials.accessKey, secretKey: AwsCredentials.secretKey)
-        sessionStore = MRExerciseSessionStore(storageAccess: remoteStorage)
-        modelStore = MRExerciseModelStore(storageAccess: remoteStorage)
         // set up the classification and connectivity
-        sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: modelStore, hintSource: self)
-        classifier = MKSessionClassifier(exerciseModelSource: modelStore, sensorDataSplitter: sensorDataSplitter, delegate: self)
+        sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
+        classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: sensorDataSplitter, delegate: self)
         connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
-        weightPredictor = MKPolynomialFittingScalarPredictor(scalarRounder: self)
 
-        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: nil, inManagedObjectContext: managedObjectContext) {
-            weightPredictor.mergeJSON(p.data)
+        // Load base configuration
+        let baseConfigurationPath = NSBundle.mainBundle().pathForResource("BaseConfiguration", ofType: "bundle")!
+        let baseConfiguration = NSBundle(path: baseConfigurationPath)!
+        let data = NSData(contentsOfFile: baseConfiguration.pathForResource("exercises", ofType: "json")!)!
+        if let allExercises = try! NSJSONSerialization.JSONObjectWithData(data, options: []) as? [[String:AnyObject]] {
+            baseExerciseDetails = allExercises.map { exercise in
+                guard let id = exercise["id"] as? String,
+                      let properties = exercise["properties"] as? [AnyObject]?,
+                      let exerciseType = MKExerciseType(exerciseId: id)
+                      else { fatalError() }
+                
+                return (id, exerciseType, properties?.flatMap { MKExerciseProperty(json: $0) } ?? [])
+            }
+            exerciseDetails = baseExerciseDetails
+        } else {
+            fatalError()
         }
+        
         
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -211,8 +159,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         pageControlAppearance.currentPageIndicatorTintColor = UIColor.blackColor()
         pageControlAppearance.backgroundColor = UIColor.whiteColor()
     
-        // download the models
-        downloadModels()
         
         // sync
         do {
@@ -254,24 +200,33 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
         application.idleTimerDisabled = true
         locationManager.requestLocation()
-        uploadSessions()
     }
     
     func applicationWillResignActive(application: UIApplication) {
         application.idleTimerDisabled = false
     }
     
+    private func exerciseIdToLabel(exerciseId: String) -> (MKExercise.Id, MKExerciseTypeDescriptor) {
+        if let descriptor = MKExerciseTypeDescriptor(exerciseId: exerciseId) {
+            return (exerciseId, descriptor)
+        }
+        fatalError("Could not extract MKExerciseTypeDescriptor from \(exerciseId).")
+    }
+    
+    // MARK: - Exercise model source
+    
+    func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel {
+        let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
+        let modelsBundle = NSBundle(path: path)!
+        return try MKExerciseModel(fromBundle: modelsBundle, id: "default", labelExtractor: exerciseIdToLabel)
+    }
+    
     // MARK: - Session UI
     
     private func presentSessionControllerForSession(session: MRManagedExerciseSession) {
-        if session.end != nil { return }
-        
-        //let snvc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? UINavigationController
-        //let svc = snvc?.topViewController as? MRSessionViewController
         let svc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? MRSessionViewController
         svc!.setSession(session)
-        // window!.rootViewController!.navigationController?.presentViewController(sessionViewController!, animated: true, completion: nil)
-        window!.rootViewController!.presentViewController(svc!, animated: true, completion: nil)
+        window?.rootViewController!.presentViewController(svc!, animated: true, completion: nil)
         sessionViewController = svc
     }
     
@@ -286,95 +241,103 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     private func endSession(session: MRManagedExerciseSession) {
         dismissSessionControllerForSession(session)
-        MRManagedExercisePlan.upsertPlan(session.plan, exerciseType: session.intendedType!, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        MRManagedScalarPredictor.upsertScalarPredictor("polynomialFitting", location: currentLocation, data: weightPredictor.json, inManagedObjectContext: managedObjectContext)
         
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
-        if session.completed {
-            if let index = (sessions.indexOf { $0.objectID == session.objectID }) {
-                sessions.removeAtIndex(index)
-            }
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidComplete.rawValue, object: session.objectID)
+        for (id, exerciseType, offset, duration, labels) in session.exerciseWithLabels {
+            MRManagedExercise.insertNewObjectIntoSession(session, id: id, exerciseType: exerciseType, labels: labels, offset: offset, duration: duration, inManagedObjectContext: managedObjectContext)
         }
+        MRManagedExercisePlan.upsert(session.plan, exerciseType: session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.weightPredictor.json, inManagedObjectContext: managedObjectContext)
+        MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingDuration, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.durationPredictor.json, inManagedObjectContext: managedObjectContext)
+        MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingIntensity, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.intensityPredictor.json, inManagedObjectContext: managedObjectContext)
+        MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingRepetitions, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.repetitionsPredictor.json, inManagedObjectContext: managedObjectContext)
+
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
         
         saveContext()
+
+        currentSession = nil
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
-        NSLog("Received session end for \(session)")
-        // current session may be null in case of no running session
-        if let index = sessionIndex(session) {
-            let currentSession = sessions[index]
+        if let currentSession = currentSession {
+            currentSession.sensorData = sensorData?.encode()
             endSession(currentSession)
         }
     }
     
-    func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData) {
-        NSLog("Received session classify for \(session) with type \(session.exerciseType)")
-        if let index = sessionIndex(session) {
-            let currentSession = sessions[index]
+    func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKExerciseWithLabels], sensorData: MKSensorData) {
+        if let currentSession = currentSession where session.id == currentSession.id {
             currentSession.sensorData = sensorData.encode()
             currentSession.completed = session.completed
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidClassify.rawValue, object: currentSession.objectID)
-            if session.completed {
-                sessions.removeAtIndex(index)
-                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidComplete.rawValue, object: currentSession.objectID)
-            }
-            classified.forEach { MRManagedClassifiedExercise.insertNewObject(from: $0, into: currentSession, inManagedObjectContext: managedObjectContext) }
         }
         saveContext()
     }
     
-    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKClassifiedExercise]) {
-        if let index = sessionIndex(session) {
-            let currentSession = sessions[index]
+    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels]) {
+        if let currentSession = currentSession where currentSession.id == session.id {
             currentSession.estimated = estimated
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidEstimate.rawValue, object: currentSession.objectID)
         }
     }
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
-        NSLog("Received session start for \(session)")
-        let persistedSession = MRManagedExerciseSession.sessionById(session.id, inManagedObjectContext: managedObjectContext)
-        if persistedSession == nil && sessionIndex(session) == nil {
-            // TODO: load the appropriate plan for type, location and day
-            let plan = MRManagedExercisePlan.planForExerciseType(session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext)
-            
-            let currentSession = MRManagedExerciseSession.insertNewObject(from: session, inManagedObjectContext: managedObjectContext)
-            currentSession.locationId = currentLocation?.id
-            currentSession.intendedType = session.exerciseType
-            currentSession.weightPredictor = weightPredictor
-
-            if let plan = plan?.plan {
-                currentSession.plan = plan
-            }
-            
-            sessions.append(currentSession)
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: currentSession.objectID)
-            presentSessionControllerForSession(currentSession)
-            saveContext()
-        } else if persistedSession != nil && sessionIndex(session) == nil {
-            NSLog("cache persisted session into memory: \(persistedSession!)")
-            sessions.append(persistedSession!)
+        try! startSessionForExerciseType(session.exerciseType, start: session.start, id: session.id)
+    }
+    
+    func startSessionForExerciseType(exerciseType: MKExerciseType, start: NSDate, id: String) throws {
+        if currentSession != nil {
+            throw MRAppError.SessionAlreadyInProgress
         }
+
+        let weightPredictor = MKPolynomialFittingScalarPredictor(round: roundWeight)
+        let durationPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
+        let intensityPredictor = MKPolynomialFittingScalarPredictor(round: roundClip)
+        let repetitionsPredictor = MKPolynomialFittingScalarPredictor(round: roundInteger)
+        if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: exerciseType, inManagedObjectContext: managedObjectContext) {
+            weightPredictor.mergeJSON(p.data)
+        }
+        if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingDuration, location: currentLocation, sessionExerciseType: exerciseType, inManagedObjectContext: managedObjectContext) {
+            durationPredictor.mergeJSON(p.data)
+        }
+        if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingIntensity, location: currentLocation, sessionExerciseType: exerciseType, inManagedObjectContext: managedObjectContext) {
+            intensityPredictor.mergeJSON(p.data)
+        }
+        if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingRepetitions, location: currentLocation, sessionExerciseType: exerciseType, inManagedObjectContext: managedObjectContext) {
+            repetitionsPredictor.mergeJSON(p.data)
+        }
+
+        let session = MRManagedExerciseSession.insert(id, exerciseType: exerciseType, start: start, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        if let plan = MRManagedExercisePlan.planForExerciseType(exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext) {
+            session.plan = plan.plan
+        } else {
+            session.plan = MKExercisePlan<MKExercise.Id>()
+        }
+        session.weightPredictor = weightPredictor
+        session.durationPredictor = durationPredictor
+        session.intensityPredictor = intensityPredictor
+        session.repetitionsPredictor = repetitionsPredictor
+
+        currentSession = session
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: session.objectID)
+        presentSessionControllerForSession(session)
+        saveContext()
     }
     
-    func startSessionForExerciseType(type: MKExerciseType) {
-        // TODO: resolve model from type
-        sessionClassifierDidStart(MKExerciseSession(exerciseType: type))
-    }
-    
-    func endCurrentSession() {
+    func endCurrentSession() throws {
         if let currentSession = currentSession {
             endSession(currentSession)
+        } else {
+            throw MRAppError.SessionNotStarted
         }
     }
     
     func initialSetup() {
         let generalWeightProgression: [Double] = [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5, 10]
-        let allExerciseIds = exerciseIds(inModel: "arms")
         
-        for exerciseId in allExerciseIds {
+        let weightPredictor = MKPolynomialFittingScalarPredictor(round: roundWeight)
+        for (exerciseId, _, _) in exerciseDetails {
             if let type = MKExerciseType(exerciseId: exerciseId) {
                 var multiplier: Double = 1.0
                 switch type {
@@ -387,11 +350,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
                 weightPredictor.trainPositional(generalWeightProgression.map { $0 * multiplier }, forExerciseId: exerciseId)
             }
         }
-        MRManagedScalarPredictor.upsertScalarPredictor("polynomialFitting", location: nil, data: weightPredictor.json, inManagedObjectContext: managedObjectContext)
         
         // Next, construct some default plans
-        /*
-        let plan = MKExercisePlan<MKExerciseId>()
         let allExerciseTypes: [MKExerciseType] = [
             .ResistanceTargeted(muscleGroups: [.Arms]),
             .ResistanceTargeted(muscleGroups: [.Core]),
@@ -402,50 +362,85 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             .ResistanceWholeBody,
             .IndoorsCardio
         ]
-        */
+        for exerciseType in allExerciseTypes {
+            MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingWeight, location: nil, sessionExerciseType: exerciseType, data: weightPredictor.json, inManagedObjectContext: managedObjectContext)
+        }
         
         saveContext()
     }
     
     // MARK: - Exercise properties
-    func exercisePropertiesForExerciseId(exerciseId: MKExerciseId) -> [MKExerciseProperty] {
-        // TODO: configurable at location!
-        return [.WeightProgression(minimum: 2.5, increment: 2.5, maximum: nil)]
+    func exercisePropertiesForExerciseId(exerciseId: MKExercise.Id) -> [MKExerciseProperty] {
+        for (id, _, properties) in exerciseDetails where id == exerciseId {
+            return properties
+        }
+        
+        return []
     }
     
     // MARK: - Scalar rounder
-    func roundValue(value: Float, forExerciseId exerciseId: MKExerciseId) -> Float {
-        return MKScalarRounderFunction.roundMinMax(value, minimum: 2.5, increment: 2.5, maximum: nil)
+    
+    private func roundInteger(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        return Double(Int(value))
+    }
+    
+    private func noRound(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        return max(0, value)
+    }
+    
+    private func roundClip(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        return min(1, max(0, value))
+    }
+    
+    private func roundWeight(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        for property in exercisePropertiesForExerciseId(exerciseId) {
+            if case .WeightProgression(let minimum, let step, let maximum) = property {
+                return MKScalarRounderFunction.roundMinMax(value, minimum: minimum, step: step, maximum: maximum)
+            }
+        }
+        return max(0, value)
     }
     
     // MARK: - Core Location stack
+    
+    private func updatedLocation(location: CLLocation) {
+        currentLocation = MRManagedLocation.findAtLocation(location.coordinate, inManagedObjectContext: managedObjectContext)
+        if let currentLocation = currentLocation {
+            currentLocationExerciseDetails = currentLocation.managedExercises.map { le in
+                return (le.id, MKExerciseType(exerciseId: le.id)!, le.properties)
+            }
+            exerciseDetails =
+                currentLocationExerciseDetails +
+                baseExerciseDetails.filter { bed in
+                    let (beId, _, _) = bed
+                    return !currentLocationExerciseDetails.contains { ced in
+                        let (ceId, _, _) = ced
+                        return ceId == beId
+                    }
+                }
+        } else {
+            exerciseDetails = baseExerciseDetails
+        }
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+    }
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
     }
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
-        currentLocation = MRManagedLocation.findAtLocation(newLocation.coordinate, inManagedObjectContext: managedObjectContext)
-        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: newLocation.coordinate, inManagedObjectContext: managedObjectContext) {
-            weightPredictor.mergeJSON(p.data)
-        }
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+        updatedLocation(newLocation)
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        currentLocation = MRManagedLocation.findAtLocation(locations.last!.coordinate, inManagedObjectContext: managedObjectContext)
-        if let p = MRManagedScalarPredictor.scalarPredictorFor("polynomialFitting", location: locations.last!.coordinate, inManagedObjectContext: managedObjectContext) {
-            weightPredictor.mergeJSON(p.data)
-        }
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+        updatedLocation(locations.last!)
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         #if (arch(i386) || arch(x86_64)) && os(iOS)
             let location = CLLocation(latitude: CLLocationDegrees(53.435739), longitude: CLLocationDegrees(-2.165993))
-            currentLocation = MRManagedLocation.findAtLocation(location.coordinate, inManagedObjectContext: managedObjectContext)
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
-            NSLog("\(currentLocation?.exerciseIds)")
+            updatedLocation(location)
         #endif
     }
     

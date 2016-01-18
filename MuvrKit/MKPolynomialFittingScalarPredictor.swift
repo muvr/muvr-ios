@@ -4,16 +4,18 @@ import Foundation
 /// Implements the scalar predictor using nth degree polynomial approximation
 ///
 public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
+    public typealias Round = (Double, MKExercise.Id) -> Double
+    
     private(set) internal var coefficients: [Key:[Float]] = [:]
     /// The initial boost—no boost, really
     private var boost: Float = 1.0
     /// When there are too few values in the training set, this keeps the last value to provide
     /// at least some kind of prediction.
-    private var simpleScalars: [Key:Float] = [:]
+    private(set) internal var simpleScalars: [Key:Float] = [:]
     /// The rounder to be used
-    private let scalarRounder: MKScalarRounder
+    private let round: Round
 
-    public typealias Key = MKExerciseId
+    public typealias Key = MKExercise.Id
     
     ///
     /// Merges the coefficients in this instance with ``otherCoefficients``. This is typically
@@ -21,10 +23,16 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     /// actually vary their weight selection depending on location.
     ///
     /// - parameter otherCoefficients: the new (typically loaded for a new location) coefficients
+    /// - parameter otherSimpleScalars: the new simple scalars
     ///
-    public func merge(otherCoefficients: [Key:[Float]]) {
+    public func mergeCoefficients(otherCoefficients: [Key:[Float]], otherSimpleScalars: [Key:Float]?) {
         for (nk, nv) in otherCoefficients {
             coefficients[nk] = nv
+        }
+        if let otherSimpleScalars = otherSimpleScalars {
+            for (nk, nv) in otherSimpleScalars {
+                simpleScalars[nk] = nv
+            }
         }
     }
     
@@ -32,8 +40,8 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     /// Initializes empty instance with a given ``scalarRounder``.
     /// - parameter scalarRounder: the rounder
     ///
-    public init(scalarRounder: MKScalarRounder) {
-        self.scalarRounder = scalarRounder
+    public init(round: Round) {
+        self.round = round
     }
     
     ///
@@ -45,7 +53,7 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     private func naiveCost(actual: [Float], predicted: [Float]) -> Float {
         return predicted.enumerate().reduce(0) { result, e in
             let (i, p) = e
-            return result + abs(actual[i] - p)
+            return result + powf(2, abs(actual[i] - p))
         }
     }
     
@@ -62,7 +70,7 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
             let (n, c) = e
             return result + c * powf(x, Float(n))
         }
-        return scalarRounder.roundValue(raw * boost, forExerciseId: exerciseId)
+        return Float(round(Double(raw * boost), exerciseId))
     }
     
     // Implements MKScalarPredictor
@@ -118,7 +126,7 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         }
     }
     
-    public func predictScalarForExerciseId(exerciseId: MKExerciseId, n: Int) -> Double? {
+    public func predictScalarForExerciseId(exerciseId: MKExercise.Id, n: Int) -> Double? {
         let prediction = coefficients[exerciseId].map {
             predictAndRound(Float(n), coefficients: $0, forExerciseId: exerciseId)
         }

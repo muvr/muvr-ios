@@ -7,10 +7,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Goals-->
+        <!--Manual-->
         <scene sceneID="JL1-Iw-8WF">
             <objects>
-                <viewController id="e3O-P6-qPY" sceneMemberID="viewController">
+                <viewController id="e3O-P6-qPY" customClass="MRManualViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6zv-lr-PxA"/>
                         <viewControllerLayoutGuide type="bottom" id="5Qi-ZJ-mwA"/>
@@ -19,17 +19,51 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Here be goals" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B9a-hA-eY3">
-                                <rect key="frame" x="20" y="28" width="106" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="iZl-Lw-dr4">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="610"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="ZBc-n5-9HC">
+                                        <rect key="frame" x="0.0" y="50" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZBc-n5-9HC" id="9NW-NI-iv4">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="e3O-P6-qPY" id="eYS-Jk-yo5"/>
+                                    <outlet property="delegate" destination="e3O-P6-qPY" id="EaD-7T-vxu"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHc-BC-6jz">
+                                <rect key="frame" x="20" y="628" width="374" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="Ieh-rf-qQ1"/>
+                                </constraints>
+                                <state key="normal" title="Start"/>
+                                <connections>
+                                    <action selector="start" destination="e3O-P6-qPY" eventType="touchUpInside" id="EkV-IY-mo8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="5Qi-ZJ-mwA" firstAttribute="top" secondItem="OHc-BC-6jz" secondAttribute="bottom" constant="23" id="IZK-2l-bZh"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="OHc-BC-6jz" secondAttribute="leading" id="L2J-20-t0p"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="iZl-Lw-dr4" secondAttribute="trailing" constant="-20" id="RuV-de-g3b"/>
+                            <constraint firstItem="iZl-Lw-dr4" firstAttribute="leading" secondItem="rtO-JM-4Zc" secondAttribute="leadingMargin" constant="-20" id="fVD-mh-v72"/>
+                            <constraint firstItem="OHc-BC-6jz" firstAttribute="top" secondItem="iZl-Lw-dr4" secondAttribute="bottom" constant="18" id="xUe-lF-nyX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="OHc-BC-6jz" secondAttribute="trailing" id="yd5-Z0-Axu"/>
+                            <constraint firstItem="iZl-Lw-dr4" firstAttribute="top" secondItem="6zv-lr-PxA" secondAttribute="bottom" constant="-20" id="yka-3o-2NE"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Goals" id="fi2-5k-ObL"/>
+                    <tabBarItem key="tabBarItem" title="Manual" id="fi2-5k-ObL"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="startButton" destination="OHc-BC-6jz" id="LqB-gu-o1i"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Maq-PK-msg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -80,8 +114,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="k9I-oM-iXu" kind="relationship" relationship="viewControllers" id="eje-hJ-Blx"/>
                         <segue destination="e3O-P6-qPY" kind="relationship" relationship="viewControllers" id="58F-pW-e6f"/>
+                        <segue destination="k9I-oM-iXu" kind="relationship" relationship="viewControllers" id="eje-hJ-Blx"/>
                         <segue destination="Mou-Np-bON" kind="relationship" relationship="viewControllers" id="2jo-CA-uJW"/>
                     </connections>
                 </tabBarController>
@@ -92,7 +126,7 @@
         <!--Statistics-->
         <scene sceneID="k5A-4Z-PYA">
             <objects>
-                <viewController id="k9I-oM-iXu" customClass="MRHomeViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="k9I-oM-iXu" customClass="MRStatisticsViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8TE-3H-U3y"/>
                         <viewControllerLayoutGuide type="bottom" id="uUC-vn-soj"/>

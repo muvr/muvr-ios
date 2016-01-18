@@ -1,6 +1,9 @@
 import Foundation
 
 public struct MKExerciseModel {
+    public typealias Id = String
+    public typealias Label = (MKExercise.Id, MKExerciseTypeDescriptor)
+    
     /// the network topology
     internal let layerConfiguration: [MKLayerConfiguration]
     /// the network weights
@@ -10,14 +13,23 @@ public struct MKExerciseModel {
     /// the minimum set duration
     internal let minimumDuration: MKDuration
     /// the exercises as labels
-    public let exerciseIds: [MKExerciseId]
+    public let labels: [Label]
     
-    public init(layerConfiguration: [MKLayerConfiguration], weights: [Float], sensorDataTypes: [MKSensorDataType], exerciseIds: [MKExerciseId], minimumDuration: MKDuration) {
+    public init(layerConfiguration: [MKLayerConfiguration], weights: [Float], sensorDataTypes: [MKSensorDataType], labels: [Label], minimumDuration: MKDuration) {
         self.layerConfiguration = layerConfiguration
         self.sensorDataTypes = sensorDataTypes
         self.weights = weights
-        self.exerciseIds = exerciseIds
+        self.labels = labels
         self.minimumDuration = minimumDuration
+    }
+    
+    func exerciseTypeDescriptorForExerciseId(id: MKExercise.Id) -> MKExerciseTypeDescriptor? {
+        for (labelId, labelTypeDescriptor) in labels {
+            if labelId == id {
+                return labelTypeDescriptor
+            }
+        }
+        return nil
     }
     
 }

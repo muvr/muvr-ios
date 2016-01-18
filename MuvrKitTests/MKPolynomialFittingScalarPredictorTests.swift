@@ -2,14 +2,14 @@ import Foundation
 import XCTest
 @testable import MuvrKit
 
-class MKPolynomialFittingScalarPredictorTests : XCTestCase, MKScalarRounder {
+class MKPolynomialFittingScalarPredictorTests : XCTestCase {
     
-    func roundValue(value: Float, forExerciseId exerciseId: MKExerciseId) -> Float {
-        return MKScalarRounderFunction.roundMinMax(value, minimum: 2.5, increment: 2.5, maximum: nil)
+    func roundValue(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        return MKScalarRounderFunction.roundMinMax(value, minimum: 2.5, step: 2.5, maximum: nil)
     }
     
     func testConstantPattern() {
-        let predictor = MKPolynomialFittingScalarPredictor(scalarRounder: self)
+        let predictor = MKPolynomialFittingScalarPredictor(round: roundValue)
         let weights: [Double] = [Double](count: 20, repeatedValue: 10)
         predictor.trainPositional(weights, forExerciseId: "biceps-curl")
 
@@ -20,7 +20,7 @@ class MKPolynomialFittingScalarPredictorTests : XCTestCase, MKScalarRounder {
     }
     
     func testInterestingPattern() {
-        let predictor = MKPolynomialFittingScalarPredictor(scalarRounder: self)
+        let predictor = MKPolynomialFittingScalarPredictor(round: roundValue)
 
         // a more adventurous may do 10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 10 progression
         let weights: [Double] = [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5]
@@ -35,7 +35,7 @@ class MKPolynomialFittingScalarPredictorTests : XCTestCase, MKScalarRounder {
     }
     
     func testTrainInProgress() {
-        let predictor = MKPolynomialFittingScalarPredictor(scalarRounder: self)
+        let predictor = MKPolynomialFittingScalarPredictor(round: roundValue)
         
         // first, we seem to be going in a linear fashion
         predictor.trainPositional([10], forExerciseId: "biceps-curl")

@@ -46,7 +46,7 @@ public struct MKClassifier {
         self.neuralNet = try MKForwardPropagator.configured(netConfig, weights: model.weights)
         self.inputPreparator = MKInputPreparator()
         self.numInputs = self.model.layerConfiguration.first!.size
-        self.numClasses = self.model.exerciseIds.count
+        self.numClasses = self.model.labels.count
     }
     
     ///
@@ -57,13 +57,13 @@ public struct MKClassifier {
     ///
     /// - parameter block: the received sensor data
     ///
-    public func classify(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExercise] {
+    public func classify(block block: MKSensorData, maxResults: Int) throws -> [(MKExercise, Double)] {
         let cews = try classifyWindows(block: block, maxResults: maxResults)
         if cews.isEmpty { return [] }
         let steps = classifySteps(cews, samplesPerSecond: block.samplesPerSecond)
         let exercises = accumulateSteps(steps)
         return fusionBlocks(exercises, samplesPerSecond: block.samplesPerSecond).map { x in
-            return MKClassifiedExercise(confidence: x.confidence, exerciseId: x.exerciseId, duration: x.duration, offset: x.offset, repetitions: nil, intensity: nil, weight: nil)
+            return (MKExercise(type: x.type, id: x.id, duration: x.duration, offset: x.offset), x.confidence)
         }
     }
     
@@ -103,11 +103,11 @@ public struct MKClassifier {
             let classifiedExerciseBlocks: [MKClassifiedExerciseBlock] = (0..<resultCount).flatMap { i in
                 let labelIndex = classRanking[i]
                 
-                let labelName = self.model.exerciseIds[labelIndex]
+                let (exerciseId, exerciseType) = self.model.labels[labelIndex]
                 let probability = windowPrediction[labelIndex]
                 
                 let windowDuration = window == numWindows - 1 ? (Double(windowSize) / Double(block.samplesPerSecond)) : duration
-                return MKClassifiedExerciseBlock(confidence: Double(probability), exerciseId: labelName, duration: windowDuration, offset: start)
+                return MKClassifiedExerciseBlock(confidence: Double(probability), type: exerciseType, id: exerciseId, duration: windowDuration, offset: start)
             }
             return MKClassifiedExerciseWindow(window: window, classifiedExerciseBlocks: classifiedExerciseBlocks)
         }
@@ -125,22 +125,23 @@ public struct MKClassifier {
             let minWindow = max(0, i - stepsInWindow)
             let maxWindow = min(i, numWindows - 1)
             let ws = Double(maxWindow - minWindow + 1)
-            var avg: [MKExerciseId:Double] = [:]
+            var avg: [MKExercise.Id:Double] = [:]
             (minWindow..<maxWindow + 1).forEach { w in
                     for block in windows[w].classifiedExerciseBlocks {
                     let blockAvg = block.confidence / ws
-                    if let exAvg = avg[block.exerciseId] {
-                        avg[block.exerciseId] = exAvg + blockAvg
+                    if let exAvg = avg[block.id] {
+                        avg[block.id] = exAvg + blockAvg
                     } else {
-                        avg[block.exerciseId] = blockAvg
+                        avg[block.id] = blockAvg
                     }
                 }
             }
-            let exIds = avg.keys.sort { id1, id2 in
+            let exerciseIds = avg.keys.sort { id1, id2 in
                 return avg[id1] > avg[id2]
             }
-            if let exId = exIds.first {
-                return MKClassifiedExerciseBlock(confidence: Double(avg[exId]!), exerciseId: exId, duration: duration, offset: Double(i) * duration )
+            if let exerciseId = exerciseIds.first,
+               let exerciseType = model.exerciseTypeDescriptorForExerciseId(exerciseId) {
+                return MKClassifiedExerciseBlock(confidence: Double(avg[exerciseId]!), type: exerciseType, id: exerciseId, duration: duration, offset: Double(i) * duration )
             } else {
                 return nil
             }
@@ -158,7 +159,7 @@ public struct MKClassifier {
             let current = steps[i]
             if accumulator == nil {
                 accumulator = current
-            } else if current.exerciseId == accumulator!.exerciseId {
+            } else if current.id == accumulator!.id {
                 accumulator!.extend(current)
             } else {
                 result.append(accumulator!)
@@ -185,7 +186,7 @@ public struct MKClassifier {
         }
         func isSameExercise(block1: MKClassifiedExerciseBlock?, _ block2: MKClassifiedExerciseBlock?) -> Bool {
             if let block1 = block1, let block2 = block2 {
-                return block1.exerciseId == block2.exerciseId
+                return block1.id == block2.id
             }
             return false
         }
@@ -219,14 +220,15 @@ public struct MKClassifier {
 
 struct MKClassifiedExerciseBlock {
     var confidence: Double
-    let exerciseId: MKExerciseId
+    let type: MKExerciseTypeDescriptor
+    let id: MKExercise.Id
     var duration: MKTimestamp
     let offset: MKTimestamp
     
     mutating func extend(by: MKClassifiedExerciseBlock) {
         // the new confidence the average confidence of both blocks 
         // use the duration to apply correct weights in average computation
-        let conf = self.exerciseId == by.exerciseId ? by.confidence : 0.0
+        let conf = self.id == by.id ? by.confidence : 0.0
         self.confidence = (self.confidence * self.duration + conf * by.duration) / (self.duration + by.duration)
         self.duration = self.duration + by.duration
     }

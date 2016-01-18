@@ -1,12 +1,17 @@
+//
+//  MRManagedLocation.swift
+//  Muvr
+//
+//  Created by Jan Machacek on 1/16/16.
+//  Copyright © 2016 Muvr. All rights reserved.
+//
+
 import Foundation
 import CoreData
-import MuvrKit
 
-class MRManagedLocation: NSManagedObject {
 
-    /// The exercise ids at the given location
-    var exerciseIds: [MKExerciseId] {
-        return (labels.allObjects as! [MRManagedLocationLabel]).map { $0.exerciseId }
-    }
+class MRManagedLocation: NSManagedObject, MRLocationCoordinate2D {
+
+// Insert code here to add functionality to your managed object subclass
 
 }

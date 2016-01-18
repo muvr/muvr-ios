@@ -26,7 +26,7 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
             self.started = session
         }
 
-        func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKClassifiedExercise], sensorData: MKSensorData) {
+        func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKExerciseWithLabels], sensorData: MKSensorData) {
             self.classified = session
             self.classifyExpectation.fulfill()
         }
@@ -35,26 +35,26 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
             self.ended = session
         }
         
-        func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKClassifiedExercise]) {
+        func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels]) {
             // noop
         }
     }
     
-    let exercisingHints: [MKClassificationHint]? = nil
+    let classificationHints: [MKClassificationHint]? = nil
     
-    func getExerciseModel(id id: MKExerciseModelId) -> MKExerciseModel {
+    func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel {
         let modelPath = NSBundle(forClass: MKClassifierTests.self).pathForResource("model-3", ofType: "raw")!
         let weights = MKExerciseModel.loadWeightsFromFile(modelPath)
         let model = MKExerciseModel(
             layerConfiguration: try! MKLayerConfiguration.parse(text: "1200 id 250 relu 100 relu 3 logistic"),
             weights: weights,
             sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
-            exerciseIds: ["1", "2", "3"],
+            labels: [("1", .ResistanceWholeBody), ("2", .ResistanceWholeBody), ("3", .ResistanceWholeBody)],
             minimumDuration: 0)
-
+        
         return model
     }
-    
+        
     ///
     /// Tests that the simple flow of start -> one block of sensor data -> end works as expected, namely that:
     /// - classification triggers some time after receiving sensor data

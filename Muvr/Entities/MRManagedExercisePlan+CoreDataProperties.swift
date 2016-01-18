@@ -2,7 +2,7 @@
 //  MRManagedExercisePlan+CoreDataProperties.swift
 //  Muvr
 //
-//  Created by Jan Machacek on 11/01/2016.
+//  Created by Jan Machacek on 1/16/16.
 //  Copyright © 2016 Muvr. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -11,13 +11,26 @@
 
 import Foundation
 import CoreData
+import MuvrKit
 
-extension MRManagedExercisePlan {
+extension MRManagedExercisePlan : MRManagedExerciseType {
 
-    @NSManaged var longitude: NSNumber?
     @NSManaged var latitude: NSNumber?
-    @NSManaged var exerciseType: String
-    @NSManaged var muscleGroups: NSSet?
-    @NSManaged var planData: NSData
+    @NSManaged var longitude: NSNumber?
+    @NSManaged private var managedPlan: NSData
 
 }
+
+extension MRManagedExercisePlan {
+    
+    var plan: MKExercisePlan<MKExercise.Id> {
+        get {
+            return MKExercisePlan<MKExercise.Id>.fromJsonFirst(managedPlan) { $0 as? MKExercise.Id }!
+        }
+        set {
+            managedPlan = newValue.json { $0 }
+        }
+    }
+    
+}
+

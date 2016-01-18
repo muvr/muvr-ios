@@ -1,11 +1,17 @@
+//
+//  MRManagedExercisePlan.swift
+//  Muvr
+//
+//  Created by Jan Machacek on 1/16/16.
+//  Copyright © 2016 Muvr. All rights reserved.
+//
+
 import Foundation
-import MuvrKit
 import CoreData
 
-class MRManagedExercisePlan : NSManagedObject {
- 
-    var plan: MKExercisePlan<MKExerciseId> {
-        return MKExercisePlan<MKExerciseId>.fromJsonFirst(planData) { $0 as? String }!
-    }
-    
+
+class MRManagedExercisePlan: NSManagedObject {
+
+// Insert code here to add functionality to your managed object subclass
+
 }

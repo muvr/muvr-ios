@@ -1,198 +1,146 @@
 import Foundation
 import CoreData
 import MuvrKit
-import CoreLocation
 
-class MRManagedExerciseSession: NSManagedObject, MKClassificationHintSource {
-    private var currentClassificationHint: MKClassificationHint?
-    private var exerciseIdCounts: [MKExerciseId : Int] = [:]
-    /// The estimated exercises
-    var estimated: [MKClassifiedExercise] = []
-    /// The exercise plan
-    var plan = MKExercisePlan<MKExerciseId>()
-    /// The intended exercise type
-    var intendedType: MKExerciseType?
+class MRManagedExerciseSession: NSManagedObject {
+    typealias ExerciseRow = (MKExercise.Id, MKExerciseType, NSTimeInterval, NSTimeInterval, [MKExerciseLabel])
+    /// The number of exercise ids for next estimates
+    private var exerciseIdCounts: [MKExercise.Id : Int] = [:]
+    /// The exercise detail the user has explicitly started
+    /// Viz ``setClassificationHint(_:labels:)`` and ``clearClassificationHint``
+    private(set) internal var classificationHints: [MKClassificationHint] = []
+    /// The accumulated exercise rows
+    private(set) internal var exerciseWithLabels: [ExerciseRow] = []
+    
+    /// The set of estimated exercises, used when the session is in real-time mode
+    var estimated: [MKExerciseWithLabels] = []
     /// The weight predictor
     var weightPredictor: MKScalarPredictor!
-    
-    ///
-    /// The exercise type inferred by taking the most frequently done exercise type in this session.
-    /// If the user does what he or she intended, then ``intendedType`` == ``inferredType``, and both
-    /// will be != nil.
-    ///
-    var inferredType: MKExerciseType? {
-        var counter: [MKExerciseType : Int] = [:]
-        for e in combinedExercises {
-            let type = MKExerciseType(exerciseId: e.exerciseId)!
-            if let count = counter[type] {
-                counter[type] = count + 1
-            } else {
-                counter[type] = 1
-            }
-        }
-        return counter.sort { l, r in return l.1 < r.1 } . map { $0.0 } . first
-    }
-    
-    ///
-    /// The complete list of exercises the user is likely to be doing
-    ///
-    var exercises: [MKIncompleteExercise] {
-        let estimated = currentClassificationHint.map { _ in return self.estimatedExercises } ?? []
-        let exercises = estimated + plannedExercises
-        return exercises + allExercises(notIn: exercises)
-    }
-    
-    ///
-    /// Fills in the missing predictions for the given exercise
-    /// - parameter exercise: the exercise
-    /// - returns: the exercise with the predictions filled in
-    ///
-    func exerciseWithPredictions(exercise: MKIncompleteExercise) -> MKIncompleteExercise {
-        let n = exerciseIdCounts[exercise.exerciseId] ?? 0
-        let weight = weightPredictor.predictScalarForExerciseId(exercise.exerciseId, n: n)
-        return exercise.copy(repetitions: nil, weight: weight, intensity: nil)
-    }
-    
-    ///
-    /// The list of exercises that the user is most likely to be doing next
-    ///
-    private var plannedExercises: [MKIncompleteExercise] {
-        return plan.next.map {
-            return MRIncompleteExercise(exerciseId: $0, repetitions: nil, intensity: nil, weight: nil, confidence: 1)
-        }
-    }
-    
-    ///
-    /// The list of exercises that the user is most likely currently doing
-    ///
-    private var estimatedExercises: [MKIncompleteExercise] {
-        return estimated.map { $0 as MKIncompleteExercise }
-    }
-    
-    ///
-    /// Returns all the exercises available in the current session and not present in the given list
-    ///
-    private func allExercises(notIn exercises: [MKIncompleteExercise]) -> [MKIncompleteExercise] {
-        let allIds = MRAppDelegate.sharedDelegate().exerciseIds(inModel: exerciseModelId)
-        let knownIds = exercises.map { $0.exerciseId }
-        let otherIds = allIds.filter { !knownIds.contains($0) }
-        var allExercises: [MKIncompleteExercise] = otherIds.map { MRIncompleteExercise(exerciseId: $0, repetitions: nil, intensity: nil, weight: nil, confidence: 0) }
-        allExercises.sortInPlace { l, r in
-            switch (l.type == self.intendedType, r.type == self.intendedType) {
-            case (true, true): return l.title < r.title
-            case (true, false): return true
-            case (false, true): return false
-            case (false, false): return l.title < r.title
-            }
-        }
-        return allExercises
-    }
-    
-    // Implements the ``MKSessionClassifierHintSource.exercisingHints`` property
-    var exercisingHints: [MKClassificationHint]? {
-        get {
-            var hints: [MKClassificationHint] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).map { le in
-                return .ExplicitExercise(start: le.start.timeIntervalSinceDate(self.start), duration: le.duration, expectedExercises: [le])
-            }
-            if let currentClassificationHint = currentClassificationHint {
-                hints.append(currentClassificationHint)
-            }
-            return hints
-        }
-    }
-    
-    ///
-    /// Explicitly begins exercising. This call must be followed by ``addLabel`` at some point in the future.
-    ///
-    func beginExercising(exercise: MKIncompleteExercise) {
-        currentClassificationHint =
-            .ExplicitExercise(start: NSDate().timeIntervalSinceDate(start), duration: nil, expectedExercises: [exercise])
-    }
-    
-    ///
-    /// Explicitly ends exercising.
-    ///
-    func endExercising() {
-        currentClassificationHint = nil
-    }
-    
-    ///
-    /// Adds the completed exercise to the plan. Do not forget to save the given ``managedObjectContext``, this
-    /// method does not flush automatically.
-    ///
-    /// - parameter label: the completed exercise
-    /// - parameter start: the exercise's start date
-    /// - parameter duration: the exercise's duration
-    /// - parameter managedObjectContext: the CD context into which the label is going to be inserted.
-    ///
-    func addLabel(label: MKIncompleteExercise, start: NSDate, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
-        let l = MRManagedLabelledExercise.insertNewObject(into: self, inManagedObjectContext: managedObjectContext)
-        
-        l.start = start
-        l.duration = duration
-        l.exerciseId = label.exerciseId
-        l.cdIntensity = label.intensity ?? 0
-        l.cdRepetitions = label.repetitions ?? 0
-        l.cdWeight = label.weight ?? 0
+    /// The duration predictor
+    var durationPredictor: MKScalarPredictor!
+    /// The repetitions predictor
+    var repetitionsPredictor: MKScalarPredictor!
+    /// The intensity predictor
+    var intensityPredictor: MKScalarPredictor!
 
-        // add to plan so we can get prediction for the next exercise
-        plan.insert(label.exerciseId)
+    /// The exercise plan
+    var plan: MKExercisePlan<MKExercise.Id>!
+    
+    ///
+    /// The exercise details that are coming up, ordered by their score
+    ///
+    var exerciseDetailsComingUp: [MKExerciseDetail] {
+        return MRAppDelegate.sharedDelegate().exerciseDetailsForExerciseIds(plan.next, favouringType: exerciseType)
+    }
+    
+    ///
+    /// Predicts the duration for the given ``exerciseDetail``
+    /// - parameter exerciseDetail: the exercise detail
+    /// - returns: the expected duration
+    ///
+    func predictDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
+        let (id, exerciseType, properties) = exerciseDetail
+        let n = exerciseIdCounts[id] ?? 0
+
+        if let prediction = durationPredictor.predictScalarForExerciseId(exerciseDetail.0, n: n) {
+            return prediction
+        }
         
-        // update internal counters for weight (and in the future) other predictions
-        let n = exerciseIdCounts[label.exerciseId] ?? 0
-        exerciseIdCounts[label.exerciseId] = n + 1
-        
-        // retrain for the given exercise
-        let trainingSet: [Double] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).flatMap { existingLabel in
-            if existingLabel.exerciseId == label.exerciseId {
-                return existingLabel.weight
+        for property in properties {
+            switch property {
+            case .TypicalDuration(let duration): return duration
+            default: continue
+            }
+        }
+        switch exerciseType {
+        case .IndoorsCardio: return 45 * 60
+        case .ResistanceTargeted: return 60
+        case .ResistanceWholeBody: return 60
+        }
+    }
+    
+    ///
+    /// Predicts the needed rest duration
+    ///
+    func predictRestDuration() -> NSTimeInterval {
+        return 60
+    }
+    
+    ///
+    /// Predicts labels for the given ``exerciseDetail``.
+    /// - parameter exerciseDetail: the ED
+    /// - returns: the predicted labels (may be empty)
+    ///
+    func predictExerciseLabelsForExerciseDetail(exerciseDetail: MKExerciseDetail) -> [MKExerciseLabel] {
+        let (id, exerciseType, _) = exerciseDetail
+        let n = exerciseIdCounts[id] ?? 0
+        return exerciseType.labelDescriptors.flatMap {
+            switch $0 {
+            case .Repetitions: return repetitionsPredictor.predictScalarForExerciseId(id, n: n).map { .Repetitions(repetitions: Int($0)) }
+            case .Weight: return weightPredictor.predictScalarForExerciseId(id, n: n).map { .Weight(weight: $0) }
+            case .Intensity: return intensityPredictor.predictScalarForExerciseId(id, n: n).map { .Intensity(intensity: $0) }
+            }
+        }
+    }
+    
+    ///
+    /// Sets the exercise detail and predicted labels that the user is performing 
+    /// (typically as a result of some user interaction). This serves as a hint to the
+    /// classifier.
+    /// - parameter exerciseDetail: the exercise detail
+    /// - parameter labels: the predicted labels
+    ///
+    func setClassificationHint(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel]) {
+        classificationHints = [.ExplicitExercise(start: NSDate().timeIntervalSinceDate(start), duration: nil, expectedExercises: [(exerciseDetail, labels)])]
+    }
+    
+    ///
+    /// Clears all classification hints
+    ///
+    func clearClassificationHints() {
+        classificationHints = []
+    }
+    
+    ///
+    /// Adds the fully resolved ``exerciseDetail`` along with the ``labels`` to the session's exercises.
+    /// The exercise spans from ``start``–``start + duration``; it will be inserted into the given ``managedObjectContext``.
+    /// - parameter exerciseDetail: the exercise detail
+    /// - parameter labels: the classified labels
+    /// - parameter start: the start date
+    /// - parameter duration: the duration
+    /// - parameter managedObjectContext: the MOC
+    ///
+    func addExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval) {
+        func extractLabelScalar(labelToScalar: MKExerciseLabel -> Double?)(row: ExerciseRow) -> Double? {
+            for label in row.4 {
+                if let value = labelToScalar(label) {
+                    return value
+                }
             }
             return nil
         }
-        weightPredictor.trainPositional(trainingSet, forExerciseId: label.exerciseId)
         
-        // reset classification hint
-        currentClassificationHint = nil
+        let offset = start.timeIntervalSinceDate(self.start)
+        let (id, exerciseType, _) = exerciseDetail
+        exerciseWithLabels.append((id, exerciseType, offset, duration, labels))
+        
+        // add to the plan
+        plan.insert(id)
+        
+        // train the various predictors
+        let historyForThisExercise = exerciseWithLabels.filter { e in return e.0 == id }
+        
+        let weights = historyForThisExercise.flatMap(extractLabelScalar { if case .Weight(let weight) = $0 { return weight } else { return nil } } )
+        let intensities = historyForThisExercise.flatMap(extractLabelScalar { if case .Intensity(let intensity) = $0 { return intensity } else { return nil } } )
+        let repetitions = historyForThisExercise.flatMap(extractLabelScalar { if case .Repetitions(let repetitions) = $0 { return Double(repetitions) } else { return nil } } )
+        let durations = exerciseWithLabels.map { $0.3 }
+        weightPredictor.trainPositional(weights, forExerciseId: id)
+        durationPredictor.trainPositional(durations, forExerciseId: id)
+        intensityPredictor.trainPositional(intensities, forExerciseId: id)
+        repetitionsPredictor.trainPositional(repetitions, forExerciseId: id)
+        
+        // update counts
+        exerciseIdCounts[id] = exerciseIdCounts[id].map { $0 + 1 } ?? 1
     }
     
-    ///
-    /// Combined labelled and classified exercises for this entire session
-    ///
-    private var combinedExercises: [MKExercise] {
-        let labelled: [(NSDate, MKExercise)] = (labelledExercises.allObjects as! [MRManagedLabelledExercise]).map { e in return (e.start, e as MKExercise) }
-        let classified: [(NSDate, MKExercise)] = (classifiedExercises.allObjects as! [MRManagedClassifiedExercise]).map { e in return (e.start, e as MKExercise) }
-        
-        // filter out from the classified exercises those that fall into a label (with some tolerance)
-        let classifiedOutsideLabels = classified.filter { (ceStart, _) in
-            let timeTolerance: NSTimeInterval = 10
-            return !labelled.contains { (leStart, _) in
-                return leStart.timeIntervalSinceDate(ceStart) < timeTolerance
-            }
-        }
-        
-        // combine the labels with classified exercises
-        let merged = (classifiedOutsideLabels + labelled).sort { l, r in return l.0.compare(r.0) == NSComparisonResult.OrderedAscending }
-        
-        // TODO: remove overlapping
-        
-        return merged.map { $0.1 }
-    }
-    
-    ///
-    /// Combined labelled and classified exercises grouped into sets
-    ///
-    var sets: [[MKExercise]] {
-        get {
-            var em: [MKExerciseId : [MKExercise]] = [:]
-            combinedExercises.forEach { x in
-                if let l = em[x.exerciseId] {
-                    em[x.exerciseId] = l + [x]
-                } else {
-                    em[x.exerciseId] = [x]
-                }
-            }
-            return em.values.sort { l, r in l.first!.exerciseId > r.first!.exerciseId }
-        }
-    }
-        
 }

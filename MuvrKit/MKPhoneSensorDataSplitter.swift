@@ -16,7 +16,7 @@ public enum MKClassificationHint {
     /// - parameter duration: the duration
     /// - parameter expectedExercises: the exercises the user is likely to be performing
     ///
-    case ExplicitExercise(start: NSTimeInterval, duration: NSTimeInterval?, expectedExercises: [MKIncompleteExercise])
+    case ExplicitExercise(start: NSTimeInterval, duration: NSTimeInterval?, expectedExercises: [(MKExerciseDetail, [MKExerciseLabel])])
     
     ///
     /// The user is expected to be resting
@@ -56,7 +56,7 @@ public protocol MKClassificationHintSource {
     /// The list of known exercise periods (start, duration, suggestions); the classifier
     /// may use this information to skip exercise vs. no exercise detection and to
     /// make better predictions using the suggestions.
-    var exercisingHints: [MKClassificationHint]? { get }
+    var classificationHints: [MKClassificationHint]? { get }
     
 }
 
@@ -92,12 +92,12 @@ public class MKSensorDataSplitter {
     
     typealias Split = ([MKSensorDataSplit], [MKSensorDataSplit], NSTimeInterval)
     
-    private let eneClassifier: MKClassifier
+    //private let eneClassifier: MKClassifier
 
     public init(exerciseModelSource: MKExerciseModelSource, hintSource: MKClassificationHintSource) {
         self.hintSource = hintSource
-        let slackingModel = try! exerciseModelSource.getExerciseModel(id: "slacking")
-        eneClassifier = try! MKClassifier(model: slackingModel)
+        //let slackingModel = try! exerciseModelSource.getExerciseModel(id: "slacking")
+        //eneClassifier = try! MKClassifier(model: slackingModel)
     }
     
     private func hintedSplit(from: NSTimeInterval, data: MKSensorData, hints: [MKClassificationHint]) -> Split {
@@ -149,7 +149,7 @@ public class MKSensorDataSplitter {
     }
 
     func split(from from: NSTimeInterval, data: MKSensorData) -> Split {
-        if let hints = hintSource.exercisingHints {
+        if let hints = hintSource.classificationHints {
             return hintedSplit(from, data: data, hints: hints)
         } else {
             return automatedSplit(from, data: data)

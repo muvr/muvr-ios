@@ -3,89 +3,146 @@ import UIKit
 import MuvrKit
 
 ///
+/// A cell that displays a scalar value, like weight, repetitions or intensity
+///
+class MRSessionLabellingScalarTableViewCell : UITableViewCell {
+    private var increment: (MKExerciseLabel -> MKExerciseLabel)!
+    private var decrement: (MKExerciseLabel -> MKExerciseLabel)!
+    private var exerciseLabel: MKExerciseLabel!
+    private var scalarExerciseLabelSettable: MRScalarExerciseLabelSettable!
+
+    func setExerciseLabel(exerciseLabel: MKExerciseLabel, increment: MKExerciseLabel -> MKExerciseLabel, decrement: MKExerciseLabel -> MKExerciseLabel) {
+        let centreX = self.frame.width / 2
+        let centreY = self.frame.height / 2
+        let height = self.frame.height - 20
+        let width  = height * 1.2
+        
+        let frame = CGRect(x: centreX - width / 2, y: centreY - height / 2, width: width, height: height)
+        let (view, scalarExerciseLabelSettable) = MRExerciseLabelViews.scalarViewForLabel(exerciseLabel, frame: frame)!
+        addSubview(view)
+        
+        self.scalarExerciseLabelSettable = scalarExerciseLabelSettable
+        self.exerciseLabel = exerciseLabel
+        self.increment = increment
+        self.decrement = decrement
+    }
+    
+    @IBAction private func incrementTouched() {
+        exerciseLabel = increment(exerciseLabel)
+        try! scalarExerciseLabelSettable.setExerciseLabel(exerciseLabel)
+    }
+    
+    @IBAction private func decrementTouched() {
+        exerciseLabel = decrement(exerciseLabel)
+        try! scalarExerciseLabelSettable.setExerciseLabel(exerciseLabel)
+    }
+    
+}
+
+///
 /// Displays indicators that allow the user to select the repetitions, weight and intensity
 /// To use, call ``setExercise`` supplying the predicted exercise, and a function that will
 /// be called when the user changes the inputs.
 ///
-class MRSessionLabellingViewController: UIViewController {
-    @IBOutlet private weak var repetitionsView: MRRepetitionsView!
-    @IBOutlet private weak var weightView: MRWeightView!
-    @IBOutlet private weak var intensityView: MRBarsView!
+class MRSessionLabellingViewController: UIViewController, UITableViewDataSource {
+    @IBOutlet private weak var tableView: UITableView!
     
     /// A function that carries the new values: (repetitions, weight, intensity)
-    typealias OnLabelUpdated = MKIncompleteExercise -> Void
+    typealias OnLabelsUpdated = [MKExerciseLabel] -> Void
     /// The function that will be called whenever a value changes
-    private var onLabelUpdated: OnLabelUpdated!
+    private var onLabelsUpdated: OnLabelsUpdated!
     
-    private var exercise: MKIncompleteExercise!
-    
-    // TODO: Configurable
-    /// The default repetitions
-    private let defaultRepetitions = 10
-    /// The default weight
-    private let defaultWeight = 10.0
-    /// The weight increment
-    private let weightIncrement: Double = 1.0
+    private var labels: [MKExerciseLabel] = []
+    private var exerciseDetail: MKExerciseDetail!
     
     ///
-    /// Sets the repetitions, weight and intensity from the given ``exercise``,
-    /// calling the ``onUpdate`` function whenever the user changes the given
-    /// values.
+    /// Sets exercise detail and the labels for the users to verify.
     ///
-    /// - parameter exercise: the exercise whose values to be displayed
+    /// - parameter exerciseDetail: the exercise whose values to be displayed
     /// - parameter onUpdate: a function that will be called on change of values
     ///
-    func setExercise(exercise: MKIncompleteExercise, onLabelUpdated: OnLabelUpdated) {
-        self.onLabelUpdated = onLabelUpdated
-        self.exercise = exercise
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        let defaultIntensity = 0.5
+    func setExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], onLabelsUpdated: OnLabelsUpdated) {
+        let missingLabelDescriptors = exerciseDetail.1.labelDescriptors.filter { ld in
+            return !labels.contains { l in l.descriptor == ld }
+        }
+        let missingLabels: [MKExerciseLabel] = missingLabelDescriptors.flatMap {
+            switch $0 {
+            case .Intensity: return .Intensity(intensity: 0.5)
+            case .Repetitions: return .Repetitions(repetitions: 10)
+            case .Weight: return .Weight(weight: 10)
+            }
+        }
         
-        repetitionsView.value = exercise.repetitions.map { Int($0) }
-        weightView.value = exercise.weight
-        intensityView.value = Int(5 * (exercise.intensity ?? defaultIntensity))
+        self.onLabelsUpdated = onLabelsUpdated
+        self.exerciseDetail = exerciseDetail
+        self.labels = labels + missingLabels
+        tableView.reloadData()
     }
-    
+        
     /// Calls the onUpdate with the appropriate values
     private func update() {
-        let newExercise = exercise.copy(
-            repetitions: repetitionsView.value.map { Int32($0) },
-            weight: weightView.value,
-            intensity: Double(intensityView.value) / 5.0
-        )
-        onLabelUpdated(newExercise)
+        onLabelsUpdated([])
     }
     
-    @IBAction private func startIncRepetitions() {
-        repetitionsView.value = repetitionsView.value.map { $0 + 1 } ?? defaultRepetitions
-        update()
+    private func findProperty(predicate: MKExerciseProperty -> Bool) -> MKExerciseProperty? {
+        for property in exerciseDetail.2 {
+            if predicate(property) {
+                return property
+            }
+        }
+        return nil
+    }
+
+    private func incrementDecrementLabel(label: MKExerciseLabel, increment: Bool) -> MKExerciseLabel {
+        let properties: [MKExerciseProperty] = exerciseDetail.2
+        
+        switch label {
+        case .Intensity(var intensity):
+            if increment { intensity = min(1, intensity + 0.2) } else { intensity = max(0, intensity - 0.2) }
+            return .Intensity(intensity: intensity)
+        case .Repetitions(var repetitions):
+            if increment { repetitions = repetitions + 1 } else { repetitions = max(1, repetitions - 1) }
+            return .Repetitions(repetitions: repetitions)
+        case .Weight(var weight):
+            for property in properties {
+                if case .WeightProgression(let minimum, let step, let maximum) = property {
+                    if increment { weight = min(maximum ?? 999, weight + step) } else { weight = max(minimum, weight - step) }
+                    return .Weight(weight: weight)
+                }
+            }
+            if increment { weight = weight + 0.5 } else { weight = weight - 0.5 }
+            return .Weight(weight: weight)
+        }
     }
     
-    @IBAction private func startIncWeight() {
-        weightView.value = weightView.value.map { $0 + weightIncrement } ?? defaultWeight
-        update()
+    private func incrementLabel(index: Int)(label: MKExerciseLabel) -> MKExerciseLabel {
+        let newLabel = incrementDecrementLabel(label, increment: true)
+        labels[index] = newLabel
+        onLabelsUpdated(labels)
+        return newLabel
     }
     
-    @IBAction private func startIncIntensity() {
-        intensityView.value = min(intensityView.value + 1, 5)
-        update()
+    private func decrementLabel(index: Int)(label: MKExerciseLabel) -> MKExerciseLabel {
+        let newLabel = incrementDecrementLabel(label, increment: false)
+        labels[index] = newLabel
+        onLabelsUpdated(labels)
+        return newLabel
     }
     
-    @IBAction private func startDecRepetitions() {
-        repetitionsView.value = repetitionsView.value.map { max($0 - 1, 0) } ?? defaultRepetitions
-        update()
+    // MARK: - UITableViewDataSource
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
     }
     
-    @IBAction private func startDecWeight() {
-        weightView.value = weightView.value.map { max($0 - weightIncrement, 0) } ?? defaultWeight
-        update()
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return labels.count
     }
     
-    @IBAction private func startDecIntensity() {
-        intensityView.value = max(intensityView.value - 1, 0)
-        update()
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("label", forIndexPath: indexPath) as! MRSessionLabellingScalarTableViewCell
+        cell.setExerciseLabel(labels[indexPath.row], increment: incrementLabel(indexPath.row), decrement: decrementLabel(indexPath.row))
+        return cell
     }
     
 }

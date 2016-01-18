@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import MuvrKit
 
 @IBDesignable
 class MRBarsView: UIView {
@@ -12,15 +13,11 @@ class MRBarsView: UIView {
     }
     
     @IBInspectable
-    var value: Int {
-        get { return _value }
-        set(v) {
-            _value = v
+    var value: Double? {
+        didSet {
             setNeedsDisplay()
         }
     }
-    
-    var _value: Int = 5
     
     @IBInspectable
     var barColor: UIColor = UIColor.blackColor() {
@@ -76,8 +73,9 @@ class MRBarsView: UIView {
             path.addLineToPoint(CGPoint(x: x, y: bottom))
         }
         
+        let barsToDisplay = Int(Double(bars) * (value ?? 0))
         for i in 0..<bars {
-            if i < value {
+            if i < barsToDisplay {
                 drawBar(atIndex: i + 1)
             }
         }

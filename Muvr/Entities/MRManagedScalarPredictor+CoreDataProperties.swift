@@ -2,7 +2,7 @@
 //  MRManagedScalarPredictor+CoreDataProperties.swift
 //  Muvr
 //
-//  Created by Jan Machacek on 1/14/16.
+//  Created by Jan Machacek on 1/16/16.
 //  Copyright © 2016 Muvr. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -12,11 +12,11 @@
 import Foundation
 import CoreData
 
-extension MRManagedScalarPredictor {
+extension MRManagedScalarPredictor : MRManagedExerciseType {
 
-    @NSManaged var type: String
-    @NSManaged var longitude: NSNumber?
-    @NSManaged var latitude: NSNumber?
     @NSManaged var data: NSData
+    @NSManaged var latitude: NSNumber?
+    @NSManaged var longitude: NSNumber?
+    @NSManaged var type: String
 
 }

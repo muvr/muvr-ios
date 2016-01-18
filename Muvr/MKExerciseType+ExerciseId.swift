@@ -9,23 +9,29 @@ extension MKExerciseType {
     /// - returns: the parsed ``MKExerciseType`` or ``nil``.
     ///
     init?(exerciseId: String) {
-        if let (type, rest) = MRExerciseId.componentsFromExerciseId(exerciseId) {
-            if type == MKExerciseType.resistanceTargeted {
-                if let x = (MKMuscleGroup(id: rest.first!).map { MKExerciseType.ResistanceTargeted(muscleGroups: [$0]) }) {
-                    self = x
-                } else {
-                    return nil
-                }
-            } else if type == MKExerciseType.indoorsCardio {
-                self = .IndoorsCardio
-            } else if type == MKExerciseType.resistanceWholeBody {
-                self = .ResistanceWholeBody
-            } else {
-                return nil
-            }
+        guard let (type, rest, _) = MKExercise.componentsFromExerciseId(exerciseId) else { return nil }
+        if type == MKExerciseType.resistanceTargeted {
+            guard let first = rest.first else { return nil }
+            let mgs = first.componentsSeparatedByString(",").flatMap { MKMuscleGroup(id: $0) }
+            self = MKExerciseType.ResistanceTargeted(muscleGroups: mgs)
+        } else if type == MKExerciseType.indoorsCardio {
+            self = .IndoorsCardio
+        } else if type == MKExerciseType.resistanceWholeBody {
+            self = .ResistanceWholeBody
         } else {
             return nil
         }
+    }
+    
+    ///
+    /// Returns the exercise id prefix
+    ///
+    var exerciseIdPrefix: String {
+        var s = self.id + ":"
+        if case .ResistanceTargeted(let muscleGroups) = self {
+            s = s + muscleGroups.sort { $0.id < $1.id }.reduce("") { r, mg in return r + "," + mg.id }
+        }
+        return s
     }
         
 }
