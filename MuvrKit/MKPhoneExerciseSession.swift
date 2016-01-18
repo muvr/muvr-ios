@@ -36,6 +36,10 @@ public struct MKExerciseSession {
         self.exerciseType = exerciseConnectivitySession.exerciseType
     }
     
+    ///
+    /// Constructs this instance by passing in all its parameters
+    /// Allows to extend MKExerciseSession initialisers outside of MuvrKit
+    ///
     public init(id: String, start: NSDate, end: NSDate?, completed: Bool, exerciseType: MKExerciseType) {
         self.id = id
         self.start = start
