@@ -40,7 +40,7 @@ class MRGlanceController: WKInterfaceController, MRSessionProgressRing {
     }
     
     /// callback function invoked when session is started/ended on the phone
-    internal func sessionDidChange(notif: NSNotification) {
+    internal func sessionDidChange(notification: NSNotification) {
         renderer?.update()
     }
 

@@ -133,13 +133,13 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     }
     
     /// callback function invoked when session is started/ended on the phone
-    internal func sessionDidStart(notif: NSNotification) {
+    internal func sessionDidStart(notification: NSNotification) {
         updateUI()
         renderer?.update()
     }
     
-    internal func sessionDidEnd(notif: NSNotification) {
-        updateUI(withEndedSession: notif.object as? String)
+    internal func sessionDidEnd(notification: NSNotification) {
+        updateUI(withEndedSession: notification.object as? String)
         renderer?.update()
     }
 
