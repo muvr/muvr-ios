@@ -1,5 +1,8 @@
 extension MKExerciseSession {
     
+    ///
+    /// Serialize an MKExerciseSession object into a dictionary
+    ///
     var metadata: [String: AnyObject] {
         var metadata: [String: AnyObject] = [
             "id": id,
@@ -13,6 +16,9 @@ extension MKExerciseSession {
         return metadata
     }
     
+    ///
+    /// Builds an MKExerciseSession from values in a dictionary
+    ///
     init?(metadata: [String: AnyObject]) {
         guard let id = metadata["id"] as? String,
             let start = metadata["start"] as? NSTimeInterval,
