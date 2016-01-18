@@ -182,7 +182,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     
     func exerciseViewLongTapped(exerciseView: MRExerciseView) {
         if case .ComingUp = state {
-            try! MRAppDelegate.sharedDelegate().endCurrentSession()
+            try! MRAppDelegate.sharedDelegate().endSession(withId: session.id!, end: NSDate(), sensorData: nil, sync: true)
         }
     }
     

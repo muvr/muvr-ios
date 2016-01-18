@@ -16,5 +16,14 @@ extension MRManagedExerciseSession {
         
         return e
     }
+    
+    static func fetchSession(withId id: String, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession? {
+        let request = NSFetchRequest()
+        request.entity = NSEntityDescription.entityForName("MRManagedExerciseSession", inManagedObjectContext: managedObjectContext)
+        request.predicate = NSPredicate(format: "id == %@", id)
+        
+        let result = try? managedObjectContext.executeFetchRequest(request) as! [MRManagedExerciseSession]
+        return result?.first
+    }
 
 }
