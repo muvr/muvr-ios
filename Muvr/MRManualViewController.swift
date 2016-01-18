@@ -19,7 +19,7 @@ class MRManualViewController : UIViewController, UITableViewDataSource, UITableV
     
     @IBAction private func start() {
         if let exerciseType = exerciseType {
-            try! MRAppDelegate.sharedDelegate().startSessionForExerciseType(exerciseType, start: NSDate(), id: NSUUID().UUIDString)
+            try! MRAppDelegate.sharedDelegate().startSession(forExerciseType: exerciseType)
         }
     }
     

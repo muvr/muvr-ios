@@ -35,5 +35,13 @@ public struct MKExerciseSession {
         self.completed = exerciseConnectivitySession.last
         self.exerciseType = exerciseConnectivitySession.exerciseType
     }
+    
+    public init(id: String, start: NSDate, end: NSDate?, completed: Bool, exerciseType: MKExerciseType) {
+        self.id = id
+        self.start = start
+        self.end = end
+        self.completed = completed
+        self.exerciseType = exerciseType
+    }
         
 }

@@ -58,6 +58,8 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     
     override func willActivate() {
         super.willActivate()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidStart:", name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd:", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: nil)
         activate()
     }
     
@@ -77,12 +79,15 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     override func didDeactivate() {
         renderer?.deactivate()
         renderer = nil
+        NSNotificationCenter.defaultCenter().removeObserver(self)
         super.didDeactivate()
     }
     
-    private func updateUI() {
-        let sd = MRExtensionDelegate.sharedDelegate()
+    private func updateUI(withEndedSession endedSessionId: String? = nil) {
         clearAllMenuItems()
+        
+        let session = MRExtensionDelegate.sharedDelegate().currentSession
+        let active = session != nil && session?.0.id != endedSessionId
         
         exerciseTypeTable.setNumberOfRows(exerciseType.count, withRowType: "MRExerciseTypeController")
         (0..<exerciseTypeTable.numberOfRows).forEach { i in
@@ -90,7 +95,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
             row.setExerciseType(exerciseType[i], mainController: self)
         }
         
-        if sd.currentSession != nil {
+        if active {
             addMenuItemWithItemIcon(WKMenuItemIcon.Pause, title: "Pause", action: "pause")
             addMenuItemWithItemIcon(WKMenuItemIcon.Trash, title: "Stop",  action: "stop")
 
@@ -101,8 +106,8 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
             // NB. it will stay like this.
             exercisesTable.setNumberOfRows(0, withRowType: "exercise")
         }
-        progressGroup.setHidden(sd.currentSession == nil)
-        startGroup.setHidden(sd.currentSession != nil)
+        progressGroup.setHidden(!active)
+        startGroup.setHidden(active)
     }
     
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
@@ -125,6 +130,17 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
         renderer?.reset()
         MRExtensionDelegate.sharedDelegate().startSession(exerciseType)
         updateUI()
+    }
+    
+    /// callback function invoked when session is started/ended on the phone
+    internal func sessionDidStart(notif: NSNotification) {
+        updateUI()
+        renderer?.update()
+    }
+    
+    internal func sessionDidEnd(notif: NSNotification) {
+        updateUI(withEndedSession: notif.object as? String)
+        renderer?.update()
     }
 
 }

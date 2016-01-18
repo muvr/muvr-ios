@@ -93,10 +93,9 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     @IBAction func start() {
         switch aggregate {
         case .MuscleGroups(let type):
-            try! MRAppDelegate.sharedDelegate().startSessionForExerciseType(type.concrete, start: NSDate(), id: NSUUID().UUIDString)
+            try! MRAppDelegate.sharedDelegate().startSession(forExerciseType: type.concrete)
         case .Exercises(let muscleGroup):
-            try! MRAppDelegate.sharedDelegate().startSessionForExerciseType(
-                .ResistanceTargeted(muscleGroups: [muscleGroup]), start: NSDate(), id: NSUUID().UUIDString)
+            try! MRAppDelegate.sharedDelegate().startSession(forExerciseType: .ResistanceTargeted(muscleGroups: [muscleGroup]))
         default: break
         }
     }

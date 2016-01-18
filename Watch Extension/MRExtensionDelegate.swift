@@ -2,7 +2,12 @@ import WatchKit
 import WatchConnectivity
 import MuvrKit
 
-class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivityDelegate {
+enum MRNotifications: String {
+    case CurrentSessionDidStart
+    case CurrentSessionDidEnd
+}
+
+class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKExerciseSessionConnectivityDelegate {
     private lazy var connectivity: MKConnectivity = {
         return MKConnectivity(delegate: self)
     }()
@@ -74,6 +79,22 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKMetadataConnectivit
 
     func applicationWillResignActive() {
 
+    }
+    
+    /// MARK: MKMetadataConnectivityDelegate
+    
+    func sessionStarted(session: (MKExerciseSession, MKExerciseSessionProperties)) {
+        let (s, p) = session
+        guard let currentSession = currentSession where currentSession.0 == s else { return }
+        workoutDelegate.startSession(start: p.start, exerciseType: s.exerciseType)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: s.id)
+    }
+    
+    func sessionEnded(session: (MKExerciseSession, MKExerciseSessionProperties)) {
+        let (s, p) = session
+        guard let currentSession = currentSession where currentSession.0 == s else { return }
+        workoutDelegate.stopSession(end: p.end!)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: s.id)
     }
     
 }

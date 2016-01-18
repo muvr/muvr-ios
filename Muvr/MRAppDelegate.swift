@@ -59,7 +59,7 @@ protocol MRApp : MKExercisePropertySource {
     /// - parameter start: the start date, typically value ``NSDate()``
     /// - parameter id: the session identity, typically ``NSUUID().UUIDString``
     ///
-    func startSessionForExerciseType(exerciseType: MKExerciseType, start: NSDate, id: String) throws
+    func startSession(forExerciseType exerciseType: MKExerciseType) throws
     
     ///
     /// Ends the current exercise session, if any
@@ -239,9 +239,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     // MARK: - Session classification
     
-    private func endSession(session: MRManagedExerciseSession) {
+    private func endSession(session: MRManagedExerciseSession, endingAt end: NSDate?) {
         dismissSessionControllerForSession(session)
-        
+        session.end = end ?? NSDate()
         for (id, exerciseType, offset, duration, labels) in session.exerciseWithLabels {
             MRManagedExercise.insertNewObjectIntoSession(session, id: id, exerciseType: exerciseType, labels: labels, offset: offset, duration: duration, inManagedObjectContext: managedObjectContext)
         }
@@ -261,7 +261,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
         if let currentSession = currentSession {
             currentSession.sensorData = sensorData?.encode()
-            endSession(currentSession)
+            endSession(currentSession, endingAt: session.end)
         }
     }
     
@@ -283,6 +283,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
         try! startSessionForExerciseType(session.exerciseType, start: session.start, id: session.id)
+    }
+    
+    func startSession(forExerciseType exerciseType: MKExerciseType) throws {
+        try startSessionForExerciseType(exerciseType, start: NSDate(), id: NSUUID().UUIDString)
+        connectivity.startSession(MKExerciseSession(managedSession: currentSession!))
     }
     
     func startSessionForExerciseType(exerciseType: MKExerciseType, start: NSDate, id: String) throws {
@@ -327,7 +332,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func endCurrentSession() throws {
         if let currentSession = currentSession {
-            endSession(currentSession)
+            endSession(currentSession, endingAt: NSDate())
+            connectivity.endSession(MKExerciseSession(managedSession: currentSession))
         } else {
             throw MRAppError.SessionNotStarted
         }
