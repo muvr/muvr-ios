@@ -1,7 +1,7 @@
 import UIKit
 import MuvrKit
 
-class MRGoalsViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MRManualViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet private weak var startButton: UIButton!
     private var exerciseType: MKExerciseType? = nil
     private let exerciseTypeDescriptors: [MKExerciseTypeDescriptor] = [

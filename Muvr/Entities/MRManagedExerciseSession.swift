@@ -16,7 +16,7 @@ class MRManagedExerciseSession: NSManagedObject {
     var estimated: [MKExerciseWithLabels] = []
     /// The weight predictor
     var weightPredictor: MKScalarPredictor!
-    /// The weight predictor
+    /// The duration predictor
     var durationPredictor: MKScalarPredictor!
     /// The repetitions predictor
     var repetitionsPredictor: MKScalarPredictor!

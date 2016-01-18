@@ -10,7 +10,7 @@
         <!--Manual-->
         <scene sceneID="JL1-Iw-8WF">
             <objects>
-                <viewController id="e3O-P6-qPY" customClass="MRGoalsViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="e3O-P6-qPY" customClass="MRManualViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6zv-lr-PxA"/>
                         <viewControllerLayoutGuide type="bottom" id="5Qi-ZJ-mwA"/>
@@ -21,7 +21,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="iZl-Lw-dr4">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="610"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="ZBc-n5-9HC">
                                         <rect key="frame" x="0.0" y="50" width="414" height="44"/>
