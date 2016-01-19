@@ -49,6 +49,11 @@ protocol MRApp : MKExercisePropertySource {
     var exerciseDetails: [MKExerciseDetail] { get }
     
     ///
+    /// The core data managed object context
+    ///
+    var managedObjectContext: NSManagedObjectContext { get }
+    
+    ///
     /// Performs initial setup
     ///
     func initialSetup()

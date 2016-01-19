@@ -1,6 +1,7 @@
 import UIKit
 import MuvrKit
 import Charts
+import CoreData
 
 /// Adds support for "previous" steps; the usage is on tap of the back button 
 /// in the controller below.
@@ -65,7 +66,6 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
         pieChartView.drawHoleEnabled = true
         pieChartView.rotationAngle = 0.0
         pieChartView.rotationEnabled = false
-        pieChartView.highlightPerTapEnabled = true
         
         pieChartView.usePercentValuesEnabled = false
         
@@ -82,6 +82,11 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     // On appearance, show all .Types
     override func viewDidAppear(animated: Bool) {
         reloadAverages(.Types)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "persistedDataDidChanged:", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     // Goes one step back
@@ -105,9 +110,9 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
         // # W R I D
         switch sender.selectedSegmentIndex {
         case 0: /* # */ transform = { Double($0.count) }
-        case 1: /* W */ transform = { $0.averageWeight }
-        case 2: /* R */ transform = { Double($0.averageRepetitions) }
-        case 3: /* I */ transform = { $0.averageIntensity }
+        case 1: /* W */ transform = { $0.averages[.Weight] ?? 0 }
+        case 2: /* R */ transform = { $0.averages[.Repetitions] ?? 0 }
+        case 3: /* I */ transform = { $0.averages[.Intensity] ?? 0 }
         case 4: /* D */ transform = { $0.averageDuration }
         default: fatalError("Match error")
         }
@@ -142,8 +147,7 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
         }
         pieChartBackButton.hidden = !aggregate.hasPrevious
         startButton.hidden = !aggregate.isStartable
-        averages = []
-        //MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, aggregate: aggregate)
+        averages = MRManagedExerciseScalarLabel.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, aggregate: aggregate)
         reloadAveragesChart()
     }
     
@@ -164,6 +168,11 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
         pieChartView.animate(xAxisDuration: 1.0, yAxisDuration: 1.0, easingOption: ChartEasingOption.EaseOutCirc)
         pieChartView.data = PieChartData(xVals: xs, dataSet: dataSet)
         pieChartView.highlightValues([])
+    }
+    
+    /// called when there is a change in persisted data
+    internal func persistedDataDidChange(notif: NSNotification) {
+        reloadAverages(self.aggregate)
     }
     
 }
