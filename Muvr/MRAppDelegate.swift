@@ -55,8 +55,10 @@ protocol MRApp : MKExercisePropertySource {
     
     ///
     /// Explicitly starts an exercise session for the given ``type``.
+    /// TODO: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Does not match the code!
+    ///
     /// - parameter exerciseType: the exercise type that the session initially starts with
-    /// - returns: the session identity
+    /// - returns: the session's identity
     ///
     func startSession(forExerciseType exerciseType: MKExerciseType) throws -> String
     
@@ -302,9 +304,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     ///
     /// Start new session
-    ///  - parameter exerciseType: The session's intended exercise type
-    ///  - parameter start: the session start date
-    ///  - parameter id: the session id
+    ///
+    /// - parameter exerciseType: The session's intended exercise type
+    /// - parameter start: the session start date
+    /// - parameter id: the session id
+    /// TODO: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ I don't even...!
     ///
     private func startSession(session: MRManagedExerciseSession) throws {
         if currentSession != nil {
@@ -348,9 +352,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     ///
     /// Ends the current session if it matches the given session
-    ///   - session: the session to end
-    ///   - sensorData: sensor data to append to the current session
-    ///   - sync: true if the session's end event must be sent to the watch
+    /// - parameter session: the session to end
     ///
     func endSession(session: MRManagedExerciseSession) throws {
         if let currentSession = currentSession where currentSession == session {
