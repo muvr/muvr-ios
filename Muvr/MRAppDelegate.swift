@@ -166,6 +166,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             NSLog(":( \(e)")
         }
         
+        // load current session
+        if let session = MRManagedExerciseSession.fetchCurrentSession(inManagedObjectContext: managedObjectContext) {
+            try! startSession(session)
+        }
+        
         return true
     }
     
@@ -247,7 +252,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
-        try! startSession(forExerciseType: session.exerciseType, start: session.start, id: session.id)
+        let session = MRManagedExerciseSession.insert(session.id, exerciseType: session.exerciseType, start: session.start, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        try! startSession(session)
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
@@ -278,10 +284,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// MARK: MRAppDelegate actions
     
     func startSession(forExerciseType exerciseType: MKExerciseType) throws {
-        try startSession(forExerciseType: exerciseType, start: NSDate(), id: NSUUID().UUIDString)
-        if let session = currentSession {
-            connectivity.startSession(MKExerciseSession(managedSession: session))
-        }
+        let session = MRManagedExerciseSession.insert(NSUUID().UUIDString, exerciseType: exerciseType, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
+        try startSession(session)
+        connectivity.startSession(MKExerciseSession(managedSession: session))
     }
     
     func endCurrentSession() throws {
@@ -298,11 +303,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///  - parameter start: the session start date
     ///  - parameter id: the session id
     ///
-    private func startSession(forExerciseType exerciseType: MKExerciseType, start: NSDate, id: String) throws {
+    private func startSession(session: MRManagedExerciseSession) throws {
         if currentSession != nil {
             throw MRAppError.SessionAlreadyInProgress
         }
-        
+        let exerciseType = session.exerciseType
         let weightPredictor = MKPolynomialFittingScalarPredictor(round: roundWeight)
         let durationPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
         let intensityPredictor = MKPolynomialFittingScalarPredictor(round: roundClip)
@@ -320,7 +325,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             repetitionsPredictor.mergeJSON(p.data)
         }
         
-        let session = MRManagedExerciseSession.insert(id, exerciseType: exerciseType, start: start, location: currentLocation, inManagedObjectContext: managedObjectContext)
         if let plan = MRManagedExercisePlan.planForExerciseType(exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext) {
             session.plan = plan.plan
         } else {
