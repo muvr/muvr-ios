@@ -12,6 +12,7 @@
 		540AA44F1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA44E1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift */; };
 		540AA4511BDBFF6B00908F4B /* MKSessionClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA4501BDBFF6B00908F4B /* MKSessionClassifierTests.swift */; };
 		540AA4541BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA4531BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift */; };
+		540C00141C4EE1360028FA22 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 540C00131C4EE1360028FA22 /* CloudKit.framework */; };
 		5417C4021BC45EBB001C9491 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5417C4011BC45EBB001C9491 /* HealthKit.framework */; };
 		541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA31AC577E00056A81B /* MRAppDelegate.swift */; };
 		541ABBA91AC577E00056A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBA71AC577E00056A81B /* Main.storyboard */; };
@@ -329,6 +330,7 @@
 		540AA44E1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+EncodingCSV.swift"; sourceTree = "<group>"; };
 		540AA4501BDBFF6B00908F4B /* MKSessionClassifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSessionClassifierTests.swift; sourceTree = "<group>"; };
 		540AA4531BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseConnectivitySession+SensorData.swift"; sourceTree = "<group>"; };
+		540C00131C4EE1360028FA22 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		5410C82C1B9DC9EA005C57C1 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
 		5410C82E1B9DC9EA005C57C1 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
 		5410C82F1B9DC9EA005C57C1 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = "Pods/../build/Debug-iphoneos/sqlite3.framework"; sourceTree = "<group>"; };
@@ -570,6 +572,7 @@
 				54D5275E1B94D79F00B56719 /* Charts.framework in Frameworks */,
 				54D5275F1B94D79F00B56719 /* JTCalendar.framework in Frameworks */,
 				54430EC51BC2CFD300541979 /* HealthKit.framework in Frameworks */,
+				540C00141C4EE1360028FA22 /* CloudKit.framework in Frameworks */,
 				54A7760B1BB81467001586DD /* MuvrKit.framework in Frameworks */,
 				544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */,
 				54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */,
@@ -632,6 +635,7 @@
 		288CCE5D5AB7F6FBE827B7C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				540C00131C4EE1360028FA22 /* CloudKit.framework */,
 				54F959BE1C419A8500D6A07D /* DGRunkeeperSwitch.framework */,
 				5473C4891C3A75F100C3AC7B /* CoreLocation.framework */,
 				544C73571BE7E99600B76F25 /* MBCircularProgressBar.framework */,
@@ -1316,6 +1320,9 @@
 								enabled = 1;
 							};
 							com.apple.HealthKit = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
 								enabled = 1;
 							};
 						};

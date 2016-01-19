@@ -4,6 +4,14 @@
 <dict>
 	<key>com.apple.developer.healthkit</key>
 	<true/>
+	<key>com.apple.developer.icloud-container-identifiers</key>
+	<array>
+		<string>iCloud.$(CFBundleIdentifier)</string>
+	</array>
+	<key>com.apple.developer.icloud-services</key>
+	<array>
+		<string>CloudKit</string>
+	</array>
 	<key>com.apple.external-accessory.wireless-configuration</key>
 	<true/>
 </dict>
