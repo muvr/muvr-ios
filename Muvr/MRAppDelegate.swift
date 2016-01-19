@@ -56,20 +56,13 @@ protocol MRApp : MKExercisePropertySource {
     ///
     /// Explicitly starts an exercise session for the given ``type``.
     /// - parameter exerciseType: the exercise type that the session initially starts with
-    /// - parameter start: the start date, typically value ``NSDate()``
-    /// - parameter id: the session identity, typically ``NSUUID().UUIDString``
-    /// - parameter sync: true if the session starts event must be sent to the watch
     ///
-    func startSession(forExerciseType exerciseType: MKExerciseType, start: NSDate, id: String, sync: Bool) throws
+    func startSession(forExerciseType exerciseType: MKExerciseType) throws
     
     ///
     /// Ends the current exercise session, if any
-    /// - parameter id: the id of the session to stop (must match the currentSession)
-    /// - parameter end: the session's end date
-    /// - parameter sensorData: Any sensor data to be added to the current session
-    /// - parameter sync: true if the session starts event must be sent to the watch
     ///
-    func endSession(withId id: String, end: NSDate, sensorData: MKSensorData?, sync: Bool) throws
+    func endCurrentSession() throws
 }
 
 @UIApplicationMain
@@ -228,18 +221,16 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     // MARK: - Session UI
     
-    private func presentSessionControllerForSession(session: MRManagedExerciseSession) {
+    private func presentSessionController(forSession session: MRManagedExerciseSession) {
         let svc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? MRSessionViewController
         svc!.setSession(session)
         window?.rootViewController!.presentViewController(svc!, animated: true, completion: nil)
         sessionViewController = svc
     }
     
-    private func dismissSessionControllerForSession(session: MRManagedExerciseSession) {
-        if let currentSession = currentSession where currentSession.id == session.id {
-            sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
-            sessionViewController = nil
-        }
+    private func dismissSessionController() {
+        sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
+        sessionViewController = nil
     }
     
     // MARK: - Session classification
@@ -256,11 +247,16 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
-        try! startSession(forExerciseType: session.exerciseType, start: session.start, id: session.id, sync: false)
+        try! startSession(forExerciseType: session.exerciseType, start: session.start, id: session.id)
     }
     
     func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
-        try! endSession(withId: session.id, end: session.end!, sensorData: sensorData, sync: false)
+        if let currentSession = findSession(withId: session.id) {
+            currentSession.end = session.end
+            currentSession.completed = session.completed
+            currentSession.sensorData = sensorData?.encode()
+            try! endSession(currentSession)
+        }
     }
     
     func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKExerciseWithLabels], sensorData: MKSensorData) {
@@ -281,14 +277,28 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     /// MARK: MRAppDelegate actions
     
+    func startSession(forExerciseType exerciseType: MKExerciseType) throws {
+        try startSession(forExerciseType: exerciseType, start: NSDate(), id: NSUUID().UUIDString)
+        if let session = currentSession {
+            connectivity.startSession(MKExerciseSession(managedSession: session))
+        }
+    }
+    
+    func endCurrentSession() throws {
+        if let session = currentSession {
+            session.end = NSDate()
+            try endSession(session)
+            connectivity.endSession(MKExerciseSession(managedSession: session))
+        }
+    }
+    
     ///
-    /// Start new session either on the phone
-    ///  - exerciseType: The session's intended exercise type
-    ///  - start: the session start date
-    ///  - id: the session id
-    ///  - sync: true if the session's start event must be sent to the watch
+    /// Start new session
+    ///  - parameter exerciseType: The session's intended exercise type
+    ///  - parameter start: the session start date
+    ///  - parameter id: the session id
     ///
-    func startSession(forExerciseType exerciseType: MKExerciseType, start: NSDate, id: String, sync: Bool) throws {
+    private func startSession(forExerciseType exerciseType: MKExerciseType, start: NSDate, id: String) throws {
         if currentSession != nil {
             throw MRAppError.SessionAlreadyInProgress
         }
@@ -324,13 +334,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         currentSession = session
         
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: session.objectID)
-        presentSessionControllerForSession(session)
+        presentSessionController(forSession :session)
         
         saveContext()
-        
-        if sync {
-            connectivity.startSession(MKExerciseSession(managedSession: session))
-        }
     }
     
     ///
@@ -339,14 +345,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///   - sensorData: sensor data to append to the current session
     ///   - sync: true if the session's end event must be sent to the watch
     ///
-    func endSession(withId id: String, end: NSDate, sensorData: MKSensorData?, sync: Bool) throws {
-        guard let session = findSession(withId: id) else {
-            throw MRAppError.SessionNotFound
+    func endSession(session: MRManagedExerciseSession) throws {
+        if let currentSession = currentSession where currentSession == session {
+            dismissSessionController()
+            self.currentSession = nil
         }
-        dismissSessionControllerForSession(session)
-        
-        session.end = end
-        session.sensorData = sensorData?.encode()
         
         for (id, exerciseType, offset, duration, labels) in session.exerciseWithLabels {
             MRManagedExercise.insertNewObjectIntoSession(session, id: id, exerciseType: exerciseType, labels: labels, offset: offset, duration: duration, inManagedObjectContext: managedObjectContext)
@@ -360,12 +363,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
         
         saveContext()
-        
-        self.currentSession = nil
-        
-        if sync {
-            connectivity.endSession(MKExerciseSession(managedSession: session))
-        }
     }
     
     func initialSetup() {
