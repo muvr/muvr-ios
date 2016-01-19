@@ -213,6 +213,7 @@
                     <connections>
                         <outlet property="pieChartBackButton" destination="rNW-SJ-6Dt" id="NSg-Zk-fIV"/>
                         <outlet property="pieChartView" destination="wnD-hc-8AK" id="86l-RY-EcS"/>
+                        <outlet property="segmentedControl" destination="zJx-4N-ka1" id="z3b-hh-lam"/>
                         <outlet property="startButton" destination="Ngj-ju-m1W" id="AdH-yc-Sm2"/>
                     </connections>
                 </viewController>
