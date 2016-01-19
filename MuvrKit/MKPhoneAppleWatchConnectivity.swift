@@ -100,4 +100,16 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate {
         }
     }
     
+    public func startSession(session: MKExerciseSession) {
+        if WCSession.defaultSession().reachable {
+            WCSession.defaultSession().transferUserInfo(session.metadata)
+        }
+    }
+    
+    public func endSession(session: MKExerciseSession) {
+        if WCSession.defaultSession().reachable {
+            WCSession.defaultSession().transferUserInfo(session.metadata)
+        }
+    }
+    
 }
