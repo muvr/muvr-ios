@@ -15,10 +15,18 @@
                     "id":"resistanceTargeted:arms/cable hammer curl",
                     "properties":[{"type":"weightProgression", "minimum":5, "step":5}]
                  },
+                 {
+                    "id":"resistanceTargeted:chest/cable-crossover",
+                    "properties":[{"type":"weightProgression", "minimum":5, "step":5}]
+                 },
+                 {
+                    "id":"resistanceTargeted:chest/butterfly-machine",
+                    "properties":[{"type":"weightProgression", "minimum":7, "step":7}]
+                 },
                  {"id":"resistanceTargeted:shoulders/shrugs"},
                  {"id":"resistanceTargeted:chest/angle-chest-press"},
                  {
-                    "id":"resistanceTargeted:back/upright row",
+                    "id":"resistanceTargeted:back/cable-row",
                     "properties":[{"type":"weightProgression", "minimum":2, "step":2}]
                  },
                  {

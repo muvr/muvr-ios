@@ -310,7 +310,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         let exerciseType = session.exerciseType
         let weightPredictor = MKPolynomialFittingScalarPredictor(round: roundWeight)
         let durationPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
-        let intensityPredictor = MKPolynomialFittingScalarPredictor(round: roundClip)
+        let intensityPredictor = MKPolynomialFittingScalarPredictor(round: roundClipToNorm)
         let repetitionsPredictor = MKPolynomialFittingScalarPredictor(round: roundInteger)
         if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: exerciseType, inManagedObjectContext: managedObjectContext) {
             weightPredictor.mergeJSON(p.data)
@@ -406,25 +406,35 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     // MARK: - Exercise properties
+    private let defaultResistanceTargetedProperties: [MKExerciseProperty] = [.WeightProgression(minimum: 0, step: 0.5, maximum: nil)]
+    
     func exercisePropertiesForExerciseId(exerciseId: MKExercise.Id) -> [MKExerciseProperty] {
-        for (id, _, properties) in exerciseDetails where id == exerciseId {
+        for (id, exerciseType, properties) in exerciseDetails where id == exerciseId {
+            if properties.isEmpty {
+                switch exerciseType {
+                case .ResistanceTargeted: return defaultResistanceTargetedProperties
+                case .IndoorsCardio: return []
+                case .ResistanceWholeBody: return []
+                }
+            }
             return properties
         }
         
+        // No exercise id found. This should not happen.
         return []
     }
     
     // MARK: - Scalar rounder
     
     private func roundInteger(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
-        return Double(Int(value))
+        return Double(Int(max(0, value)))
     }
     
     private func noRound(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
         return max(0, value)
     }
     
-    private func roundClip(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+    private func roundClipToNorm(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
         return min(1, max(0, value))
     }
     

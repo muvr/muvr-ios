@@ -13,7 +13,7 @@ class MRAppTests : XCTestCase {
     }()
     
     func testStartEndWithNoLocation() {
-        try! app.startSessionForExerciseType(.ResistanceTargeted(muscleGroups: [.Arms, .Chest]), start: NSDate(), id: NSUUID().UUIDString)
+        try! app.startSession(forExerciseType: .ResistanceTargeted(muscleGroups: [.Arms, .Chest]))
         try! app.endCurrentSession()
     }
     

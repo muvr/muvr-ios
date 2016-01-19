@@ -106,8 +106,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             mainExerciseView.reset()
             mainExerciseView.start(15)
             switchToViewController(labellingViewController)
-            let labels = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
-            labellingViewController.setExerciseDetail(exerciseDetail, labels: labels, onLabelsUpdated: labelUpdated)
+            let predictedLabels = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
+            labellingViewController.setExerciseDetail(exerciseDetail, predictedLabels: predictedLabels, missingLabels: [], onLabelsUpdated: labelUpdated)
         }
     }
     

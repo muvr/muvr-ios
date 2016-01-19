@@ -11,12 +11,14 @@
  {"id":"resistanceTargeted:back/lateral-pulldown"},
  {"id":"resistanceTargeted:back/reverse-flyes"},
  {"id":"resistanceTargeted:back/upright-barbell-row"},
+ {"id":"resistanceTargeted:back/cable-row"},
 
  {"id":"resistanceTargeted:chest/angle-chest-press"},
  {"id":"resistanceTargeted:chest/dumbbell-flyes"},
  {"id":"resistanceTargeted:chest/bench-press"},
  {"id":"resistanceTargeted:chest/butterfly-machine"},
  {"id":"resistanceTargeted:chest/chest-press-machine"},
+ {"id":"resistanceTargeted:chest/cable-crossover"},
 
  {"id":"resistanceTargeted:core/suitcase-crunches"},
  {"id":"resistanceTargeted:core/side-dips"},
