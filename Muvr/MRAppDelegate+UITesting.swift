@@ -12,10 +12,6 @@ import MuvrKit
 //
 extension MRAppDelegate  {
     
-    private func generateData() {
-        fatalError("Implementation is missing")
-    }
-
     func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         if Process.arguments.contains("--reset-container") {
             NSLog("Reset container.")
@@ -32,9 +28,6 @@ extension MRAppDelegate  {
                 }
             }
 
-            if Process.arguments.contains("--default-data") {
-                generateData()
-            }
         }
         
         return true

@@ -56,8 +56,9 @@ protocol MRApp : MKExercisePropertySource {
     ///
     /// Explicitly starts an exercise session for the given ``type``.
     /// - parameter exerciseType: the exercise type that the session initially starts with
+    /// - returns: the session identity
     ///
-    func startSession(forExerciseType exerciseType: MKExerciseType) throws
+    func startSession(forExerciseType exerciseType: MKExerciseType) throws -> String
     
     ///
     /// Ends the current exercise session, if any
@@ -283,10 +284,12 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     /// MARK: MRAppDelegate actions
     
-    func startSession(forExerciseType exerciseType: MKExerciseType) throws {
-        let session = MRManagedExerciseSession.insert(NSUUID().UUIDString, exerciseType: exerciseType, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
+    func startSession(forExerciseType exerciseType: MKExerciseType) throws -> String {
+        let id = NSUUID().UUIDString
+        let session = MRManagedExerciseSession.insert(id, exerciseType: exerciseType, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
         try startSession(session)
         connectivity.startSession(MKExerciseSession(managedSession: session))
+        return id
     }
     
     func endCurrentSession() throws {

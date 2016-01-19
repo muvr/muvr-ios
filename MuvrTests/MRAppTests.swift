@@ -23,8 +23,7 @@ class MRAppTests : XCTestCase {
         let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10), .Intensity(intensity: 0.5), .Weight(weight: 40)]
 
         // start a new session, adding one exercise
-        let sessionId = NSUUID().UUIDString
-        try! app.startSessionForExerciseType(.ResistanceTargeted(muscleGroups: [.Arms, .Chest]), start: NSDate(), id: sessionId)
+        let sessionId = try! app.startSession(forExerciseType: .ResistanceTargeted(muscleGroups: [.Arms, .Chest]))
         app.currentSession!.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10)
         let l1 = app.currentSession!.predictExerciseLabelsForExerciseDetail(givenDetail)
         XCTAssertEqual(givenLabels.sort { $0.0.id < $0.1.id }, l1.sort { $0.0.id < $0.1.id })
@@ -39,7 +38,7 @@ class MRAppTests : XCTestCase {
         XCTAssertEqual(l.count, givenLabels.count)
 
         // start a different session but with the same exercise type
-        try! app.startSessionForExerciseType(.ResistanceTargeted(muscleGroups: [.Arms, .Chest]), start: NSDate(), id: NSUUID().UUIDString)
+        try! app.startSession(forExerciseType: .ResistanceTargeted(muscleGroups: [.Arms, .Chest]))
         // expect the right preciction
         let bc = app.currentSession!.exerciseDetailsComingUp.first!
         XCTAssertEqual(bc.0, givenDetail.0)
