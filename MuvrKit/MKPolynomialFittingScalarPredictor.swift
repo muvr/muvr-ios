@@ -164,7 +164,6 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
             }
         }
         let lastIncremental = trainingSet[size-2] - trainingSet[size-1]
-        NSLog("max = \(maxIncrement) and last = \(lastIncremental)")
         return lastIncremental / maxIncrement >= thresold
     }
 }
