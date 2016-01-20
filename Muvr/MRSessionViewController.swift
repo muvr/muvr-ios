@@ -194,8 +194,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         case .Ready(let exerciseDetail):
             state = .ComingUp(exerciseDetail: exerciseDetail)
         case .InExercise(let exerciseDetail, let start):
-            let labels = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
-            state = .Done(exerciseDetail: exerciseDetail, labels: labels.0, start: start, duration: NSDate().timeIntervalSinceDate(start))
+            let (labels, _) = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
+            state = .Done(exerciseDetail: exerciseDetail, labels: labels, start: start, duration: NSDate().timeIntervalSinceDate(start))
             session.clearClassificationHints()
         case .Done(let exerciseDetail, let labels, let start, let duration):
             // The user has completed the exercise, and accepted our labels
@@ -212,8 +212,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             mainExerciseView.progressFullColor = UIColor.orangeColor()
         case .Ready(let exerciseDetail):
             // We've had the time to get ready. Now time to exercise.
-            let labels = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
-            session.setClassificationHint(exerciseDetail, labels: labels.0)
+            let (labels, _) = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
+            session.setClassificationHint(exerciseDetail, labels: labels)
             state = .InExercise(exerciseDetail: exerciseDetail, start: NSDate())
             refreshViewsForState(state)
         case .Done(let exerciseDetail, let labels, let start, let duration):
