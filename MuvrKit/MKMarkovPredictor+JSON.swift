@@ -3,10 +3,11 @@ import Foundation
 public extension MKMarkovPredictor {
     
     public var json: NSData {
-        var planJson: [String: NSData] = [:]
+        var planJson: [String: [String : AnyObject]] = [:]
         weightPlan.forEach {(exerciseId, weightPlan) in
-            planJson[exerciseId] = weightPlan.json {"\($0)"}
+            planJson[exerciseId] = weightPlan.metadata {"\($0)"}
         }
+        NSLog("\n\n\n\njson = \(planJson)")
         return try! NSJSONSerialization.dataWithJSONObject(["weightPlan": planJson, "simpleScalars":simpleScalars], options: [])
     }
     

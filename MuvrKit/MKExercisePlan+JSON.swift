@@ -12,11 +12,15 @@ extension MKExercisePlan {
     /// - returns: the JSON representation
     ///
     public func json(stateTransform: E -> String) -> NSData {
+        return try! NSJSONSerialization.dataWithJSONObject(metadata(stateTransform), options: [])
+    }
+    
+    public func metadata(stateTransform: E -> String) -> [String : AnyObject] {
         var result: [String : AnyObject] = ["chain": chain.json(stateTransform)]
         if let first = first {
             result["first"] = stateTransform(first)
         }
-        return try! NSJSONSerialization.dataWithJSONObject(result, options: [])
+        return result
     }
     
     ///
