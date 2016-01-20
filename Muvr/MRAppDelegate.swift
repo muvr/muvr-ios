@@ -233,6 +233,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     func sessionClassifierDidStart(session: MKExerciseSession) {
+        if let currentSession = currentSession {
+            // Watch is running wrong session, update it with current session
+            connectivity.startSession(MKExerciseSession(managedSession: currentSession))
+            // ignore watch's session
+            return
+        }
+        
         let session = MRManagedExerciseSession.insert(session.id, exerciseType: session.exerciseType, start: session.start, location: currentLocation, inManagedObjectContext: managedObjectContext)
         session.injectPredictors(atLocation: currentLocation, propertySource: self, inManagedObjectContext: managedObjectContext)
         saveContext()

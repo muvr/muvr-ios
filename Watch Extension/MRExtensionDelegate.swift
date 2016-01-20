@@ -57,7 +57,6 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKExerciseSessionConn
     ///
     func startSession(exerciseType: MKExerciseType) {
         connectivity.startSession(exerciseType)
-        workoutDelegate.startSession(start: NSDate(), exerciseType: exerciseType)
     }
     
     ///
@@ -65,7 +64,6 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKExerciseSessionConn
     ///
     func endLastSession() {
         connectivity.endLastSession()
-        workoutDelegate.stopSession(end: currentSession?.1.end ?? NSDate())
     }
     
     func applicationDidFinishLaunching() {
@@ -85,15 +83,13 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKExerciseSessionConn
     
     func sessionStarted(session: (MKExerciseSession, MKExerciseSessionProperties)) {
         let (s, p) = session
-        guard let currentSession = currentSession where currentSession.0 == s else { return }
         workoutDelegate.startSession(start: p.start, exerciseType: s.exerciseType)
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: s.id)
     }
     
     func sessionEnded(session: (MKExerciseSession, MKExerciseSessionProperties)) {
         let (s, p) = session
-        guard let currentSession = currentSession where currentSession.0 == s else { return }
-        workoutDelegate.stopSession(end: p.end!)
+        workoutDelegate.stopSession(end: p.end ?? NSDate())
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: s.id)
     }
     
