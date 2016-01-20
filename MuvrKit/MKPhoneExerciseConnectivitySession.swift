@@ -38,19 +38,20 @@ public struct MKExerciseConnectivitySession {
     /// - parameter metadata: the metadata to be parsed
     /// - returns: the parsed instance
     ///
-    internal static func fromMetadata(metadata: [String : AnyObject]) -> MKExerciseConnectivitySession? {
+    internal init?(metadata: [String : AnyObject]) {
+        guard let sessionId = metadata["id"] as? String,
+            let startTimestamp = metadata["start"] as? Double,
+            let exerciseType = metadata["exerciseType"] as? [String : AnyObject]
+        else { return nil }
+        
         let end = (metadata["end"] as? Double).map { NSDate(timeIntervalSinceReferenceDate: $0) }
         let last = (metadata["last"] as? Bool) ?? false
-        if let sessionId = metadata["sessionId"] as? String,
-           let startTimestamp = metadata["start"] as? Double,
-           let exerciseType = metadata["exerciseType"] as? [String : AnyObject] {
-                return MKExerciseConnectivitySession(
+
+        self.init(
                     id: sessionId,
                     start: NSDate(timeIntervalSinceReferenceDate: startTimestamp),
                     end: end,
                     last: last,
                     exerciseType: MKExerciseType(metadata: exerciseType)!)
-        }
-        return nil
     }
 }
