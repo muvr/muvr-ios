@@ -27,7 +27,7 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate {
     /// Issues corresponding session start/end events
     ///
     private func resolveSession(metadata: [String:AnyObject]) -> (MKExerciseConnectivitySession, Int)? {
-        guard let session = MKExerciseConnectivitySession.fromMetadata(metadata) else { return nil }
+        guard let session = MKExerciseConnectivitySession(metadata: metadata) else { return nil }
         let index = sessions.indexOf { $0.id == session.id } ?? sessions.count
         if (index == sessions.count) {
             // first time we see this session
