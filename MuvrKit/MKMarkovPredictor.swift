@@ -11,6 +11,19 @@ public class MKMarkovPredictor : MKScalarPredictor {
     
     private var boost: Float = 1.0
     
+    public func mergeModel(otherWeightPlan: [Key:NSData], otherSimpleScalars: [Key:Float]?) {
+        for (nk, nv) in otherWeightPlan {
+            if let newPlan = MKExercisePlan<Float>.fromJsonFirst(nv, stateTransform: {element in Float(element as! String)}) {
+                weightPlan[nk] = newPlan
+            }
+        }
+        if let otherSimpleScalars = otherSimpleScalars {
+            for (nk, nv) in otherSimpleScalars {
+                simpleScalars[nk] = nv
+            }
+        }
+    }
+    
     // Implements MKScalarPredictor
     public func setBoost(boost: Float) {
         self.boost = boost
