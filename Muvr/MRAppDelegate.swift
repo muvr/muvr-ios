@@ -166,16 +166,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             NSLog(":( \(e)")
         }
         
-        // load current session
-        if let session = MRManagedExerciseSession.fetchCurrentSession(inManagedObjectContext: managedObjectContext) {
-            session.injectPredictors(atLocation: currentLocation, propertySource: self, inManagedObjectContext: managedObjectContext)
-            saveContext()
-            do { try showSession(session) }
-            catch let e {
-                NSLog("Failed to display active session \(session.id): \(e)")
-            }
-        }
-        
         return true
     }
     
