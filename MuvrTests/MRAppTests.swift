@@ -26,7 +26,7 @@ class MRAppTests : XCTestCase {
         let sessionId = try! app.startSession(forExerciseType: .ResistanceTargeted(muscleGroups: [.Arms, .Chest]))
         app.currentSession!.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10)
         let l1 = app.currentSession!.predictExerciseLabelsForExerciseDetail(givenDetail)
-        XCTAssertEqual(givenLabels.sort { $0.0.id < $0.1.id }, l1.sort { $0.0.id < $0.1.id })
+        XCTAssertEqual(givenLabels.sort { $0.0.id < $0.1.id }, l1.0.sort { $0.0.id < $0.1.id })
         try! app.endCurrentSession()
         
         // try to load it
@@ -43,7 +43,7 @@ class MRAppTests : XCTestCase {
         let bc = app.currentSession!.exerciseDetailsComingUp.first!
         XCTAssertEqual(bc.0, givenDetail.0)
         let labels = app.currentSession!.predictExerciseLabelsForExerciseDetail(bc)
-        XCTAssertEqual(givenLabels.sort { $0.0.id < $0.1.id }, labels.sort { $0.0.id < $0.1.id })
+        XCTAssertEqual(givenLabels.sort { $0.0.id < $0.1.id }, labels.0.sort { $0.0.id < $0.1.id })
         try! app.endCurrentSession()
         
     }

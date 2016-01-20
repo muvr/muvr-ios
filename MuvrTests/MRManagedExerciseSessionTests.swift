@@ -38,7 +38,7 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
         session.addExerciseDetail(detail, labels: [.Weight(weight: 13)], start: NSDate(), duration: 25)
         
         XCTAssertEqual(session.predictDurationForExerciseDetail(detail), 30)
-        XCTAssertEqual(session.predictExerciseLabelsForExerciseDetail(detail).first!, MKExerciseLabel.Weight(weight: 14))
+        XCTAssertEqual(session.predictExerciseLabelsForExerciseDetail(detail).0.first!, MKExerciseLabel.Weight(weight: 14))
     }
     
     func testAddExerciseDetail() {
@@ -54,7 +54,8 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
         
         session.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10)
         XCTAssertEqual(session.predictDurationForExerciseDetail(givenDetail), 10)
-        XCTAssertEqual(session.predictExerciseLabelsForExerciseDetail(givenDetail).count, 3)
+        XCTAssertEqual(session.predictExerciseLabelsForExerciseDetail(givenDetail).0.count, 3)
+        XCTAssertEqual(session.predictExerciseLabelsForExerciseDetail(givenDetail).1.count, 0)
         saveContext()
     }
     

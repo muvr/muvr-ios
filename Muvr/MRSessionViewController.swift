@@ -86,7 +86,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             let ed = exerciseDetail ?? comingUp.first
             mainExerciseView.headerTitle = "Coming up".localized()
             mainExerciseView.exerciseDetail = ed
-            mainExerciseView.exerciseLabels = ed.map(session.predictExerciseLabelsForExerciseDetail)
+            mainExerciseView.exerciseLabels = ed.map(session.predictExerciseLabelsForExerciseDetail)?.0
             mainExerciseView.reset()
             mainExerciseView.start(session.predictRestDuration())
             switchToViewController(comingUpViewController, fromRight: exerciseDetail == nil)
@@ -106,8 +106,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             mainExerciseView.reset()
             mainExerciseView.start(15)
             switchToViewController(labellingViewController)
-            let predictedLabels = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
-            labellingViewController.setExerciseDetail(exerciseDetail, predictedLabels: predictedLabels, missingLabels: [], onLabelsUpdated: labelUpdated)
+            let (predictedLabels, missingLabels) = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
+            labellingViewController.setExerciseDetail(exerciseDetail, predictedLabels: predictedLabels, missingLabels: missingLabels, onLabelsUpdated: labelUpdated)
         }
     }
     
@@ -175,7 +175,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     /// - parameter exercise: the selected exercise
     private func selectedExerciseDetail(selectedExerciseDetail: MKExerciseDetail) {
         mainExerciseView.exerciseDetail = selectedExerciseDetail
-        mainExerciseView.exerciseLabels = session.predictExerciseLabelsForExerciseDetail(selectedExerciseDetail)
+        mainExerciseView.exerciseLabels = session.predictExerciseLabelsForExerciseDetail(selectedExerciseDetail).0
     }
     
     // MARK: - MRExerciseViewDelegate
@@ -195,7 +195,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             state = .ComingUp(exerciseDetail: exerciseDetail)
         case .InExercise(let exerciseDetail, let start):
             let labels = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
-            state = .Done(exerciseDetail: exerciseDetail, labels: labels, start: start, duration: NSDate().timeIntervalSinceDate(start))
+            state = .Done(exerciseDetail: exerciseDetail, labels: labels.0, start: start, duration: NSDate().timeIntervalSinceDate(start))
             session.clearClassificationHints()
         case .Done(let exerciseDetail, let labels, let start, let duration):
             // The user has completed the exercise, and accepted our labels
@@ -213,7 +213,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         case .Ready(let exerciseDetail):
             // We've had the time to get ready. Now time to exercise.
             let labels = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
-            session.setClassificationHint(exerciseDetail, labels: labels)
+            session.setClassificationHint(exerciseDetail, labels: labels.0)
             state = .InExercise(exerciseDetail: exerciseDetail, start: NSDate())
             refreshViewsForState(state)
         case .Done(let exerciseDetail, let labels, let start, let duration):
