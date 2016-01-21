@@ -59,7 +59,7 @@
                             <constraint firstItem="iZl-Lw-dr4" firstAttribute="top" secondItem="6zv-lr-PxA" secondAttribute="bottom" constant="-20" id="yka-3o-2NE"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Manual" id="fi2-5k-ObL"/>
+                    <tabBarItem key="tabBarItem" title="Manual" image="exercise" id="fi2-5k-ObL"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="startButton" destination="OHc-BC-6jz" id="LqB-gu-o1i"/>
@@ -223,6 +223,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="exercise" width="25" height="25"/>
         <image name="profile" width="25" height="25"/>
         <image name="sessions" width="25" height="25"/>
     </resources>
