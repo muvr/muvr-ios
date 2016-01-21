@@ -52,6 +52,9 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     /// A transform function to pull values out from an MRAverage instance
     private var transform: MRAverage -> Double = { Double($0.count) }
     
+    // The number formatter used to display values on the pie chart
+    private let formatter = NSNumberFormatter()
+    
     // The label descriptors for the current aggregate
     private var labels: [MKExerciseLabelDescriptor] {
         return aggregate.labelsDescriptors.sort { $0.id < $1.id }
@@ -64,12 +67,12 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
         
         pieChartView.delegate = self
         pieChartView.holeTransparent = true
-        pieChartView.holeRadiusPercent = 0.92
-        pieChartView.transparentCircleRadiusPercent = 0.92
+        pieChartView.holeRadiusPercent = 0.88
+        pieChartView.transparentCircleRadiusPercent = 0.88
         pieChartView.descriptionText = ""
         
         pieChartView.drawHoleEnabled = true
-        pieChartView.rotationAngle = 17
+        pieChartView.rotationAngle = 22
         pieChartView.rotationEnabled = false
         
         pieChartView.usePercentValuesEnabled = false
@@ -112,6 +115,8 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     
     // The user has tapped on the toolbar, wanting to see a different field from the averages
     @IBAction func transformSelected(sender: UISegmentedControl) {
+        formatter.maximumFractionDigits = 0
+        formatter.numberStyle = .NoStyle
         // # W R I D
         switch sender.selectedSegmentIndex {
         case 0: /* # */ transform = { Double($0.count) }
@@ -119,6 +124,14 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
         default:
             let label = labels[sender.selectedSegmentIndex - 2]
             transform = { $0.averages[label] ?? 0 }
+            switch label {
+            case .Weight:
+                formatter.numberStyle = .DecimalStyle
+                formatter.maximumFractionDigits = 2
+            case .Intensity:
+                formatter.numberStyle = .PercentStyle
+            default: break
+            }
         }
         reloadAveragesChart()
     }
@@ -182,7 +195,7 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
         pieChartView.animate(xAxisDuration: 1.0, yAxisDuration: 1.0, easingOption: ChartEasingOption.EaseOutCirc)
         pieChartView.data = PieChartData(xVals: xs, dataSet: dataSet)
         pieChartView.data?.setValueTextColor(UIColor.darkTextColor())
-        pieChartView.data?.setValueFormatter(NSNumberFormatter())
+        pieChartView.data?.setValueFormatter(formatter)
         pieChartView.highlightValues([])
     }
     
