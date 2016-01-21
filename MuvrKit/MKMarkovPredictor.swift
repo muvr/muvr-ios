@@ -31,9 +31,10 @@ public class MKMarkovPredictor : MKScalarPredictor {
     
     // Implements MKScalarPredictor
     public func trainPositional(trainingSet: [Double], forExerciseId exerciseId: Key) {
+        // only add the last element to the plan (the previous elements are already added to the markov chain
         let plan = weightPlan[exerciseId] ?? MKExercisePlan<Float>()
-        for element in trainingSet {
-            plan.insert(Float(element))
+        if let last = trainingSet.last {
+            plan.insert(Float(last))
         }
         weightPlan[exerciseId] = plan
         if let last = trainingSet.last {
