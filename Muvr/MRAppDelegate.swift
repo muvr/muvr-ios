@@ -49,11 +49,6 @@ protocol MRApp : MKExercisePropertySource {
     var exerciseDetails: [MKExerciseDetail] { get }
     
     ///
-    /// The core data managed object context
-    ///
-    var managedObjectContext: NSManagedObjectContext { get }
-    
-    ///
     /// Performs initial setup
     ///
     func initialSetup()
@@ -73,10 +68,22 @@ protocol MRApp : MKExercisePropertySource {
     func endCurrentSession() throws
 }
 
+///
+/// This is a marker interface for things we should not be doing, but don't
+/// know how to do better now. All its methods should be marked as ``throws``,
+/// so that their usage must use ``try`` (even better, ``try!``), even though
+/// they do not throw exceptions.
+///
+protocol MRSuperEvilMegacorpApp {
+    
+    func mainManagedObjectContext() throws -> NSManagedObjectContext
+    
+}
+
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate,
     MKSessionClassifierDelegate, MKClassificationHintSource, MKExerciseModelSource,
-    MRApp {
+    MRApp, MRSuperEvilMegacorpApp {
     
     var window: UIWindow?
     
@@ -123,6 +130,20 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///
     static func sharedDelegate() -> MRApp {
         return UIApplication.sharedApplication().delegate as! MRAppDelegate
+    }
+    
+    ///
+    /// Returns the dangerous self
+    /// - returns: this delegate as ``MRSuperEvilMegacorpApp``
+    ///
+    static func superEvilMegacorpSharedDelegate() -> MRSuperEvilMegacorpApp {
+        return UIApplication.sharedApplication().delegate as! MRSuperEvilMegacorpApp
+    }
+    
+    // MARK: - MRSuperEvilMegacorpApp
+    
+    func mainManagedObjectContext() throws -> NSManagedObjectContext {
+        return managedObjectContext
     }
     
     // MARK: - UIApplicationDelegate code

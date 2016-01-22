@@ -90,7 +90,7 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     // On appearance, show all .Types
     override func viewDidAppear(animated: Bool) {
         reloadAverages(.Types)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "persistedDataDidChanged:", name: NSManagedObjectContextDidSaveNotification, object: MRAppDelegate.sharedDelegate().managedObjectContext)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "persistedDataDidChanged:", name: NSManagedObjectContextDidSaveNotification, object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -174,7 +174,7 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
         
         pieChartBackButton.hidden = !aggregate.hasPrevious
         startButton.hidden = !aggregate.isStartable
-        averages = MRManagedExerciseScalarLabel.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, aggregate: aggregate)
+        averages = MRManagedExerciseScalarLabel.averages(inManagedObjectContext: try! MRAppDelegate.superEvilMegacorpSharedDelegate().mainManagedObjectContext(), aggregate: aggregate)
         reloadAveragesChart()
     }
     
