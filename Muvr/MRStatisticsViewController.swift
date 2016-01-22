@@ -1,6 +1,7 @@
 import UIKit
 import MuvrKit
 import Charts
+import CoreData
 
 /// Adds support for "previous" steps; the usage is on tap of the back button 
 /// in the controller below.
@@ -41,6 +42,7 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var pieChartBackButton: UIButton!
     @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     /// The averages computed for the given ``aggregate``. Keep these two in sync!
     private var averages: [(MRAggregateKey, MRAverage)] = []
@@ -49,6 +51,14 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     
     /// A transform function to pull values out from an MRAverage instance
     private var transform: MRAverage -> Double = { Double($0.count) }
+    
+    // The number formatter used to display values on the pie chart
+    private let formatter = NSNumberFormatter()
+    
+    // The label descriptors for the current aggregate
+    private var labels: [MKExerciseLabelDescriptor] {
+        return aggregate.labelsDescriptors.sort { $0.id < $1.id }
+    }
 
     // On load, we set up the views and hide the back button by default
     // We also set up the < symbol for the back button
@@ -56,16 +66,14 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
         pieChartBackButton.hidden = true
         
         pieChartView.delegate = self
-        pieChartView.usePercentValuesEnabled = true
         pieChartView.holeTransparent = true
-        pieChartView.holeRadiusPercent = 0.58
-        pieChartView.transparentCircleRadiusPercent = 0.61
+        pieChartView.holeRadiusPercent = 0.88
+        pieChartView.transparentCircleRadiusPercent = 0.88
         pieChartView.descriptionText = ""
-
+        
         pieChartView.drawHoleEnabled = true
-        pieChartView.rotationAngle = 0.0
+        pieChartView.rotationAngle = 22
         pieChartView.rotationEnabled = false
-        pieChartView.highlightPerTapEnabled = true
         
         pieChartView.usePercentValuesEnabled = false
         
@@ -82,6 +90,11 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     // On appearance, show all .Types
     override func viewDidAppear(animated: Bool) {
         reloadAverages(.Types)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "persistedDataDidChanged:", name: NSManagedObjectContextDidSaveNotification, object: nil)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     // Goes one step back
@@ -102,14 +115,23 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     
     // The user has tapped on the toolbar, wanting to see a different field from the averages
     @IBAction func transformSelected(sender: UISegmentedControl) {
+        formatter.maximumFractionDigits = 0
+        formatter.numberStyle = .NoStyle
         // # W R I D
         switch sender.selectedSegmentIndex {
         case 0: /* # */ transform = { Double($0.count) }
-        case 1: /* W */ transform = { $0.averageWeight }
-        case 2: /* R */ transform = { Double($0.averageRepetitions) }
-        case 3: /* I */ transform = { $0.averageIntensity }
-        case 4: /* D */ transform = { $0.averageDuration }
-        default: fatalError("Match error")
+        case 1: /* D */ transform = { $0.averageDuration }
+        default:
+            let label = labels[sender.selectedSegmentIndex - 2]
+            transform = { $0.averages[label] ?? 0 }
+            switch label {
+            case .Weight:
+                formatter.numberStyle = .DecimalStyle
+                formatter.maximumFractionDigits = 2
+            case .Intensity:
+                formatter.numberStyle = .PercentStyle
+            default: break
+            }
         }
         reloadAveragesChart()
     }
@@ -137,13 +159,22 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
             self.pieChartBackButton.setTitle(aggregate.title, forState: UIControlState.Normal)
             self.pieChartBackButton.layoutIfNeeded()
             if aggregate.isStartable {
-                self.startButton.setTitle("Start %@ session".localized(aggregate.title), forState: UIControlState.Normal)
+                self.startButton.setTitle("Start %@ session".localized(aggregate.title).localizedCapitalizedString, forState: UIControlState.Normal)
             }
         }
+        segmentedControl.removeAllSegments()
+        segmentedControl.insertSegmentWithTitle("stats.count".localized().localizedCapitalizedString, atIndex: 0, animated: true)
+        segmentedControl.insertSegmentWithTitle("stats.duration".localized().localizedCapitalizedString, atIndex: 1, animated: true)
+        labels.forEach { label in
+            let title = "stats.\(label.id)".localized().localizedCapitalizedString
+            segmentedControl.insertSegmentWithTitle(title, atIndex: segmentedControl.numberOfSegments, animated: true)
+        }
+        segmentedControl.selectedSegmentIndex = 0
+        transform = { Double($0.count) }
+        
         pieChartBackButton.hidden = !aggregate.hasPrevious
         startButton.hidden = !aggregate.isStartable
-        averages = []
-        //MRManagedClassifiedExercise.averages(inManagedObjectContext: MRAppDelegate.sharedDelegate().managedObjectContext, aggregate: aggregate)
+        averages = MRManagedExerciseScalarLabel.averages(inManagedObjectContext: try! MRAppDelegate.superEvilMegacorpSharedDelegate().mainManagedObjectContext(), aggregate: aggregate)
         reloadAveragesChart()
     }
     
@@ -158,12 +189,19 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
             xs.append(key.title)
         }
         let dataSet = PieChartDataSet(yVals: ys)
-        dataSet.colors = ChartColorTemplates.colorful() + ChartColorTemplates.joyful()
+        dataSet.colors = ChartColorTemplates.liberty() + ChartColorTemplates.pastel()
         if ys.count > 1 { dataSet.sliceSpace = 2 }
         
         pieChartView.animate(xAxisDuration: 1.0, yAxisDuration: 1.0, easingOption: ChartEasingOption.EaseOutCirc)
         pieChartView.data = PieChartData(xVals: xs, dataSet: dataSet)
+        pieChartView.data?.setValueTextColor(UIColor.darkTextColor())
+        pieChartView.data?.setValueFormatter(formatter)
         pieChartView.highlightValues([])
+    }
+    
+    /// called when there is a change in persisted data
+    internal func persistedDataDidChange(notif: NSNotification) {
+        reloadAverages(self.aggregate)
     }
     
 }

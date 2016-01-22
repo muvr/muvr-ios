@@ -68,10 +68,22 @@ protocol MRApp : MKExercisePropertySource {
     func endCurrentSession() throws
 }
 
+///
+/// This is a marker interface for things we should not be doing, but don't
+/// know how to do better now. All its methods should be marked as ``throws``,
+/// so that their usage must use ``try`` (even better, ``try!``), even though
+/// they do not throw exceptions.
+///
+protocol MRSuperEvilMegacorpApp {
+    
+    func mainManagedObjectContext() throws -> NSManagedObjectContext
+    
+}
+
 @UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate,
     MKSessionClassifierDelegate, MKClassificationHintSource, MKExerciseModelSource,
-    MRApp {
+    MRApp, MRSuperEvilMegacorpApp {
     
     var window: UIWindow?
     
@@ -92,6 +104,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
 
     private var baseExerciseDetails: [MKExerciseDetail] = []
     private var currentLocationExerciseDetails: [MKExerciseDetail] = []
+    
+    // The phone application instance (used to enable/disable idle timer)
+    private var application: UIApplication!
     
     // MARK: - MKClassificationHintSource
     var classificationHints: [MKClassificationHint]? {
@@ -117,9 +132,24 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         return UIApplication.sharedApplication().delegate as! MRAppDelegate
     }
     
+    ///
+    /// Returns the dangerous self
+    /// - returns: this delegate as ``MRSuperEvilMegacorpApp``
+    ///
+    static func superEvilMegacorpSharedDelegate() -> MRSuperEvilMegacorpApp {
+        return UIApplication.sharedApplication().delegate as! MRSuperEvilMegacorpApp
+    }
+    
+    // MARK: - MRSuperEvilMegacorpApp
+    
+    func mainManagedObjectContext() throws -> NSManagedObjectContext {
+        return managedObjectContext
+    }
+    
     // MARK: - UIApplicationDelegate code
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        self.application = application
         // set up the classification and connectivity
         sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
         classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: sensorDataSplitter, delegate: self)
@@ -199,7 +229,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.AuthorizedWhenInUse {
             locationManager.requestWhenInUseAuthorization()
         }
-        application.idleTimerDisabled = true
+        application.idleTimerDisabled = currentSession != nil
         locationManager.requestLocation()
     }
     
@@ -320,6 +350,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         window?.rootViewController!.presentViewController(svc!, animated: true, completion: nil)
         sessionViewController = svc
         
+        // keep application active while in-session
+        application.idleTimerDisabled = true
+        
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: session.objectID)
     }
     
@@ -334,6 +367,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
             sessionViewController = nil
             self.currentSession = nil
+            application.idleTimerDisabled = false
         }
         
         // save exercises
