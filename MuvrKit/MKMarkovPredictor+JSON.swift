@@ -7,7 +7,6 @@ public extension MKMarkovPredictor {
         weightPlan.forEach {(exerciseId, weightPlan) in
             planJson[exerciseId] = weightPlan.metadata {"\($0)"}
         }
-        NSLog("\n\n\n\njson = \(planJson)")
         return try! NSJSONSerialization.dataWithJSONObject(["weightPlan": planJson, "simpleScalars":simpleScalars], options: [])
     }
     
