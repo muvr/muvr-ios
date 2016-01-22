@@ -126,7 +126,21 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         }
     }
     
+    func debugEquation(coefficients: [Float], forExerciseId exerciseId: Key) {
+        var equation = "f(x) = "
+        coefficients.enumerate().forEach { e in
+            let (n, c) = e
+            let str = String(format: "%.20f", c)
+            equation += "\(str)*x^\(n) + "
+        }
+        NSLog("\n\n\n Equation for \(exerciseId): \(equation)\n\n\n")
+    }
+
     public func predictScalarForExerciseId(exerciseId: MKExercise.Id, n: Int) -> Double? {
+        if let coff = coefficients[exerciseId] {
+            debugEquation(coff, forExerciseId: exerciseId)
+        }
+
         let prediction = coefficients[exerciseId].map {
             predictAndRound(Float(n), coefficients: $0, forExerciseId: exerciseId)
         }
@@ -140,4 +154,16 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         return nil
     }
     
+    public func checkPeriod(trainingSet: [Double], thresold: Double = 2.0) -> Bool {
+        var maxIncrement = 0.1
+        let size = trainingSet.count
+        for index in 0...(size-3) {
+            let incremental = abs(trainingSet[index] - trainingSet[index+1])
+            if incremental > maxIncrement {
+                maxIncrement = incremental
+            }
+        }
+        let lastIncremental = trainingSet[size-2] - trainingSet[size-1]
+        return lastIncremental / maxIncrement >= thresold
+    }
 }
