@@ -57,5 +57,41 @@ class MKWeightPredictorTests : XCTestCase {
         XCTAssertEqual(error1.1, 4815.25)
         XCTAssertEqual(error2.1, 1384)
     }
+    
+    func testPredictors() {
+        
+        let predictors: [String: MKScalarPredictor] = [
+            "Polynomial" : MKPolynomialFittingScalarPredictor(round: roundValue),
+            "Markov" : MKMarkovPredictor(),
+            "Linear" : MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 1, maxSamples: 2),
+            "Last value": MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 0, maxSamples: 1)
+        ]
+        
+        let weights: [[Double]] = [
+            [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
+            [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
+            [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
+            [10, 12.5, 15, 17.5, 20, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
+            [10, 12.5, 15, 17.5, 20, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
+            [10, 12.5, 15, 17.5, 20, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
+            [12.5, 15, 17.5, 17.5, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
+            [12.5, 15, 17.5, 17.5, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
+            [12.5, 15, 17.5, 17.5, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
+            [10, 12.5, 15, 17.5, 17.5, 20, 20, 15, 15, 12.5, 12.5, 10, 10, 10, 15, 15],
+            [10, 12.5, 15, 17.5, 17.5, 20, 20, 15, 15, 12.5, 12.5, 10, 10, 10, 15, 15],
+            [10, 12.5, 15, 17.5, 17.5, 20, 20, 15, 15, 12.5, 12.5, 10, 10, 10, 15, 15]
+        ]
+        
+        for s in 0..<weights.count {
+            var costs: [String:Double] = [:]
+            predictors.keys.forEach { costs[$0] = 0.0 }
+            print("")
+            predictors.forEach {name, predictor in
+                let (_, error) = predictor.calculateError(Array(weights[s].dropLast()), forExerciseId: "biceps-curl", expectedValue: weights[s].last!)
+                print("Session #\(s+1): \(name) cost: \(error)")
+            }
+        }
+        
+    }
 
 }
