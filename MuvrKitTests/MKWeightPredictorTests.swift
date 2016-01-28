@@ -62,15 +62,23 @@ class MKWeightPredictorTests : XCTestCase {
         
         let predictors: [String: MKScalarPredictor] = [
             "Polynomial" : MKPolynomialFittingScalarPredictor(round: roundValue),
+            "Quadratic" : MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 2),
             "Markov" : MKMarkovPredictor(),
+            "Markov (inc)" : MKMarkovPredictor(mode: .Inc),
+            "Markov (mult)" : MKMarkovPredictor(mode: .Mult, round: roundValue),
             "Linear" : MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 1, maxSamples: 2),
-            "Last value": MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 0, maxSamples: 1)
+            "Last value": MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 0, maxSamples: 1),
+            "AR LeastSquares": MKAutoRegressionScalarPredictor(round: roundValue, order: 5, method: .LeastSquares),
+            "AR MaxEntropy": MKAutoRegressionScalarPredictor(round: roundValue, order: 5, method: .MaxEntropy)
         ]
         
         let weights: [[Double]] = [
             [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
             [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
             [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
+            [17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
+            [17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
+            [17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
             [10, 12.5, 15, 17.5, 20, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
             [10, 12.5, 15, 17.5, 20, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
             [10, 12.5, 15, 17.5, 20, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
@@ -82,14 +90,21 @@ class MKWeightPredictorTests : XCTestCase {
             [10, 12.5, 15, 17.5, 17.5, 20, 20, 15, 15, 12.5, 12.5, 10, 10, 10, 15, 15]
         ]
         
+        var costs: [String:Double] = [:]
+        predictors.keys.forEach { costs[$0] = 0 }
+        
         for s in 0..<weights.count {
-            var costs: [String:Double] = [:]
-            predictors.keys.forEach { costs[$0] = 0.0 }
             print("")
             predictors.forEach {name, predictor in
                 let (_, error) = predictor.calculateError(Array(weights[s].dropLast()), forExerciseId: "biceps-curl", expectedValue: weights[s].last!)
+                costs[name]? +=  error
                 print("Session #\(s+1): \(name) cost: \(error)")
             }
+        }
+        
+        print("")
+        costs.forEach { name, cost in
+            print("\(name) Total cost: \(cost)")
         }
         
     }

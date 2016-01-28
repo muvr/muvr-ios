@@ -9,7 +9,7 @@ extension MKScalarPredictor {
     /// - parameter forExerciseId: exercise name
     /// - parameter expectedValue: expected value of the whole sequence
     ///
-    func calculateError(sequence: [Double], forExerciseId id: String, expectedValue: Double) -> ([Double], Double) {
+    func calculateError(sequence: [Double], forExerciseId id: String, expectedValue: Double, debug: Bool = false) -> ([Double], Double) {
         var error: Double = 0
         var predictedSequence: [Double] = []
         (0..<sequence.count).forEach { index in

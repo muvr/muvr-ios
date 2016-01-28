@@ -216,6 +216,10 @@
 		64655B7F1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */; };
 		647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */; };
 		6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */; };
+		649B00B81C5A119200FCB8B8 /* MKAutoRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649B00B71C5A119200FCB8B8 /* MKAutoRegressionTests.swift */; };
+		649B00B91C5A122800FCB8B8 /* MKAutoRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649B00B51C5A05DE00FCB8B8 /* MKAutoRegression.swift */; };
+		649B00BD1C5A180F00FCB8B8 /* MKAutoRegressionScalarPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649B00BC1C5A180F00FCB8B8 /* MKAutoRegressionScalarPredictor.swift */; };
+		649B00BF1C5A1FB000FCB8B8 /* MKAutoRegressionScalarPredictor+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649B00BE1C5A1FB000FCB8B8 /* MKAutoRegressionScalarPredictor+JSON.swift */; };
 		64FB23BC1C3E899E005312C2 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */; };
 		991FD4F11C4F8F3800AF3DC2 /* MKMarkovPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991FD4F01C4F8F3800AF3DC2 /* MKMarkovPredictor.swift */; };
 		991FD4F31C4F8FE400AF3DC2 /* MKMarkovPredictor+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991FD4F21C4F8FE400AF3DC2 /* MKMarkovPredictor+JSON.swift */; };
@@ -555,6 +559,10 @@
 		64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRWorkoutSessionDelegate.swift; sourceTree = "<group>"; };
 		647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoderTests.swift; sourceTree = "<group>"; };
 		6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+DateUtils.swift"; sourceTree = "<group>"; };
+		649B00B51C5A05DE00FCB8B8 /* MKAutoRegression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKAutoRegression.swift; sourceTree = "<group>"; };
+		649B00B71C5A119200FCB8B8 /* MKAutoRegressionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKAutoRegressionTests.swift; sourceTree = "<group>"; };
+		649B00BC1C5A180F00FCB8B8 /* MKAutoRegressionScalarPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKAutoRegressionScalarPredictor.swift; sourceTree = "<group>"; };
+		649B00BE1C5A1FB000FCB8B8 /* MKAutoRegressionScalarPredictor+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKAutoRegressionScalarPredictor+JSON.swift"; sourceTree = "<group>"; };
 		64FB23BD1C3E899E005312C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		991FD4F01C4F8F3800AF3DC2 /* MKMarkovPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMarkovPredictor.swift; sourceTree = "<group>"; };
 		991FD4F21C4F8FE400AF3DC2 /* MKMarkovPredictor+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMarkovPredictor+JSON.swift"; sourceTree = "<group>"; };
@@ -905,6 +913,9 @@
 				545EFC491C47D9E600987610 /* MKScalarRounder.swift */,
 				991FD4F01C4F8F3800AF3DC2 /* MKMarkovPredictor.swift */,
 				991FD4F21C4F8FE400AF3DC2 /* MKMarkovPredictor+JSON.swift */,
+				649B00B51C5A05DE00FCB8B8 /* MKAutoRegression.swift */,
+				649B00BC1C5A180F00FCB8B8 /* MKAutoRegressionScalarPredictor.swift */,
+				649B00BE1C5A1FB000FCB8B8 /* MKAutoRegressionScalarPredictor+JSON.swift */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -923,6 +934,7 @@
 				991FD4F81C4FE42900AF3DC2 /* MKMarkovPredictor+JSONTests.swift */,
 				991FD4FC1C52432500AF3DC2 /* MKScalarPredictor+ErrorRate.swift */,
 				991FD4FE1C52517C00AF3DC2 /* MKWeightPredictorTests.swift */,
+				649B00B71C5A119200FCB8B8 /* MKAutoRegressionTests.swift */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -1643,6 +1655,7 @@
 				546E68691BB98D1D00DC0FEF /* MKSensorDataMultipleTypesTests.swift in Sources */,
 				540AA44F1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift in Sources */,
 				547791071C23660A00763197 /* MKInputPreperatorTests.swift in Sources */,
+				649B00B81C5A119200FCB8B8 /* MKAutoRegressionTests.swift in Sources */,
 				54FBA9691C3C6D8900FC4F8E /* MKPolynomialFitterTests.swift in Sources */,
 				54BDDDCA1C44093F0054A059 /* MKMarkovChain+JSONTests.swift in Sources */,
 				547791091C23727A00763197 /* MKStateChainTests.swift in Sources */,
@@ -1694,6 +1707,7 @@
 				5421920E1C46F82C002FD224 /* MKExercisePropertySource.swift in Sources */,
 				5488080D1BD5710500419CD8 /* MKPhoneExerciseConnectivitySession.swift in Sources */,
 				6428CE341C46ABAF00D17451 /* MKScalarPredictor.swift in Sources */,
+				649B00BD1C5A180F00FCB8B8 /* MKAutoRegressionScalarPredictor.swift in Sources */,
 				991FD4F31C4F8FE400AF3DC2 /* MKMarkovPredictor+JSON.swift in Sources */,
 				5487F5A61BB9C9AB00ED2E97 /* MKSensorData+Equatable.swift in Sources */,
 				543E32971C4BA7ED00D9922D /* MKExerciseDetail.swift in Sources */,
@@ -1721,6 +1735,8 @@
 				5488080F1BD57BA500419CD8 /* MKPhoneExerciseSessionClassifier.swift in Sources */,
 				547791011C235E1900763197 /* MKMarkovChain.swift in Sources */,
 				547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */,
+				649B00B91C5A122800FCB8B8 /* MKAutoRegression.swift in Sources */,
+				649B00BF1C5A1FB000FCB8B8 /* MKAutoRegressionScalarPredictor+JSON.swift in Sources */,
 				54FEB0FA1C39587300EC5293 /* MKPhoneSensorDataSplitter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
