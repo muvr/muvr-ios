@@ -10,7 +10,7 @@ public struct MKExerciseConnectivitySession {
     /// last chunk of data received
     internal(set) public var last: Bool
     /// accumulated sensor data
-    internal(set) public var sensorData: MKSensorData?
+    public(set) public var sensorData: MKSensorData?
     /// the file datastamps
     internal var sensorDataFileTimestamps = Set<NSTimeInterval>()
     // the exercise type
@@ -23,7 +23,7 @@ public struct MKExerciseConnectivitySession {
     /// - parameter exerciseModelId: the exercise model identity
     /// - parameter startDate: the start date
     ///
-    internal init(id: String, start: NSDate, end: NSDate?, last: Bool, exerciseType: MKExerciseType) {
+    public init(id: String, start: NSDate, end: NSDate?, last: Bool, exerciseType: MKExerciseType) {
         self.id = id
         self.start = start
         self.end = end
@@ -38,7 +38,7 @@ public struct MKExerciseConnectivitySession {
     /// - parameter metadata: the metadata to be parsed
     /// - returns: the parsed instance
     ///
-    internal init?(metadata: [String : AnyObject]) {
+    init?(metadata: [String : AnyObject]) {
         guard let sessionId = metadata["id"] as? String,
             let startTimestamp = metadata["start"] as? Double,
             let exerciseType = metadata["exerciseType"] as? [String : AnyObject]

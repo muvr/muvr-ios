@@ -55,15 +55,26 @@ public extension MKSensorData {
         try bytes.expect(UInt8(0x64), throwing: MKCodecError.BadHeader) // 2
         let typesCount: UInt8       = try bytes.next()                  // 3
         let samplesPerSecond: UInt8 = try bytes.next()                  // 4
-        let start: Double           = try bytes.next()                  // 12
-        let samplesCount: UInt32    = try bytes.next()                  // 13
+        let start: Double           = try bytes.next()                  // 8
+        let samplesCount: UInt32    = try bytes.next()                  // 12
         let types = try (0..<typesCount).map { _ in                     // 18
             return try MKSensorDataType.decode(bytes)
         }
-        let samplesData: UnsafePointer<Float> = try bytes.nexts(Int(samplesCount))
+//        let samplesData: UnsafePointer<UInt8> = try bytes.nexts(Int(samplesCount))
         var samples: [Float] = [Float](count: Int(samplesCount), repeatedValue: 0)
+        
         for i in 0..<Int(samplesCount) {
-            samples[i] = samplesData.advancedBy(i).memory
+            let dataFormat = types[i % Int(typesCount)]
+            switch(dataFormat) {
+            case .Accelerometer(_, .Float32):
+                samples[i] = try bytes.next()
+            case .Accelerometer(_, .Int16):
+                let acceleration: Int16 = try bytes.next()
+                samples[i] = Float(acceleration) / 4000
+            default:
+                samples[i] = try bytes.next()
+            }
+            
         }
         
         try self.init(types: types, start: start, samplesPerSecond: UInt(samplesPerSecond), samples: samples)

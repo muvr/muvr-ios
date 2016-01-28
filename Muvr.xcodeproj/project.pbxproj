@@ -198,6 +198,7 @@
 		54FBA9671C3C692000FC4F8E /* MKPolynomialFitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FBA9661C3C692000FC4F8E /* MKPolynomialFitter.swift */; };
 		54FBA9691C3C6D8900FC4F8E /* MKPolynomialFitterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FBA9681C3C6D8900FC4F8E /* MKPolynomialFitterTests.swift */; };
 		54FEB0FA1C39587300EC5293 /* MKPhoneSensorDataSplitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEB0F81C39583800EC5293 /* MKPhoneSensorDataSplitter.swift */; };
+		58C22431992C88F4CA82C5DF /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3AA10F80ED661B9AC5A823 /* Pods.framework */; };
 		640CC2A41BF62B9000764C4C /* MRSessionProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A31BF62B9000764C4C /* MRSessionProgressRing.swift */; };
 		640CC2A61BF62BF600764C4C /* MRSessionProgressRingRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640CC2A51BF62BF600764C4C /* MRSessionProgressRingRenderer.swift */; };
 		640E5EA91C6A3F1600B9F227 /* MKLabelsPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640E5EA81C6A3F1600B9F227 /* MKLabelsPredictor.swift */; };
@@ -256,9 +257,12 @@
 		64EB48CD1C89AA94000A4C36 /* MRColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EB48CC1C89AA94000A4C36 /* MRColor.swift */; };
 		64FB23BC1C3E899E005312C2 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */; };
 		99835A4C1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */; };
+		9D01B34B1C5A63FC00578C7F /* MRPebbleCommunication.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D01B34A1C5A63FC00578C7F /* MRPebbleCommunication.c */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
 		9D4A51491BE77BE70065BEF8 /* MKActivationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */; };
 		9D6D27AF1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27AE1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift */; };
+		9DFC9A141C50EAA000F7BCCD /* PebbleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D13D5E21C50E8A50034D7CD /* PebbleKit.framework */; };
+		9DFC9A1A1C50F13A00F7BCCD /* MRRawPebbleDeviceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFC9A191C50F13A00F7BCCD /* MRRawPebbleDeviceSession.swift */; };
 		FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */; };
 /* End PBXBuildFile section */
 
@@ -626,11 +630,15 @@
 		64EB48CC1C89AA94000A4C36 /* MRColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRColor.swift; sourceTree = "<group>"; };
 		64FB23BD1C3E899E005312C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseType+MetadataTests.swift"; sourceTree = "<group>"; };
+		9D01B3481C5A5F8800578C7F /* MRPebbleCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPebbleCommunication.h; sourceTree = "<group>"; };
+		9D01B34A1C5A63FC00578C7F /* MRPebbleCommunication.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MRPebbleCommunication.c; sourceTree = "<group>"; };
+		9D13D5E21C50E8A50034D7CD /* PebbleKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PebbleKit.framework; path = Pods/PebbleKit/PebbleKit.framework; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
 		9D6D27AE1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKForwardPropagatorTests.swift; sourceTree = "<group>"; };
 		9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKActivationFunctions.swift; sourceTree = "<group>"; };
 		9DF0AF3D1C1F349300B95154 /* MKInputPreparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKInputPreparator.swift; sourceTree = "<group>"; };
 		9DF0AF401C1F390300B95154 /* MKInputPreperatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKInputPreperatorTests.swift; sourceTree = "<group>"; };
+		9DFC9A191C50F13A00F7BCCD /* MRRawPebbleDeviceSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRRawPebbleDeviceSession.swift; sourceTree = "<group>"; };
 		A04E9B04EE1C27607A68F65A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F8F5566B19C0E8E19A7B38B9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FC1AC75A1ADE984500832DE7 /* MRUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRUserDefaults.swift; sourceTree = "<group>"; };
@@ -641,6 +649,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DFC9A141C50EAA000F7BCCD /* PebbleKit.framework in Frameworks */,
 				54F959BF1C419A8500D6A07D /* DGRunkeeperSwitch.framework in Frameworks */,
 				5473C48A1C3A75F100C3AC7B /* CoreLocation.framework in Frameworks */,
 				544C73581BE7E99600B76F25 /* MBCircularProgressBar.framework in Frameworks */,
@@ -652,6 +661,7 @@
 				54A7760B1BB81467001586DD /* MuvrKit.framework in Frameworks */,
 				544201391B9384B500354DB7 /* CoreBluetooth.framework in Frameworks */,
 				54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */,
+				58C22431992C88F4CA82C5DF /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,6 +721,7 @@
 		288CCE5D5AB7F6FBE827B7C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D13D5E21C50E8A50034D7CD /* PebbleKit.framework */,
 				540C00131C4EE1360028FA22 /* CloudKit.framework */,
 				54F959BE1C419A8500D6A07D /* DGRunkeeperSwitch.framework */,
 				5473C4891C3A75F100C3AC7B /* CoreLocation.framework */,
@@ -792,6 +803,7 @@
 		541ABBA01AC577E00056A81B /* Muvr */ = {
 			isa = PBXGroup;
 			children = (
+				9DFC9A181C50F0F700F7BCCD /* Device */,
 				9D30379B1B95CCC500426C70 /* Models.bundle */,
 				54CAADD61C39B19F00A7B0E6 /* Locations.bundle */,
 				543E32941C4AD71400D9922D /* BaseConfiguration.bundle */,
@@ -1258,6 +1270,16 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		9DFC9A181C50F0F700F7BCCD /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				9DFC9A191C50F13A00F7BCCD /* MRRawPebbleDeviceSession.swift */,
+				9D01B3481C5A5F8800578C7F /* MRPebbleCommunication.h */,
+				9D01B34A1C5A63FC00578C7F /* MRPebbleCommunication.c */,
+			);
+			name = Device;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1665,6 +1687,7 @@
 				543E329E1C4BC53000D9922D /* MRManagedExercise+CoreDataOperations.swift in Sources */,
 				5493FC221C42D17100317A15 /* String+Localization.swift in Sources */,
 				FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */,
+				9D01B34B1C5A63FC00578C7F /* MRPebbleCommunication.c in Sources */,
 				543E326D1C4A997500D9922D /* MRManagedExerciseSession+CoreDataProperties.swift in Sources */,
 				5460A7991C443AAE00070ADC /* MRLocationCoordinate2D.swift in Sources */,
 				543E32721C4A9A2B00D9922D /* MRManagedLocation+CoreDataOperations.swift in Sources */,
@@ -1717,6 +1740,7 @@
 				644616681C98061F00036857 /* MRSwipeButton.swift in Sources */,
 				641BD3811C999F4F009AB01E /* MRManagedAchievement+CoreDataOperations.swift in Sources */,
 				5430FD6E1C4839D3006780CF /* MRProfileViewController.swift in Sources */,
+				9DFC9A1A1C50F13A00F7BCCD /* MRRawPebbleDeviceSession.swift in Sources */,
 				5421AEC61C40422F009CB4FA /* MRAggregateKey+Localisation.swift in Sources */,
 				64AD0F391C7CAC07008AD760 /* MRTimeView.swift in Sources */,
 				5421AEC11C40402B009CB4FA /* MKExerciseType+Localisation.swift in Sources */,
@@ -2083,6 +2107,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Pods/PebbleKit",
 				);
 				INFOPLIST_FILE = Muvr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2148,6 +2173,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Pods/PebbleKit",
 				);
 				INFOPLIST_FILE = Muvr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
