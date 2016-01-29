@@ -10,18 +10,19 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
     }
 
     public typealias Round = (Double, MKExercise.Id) -> Double
-    public typealias Props = (MKExercise.Id) -> [MKExerciseProperty]
+    /// Return the value of a "single" increment for a given exercise
+    public typealias Progression = (MKExercise.Id) -> Double
     
     internal let linearPredictor: MKPolynomialFittingScalarPredictor
     private let round: Round
-    private let props: Props
+    private let progression: Progression
     private var boost: Float = 1.0
     private(set) internal var correctionPlan: [MKExercise.Id:MKExercisePlan<Correction>] = [:]
     
-    public init(round: Round, props: Props, maxDegree: Int = 1, maxSamples: Int=2) {
+    public init(round: Round, progression: Progression, maxDegree: Int = 1, maxSamples: Int=2) {
         linearPredictor = MKPolynomialFittingScalarPredictor(round: round, maxDegree: maxDegree, maxSamples: maxSamples)
         self.round = round
-        self.props = props
+        self.progression = progression
     }
     
     func mergeCoefficients(otherCoefficients: [MKExercise.Id:[Float]], otherSimpleScalars: [MKExercise.Id:Float]?, otherCorrectionPlan: [MKExercise.Id:NSData]) {
@@ -60,20 +61,12 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
     /// return the ``Correction`` corresponding to the error made on the predicted value
     /// by comparing the error to the weight increment for the given exercise
     private func correction(error: Double, forExerciseId exerciseId: MKExercise.Id) -> Correction {
-        let w = weightProgression(forExerciseId: exerciseId)
+        let w = progression(exerciseId)
         switch abs(error / w) {
         case 0..<1: return .None
         case 1..<2: return error > 0 ? .LittleMore : .LittleLess
         default: return error > 0 ? .MuchMore : .MuchLess
         }
-    }
-    
-    /// return the weight increment of a given exercise
-    private func weightProgression(forExerciseId exerciseId: MKExercise.Id) -> Double {
-        for case MKExerciseProperty.WeightProgression(_, let step, _) in props(exerciseId) {
-            return step
-        }
-        return 1
     }
     
     // Implements MKScalarPredictor
@@ -82,7 +75,7 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
             // get the correction for this prediction
             let correction = correctionPlan[exerciseId]?.next.first.map {
                 // and convert it to a weight value
-                Double($0.rawValue) * weightProgression(forExerciseId: exerciseId)
+                Double($0.rawValue) * progression(exerciseId)
             } ?? 0
             return round(Double(prediction) + correction, exerciseId)
         }

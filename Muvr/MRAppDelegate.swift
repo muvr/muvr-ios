@@ -315,10 +315,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             throw MRAppError.SessionAlreadyInProgress
         }
         let exerciseType = session.exerciseType
-        let weightPredictor = MKPolynomialFittingScalarPredictor(round: roundWeight)
-        let durationPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
-        let intensityPredictor = MKPolynomialFittingScalarPredictor(round: roundClipToNorm)
-        let repetitionsPredictor = MKPolynomialFittingScalarPredictor(round: roundInteger)
+        // linear prediction with markov chain of corrections
+        let weightPredictor = MKLinearMarkovScalarPredictor(round: roundWeight, progression: weightProgressionForExerciseId)
+        // linear prediction over the last 4 values
+        let durationPredictor = MKPolynomialFittingScalarPredictor(round: noRound, maxDegree: 1, maxSamples: 4)
+        // linear prediction with markov chain of corrections
+        let intensityPredictor = MKLinearMarkovScalarPredictor(round: roundClipToNorm, progression: {_ in return 0.2})
+        // linear prediction with markov chain of corrections
+        let repetitionsPredictor = MKLinearMarkovScalarPredictor(round: roundInteger, progression: {_ in return 1})
+        
         if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: exerciseType, inManagedObjectContext: managedObjectContext) {
             weightPredictor.mergeJSON(p.data)
         }
@@ -450,6 +455,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             }
         }
         return max(0, value)
+    }
+    
+    private func weightProgressionForExerciseId(exerciseId: MKExercise.Id) -> Double {
+        for case .WeightProgression(_, let step, _) in exercisePropertiesForExerciseId(exerciseId) {
+            return step
+        }
+        return 1 // no weight progression found, return 1kg by default
     }
     
     // MARK: - Core Location stack

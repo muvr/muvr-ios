@@ -8,10 +8,6 @@ class MKWeightPredictorTests : XCTestCase {
         return MKScalarRounderFunction.roundMinMax(value, minimum: 2.5, step: 2.5, maximum: nil)
     }
     
-    func props(ex: MKExercise.Id) -> [MKExerciseProperty] {
-        return [.WeightProgression(minimum: 0, step: 2.5, maximum: nil)]
-    }
-    
     func testBigDrop1() {
         let predictor1 = MKPolynomialFittingScalarPredictor(round: roundValue)
         let predictor2 = MKMarkovPredictor()
@@ -74,7 +70,7 @@ class MKWeightPredictorTests : XCTestCase {
             "Last value": MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 0, maxSamples: 1),
             "AR LeastSquares": MKAutoRegressionScalarPredictor(round: roundValue, order: 5, method: .LeastSquares),
             "AR MaxEntropy": MKAutoRegressionScalarPredictor(round: roundValue, order: 5, method: .MaxEntropy),
-            "Corrected Linear": MKLinearMarkovScalarPredictor(round: roundValue, props: props)
+            "Corrected Linear": MKLinearMarkovScalarPredictor(round: roundValue, progression: { _ in return 2.5 })
         ]
         
         let weights: [[Double]] = [
