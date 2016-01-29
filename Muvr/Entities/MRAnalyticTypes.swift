@@ -9,6 +9,14 @@ enum MRAggregate {
     case MuscleGroups(inType: MKExerciseTypeDescriptor)
     /// All exercises in a given muscle group, returning ``Key.Exercise``
     case Exercises(inMuscleGroup: MKMuscleGroup)
+    
+    var labelsDescriptors: [MKExerciseLabelDescriptor] {
+        switch self {
+        case .Types: return [.Intensity]
+        case .MuscleGroups(let exerciseType): return exerciseType.concrete.labelDescriptors
+        case .Exercises: return MKExerciseTypeDescriptor.ResistanceTargeted.concrete.labelDescriptors
+        }
+    }
 }
 
 /// The aggregation key
@@ -37,13 +45,10 @@ struct MRAverage {
     /// The number of entries that make up the average
     let count: Int
     
-    /// The intensity
-    let averageIntensity: Double
-    /// The repetitions
-    let averageRepetitions: Int
-    /// The weight
-    let averageWeight: Double
-    /// The duration
+    // the average values
+    let averages: [MKExerciseLabelDescriptor : Double]
+    
+    /// The average duration
     let averageDuration: NSTimeInterval
     
     ///
@@ -51,8 +56,18 @@ struct MRAverage {
     /// - parameter exerciseId: the exercise id
     /// - returns: the 0 element
     ///
-    static func zero() -> MRAverage {
-        return MRAverage(count: 0, averageIntensity: 0, averageRepetitions: 0, averageWeight: 0, averageDuration: 0)
+    static func zero(labels: [MKExerciseLabelDescriptor]) -> MRAverage {
+        let zeros: [MKExerciseLabelDescriptor:Double] = labels.reduce([:]) { (var d, l) in
+            d[l] = 0
+            return d
+        }
+        return MRAverage(count: 0, averages: zeros, averageDuration: 0)
+    }
+    
+    func with(value: Double, forLabel label: MKExerciseLabelDescriptor) -> MRAverage {
+        var averages = self.averages
+        averages[label] = value
+        return MRAverage(count: count, averages: averages, averageDuration: averageDuration)
     }
     
     ///
@@ -61,11 +76,16 @@ struct MRAverage {
     /// - returns: self + that
     ///
     func plus(that: MRAverage) -> MRAverage {
+        var averages: [MKExerciseLabelDescriptor : Double] = [:]
+        self.averages.forEach { l1, v1 in
+            for case let (l2, v2) in that.averages where l2 == l1 {
+                averages[l1] = v1 + v2
+            }
+        }
+        
         return MRAverage(
             count: count + that.count,
-            averageIntensity: averageIntensity + that.averageIntensity,
-            averageRepetitions: averageRepetitions + that.averageRepetitions,
-            averageWeight: averageWeight + that.averageWeight,
+            averages: averages,
             averageDuration: averageDuration + that.averageDuration
         )
     }
@@ -76,11 +96,13 @@ struct MRAverage {
     /// - returns: the updated value
     ///
     func divideBy(const: Double) -> MRAverage {
+        var averages: [MKExerciseLabelDescriptor : Double] = [:]
+        self.averages.forEach { l, v in
+            averages[l] = v / const
+        }
         return MRAverage(
             count: count,
-            averageIntensity: averageIntensity / const,
-            averageRepetitions: Int(Double(averageRepetitions) / const),
-            averageWeight: averageWeight / const,
+            averages: averages,
             averageDuration: averageDuration / const
         )
     }

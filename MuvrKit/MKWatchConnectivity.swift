@@ -267,15 +267,15 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String: AnyObject]) {
         guard let exerciseSession = MKExerciseSession(metadata: userInfo),
-              let exerciseProps = MKExerciseSessionProperties(metadata: userInfo) else { return }
+            let exerciseProps = MKExerciseSessionProperties(metadata: userInfo) else { return }
+        
+        if let currentSession = currentSession {
+            self.sessions.update(currentSession.0) { return $0.with(end: NSDate()) }
+            delegate.sessionEnded(currentSession)
+        }
         if exerciseProps.end == nil {
-            // received session start
             sessions.add(exerciseSession, properties: exerciseProps)
             delegate.sessionStarted((exerciseSession, exerciseProps))
-        } else {
-            // received session end
-            delegate.sessionEnded((exerciseSession, exerciseProps))
-            sessions.update(exerciseSession) { $0.with(end: exerciseProps.end!) }
         }
     }
     
@@ -296,12 +296,14 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// Ends the current session
     ///
     public func endLastSession() {
+        guard let lastSession = self.sessions.currentSession else { return }
+        delegate.sessionEnded(lastSession)
+        
         dispatch_sync(transferQueue) {
-            if let (session, _) = self.sessions.currentSession,
-               let endedProps = self.sessions.update(session, propsUpdate: { return $0.with(end: NSDate()) }) {
-                // Notify phone that session ended
-                WCSession.defaultSession().transferUserInfo(session.metadata.plus(endedProps.metadata))
-            }
+            let (session, _) = lastSession
+            let endedProps = self.sessions.update(session) { return $0.with(end: NSDate()) }
+            // Notify phone that session ended
+            WCSession.defaultSession().transferUserInfo(session.metadata.plus(endedProps?.metadata ?? [:]))
             // still try to send remaining data
             self.innerExecute()
         }
@@ -464,12 +466,12 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     /// the caller should explicitly call ``transferDemoSensorDataForCurrentSession``.
     ///
     /// - parameter modelId: the model id so that the phone can properly classify the data
-    /// - parameter demo: set for demo mode
     ///
     public func startSession(exerciseType: MKExerciseType) {
         let session = MKExerciseSession(id: NSUUID().UUIDString, exerciseType: exerciseType)
         let properties = MKExerciseSessionProperties(start: NSDate())
         sessions.add(session, properties: properties)
+        delegate.sessionStarted((session, properties))
         WCSession.defaultSession().transferUserInfo(session.metadata.plus(properties.metadata))
     }
     

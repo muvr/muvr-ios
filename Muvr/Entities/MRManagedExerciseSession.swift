@@ -69,16 +69,40 @@ class MRManagedExerciseSession: NSManagedObject {
     ///
     /// Predicts labels for the given ``exerciseDetail``.
     /// - parameter exerciseDetail: the ED
-    /// - returns: the predicted labels (may be empty)
+    /// - returns: Tuple containing the predicted labels (may be empty) in one-hand 
+    ///            and the "not predicted" labels (with some sensible value) in the other
     ///
-    func predictExerciseLabelsForExerciseDetail(exerciseDetail: MKExerciseDetail) -> [MKExerciseLabel] {
-        let (id, exerciseType, _) = exerciseDetail
+    func predictExerciseLabelsForExerciseDetail(exerciseDetail: MKExerciseDetail) -> ([MKExerciseLabel], [MKExerciseLabel]) {
+        let (id, exerciseType, properties) = exerciseDetail
         let n = exerciseIdCounts[id] ?? 0
-        return exerciseType.labelDescriptors.flatMap {
-            switch $0 {
-            case .Repetitions: return repetitionsPredictor.predictScalarForExerciseId(id, n: n).map { .Repetitions(repetitions: Int($0)) }
-            case .Weight: return weightPredictor.predictScalarForExerciseId(id, n: n).map { .Weight(weight: $0) }
-            case .Intensity: return intensityPredictor.predictScalarForExerciseId(id, n: n).map { .Intensity(intensity: $0) }
+        
+        func defaultWeight() -> Double {
+            for property in properties {
+                if case .WeightProgression(let minimum, let step, _) = property {
+                    return minimum + step
+                }
+            }
+            return 10
+        }
+        
+        return exerciseType.labelDescriptors.reduce(([],[])) { labels, labelDescriptor in
+            let (predictedLabels, missingLabels) = labels
+            switch labelDescriptor {
+            case .Repetitions:
+                if let predictedRepetitions = repetitionsPredictor.predictScalarForExerciseId(id, n: n) {
+                    return (predictedLabels + [.Repetitions(repetitions: Int(predictedRepetitions))], missingLabels)
+                }
+                return (predictedLabels, missingLabels + [.Repetitions(repetitions: 10)])
+            case .Weight:
+                if let predictedWeight = weightPredictor.predictScalarForExerciseId(id, n: n) {
+                    return (predictedLabels + [.Weight(weight: predictedWeight)], missingLabels)
+                }
+                return (predictedLabels, missingLabels + [.Weight(weight: defaultWeight())])
+            case .Intensity:
+                if let predictedIntensity = intensityPredictor.predictScalarForExerciseId(id, n: n) {
+                    return (predictedLabels + [.Intensity(intensity: predictedIntensity)], missingLabels)
+                }
+                return (predictedLabels, missingLabels + [.Intensity(intensity: 0.5)])
             }
         }
     }

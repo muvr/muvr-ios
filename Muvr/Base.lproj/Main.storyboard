@@ -59,7 +59,7 @@
                             <constraint firstItem="iZl-Lw-dr4" firstAttribute="top" secondItem="6zv-lr-PxA" secondAttribute="bottom" constant="-20" id="yka-3o-2NE"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Manual" id="fi2-5k-ObL"/>
+                    <tabBarItem key="tabBarItem" title="Manual" image="exercise" id="fi2-5k-ObL"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="startButton" destination="OHc-BC-6jz" id="LqB-gu-o1i"/>
@@ -213,6 +213,7 @@
                     <connections>
                         <outlet property="pieChartBackButton" destination="rNW-SJ-6Dt" id="NSg-Zk-fIV"/>
                         <outlet property="pieChartView" destination="wnD-hc-8AK" id="86l-RY-EcS"/>
+                        <outlet property="segmentedControl" destination="zJx-4N-ka1" id="z3b-hh-lam"/>
                         <outlet property="startButton" destination="Ngj-ju-m1W" id="AdH-yc-Sm2"/>
                     </connections>
                 </viewController>
@@ -222,6 +223,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="exercise" width="25" height="25"/>
         <image name="profile" width="25" height="25"/>
         <image name="sessions" width="25" height="25"/>
     </resources>

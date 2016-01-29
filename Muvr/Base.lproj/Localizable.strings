@@ -7,6 +7,13 @@
 "Stop" = "Stop";
 "Finished" = "Finished";
 
+/* Statistics */
+"stats.count" = "#";
+"stats.duration" = "d";
+"stats.intensity" = "i";
+"stats.repetitions" = "r";
+"stats.weight" = "w";
+
 /* MRAggregate */
 "MRAggregate.types" = "types";
 
