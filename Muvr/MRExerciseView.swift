@@ -344,6 +344,9 @@ class MRExerciseView : UIView {
         isAnimating = false
         fireCircleDidComplete = false
         circleLayer.strokeColor = UIColor.clearColor().CGColor
+        
+        countDownTextLayer.string = ""
+        timer?.invalidate()
     }
     
 }
