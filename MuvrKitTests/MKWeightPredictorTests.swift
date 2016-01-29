@@ -8,69 +8,14 @@ class MKWeightPredictorTests : XCTestCase {
         return MKScalarRounderFunction.roundMinMax(value, minimum: 2.5, step: 2.5, maximum: nil)
     }
     
-    func testBigDrop1() {
-        let predictor1 = MKPolynomialFittingScalarPredictor(round: roundValue)
-        let predictor2 = MKMarkovPredictor()
-        
-        let sequence = [10.0, 12, 12, 14, 16, 16, 15, 10]
-        let error1 = predictor1.calculateError(sequence, forExerciseId: "A", expectedValue: 12)
-        let error2 = predictor2.calculateError(sequence, forExerciseId: "A", expectedValue: 12)
-
-        NSLog("\n\nPolynomial error:\n\(error1)")
-        NSLog("\n\nMarkov error:\n\(error2)")
-        XCTAssertEqual(error1.1, 138.75)
-        XCTAssertEqual(error2.1, 121)
-    }
-    
-    func testBigDrop2() {
-        let predictor1 = MKPolynomialFittingScalarPredictor(round: roundValue)
-        let predictor2 = MKMarkovPredictor()
-        
-        let sequence = [10.0, 15, 20, 25, 30, 35, 30, 30, 9, 13]
-        let error1 = predictor1.calculateError(sequence, forExerciseId: "A", expectedValue: 12)
-        let error2 = predictor2.calculateError(sequence, forExerciseId: "A", expectedValue: 12)
-        
-        XCTAssertEqual(error1.1, 24407.75)
-        XCTAssertEqual(error2.1, 1879)
-    }
-    
-    func testHighJump1() {
-        let predictor1 = MKPolynomialFittingScalarPredictor(round: roundValue)
-        let predictor2 = MKMarkovPredictor()
-        
-        let sequence = [10.0, 15, 20, 25, 30, 35, 30, 30]
-        let error1 = predictor1.calculateError(sequence, forExerciseId: "A", expectedValue: 12)
-        let error2 = predictor2.calculateError(sequence, forExerciseId: "A", expectedValue: 12)
-        
-        XCTAssertEqual(error1.1, 4185.25)
-        XCTAssertEqual(error2.1, 1149)
-    }
-    
-    func testHighJump2() {
-        let predictor1 = MKPolynomialFittingScalarPredictor(round: roundValue)
-        let predictor2 = MKMarkovPredictor()
-        
-        let sequence = [15.0, 20, 25, 30, 35, 40, 35, 35]
-        let error1 = predictor1.calculateError(sequence, forExerciseId: "A", expectedValue: 12)
-        let error2 = predictor2.calculateError(sequence, forExerciseId: "A", expectedValue: 12)
-        
-        XCTAssertEqual(error1.1, 4815.25)
-        XCTAssertEqual(error2.1, 1384)
-    }
-    
     func testPredictors() {
         
         let predictors: [String: MKScalarPredictor] = [
             "Polynomial" : MKPolynomialFittingScalarPredictor(round: roundValue),
             "Cubic" : MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 3),
-            "Markov" : MKMarkovPredictor(),
-            "Markov (inc)" : MKMarkovPredictor(mode: .Inc),
-            "Markov (mult)" : MKMarkovPredictor(mode: .Mult, round: roundValue),
             "Linear" : MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 1, maxSamples: 2),
             "Last value": MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 0, maxSamples: 1),
-            "AR LeastSquares": MKAutoRegressionScalarPredictor(round: roundValue, order: 5, method: .LeastSquares),
-            "AR MaxEntropy": MKAutoRegressionScalarPredictor(round: roundValue, order: 5, method: .MaxEntropy),
-            "Corrected Linear": MKLinearMarkovScalarPredictor(round: roundValue, progression: { _ in return 2.5 })
+            "Corrected Linear": MKLinearMarkovScalarPredictor(round: roundValue, progression: { _ in return 2.5 }, maxDegree: 1, maxSamples: 2, maxCorrectionSteps: 2)
         ]
         
         let weights: [[Double]] = [
@@ -97,7 +42,7 @@ class MKWeightPredictorTests : XCTestCase {
         for s in 0..<weights.count {
             print("")
             predictors.forEach {name, predictor in
-                let (_, error) = predictor.calculateError(Array(weights[s].dropLast()), forExerciseId: "biceps-curl", expectedValue: weights[s].last!, debug: name == "Corrected Linear")
+                let (_, error) = predictor.calculateError(Array(weights[s].dropLast()), forExerciseId: "biceps-curl", expectedValue: weights[s].last!)
                 costs[name]? +=  error
                 print("Session #\(s+1): \(name) cost: \(error)")
             }

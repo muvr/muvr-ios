@@ -391,14 +391,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// inject the predictors in the given session
     ///
     func injectPredictors(into session: MRManagedExerciseSession) {
-        // linear prediction with markov chain of corrections
-        let weightPredictor = MKLinearMarkovScalarPredictor(round: roundWeight, progression: weightProgressionForExerciseId)
+        // repeat last value with markov chain of corrections
+        let weightPredictor = MKLinearMarkovScalarPredictor(round: roundWeight, progression: weightProgressionForExerciseId, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 2)
         // linear prediction over the last 4 values
         let durationPredictor = MKPolynomialFittingScalarPredictor(round: noRound, maxDegree: 1, maxSamples: 4)
-        // linear prediction with markov chain of corrections
-        let intensityPredictor = MKLinearMarkovScalarPredictor(round: roundClipToNorm, progression: {_ in return 0.2})
-        // linear prediction with markov chain of corrections
-        let repetitionsPredictor = MKLinearMarkovScalarPredictor(round: roundInteger, progression: {_ in return 1})
+        // repeat last value with markov chain of corrections
+        let intensityPredictor = MKLinearMarkovScalarPredictor(round: roundClipToNorm, progression: {_ in return 0.2}, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 1)
+        // repeat last value with markov chain of corrections
+        let repetitionsPredictor = MKLinearMarkovScalarPredictor(round: roundInteger, progression: {_ in return 1}, maxDegree: 0, maxSamples: 1)
         
         if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext) {
             weightPredictor.mergeJSON(p.data)

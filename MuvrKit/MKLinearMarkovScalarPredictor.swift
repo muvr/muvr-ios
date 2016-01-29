@@ -1,34 +1,29 @@
 public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
     
-    enum Correction: Int {
-        case MuchLess = -2
-        case LittleLess = -1
-        case None = 0
-        case LittleMore = 1
-        case MuchMore = 2
-        
-    }
-
     public typealias Round = (Double, MKExercise.Id) -> Double
     /// Return the value of a "single" increment for a given exercise
     public typealias Progression = (MKExercise.Id) -> Double
     
+    typealias Correction = Int
+    
     internal let linearPredictor: MKPolynomialFittingScalarPredictor
     private let round: Round
     private let progression: Progression
+    private let maxCorrection: Correction?
     private var boost: Float = 1.0
     private(set) internal var correctionPlan: [MKExercise.Id:MKExercisePlan<Correction>] = [:]
     
-    public init(round: Round, progression: Progression, maxDegree: Int = 1, maxSamples: Int=2) {
+    public init(round: Round, progression: Progression, maxDegree: Int = 1, maxSamples: Int=2, maxCorrectionSteps: Int? = nil) {
         linearPredictor = MKPolynomialFittingScalarPredictor(round: round, maxDegree: maxDegree, maxSamples: maxSamples)
         self.round = round
         self.progression = progression
+        self.maxCorrection = maxCorrectionSteps
     }
     
     func mergeCoefficients(otherCoefficients: [MKExercise.Id:[Float]], otherSimpleScalars: [MKExercise.Id:Float]?, otherCorrectionPlan: [MKExercise.Id:NSData]) {
         linearPredictor.mergeCoefficients(otherCoefficients, otherSimpleScalars: otherSimpleScalars)
         for (nk, nv) in otherCorrectionPlan {
-            if let newPlan = MKExercisePlan<Correction>.fromJsonFirst(nv, stateTransform: {element in Correction(rawValue: element as! Int)}) {
+            if let newPlan = MKExercisePlan<Correction>.fromJsonFirst(nv, stateTransform: { ($0 as! Int) }) {
                 correctionPlan[nk] = newPlan
             }
         }
@@ -62,11 +57,12 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
     /// by comparing the error to the weight increment for the given exercise
     private func correction(error: Double, forExerciseId exerciseId: MKExercise.Id) -> Correction {
         let w = progression(exerciseId)
-        switch abs(error / w) {
-        case 0..<1: return .None
-        case 1..<2: return error > 0 ? .LittleMore : .LittleLess
-        default: return error > 0 ? .MuchMore : .MuchLess
+        let c = Int(error / w)
+        if let m = maxCorrection {
+            // make sure c is in [-m,m]
+            return max(-m, min(m, c))
         }
+        return c
     }
     
     // Implements MKScalarPredictor
@@ -75,7 +71,7 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
             // get the correction for this prediction
             let correction = correctionPlan[exerciseId]?.next.first.map {
                 // and convert it to a weight value
-                Double($0.rawValue) * progression(exerciseId)
+                Double($0) * progression(exerciseId)
             } ?? 0
             return round(Double(prediction) + correction, exerciseId)
         }

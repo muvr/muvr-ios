@@ -218,16 +218,8 @@
 		64655B7F1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */; };
 		647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */; };
 		6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */; };
-		649B00B81C5A119200FCB8B8 /* MKAutoRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649B00B71C5A119200FCB8B8 /* MKAutoRegressionTests.swift */; };
-		649B00B91C5A122800FCB8B8 /* MKAutoRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649B00B51C5A05DE00FCB8B8 /* MKAutoRegression.swift */; };
-		649B00BD1C5A180F00FCB8B8 /* MKAutoRegressionScalarPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649B00BC1C5A180F00FCB8B8 /* MKAutoRegressionScalarPredictor.swift */; };
-		649B00BF1C5A1FB000FCB8B8 /* MKAutoRegressionScalarPredictor+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649B00BE1C5A1FB000FCB8B8 /* MKAutoRegressionScalarPredictor+JSON.swift */; };
 		64B477911C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B477901C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift */; };
 		64FB23BC1C3E899E005312C2 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */; };
-		991FD4F11C4F8F3800AF3DC2 /* MKMarkovPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991FD4F01C4F8F3800AF3DC2 /* MKMarkovPredictor.swift */; };
-		991FD4F31C4F8FE400AF3DC2 /* MKMarkovPredictor+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991FD4F21C4F8FE400AF3DC2 /* MKMarkovPredictor+JSON.swift */; };
-		991FD4F71C4FE3FD00AF3DC2 /* MKMarkovPredictorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991FD4F61C4FE3FD00AF3DC2 /* MKMarkovPredictorTests.swift */; };
-		991FD4F91C4FE42900AF3DC2 /* MKMarkovPredictor+JSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991FD4F81C4FE42900AF3DC2 /* MKMarkovPredictor+JSONTests.swift */; };
 		991FD4FD1C52432500AF3DC2 /* MKScalarPredictor+ErrorRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991FD4FC1C52432500AF3DC2 /* MKScalarPredictor+ErrorRate.swift */; };
 		991FD4FF1C52517C00AF3DC2 /* MKWeightPredictorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991FD4FE1C52517C00AF3DC2 /* MKWeightPredictorTests.swift */; };
 		99835A4C1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */; };
@@ -564,16 +556,8 @@
 		64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRWorkoutSessionDelegate.swift; sourceTree = "<group>"; };
 		647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoderTests.swift; sourceTree = "<group>"; };
 		6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+DateUtils.swift"; sourceTree = "<group>"; };
-		649B00B51C5A05DE00FCB8B8 /* MKAutoRegression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKAutoRegression.swift; sourceTree = "<group>"; };
-		649B00B71C5A119200FCB8B8 /* MKAutoRegressionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKAutoRegressionTests.swift; sourceTree = "<group>"; };
-		649B00BC1C5A180F00FCB8B8 /* MKAutoRegressionScalarPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKAutoRegressionScalarPredictor.swift; sourceTree = "<group>"; };
-		649B00BE1C5A1FB000FCB8B8 /* MKAutoRegressionScalarPredictor+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKAutoRegressionScalarPredictor+JSON.swift"; sourceTree = "<group>"; };
 		64B477901C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedExerciseScalarLabel+CoreDataAnalytics.swift"; sourceTree = "<group>"; };
 		64FB23BD1C3E899E005312C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
-		991FD4F01C4F8F3800AF3DC2 /* MKMarkovPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMarkovPredictor.swift; sourceTree = "<group>"; };
-		991FD4F21C4F8FE400AF3DC2 /* MKMarkovPredictor+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMarkovPredictor+JSON.swift"; sourceTree = "<group>"; };
-		991FD4F61C4FE3FD00AF3DC2 /* MKMarkovPredictorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMarkovPredictorTests.swift; sourceTree = "<group>"; };
-		991FD4F81C4FE42900AF3DC2 /* MKMarkovPredictor+JSONTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMarkovPredictor+JSONTests.swift"; sourceTree = "<group>"; };
 		991FD4FC1C52432500AF3DC2 /* MKScalarPredictor+ErrorRate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKScalarPredictor+ErrorRate.swift"; sourceTree = "<group>"; };
 		991FD4FE1C52517C00AF3DC2 /* MKWeightPredictorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKWeightPredictorTests.swift; sourceTree = "<group>"; };
 		99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseType+MetadataTests.swift"; sourceTree = "<group>"; };
@@ -918,11 +902,6 @@
 				54E430871C46BFEB00FA01A8 /* MKPolynomialFittingScalarPredictor.swift */,
 				542192071C46EC15002FD224 /* MKPolynomialFittingScalarPredictor+JSON.swift */,
 				545EFC491C47D9E600987610 /* MKScalarRounder.swift */,
-				991FD4F01C4F8F3800AF3DC2 /* MKMarkovPredictor.swift */,
-				991FD4F21C4F8FE400AF3DC2 /* MKMarkovPredictor+JSON.swift */,
-				649B00B51C5A05DE00FCB8B8 /* MKAutoRegression.swift */,
-				649B00BC1C5A180F00FCB8B8 /* MKAutoRegressionScalarPredictor.swift */,
-				649B00BE1C5A1FB000FCB8B8 /* MKAutoRegressionScalarPredictor+JSON.swift */,
 				644A71E81C5A5A1800E59A62 /* MKLinearMarkovScalarPredictor.swift */,
 				644A71EA1C5B589900E59A62 /* MKLinearMarkovScalarPredictor+JSON.swift */,
 			);
@@ -939,11 +918,8 @@
 				54BDDDCD1C440EF60054A059 /* MKExercisePlan+JSONTests.swift */,
 				54FBA9681C3C6D8900FC4F8E /* MKPolynomialFitterTests.swift */,
 				54E430891C46C46600FA01A8 /* MKPolynomialFittingScalarPredictorTests.swift */,
-				991FD4F61C4FE3FD00AF3DC2 /* MKMarkovPredictorTests.swift */,
-				991FD4F81C4FE42900AF3DC2 /* MKMarkovPredictor+JSONTests.swift */,
 				991FD4FC1C52432500AF3DC2 /* MKScalarPredictor+ErrorRate.swift */,
 				991FD4FE1C52517C00AF3DC2 /* MKWeightPredictorTests.swift */,
-				649B00B71C5A119200FCB8B8 /* MKAutoRegressionTests.swift */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -1646,7 +1622,6 @@
 				54EAC09F1C4C2FF8005AA3F4 /* MKExerciseTypeTests.swift in Sources */,
 				543E169C1BF3FB2D00990ABE /* MKLayerConfiguration+ParsingTests.swift in Sources */,
 				647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */,
-				991FD4F71C4FE3FD00AF3DC2 /* MKMarkovPredictorTests.swift in Sources */,
 				547791111C247EAE00763197 /* MKExercisePlanTests.swift in Sources */,
 				54BDDDCE1C440EF60054A059 /* MKExercisePlan+JSONTests.swift in Sources */,
 				9D6D27AF1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift in Sources */,
@@ -1661,11 +1636,9 @@
 				6445C4151C4D52CE00A0CDB9 /* MKExerciseSession+MetadataTests.swift in Sources */,
 				99835A4C1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift in Sources */,
 				991FD4FF1C52517C00AF3DC2 /* MKWeightPredictorTests.swift in Sources */,
-				991FD4F91C4FE42900AF3DC2 /* MKMarkovPredictor+JSONTests.swift in Sources */,
 				546E68691BB98D1D00DC0FEF /* MKSensorDataMultipleTypesTests.swift in Sources */,
 				540AA44F1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift in Sources */,
 				547791071C23660A00763197 /* MKInputPreperatorTests.swift in Sources */,
-				649B00B81C5A119200FCB8B8 /* MKAutoRegressionTests.swift in Sources */,
 				54FBA9691C3C6D8900FC4F8E /* MKPolynomialFitterTests.swift in Sources */,
 				54BDDDCA1C44093F0054A059 /* MKMarkovChain+JSONTests.swift in Sources */,
 				547791091C23727A00763197 /* MKStateChainTests.swift in Sources */,
@@ -1700,7 +1673,6 @@
 				542192081C46EC15002FD224 /* MKPolynomialFittingScalarPredictor+JSON.swift in Sources */,
 				54ECB73A1C3FF70900B6E042 /* MKExerciseType.swift in Sources */,
 				54D345801BB9245E00F65091 /* MKSensorDataDelegate.swift in Sources */,
-				991FD4F11C4F8F3800AF3DC2 /* MKMarkovPredictor.swift in Sources */,
 				5421AECB1C40489B009CB4FA /* MKExerciseTypeDescriptor.swift in Sources */,
 				5471DD3A1BC13911007D1034 /* MKSensorData+Scaffolding.swift in Sources */,
 				543C54091BF3C8D80059F80A /* MKLayerConfiguration+Parsing.swift in Sources */,
@@ -1718,8 +1690,6 @@
 				5421920E1C46F82C002FD224 /* MKExercisePropertySource.swift in Sources */,
 				5488080D1BD5710500419CD8 /* MKPhoneExerciseConnectivitySession.swift in Sources */,
 				6428CE341C46ABAF00D17451 /* MKScalarPredictor.swift in Sources */,
-				649B00BD1C5A180F00FCB8B8 /* MKAutoRegressionScalarPredictor.swift in Sources */,
-				991FD4F31C4F8FE400AF3DC2 /* MKMarkovPredictor+JSON.swift in Sources */,
 				5487F5A61BB9C9AB00ED2E97 /* MKSensorData+Equatable.swift in Sources */,
 				644A71E91C5A5A1800E59A62 /* MKLinearMarkovScalarPredictor.swift in Sources */,
 				543E32971C4BA7ED00D9922D /* MKExerciseDetail.swift in Sources */,
@@ -1747,8 +1717,6 @@
 				5488080F1BD57BA500419CD8 /* MKPhoneExerciseSessionClassifier.swift in Sources */,
 				547791011C235E1900763197 /* MKMarkovChain.swift in Sources */,
 				547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */,
-				649B00B91C5A122800FCB8B8 /* MKAutoRegression.swift in Sources */,
-				649B00BF1C5A1FB000FCB8B8 /* MKAutoRegressionScalarPredictor+JSON.swift in Sources */,
 				54FEB0FA1C39587300EC5293 /* MKPhoneSensorDataSplitter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
