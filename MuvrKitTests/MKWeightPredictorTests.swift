@@ -8,6 +8,10 @@ class MKWeightPredictorTests : XCTestCase {
         return MKScalarRounderFunction.roundMinMax(value, minimum: 2.5, step: 2.5, maximum: nil)
     }
     
+    func props(ex: MKExercise.Id) -> [MKExerciseProperty] {
+        return [.WeightProgression(minimum: 0, step: 2.5, maximum: nil)]
+    }
+    
     func testBigDrop1() {
         let predictor1 = MKPolynomialFittingScalarPredictor(round: roundValue)
         let predictor2 = MKMarkovPredictor()
@@ -62,14 +66,15 @@ class MKWeightPredictorTests : XCTestCase {
         
         let predictors: [String: MKScalarPredictor] = [
             "Polynomial" : MKPolynomialFittingScalarPredictor(round: roundValue),
-            "Quadratic" : MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 2),
+            "Cubic" : MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 3),
             "Markov" : MKMarkovPredictor(),
             "Markov (inc)" : MKMarkovPredictor(mode: .Inc),
             "Markov (mult)" : MKMarkovPredictor(mode: .Mult, round: roundValue),
             "Linear" : MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 1, maxSamples: 2),
             "Last value": MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 0, maxSamples: 1),
             "AR LeastSquares": MKAutoRegressionScalarPredictor(round: roundValue, order: 5, method: .LeastSquares),
-            "AR MaxEntropy": MKAutoRegressionScalarPredictor(round: roundValue, order: 5, method: .MaxEntropy)
+            "AR MaxEntropy": MKAutoRegressionScalarPredictor(round: roundValue, order: 5, method: .MaxEntropy),
+            "Corrected Linear": MKLinearMarkovScalarPredictor(round: roundValue, props: props)
         ]
         
         let weights: [[Double]] = [
@@ -96,7 +101,7 @@ class MKWeightPredictorTests : XCTestCase {
         for s in 0..<weights.count {
             print("")
             predictors.forEach {name, predictor in
-                let (_, error) = predictor.calculateError(Array(weights[s].dropLast()), forExerciseId: "biceps-curl", expectedValue: weights[s].last!)
+                let (_, error) = predictor.calculateError(Array(weights[s].dropLast()), forExerciseId: "biceps-curl", expectedValue: weights[s].last!, debug: name == "Corrected Linear")
                 costs[name]? +=  error
                 print("Session #\(s+1): \(name) cost: \(error)")
             }

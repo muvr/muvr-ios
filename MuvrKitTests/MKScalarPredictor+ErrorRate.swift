@@ -21,6 +21,9 @@ extension MKScalarPredictor {
             } else {
                 nextExpected = sequence[index+1]
             }
+            if debug {
+                print("Step #\(index+1): expected \(nextExpected) and got \(nextPredict)")
+            }
             error += pow(nextPredict - nextExpected, 2)
             predictedSequence.append(nextPredict)
         }
