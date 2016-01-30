@@ -1,0 +1,16 @@
+Trivial session with constant R,W,D,I for biceps curl
+resistanceTargeted:arms
+
+resistanceTargeted:arms/biceps-curl,R=15,W=40,D=30,I=0.5
+resistanceTargeted:arms/biceps-curl,R=15,W=40,D=30,I=0.5
+resistanceTargeted:arms/biceps-curl,R=15,W=40,D=30,I=0.5
+resistanceTargeted:arms/biceps-curl,R=15,W=40,D=30,I=0.5
+resistanceTargeted:arms/biceps-curl,R=15,W=40,D=30,I=0.5
+resistanceTargeted:arms/biceps-curl,R=15,W=40,D=30,I=0.5
+resistanceTargeted:arms/biceps-curl,R=15,W=40,D=30,I=0.5
+resistanceTargeted:arms/biceps-curl,R=15,W=40,D=30,I=0.5
+resistanceTargeted:arms/biceps-curl,R=15,W=40,D=30,I=0.5
+resistanceTargeted:arms/biceps-curl,R=15,W=40,D=30,I=0.5
+resistanceTargeted:arms/biceps-curl,R=15,W=40,D=30,I=0.5
+resistanceTargeted:arms/biceps-curl,R=15,W=40,D=30,I=0.5
+
