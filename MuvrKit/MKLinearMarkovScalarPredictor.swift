@@ -63,22 +63,15 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
         // 10, 12
         
         let sign = (actual - predicted) >= 0 ? 1 : -1
-        let c = (1..<maxCorrectionSteps)
+        if let c = ((1..<maxCorrectionSteps)
             .map { actual - step(predicted, $0 * sign, exerciseId) }
             .enumerate()
-            .minElement { l, r in
-                return l.element < r.element
-            }?
-            .index
+            .minElement { l, r in return l.element < r.element }?
+            .index) {
+            return c * sign
+        }
         
-        return c ?? 0
-//        let w = progression(exerciseId)
-//        let c = Int(error / w)
-//        if let m = maxCorrection {
-//            // make sure c is in [-m,m]
-//            return max(-m, min(m, c))
-//        }
-//        return c
+        return 0
     }
     
     // Implements MKScalarPredictor
