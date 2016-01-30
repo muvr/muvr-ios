@@ -11,6 +11,7 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
     private let round: Round
     private let step: Step
     private let maxCorrectionSteps: Int
+    private let maxSamples: Int
     private var boost: Float = 1.0
     private(set) internal var correctionPlan: [MKExercise.Id:MKExercisePlan<Correction>] = [:]
     
@@ -18,6 +19,7 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
         linearPredictor = MKPolynomialFittingScalarPredictor(round: round, maxDegree: maxDegree, maxSamples: maxSamples)
         self.round = round
         self.step = step
+        self.maxSamples = maxSamples
         self.maxCorrectionSteps = maxCorrectionSteps
     }
     
@@ -39,6 +41,19 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
     public func trainPositional(trainingSet: [Double], forExerciseId exerciseId: MKExercise.Id) {
         // update the linear regression coefficients
         linearPredictor.trainPositional(trainingSet, forExerciseId: exerciseId)
+
+        let plan = MKExercisePlan<Correction>()
+        for (index, actual) in trainingSet.suffix(maxSamples).enumerate() {
+            if let predicted = linearPredictor.predictScalarForExerciseId(exerciseId, n: index) {
+                // compare the predicted value with the latest value
+                let c = correction(actual, predicted: max(0, predicted), forExerciseId: exerciseId)
+                // add this correction to the MarkovChain
+                plan.insert(c)
+                print("At \(index): diff = \(actual - predicted) => correction = \(c)")
+            }
+        }
+        
+        correctionPlan[exerciseId] = plan
     }
     
     /// return the ``Correction`` corresponding to the error made on the predicted value
@@ -47,32 +62,34 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
         assert(actual > 0)
         assert(predicted > 0)
         
+        if abs(actual - predicted) < 0.0001 { return 0 }
+        
         // 10, 12
         
         let sign = (actual - predicted) >= 0 ? 1 : -1
-        if let c = ((1..<maxCorrectionSteps)
-            .map { actual - step(predicted, $0 * sign, exerciseId) }
-            .enumerate()
+        let x = ((1..<maxCorrectionSteps)
+            .map { actual - step(predicted, $0 * sign, exerciseId) })
+
+        if let c = (x.enumerate()
             .minElement { l, r in return l.element < r.element }?
             .index) {
-            return c * sign
+            return (c + 1) * sign
         }
-        
         return 0
+
+//        if let c = ((1..<maxCorrectionSteps)
+//            .map { actual - step(predicted, $0 * sign, exerciseId) }
+//            .enumerate()
+//            .minElement { l, r in return l.element < r.element }?
+//            .index) {
+//            return c * sign
+//        }
+//        
+//        return 0
     }
     
-    // Implements MKScalarPredictor
     public func correctScalarForExerciseId(exerciseId: MKExercise.Id, n: Int, actual: Double) {
-        let plan = correctionPlan[exerciseId] ?? MKExercisePlan<Correction>()
-        
-        if let predicted = linearPredictor.predictScalarForExerciseId(exerciseId, n: n) {
-            // compare the predicted value with the latest value
-            let c = correction(actual, predicted: max(0, predicted), forExerciseId: exerciseId)
-            // add this correction to the MarkovChain
-            plan.insert(c)
-        }
-        // update the correction plan
-        correctionPlan[exerciseId] = plan
+        // noop
     }
     
     // Implements MKScalarPredictor
