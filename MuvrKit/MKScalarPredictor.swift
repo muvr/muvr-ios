@@ -24,6 +24,14 @@ public protocol MKScalarPredictor {
     func predictScalarForExerciseId(exerciseId: MKExercise.Id, n: Int) -> Double?
  
     ///
+    /// Sets the correct prediction for exerciseId at n
+    /// - parameter exerciseId: the exercise id
+    /// - parameter n: the exercise number, starting at 0
+    /// - parameter actual: the actual value
+    ///
+    func correctScalarForExerciseId(exerciseId: MKExercise.Id, n: Int, actual: Double)
+    
+    ///
     /// Sets the boosting function to "motivate the headcounts"
     /// - parameter boost: the multiplier, typically close to 1.0
     ///

@@ -54,7 +54,8 @@ class MKWeightPredictorTests : XCTestCase {
                     let prediction = predictor.predictScalarForExerciseId("biceps-curl", n: weights.count) ?? 999
                     if index + 1 < weightSequence.count {
                         let expected = weightSequence[index + 1]
-                        print(expected - prediction)
+                        print("expected: \(expected), predicted: \(prediction)")
+                        predictor.correctScalarForExerciseId("biceps-curl", n: weights.count, actual: expected)
                     }
                 }
             }

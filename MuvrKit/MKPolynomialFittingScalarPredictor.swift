@@ -139,6 +139,10 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         }
     }
     
+    public func correctScalarForExerciseId(exerciseId: MKExercise.Id, n: Int, actual: Double) {
+        // NOOP
+    }
+    
     public func predictScalarForExerciseId(exerciseId: MKExercise.Id, n: Int) -> Double? {
         let prediction = coefficients[exerciseId].map {
             predictAndRound(Float(n - shift), coefficients: $0, forExerciseId: exerciseId)

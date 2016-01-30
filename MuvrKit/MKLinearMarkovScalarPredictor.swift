@@ -37,19 +37,6 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
     
     // Implements MKScalarPredictor
     public func trainPositional(trainingSet: [Double], forExerciseId exerciseId: MKExercise.Id) {
-        let plan = correctionPlan[exerciseId] ?? MKExercisePlan<Correction>()
-
-        if let predicted = linearPredictor.predictScalarForExerciseId(exerciseId, n: trainingSet.count - 1),
-            let last = trainingSet.last {
-                // compare the predicted value with the latest value
-                // and get the corresponding correction (e.g. LittleMore)
-                let c = correction(last, predicted: max(0, predicted), forExerciseId: exerciseId)
-                // add this correction to the MarkovChain
-                plan.insert(c)
-        }
-        // update the correction plan
-        correctionPlan[exerciseId] = plan
-        
         // update the linear regression coefficients
         linearPredictor.trainPositional(trainingSet, forExerciseId: exerciseId)
     }
@@ -72,6 +59,20 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
         }
         
         return 0
+    }
+    
+    // Implements MKScalarPredictor
+    public func correctScalarForExerciseId(exerciseId: MKExercise.Id, n: Int, actual: Double) {
+        let plan = correctionPlan[exerciseId] ?? MKExercisePlan<Correction>()
+        
+        if let predicted = linearPredictor.predictScalarForExerciseId(exerciseId, n: n) {
+            // compare the predicted value with the latest value
+            let c = correction(actual, predicted: max(0, predicted), forExerciseId: exerciseId)
+            // add this correction to the MarkovChain
+            plan.insert(c)
+        }
+        // update the correction plan
+        correctionPlan[exerciseId] = plan
     }
     
     // Implements MKScalarPredictor
