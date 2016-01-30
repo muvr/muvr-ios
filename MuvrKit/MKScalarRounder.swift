@@ -39,7 +39,7 @@ public struct MKScalarRounderFunction {
         if value < minimum { return minimum }
         if let maximum = maximum where value >= maximum {
             return maximum
-        }
+        }        
         for var weight: Double = minimum; weight < maximum ?? 999; weight += step {
             let dcw = value - weight
             let dnw = value - (weight + step)

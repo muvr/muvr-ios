@@ -12,13 +12,16 @@ extension MKLinearMarkovScalarPredictor {
         ], options: [])
     }
     
-    public func mergeJSON(data: NSData) {
+    public convenience init?(fromJSON data: NSData, round: Round, step: Step, maxDegree: Int = 1, maxSamples: Int = 2, maxCorrectionSteps: Int = 10) {
         if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments),
             let dict = json as? [String : AnyObject],
             let otherCoefficients = dict["coefficients"] as? [MKExercise.Id : [Float]],
             let simpleScalars = dict["simpleScalars"] as? [MKExercise.Id : Float],
             let corrections = dict["corrections"] as? [String: NSData] {
-                mergeCoefficients(otherCoefficients, otherSimpleScalars: simpleScalars, otherCorrectionPlan: corrections)
+            self.init(round: round, step: step, maxDegree: maxDegree, maxSamples: maxSamples, maxCorrectionSteps: maxCorrectionSteps)
+            mergeCoefficients(otherCoefficients, otherSimpleScalars: simpleScalars, otherCorrectionPlan: corrections)
+        } else {
+            return nil
         }
     }
     

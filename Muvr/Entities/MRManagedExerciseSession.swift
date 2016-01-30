@@ -135,13 +135,15 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - parameter managedObjectContext: the MOC
     ///
     func addExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval) {
-        func extractLabelScalar(labelToScalar: MKExerciseLabel -> Double?)(row: ExerciseRow) -> Double? {
-            for label in row.4 {
-                if let value = labelToScalar(label) {
-                    return value
+        func extractLabelScalar(labelToScalar: MKExerciseLabel -> Double?) -> (ExerciseRow -> Double?) {
+            return { row in
+                for label in row.4 {
+                    if let value = labelToScalar(label) {
+                        return value
+                    }
                 }
+                return nil
             }
-            return nil
         }
         
         let offset = start.timeIntervalSinceDate(self.start)

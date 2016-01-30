@@ -138,7 +138,7 @@ public class MKForwardPropagator {
     ///
     private static func getWeightsCount(layerConfiguration: [MKLayerConfiguration]) -> Int {
         var result = 0
-        for var i = 0; i < layerConfiguration.count - 1; ++i {
+        for i in 0 ..< layerConfiguration.count - 1 {
             result += (layerConfiguration[i].size + 1) * layerConfiguration[i + 1].size
         }
         return result

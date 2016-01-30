@@ -104,18 +104,22 @@ class MRSessionLabellingViewController: UIViewController, UITableViewDataSource 
         }
     }
     
-    private func incrementLabel(index: Int)(label: MKExerciseLabel) -> MKExerciseLabel {
-        let newLabel = incrementDecrementLabel(label, increment: true)
-        labels[index] = newLabel
-        onLabelsUpdated(labels)
-        return newLabel
+    private func incrementLabel(index: Int) -> (MKExerciseLabel -> MKExerciseLabel) {
+        return { label in
+            let newLabel = self.incrementDecrementLabel(label, increment: true)
+            self.labels[index] = newLabel
+            self.onLabelsUpdated(self.labels)
+            return newLabel
+        }
     }
     
-    private func decrementLabel(index: Int)(label: MKExerciseLabel) -> MKExerciseLabel {
-        let newLabel = incrementDecrementLabel(label, increment: false)
-        labels[index] = newLabel
-        onLabelsUpdated(labels)
-        return newLabel
+    private func decrementLabel(index: Int) -> (MKExerciseLabel -> MKExerciseLabel) {
+        return { label in
+            let newLabel = self.incrementDecrementLabel(label, increment: false)
+            self.labels[index] = newLabel
+            self.onLabelsUpdated(self.labels)
+            return newLabel
+        }
     }
     
     // MARK: - UITableViewDataSource

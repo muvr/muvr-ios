@@ -155,7 +155,7 @@ public struct MKClassifier {
     func accumulateSteps(steps: [MKClassifiedExerciseBlock]) -> [MKClassifiedExerciseBlock] {
         var result: [MKClassifiedExerciseBlock] = []
         var accumulator: MKClassifiedExerciseBlock? = nil
-        for var i = 0; i < steps.count; ++i {
+        for i in 0 ..< steps.count {
             let current = steps[i]
             if accumulator == nil {
                 accumulator = current
@@ -198,7 +198,7 @@ public struct MKClassifier {
         }
         
         var mergedBlocks: [MKClassifiedExerciseBlock] = []
-        for var i = 0; i < blocks.count; i++ {
+        for i in 0 ..< blocks.count {
             let currentBlock = blocks[i]
             let prevBlock: MKClassifiedExerciseBlock? = mergedBlocks.last
             let nextBlock: MKClassifiedExerciseBlock? = i < blocks.count - 1 ? blocks[i + 1] : nil

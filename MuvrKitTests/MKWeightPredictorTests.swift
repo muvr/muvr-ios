@@ -8,6 +8,10 @@ class MKWeightPredictorTests : XCTestCase {
         return MKScalarRounderFunction.roundMinMax(value, minimum: 2.5, step: 2.5, maximum: nil)
     }
     
+    func step(value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        return value + Double(n) * 2.5
+    }
+    
     func testPredictors() {
         
         let predictors: [String: MKScalarPredictor] = [
@@ -15,7 +19,7 @@ class MKWeightPredictorTests : XCTestCase {
             "Cubic" : MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 3),
             "Linear" : MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 1, maxSamples: 2),
             "Last value": MKPolynomialFittingScalarPredictor(round: roundValue, maxDegree: 0, maxSamples: 1),
-            "Corrected Linear": MKLinearMarkovScalarPredictor(round: roundValue, progression: { _ in return 2.5 }, maxDegree: 1, maxSamples: 2, maxCorrectionSteps: 2)
+            "Corrected Linear": MKLinearMarkovScalarPredictor(round: roundValue, step: step, maxDegree: 1, maxSamples: 2, maxCorrectionSteps: 2)
         ]
         
         let weights: [[Double]] = [
