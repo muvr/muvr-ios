@@ -22,7 +22,7 @@ class MKWeightPredictorTests : XCTestCase {
             "Corrected Linear": MKLinearMarkovScalarPredictor(round: roundValue, step: step, maxDegree: 1, maxSamples: 2, maxCorrectionSteps: 2)
         ]
         
-        let weights: [[Double]] = [
+        let weightSequences: [[Double]] = [
             [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
             [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
             [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5],
@@ -43,20 +43,22 @@ class MKWeightPredictorTests : XCTestCase {
         var costs: [String:Double] = [:]
         predictors.keys.forEach { costs[$0] = 0 }
         
-        for s in 0..<weights.count {
-            print("")
-            predictors.forEach {name, predictor in
-                let (_, error) = predictor.calculateError(Array(weights[s].dropLast()), forExerciseId: "biceps-curl", expectedValue: weights[s].last!)
-                costs[name]? +=  error
-                print("Session #\(s+1): \(name) cost: \(error)")
+        for (name, predictor) in predictors {
+            print("************\n")
+            print(name)
+            for weightSequence in weightSequences {
+                var weights: [Double] = []
+                for (index, weight) in weightSequence.enumerate() {
+                    weights.append(weight)
+                    predictor.trainPositional(weights, forExerciseId: "biceps-curl")
+                    let prediction = predictor.predictScalarForExerciseId("biceps-curl", n: weights.count) ?? 999
+                    if index + 1 < weightSequence.count {
+                        let expected = weightSequence[index + 1]
+                        print(expected - prediction)
+                    }
+                }
             }
         }
-        
-        print("")
-        costs.forEach { name, cost in
-            print("\(name) Total cost: \(cost)")
-        }
-        
     }
 
 }
