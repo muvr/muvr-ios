@@ -4,109 +4,87 @@ import Foundation
 
 class MRExerciseSessionEvaluator {
     
-    struct Score {
-        var matchedCount: Int
-        var mismatchedCount: Int
-        var missingCount: Int
-        
-        var mismatchedCost: Double
-        
-        private func totalCost() -> Double {
-            let missingInstnaceCost: Double = 1
-            let mismatchedInstanceCost: Double = 1000
-            
-            return mismatchedCost + Double(mismatchedCount) * mismatchedInstanceCost + Double(missingCount) * missingInstnaceCost
-        }
-    }
-    
     struct Result {
-        private var matchedExerciseLabelsScores: [MKExercise.Id : Score] = [:]
-        private var mismatchedExercises: [MKExercise.Id : Int] = [:]
-        private var matchedExercises: [MKExercise.Id : Int] = [:]
+        /// Holds the scalar labels, for a given exerciseId, descriptor, the expected value and the predicted value
+        private var scalarLabels: [(MKExercise.Id, MKExerciseLabelDescriptor, Double, Double?)] = []
+        /// Holds the exercise predictions: the expected vs. the predicted one
+        private var exerciseIds: [(MKExercise.Id, MKExercise.Id?)] = []
         
-        /// The total cost of the result, where 0 is perfect match
-        /// - returns: the total cost
-        func totalCost() -> Double {
-            let mismatchedExerciseInstanceCost: Double = 1000
-            let mismatchedExerciseCost: Double = Double(mismatchedExercisesCount()) * mismatchedExerciseInstanceCost
-            
-            return mismatchedExerciseCost + matchedExerciseLabelsScores.values.reduce(0) { r, score in return r + score.totalCost() }
-        }
-        
-        /// The accuracy of label predictions
+        /// The accuracy of label predictions; values over 0.9 represents very good predictions.
+        /// Value over 0.5 will result in fairly poor user experience—every other label is wrong!
         /// - returns: the accuracy 0..1
         func labelsAccuracy() -> Double {
-            let totalCount = mismatchedLabelsCount() + matchedLabelsCount()
-            return 1 - Double(mismatchedLabelsCount()) / Double(totalCount)
+            let mismatchedCount = scalarLabels.reduce(0) { r, x in
+                let (_, _, e, p) = x
+                if let p = p where abs(e - p) < 0.01 {
+                    return r
+                }
+                return r + 1
+            }
+            return 1 - Double(mismatchedCount) / Double(scalarLabels.count)
         }
         
-        /// The accuracy of exercise predictions
+        /// The loss of labels predictions weighted for the label range. For example, ``(e, p)`` pairs
+        /// ``(10, 10), (12, 10), (14, 14), (16, 16), (10, 18)``, an average square loss would be 
+        /// 2^2 + 8^2 = 68; 68 / 5 = 13.6, which might not feel so bad. However, taking the average
+        /// expected value (12.4), the loss is a very large portion of it; meaning that the predictions
+        /// fall well outside the expected values.
+        ///
+        /// Similarly, we have a notion of a "stupid" result, where the value is 0.
+        ///
+        /// Value 0 is great; it means no mis-predictions, values up to 0.5 are usually acceptable,
+        /// values over 5 will result in really poor user experience.
+        ///
+        /// - returns: the weighted loss of label predictions.
+        ///
+        func labelsWeightedLoss() -> Double {
+            let stupidLossIncident: Double = 10
+            
+            var totalLoss: Double = 0
+            var totalExpected: Double = 0
+            var totalStupidLoss: Double = 0
+            for (_, _, e, p) in scalarLabels where p != nil {
+                totalLoss += pow(e - p!, 2)
+                if p! < 0.1 { totalStupidLoss += stupidLossIncident }
+                totalExpected += e
+            }
+            let averageExpected = totalExpected / Double(scalarLabels.count)
+            let averageLoss = totalLoss / Double(scalarLabels.count)
+            // let averageStupidLoss = totalStupidLoss / Double(scalarLabels.count)
+            return (averageLoss / averageExpected) + totalStupidLoss
+        }
+        
+        /// The accuracy of exercise predictions; values over 0.9 represents very good predictions.
+        /// Value over 0.5 will result in fairly poor user experience—every other exercise is wrong!
         /// - returns: the accuracy 0..1, where 1 is completely accurate
         func exercisesAccuracy() -> Double {
-            let totalCount = mismatchedExercisesCount() + matchedExercisesCount()
-            return 1 - Double(mismatchedExercisesCount()) / Double(totalCount)
+            let mismatchedExercisesCount = exerciseIds.reduce(0) { r, e in
+                if e.0 != e.1 { return r + 1 }
+                return r
+            }
+            return 1 - Double(mismatchedExercisesCount) / Double(exerciseIds.count)
         }
 
-        private func matchedLabelsCount() -> Int {
-            return matchedExerciseLabelsScores.values.reduce(0) { r, s in return r + s.matchedCount }
-        }
-        
-        private func mismatchedLabelsCount() -> Int {
-            return matchedExerciseLabelsScores.values.reduce(0) { r, s in return r + s.mismatchedCount }
-        }
-        
-        private func matchedExercisesCount() -> Int {
-            return matchedExercises.values.reduce(0) { r, count in return r + count }
-        }
-        
-        private func mismatchedExercisesCount() -> Int {
-            return mismatchedExercises.values.reduce(0) { r, count in return r + count }
-        }
-        
-        private mutating func addMismatched(exerciseId exerciseId: MKExercise.Id) {
-            mismatchedExercises[exerciseId] = mismatchedExercises[exerciseId].map { $0 + 1 } ?? 1
+        private mutating func addMismatched(expectedExerciseId expected: MKExercise.Id, predictedExerciseId predicted: MKExercise.Id?) {
+            exerciseIds.append((expected, predicted))
         }
         
         private mutating func addMatched(exerciseId exerciseId: MKExercise.Id, expectedLabels: [MKExerciseLabel], predictedLabels: [MKExerciseLabel]) {
-            matchedExercises[exerciseId] = matchedExercises[exerciseId].map { $0 + 1 } ?? 1
-            let score = matchedExerciseLabelsScores[exerciseId] ?? Score(matchedCount: 0, mismatchedCount: 0, missingCount: 0, mismatchedCost: 0)
-            matchedExerciseLabelsScores[exerciseId] = scoreLabels(score, expectedLabels: expectedLabels, predictedLabels: predictedLabels)
-        }
-        
-        private func scoreLabels(score: Score, expectedLabels: [MKExerciseLabel], predictedLabels: [MKExerciseLabel]) -> Score {
-            
-            func labelCost(expected expected: MKExerciseLabel, predicted: MKExerciseLabel) -> Double {
-                switch (expected, predicted) {
-                case (.Weight(let e), .Weight(let p)): return pow(e - p, 2)
-                case (.Intensity(let e), .Intensity(let p)): return pow(100 * e - 100 * p, 2)
-                case (.Repetitions(let e), .Repetitions(let p)): return pow(Double(e - p), 2)
-                default: fatalError()
+            func extractScalar(label: MKExerciseLabel) -> Double {
+                switch label {
+                case .Weight(let e): return e
+                case .Intensity(let e): return e
+                case .Repetitions(let e): return Double(e)
                 }
             }
-            
-            var matchedCount: Int = 0
-            var mismatchedCount: Int = 0
-            var missingCount: Int = 0
-            var mismatchedCost: Double = 0
             
             for expectedLabel in expectedLabels {
-                if let predictedLabel = (predictedLabels.filter { $0.descriptor == expectedLabel.descriptor }.first) {
-                    let cost = labelCost(expected: expectedLabel, predicted: predictedLabel)
-                    if cost < 0.001 {
-                        matchedCount += 1
-                    } else {
-                        mismatchedCount += 1
-                        mismatchedCost += cost
-                    }
-                } else {
-                    missingCount += 1
-                }
+                let expected = extractScalar(expectedLabel)
+                let predicted = predictedLabels.filter { $0.descriptor == expectedLabel.descriptor }.first.map(extractScalar)
+                scalarLabels.append((exerciseId, expectedLabel.descriptor, expected, predicted))
             }
             
-            return Score(matchedCount: score.matchedCount + matchedCount,
-                mismatchedCount: score.mismatchedCount + mismatchedCount,
-                missingCount: score.missingCount + missingCount,
-                mismatchedCost: score.mismatchedCost + mismatchedCost)
+            exerciseIds.append((exerciseId, exerciseId))
         }
         
     }
@@ -123,17 +101,19 @@ class MRExerciseSessionEvaluator {
         
         for (detail, labels) in loadedSession.rows {
             let (exerciseId, _, _) = detail
-            if let (predictedExerciseId, _, _) = session.exerciseDetailsComingUp.first where predictedExerciseId == exerciseId {
-                let (predictedLabels, _) = session.predictExerciseLabelsForExerciseDetail(detail)
-                result.addMatched(exerciseId: exerciseId, expectedLabels: labels, predictedLabels: predictedLabels)
+            if let (predictedExerciseId, _, _) = session.exerciseDetailsComingUp.first {
+                if predictedExerciseId == exerciseId {
+                    let (predictedLabels, _) = session.predictExerciseLabelsForExerciseDetail(detail)
+                    result.addMatched(exerciseId: exerciseId, expectedLabels: labels, predictedLabels: predictedLabels)
+                } else {
+                    result.addMismatched(expectedExerciseId: exerciseId, predictedExerciseId: predictedExerciseId)
+                }
             } else {
-                result.addMismatched(exerciseId: exerciseId)
+                result.addMismatched(expectedExerciseId: exerciseId, predictedExerciseId: nil)
             }
             session.addExerciseDetail(detail, labels: labels, start: NSDate(), duration: 30)
         }
 
-        print(result)
-        
         return result
     }
     
