@@ -33,11 +33,24 @@ class MRExerciseSessionEvaluator {
             return mismatchedExerciseCost + matchedExerciseLabelsScores.values.reduce(0) { r, score in return r + score.totalCost() }
         }
         
+        /// The accuracy of label predictions
+        /// - returns: the accuracy 0..1
+        func labelsAccuracy() -> Double {
+            return 1 - Double(mismatchedLabelsCount()) / Double(matchedLabelsCount())
+        }
+        
         /// The accuracy of exercise predictions
         /// - returns: the accuracy 0..1, where 1 is completely accurate
         func exercisesAccuracy() -> Double {
-            // 2/10
             return 1 - Double(mismatchedExercisesCount()) / Double(matchedExercisesCount())
+        }
+
+        private func matchedLabelsCount() -> Int {
+            return matchedExerciseLabelsScores.values.reduce(0) { r, s in return r + s.matchedCount }
+        }
+        
+        private func mismatchedLabelsCount() -> Int {
+            return matchedExerciseLabelsScores.values.reduce(0) { r, s in return r + s.mismatchedCount }
         }
         
         private func matchedExercisesCount() -> Int {
