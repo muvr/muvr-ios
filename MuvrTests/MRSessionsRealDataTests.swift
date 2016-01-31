@@ -19,6 +19,7 @@ class MRSessionsRealDataTests : XCTestCase {
         
         // First run score
         for loadedSession in readSessions(app.exercisePropertiesForExerciseId) {
+            let message = "\(loadedSession.description) \(loadedSession.exerciseType)"
             try! app.startSession(forExerciseType: loadedSession.exerciseType)
             let firstScore = MRExerciseSessionEvaluator(loadedSession: loadedSession).evaluate(app.currentSession!)
             try! app.endCurrentSession()
@@ -27,14 +28,14 @@ class MRSessionsRealDataTests : XCTestCase {
             let secondScore = MRExerciseSessionEvaluator(loadedSession: loadedSession).evaluate(app.currentSession!)
             try! app.endCurrentSession()
             
-            XCTAssertGreaterThan(firstScore.labelsAccuracy(), 0.5)
-            XCTAssertGreaterThan(firstScore.exercisesAccuracy(), 0.7)
+            XCTAssertGreaterThan(firstScore.labelsAccuracy(), 0.5, message)
+            XCTAssertGreaterThan(firstScore.exercisesAccuracy(), 0.7, message)
 
-            XCTAssertGreaterThan(secondScore.labelsAccuracy(), 0.5)
-            XCTAssertGreaterThan(secondScore.exercisesAccuracy(), 0.8)
+            XCTAssertGreaterThan(secondScore.labelsAccuracy(), 0.5, message)
+            XCTAssertGreaterThan(secondScore.exercisesAccuracy(), 0.8, message)
             
-            XCTAssertGreaterThanOrEqual(secondScore.exercisesAccuracy(), firstScore.exercisesAccuracy())
-            XCTAssertLessThan(secondScore.totalCost(), firstScore.totalCost(), "Failed cost for \(loadedSession.description) \(loadedSession.exerciseType)")
+            XCTAssertGreaterThanOrEqual(secondScore.exercisesAccuracy(), firstScore.exercisesAccuracy(), message)
+            XCTAssertLessThan(secondScore.totalCost(), firstScore.totalCost(), message)
         }
     }
     

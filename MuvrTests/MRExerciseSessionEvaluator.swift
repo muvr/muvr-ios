@@ -36,13 +36,15 @@ class MRExerciseSessionEvaluator {
         /// The accuracy of label predictions
         /// - returns: the accuracy 0..1
         func labelsAccuracy() -> Double {
-            return 1 - Double(mismatchedLabelsCount()) / Double(matchedLabelsCount())
+            let totalCount = mismatchedLabelsCount() + matchedLabelsCount()
+            return 1 - Double(mismatchedLabelsCount()) / Double(totalCount)
         }
         
         /// The accuracy of exercise predictions
         /// - returns: the accuracy 0..1, where 1 is completely accurate
         func exercisesAccuracy() -> Double {
-            return 1 - Double(mismatchedExercisesCount()) / Double(matchedExercisesCount())
+            let totalCount = mismatchedExercisesCount() + matchedExercisesCount()
+            return 1 - Double(mismatchedExercisesCount()) / Double(totalCount)
         }
 
         private func matchedLabelsCount() -> Int {
