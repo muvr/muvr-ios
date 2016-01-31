@@ -20,7 +20,7 @@ class MRSesionLoader {
         func parseLabel(text: String) -> MKExerciseLabel? {
             let components = text.componentsSeparatedByString("=")
             if components.count != 2 { return nil }
-            switch (components.first!, components.last!) {
+            switch (components.first!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()), components.last!) {
             case ("R", let text): return Int(text).map { MKExerciseLabel.Repetitions(repetitions: $0) }
             case ("I", let text): return Double(text).map { MKExerciseLabel.Intensity(intensity: $0) }
             case ("W", let text): return Double(text).map { MKExerciseLabel.Weight(weight: $0) }

@@ -6,9 +6,9 @@ class MRExerciseSessionEvaluator {
     
     struct Result {
         /// Holds the scalar labels, for a given exerciseId, descriptor, the expected value and the predicted value
-        private var scalarLabels: [(MKExercise.Id, MKExerciseLabelDescriptor, Double, Double?)] = []
+        private(set) internal var scalarLabels: [(MKExercise.Id, MKExerciseLabelDescriptor, Double, Double?)] = []
         /// Holds the exercise predictions: the expected vs. the predicted one
-        private var exerciseIds: [(MKExercise.Id, MKExercise.Id?)] = []
+        private(set) internal var exerciseIds: [(MKExercise.Id, MKExercise.Id?)] = []
         
         /// The accuracy of label predictions; values over 0.9 represents very good predictions.
         /// Value over 0.5 will result in fairly poor user experience—every other label is wrong!

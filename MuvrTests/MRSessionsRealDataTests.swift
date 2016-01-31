@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+import CoreLocation
 @testable import Muvr
 @testable import MuvrKit
 
@@ -50,38 +51,41 @@ class MRSessionsRealDataTests : XCTestCase {
         let count = 3
         let app = MRAppDelegate()
         app.application(UIApplication.sharedApplication(), didFinishLaunchingWithOptions: nil)
+        // At Kingfisher
+        app.locationManager(CLLocationManager(), didUpdateLocations: [CLLocation(latitude: 53.435739, longitude: -2.165993)])
         
         // Evaluate count sessions, giving the system the opportunity to learn the users
         // journey through the sessions
         let evaluatedSessions: [EvaluationResult] = readSessions(app.exercisePropertiesForExerciseId).map { loadedSession in
             let name = "\(loadedSession.description) \(loadedSession.exerciseType)"
-            let scores: [MRExerciseSessionEvaluator.Result] = (0..<count).map { i in
+            let results: [MRExerciseSessionEvaluator.Result] = (0..<count).map { i in
                 try! app.startSession(forExerciseType: loadedSession.exerciseType)
                 let score = MRExerciseSessionEvaluator(loadedSession: loadedSession).evaluate(app.currentSession!)
                 try! app.endCurrentSession()
                 return score
             }
-            return (name, loadedSession.exerciseType, scores)
+            return (name, loadedSession.exerciseType, results)
         }
         
         // Perform basic assertions on the first (completely untrained) and last (completely trained)
         // session. When the assertions pass, the app provides acceptable user experience
-        for (name, _, scores) in evaluatedSessions {
-            let firstScore = scores.first!
-            let lastScore = scores.last!
+        for (name, _, results) in evaluatedSessions {
+            let firstResult = results.first!
+            let lastResult = results.last!
             
-            XCTAssertLessThanOrEqual(firstScore.labelsWeightedLoss(), 5, name)
-            XCTAssertGreaterThan(firstScore.labelsAccuracy(), 0.5, name)
-            XCTAssertGreaterThan(firstScore.exercisesAccuracy(), 0.7, name)
+            XCTAssertLessThanOrEqual(firstResult.labelsWeightedLoss(), 5, name)
+            XCTAssertGreaterThan(firstResult.labelsAccuracy(), 0.5, name)
+            XCTAssertGreaterThan(firstResult.exercisesAccuracy(), 0.7, name)
             
-            XCTAssertGreaterThan(lastScore.labelsAccuracy(), 0.8, name)
-            XCTAssertGreaterThan(lastScore.exercisesAccuracy(), 0.8, name)
-            XCTAssertLessThanOrEqual(lastScore.labelsWeightedLoss(), 1, name)
+            XCTAssertGreaterThan(lastResult.labelsAccuracy(), 0.8, name)
+            XCTAssertGreaterThan(lastResult.exercisesAccuracy(), 0.8, name)
+            XCTAssertLessThanOrEqual(lastResult.labelsWeightedLoss(), 1, name)
             
-            XCTAssertGreaterThanOrEqual(lastScore.exercisesAccuracy(), firstScore.exercisesAccuracy(), name)
+            XCTAssertGreaterThanOrEqual(lastResult.exercisesAccuracy(), firstResult.exercisesAccuracy(), name)
         }
         
         for (exerciseType, results) in (evaluatedSessions.groupBy { $0.1 }) {
+            print(results.last!.2.last!.description)
             for i in 0..<count {
                 let bla = project(results, index: i) { $0.labelsAccuracy() }.maxElement()
                 let bwl = project(results, index: i) { $0.labelsWeightedLoss() }.minElement()
