@@ -17,7 +17,7 @@ extension MKLinearMarkovScalarPredictor {
             let dict = json as? [String : AnyObject],
             let otherCoefficients = dict["coefficients"] as? [MKExercise.Id : [Float]],
             let simpleScalars = dict["simpleScalars"] as? [MKExercise.Id : Float],
-            let corrections = dict["corrections"] as? [String: NSData] {
+            let corrections = dict["corrections"] as? [String: [String : AnyObject]] {
             self.init(round: round, step: step, maxDegree: maxDegree, maxSamples: maxSamples, maxCorrectionSteps: maxCorrectionSteps)
             mergeCoefficients(otherCoefficients, otherSimpleScalars: simpleScalars, otherCorrectionPlan: corrections)
         } else {

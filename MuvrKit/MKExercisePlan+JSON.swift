@@ -24,7 +24,7 @@ extension MKExercisePlan {
     }
     
     ///
-    /// Returns the JSON representation of the plan that is at its starting point: evaluating its ``next`` property will
+    /// Returns the plan at its starting point: evaluating its ``next`` property will
     /// give the starting point of the saved chain. Technically, the loaded instance is only loading the markov chain and
     /// the first encountered state, it is not loading the state chain.
     ///
@@ -33,14 +33,28 @@ extension MKExercisePlan {
     /// - returns: the loaded exercise plan.
     ///
     public static func fromJsonFirst<E>(data: NSData, stateTransform: AnyObject -> E?) -> MKExercisePlan<E>? {
-        guard let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) else { return nil }
+        guard let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments),
+              let metdata = json as? [String : AnyObject]
+        else { return nil }
         
-        if let json = json as? [String : AnyObject],
-            let chain = json["chain"],
+        return fromMetadataFirst(metdata, stateTransform: stateTransform)
+    }
+    
+    ///
+    /// Returns the plan at its starting point: evaluating its ``next`` property will
+    /// give the starting point of the saved chain. Technically, the loaded instance is only loading the markov chain and
+    /// the first encountered state, it is not loading the state chain.
+    ///
+    /// - parameter metadata: the plan metadata
+    /// - parameter stateTransform: the function to turn ``AnyObject`` into its ``E`` representation
+    /// - returns: the loaded exercise plan.
+    ///
+    public static func fromMetadataFirst<E>(metadata: [String : AnyObject], stateTransform: AnyObject -> E?) ->MKExercisePlan<E>? {
+        if let chain = metadata["chain"],
             let markovChain = MKMarkovChain<E>.fromJson(chain, stateTransform: stateTransform) {
-                let first = json["first"].flatMap(stateTransform)
+                let first = metadata["first"].flatMap(stateTransform)
                 return MKExercisePlan<E>(chain: markovChain, first: first)
-            }
+        }
         
         return nil
     }

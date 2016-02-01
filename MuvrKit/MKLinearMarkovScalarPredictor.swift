@@ -23,10 +23,10 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
         self.maxCorrectionSteps = maxCorrectionSteps
     }
     
-    func mergeCoefficients(otherCoefficients: [MKExercise.Id:[Float]], otherSimpleScalars: [MKExercise.Id:Float]?, otherCorrectionPlan: [MKExercise.Id:NSData]) {
+    func mergeCoefficients(otherCoefficients: [MKExercise.Id:[Float]], otherSimpleScalars: [MKExercise.Id:Float]?, otherCorrectionPlan: [MKExercise.Id:[String : AnyObject]]) {
         linearPredictor.mergeCoefficients(otherCoefficients, otherSimpleScalars: otherSimpleScalars)
         for (nk, nv) in otherCorrectionPlan {
-            if let newPlan = MKExercisePlan<Correction>.fromJsonFirst(nv, stateTransform: { ($0 as! Int) }) {
+            if let newPlan = MKExercisePlan<Correction>.fromMetadataFirst(nv, stateTransform: { Int($0 as! String) }) {
                 correctionPlan[nk] = newPlan
             }
         }
