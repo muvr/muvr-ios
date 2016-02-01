@@ -6,6 +6,7 @@ import CoreData
 @testable import Muvr
 
 class MRAppTests : XCTestCase {
+    
     let app: MRAppDelegate = {
         let d = MRAppDelegate()
         d.application(UIApplication.sharedApplication(), didFinishLaunchingWithOptions: nil)
