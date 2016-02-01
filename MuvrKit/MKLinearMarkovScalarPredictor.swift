@@ -67,11 +67,17 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
         // 10, 12
         
         let sign = (actual - predicted) >= 0 ? 1 : -1
-        let x = ((1..<maxCorrectionSteps)
+        let x = ((1..<maxCorrectionSteps+1)
             .map { actual - step(predicted, $0 * sign, exerciseId) })
 
         if let c = (x.enumerate()
-            .minElement { l, r in return l.element < r.element }?
+            .minElement { l, r in
+                let lv = abs(l.element)
+                let rv = abs(r.element)
+                if lv == rv {
+                    return l.index < r.index
+                }
+                return lv < rv }?
             .index) {
             return (c + 1) * sign
         }
