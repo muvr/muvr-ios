@@ -10,7 +10,7 @@ struct MRLoadedSession {
     let exerciseType: MKExerciseType
 }
 
-class MRSesionLoader {
+class MRSessionLoader {
     private init() {
         
     }
