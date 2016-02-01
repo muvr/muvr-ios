@@ -36,7 +36,7 @@ class MRSessionsRealDataTests : XCTestCase {
         let bundlePath = NSBundle(forClass: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
         return bundle.pathsForResourcesOfType("csv", inDirectory: nil).map { path in
-            return MRSesionLoader.read(path, properties: properties)
+            return MRSessionLoader.read(path, properties: properties)
         }
     }
     
