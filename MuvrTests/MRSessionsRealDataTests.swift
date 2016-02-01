@@ -85,13 +85,14 @@ class MRSessionsRealDataTests : XCTestCase {
         }
         
         for (exerciseType, results) in (evaluatedSessions.groupBy { $0.1 }) {
-            print(results.last!.2.last!.description)
+            let last = results.last!
+            print(last.0)
+            print(last.2.last!.description)
             for i in 0..<count {
                 let bla = project(results, index: i) { $0.labelsAccuracy() }.maxElement()
                 let bwl = project(results, index: i) { $0.labelsWeightedLoss() }.minElement()
                 let bea = project(results, index: i) { $0.exercisesAccuracy() }.maxElement()
 
-                print("At \(i) for type \(exerciseType)")
                 print("Best EA = \(bea)")
                 print("Best LA = \(bla)")
                 print("Best WL = \(bwl)")
