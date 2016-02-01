@@ -36,9 +36,9 @@
  {"id":"resistanceTargeted:shoulders/dumbbell-bench-press"},
  {"id":"resistanceTargeted:shoulders/lateral-raise"},
  {"id":"resistanceTargeted:shoulders/vertical-swing"},
-
- {"id":"resistanceWholeBody:iron-cross"},
  {"id":"resistanceTargeted:shoulders/pull-up"},
+ 
+ {"id":"resistanceWholeBody:iron-cross"},
  
  {"id":"indoorsCardio:cross-trainer"},
  {"id":"indoorsCardio:running-machine"},
