@@ -170,6 +170,7 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                     <connections>
+                                                        <action selector="incrementTouchDown:" destination="HFF-1f-adO" eventType="touchDown" id="3At-3s-caz"/>
                                                         <action selector="incrementTouched" destination="HFF-1f-adO" eventType="touchUpInside" id="wKU-KE-NkO"/>
                                                     </connections>
                                                 </view>
@@ -183,6 +184,7 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="increase" value="NO"/>
                                                     </userDefinedRuntimeAttributes>
                                                     <connections>
+                                                        <action selector="decrementTouchDown:" destination="HFF-1f-adO" eventType="touchDown" id="gDc-s0-7Xs"/>
                                                         <action selector="decrementTouched" destination="HFF-1f-adO" eventType="touchUpInside" id="IAZ-5m-ppW"/>
                                                     </connections>
                                                 </view>

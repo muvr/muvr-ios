@@ -10,6 +10,9 @@ class MRSessionLabellingScalarTableViewCell : UITableViewCell {
     private var decrement: (MKExerciseLabel -> MKExerciseLabel)!
     private var exerciseLabel: MKExerciseLabel!
     private var scalarExerciseLabelSettable: MRScalarExerciseLabelSettable!
+    
+    private var timer: NSTimer? = nil
+    private var counter = 0
 
     func setExerciseLabel(exerciseLabel: MKExerciseLabel, increment: MKExerciseLabel -> MKExerciseLabel, decrement: MKExerciseLabel -> MKExerciseLabel) {
         let centreX = self.frame.width / 2
@@ -27,14 +30,46 @@ class MRSessionLabellingScalarTableViewCell : UITableViewCell {
         self.decrement = decrement
     }
     
-    @IBAction private func incrementTouched() {
-        exerciseLabel = increment(exerciseLabel)
+    func incrementTimer() {
+        updateLabel(increment)
+    }
+    
+    func decrementTimer() {
+        updateLabel(decrement)
+    }
+    
+    private func updateLabel(update: MKExerciseLabel -> MKExerciseLabel) {
+        var loop = 1
+        if counter > 10 {
+            loop = 8
+        } else if counter > 5 {
+            loop = 4
+        }
+        (1...loop).forEach { _ in
+            exerciseLabel = update(exerciseLabel)
+        }
         try! scalarExerciseLabelSettable.setExerciseLabel(exerciseLabel)
+        counter++
+    }
+    
+    @IBAction func incrementTouchDown(sender: AnyObject) {
+        counter = 0
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.15, target:self, selector: Selector("incrementTimer"), userInfo: nil, repeats: true)
+    }
+    
+    @IBAction private func incrementTouched() {
+        timer?.invalidate()
+        incrementTimer()
+    }
+    
+    @IBAction func decrementTouchDown(sender: AnyObject) {
+        counter = 0
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.15, target:self, selector: Selector("decrementTimer"), userInfo: nil, repeats: true)
     }
     
     @IBAction private func decrementTouched() {
-        exerciseLabel = decrement(exerciseLabel)
-        try! scalarExerciseLabelSettable.setExerciseLabel(exerciseLabel)
+        timer?.invalidate()
+        decrementTimer()
     }
     
 }
