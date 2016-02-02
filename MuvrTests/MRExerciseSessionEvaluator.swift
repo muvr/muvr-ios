@@ -30,7 +30,8 @@ class MRExerciseSessionEvaluator {
         /// expected value (12.4), the loss is a very large portion of it; meaning that the predictions
         /// fall well outside the expected values.
         ///
-        /// Similarly, we have a notion of a "stupid" result, where the value is 0.
+        /// Similarly, we have a notion of a "stupid" result, where the value is 0; or where the value
+        /// is more than 100 % of the second greatest value.
         ///
         /// Value 0 is great; it means no mis-predictions, values up to 0.5 are usually acceptable,
         /// values over 5 will result in really poor user experience.
@@ -40,12 +41,23 @@ class MRExerciseSessionEvaluator {
         func labelsWeightedLoss() -> Double {
             let stupidLossIncident: Double = 10
             
+            var secondMaxima: [MKExerciseLabelDescriptor : Double] = [:]
+            for (k, x) in (scalarLabels.groupBy { (_, d, _, _) in return d }) {
+                let sorted = x.map { $0.2 }.sort()
+                if sorted.count > 1 {
+                    secondMaxima[k] = sorted[sorted.count - 2]
+                }
+            }
+            
             var totalLoss: Double = 0
             var totalExpected: Double = 0
             var totalStupidLoss: Double = 0
-            for (_, _, e, p) in scalarLabels where p != nil {
+            for (_, td, e, p) in scalarLabels where p != nil {
                 totalLoss += pow(e - p!, 2)
                 if p! < 0.1 { totalStupidLoss += stupidLossIncident }
+                if let sm = secondMaxima[td] where p! > 2 * sm {
+                    totalStupidLoss += stupidLossIncident
+                }
                 totalExpected += e
             }
             let averageExpected = totalExpected / Double(scalarLabels.count)

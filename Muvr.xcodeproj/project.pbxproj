@@ -126,7 +126,7 @@
 		547FD9D31C42C31700B01904 /* Session.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 547FD9D21C42C31700B01904 /* Session.storyboard */; };
 		5480DF9E1C5D219200CCBE1F /* Sessions.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5480DF9D1C5D219200CCBE1F /* Sessions.bundle */; };
 		5480DFA01C5D21E900CCBE1F /* MRExerciseSessionEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5480DF9F1C5D21E900CCBE1F /* MRExerciseSessionEvaluator.swift */; };
-		5480DFA21C5D224100CCBE1F /* MRSesionLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5480DFA11C5D224100CCBE1F /* MRSesionLoader.swift */; };
+		5480DFA21C5D224100CCBE1F /* MRSessionLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5480DFA11C5D224100CCBE1F /* MRSessionLoader.swift */; };
 		5480DFA41C5D257C00CCBE1F /* MRSessionsRealDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5480DFA31C5D257C00CCBE1F /* MRSessionsRealDataTests.swift */; };
 		5487F59C1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5487F59B1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift */; };
 		5487F59F1BB9B77E00ED2E97 /* MKCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5487F59E1BB9B77E00ED2E97 /* MKCodec.swift */; };
@@ -460,7 +460,7 @@
 		547FD9D21C42C31700B01904 /* Session.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Session.storyboard; sourceTree = "<group>"; };
 		5480DF9D1C5D219200CCBE1F /* Sessions.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Sessions.bundle; sourceTree = "<group>"; };
 		5480DF9F1C5D21E900CCBE1F /* MRExerciseSessionEvaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionEvaluator.swift; sourceTree = "<group>"; };
-		5480DFA11C5D224100CCBE1F /* MRSesionLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSesionLoader.swift; sourceTree = "<group>"; };
+		5480DFA11C5D224100CCBE1F /* MRSessionLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionLoader.swift; sourceTree = "<group>"; };
 		5480DFA31C5D257C00CCBE1F /* MRSessionsRealDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionsRealDataTests.swift; sourceTree = "<group>"; };
 		548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Muvr-Bridging-Header.h"; sourceTree = "<group>"; };
 		5487F59B1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKUnsafeBufferReader.swift; sourceTree = "<group>"; };
@@ -940,7 +940,7 @@
 				5480DF9D1C5D219200CCBE1F /* Sessions.bundle */,
 				5480DF9F1C5D21E900CCBE1F /* MRExerciseSessionEvaluator.swift */,
 				54D09E9C1C5E7ACF00C0A9F5 /* MRExerciseSessionEvaluator.Result+Description.swift */,
-				5480DFA11C5D224100CCBE1F /* MRSesionLoader.swift */,
+				5480DFA11C5D224100CCBE1F /* MRSessionLoader.swift */,
 				5480DFA31C5D257C00CCBE1F /* MRSessionsRealDataTests.swift */,
 			);
 			name = Sessions;
@@ -1777,7 +1777,7 @@
 				5480DFA41C5D257C00CCBE1F /* MRSessionsRealDataTests.swift in Sources */,
 				543E327C1C4AB2A600D9922D /* MRAppTests.swift in Sources */,
 				543E327A1C4AB0B400D9922D /* MKExerciseType+ExerciseIdTests.swift in Sources */,
-				5480DFA21C5D224100CCBE1F /* MRSesionLoader.swift in Sources */,
+				5480DFA21C5D224100CCBE1F /* MRSessionLoader.swift in Sources */,
 				543E329A1C4BAAB100D9922D /* MRManagedExerciseSessionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

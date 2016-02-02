@@ -20,7 +20,7 @@ class MuvrUITests: XCTestCase {
     }
     
     func testStartSession() {
-        
+        XCTFail("Implement UI tests for any new features")
     }
     
     override func tearDown() {
