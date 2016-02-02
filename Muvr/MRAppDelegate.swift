@@ -391,23 +391,46 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// inject the predictors in the given session
     ///
     func injectPredictors(into session: MRManagedExerciseSession) {
-        let weightPredictor = MKPolynomialFittingScalarPredictor(round: roundWeight)
-        let durationPredictor = MKPolynomialFittingScalarPredictor(round: noRound)
-        let intensityPredictor = MKPolynomialFittingScalarPredictor(round: roundClipToNorm)
-        let repetitionsPredictor = MKPolynomialFittingScalarPredictor(round: roundInteger)
+        // repeat last value with markov chain of corrections
+        // let weightPredictor = MKLinearMarkovScalarPredictor(round: roundWeight, progression: weightProgressionForExerciseId, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 2)
+        // linear prediction over the last 4 values
+        // let durationPredictor = MKPolynomialFittingScalarPredictor(round: noRound, maxDegree: 1, maxSamples: 4)
+        // repeat last value with markov chain of corrections
+        //let intensityPredictor = MKLinearMarkovScalarPredictor(round: roundClipToNorm, progression: {_ in return 0.2}, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 1)
+        // repeat last value with markov chain of corrections
+        //let repetitionsPredictor = MKLinearMarkovScalarPredictor(round: roundInteger, progression: {_ in return 1}, maxDegree: 0, maxSamples: 1)
         
-        if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext) {
-            weightPredictor.mergeJSON(p.data)
+//        let weightPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
+//            return MKLinearMarkovScalarPredictor(fromJSON: p.data, round: roundWeight, step: stepWeight, maxDegree: 2, maxSamples: 8)
+//        } ?? MKLinearMarkovScalarPredictor(round: roundWeight, step: stepWeight, maxDegree: 2, maxSamples: 8)
+        
+        func createWeightPredictor() -> MKLinearMarkovScalarPredictor {
+            return MKLinearMarkovScalarPredictor(round: roundWeight, step: stepWeight, maxDegree: 2, maxSamples: 8)
         }
-        if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingDuration, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext) {
-            durationPredictor.mergeJSON(p.data)
+        
+        func createRepetitionPredictor() -> MKLinearMarkovScalarPredictor {
+            return MKLinearMarkovScalarPredictor(round: roundInteger, step: stepInteger, maxDegree: 0, maxSamples: 1)
         }
-        if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingIntensity, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext) {
-            intensityPredictor.mergeJSON(p.data)
-        }
-        if let p = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingRepetitions, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext) {
-            repetitionsPredictor.mergeJSON(p.data)
-        }
+        
+        let weightPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
+            return MKAnotherScalarPredictor(fromJson: p.data, makePredictor: createWeightPredictor)
+            } ?? MKAnotherScalarPredictor(makePredictor: createWeightPredictor)
+        
+        let durationPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingDuration, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
+            return MKPolynomialFittingScalarPredictor(fromJSON: p.data, round: noRound, maxDegree: 2, maxSamples: 8)
+        } ?? MKPolynomialFittingScalarPredictor(round: noRound, maxDegree: 2, maxSamples: 8)
+        
+        let intensityPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingIntensity, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
+            return MKLinearMarkovScalarPredictor(fromJSON: p.data, round: roundClipToNorm, step: stepIntensity, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 1)
+        } ?? MKLinearMarkovScalarPredictor(round: roundClipToNorm, step: stepIntensity, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 1)
+        
+//        let repetitionsPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingRepetitions, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
+//            return MKLinearMarkovScalarPredictor(fromJSON: p.data, round: roundInteger, step: stepInteger, maxDegree: 0, maxSamples: 1)
+//        } ?? MKLinearMarkovScalarPredictor(round: roundInteger, step: stepInteger, maxDegree: 0, maxSamples: 1)
+        
+        let repetitionsPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingRepetitions, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
+            return MKAnotherScalarPredictor(fromJson: p.data, makePredictor: createRepetitionPredictor)
+            } ?? MKAnotherScalarPredictor(makePredictor: createRepetitionPredictor)
         
         if let plan = MRManagedExercisePlan.planForExerciseType(session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext) {
             session.plan = plan.plan
@@ -477,6 +500,23 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             }
         }
         return max(0, value)
+    }
+    
+    private func stepWeight(value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        for property in exercisePropertiesForExerciseId(exerciseId) {
+            if case .WeightProgression(let minimum, let step, let maximum) = property {
+                return min(maximum ?? 999, max(minimum, value + Double(n) * step))
+            }
+        }
+        return value + Double(n)
+    }
+    
+    private func stepIntensity(value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        return value + Double(n) * 0.05
+    }
+    
+    private func stepInteger(value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        return value + Double(n)
     }
     
     // MARK: - Exercise properties

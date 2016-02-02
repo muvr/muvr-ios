@@ -95,9 +95,9 @@ public struct MKRepetitionEstimator {
         // NSLog(convolutedSignal.map{"\($0)"}.joinWithSeparator(","))
         // NSLog(correlation.map{"\($0)"}.joinWithSeparator(","))
         
-        for var i = nDowns; i < sampleDataLength - nUps; ++i {
+        for i in nDowns ..< sampleDataLength - nUps {
             var isPeak = true
-            for var j = -nDowns; j < nUps && isPeak; ++j {
+            for var j = -nDowns; j < nUps && isPeak; j += 1 {
                 let idx  = i + j
                 let idx1 = i + j + 1
                 if j < 0 { isPeak = isPeak && correlation[idx] <  correlation[idx1] }
@@ -112,7 +112,7 @@ public struct MKRepetitionEstimator {
         var currentHeight: Float = 0
         var profiles = (0..<peaks.count).map { (i: Int) -> PeriodicProfile in
             var profile = PeriodicProfile()
-            for var j = previousPeakLocation; j < peaks[i] - 1; ++j {
+            for j in previousPeakLocation ..< peaks[i] - 1 {
                 previousHeight = convolutedSignal[j]
                 currentHeight = convolutedSignal[j + 1]
                 let steps = previousHeight - currentHeight

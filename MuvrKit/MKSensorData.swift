@@ -182,7 +182,8 @@ public struct MKSensorData {
         
         if types == self.types {
             let elementRange = range.map { (r: Range<Int>) -> Range<Int> in
-                return Range<Int>(start: r.startIndex * dimension, end: r.endIndex * dimension)
+                return r.startIndex * dimension..<r.endIndex * dimension
+                //return Range<Int>(start: r.startIndex * dimension, end: r.endIndex * dimension)
             }
             if let elementRange = elementRange {
                 return (self.dimension, Array(self.samples[elementRange]))
@@ -195,7 +196,7 @@ public struct MKSensorData {
         }
 
         let rowCount = self.samples.count / dimension
-        let typesElementRange = range ?? Range<Int>(start: 0, end: rowCount)
+        let typesElementRange = range ?? 0..<rowCount //Range<Int>(start: 0, end: rowCount)
 
         let includedDimensions = bitmap.filter { $0 }.count
         return (includedDimensions, typesElementRange.flatMap { row in

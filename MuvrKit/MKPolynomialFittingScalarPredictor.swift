@@ -14,6 +14,12 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     private(set) internal var simpleScalars: [Key:Float] = [:]
     /// The rounder to be used
     private let round: Round
+    /// The maximum degree of the polynomial
+    private let maxDegree: Int
+    /// The maximum number of samples used to train the polynomial (if nil whole training set is used)
+    private let maxSamples: Int?
+    /// When maxSamples is used we need to translate the polynomial to the left
+    private var shift = 0
 
     public typealias Key = MKExercise.Id
     
@@ -40,8 +46,10 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     /// Initializes empty instance with a given ``scalarRounder``.
     /// - parameter scalarRounder: the rounder
     ///
-    public init(round: Round) {
+    public init(round: Round, maxDegree: Int = 15, maxSamples: Int? = nil) {
         self.round = round
+        self.maxDegree = maxDegree
+        self.maxSamples = maxSamples
     }
     
     ///
@@ -86,8 +94,13 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
     //
     // If the training set is too small, this function keeps at least the last value
     public func trainPositional(trainingSet: [Double], forExerciseId exerciseId: Key) {
-        let x = trainingSet.enumerate().map { i, _ in return Float(i) }
-        let y = trainingSet.map { Float($0) }
+        var samples = trainingSet
+        if let maxSamples = self.maxSamples {
+            samples = Array(trainingSet.suffix(maxSamples))
+            shift = trainingSet.count - samples.count
+        }
+        let x = samples.enumerate().map { i, _ in return Float(i) }
+        let y = samples.map { Float($0) }
 
         var best: (Float, [Float])?
 
@@ -102,9 +115,9 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         }
 
         let minimumTrainingSetSize = 2
-        if trainingSet.count >= minimumTrainingSetSize {
+        if samples.count >= minimumTrainingSetSize {
             // next, see if the new training set provides a better match
-            for degree in 1...min(trainingSet.count, 15) {
+            for degree in 1...min(samples.count, maxDegree + 1) { 
                 if let coefficients = try? MKPolynomialFitter.fit(x: x, y: y, degree: degree) {
                     let cost = naiveCost(y, predicted: x.map { predictAndRound($0, coefficients: coefficients, forExerciseId: exerciseId) })
                     if let (bestCost, _) = best {
@@ -117,18 +130,23 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
             }
             
             if let (_, bestCoefficients) = best {
-                NSLog("Trained \(bestCoefficients) for scalars \(trainingSet) for exercise \(exerciseId)")
+                //NSLog("Trained \(bestCoefficients) (shift: \(shift)) for scalars \(samples) for exercise \(exerciseId)")
                 coefficients[exerciseId] = bestCoefficients
                 simpleScalars[exerciseId] = nil
             }
-        } else if let last = trainingSet.last {
+        } else if let last = samples.last {
             simpleScalars[exerciseId] = Float(last)
         }
+        print("PF training done over \(trainingSet): coefficients \(coefficients)")
+    }
+    
+    public func correctScalarForExerciseId(exerciseId: MKExercise.Id, n: Int, actual: Double) {
+        // NOOP
     }
     
     public func predictScalarForExerciseId(exerciseId: MKExercise.Id, n: Int) -> Double? {
         let prediction = coefficients[exerciseId].map {
-            predictAndRound(Float(n), coefficients: $0, forExerciseId: exerciseId)
+            predictAndRound(Float(n - shift), coefficients: $0, forExerciseId: exerciseId)
         }
         if let prediction = prediction {
             return Double(prediction)
