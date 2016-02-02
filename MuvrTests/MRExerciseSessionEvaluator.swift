@@ -77,11 +77,11 @@ class MRExerciseSessionEvaluator {
             return 1 - Double(mismatchedExercisesCount) / Double(exerciseIds.count)
         }
 
-        private mutating func addMismatched(expectedExerciseId expected: MKExercise.Id, predictedExerciseId predicted: MKExercise.Id?) {
+        private mutating func addExercise(expectedExerciseId expected: MKExercise.Id, predictedExerciseId predicted: MKExercise.Id?) {
             exerciseIds.append((expected, predicted))
         }
         
-        private mutating func addMatched(exerciseId exerciseId: MKExercise.Id, expectedLabels: [MKExerciseLabel], predictedLabels: [MKExerciseLabel]) {
+        private mutating func addLabel(exerciseId exerciseId: MKExercise.Id, expectedLabels: [MKExerciseLabel], predictedLabels: [MKExerciseLabel]) {
             func extractScalar(label: MKExerciseLabel) -> Double {
                 switch label {
                 case .Weight(let e): return e
@@ -95,8 +95,6 @@ class MRExerciseSessionEvaluator {
                 let predicted = predictedLabels.filter { $0.descriptor == expectedLabel.descriptor }.first.map(extractScalar)
                 scalarLabels.append((exerciseId, expectedLabel.descriptor, expected, predicted))
             }
-            
-            exerciseIds.append((exerciseId, exerciseId))
         }
         
     }
@@ -114,14 +112,11 @@ class MRExerciseSessionEvaluator {
         for (detail, labels) in loadedSession.rows {
             let (exerciseId, _, _) = detail
             if let (predictedExerciseId, _, _) = session.exerciseDetailsComingUp.first {
-                if predictedExerciseId == exerciseId {
-                    let (predictedLabels, _) = session.predictExerciseLabelsForExerciseDetail(detail)
-                    result.addMatched(exerciseId: exerciseId, expectedLabels: labels, predictedLabels: predictedLabels)
-                } else {
-                    result.addMismatched(expectedExerciseId: exerciseId, predictedExerciseId: predictedExerciseId)
-                }
+                let (predictedLabels, _) = session.predictExerciseLabelsForExerciseDetail(detail)
+                result.addLabel(exerciseId: exerciseId, expectedLabels: labels, predictedLabels: predictedLabels)
+                result.addExercise(expectedExerciseId: exerciseId, predictedExerciseId: predictedExerciseId)
             } else {
-                result.addMismatched(expectedExerciseId: exerciseId, predictedExerciseId: nil)
+                result.addExercise(expectedExerciseId: exerciseId, predictedExerciseId: nil)
             }
             session.addExerciseDetail(detail, labels: labels, start: NSDate(), duration: 30)
         }

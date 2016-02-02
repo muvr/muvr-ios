@@ -74,7 +74,7 @@ class MRSessionsRealDataTests : XCTestCase {
             let lastResult = results.last!
             
             XCTAssertLessThanOrEqual(firstResult.labelsWeightedLoss(), 3, name)
-            XCTAssertGreaterThan(firstResult.labelsAccuracy(), 0.5, name)
+            XCTAssertGreaterThanOrEqual(firstResult.labelsAccuracy(), 0.5, name)
             XCTAssertGreaterThan(firstResult.exercisesAccuracy(), 0.7, name)
             
             XCTAssertGreaterThan(lastResult.labelsAccuracy(), 0.8, name)
