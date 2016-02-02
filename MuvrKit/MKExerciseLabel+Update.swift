@@ -7,7 +7,7 @@ extension MKExerciseLabel {
     }
     
     public func decrement(exerciseDetail: MKExerciseDetail) -> MKExerciseLabel {
-        return self.updateLabelForExerciseDetail(exerciseDetail, increment: true, label: self)
+        return self.updateLabelForExerciseDetail(exerciseDetail, increment: false, label: self)
     }
     
     private func updateLabelForExerciseDetail(exerciseDetail: MKExerciseDetail, increment: Bool, label: MKExerciseLabel) -> MKExerciseLabel {

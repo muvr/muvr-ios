@@ -2,11 +2,34 @@ import Foundation
 @testable import Muvr
 @testable import MuvrKit
 
+extension MKExerciseLabel {
+
+    func scalar() -> Double {
+        switch self {
+        case .Weight(let e): return e
+        case .Intensity(let e): return e
+        case .Repetitions(let e): return Double(e)
+        }
+    }
+    
+    func subtract(that: MKExerciseLabel) -> MKExerciseLabel {
+        assert(self.descriptor == that.descriptor)
+        
+        switch (self, that) {
+        case (.Weight(let l), .Weight(let r)): return .Weight(weight: l - r)
+        case (.Intensity(let l), .Intensity(let r)): return .Intensity(intensity: l - r)
+        case (.Repetitions(let l), .Repetitions(let r)): return .Repetitions(repetitions: l - r)
+        default: fatalError("Cannot subtract \(that) from \(self)")
+        }
+    }
+    
+}
+
 class MRExerciseSessionEvaluator {
     
     struct Result {
         /// Holds the scalar labels, for a given exerciseId, descriptor, the expected value and the predicted value
-        private(set) internal var scalarLabels: [(MKExercise.Id, MKExerciseLabelDescriptor, Double, Double?)] = []
+        private(set) internal var scalarLabels: [(MKExerciseDetail, MKExerciseLabelDescriptor, MKExerciseLabel, MKExerciseLabel?)] = []
         /// Holds the exercise predictions: the expected vs. the predicted one
         private(set) internal var exerciseIds: [(MKExercise.Id, MKExercise.Id?)] = []
         
@@ -16,7 +39,7 @@ class MRExerciseSessionEvaluator {
         func labelsAccuracy() -> Double {
             let mismatchedCount = scalarLabels.reduce(0) { r, x in
                 let (_, _, e, p) = x
-                if let p = p where abs(e - p) < 0.01 {
+                if let p = p where abs(e.scalar() - p.scalar()) < 0.01 {
                     return r
                 }
                 return r + 1
@@ -51,7 +74,7 @@ class MRExerciseSessionEvaluator {
             
             var secondMaxima: [MKExerciseLabelDescriptor : Double] = [:]
             for (k, x) in (scalarLabels.groupBy { (_, d, _, _) in return d }) {
-                let sorted = x.map { $0.2 }.sort()
+                let sorted = x.map { $0.2.scalar() }.sort()
                 if sorted.count > 1 {
                     secondMaxima[k] = sorted[sorted.count - 2]
                 }
@@ -60,14 +83,29 @@ class MRExerciseSessionEvaluator {
             var totalLoss: Double = 0
             var totalExpected: Double = 0
             var totalStupidLoss: Double = 0
-            for (_, td, e, p) in scalarLabels where p != nil {
-                let basis = e - p!
-                totalLoss += pow(basis, 2)
-                if p! < 0.1 { totalStupidLoss += stupidLossIncident }
-                if let sm = secondMaxima[td] where p! > 2 * sm {
+            for (detail, td, e, p) in scalarLabels where p != nil {
+                var loss: Double = 0
+                switch basis {
+                case .NumberOfTaps:
+                    var taps: Int = 0
+                    var x = e
+                    if x.subtract(p!).scalar() > 0 {
+                        // e > p
+                        while (x.subtract(p!).scalar() > 0) { taps += 1; x = x.decrement(detail) }
+                    } else {
+                        while (x.subtract(p!).scalar() < 0) { taps += 1; x = x.increment(detail) }
+                    }
+                    loss = Double(taps)
+                case .RawValue:
+                    loss = e.subtract(p!).scalar()
+                }
+                
+                totalLoss += pow(loss, 2)
+                if p!.scalar() < 0.1 { totalStupidLoss += stupidLossIncident }
+                if let sm = secondMaxima[td] where p!.scalar() > 2 * sm {
                     totalStupidLoss += stupidLossIncident
                 }
-                totalExpected += e
+                totalExpected += e.scalar()
             }
             let averageExpected = totalExpected / Double(scalarLabels.count)
             let averageLoss = totalLoss / Double(scalarLabels.count)
@@ -90,19 +128,10 @@ class MRExerciseSessionEvaluator {
             exerciseIds.append((expected, predicted))
         }
         
-        private mutating func addLabel(exerciseId exerciseId: MKExercise.Id, expectedLabels: [MKExerciseLabel], predictedLabels: [MKExerciseLabel]) {
-            func extractScalar(label: MKExerciseLabel) -> Double {
-                switch label {
-                case .Weight(let e): return e
-                case .Intensity(let e): return e
-                case .Repetitions(let e): return Double(e)
-                }
-            }
-            
+        private mutating func addLabel(exerciseDetail detail: MKExerciseDetail, expectedLabels: [MKExerciseLabel], predictedLabels: [MKExerciseLabel]) {
             for expectedLabel in expectedLabels {
-                let expected = extractScalar(expectedLabel)
-                let predicted = predictedLabels.filter { $0.descriptor == expectedLabel.descriptor }.first.map(extractScalar)
-                scalarLabels.append((exerciseId, expectedLabel.descriptor, expected, predicted))
+                let predicted = predictedLabels.filter { $0.descriptor == expectedLabel.descriptor }.first
+                scalarLabels.append((detail, expectedLabel.descriptor, expectedLabel, predicted))
             }
         }
         
@@ -122,7 +151,7 @@ class MRExerciseSessionEvaluator {
             let (exerciseId, _, _) = detail
             if let (predictedExerciseId, _, _) = session.exerciseDetailsComingUp.first {
                 let (predictedLabels, _) = session.predictExerciseLabelsForExerciseDetail(detail)
-                result.addLabel(exerciseId: exerciseId, expectedLabels: labels, predictedLabels: predictedLabels)
+                result.addLabel(exerciseDetail: detail, expectedLabels: labels, predictedLabels: predictedLabels)
                 result.addExercise(expectedExerciseId: exerciseId, predictedExerciseId: predictedExerciseId)
             } else {
                 result.addExercise(expectedExerciseId: exerciseId, predictedExerciseId: nil)
