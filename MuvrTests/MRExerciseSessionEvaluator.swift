@@ -24,6 +24,14 @@ class MRExerciseSessionEvaluator {
             return 1 - Double(mismatchedCount) / Double(scalarLabels.count)
         }
         
+        /// The loss value basis; note that the stupid values are not affected by the basis.
+        enum LossBasis {
+            /// The raw value basis; loss between e = 49 and p = 56 (with step 7) is 7^2 = 49
+            case RawValue
+            /// The number of taps from wrong; loss between e = 49 and p = 56 (with step 7) is 1^2 = 1
+            case NumberOfTaps
+        }
+        
         /// The loss of labels predictions weighted for the label range. For example, ``(e, p)`` pairs
         /// ``(10, 10), (12, 10), (14, 14), (16, 16), (10, 18)``, an average square loss would be 
         /// 2^2 + 8^2 = 68; 68 / 5 = 13.6, which might not feel so bad. However, taking the average
@@ -38,7 +46,7 @@ class MRExerciseSessionEvaluator {
         ///
         /// - returns: the weighted loss of label predictions.
         ///
-        func labelsWeightedLoss() -> Double {
+        func labelsWeightedLoss(basis: LossBasis) -> Double {
             let stupidLossIncident: Double = 10
             
             var secondMaxima: [MKExerciseLabelDescriptor : Double] = [:]
@@ -53,7 +61,8 @@ class MRExerciseSessionEvaluator {
             var totalExpected: Double = 0
             var totalStupidLoss: Double = 0
             for (_, td, e, p) in scalarLabels where p != nil {
-                totalLoss += pow(e - p!, 2)
+                let basis = e - p!
+                totalLoss += pow(basis, 2)
                 if p! < 0.1 { totalStupidLoss += stupidLossIncident }
                 if let sm = secondMaxima[td] where p! > 2 * sm {
                     totalStupidLoss += stupidLossIncident

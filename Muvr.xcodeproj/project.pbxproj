@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5403815F1AED28A0000C8B15 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5403815E1AED28A0000C8B15 /* Settings.bundle */; };
+		540A22F61C6104E90046E864 /* MKExerciseLabel+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540A22F41C6104C90046E864 /* MKExerciseLabel+Update.swift */; };
 		540AA44D1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA44C1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift */; };
 		540AA44F1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA44E1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift */; };
 		540AA4511BDBFF6B00908F4B /* MKSessionClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA4501BDBFF6B00908F4B /* MKSessionClassifierTests.swift */; };
@@ -339,6 +340,7 @@
 /* Begin PBXFileReference section */
 		2C3AA10F80ED661B9AC5A823 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5403815E1AED28A0000C8B15 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		540A22F41C6104C90046E864 /* MKExerciseLabel+Update.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseLabel+Update.swift"; sourceTree = "<group>"; };
 		540AA44C1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneConnectivityTests.swift; sourceTree = "<group>"; };
 		540AA44E1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+EncodingCSV.swift"; sourceTree = "<group>"; };
 		540AA4501BDBFF6B00908F4B /* MKSessionClassifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSessionClassifierTests.swift; sourceTree = "<group>"; };
@@ -1066,6 +1068,7 @@
 				5471CE771C49290400167545 /* MKExerciseLabel.swift */,
 				5471CE7A1C49305700167545 /* MKExerciseLabelDescriptor.swift */,
 				543E32961C4BA7ED00D9922D /* MKExerciseDetail.swift */,
+				540A22F41C6104C90046E864 /* MKExerciseLabel+Update.swift */,
 			);
 			path = MuvrKit;
 			sourceTree = "<group>";
@@ -1721,6 +1724,7 @@
 				5421920E1C46F82C002FD224 /* MKExercisePropertySource.swift in Sources */,
 				5488080D1BD5710500419CD8 /* MKPhoneExerciseConnectivitySession.swift in Sources */,
 				6428CE341C46ABAF00D17451 /* MKScalarPredictor.swift in Sources */,
+				540A22F61C6104E90046E864 /* MKExerciseLabel+Update.swift in Sources */,
 				5487F5A61BB9C9AB00ED2E97 /* MKSensorData+Equatable.swift in Sources */,
 				644A71E91C5A5A1800E59A62 /* MKLinearMarkovScalarPredictor.swift in Sources */,
 				543E32971C4BA7ED00D9922D /* MKExerciseDetail.swift in Sources */,
