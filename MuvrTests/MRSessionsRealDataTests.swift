@@ -73,7 +73,7 @@ class MRSessionsRealDataTests : XCTestCase {
             let firstResult = results.first!
             let lastResult = results.last!
             
-            XCTAssertLessThanOrEqual(firstResult.labelsWeightedLoss(), 5, name)
+            XCTAssertLessThanOrEqual(firstResult.labelsWeightedLoss(), 3, name)
             XCTAssertGreaterThan(firstResult.labelsAccuracy(), 0.5, name)
             XCTAssertGreaterThan(firstResult.exercisesAccuracy(), 0.7, name)
             
@@ -81,7 +81,10 @@ class MRSessionsRealDataTests : XCTestCase {
             XCTAssertGreaterThan(lastResult.exercisesAccuracy(), 0.8, name)
             XCTAssertLessThanOrEqual(lastResult.labelsWeightedLoss(), 1, name)
             
+            // Overall, the last result must be better than the first result
+            XCTAssertGreaterThanOrEqual(lastResult.labelsAccuracy(), firstResult.labelsAccuracy(), name)
             XCTAssertGreaterThanOrEqual(lastResult.exercisesAccuracy(), firstResult.exercisesAccuracy(), name)
+            XCTAssertLessThanOrEqual(lastResult.labelsWeightedLoss(), firstResult.labelsWeightedLoss(), name)
         }
         
         for (exerciseType, results) in (evaluatedSessions.groupBy { $0.1 }) {
