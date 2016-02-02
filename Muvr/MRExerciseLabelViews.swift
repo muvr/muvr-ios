@@ -35,9 +35,12 @@ extension MRWeightView : MRScalarExerciseLabelSettable {
     }
     
     func setExerciseLabel(exerciseLabel: MKExerciseLabel) throws {
+        accessibilityLabel = "Weight".localized()
+        accessibilityIdentifier = "Weight"
         if !MRWeightView.supports(exerciseLabel) { throw MRScalarExerciseLabelSettableError.LabelNotSupported }
         if case .Weight(let weight) = exerciseLabel {
             value = weight
+            accessibilityValue = String(weight)
         }
     }
     
@@ -53,9 +56,12 @@ extension MRRepetitionsView : MRScalarExerciseLabelSettable {
     }
     
     func setExerciseLabel(exerciseLabel: MKExerciseLabel) throws {
+        accessibilityLabel = "Repetitions".localized()
+        accessibilityIdentifier = "Repetitions"
         if !MRRepetitionsView.supports(exerciseLabel) { throw MRScalarExerciseLabelSettableError.LabelNotSupported }
         if case .Repetitions(let repetitions) = exerciseLabel {
             value = repetitions
+            accessibilityValue = String(repetitions)
         }
     }
 }
@@ -70,9 +76,13 @@ extension MRBarsView : MRScalarExerciseLabelSettable {
     }
     
     func setExerciseLabel(exerciseLabel: MKExerciseLabel) throws {
+        accessibilityLabel = "Intensity".localized()
+        accessibilityIdentifier = "Intensity"
+        accessibilityTraits = UIAccessibilityTraitAdjustable
         if !MRBarsView.supports(exerciseLabel) { throw MRScalarExerciseLabelSettableError.LabelNotSupported }
         if case .Intensity(let intensity) = exerciseLabel {
             value = intensity
+            accessibilityValue = String(intensity)
         }
     }
     
