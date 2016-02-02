@@ -6,7 +6,10 @@ import Foundation
 public protocol MKScalarPredictor {
     
     /// The JSON representation of the predictor
-    var json: NSData { get }
+    var metadata: [String : AnyObject] { get }
+    
+    /// Initialize this predictor with the given metadata
+    func mergeMetadata(metadata: [String : AnyObject]) throws
     
     ///
     /// Trains the predictor with the given ``trainingSet`` and ``exerciseId``
@@ -37,4 +40,19 @@ public protocol MKScalarPredictor {
     ///
     func setBoost(boost: Float)
     
+}
+
+public extension MKScalarPredictor {
+
+    /// The JSON representation of the predictor
+    var json: NSData {
+        get {
+            return try! NSJSONSerialization.dataWithJSONObject(self.metadata, options: [])
+        }
+    }
+    
+}
+
+enum MKScalarPredictorError: ErrorType {
+    case InitialisationError
 }
