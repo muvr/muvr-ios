@@ -12,6 +12,10 @@
                     "properties":[{"type":"weightProgression", "minimum":2.5, "step":2.5}]
                  },
                  {
+                    "id":"resistanceTargeted:arms/resistanceTargeted:arms/triceps-extension",
+                    "properties":[{"type":"weightProgression", "minimum":5, "step":5}]
+                 },
+                 {
                     "id":"resistanceTargeted:arms/cable-biceps-curl",
                     "properties":[{"type":"weightProgression", "minimum":5, "step":5}]
                  },
@@ -51,7 +55,26 @@
                     "id":"resistanceTargeted:back/reverse-flyes",
                     "properties":[{"type":"weightProgression", "minimum":7, "step":7}]
                  },
-                 {"id":"resistanceTargeted:shoulders/shrugs"},
+                 {
+                    "id":"resistanceTargeted:shoulders/shrugs",
+                    "properties":[{"type":"weightProgression", "minimum":2.5, "step":2.5}]
+                 },
+                 {
+                    "id":"resistanceTargeted:shoulders/pull-up",
+                    "properties":[{"type":"weightProgression", "minimum":2.5, "step":2.5}]
+                 },
+                 {
+                    "id":"resistanceTargeted:shoulders/dumbbell-shoulder-press",
+                    "properties":[{"type":"weightProgression", "minimum":2.5, "step":2.5}]
+                 },
+                 {
+                    "id":"resistanceTargeted:shoulders/lateral-raise",
+                    "properties":[{"type":"weightProgression", "minimum":2.5, "step":2.5}]
+                 },
+                 {
+                    "id":"resistanceTargeted:shoulders/vertical-swing",
+                    "properties":[{"type":"weightProgression", "minimum":2.5, "step":2.5}]
+                 },
                  {
                     "id":"resistanceTargeted:chest/angle-chest-press",
                     "properties":[{"type":"weightProgression", "minimum":2.5, "step":2.5}]

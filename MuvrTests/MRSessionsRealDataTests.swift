@@ -87,6 +87,7 @@ class MRSessionsRealDataTests : XCTestCase {
             XCTAssertLessThanOrEqual(lastResult.labelsWeightedLoss(.NumberOfTaps, ignoring: [.Intensity]), firstResult.labelsWeightedLoss(.NumberOfTaps, ignoring: [.Intensity]), name)
         }
         
+        print("\nEyball results\n")
         for (exerciseType, results) in (evaluatedSessions.groupBy { $0.1 }) {
             let last = results.last!
             print(last.0)
