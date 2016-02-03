@@ -39,7 +39,6 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
     
     // Implements MKScalarPredictor
     public func trainPositional(trainingSet: [Double], forExerciseId exerciseId: MKExercise.Id) {
-        print("Training \(exerciseId) over \(trainingSet)")
         // update the linear regression coefficients
         linearPredictor.trainPositional(trainingSet, forExerciseId: exerciseId)
 
@@ -50,9 +49,6 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
                 let c = correction(actual, predicted: max(0, predicted), forExerciseId: exerciseId)
                 // add this correction to the MarkovChain
                 plan.insert(c)
-                if actual != predicted {
-                    print("At \(index): \(actual) vs \(predicted) => diff = \(actual - predicted) => correction = \(c)")
-                }
             }
         }
         
@@ -72,8 +68,6 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
         let sign = (actual - predicted) >= 0 ? 1 : -1
         let x = ((1..<maxCorrectionSteps+1)
             .map { actual - step(predicted, $0 * sign, exerciseId) })
-        print("Sign \(sign)")
-        print("Corrections \(x)")
 
         if let c = (x.enumerate()
             .minElement { l, r in

@@ -224,6 +224,8 @@
 		644A71F51C60E63900E59A62 /* MKAnotherScalarPredictor+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644A71F41C60E63900E59A62 /* MKAnotherScalarPredictor+JSON.swift */; };
 		644A71F91C6113A200E59A62 /* MKLinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644A71F81C6113A200E59A62 /* MKLinearRegression.swift */; };
 		644A71FB1C61F0C900E59A62 /* MKLinearRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644A71FA1C61F0C900E59A62 /* MKLinearRegressionTests.swift */; };
+		644A71FF1C62348300E59A62 /* MKLinearRegressionPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644A71FE1C62348200E59A62 /* MKLinearRegressionPredictor.swift */; };
+		644A72011C62657500E59A62 /* MKLinearRegressionPredictor+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644A72001C62657500E59A62 /* MKLinearRegressionPredictor+JSON.swift */; };
 		64655B7D1C04D08400CFC763 /* MRSessionHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */; };
 		64655B7F1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */; };
 		647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */; };
@@ -571,6 +573,8 @@
 		644A71F41C60E63900E59A62 /* MKAnotherScalarPredictor+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKAnotherScalarPredictor+JSON.swift"; sourceTree = "<group>"; };
 		644A71F81C6113A200E59A62 /* MKLinearRegression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKLinearRegression.swift; sourceTree = "<group>"; };
 		644A71FA1C61F0C900E59A62 /* MKLinearRegressionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKLinearRegressionTests.swift; sourceTree = "<group>"; };
+		644A71FE1C62348200E59A62 /* MKLinearRegressionPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKLinearRegressionPredictor.swift; sourceTree = "<group>"; };
+		644A72001C62657500E59A62 /* MKLinearRegressionPredictor+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKLinearRegressionPredictor+JSON.swift"; sourceTree = "<group>"; };
 		64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionHealth.swift; sourceTree = "<group>"; };
 		64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRWorkoutSessionDelegate.swift; sourceTree = "<group>"; };
 		647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoderTests.swift; sourceTree = "<group>"; };
@@ -925,6 +929,8 @@
 				644A71EA1C5B589900E59A62 /* MKLinearMarkovScalarPredictor+JSON.swift */,
 				644A71F21C60A8D600E59A62 /* MKAnotherScalarPredictor.swift */,
 				644A71F41C60E63900E59A62 /* MKAnotherScalarPredictor+JSON.swift */,
+				644A71FE1C62348200E59A62 /* MKLinearRegressionPredictor.swift */,
+				644A72001C62657500E59A62 /* MKLinearRegressionPredictor+JSON.swift */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -1719,6 +1725,7 @@
 				5421920C1C46EF2C002FD224 /* MKExerciseProperty.swift in Sources */,
 				644A71EB1C5B589900E59A62 /* MKLinearMarkovScalarPredictor+JSON.swift in Sources */,
 				54D3457E1BB9232A00F65091 /* MKClassifier.swift in Sources */,
+				644A71FF1C62348300E59A62 /* MKLinearRegressionPredictor.swift in Sources */,
 				54D3458B1BB928B600F65091 /* MKClassificationPipeline.swift in Sources */,
 				544DC9C91BF8B2B200D79E67 /* MKSensorDataEncoder.swift in Sources */,
 				5471CE781C49290400167545 /* MKExerciseLabel.swift in Sources */,
@@ -1751,6 +1758,7 @@
 				644A71F31C60A8D600E59A62 /* MKAnotherScalarPredictor.swift in Sources */,
 				5474E8A41BF3E9D900A29D3B /* MKExerciseModel+Parsing.swift in Sources */,
 				5477910B1C24713000763197 /* MKExercisePlan.swift in Sources */,
+				644A72011C62657500E59A62 /* MKLinearRegressionPredictor+JSON.swift in Sources */,
 				546E68521BB969DD00DC0FEF /* MKSensorData+Encoding.swift in Sources */,
 				54BDDDC81C4409060054A059 /* MKMarkovChain+JSON.swift in Sources */,
 				5431545C1BE107F60031BE61 /* MKForwardPropagator.swift in Sources */,

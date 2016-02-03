@@ -420,9 +420,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             return MKPolynomialFittingScalarPredictor(fromJSON: p.data, round: noRound, maxDegree: 2, maxSamples: 8)
         } ?? MKPolynomialFittingScalarPredictor(round: noRound, maxDegree: 2, maxSamples: 8)
         
+//        let intensityPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingIntensity, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
+//            return MKLinearMarkovScalarPredictor(fromJSON: p.data, round: roundClipToNorm, step: stepIntensity, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 1)
+//        } ?? MKLinearMarkovScalarPredictor(round: roundClipToNorm, step: stepIntensity, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 1)
+
+        let defaultIntensityPredictor = MKLinearMarkovScalarPredictor(round: roundClipToNorm, step: stepIntensity, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 1)
+        
         let intensityPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingIntensity, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
-            return MKLinearMarkovScalarPredictor(fromJSON: p.data, round: roundClipToNorm, step: stepIntensity, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 1)
-        } ?? MKLinearMarkovScalarPredictor(round: roundClipToNorm, step: stepIntensity, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 1)
+            return MKLinearRegressionPredictor(fromJson: p.data, predictor: defaultIntensityPredictor, round: roundClipToNorm, degree: 2)
+            } ?? MKLinearRegressionPredictor(predictor: defaultIntensityPredictor, round: roundClipToNorm, degree: 2)
         
 //        let repetitionsPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingRepetitions, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
 //            return MKLinearMarkovScalarPredictor(fromJSON: p.data, round: roundInteger, step: stepInteger, maxDegree: 0, maxSamples: 1)

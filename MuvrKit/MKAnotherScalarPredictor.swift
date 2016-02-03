@@ -4,8 +4,6 @@ import Foundation
 /// If there is  no known sets from previous sessions it uses a regular in-session predictor
 public class MKAnotherScalarPredictor: MKScalarPredictor {
     
-    public typealias Round = (Double, MKExercise.Id) -> Double
-    public typealias Step = (Double, Int, MKExercise.Id) -> Double
     public typealias Predictor = () -> MKScalarPredictor
     
     // One predictor for each set (1 predictor for the 1 set, 1 predictor for the 2nd set, ...)

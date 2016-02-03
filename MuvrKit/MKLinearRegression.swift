@@ -51,13 +51,26 @@ struct MKLinearRegression {
         let n = x.count / m
         let x_ = format(x, m: m, degree: degree)
         
+        let onlyOneSample = x.enumerate().reduce(true) { same, entry in
+            let (i, v) = entry
+            let col = i % m
+            if v != x[col] { return false }
+            return same
+        }
+        
+        var θ = [Float](count: k, repeatedValue: 0)
+        
+        if onlyOneSample {
+            θ[0] = y[0]
+            return θ
+        }
+        
         let X = la_matrix_from_float_buffer(x_, la_count_t(n), la_count_t(k), la_count_t(k), la_hint_t(LA_NO_HINT), la_attribute_t(LA_DEFAULT_ATTRIBUTES))
         let Y = la_matrix_from_float_buffer(y, la_count_t(n), la_count_t(1), la_count_t(1), la_hint_t(LA_NO_HINT), la_attribute_t(LA_DEFAULT_ATTRIBUTES))
     
         /// Solves Θ in the equation (X'.X).Θ = (X'.Y)
         let Θ = la_solve(la_matrix_product(la_transpose(X), X), la_matrix_product(la_transpose(X), Y))
         
-        var θ = [Float](count: k, repeatedValue: 0)
         la_vector_to_float_buffer(&θ, 1, Θ)
         
         return θ
