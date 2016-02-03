@@ -100,6 +100,9 @@ class MRExerciseSessionEvaluator {
                 case .RawValue:
                     loss = e.subtract(p!).scalar()
                 }
+                if loss > 0 {
+                    print("**** loss; \(e) vs \(p!)")
+                }
                 
                 totalLoss += pow(loss, 2)
                 if p!.scalar() < 0.1 { totalStupidLoss += stupidLossIncident }

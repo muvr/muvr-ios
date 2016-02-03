@@ -1,38 +1,38 @@
 A shoulders session with linear progression; tired at the last set
 resistanceTargeted:shoulders
 
-resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=17.5,D=30,I=0.5
-resistanceTargeted:shoulders/lateral-raise,           R=10,W=10,D=30,I=0.5
-resistanceTargeted:shoulders/pull-up,                 R=10,W=20,D=30,I=0.5
-resistanceTargeted:shoulders/shrugs,                  R=10,W=40,D=30,I=0.5
-resistanceTargeted:shoulders/vertical-swing,          R=10,W=10,D=30,I=0.5
+resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=17.5,D=30,I=0.4
+resistanceTargeted:shoulders/lateral-raise,           R=10,W=10,D=30,I=0.4
+resistanceTargeted:shoulders/pull-up,                 R=10,W=20,D=30,I=0.4
+resistanceTargeted:shoulders/shrugs,                  R=10,W=40,D=30,I=0.4
+resistanceTargeted:shoulders/vertical-swing,          R=10,W=10,D=30,I=0.4
 
-resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=20,D=30,I=0.55
-resistanceTargeted:shoulders/lateral-raise,           R=10,W=12,D=30,I=0.55
-resistanceTargeted:shoulders/pull-up,                 R=10,W=25,D=30,I=0.55
-resistanceTargeted:shoulders/shrugs,                  R=10,W=50,D=30,I=0.55
-resistanceTargeted:shoulders/vertical-swing,          R=10,W=12.5,D=30,I=0.55
+resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=20,D=30,I=0.6
+resistanceTargeted:shoulders/lateral-raise,           R=10,W=12,D=30,I=0.6
+resistanceTargeted:shoulders/pull-up,                 R=10,W=25,D=30,I=0.6
+resistanceTargeted:shoulders/shrugs,                  R=10,W=50,D=30,I=0.6
+resistanceTargeted:shoulders/vertical-swing,          R=10,W=12.5,D=30,I=0.6
 
-resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=22.5,D=30,I=0.65
-resistanceTargeted:shoulders/lateral-raise,           R=10,W=14,D=30,I=0.65
-resistanceTargeted:shoulders/pull-up,                 R=10,W=30,D=30,I=0.65
-resistanceTargeted:shoulders/shrugs,                  R=10,W=60,D=30,I=0.65
-resistanceTargeted:shoulders/vertical-swing,          R=10,W=15,D=30,I=0.65
+resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=22.5,D=30,I=0.6
+resistanceTargeted:shoulders/lateral-raise,           R=10,W=14,D=30,I=0.6
+resistanceTargeted:shoulders/pull-up,                 R=10,W=30,D=30,I=0.6
+resistanceTargeted:shoulders/shrugs,                  R=10,W=60,D=30,I=0.6
+resistanceTargeted:shoulders/vertical-swing,          R=10,W=15,D=30,I=0.6
 
-resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=25,D=30,I=0.75
-resistanceTargeted:shoulders/lateral-raise,           R=10,W=16,D=30,I=0.75
-resistanceTargeted:shoulders/pull-up,                 R=10,W=35,D=30,I=0.75
-resistanceTargeted:shoulders/shrugs,                  R=10,W=70,D=30,I=0.75
-resistanceTargeted:shoulders/vertical-swing,          R=10,W=17.5,D=30,I=0.75
+resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=25,D=30,I=0.8
+resistanceTargeted:shoulders/lateral-raise,           R=10,W=16,D=30,I=0.8
+resistanceTargeted:shoulders/pull-up,                 R=10,W=35,D=30,I=0.8
+resistanceTargeted:shoulders/shrugs,                  R=10,W=70,D=30,I=0.8
+resistanceTargeted:shoulders/vertical-swing,          R=10,W=17.5,D=30,I=0.8
 
-resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=27.5,D=30,I=0.85
-resistanceTargeted:shoulders/lateral-raise,           R=10,W=18,D=30,I=0.85
-resistanceTargeted:shoulders/pull-up,                 R=10,W=40,D=30,I=0.85
-resistanceTargeted:shoulders/shrugs,                  R=10,W=80,D=30,I=0.85
-resistanceTargeted:shoulders/vertical-swing,          R=10,W=20,D=30,I=0.85
+resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=27.5,D=30,I=0.8
+resistanceTargeted:shoulders/lateral-raise,           R=10,W=18,D=30,I=0.8
+resistanceTargeted:shoulders/pull-up,                 R=10,W=40,D=30,I=0.8
+resistanceTargeted:shoulders/shrugs,                  R=10,W=80,D=30,I=0.8
+resistanceTargeted:shoulders/vertical-swing,          R=10,W=20,D=30,I=0.8
 
-resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=25,D=30,I=0.85
-resistanceTargeted:shoulders/lateral-raise,           R=10,W=16,D=30,I=0.85
-resistanceTargeted:shoulders/pull-up,                 R=10,W=40,D=30,I=0.85
-resistanceTargeted:shoulders/shrugs,                  R=10,W=80,D=30,I=0.85
-resistanceTargeted:shoulders/vertical-swing,          R=10,W=17.5,D=30,I=0.85
+resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=25,D=30,I=0.8
+resistanceTargeted:shoulders/lateral-raise,           R=10,W=16,D=30,I=0.8
+resistanceTargeted:shoulders/pull-up,                 R=10,W=40,D=30,I=0.8
+resistanceTargeted:shoulders/shrugs,                  R=10,W=80,D=30,I=0.8
+resistanceTargeted:shoulders/vertical-swing,          R=10,W=17.5,D=30,I=0.8

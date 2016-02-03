@@ -496,7 +496,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     private func roundClipToNorm(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
-        return min(1, max(0, value))
+        let x = Int(min(1, max(0, value * 5)))
+        return Double(x) / 5
     }
     
     private func roundWeight(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
