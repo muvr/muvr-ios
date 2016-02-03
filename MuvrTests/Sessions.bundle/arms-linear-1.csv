@@ -1,17 +1,17 @@
 Trivial session with increasing linear W; constant R,D,I for arms
 resistanceTargeted:arms
 
-resistanceTargeted:arms/biceps-curl,     R=15,W=40,D=30,I=0.5
+resistanceTargeted:arms/barbell-biceps-curl,     R=15,W=40,D=30,I=0.5
 resistanceTargeted:arms/triceps-pushdown,R=15,W=40,D=30,I=0.5
-resistanceTargeted:arms/biceps-curl,     R=15,W=45,D=30,I=0.5
+resistanceTargeted:arms/barbell-biceps-curl,     R=15,W=45,D=30,I=0.5
 resistanceTargeted:arms/triceps-pushdown,R=15,W=45,D=30,I=0.5
-resistanceTargeted:arms/biceps-curl,     R=15,W=50,D=30,I=0.5
+resistanceTargeted:arms/barbell-biceps-curl,     R=15,W=50,D=30,I=0.5
 resistanceTargeted:arms/triceps-pushdown,R=15,W=50,D=30,I=0.5
-resistanceTargeted:arms/biceps-curl,     R=15,W=55,D=30,I=0.5
+resistanceTargeted:arms/barbell-biceps-curl,     R=15,W=55,D=30,I=0.5
 resistanceTargeted:arms/triceps-pushdown,R=15,W=55,D=30,I=0.5
-resistanceTargeted:arms/biceps-curl,     R=15,W=60,D=30,I=0.5
+resistanceTargeted:arms/barbell-biceps-curl,     R=15,W=60,D=30,I=0.5
 resistanceTargeted:arms/triceps-pushdown,R=15,W=60,D=30,I=0.5
-resistanceTargeted:arms/biceps-curl,     R=15,W=65,D=30,I=0.5
+resistanceTargeted:arms/barbell-biceps-curl,     R=15,W=65,D=30,I=0.5
 resistanceTargeted:arms/triceps-pushdown,R=15,W=65,D=30,I=0.5
-resistanceTargeted:arms/biceps-curl,     R=15,W=70,D=30,I=0.5
+resistanceTargeted:arms/barbell-biceps-curl,     R=15,W=70,D=30,I=0.5
 resistanceTargeted:arms/triceps-pushdown,R=15,W=70,D=30,I=0.5

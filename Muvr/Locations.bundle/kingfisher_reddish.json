@@ -10,7 +10,7 @@
                  {
                     "id":"resistanceTargeted:arms/barbell-biceps-curl",
                     "properties":[{"type":"weightProgression", "minimum":2.5, "step":2.5}]
-                 }
+                 },
                  {
                     "id":"resistanceTargeted:arms/cable-biceps-curl",
                     "properties":[{"type":"weightProgression", "minimum":5, "step":5}]

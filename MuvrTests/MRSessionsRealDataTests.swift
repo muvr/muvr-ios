@@ -77,7 +77,7 @@ class MRSessionsRealDataTests : XCTestCase {
             XCTAssertGreaterThanOrEqual(firstResult.labelsAccuracy(), 0.5, name)
             XCTAssertGreaterThan(firstResult.exercisesAccuracy(), 0.7, name)
             
-            XCTAssertGreaterThan(lastResult.labelsAccuracy(), 0.8, name)
+            XCTAssertGreaterThanOrEqual(lastResult.labelsAccuracy(), 0.8, name)
             XCTAssertGreaterThan(lastResult.exercisesAccuracy(), 0.8, name)
             XCTAssertLessThanOrEqual(lastResult.labelsWeightedLoss(.NumberOfTaps), 1, name)
             
