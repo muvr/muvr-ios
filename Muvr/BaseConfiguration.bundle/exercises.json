@@ -1,11 +1,13 @@
 [
  {"id":"resistanceTargeted:arms/triceps-pushdown"},
  {"id":"resistanceTargeted:arms/barbell-biceps-curl"},
- {"id":"resistanceTargeted:arms/biceps-curl"},
+ {"id":"resistanceTargeted:arms/dumbbell-biceps-curl"},
  {"id":"resistanceTargeted:arms/triceps-extension"},
  {"id":"resistanceTargeted:arms/reverse-cable-curl"},
  {"id":"resistanceTargeted:arms/overhead-cable-curl"},
  {"id":"resistanceTargeted:arms/triceps-dips"},
+ {"id":"resistanceTargeted:arms/cable-biceps-curl"},
+ {"id":"resistanceTargeted:arms/cable-hammer-curl"},
 
  {"id":"resistanceTargeted:back/back-extensions"},
  {"id":"resistanceTargeted:back/lateral-pulldown"},

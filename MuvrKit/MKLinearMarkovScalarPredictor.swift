@@ -62,8 +62,8 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
     /// return the ``Correction`` corresponding to the error made on the predicted value
     /// by comparing the error to the weight increment for the given exercise
     private func correction(actual: Double, predicted: Double, forExerciseId exerciseId: MKExercise.Id) -> Correction {
-        assert(actual > 0)
-        assert(predicted > 0)
+        assert(actual >= 0)
+        assert(predicted >= 0)
         
         if abs(actual - predicted) < 0.0001 { return 0 }
         
