@@ -67,6 +67,7 @@ class MRExerciseSessionEvaluator {
         /// Value 0 is great; it means no mis-predictions, values up to 0.5 are usually acceptable,
         /// values over 5 will result in really poor user experience.
         ///
+        /// - parameter basis: the loss calculation basis
         /// - returns: the weighted loss of label predictions.
         ///
         func labelsWeightedLoss(basis: LossBasis) -> Double {
