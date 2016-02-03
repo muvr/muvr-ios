@@ -15,7 +15,7 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
     private var boost: Float = 1.0
     private(set) internal var correctionPlan: [MKExercise.Id:MKExercisePlan<Correction>] = [:]
     
-    public init(round: Round, step: Step, maxDegree: Int = 1, maxSamples: Int = 2, maxCorrectionSteps: Int = 10) {
+    public init(round: Round, step: Step, maxDegree: Int = 1, maxSamples: Int = 2, maxCorrectionSteps: Int = 100) {
         linearPredictor = MKPolynomialFittingScalarPredictor(round: round, maxDegree: maxDegree, maxSamples: maxSamples)
         self.round = round
         self.step = step
@@ -39,6 +39,7 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
     
     // Implements MKScalarPredictor
     public func trainPositional(trainingSet: [Double], forExerciseId exerciseId: MKExercise.Id) {
+        print("Training \(exerciseId) over \(trainingSet)")
         // update the linear regression coefficients
         linearPredictor.trainPositional(trainingSet, forExerciseId: exerciseId)
 
@@ -49,7 +50,9 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
                 let c = correction(actual, predicted: max(0, predicted), forExerciseId: exerciseId)
                 // add this correction to the MarkovChain
                 plan.insert(c)
-                print("At \(index): diff = \(actual - predicted) => correction = \(c)")
+                if actual != predicted {
+                    print("At \(index): \(actual) vs \(predicted) => diff = \(actual - predicted) => correction = \(c)")
+                }
             }
         }
         
@@ -69,6 +72,8 @@ public class MKLinearMarkovScalarPredictor : MKScalarPredictor {
         let sign = (actual - predicted) >= 0 ? 1 : -1
         let x = ((1..<maxCorrectionSteps+1)
             .map { actual - step(predicted, $0 * sign, exerciseId) })
+        print("Sign \(sign)")
+        print("Corrections \(x)")
 
         if let c = (x.enumerate()
             .minElement { l, r in

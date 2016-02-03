@@ -137,6 +137,7 @@ public class MKPolynomialFittingScalarPredictor : MKScalarPredictor {
         } else if let last = samples.last {
             simpleScalars[exerciseId] = Float(last)
         }
+        print("PF training done over \(trainingSet): coefficients \(coefficients)")
     }
     
     public func correctScalarForExerciseId(exerciseId: MKExercise.Id, n: Int, actual: Double) {

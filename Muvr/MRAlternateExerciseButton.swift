@@ -11,6 +11,8 @@ class MRAlternateExerciseButton: UIButton {
     var exerciseDetail: MKExerciseDetail? = nil {
         didSet {
             let title = exerciseDetail.map { MKExercise.title($0.0) }
+            accessibilityLabel = title
+            accessibilityHint = "Alternative".localized()
             setTitle(title, forState: .Normal)
         }
     }

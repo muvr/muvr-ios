@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5403815F1AED28A0000C8B15 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5403815E1AED28A0000C8B15 /* Settings.bundle */; };
+		540A22F61C6104E90046E864 /* MKExerciseLabel+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540A22F41C6104C90046E864 /* MKExerciseLabel+Update.swift */; };
 		540AA44D1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA44C1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift */; };
 		540AA44F1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA44E1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift */; };
 		540AA4511BDBFF6B00908F4B /* MKSessionClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA4501BDBFF6B00908F4B /* MKSessionClassifierTests.swift */; };
@@ -126,7 +127,7 @@
 		547FD9D31C42C31700B01904 /* Session.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 547FD9D21C42C31700B01904 /* Session.storyboard */; };
 		5480DF9E1C5D219200CCBE1F /* Sessions.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5480DF9D1C5D219200CCBE1F /* Sessions.bundle */; };
 		5480DFA01C5D21E900CCBE1F /* MRExerciseSessionEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5480DF9F1C5D21E900CCBE1F /* MRExerciseSessionEvaluator.swift */; };
-		5480DFA21C5D224100CCBE1F /* MRSesionLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5480DFA11C5D224100CCBE1F /* MRSesionLoader.swift */; };
+		5480DFA21C5D224100CCBE1F /* MRSessionLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5480DFA11C5D224100CCBE1F /* MRSessionLoader.swift */; };
 		5480DFA41C5D257C00CCBE1F /* MRSessionsRealDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5480DFA31C5D257C00CCBE1F /* MRSessionsRealDataTests.swift */; };
 		5487F59C1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5487F59B1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift */; };
 		5487F59F1BB9B77E00ED2E97 /* MKCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5487F59E1BB9B77E00ED2E97 /* MKCodec.swift */; };
@@ -219,6 +220,8 @@
 		6445C4151C4D52CE00A0CDB9 /* MKExerciseSession+MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6445C4141C4D52CE00A0CDB9 /* MKExerciseSession+MetadataTests.swift */; };
 		644A71E91C5A5A1800E59A62 /* MKLinearMarkovScalarPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644A71E81C5A5A1800E59A62 /* MKLinearMarkovScalarPredictor.swift */; };
 		644A71EB1C5B589900E59A62 /* MKLinearMarkovScalarPredictor+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644A71EA1C5B589900E59A62 /* MKLinearMarkovScalarPredictor+JSON.swift */; };
+		644A71F31C60A8D600E59A62 /* MKAnotherScalarPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644A71F21C60A8D600E59A62 /* MKAnotherScalarPredictor.swift */; };
+		644A71F51C60E63900E59A62 /* MKAnotherScalarPredictor+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644A71F41C60E63900E59A62 /* MKAnotherScalarPredictor+JSON.swift */; };
 		64655B7D1C04D08400CFC763 /* MRSessionHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */; };
 		64655B7F1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */; };
 		647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */; };
@@ -337,6 +340,7 @@
 /* Begin PBXFileReference section */
 		2C3AA10F80ED661B9AC5A823 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5403815E1AED28A0000C8B15 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		540A22F41C6104C90046E864 /* MKExerciseLabel+Update.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseLabel+Update.swift"; sourceTree = "<group>"; };
 		540AA44C1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneConnectivityTests.swift; sourceTree = "<group>"; };
 		540AA44E1BDBF36800908F4B /* MKSensorData+EncodingCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+EncodingCSV.swift"; sourceTree = "<group>"; };
 		540AA4501BDBFF6B00908F4B /* MKSessionClassifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSessionClassifierTests.swift; sourceTree = "<group>"; };
@@ -460,7 +464,7 @@
 		547FD9D21C42C31700B01904 /* Session.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Session.storyboard; sourceTree = "<group>"; };
 		5480DF9D1C5D219200CCBE1F /* Sessions.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Sessions.bundle; sourceTree = "<group>"; };
 		5480DF9F1C5D21E900CCBE1F /* MRExerciseSessionEvaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseSessionEvaluator.swift; sourceTree = "<group>"; };
-		5480DFA11C5D224100CCBE1F /* MRSesionLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSesionLoader.swift; sourceTree = "<group>"; };
+		5480DFA11C5D224100CCBE1F /* MRSessionLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionLoader.swift; sourceTree = "<group>"; };
 		5480DFA31C5D257C00CCBE1F /* MRSessionsRealDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionsRealDataTests.swift; sourceTree = "<group>"; };
 		548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Muvr-Bridging-Header.h"; sourceTree = "<group>"; };
 		5487F59B1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKUnsafeBufferReader.swift; sourceTree = "<group>"; };
@@ -562,6 +566,8 @@
 		6445C4141C4D52CE00A0CDB9 /* MKExerciseSession+MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseSession+MetadataTests.swift"; sourceTree = "<group>"; };
 		644A71E81C5A5A1800E59A62 /* MKLinearMarkovScalarPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKLinearMarkovScalarPredictor.swift; sourceTree = "<group>"; };
 		644A71EA1C5B589900E59A62 /* MKLinearMarkovScalarPredictor+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKLinearMarkovScalarPredictor+JSON.swift"; sourceTree = "<group>"; };
+		644A71F21C60A8D600E59A62 /* MKAnotherScalarPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKAnotherScalarPredictor.swift; sourceTree = "<group>"; };
+		644A71F41C60E63900E59A62 /* MKAnotherScalarPredictor+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKAnotherScalarPredictor+JSON.swift"; sourceTree = "<group>"; };
 		64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionHealth.swift; sourceTree = "<group>"; };
 		64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRWorkoutSessionDelegate.swift; sourceTree = "<group>"; };
 		647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoderTests.swift; sourceTree = "<group>"; };
@@ -914,6 +920,8 @@
 				545EFC491C47D9E600987610 /* MKScalarRounder.swift */,
 				644A71E81C5A5A1800E59A62 /* MKLinearMarkovScalarPredictor.swift */,
 				644A71EA1C5B589900E59A62 /* MKLinearMarkovScalarPredictor+JSON.swift */,
+				644A71F21C60A8D600E59A62 /* MKAnotherScalarPredictor.swift */,
+				644A71F41C60E63900E59A62 /* MKAnotherScalarPredictor+JSON.swift */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -940,7 +948,7 @@
 				5480DF9D1C5D219200CCBE1F /* Sessions.bundle */,
 				5480DF9F1C5D21E900CCBE1F /* MRExerciseSessionEvaluator.swift */,
 				54D09E9C1C5E7ACF00C0A9F5 /* MRExerciseSessionEvaluator.Result+Description.swift */,
-				5480DFA11C5D224100CCBE1F /* MRSesionLoader.swift */,
+				5480DFA11C5D224100CCBE1F /* MRSessionLoader.swift */,
 				5480DFA31C5D257C00CCBE1F /* MRSessionsRealDataTests.swift */,
 			);
 			name = Sessions;
@@ -1060,6 +1068,7 @@
 				5471CE771C49290400167545 /* MKExerciseLabel.swift */,
 				5471CE7A1C49305700167545 /* MKExerciseLabelDescriptor.swift */,
 				543E32961C4BA7ED00D9922D /* MKExerciseDetail.swift */,
+				540A22F41C6104C90046E864 /* MKExerciseLabel+Update.swift */,
 			);
 			path = MuvrKit;
 			sourceTree = "<group>";
@@ -1708,12 +1717,14 @@
 				54D3458B1BB928B600F65091 /* MKClassificationPipeline.swift in Sources */,
 				544DC9C91BF8B2B200D79E67 /* MKSensorDataEncoder.swift in Sources */,
 				5471CE781C49290400167545 /* MKExerciseLabel.swift in Sources */,
+				644A71F51C60E63900E59A62 /* MKAnotherScalarPredictor+JSON.swift in Sources */,
 				548808131BD57D8800419CD8 /* MKPhoneExerciseSession.swift in Sources */,
 				543BB4201C465B28009FB47F /* MKExerciseType+Metadata.swift in Sources */,
 				54E430881C46BFEB00FA01A8 /* MKPolynomialFittingScalarPredictor.swift in Sources */,
 				5421920E1C46F82C002FD224 /* MKExercisePropertySource.swift in Sources */,
 				5488080D1BD5710500419CD8 /* MKPhoneExerciseConnectivitySession.swift in Sources */,
 				6428CE341C46ABAF00D17451 /* MKScalarPredictor.swift in Sources */,
+				540A22F61C6104E90046E864 /* MKExerciseLabel+Update.swift in Sources */,
 				5487F5A61BB9C9AB00ED2E97 /* MKSensorData+Equatable.swift in Sources */,
 				644A71E91C5A5A1800E59A62 /* MKLinearMarkovScalarPredictor.swift in Sources */,
 				543E32971C4BA7ED00D9922D /* MKExerciseDetail.swift in Sources */,
@@ -1731,6 +1742,7 @@
 				54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */,
 				5487F59C1BB9B53E00ED2E97 /* MKUnsafeBufferReader.swift in Sources */,
 				54FBA9671C3C692000FC4F8E /* MKPolynomialFitter.swift in Sources */,
+				644A71F31C60A8D600E59A62 /* MKAnotherScalarPredictor.swift in Sources */,
 				5474E8A41BF3E9D900A29D3B /* MKExerciseModel+Parsing.swift in Sources */,
 				5477910B1C24713000763197 /* MKExercisePlan.swift in Sources */,
 				546E68521BB969DD00DC0FEF /* MKSensorData+Encoding.swift in Sources */,
@@ -1777,7 +1789,7 @@
 				5480DFA41C5D257C00CCBE1F /* MRSessionsRealDataTests.swift in Sources */,
 				543E327C1C4AB2A600D9922D /* MRAppTests.swift in Sources */,
 				543E327A1C4AB0B400D9922D /* MKExerciseType+ExerciseIdTests.swift in Sources */,
-				5480DFA21C5D224100CCBE1F /* MRSesionLoader.swift in Sources */,
+				5480DFA21C5D224100CCBE1F /* MRSessionLoader.swift in Sources */,
 				543E329A1C4BAAB100D9922D /* MRManagedExerciseSessionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

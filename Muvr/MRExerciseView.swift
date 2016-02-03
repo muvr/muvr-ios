@@ -106,6 +106,8 @@ class MRExerciseView : UIView {
     }
     
     private func createUI() {
+        accessibilityIdentifier = "Exercise control"
+        
         view = loadViewFromNib()
         view.frame = bounds
         view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
@@ -242,6 +244,8 @@ class MRExerciseView : UIView {
         button.setTitle(title, forState: UIControlState.Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(buttonFontSize)
         button.titleEdgeInsets = UIEdgeInsets()
+        
+        accessibilityLabel = title
 
         labelsView.subviews.forEach { $0.removeFromSuperview() }
         labelsView.pagingEnabled = true
@@ -296,6 +300,7 @@ class MRExerciseView : UIView {
     
     var headerTitle: String? {
         didSet {
+            accessibilityHint = headerTitle
             headerLabel.text = headerTitle
         }
     }

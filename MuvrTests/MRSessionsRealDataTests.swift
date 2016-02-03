@@ -73,15 +73,18 @@ class MRSessionsRealDataTests : XCTestCase {
             let firstResult = results.first!
             let lastResult = results.last!
             
-            XCTAssertLessThanOrEqual(firstResult.labelsWeightedLoss(), 5, name)
-            XCTAssertGreaterThan(firstResult.labelsAccuracy(), 0.5, name)
+            XCTAssertLessThanOrEqual(firstResult.labelsWeightedLoss(.NumberOfTaps), 2, name)
+            XCTAssertGreaterThanOrEqual(firstResult.labelsAccuracy(), 0.5, name)
             XCTAssertGreaterThan(firstResult.exercisesAccuracy(), 0.7, name)
             
             XCTAssertGreaterThan(lastResult.labelsAccuracy(), 0.8, name)
             XCTAssertGreaterThan(lastResult.exercisesAccuracy(), 0.8, name)
-            XCTAssertLessThanOrEqual(lastResult.labelsWeightedLoss(), 1, name)
+            XCTAssertLessThanOrEqual(lastResult.labelsWeightedLoss(.NumberOfTaps), 1, name)
             
+            // Overall, the last result must be better than the first result
+            XCTAssertGreaterThanOrEqual(lastResult.labelsAccuracy(), firstResult.labelsAccuracy(), name)
             XCTAssertGreaterThanOrEqual(lastResult.exercisesAccuracy(), firstResult.exercisesAccuracy(), name)
+            XCTAssertLessThanOrEqual(lastResult.labelsWeightedLoss(.NumberOfTaps), firstResult.labelsWeightedLoss(.RawValue), name)
         }
         
         for (exerciseType, results) in (evaluatedSessions.groupBy { $0.1 }) {
@@ -90,7 +93,7 @@ class MRSessionsRealDataTests : XCTestCase {
             print(last.2.last!.description)
             for i in 0..<count {
                 let bla = project(results, index: i) { $0.labelsAccuracy() }.maxElement()
-                let bwl = project(results, index: i) { $0.labelsWeightedLoss() }.minElement()
+                let bwl = project(results, index: i) { $0.labelsWeightedLoss(.RawValue) }.minElement()
                 let bea = project(results, index: i) { $0.exercisesAccuracy() }.maxElement()
 
                 print("Best EA = \(bea)")

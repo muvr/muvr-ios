@@ -106,7 +106,7 @@ class MRManagedExerciseSession: NSManagedObject {
             }
         }
     }
-    
+        
     ///
     /// Sets the exercise detail and predicted labels that the user is performing 
     /// (typically as a result of some user interaction). This serves as a hint to the

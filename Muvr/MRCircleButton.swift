@@ -11,7 +11,15 @@ class MRCircleButton: UIButton {
 
     /// When ``true``, display the (+) symbol; otherwise, display the (-) symbol
     @IBInspectable
-    var increase: Bool = true
+    var increase: Bool = true {
+        didSet {
+            if increase {
+                accessibilityLabel = "Increase"
+            } else {
+                accessibilityLabel = "Decrease"
+            }
+        }
+    }
     
     private let circleLayer = CAShapeLayer()
     
@@ -26,6 +34,7 @@ class MRCircleButton: UIButton {
     }
     
     private func createUI() {
+        accessibilityHint = "Update value"
         layer.addSublayer(circleLayer)
         circleLayer.fillColor = UIColor.clearColor().CGColor
         circleLayer.opaque = false
