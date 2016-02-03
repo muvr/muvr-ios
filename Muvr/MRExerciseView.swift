@@ -59,6 +59,9 @@ class MRExerciseView : UIView {
     private var fireCircleDidComplete: Bool = true
 
     private let circleLayer: CAShapeLayer = CAShapeLayer()
+    private let countDownTextLayer = CATextLayer()
+    private var timer: NSTimer? = nil
+    private var counter = 5
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -164,7 +167,8 @@ class MRExerciseView : UIView {
         
         // Use UIBezierPath as an easy way to create the CGPath for the layer.
         // The path should be the entire circle.
-        let circlePath = UIBezierPath(arcCenter:centerPoint, radius: (CGRectGetWidth(frame) - 4 * lineWidth) / 2 + 5, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
+        let radius = (CGRectGetWidth(frame) - 4 * lineWidth) / 2 + 5
+        let circlePath = UIBezierPath(arcCenter:centerPoint, radius: radius, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
         
         // Setup the CAShapeLayer with the path, colors, and line width
 
@@ -184,6 +188,23 @@ class MRExerciseView : UIView {
         
         // Add the circleLayer to the view's layer's sublayers
         layer.addSublayer(circleLayer)
+        
+        // Draw the count down string
+        countDownTextLayer.string = ""
+        countDownTextLayer.frame = CGRectMake(centerPoint.x - 20, centerPoint.y + radius - 55, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+        countDownTextLayer.foregroundColor = UIColor.blackColor().CGColor
+        
+        // Add to sublayers
+        layer.addSublayer(countDownTextLayer)
+    }
+    
+    func updateCounter() {
+        countDownTextLayer.string = "\(counter)"
+        if counter == 0 {
+            timer?.invalidate()
+            return
+        }
+        counter--
     }
     
     private func animateCircle(duration: NSTimeInterval) {
@@ -207,6 +228,13 @@ class MRExerciseView : UIView {
         
         // Do the actual animation
         circleLayer.addAnimation(animation, forKey: "animateCircle")
+        
+        // Invalidate the old timer and create new one with duration
+        timer?.invalidate()
+        timer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
+        counter = Int(duration)
+        countDownTextLayer.string = "\(counter)"
+        counter--
     }
     
     private func pauseLayer(layer: CALayer) {
@@ -321,6 +349,9 @@ class MRExerciseView : UIView {
         isAnimating = false
         fireCircleDidComplete = false
         circleLayer.strokeColor = UIColor.clearColor().CGColor
+        
+        countDownTextLayer.string = ""
+        timer?.invalidate()
     }
     
 }

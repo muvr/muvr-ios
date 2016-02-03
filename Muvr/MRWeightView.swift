@@ -17,7 +17,7 @@ class MRWeightView: UIView {
         get { return _value }
         set(v) {
             _value = v.map { max(0, $0) }
-            label.text = v.map { NSMassFormatter().stringFromKilograms($0) } ?? nil
+            label.text = v.map { "\($0)" } ?? nil
         }
     }
     
