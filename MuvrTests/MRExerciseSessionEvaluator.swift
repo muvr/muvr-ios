@@ -33,18 +33,23 @@ class MRExerciseSessionEvaluator {
         /// Holds the exercise predictions: the expected vs. the predicted one
         private(set) internal var exerciseIds: [(MKExercise.Id, MKExercise.Id?)] = []
         
+        private func filteredScalarLabels(ignoring ignored: [MKExerciseLabelDescriptor]) -> [(MKExerciseDetail, MKExerciseLabelDescriptor, MKExerciseLabel, MKExerciseLabel?)] {
+            return scalarLabels.filter { return !ignored.contains($0.1) }
+        }
+        
         /// The accuracy of label predictions; values over 0.9 represents very good predictions.
         /// Value over 0.5 will result in fairly poor user experience—every other label is wrong!
         /// - returns: the accuracy 0..1
-        func labelsAccuracy() -> Double {
-            let mismatchedCount = scalarLabels.reduce(0) { r, x in
+        func labelsAccuracy(ignoring ignored: [MKExerciseLabelDescriptor]) -> Double {
+            let filtered = filteredScalarLabels(ignoring: ignored)
+            let mismatchedCount = filtered.reduce(0) { r, x in
                 let (_, _, e, p) = x
                 if let p = p where abs(e.scalar() - p.scalar()) < 0.01 {
                     return r
                 }
                 return r + 1
             }
-            return 1 - Double(mismatchedCount) / Double(scalarLabels.count)
+            return 1 - Double(mismatchedCount) / Double(filtered.count)
         }
         
         /// The loss value basis; note that the stupid values are not affected by the basis.
@@ -70,11 +75,12 @@ class MRExerciseSessionEvaluator {
         /// - parameter basis: the loss calculation basis
         /// - returns: the weighted loss of label predictions.
         ///
-        func labelsWeightedLoss(basis: LossBasis) -> Double {
+        func labelsWeightedLoss(basis: LossBasis, ignoring ignored: [MKExerciseLabelDescriptor]) -> Double {
             let stupidLossIncident: Double = 10
+            let filtered = filteredScalarLabels(ignoring: ignored)
             
             var secondMaxima: [MKExerciseLabelDescriptor : Double] = [:]
-            for (k, x) in (scalarLabels.groupBy { (_, d, _, _) in return d }) {
+            for (k, x) in (filtered.groupBy { (_, d, _, _) in return d }) {
                 let sorted = x.map { $0.2.scalar() }.sort()
                 if sorted.count > 1 {
                     secondMaxima[k] = sorted[sorted.count - 2]
@@ -84,7 +90,7 @@ class MRExerciseSessionEvaluator {
             var totalLoss: Double = 0
             var totalExpected: Double = 0
             var totalStupidLoss: Double = 0
-            for (detail, td, e, p) in scalarLabels where p != nil {
+            for (detail, td, e, p) in filtered where p != nil {
                 var loss: Double = 0
                 switch basis {
                 case .NumberOfTaps:
@@ -101,7 +107,16 @@ class MRExerciseSessionEvaluator {
                     loss = e.subtract(p!).scalar()
                 }
                 if loss > 0 {
-                    print("**** loss; \(e) vs \(p!)")
+                    var prefix = "    "
+                    if loss > 5 {
+                        prefix = "!   "
+                    } else if loss > 10 {
+                        prefix = "!!  "
+                    } else if loss > 20 {
+                        prefix = "!!! "
+                    }
+                    print("\(prefix) loss \(loss) at \(detail.0); \(e) vs \(p!)")
+                    print("\(prefix) \(detail.2)")
                 }
                 
                 totalLoss += pow(loss, 2)
@@ -111,8 +126,8 @@ class MRExerciseSessionEvaluator {
                 }
                 totalExpected += e.scalar()
             }
-            let averageExpected = totalExpected / Double(scalarLabels.count)
-            let averageLoss = totalLoss / Double(scalarLabels.count)
+            let averageExpected = totalExpected / Double(filtered.count)
+            let averageLoss = totalLoss / Double(filtered.count)
             // let averageStupidLoss = totalStupidLoss / Double(scalarLabels.count)
             return (averageLoss / averageExpected) + totalStupidLoss
         }
