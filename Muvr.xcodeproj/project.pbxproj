@@ -224,6 +224,7 @@
 		64B477911C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B477901C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift */; };
 		64FB23BC1C3E899E005312C2 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */; };
 		992BEDF01C60930B0030611B /* MRExerciseViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992BEDEF1C60930B0030611B /* MRExerciseViewTests.swift */; };
+		99748E041C61FDEA0081491F /* HelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99748E031C61FDEA0081491F /* HelperTests.swift */; };
 		99835A4C1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
 		9D4A51491BE77BE70065BEF8 /* MKActivationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D27B01BE25F9800F4E4A7 /* MKActivationFunctions.swift */; };
@@ -563,6 +564,7 @@
 		64B477901C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedExerciseScalarLabel+CoreDataAnalytics.swift"; sourceTree = "<group>"; };
 		64FB23BD1C3E899E005312C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		992BEDEF1C60930B0030611B /* MRExerciseViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExerciseViewTests.swift; sourceTree = "<group>"; };
+		99748E031C61FDEA0081491F /* HelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperTests.swift; sourceTree = "<group>"; };
 		99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseType+MetadataTests.swift"; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
 		9D6D27AE1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKForwardPropagatorTests.swift; sourceTree = "<group>"; };
@@ -844,6 +846,7 @@
 				5450C2A01BC3FFF100B257E7 /* MuvrUITests.swift */,
 				5450C2A21BC3FFF100B257E7 /* Info.plist */,
 				992BEDEF1C60930B0030611B /* MRExerciseViewTests.swift */,
+				99748E031C61FDEA0081491F /* HelperTests.swift */,
 			);
 			path = MuvrUITests;
 			sourceTree = "<group>";
@@ -1620,6 +1623,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5450C2A11BC3FFF100B257E7 /* MuvrUITests.swift in Sources */,
+				99748E041C61FDEA0081491F /* HelperTests.swift in Sources */,
 				992BEDF01C60930B0030611B /* MRExerciseViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

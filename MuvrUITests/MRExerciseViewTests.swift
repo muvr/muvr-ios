@@ -34,17 +34,16 @@ class MRExerciseViewTests: XCTestCase {
         app.scrollViews.buttons["Biceps Curls"].tap()
         
         // Tap exercise
-        let element = app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).element.childrenMatchingType(.Other).element.childrenMatchingType(.Other).elementBoundByIndex(1)
+        let element = app.otherElements["Exercise control"]
         let bicepsCurlsButton = element.buttons["Biceps Curls"]
         bicepsCurlsButton.tap()
         
-        // Waiting a few second to bypass the Get Ready view
-        sleep(7)
+        // Wait a few second to bypass the Get Ready view
+        NSThread.sleepForTimeInterval(7)
         
         // Go to finish view
         bicepsCurlsButton.tap()
         
-
         // Modify the weight
         let weightElement = tablesQuery.cells.elementBoundByIndex(1)
         let addButton = weightElement.buttons.elementBoundByIndex(1)
@@ -71,6 +70,20 @@ class MRExerciseViewTests: XCTestCase {
         
         // Finish the exercise
         bicepsCurlsButton.tap()
+    }
+    
+    func testNoUnitInWeight() {
+        let app = XCUIApplication()
+        UIHelper.startExercise(app, plan: ["Arms"], exercise: "Biceps Curls")
+        // Select certain exercise in scroll views
+        app.scrollViews.buttons["Biceps Curls"].tap()
+        
+        // Tap exercise
+        let exerciseElements = app.otherElements["Exercise control"]
+        let weightElement = exerciseElements.staticTexts.elementBoundByIndex(2)
+        let checkStr = weightElement.label.lowercaseString
+        
+        XCTAssertTrue(checkStr.rangeOfString("kg") == nil && checkStr.rangeOfString("lbs") == nil)
     }
 
 }
