@@ -85,5 +85,34 @@ class MRExerciseViewTests: XCTestCase {
         
         XCTAssertTrue(checkStr.rangeOfString("kg") == nil && checkStr.rangeOfString("lbs") == nil)
     }
+    
+    func testExistBackArrowIcon() {
+        let app = XCUIApplication()
+        let tablesQuery = app.tables
+        
+        // Select Exercise Type and start session
+        tablesQuery.staticTexts["Arms"].tap()
+        app.buttons["Start"].tap()
+        
+        // Select certain exercise in scroll views
+        app.scrollViews.buttons["Biceps Curls"].tap()
+        
+        // Tap exercise
+        let element = app.otherElements["Exercise control"]
+        let bicepsCurlsButton = element.buttons["Biceps Curls"]
+        
+        XCTAssertFalse(app.images["Back Arrow"].exists)
+        bicepsCurlsButton.tap()
+        
+        // We are in "Get Ready" view, check existence of Back Arrow icon
+        XCTAssertTrue(app.images["Back Arrow"].exists)
+        
+        NSThread.sleepForTimeInterval(2)
+        bicepsCurlsButton.tap()
+        XCTAssertFalse(app.images["Back Arrow"].exists)
+        
+        // Stop session
+        element.buttons.element.pressForDuration(6)
+    }
 
 }
