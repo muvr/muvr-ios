@@ -1,7 +1,7 @@
 import Accelerate
 import Foundation
 
-struct MKRegressionFitter {
+struct MKLinearRegression {
 
     
     ///
@@ -16,9 +16,13 @@ struct MKRegressionFitter {
     /// Example:  x=[1,2, 3,4] with m=2 and degree=2
     /// then result=[1,1,2,1,4, 1,3,4,9.16]
     ///
-    static func format(x:[Float], m: Int, degree: Int) -> [Float] {
+    internal static func format(x:[Float], m: Int, degree: Int) -> [Float] {
         let k = degree * m + 1
         let n = x.count / m
+        assert(m > 0)
+        assert(degree >= 0)
+        assert(x.count == m * n)
+        
         var x_: [Float] = [Float](count: k * n, repeatedValue: 0)
         for i in 0..<(n * k) {
             let col = i % k
@@ -42,7 +46,7 @@ struct MKRegressionFitter {
     /// parameter degree: the degree used to solve the equation
     /// returns an array of length (1 + m * degree) containing the θ coefficients
     ///
-    static func solve(x: [Float], y: [Float], m: Int, degree: Int) -> [Float] {
+    static func train(x: [Float], y: [Float], m: Int, degree: Int) -> [Float] {
         let k = degree * m + 1
         let n = x.count / m
         let x_ = format(x, m: m, degree: degree)
@@ -57,6 +61,20 @@ struct MKRegressionFitter {
         la_vector_to_float_buffer(&θ, 1, Θ)
         
         return θ
+    }
+    
+    ///
+    /// estimate the y value given a sample x and the coefficients θ
+    ///
+    static func estimate(x: [Float], θ: [Float]) -> Float {
+        let k = θ.count
+        let m = x.count
+        var y: Float = θ[0]
+        for i in 1..<k {
+            let c = (i-1) % m
+            y += θ[i] * pow(x[c], ceil(Float(i) / Float(m)))
+        }
+        return y
     }
     
 }
