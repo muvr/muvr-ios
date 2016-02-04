@@ -73,12 +73,14 @@ class MRSessionsRealDataTests : XCTestCase {
             let firstResult = results.first!
             let lastResult = results.last!
             
+            // The first session can be inaccurate, but must be acceptable for the users
             XCTAssertLessThanOrEqual(firstResult.labelsWeightedLoss(.NumberOfTaps, ignoring: [.Intensity]), 2, name)
             XCTAssertGreaterThanOrEqual(firstResult.labelsAccuracy(ignoring: [.Intensity]), 0.5, name)
-            XCTAssertGreaterThan(firstResult.exercisesAccuracy(), 0.7, name)
+            XCTAssertGreaterThanOrEqual(firstResult.exercisesAccuracy(), 0.75, name)
             
-            XCTAssertGreaterThanOrEqual(lastResult.labelsAccuracy(ignoring: [.Intensity]), 0.8, name)
-            XCTAssertGreaterThan(lastResult.exercisesAccuracy(), 0.8, name)
+            // The last session must be very accurate
+            XCTAssertGreaterThanOrEqual(lastResult.labelsAccuracy(ignoring: [.Intensity]), 0.9, name)
+            XCTAssertGreaterThanOrEqual(lastResult.exercisesAccuracy(), 0.92, name)
             XCTAssertLessThanOrEqual(lastResult.labelsWeightedLoss(.NumberOfTaps, ignoring: [.Intensity]), 1, name)
             
             // Overall, the last result must be better than the first result
