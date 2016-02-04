@@ -1,11 +1,11 @@
 A back session with fairly linear progression, but some tiredness towards the end
 resistanceTargeted:back
 
-resistanceTargeted:back/cable-row,         R=20,W=44,D=30,I=0.5
-resistanceTargeted:back/leverage-high-row, R=20,W=45,D=30,I=0.5
-resistanceTargeted:back/upright-row,       R=20,W=20,D=30,I=0.5
-resistanceTargeted:back/lateral-pulldown,  R=20,W=49,D=30,I=0.5
-resistanceTargeted:back/reverse-flyes,     R=20,W=49,D=30,I=0.5
+resistanceTargeted:back/cable-row,         R=20,W=44,D=30,I=0.4
+resistanceTargeted:back/leverage-high-row, R=20,W=45,D=30,I=0.4
+resistanceTargeted:back/upright-row,       R=20,W=20,D=30,I=0.4
+resistanceTargeted:back/lateral-pulldown,  R=20,W=49,D=30,I=0.4
+resistanceTargeted:back/reverse-flyes,     R=20,W=49,D=30,I=0.4
 
 resistanceTargeted:back/cable-row,         R=18,W=48,D=30,I=0.6
 resistanceTargeted:back/leverage-high-row, R=18,W=50,D=30,I=0.6

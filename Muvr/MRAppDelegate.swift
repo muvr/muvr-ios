@@ -496,7 +496,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     private func roundClipToNorm(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
-        let x = Int(min(1, max(0, value * 5)))
+        let x = Int(round(min(5, max(0, value * 5))))
         return Double(x) / 5
     }
     
@@ -519,7 +519,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     private func stepIntensity(value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
-        return value + Double(n) * 0.05
+        return value + Double(n) * 0.2
     }
     
     private func stepInteger(value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
