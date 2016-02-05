@@ -106,22 +106,6 @@ class MRManagedExerciseSession: NSManagedObject {
             }
         }
         
-        // special case for intensity (as it depends on weight and reps)
-        if let predictor = intensityPredictor as? MKLinearRegressionPredictor {
-            let w: [Double] = labels.0.flatMap { if case .Weight(let w) = $0 { return w } else { return nil } }
-            let r: [Int] = labels.0.flatMap { if case .Repetitions(let r) = $0 { return r } else { return nil } }
-            var xs: [Double] = []
-            if !w.isEmpty { xs.append(w[0]) }
-            if !r.isEmpty { xs.append(Double(r[0])) }
-            if !xs.isEmpty {
-                let intensity = predictor.predictScalar(forExerciseId: id, n: n, values: xs)
-                let index = labels.0.indexOf { if case .Intensity(_) = $0 { return true } else { return false } }
-                if let intensity = intensity, let index = index  {
-                    labels.0[index] = .Intensity(intensity: intensity)
-                }
-            }
-        }
-        
         return labels
     }
         
@@ -182,16 +166,6 @@ class MRManagedExerciseSession: NSManagedObject {
         durationPredictor.trainPositional(durations, forExerciseId: id)
         intensityPredictor.trainPositional(intensities, forExerciseId: id)
         repetitionsPredictor.trainPositional(repetitions, forExerciseId: id)
-        
-        // Special case for intensity (as it depends on weight and reps)
-        if let predictor = intensityPredictor as? MKLinearRegressionPredictor {
-            var xs: [[Double]] = []
-            if !weights.isEmpty { xs.append(weights) }
-            if !repetitions.isEmpty { xs.append(repetitions) }
-            if !xs.isEmpty {
-                predictor.trainRegression(intensities, forExerciseId: id, dependentTrainingSet: xs)
-            }
-        }
         
         // update counts
         exerciseIdCounts[id] = exerciseIdCounts[id].map { $0 + 1 } ?? 1

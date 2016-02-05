@@ -391,52 +391,22 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// inject the predictors in the given session
     ///
     func injectPredictors(into session: MRManagedExerciseSession) {
-        // repeat last value with markov chain of corrections
-        // let weightPredictor = MKLinearMarkovScalarPredictor(round: roundWeight, progression: weightProgressionForExerciseId, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 2)
-        // linear prediction over the last 4 values
-        // let durationPredictor = MKPolynomialFittingScalarPredictor(round: noRound, maxDegree: 1, maxSamples: 4)
-        // repeat last value with markov chain of corrections
-        //let intensityPredictor = MKLinearMarkovScalarPredictor(round: roundClipToNorm, progression: {_ in return 0.2}, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 1)
-        // repeat last value with markov chain of corrections
-        //let repetitionsPredictor = MKLinearMarkovScalarPredictor(round: roundInteger, progression: {_ in return 1}, maxDegree: 0, maxSamples: 1)
-        
-//        let weightPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
-//            return MKLinearMarkovScalarPredictor(fromJSON: p.data, round: roundWeight, step: stepWeight, maxDegree: 2, maxSamples: 8)
-//        } ?? MKLinearMarkovScalarPredictor(round: roundWeight, step: stepWeight, maxDegree: 2, maxSamples: 8)
-        
-        func createWeightPredictor() -> MKLinearMarkovScalarPredictor {
-            return MKLinearMarkovScalarPredictor(round: roundWeight, step: stepWeight, maxDegree: 2, maxSamples: 8)
-        }
-        
-        func createRepetitionPredictor() -> MKLinearMarkovScalarPredictor {
-            return MKLinearMarkovScalarPredictor(round: roundInteger, step: stepInteger, maxDegree: 0, maxSamples: 1)
-        }
-        
+                
         let weightPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
-            return MKAnotherScalarPredictor(fromJson: p.data, makePredictor: createWeightPredictor)
-            } ?? MKAnotherScalarPredictor(makePredictor: createWeightPredictor)
+            return MKRepeatLastValuePredictor(fromJSON: p.data)
+            } ?? MKRepeatLastValuePredictor()
         
         let durationPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingDuration, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
-            return MKPolynomialFittingScalarPredictor(fromJSON: p.data, round: noRound, maxDegree: 2, maxSamples: 8)
-        } ?? MKPolynomialFittingScalarPredictor(round: noRound, maxDegree: 2, maxSamples: 8)
-        
-//        let intensityPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingIntensity, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
-//            return MKLinearMarkovScalarPredictor(fromJSON: p.data, round: roundClipToNorm, step: stepIntensity, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 1)
-//        } ?? MKLinearMarkovScalarPredictor(round: roundClipToNorm, step: stepIntensity, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 1)
-
-        let defaultIntensityPredictor = MKLinearMarkovScalarPredictor(round: roundClipToNorm, step: stepIntensity, maxDegree: 0, maxSamples: 1, maxCorrectionSteps: 1)
+            return MKRepeatLastValuePredictor(fromJSON: p.data)
+        } ?? MKRepeatLastValuePredictor()
         
         let intensityPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingIntensity, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
-            return MKLinearRegressionPredictor(fromJson: p.data, predictor: defaultIntensityPredictor, round: roundClipToNorm, degree: 2)
-            } ?? MKLinearRegressionPredictor(predictor: defaultIntensityPredictor, round: roundClipToNorm, degree: 2)
-        
-//        let repetitionsPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingRepetitions, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
-//            return MKLinearMarkovScalarPredictor(fromJSON: p.data, round: roundInteger, step: stepInteger, maxDegree: 0, maxSamples: 1)
-//        } ?? MKLinearMarkovScalarPredictor(round: roundInteger, step: stepInteger, maxDegree: 0, maxSamples: 1)
-        
+            return MKRepeatLastValuePredictor(fromJSON: p.data)
+        } ?? MKRepeatLastValuePredictor()
+
         let repetitionsPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingRepetitions, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
-            return MKAnotherScalarPredictor(fromJson: p.data, makePredictor: createRepetitionPredictor)
-            } ?? MKAnotherScalarPredictor(makePredictor: createRepetitionPredictor)
+            return MKRepeatLastValuePredictor(fromJSON: p.data)
+        } ?? MKRepeatLastValuePredictor()
         
         if let plan = MRManagedExercisePlan.planForExerciseType(session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext) {
             session.plan = plan.plan
@@ -449,41 +419,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         session.repetitionsPredictor = repetitionsPredictor
     }
     
-    func initialSetup() {
-        let generalWeightProgression: [Double] = [10, 12.5, 15, 17.5, 17.5, 15, 15, 15, 12.5, 12.5, 12.5, 10, 10, 12.5, 10]
-        
-        let weightPredictor = MKPolynomialFittingScalarPredictor(round: roundWeight)
-        for (exerciseId, _, _) in exerciseDetails {
-            if let type = MKExerciseType(exerciseId: exerciseId) {
-                var multiplier: Double = 1.0
-                switch type {
-                case .ResistanceTargeted(let muscleGroups) where muscleGroups == [.Legs]: multiplier = 5
-                case .ResistanceTargeted(let muscleGroups) where muscleGroups == [.Chest]: multiplier = 3
-                case .ResistanceTargeted(let muscleGroups) where muscleGroups == [.Back]: multiplier = 3
-                case .ResistanceTargeted(let muscleGroups) where muscleGroups == [.Core]: multiplier = 4
-                default: multiplier = 1
-                }
-                weightPredictor.trainPositional(generalWeightProgression.map { $0 * multiplier }, forExerciseId: exerciseId)
-            }
-        }
-        
-        // Next, construct some default plans
-        let allExerciseTypes: [MKExerciseType] = [
-            .ResistanceTargeted(muscleGroups: [.Arms]),
-            .ResistanceTargeted(muscleGroups: [.Core]),
-            .ResistanceTargeted(muscleGroups: [.Back]),
-            .ResistanceTargeted(muscleGroups: [.Chest]),
-            .ResistanceTargeted(muscleGroups: [.Legs]),
-            .ResistanceTargeted(muscleGroups: [.Shoulders]),
-            .ResistanceWholeBody,
-            .IndoorsCardio
-        ]
-        for exerciseType in allExerciseTypes {
-            MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingWeight, location: nil, sessionExerciseType: exerciseType, data: weightPredictor.json, inManagedObjectContext: managedObjectContext)
-        }
-        
-        saveContext()
-    }
+    func initialSetup() { }
     
     // MARK: - Scalar rounder
     
