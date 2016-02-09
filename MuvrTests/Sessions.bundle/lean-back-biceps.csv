@@ -1,0 +1,20 @@
+Lean training: back and biceps
+resistanceTargeted:upperbody
+
+resistanceTargeted:back/upright-row,R=10,W=30,D=30,I=0.6
+resistanceTargeted:back/upright-row,R=12,W=30,D=38,I=0.8
+resistanceTargeted:back/upright-row,R=12,W=30,D=25,I=1
+
+resistanceTargeted:shoulders/pull-up,R=10,W=30,D=30,I=0.6
+resistanceTargeted:shoulders/pull-up,R=12,W=30,D=37,I=0.8
+resistanceTargeted:shoulders/pull-up,R=11,W=30,D=29,I=1
+
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=30,D=34,I=0.6
+resistanceTargeted:arms/barbell-biceps-curl,R=12,W=30,D=42,I=0.8
+resistanceTargeted:arms/barbell-biceps-curl,R=13,W=30,D=31,I=1
+
+resistanceTargeted:arms/dumbbell-biceps-curl,R=10,W=30,D=32,I=0.8
+resistanceTargeted:arms/dumbbell-biceps-curl,R=12,W=30,D=39,I=0.8
+resistanceTargeted:arms/dumbbell-biceps-curl,R=10,W=30,D=31,I=1
+
+indoorsCardio:cross-trainer,D=300,I=0.4
