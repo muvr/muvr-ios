@@ -95,10 +95,19 @@ class MRExerciseSessionEvaluator {
                 switch basis {
                 case .NumberOfTaps:
                     var taps: Int = 0
+                    let minimum = detail.2.flatMap {
+                        if case .WeightProgression(let minimum, _, _) = $0 {
+                            return minimum
+                        }
+                        return nil
+                    }.first ?? 0.0
                     var x = e
                     if x.subtract(p!).scalar() > 0 {
                         // e > p
-                        while (x.subtract(p!).scalar() > 0) { taps += 1; x = x.decrement(detail) }
+                        while (x.subtract(p!).scalar() > minimum) {
+                            taps += 1;
+                            x = x.decrement(detail)
+                        }
                     } else {
                         while (x.subtract(p!).scalar() < 0) { taps += 1; x = x.increment(detail) }
                     }

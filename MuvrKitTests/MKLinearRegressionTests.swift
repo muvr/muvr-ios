@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 @testable import MuvrKit
 
-class MKRegressionFitterTests : XCTestCase {
+class MKLinearRegressionTests : XCTestCase {
     
     func testFormatX() {
         let x: [Float] = [1,2, 3,4] // 2x2 matrix
