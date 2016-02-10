@@ -87,11 +87,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     var window: UIWindow?
     
-    private let polynomialFittingWeight = "pfw"
-    private let polynomialFittingDuration = "pfd"
-    private let polynomialFittingIntensity = "pfi"
-    private let polynomialFittingRepetitions = "pfr"
-    
     private let sessionStoryboard = UIStoryboard(name: "Session", bundle: nil)
     private var sessionViewController: UIViewController?
     private var connectivity: MKAppleWatchConnectivity!
@@ -377,10 +372,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         // save predictors
         MRManagedExercisePlan.upsert(session.plan, exerciseType: session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.weightPredictor.json, inManagedObjectContext: managedObjectContext)
-        MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingDuration, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.durationPredictor.json, inManagedObjectContext: managedObjectContext)
-        MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingIntensity, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.intensityPredictor.json, inManagedObjectContext: managedObjectContext)
-        MRManagedScalarPredictor.upsertScalarPredictor(polynomialFittingRepetitions, location: currentLocation, sessionExerciseType: session.exerciseType, data: session.repetitionsPredictor.json, inManagedObjectContext: managedObjectContext)
+        MRManagedLabelsPredictor.upsertPredictor(location: currentLocation, sessionExerciseType: session.exerciseType, data: session.labelsPredictor.json, inManagedObjectContext: managedObjectContext)
         
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
         
@@ -391,32 +383,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// inject the predictors in the given session
     ///
     func injectPredictors(into session: MRManagedExerciseSession) {
-                
-        let weightPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingWeight, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
-            return MKRepeatLastValuePredictor(fromJSON: p.data)
-            } ?? MKRepeatLastValuePredictor()
-        
-        let durationPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingDuration, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
-            return MKRepeatLastValuePredictor(fromJSON: p.data)
-        } ?? MKRepeatLastValuePredictor()
-        
-        let intensityPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingIntensity, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
-            return MKRepeatLastValuePredictor(fromJSON: p.data)
-        } ?? MKRepeatLastValuePredictor()
-
-        let repetitionsPredictor = MRManagedScalarPredictor.scalarPredictorFor(polynomialFittingRepetitions, location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext).map { p in
-            return MKRepeatLastValuePredictor(fromJSON: p.data)
-        } ?? MKRepeatLastValuePredictor()
-        
         if let plan = MRManagedExercisePlan.planForExerciseType(session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext) {
             session.plan = plan.plan
         } else {
             session.plan = MKExercisePlan<MKExercise.Id>()
         }
-        session.weightPredictor = weightPredictor
-        session.durationPredictor = durationPredictor
-        session.intensityPredictor = intensityPredictor
-        session.repetitionsPredictor = repetitionsPredictor
+        
+        let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)
+        session.labelsPredictor = predictor.map { MKRepeatLabelsPredictor(fromJson: $0.data) } ?? MKRepeatLabelsPredictor()
+
     }
     
     func initialSetup() { }

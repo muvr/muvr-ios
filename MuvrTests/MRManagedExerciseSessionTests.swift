@@ -26,10 +26,7 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
     func testAddExerciseDetail() {
         let session = MRManagedExerciseSession.insert("12312", exerciseType: .IndoorsCardio, start: NSDate(), location: nil, inManagedObjectContext: managedObjectContext)
         session.plan = MKExercisePlan<MKExercise.Id>()
-        session.weightPredictor = MKRepeatLastValuePredictor()
-        session.intensityPredictor = MKRepeatLastValuePredictor()
-        session.durationPredictor = MKRepeatLastValuePredictor()
-        session.repetitionsPredictor = MKRepeatLastValuePredictor()
+        session.labelsPredictor = MKRepeatLabelsPredictor()
         
         let givenDetail: MKExerciseDetail = ("foo/bar", MKExerciseType.ResistanceWholeBody, [])
         let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10), .Intensity(intensity: 0.5), .Weight(weight: 40)]
