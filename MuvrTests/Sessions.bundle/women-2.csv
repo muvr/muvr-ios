@@ -1,0 +1,21 @@
+women workouts: upperbody + cardio
+resistanceTargeted:upperbody
+
+indoorsCardio:running-machine,D=900,I=0.4
+
+resistanceTargeted:shoulders/lateral-raise,R=12,W=5,D=30,I=0.6
+resistanceTargeted:shoulders/lateral-raise,R=12,W=5,D=30,I=0.6
+resistanceTargeted:shoulders/lateral-raise,R=12,W=5,D=30,I=0.6
+
+resistanceTargeted:arms/dumbbell-biceps-curl,R=12,W=5,D=30,I=0.6
+resistanceTargeted:arms/dumbbell-biceps-curl,R=12,W=5,D=30,I=0.6
+resistanceTargeted:arms/dumbbell-biceps-curl,R=12,W=5,D=30,I=0.6
+
+resistanceTargeted:shoulders/dumbbell-shoulder-press,R=12,W=5,D=30,I=0.6
+resistanceTargeted:shoulders/dumbbell-shoulder-press,R=12,W=5,D=30,I=0.6
+resistanceTargeted:shoulders/dumbbell-shoulder-press,R=12,W=5,D=30,I=0.6
+
+resistanceTargeted:back/cable-row,R=12,W=10,D=30,I=0.6
+resistanceTargeted:back/cable-row,R=12,W=10,D=30,I=0.6
+resistanceTargeted:back/cable-row,R=12,W=10,D=30,I=0.6
+
