@@ -40,8 +40,10 @@ class MRExerciseSessionEvaluator {
         /// The accuracy of label predictions; values over 0.9 represents very good predictions.
         /// Value over 0.5 will result in fairly poor user experience—every other label is wrong!
         /// - returns: the accuracy 0..1
-        func labelsAccuracy(ignoring ignored: [MKExerciseLabelDescriptor]) -> Double {
+        func labelsAccuracy(ignoring ignored: [MKExerciseLabelDescriptor]) -> Double? {
             let filtered = filteredScalarLabels(ignoring: ignored)
+            guard !filtered.isEmpty else { return nil }
+            
             let mismatchedCount = filtered.reduce(0) { r, x in
                 let (_, _, e, p) = x
                 if let p = p where abs(e.scalar() - p.scalar()) < 0.01 {
@@ -75,9 +77,10 @@ class MRExerciseSessionEvaluator {
         /// - parameter basis: the loss calculation basis
         /// - returns: the weighted loss of label predictions.
         ///
-        func labelsWeightedLoss(basis: LossBasis, ignoring ignored: [MKExerciseLabelDescriptor]) -> Double {
+        func labelsWeightedLoss(basis: LossBasis, ignoring ignored: [MKExerciseLabelDescriptor]) -> Double? {
             let stupidLossIncident: Double = 10
             let filtered = filteredScalarLabels(ignoring: ignored)
+            guard !filtered.isEmpty else { return nil }
             
             var secondMaxima: [MKExerciseLabelDescriptor : Double] = [:]
             for (k, x) in (filtered.groupBy { (_, d, _, _) in return d }) {
@@ -128,10 +131,13 @@ class MRExerciseSessionEvaluator {
                     print("\(prefix) \(detail.2)")
                 }
                 
+        
                 totalLoss += pow(loss, 2)
-                if p!.scalar() < 0.1 { totalStupidLoss += stupidLossIncident }
-                if let sm = secondMaxima[td] where p!.scalar() > 2 * sm {
-                    totalStupidLoss += stupidLossIncident
+                if abs(p!.scalar() - e.scalar()) > 0.1 { // if p and e are the same it's fine, otherwise check for stupid predicted value
+                    if p!.scalar() < 0.1 && e.scalar() > 0.1 { totalStupidLoss += stupidLossIncident }
+                    if let sm = secondMaxima[td] where p!.scalar() > 2 * sm && abs(p!.scalar() - e.scalar()) > 1 {
+                        totalStupidLoss += stupidLossIncident
+                    }
                 }
                 totalExpected += e.scalar()
             }

@@ -15,6 +15,25 @@ extension Array {
         }
         return result
     }
+}
+
+import CoreData
+
+extension MRManagedLabelsPredictor {
+
+    static func deleteAll(inManagedObjectContext managedObjectContext: NSManagedObjectContext) throws {
+        let fetchReq = NSFetchRequest(entityName: "MRManagedLabelsPredictor")
+        let deleteReq = NSBatchDeleteRequest(fetchRequest: fetchReq)
+        try managedObjectContext.executeRequest(deleteReq)
+        try managedObjectContext.save()
+    }
+}
+
+extension MRAppDelegate {
+    
+    func resetLabelsPredictors() {
+        try! MRManagedLabelsPredictor.deleteAll(inManagedObjectContext: managedObjectContext)
+    }
     
 }
 
@@ -77,6 +96,8 @@ class MRSessionsRealDataTests : XCTestCase {
         // journey through the sessions
         let evaluatedSessions: [EvaluationResult] = readSessions(app.exercisePropertiesForExerciseId).map { loadedSession in
             let name = "\(loadedSession.description) \(loadedSession.exerciseType)"
+            app.resetLabelsPredictors()
+            
             let results: [MRExerciseSessionEvaluator.Result] = (0..<count).map { i in
                 try! app.startSession(forExerciseType: loadedSession.exerciseType)
                 let score = MRExerciseSessionEvaluator(loadedSession: loadedSession).evaluate(app.currentSession!)
@@ -90,7 +111,7 @@ class MRSessionsRealDataTests : XCTestCase {
         
         // Perform basic assertions on the first (completely untrained) and last (completely trained)
         // session. When the assertions pass, the app provides acceptable user experience
-        var scores: [String: AnyObject] = [:]
+        var scores: [String: [String: Double]] = [:]
         for (name, _, results) in evaluatedSessions {
             let firstResult = results.first!
             let lastResult = results.last!
@@ -101,43 +122,44 @@ class MRSessionsRealDataTests : XCTestCase {
             let lastLabelAccuracy = lastResult.labelsAccuracy(ignoring: [.Intensity])
             let lastWeightedLoss = lastResult.labelsWeightedLoss(.NumberOfTaps, ignoring: [.Intensity])
             let lastExerciseAccuracy = lastResult.exercisesAccuracy()
+            
             var sessionScores: [String:Double] = [:]
-            if !firstLabelAccuracy.isNaN { sessionScores["FLA"] = firstLabelAccuracy }
-            if !firstWeightedLoss.isNaN { sessionScores["FWL"] = firstWeightedLoss }
-            if !firstExerciseAccuracy.isNaN { sessionScores["FEA"] = firstExerciseAccuracy }
-            if !lastLabelAccuracy.isNaN { sessionScores["LLA"] = lastLabelAccuracy }
-            if !lastWeightedLoss.isNaN { sessionScores["LWL"] = lastWeightedLoss }
-            if !lastExerciseAccuracy.isNaN { sessionScores["LEA"] = lastExerciseAccuracy }
+            if let value = firstLabelAccuracy { sessionScores["FLA"] = value }
+            if let value = firstWeightedLoss { sessionScores["FWL"] = value }
+            sessionScores["FEA"] = firstExerciseAccuracy
+            if let value = lastLabelAccuracy { sessionScores["LLA"] = value }
+            if let value = lastWeightedLoss { sessionScores["LWL"] = value }
+            sessionScores["LEA"] = lastExerciseAccuracy
             scores[name] = sessionScores
             
             // The first session can be inaccurate, but must be acceptable for the users
-            XCTAssertLessThanOrEqual(firstWeightedLoss, 2, name)
-            XCTAssertGreaterThanOrEqual(firstLabelAccuracy, 0.5, name)
+            if let value = firstWeightedLoss { XCTAssertLessThanOrEqual(value, 2, name) }
+            if let value = firstLabelAccuracy { XCTAssertGreaterThanOrEqual(value, 0.5, name) }
             XCTAssertGreaterThanOrEqual(firstExerciseAccuracy, 0.75, name)
             
             // The last session must be very accurate
-            XCTAssertGreaterThanOrEqual(lastLabelAccuracy, 0.9, name)
+            if let value = lastLabelAccuracy { XCTAssertGreaterThanOrEqual(value, 0.9, name) }
             XCTAssertGreaterThanOrEqual(lastExerciseAccuracy, 0.92, name)
-            XCTAssertLessThanOrEqual(lastWeightedLoss, 1, name)
+            if let value = lastWeightedLoss { XCTAssertLessThanOrEqual(value, 1, name) }
             
             // Overall, the last result must be better than the first result
-            XCTAssertGreaterThanOrEqual(lastLabelAccuracy, firstLabelAccuracy, name)
+            if let first = firstLabelAccuracy, let last = lastLabelAccuracy { XCTAssertGreaterThanOrEqual(last, first, name) }
             XCTAssertGreaterThanOrEqual(lastExerciseAccuracy, firstExerciseAccuracy, name)
-            XCTAssertLessThanOrEqual(lastWeightedLoss, firstWeightedLoss, name)
+            if let first = firstWeightedLoss, last = lastWeightedLoss { XCTAssertLessThanOrEqual(last, first, name) }
             
             // The prediction should be better than the previous one
-            if let previousScores = previousScores[name] {
+            if let previousScores = previousScores[name], let scores = scores[name] {
                 
-                /// truncate the values before comparing to avoids floating point issues
+                /// truncate the values before comparing to avoid floating point issues
                 func trunc(value: Double) -> Double { return round(value * 1000.0) / 1000.0 }
                 
-                if let score = previousScores["FLA"] { XCTAssertGreaterThanOrEqual(trunc(firstLabelAccuracy), trunc(score), name) }
-                if let score = previousScores["FWL"] { XCTAssertLessThanOrEqual(trunc(firstWeightedLoss), trunc(score), name) }
-                if let score = previousScores["FEA"] { XCTAssertGreaterThanOrEqual(trunc(firstExerciseAccuracy), trunc(score), name) }
+                if let p = previousScores["FLA"], let a = scores["FLA"] { XCTAssertGreaterThanOrEqual(trunc(a), trunc(p), name) }
+                if let p = previousScores["FWL"], let a = scores["FWL"] { XCTAssertLessThanOrEqual(trunc(a), trunc(p), name) }
+                if let p = previousScores["FEA"], let a = scores["FEA"] { XCTAssertGreaterThanOrEqual(trunc(a), trunc(p), name) }
                 
-                if let score = previousScores["LLA"] { XCTAssertGreaterThanOrEqual(trunc(lastLabelAccuracy), trunc(score), name) }
-                if let score = previousScores["LWL"] { XCTAssertLessThanOrEqual(trunc(lastWeightedLoss), trunc(score), name) }
-                if let score = previousScores["LEA"] { XCTAssertGreaterThanOrEqual(trunc(lastExerciseAccuracy), trunc(score), name) }
+                if let p = previousScores["LLA"], let a = scores["LLA"] { XCTAssertGreaterThanOrEqual(trunc(a), trunc(p), name) }
+                if let p = previousScores["LWL"], let a = scores["LWL"] { XCTAssertLessThanOrEqual(trunc(a), trunc(p), name) }
+                if let p = previousScores["LEA"], let a = scores["LEA"] { XCTAssertGreaterThanOrEqual(trunc(a), trunc(p), name) }
             }
         }
         
@@ -147,8 +169,8 @@ class MRSessionsRealDataTests : XCTestCase {
             print(last.0)
             print(last.2.last!.description)
             for i in 0..<count {
-                let bla = project(results, index: i) { $0.labelsAccuracy(ignoring: [.Intensity]) }.maxElement()
-                let bwl = project(results, index: i) { $0.labelsWeightedLoss(.RawValue, ignoring: [.Intensity]) }.minElement()
+                let bla = project(results, index: i) { $0.labelsAccuracy(ignoring: [.Intensity]) ?? 0 }.maxElement()
+                let bwl = project(results, index: i) { $0.labelsWeightedLoss(.RawValue, ignoring: [.Intensity]) ?? 999 }.minElement()
                 let bea = project(results, index: i) { $0.exercisesAccuracy() }.maxElement()
 
                 print("Best EA = \(bea)")
@@ -158,7 +180,21 @@ class MRSessionsRealDataTests : XCTestCase {
             }
         }
         
-        writeTestScores(scores)
+        for (session, scores) in scores {
+            guard let previousScores = previousScores[session] else { continue }
+            print("\n\(session)")
+            print("  First Session")
+            if let p = previousScores["FLA"], let s = scores["FLA"] { print("    Label accuracy:    \(p) -> \(s)") }
+            if let p = previousScores["FWL"], let s = scores["FWL"] { print("    Weighted loss:     \(p) -> \(s)") }
+            if let p = previousScores["FEA"], let s = scores["FEA"] { print("    Exercise accuracy: \(p) -> \(s)") }
+            print("  Last Session")
+            if let p = previousScores["LLA"], let s = scores["LLA"] { print("    Label accuracy:    \(p) -> \(s)") }
+            if let p = previousScores["LWL"], let s = scores["LWL"] { print("    Weighted loss:     \(p) -> \(s)") }
+            if let p = previousScores["LEA"], let s = scores["LEA"] { print("    Exercise accuracy: \(p) -> \(s)") }
+        }
+        
+        // Uncomment to write json result file
+        // writeTestScores(scores)
     }
     
 }
