@@ -17,7 +17,7 @@
     "Beginner session week 2 day 1 ResistanceTargeted([])" : {
         "EA" : 0.75,
         "LA" : 0.5,
-        "WL" : 0.02814814814814815
+        "WL" : 0.11
     },
     "Beginner session week 2 day 2 ResistanceTargeted([])" : {
         "EA" : 0.75,
@@ -32,7 +32,7 @@
     "Beginner session week 3 day 1 ResistanceTargeted([])" : {
         "EA" : 0.75,
         "LA" : 0.5,
-        "WL" : 0.1848341232227488
+        "WL" : 0.51
     },
     "Beginner session week 3 day 2 ResistanceTargeted([])" : {
         "EA" : 0.75,
@@ -47,31 +47,31 @@
     "Beginner session week 4 day 1 ResistanceTargeted([])" : {
         "EA" : 0.75,
         "LA" : 0.5,
-        "WL" : 0.0525328330206379
+        "WL" : 0.3
     },
     "Beginner session week 4 day 2 ResistanceTargeted([])" : {
         "EA" : 0.75,
         "LA" : 0.5,
-        "WL" : 0.0525328330206379
+        "WL" : 0.11
     },
     "Beginner session week 4 day 3 ResistanceTargeted([])" : {
         "EA" : 0.92,
         "LA" : 0.9,
-        "WL" : 0.21671388101983
+        "WL" : 0.11
     },
     "Beginner session week 5 day 1 ResistanceTargeted([])" : {
         "EA" : 0.75,
         "LA" : 0.5454545454545454,
-        "WL" : 0
+        "WL" : 0.3
     },
     "Beginner session week 5 day 2 ResistanceTargeted([])" : {
         "EA" : 0.75,
         "LA" : 0.5454545454545454,
-        "WL" : 0
+        "WL" : 0.2
     },
     "Beginner session week 5 day 3 ResistanceTargeted([])" : {
         "EA" : 0.92,
         "LA" : 0.9,
-        "WL" : 0
+        "WL" : 0.2
     }
 }

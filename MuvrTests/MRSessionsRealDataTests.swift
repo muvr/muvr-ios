@@ -167,7 +167,7 @@ class MRSessionsRealDataTests : XCTestCase {
                 }
             }
         }
-        if writeScores { writeExpectedScores(expectedScores, into: scenario) }
+        //if writeScores { writeExpectedScores(expectedScores, into: scenario) }
         
         text.appendContentsOf("\nDone SCENARIO \(scenario) with \(validSessions)/\(sessions) valid sessions\n")
         
@@ -184,20 +184,13 @@ class MRSessionsRealDataTests : XCTestCase {
     
     private func evalSession(app: MRAppDelegate)(loadedSession: MRLoadedSession) -> EvaluationResult {
         let name = "\(loadedSession.description) \(loadedSession.exerciseType)"
-        app.resetLabelsPredictors()
+        print("\nEvaluating session \(loadedSession.description)")
         
         try! app.startSession(forExerciseType: loadedSession.exerciseType)
         let result = MRExerciseSessionEvaluator(loadedSession: loadedSession).evaluate(app.currentSession!)
         try! app.endCurrentSession()
         
         return (name, loadedSession.exerciseType, result)
-    }
-    
-    private func project<A>(evaluatedSessions: [EvaluationResult], f: MRExerciseSessionEvaluator.Result -> A) -> [A] {
-        return evaluatedSessions.map { e in
-            let (_, _, results) = e
-            return f(results)
-        }
     }
     
     private func readExpectedScores(directory: String) -> [SessionName: SessionScore] {
@@ -240,6 +233,7 @@ class MRSessionsRealDataTests : XCTestCase {
         let kingfisher = CLLocation(latitude: 53.435739, longitude: -2.165993)
         app.locationManager(CLLocationManager(), didUpdateLocations: [kingfisher])
         
+        // Run all scenarios
         scenarios.map(runScenario(app)).forEach { print($0) }
     }
     
