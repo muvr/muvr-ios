@@ -1,0 +1,23 @@
+skiing workouts #4: lowerbody
+resistanceTargeted:legs
+
+resistanceTargeted:legs/barbell-squat,R=10,W=30,D=30,I=0.4
+resistanceTargeted:legs/barbell-squat,R=12,W=30,D=36,I=0.6
+resistanceTargeted:legs/barbell-squat,R=15,W=30,D=45,I=0.6
+
+resistanceTargeted:legs/squat,R=6,W=0,D=6,I=0.6
+resistanceTargeted:legs/squat,R=6,W=0,D=6,I=0.6
+resistanceTargeted:legs/squat,R=6,W=0,D=6,I=0.6
+resistanceTargeted:legs/squat,R=6,W=0,D=6,I=0.8
+resistanceTargeted:legs/squat,R=6,W=0,D=6,I=0.8
+resistanceTargeted:legs/squat,R=6,W=0,D=6,I=1
+
+resistanceTargeted:legs/lunges,R=12,W=20,D=32,I=0.6
+resistanceTargeted:legs/lunges,R=12,W=20,D=32,I=0.6
+resistanceTargeted:legs/lunges,R=15,W=20,D=40,I=0.8
+
+resistanceTargeted:legs/dumbbell-calf-raise,R=12,W=40,D=20,I=0.6
+resistanceTargeted:legs/dumbbell-calf-raise,R=12,W=40,D=21,I=0.6
+resistanceTargeted:legs/dumbbell-calf-raise,R=15,W=40,D=26,I=0.8
+
+indoorsCardio:cross-trainer,D=1200,I=0.6

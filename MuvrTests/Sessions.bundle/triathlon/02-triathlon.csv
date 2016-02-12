@@ -1,0 +1,14 @@
+triathlon circuit session #2: cardio
+indoorsCardio:cardio
+
+indoorsCardio:rowing-machine,D=180,I=0.4
+indoorsCardio:running-machine,D=360,I=0.4
+indoorsCardio:cross-trainer,D=180,I=0.4
+
+indoorsCardio:rowing-machine,D=120,I=0.6
+indoorsCardio:running-machine,D=240,I=0.6
+indoorsCardio:cross-trainer,D=120,I=0.6
+
+indoorsCardio:rowing-machine,D=60,I=0.8
+indoorsCardio:running-machine,D=120,I=0.8
+indoorsCardio:cross-trainer,D=60,I=0.8

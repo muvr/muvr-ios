@@ -1,0 +1,77 @@
+{
+    "women workouts: lowerbody (day 1) ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.75,
+        "LA" : 0.7272727272727273,
+        "WL" : 0
+    },
+    "women workouts: upperbody + cardio (day 2) ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.6666666666666667,
+        "WL" : 0
+    },
+    "women workouts: core + legs + cardio (day 3) ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.7058823529411764,
+        "WL" : 0
+    },
+    "women workouts: legs (day 4) ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.6666666666666667,
+        "WL" : 0
+    },
+    "women workouts: upperbody + cardio (day 5) ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.6666666666666667,
+        "WL" : 0
+    },
+    "women workouts: lowerbody (day 6) ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.75,
+        "LA" : 0.7272727272727273,
+        "WL" : 0
+    },
+    "women workouts: upperbody + cardio (day 7) ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.6666666666666667,
+        "WL" : 0
+    },
+    "women workouts: core + legs + cardio (day 8) ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.7058823529411764,
+        "WL" : 0
+    },
+    "women workouts: legs (day 9) ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.6666666666666667,
+        "WL" : 0
+    },
+    "women workouts: upperbody + cardio (day 10) ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.6666666666666667,
+        "WL" : 0
+    },
+    "women workouts: lowerbody (day 11) ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0
+    },
+    "women workouts: upperbody + cardio (day 12) ResistanceTargeted([])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0
+    },
+    "women workouts: core + legs + cardio (day 13) ResistanceTargeted([])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0
+    },
+    "women workouts: legs (day 14) ResistanceTargeted([])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0
+    },
+    "women workouts: upperbody + cardio (day 15) ResistanceTargeted([])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0
+    }
+}

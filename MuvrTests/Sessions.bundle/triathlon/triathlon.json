@@ -1,0 +1,26 @@
+{
+    "Endurance session #1 ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.5,
+        "WL" : 0.3386666666666667
+    },
+    "triathlon circuit session #2: cardio IndoorsCardio" : {
+        "EA" : 0.75
+    },
+    "Endurance session #3 ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.5,
+        "WL" : 0.3386666666666667
+    },
+    "triathlon circuit session #4: cardio IndoorsCardio" : {
+        "EA" : 0.75
+    },
+    "Endurance session #5 ResistanceTargeted([])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 1
+    },
+    "triathlon circuit session #6: cardio IndoorsCardio" : {
+        "EA" : 0.92
+    }
+}

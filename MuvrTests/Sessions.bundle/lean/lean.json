@@ -1,0 +1,47 @@
+{
+    "Lean training #1: back and biceps ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.5,
+        "WL" : 0.1
+    },
+    "Lean training #2: legs, abs ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.5,
+        "WL" : 0.3
+    },
+    "Lean training #3: upperbody ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.5,
+        "WL" : 0.2
+    },
+    "Lean training #4: back and biceps ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.5,
+        "WL" : 0.1
+    },
+    "Lean training #5: legs, abs ResistanceTargeted([])" : {
+        "EA" : 0.75,
+        "LA" : 0.5,
+        "WL" : 0.26
+    },
+    "Lean training #6: upperbody ResistanceTargeted([])" : {
+        "EA" : 0.6666666666666667,
+        "LA" : 0.5,
+        "WL" : 0.2
+    },
+    "Lean training #7: back and biceps ResistanceTargeted([])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0.1
+    },
+    "Lean training #8: legs, abs ResistanceTargeted([])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0.26
+    },
+    "Lean training #9: upperbody ResistanceTargeted([])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0.16
+    }
+}

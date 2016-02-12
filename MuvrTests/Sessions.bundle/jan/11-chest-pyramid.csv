@@ -1,0 +1,46 @@
+A chest session 11 with pyramid-like variation
+resistanceTargeted:chest
+
+resistanceTargeted:chest/angle-chest-press,R=15,W=40,D=30,I=0.4
+resistanceTargeted:chest/bench-press,      R=15,W=20,D=30,I=0.4
+resistanceTargeted:chest/butterfly-machine,R=15,W=35,D=30,I=0.4
+resistanceTargeted:chest/cable-crossover,  R=20,W=20,D=30,I=0.4
+
+resistanceTargeted:chest/angle-chest-press,R=15,W=45,D=30,I=0.6
+resistanceTargeted:chest/bench-press,      R=15,W=25,D=30,I=0.6
+resistanceTargeted:chest/butterfly-machine,R=15,W=42,D=30,I=0.6
+resistanceTargeted:chest/cable-crossover,  R=20,W=25,D=30,I=0.6
+
+resistanceTargeted:chest/angle-chest-press,R=15,W=50,D=30,I=0.6
+
+resistanceTargeted:chest/butterfly-machine,R=15,W=49,D=30,I=0.6
+resistanceTargeted:chest/cable-crossover,  R=14,W=25,D=30,I=0.6
+
+resistanceTargeted:chest/angle-chest-press,R=15,W=60,D=30,I=0.6
+resistanceTargeted:chest/bench-press,      R=15,W=30,D=30,I=0.6
+resistanceTargeted:chest/butterfly-machine,R=15,W=56,D=30,I=0.6
+resistanceTargeted:chest/cable-crossover,  R=10,W=25,D=30,I=0.6
+
+resistanceTargeted:chest/angle-chest-press,R=15,W=62.5,D=30,I=0.8
+resistanceTargeted:chest/bench-press,      R=15,W=35,D=30,I=0.8
+resistanceTargeted:chest/butterfly-machine,R=10,W=63,D=30,I=0.8
+resistanceTargeted:chest/cable-crossover,  R=7,W=30,D=30,I=0.8
+
+resistanceTargeted:chest/angle-chest-press,R=15,W=50,D=30,I=0.8
+resistanceTargeted:chest/bench-press,      R=10,W=30,D=30,I=0.8
+resistanceTargeted:chest/butterfly-machine,R=8,W=70,D=30,I=0.8
+resistanceTargeted:chest/cable-crossover,  R=5,W=30,D=30,I=0.8
+
+resistanceTargeted:chest/angle-chest-press,R=11,W=50,D=30,I=0.8
+resistanceTargeted:chest/bench-press,      R=10,W=20,D=30,I=0.8
+resistanceTargeted:chest/butterfly-machine,R=10,W=56,D=30,I=0.8
+resistanceTargeted:chest/cable-crossover,  R=10,W=20,D=30,I=0.8
+
+resistanceTargeted:chest/angle-chest-press,R=10,W=50,D=30,I=0.8
+resistanceTargeted:chest/bench-press,      R=14,W=20,D=30,I=0.8
+resistanceTargeted:chest/butterfly-machine,R=7,W=56,D=30,I=0.8
+resistanceTargeted:chest/cable-crossover,  R=10,W=20,D=30,I=0.8
+
+resistanceTargeted:chest/angle-chest-press,R=10,W=50,D=30,I=0.8
+resistanceTargeted:chest/bench-press,      R=12,W=20,D=30,I=0.8
+resistanceTargeted:chest/butterfly-machine,R=10,W=49,D=30,I=0.8

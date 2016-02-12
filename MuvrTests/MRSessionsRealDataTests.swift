@@ -49,152 +49,198 @@ extension MRAppDelegate {
 ///
 class MRSessionsRealDataTests : XCTestCase {
     
-    private typealias EvaluationResult = (String, MKExerciseType, [MRExerciseSessionEvaluator.Result])
+    private typealias SessionName = String
+    private typealias EvaluationResult = (SessionName, MKExerciseType, MRExerciseSessionEvaluator.Result) // TODO Result should not be an array
+    private typealias SessionScore = [Score]
     
-    private func readSessions(properties: MKExercise.Id -> [MKExerciseProperty]) -> [MRLoadedSession] {
+    private enum Score {
+        case ExerciseAccuracy(value: Double)
+        case LabelAccuracy(value: Double)
+        case WeightedLoss(value: Double)
+        
+        var value: Double {
+            switch self {
+            case .ExerciseAccuracy(let v): return v
+            case .LabelAccuracy(let v): return v
+            case .WeightedLoss(let v): return v
+            }
+        }
+        
+        var truncValue: Double {
+            let mult = 1000.0
+            return round(self.value * mult) / mult
+        }
+        
+        var name: String {
+            switch self {
+            case .ExerciseAccuracy: return "EA"
+            case .LabelAccuracy: return "LA"
+            case .WeightedLoss: return "WL"
+            }
+        }
+        
+        var description: String {
+            switch self {
+            case .ExerciseAccuracy: return "Exercise Accuracy"
+            case .LabelAccuracy: return "Label Accuracy"
+            case .WeightedLoss: return "Weighted Loss"
+            }
+        }
+        
+        init?(name: String, value: Double) {
+            switch name {
+            case "EA": self = .ExerciseAccuracy(value: value)
+            case "LA": self = .LabelAccuracy(value: value)
+            case "WL": self = .WeightedLoss(value: value)
+            default: return nil
+            }
+        }
+        
+        func isBetterThan(other: Score, session: SessionName) -> Bool {
+            let p = self.truncValue
+            let e = other.truncValue
+            switch (self) {
+            case .ExerciseAccuracy:
+                XCTAssertGreaterThanOrEqual(p, e, "Exercise accuracy for \(session)")
+                return p >= e
+            case .LabelAccuracy:
+                XCTAssertGreaterThanOrEqual(p, e, "Label accuracy for \(session)")
+                return p >= e
+            case .WeightedLoss:
+                XCTAssertLessThanOrEqual(p, e, "Weighted loss for \(session)")
+                return p <= e
+            }
+        }
+    }
+    
+    var scenarios: [String] {
         let bundlePath = NSBundle(forClass: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
-        return bundle.pathsForResourcesOfType("csv", inDirectory: nil).map { path in
+        return bundle.pathsForResourcesOfType(nil, inDirectory: nil).filter {
+            var isDirectory: ObjCBool = false
+            NSFileManager.defaultManager().fileExistsAtPath($0, isDirectory: &isDirectory)
+            return isDirectory.boolValue
+        }.map {
+            NSString(string: $0).lastPathComponent
+        }
+    }
+    
+    private func runScenario(app: MRAppDelegate)(scenario: String) -> String {
+        app.resetLabelsPredictors()
+        
+        var text: String = "SCENARIO \(scenario)\n"
+        // Load expected scores for this scenario
+        var expectedScores = readExpectedScores(scenario)
+        var writeScores = false
+        var sessions = 0
+        var validSessions = 0
+        
+        // Evaluate count sessions, giving the system the opportunity to learn the users
+        // journey through the sessions
+        let evaluatedSessions: [EvaluationResult] = readSessions(app.exercisePropertiesForExerciseId, from: scenario).map(evalSession(app))
+        
+        // Check that each session in this scenario meet the expected criteria
+        for (name, _, result) in evaluatedSessions {
+            sessions++
+            
+            // Compute session's score: accuracy, loss, ...
+            var sessionScore: SessionScore = []
+            if let value = result.labelsAccuracy(ignoring: [.Intensity]) { sessionScore.append(.LabelAccuracy(value: value)) }
+            if let value = result.labelsWeightedLoss(.NumberOfTaps, ignoring: [.Intensity]) { sessionScore.append(.WeightedLoss(value: value)) }
+            sessionScore.append(.ExerciseAccuracy(value: result.exercisesAccuracy()))
+            
+            // The session should meet the expected score
+            if let expectedScore = expectedScores[name] {
+                text.appendContentsOf("\nSession \(name)\n")
+                let passed = sessionScore.reduce(true) { res, score in
+                    let exp = expectedScore.filter { $0.name == score.name }.first
+                    guard let expected = exp else { return res }
+                    let isBetter = score.isBetterThan(expected, session: name)
+                    text.appendContentsOf("   \(isBetter ? "✓" : "✗") \(score.description): \(expected.truncValue) -> \(score.truncValue)\n")
+                    return res && isBetter
+                }
+                
+                if passed {
+                    validSessions++
+                    expectedScores[name] = sessionScore
+                    writeScores = true
+                }
+            }
+        }
+        if writeScores { writeExpectedScores(expectedScores, into: scenario) }
+        
+        text.appendContentsOf("\nDone SCENARIO \(scenario) with \(validSessions)/\(sessions) valid sessions\n")
+        
+        return text
+    }
+    
+    private func readSessions(properties: MKExercise.Id -> [MKExerciseProperty], from directory: String) -> [MRLoadedSession] {
+        let bundlePath = NSBundle(forClass: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
+        let bundle = NSBundle(path: bundlePath)!
+        return bundle.pathsForResourcesOfType("csv", inDirectory: directory).sort().map { path in
             return MRSessionLoader.read(path, properties: properties)
         }
     }
     
-    private func project<A>(evaluatedSessions: [EvaluationResult], index: Int, f: MRExerciseSessionEvaluator.Result -> A) -> [A] {
+    private func evalSession(app: MRAppDelegate)(loadedSession: MRLoadedSession) -> EvaluationResult {
+        let name = "\(loadedSession.description) \(loadedSession.exerciseType)"
+        app.resetLabelsPredictors()
+        
+        try! app.startSession(forExerciseType: loadedSession.exerciseType)
+        let result = MRExerciseSessionEvaluator(loadedSession: loadedSession).evaluate(app.currentSession!)
+        try! app.endCurrentSession()
+        
+        return (name, loadedSession.exerciseType, result)
+    }
+    
+    private func project<A>(evaluatedSessions: [EvaluationResult], f: MRExerciseSessionEvaluator.Result -> A) -> [A] {
         return evaluatedSessions.map { e in
             let (_, _, results) = e
-            return f(results[index])
+            return f(results)
         }
     }
     
-    private func readPreviousScores() -> [String: [String: Double]] {
+    private func readExpectedScores(directory: String) -> [SessionName: SessionScore] {
         let bundlePath = NSBundle(forClass: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
-        let fileName = bundle.pathForResource("_results_.json", ofType: nil)!
+        let fileName = bundle.pathsForResourcesOfType("json", inDirectory: directory).first! // assume one json file per directory
         let json = try! NSJSONSerialization.JSONObjectWithData(NSData(contentsOfFile: fileName)!, options: .AllowFragments)
-        return json as! [String: [String: Double]]
+        let dict = json as! [String: [String: Double]]
+        return dict.reduce([:]) { (var dict, session) in
+            let (name, scores) = session
+            dict[name] = scores.flatMap { Score(name: $0, value: $1) }
+            return dict
+        }
     }
     
-    private func writeTestScores(scores: [String: AnyObject]) {
+    private func writeExpectedScores(scores: [SessionName: SessionScore], into directory: String) {
         let bundlePath = NSBundle(forClass: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
-        let fileName = bundle.pathForResource("_results_.json", ofType: nil)!
-        let json = try! NSJSONSerialization.dataWithJSONObject(scores, options: [.PrettyPrinted])
+        let fileName = bundle.pathsForResourcesOfType("json", inDirectory: directory).first!
+        let dict: [String: [String: Double]] = scores.reduce([:]) { (var dict, entry) in
+            let (name, scores) = entry
+            dict[name] = scores.reduce([:]) { (var scoreDict, score) in
+                scoreDict?[score.name] = score.value
+                return scoreDict
+            }
+            return dict
+        }
+        
+        let json = try! NSJSONSerialization.dataWithJSONObject(dict, options: [.PrettyPrinted])
         json.writeToFile(fileName, atomically: true)
         
         print("Test scores written to \(fileName)\n")
-        print("Consider updating _results_.json in sessions bundle if you're happy with the results\n")
+        print("Consider updating \(directory)/\(NSString(string: fileName).lastPathComponent) file in sessions bundle\n")
     }
     
     func testTimeless() {
-        let count = 3
         let app = MRAppDelegate()
         app.application(UIApplication.sharedApplication(), didFinishLaunchingWithOptions: nil)
         // At Kingfisher
-        app.locationManager(CLLocationManager(), didUpdateLocations: [CLLocation(latitude: 53.435739, longitude: -2.165993)])
+        let kingfisher = CLLocation(latitude: 53.435739, longitude: -2.165993)
+        app.locationManager(CLLocationManager(), didUpdateLocations: [kingfisher])
         
-        // Evaluate count sessions, giving the system the opportunity to learn the users
-        // journey through the sessions
-        let evaluatedSessions: [EvaluationResult] = readSessions(app.exercisePropertiesForExerciseId).map { loadedSession in
-            let name = "\(loadedSession.description) \(loadedSession.exerciseType)"
-            app.resetLabelsPredictors()
-            
-            let results: [MRExerciseSessionEvaluator.Result] = (0..<count).map { i in
-                try! app.startSession(forExerciseType: loadedSession.exerciseType)
-                let score = MRExerciseSessionEvaluator(loadedSession: loadedSession).evaluate(app.currentSession!)
-                try! app.endCurrentSession()
-                return score
-            }
-            return (name, loadedSession.exerciseType, results)
-        }
-        
-        let previousScores = readPreviousScores()
-        
-        // Perform basic assertions on the first (completely untrained) and last (completely trained)
-        // session. When the assertions pass, the app provides acceptable user experience
-        var scores: [String: [String: Double]] = [:]
-        for (name, _, results) in evaluatedSessions {
-            let firstResult = results.first!
-            let lastResult = results.last!
-            
-            let firstLabelAccuracy = firstResult.labelsAccuracy(ignoring: [.Intensity])
-            let firstWeightedLoss = firstResult.labelsWeightedLoss(.NumberOfTaps, ignoring: [.Intensity])
-            let firstExerciseAccuracy = firstResult.exercisesAccuracy()
-            let lastLabelAccuracy = lastResult.labelsAccuracy(ignoring: [.Intensity])
-            let lastWeightedLoss = lastResult.labelsWeightedLoss(.NumberOfTaps, ignoring: [.Intensity])
-            let lastExerciseAccuracy = lastResult.exercisesAccuracy()
-            
-            var sessionScores: [String:Double] = [:]
-            if let value = firstLabelAccuracy { sessionScores["FLA"] = value }
-            if let value = firstWeightedLoss { sessionScores["FWL"] = value }
-            sessionScores["FEA"] = firstExerciseAccuracy
-            if let value = lastLabelAccuracy { sessionScores["LLA"] = value }
-            if let value = lastWeightedLoss { sessionScores["LWL"] = value }
-            sessionScores["LEA"] = lastExerciseAccuracy
-            scores[name] = sessionScores
-            
-            // The first session can be inaccurate, but must be acceptable for the users
-            if let value = firstWeightedLoss { XCTAssertLessThanOrEqual(value, 2, name) }
-            if let value = firstLabelAccuracy { XCTAssertGreaterThanOrEqual(value, 0.5, name) }
-            XCTAssertGreaterThanOrEqual(firstExerciseAccuracy, 0.75, name)
-            
-            // The last session must be very accurate
-            if let value = lastLabelAccuracy { XCTAssertGreaterThanOrEqual(value, 0.9, name) }
-            XCTAssertGreaterThanOrEqual(lastExerciseAccuracy, 0.92, name)
-            if let value = lastWeightedLoss { XCTAssertLessThanOrEqual(value, 1, name) }
-            
-            // Overall, the last result must be better than the first result
-            if let first = firstLabelAccuracy, let last = lastLabelAccuracy { XCTAssertGreaterThanOrEqual(last, first, name) }
-            XCTAssertGreaterThanOrEqual(lastExerciseAccuracy, firstExerciseAccuracy, name)
-            if let first = firstWeightedLoss, last = lastWeightedLoss { XCTAssertLessThanOrEqual(last, first, name) }
-            
-            // The prediction should be better than the previous one
-            if let previousScores = previousScores[name], let scores = scores[name] {
-                
-                /// truncate the values before comparing to avoid floating point issues
-                func trunc(value: Double) -> Double { return round(value * 1000.0) / 1000.0 }
-                
-                if let p = previousScores["FLA"], let a = scores["FLA"] { XCTAssertGreaterThanOrEqual(trunc(a), trunc(p), name) }
-                if let p = previousScores["FWL"], let a = scores["FWL"] { XCTAssertLessThanOrEqual(trunc(a), trunc(p), name) }
-                if let p = previousScores["FEA"], let a = scores["FEA"] { XCTAssertGreaterThanOrEqual(trunc(a), trunc(p), name) }
-                
-                if let p = previousScores["LLA"], let a = scores["LLA"] { XCTAssertGreaterThanOrEqual(trunc(a), trunc(p), name) }
-                if let p = previousScores["LWL"], let a = scores["LWL"] { XCTAssertLessThanOrEqual(trunc(a), trunc(p), name) }
-                if let p = previousScores["LEA"], let a = scores["LEA"] { XCTAssertGreaterThanOrEqual(trunc(a), trunc(p), name) }
-            }
-        }
-        
-        print("\nEyball results\n")
-        for (exerciseType, results) in (evaluatedSessions.groupBy { $0.1 }) {
-            let last = results.last!
-            print(last.0)
-            print(last.2.last!.description)
-            for i in 0..<count {
-                let bla = project(results, index: i) { $0.labelsAccuracy(ignoring: [.Intensity]) ?? 0 }.maxElement()
-                let bwl = project(results, index: i) { $0.labelsWeightedLoss(.RawValue, ignoring: [.Intensity]) ?? 999 }.minElement()
-                let bea = project(results, index: i) { $0.exercisesAccuracy() }.maxElement()
-
-                print("Best EA = \(bea)")
-                print("Best LA = \(bla)")
-                print("Best WL = \(bwl)")
-                print("")
-            }
-        }
-        
-        for (session, scores) in scores {
-            guard let previousScores = previousScores[session] else { continue }
-            print("\n\(session)")
-            print("  First Session")
-            if let p = previousScores["FLA"], let s = scores["FLA"] { print("    Label accuracy:    \(p) -> \(s)") }
-            if let p = previousScores["FWL"], let s = scores["FWL"] { print("    Weighted loss:     \(p) -> \(s)") }
-            if let p = previousScores["FEA"], let s = scores["FEA"] { print("    Exercise accuracy: \(p) -> \(s)") }
-            print("  Last Session")
-            if let p = previousScores["LLA"], let s = scores["LLA"] { print("    Label accuracy:    \(p) -> \(s)") }
-            if let p = previousScores["LWL"], let s = scores["LWL"] { print("    Weighted loss:     \(p) -> \(s)") }
-            if let p = previousScores["LEA"], let s = scores["LEA"] { print("    Exercise accuracy: \(p) -> \(s)") }
-        }
-        
-        // Uncomment to write json result file
-        // writeTestScores(scores)
+        scenarios.map(runScenario(app)).forEach { print($0) }
     }
     
 }

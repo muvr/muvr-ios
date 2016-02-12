@@ -1,0 +1,6 @@
+skiing workouts #9: cardio
+indoorsCardio:cardio
+
+indoorsCardio:running-machine,D=1200,I=0.6
+indoorsCardio:rowing-machine,D=1200,I=0.6
+indoorsCardio:cross-trainer,D=1200,I=0.6
