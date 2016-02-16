@@ -1,11 +1,11 @@
-A shoulders session 12 with linear progression; tired at the last set
+A shoulders session 16 with linear progression; tired at the last set
 resistanceTargeted:shoulders
 
-resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=20,D=30,I=0.4
-resistanceTargeted:shoulders/lateral-raise,           R=10,W=12,D=30,I=0.4
+resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=17.5,D=30,I=0.4
+resistanceTargeted:shoulders/lateral-raise,           R=10,W=10,D=30,I=0.4
 resistanceTargeted:shoulders/pull-up,                 R=10,W=20,D=30,I=0.4
 resistanceTargeted:shoulders/shrugs,                  R=10,W=40,D=30,I=0.4
-resistanceTargeted:shoulders/vertical-swing,          R=10,W=12,D=30,I=0.4
+resistanceTargeted:shoulders/vertical-swing,          R=10,W=10,D=30,I=0.4
 
 resistanceTargeted:shoulders/dumbbell-shoulder-press, R=10,W=20,D=30,I=0.6
 resistanceTargeted:shoulders/lateral-raise,           R=10,W=12,D=30,I=0.6
