@@ -4,7 +4,7 @@
         "LA" : 0.6,
         "WL" : 0.1065292096219932
     },
-    "skiing workouts #2: upperbody ResistanceTargeted([])" : {
+    "skiing workouts #2: upperbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core])" : {
         "EA" : 0.75,
         "LA" : 0.5454545454545454,
         "WL" : 0
@@ -17,7 +17,7 @@
         "LA" : 0.6,
         "WL" : 0.1065292096219932
     },
-    "skiing workouts #5: upperbody ResistanceTargeted([])" : {
+    "skiing workouts #5: upperbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core])" : {
         "EA" : 0.75,
         "LA" : 0.5454545454545454,
         "WL" : 0
@@ -25,17 +25,30 @@
     "skiing workouts #6: cardio IndoorsCardio" : {
         "EA" : 0.75
     },
-    "skiing workouts #7: lowerbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
+    "skiing workouts #7: lowerbody (interrupted session) ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
         "EA" : 0.9375,
         "LA" : 0.9,
         "WL" : 0.1757719714964371
     },
-    "skiing workouts #8: upperbody ResistanceTargeted([])" : {
+    "skiing workouts #8: upperbody (bad day) ResistanceTargeted([MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core])" : {
         "EA" : 0.92,
         "LA" : 0.9,
         "WL" : 0.03636363636363636
     },
-    "skiing workouts #9: cardio IndoorsCardio" : {
+    "skiing workouts #9: cardio (longer session) IndoorsCardio" : {
+        "EA" : 0.92
+    },
+    "skiing workouts #10: lowerbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.9375,
+        "LA" : 0.9,
+        "WL" : 0.1757719714964371
+    },
+    "skiing workouts #11: upperbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0.03636363636363636
+    },
+    "skiing workouts #12: cardio IndoorsCardio" : {
         "EA" : 0.92
     }
 }

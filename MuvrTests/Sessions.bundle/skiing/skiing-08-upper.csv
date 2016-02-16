@@ -1,17 +1,11 @@
-skiing workouts #8: upperbody
-resistanceTargeted:upperbody
+skiing workouts #8: upperbody (bad day)
+resistanceTargeted:back,core
 
-resistanceTargeted:back/lateral-pulldown,R=16,W=30,D=30,I=0.4
-resistanceTargeted:back/lateral-pulldown,R=16,W=30,D=30,I=0.4
-resistanceTargeted:back/lateral-pulldown,R=18,W=30,D=38,I=0.6
-resistanceTargeted:back/lateral-pulldown,R=20,W=30,D=46,I=0.6
+resistanceTargeted:back/lateral-pulldown,R=10,W=30,D=30,I=0.4
+resistanceTargeted:back/lateral-pulldown,R=10,W=30,D=30,I=0.4
+resistanceTargeted:back/lateral-pulldown,R=8,W=30,D=38,I=0.6
 
-resistanceTargeted:core/oblique-crunches,R=20,W=10,D=60,I=0.6
-resistanceTargeted:core/oblique-crunches,R=20,W=10,D=60,I=0.6
-resistanceTargeted:core/oblique-crunches,R=20,W=10,D=60,I=0.6
+resistanceTargeted:core/oblique-crunches,R=10,W=0,D=60,I=0.6
+resistanceTargeted:core/oblique-crunches,R=8,W=0,D=60,I=0.6
 
-resistanceTargeted:core/suitcase-crunches,R=20,W=0,D=60,I=0.6
-resistanceTargeted:core/suitcase-crunches,R=20,W=0,D=60,I=0.8
-resistanceTargeted:core/suitcase-crunches,R=20,W=0,D=60,I=0.8
-
-resistanceTargeted:core/alternate-heel-touches,R=100,W=0,D=300,I=0.8
+resistanceTargeted:core/alternate-heel-touches,R=20,W=0,D=300,I=0.8
