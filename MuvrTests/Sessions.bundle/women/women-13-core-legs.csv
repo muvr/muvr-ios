@@ -1,11 +1,7 @@
-women workouts: core + legs + cardio (day 8)
-resistanceTargeted:fullbody
+women workouts: core + legs + cardio (day 13)
+resistanceTargeted:core,back,legs
 
-indoorsCardio:running-machine,D=600,I=0.8
-
-resistanceTargeted:core/alternate-heel-touches,R=20,W=0,D=45,I=0.6
-resistanceTargeted:core/alternate-heel-touches,R=20,W=0,D=45,I=0.6
-resistanceTargeted:core/alternate-heel-touches,R=20,W=0,D=45,I=0.6
+indoorsCardio:running-machine,D=900,I=0.8
 
 resistanceTargeted:core/crunches,R=20,W=0,D=45,I=0.6
 resistanceTargeted:core/crunches,R=20,W=0,D=45,I=0.6
@@ -18,9 +14,13 @@ resistanceTargeted:back/back-extensions,R=20,W=5,D=40,I=0.6
 resistanceTargeted:core/oblique-crunches,R=12,W=0,D=30,I=0.6
 resistanceTargeted:core/oblique-crunches,R=12,W=0,D=30,I=0.6
 resistanceTargeted:core/oblique-crunches,R=12,W=0,D=30,I=0.6
-resistanceTargeted:core/oblique-crunches,R=12,W=0,D=30,I=0.6
 
 resistanceTargeted:legs/lunges,R=12,W=0,D=30,I=0.6
 resistanceTargeted:legs/lunges,R=12,W=0,D=30,I=0.6
 resistanceTargeted:legs/lunges,R=12,W=0,D=30,I=0.6
-resistanceTargeted:legs/lunges,R=12,W=0,D=30,I=0.6
+
+resistanceTargeted:core/alternate-heel-touches,R=20,W=0,D=45,I=0.6
+resistanceTargeted:core/alternate-heel-touches,R=20,W=0,D=45,I=0.6
+resistanceTargeted:core/alternate-heel-touches,R=20,W=0,D=45,I=0.6
+
+indoorsCardio:running-machine,D=300,I=0.6

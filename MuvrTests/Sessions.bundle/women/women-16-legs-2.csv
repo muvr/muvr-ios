@@ -1,0 +1,10 @@
+women workouts: legs (day 16)
+resistanceTargeted:legs
+
+resistanceTargeted:legs/lunges,R=20,W=0,D=45,I=0.4
+resistanceTargeted:legs/lunges,R=20,W=0,D=45,I=0.4
+resistanceTargeted:legs/lunges,R=20,W=0,D=45,I=0.4
+
+resistanceTargeted:legs/dumbbell-calf-raise,R=20,W=10,D=45,I=0.6
+resistanceTargeted:legs/dumbbell-calf-raise,R=20,W=10,D=45,I=0.6
+resistanceTargeted:legs/dumbbell-calf-raise,R=20,W=10,D=45,I=0.6
