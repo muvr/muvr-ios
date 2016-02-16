@@ -1,23 +1,22 @@
-Steve's "pull" session #5
+Steve's "pull" session #5 (with variations)
 resistanceTargeted:arms,back
 
 indoorsCardio:cross-trainer,D=300
 
 resistanceTargeted:back/upright-barbell-row,R=10,W=40,D=30,I=0.6
-resistanceTargeted:back/upright-barbell-row,R=10,W=40,D=30,I=0.6
-resistanceTargeted:back/upright-barbell-row,R=10,W=40,D=30,I=0.6
+# increase weight only
+resistanceTargeted:back/upright-barbell-row,R=10,W=45,D=30,I=0.6
+resistanceTargeted:back/upright-barbell-row,R=10,W=45,D=30,I=0.6
 
 resistanceTargeted:arms/barbell-biceps-curl,R=10,W=25,D=30,I=0.6
 resistanceTargeted:arms/barbell-biceps-curl,R=10,W=25,D=30,I=0.6
 resistanceTargeted:arms/barbell-biceps-curl,R=10,W=25,D=30,I=0.6
+# add another set
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=25,D=30,I=0.6
 
 resistanceTargeted:back/back-extensions,R=10,W=0,D=30,I=0.6
 resistanceTargeted:back/back-extensions,R=10,W=0,D=30,I=0.6
-resistanceTargeted:back/back-extensions,R=10,W=0,D=30,I=0.6
-
-resistanceTargeted:arms/reverse-cable-curl,R=10,W=17.5,D=30,I=0.6
-resistanceTargeted:arms/reverse-cable-curl,R=10,W=17.5,D=30,I=0.6
-resistanceTargeted:arms/reverse-cable-curl,R=10,W=17.5,D=30,I=0.6
+# drop one set
 
 resistanceTargeted:back/lateral-pulldown,R=10,W=45,D=30,I=0.6
 resistanceTargeted:back/lateral-pulldown,R=10,W=45,D=30,I=0.6
@@ -26,6 +25,11 @@ resistanceTargeted:back/lateral-pulldown,R=10,W=45,D=30,I=0.6
 resistanceTargeted:legs/barbell-squat,R=10,W=40,D=30,I=0.6
 resistanceTargeted:legs/barbell-squat,R=10,W=40,D=30,I=0.6
 resistanceTargeted:legs/barbell-squat,R=10,W=40,D=30,I=0.6
+
+# was after back-extension before
+resistanceTargeted:arms/reverse-cable-curl,R=10,W=17.5,D=30,I=0.6
+resistanceTargeted:arms/reverse-cable-curl,R=10,W=17.5,D=30,I=0.6
+resistanceTargeted:arms/reverse-cable-curl,R=10,W=17.5,D=30,I=0.6
 
 resistanceTargeted:core/suitcase-crunches,R=10,W=0,D=30,I=0.6
 resistanceTargeted:core/suitcase-crunches,R=10,W=0,D=30,I=0.6

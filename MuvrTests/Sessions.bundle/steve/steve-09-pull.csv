@@ -1,0 +1,28 @@
+Steve's "pull" session #9 (bad day)
+resistanceTargeted:arms,back
+
+# "bad day" session
+indoorsCardio:cross-trainer,D=300
+
+resistanceTargeted:back/upright-barbell-row,R=6,W=45,D=30,I=0.8
+resistanceTargeted:back/upright-barbell-row,R=8,W=35,D=30,I=0.8
+resistanceTargeted:back/upright-barbell-row,R=6,W=35,D=30,I=0.8
+
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=15,D=30,I=0.6
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=15,D=30,I=0.6
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=15,D=30,I=0.6
+
+resistanceTargeted:back/back-extensions,R=6,W=0,D=30,I=0.6
+resistanceTargeted:back/back-extensions,R=6,W=0,D=30,I=0.6
+
+resistanceTargeted:arms/reverse-cable-curl,R=7,W=10,D=30,I=0.6
+resistanceTargeted:arms/reverse-cable-curl,R=7,W=10,D=30,I=0.6
+resistanceTargeted:arms/reverse-cable-curl,R=7,W=10,D=30,I=0.6
+
+resistanceTargeted:back/lateral-pulldown,R=10,W=35,D=30,I=0.6
+resistanceTargeted:back/lateral-pulldown,R=10,W=35,D=30,I=0.6
+
+resistanceTargeted:core/suitcase-crunches,R=5,W=0,D=30,I=0.6
+resistanceTargeted:core/suitcase-crunches,R=5,W=0,D=30,I=0.6
+
+indoorsCardio:running-machine,D=200
