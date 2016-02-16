@@ -9,7 +9,12 @@
         "LA" : 0.5,
         "WL" : 0.05286343612334802
     },
-    "Beginner session week 1 day 3 ResistanceTargeted([])" : {
+    "Beginner session week 1 day 3 (with variations) ResistanceTargeted([])" : {
+        "EA" : 0.962962962962963,
+        "LA" : 0.9,
+        "WL" : 0.2060606060606061
+    },
+    "Beginner session week 1 day 4 (back to normal) ResistanceTargeted([])" : {
         "EA" : 0.962962962962963,
         "LA" : 0.9,
         "WL" : 0.2060606060606061
@@ -24,7 +29,12 @@
         "LA" : 0.5,
         "WL" : 0.02814814814814815
     },
-    "Beginner session week 2 day 3 ResistanceTargeted([])" : {
+    "Beginner session week 2 day 3 (bad day) ResistanceTargeted([])" : {
+        "EA" : 0.9696969696969697,
+        "LA" : 0.9,
+        "WL" : 0.2658486707566462
+    },
+    "Beginner session week 2 day 4 (back to normal) ResistanceTargeted([])" : {
         "EA" : 0.9696969696969697,
         "LA" : 0.9,
         "WL" : 0.2658486707566462
@@ -69,7 +79,12 @@
         "LA" : 0.5454545454545454,
         "WL" : 0.2
     },
-    "Beginner session week 5 day 3 ResistanceTargeted([])" : {
+    "Beginner session week 5 day 3 (good day) ResistanceTargeted([])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0.2
+    },
+    "Beginner session week 5 day 4 (some progress) ResistanceTargeted([])" : {
         "EA" : 0.92,
         "LA" : 0.9,
         "WL" : 0.2
