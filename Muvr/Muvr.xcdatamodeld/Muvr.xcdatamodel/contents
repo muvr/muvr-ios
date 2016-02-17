@@ -52,13 +52,20 @@
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="type" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="MRManagedSessionPlan" representedClassName=".MRManagedSessionPlan" syncable="YES">
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="managedPlan" optional="YES" attributeType="Binary" syncable="YES"/>
+    </entity>
     <elements>
         <element name="MRManagedExercise" positionX="-1667" positionY="-81" width="128" height="135"/>
         <element name="MRManagedExercisePlan" positionX="-1701" positionY="-477" width="216" height="103"/>
         <element name="MRManagedExerciseScalarLabel" positionX="-1370" positionY="-99" width="218" height="90"/>
         <element name="MRManagedExerciseSession" positionX="-893" positionY="-171" width="128" height="178"/>
+        <element name="MRManagedLabelsPredictor" positionX="-1224" positionY="-474" width="243" height="105"/>
         <element name="MRManagedLocation" positionX="-1422" positionY="-432" width="128" height="133"/>
         <element name="MRManagedLocationExercise" positionX="-2016" positionY="-387" width="234" height="118"/>
         <element name="MRManagedScalarPredictor" positionX="-1224" positionY="-474" width="243" height="120"/>
+        <element name="MRManagedSessionPlan" positionX="-1809" positionY="-324" width="128" height="90"/>
     </elements>
 </model>

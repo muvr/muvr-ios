@@ -12,12 +12,17 @@ class MKExercisePlanPlusJSONTests : XCTestCase {
         
         let json = p1.json { $0 }
         let p2 = MKExercisePlan<String>.fromJsonFirst(json) { $0 as? String }!
-        
-        XCTAssertEqual(p2.next.first!, "biceps-curl")
+        // From now on p1 and p2 should give the same results
+        XCTAssertEqual(p2.next.first!, p1.next.first!)
+        print(p2.next.first)
         p2.insert("biceps-curl")
-        XCTAssertEqual(p2.next.first!, "triceps-extension")
+        p1.insert("biceps-curl")
+        XCTAssertEqual(p2.next.first!, p1.next.first!)
+        print(p2.next.first)
         p2.insert("triceps-extension")
-        XCTAssertEqual(p2.next.first!, "biceps-curl")
+        p1.insert("triceps-extension")
+        XCTAssertEqual(p2.next.first!, p1.next.first!)
+        print(p2.next.first)
     }
     
 }
