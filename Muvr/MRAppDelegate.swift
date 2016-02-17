@@ -391,13 +391,22 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)
 //        session.labelsPredictor = predictor.map { MKRepeatLabelsPredictor(fromJson: $0.data) } ?? MKRepeatLabelsPredictor()
-        session.labelsPredictor = predictor.map { MKPatternLabelsPredictor(fromJson: $0.data) } ?? MKPatternLabelsPredictor()
+//        session.labelsPredictor = predictor.map { MKPatternLabelsPredictor(fromJson: $0.data, steps: steps) } ?? MKPatternLabelsPredictor(steps: steps)
+        session.labelsPredictor = predictor.map { MKAverageLabelsPredictor(fromJson: $0.data, sessions: 3, round: roundLabel) } ?? MKAverageLabelsPredictor(sessions: 3, round: roundLabel)
 
     }
     
     func initialSetup() { }
     
     // MARK: - Scalar rounder
+    
+    private func roundLabel(label: MKExerciseLabelDescriptor, value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        switch label {
+        case .Weight: return roundWeight(value, forExerciseId: exerciseId)
+        case .Repetitions: return roundInteger(value, forExerciseId: exerciseId)
+        case .Intensity: return roundClipToNorm(value, forExerciseId: exerciseId)
+        }
+    }
     
     private func roundInteger(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
         return Double(Int(max(0, value)))
@@ -419,6 +428,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             }
         }
         return max(0, value)
+    }
+    
+    private func steps(forLabel label: MKExerciseLabelDescriptor, value: Double, steps: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
+        switch label {
+        case .Weight: return stepWeight(value, n: steps, forExerciseId: exerciseId)
+        case .Repetitions: return stepInteger(value, n: steps, forExerciseId: exerciseId)
+        case .Intensity: return stepIntensity(value, n: steps, forExerciseId: exerciseId)
+        }
     }
     
     private func stepWeight(value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
