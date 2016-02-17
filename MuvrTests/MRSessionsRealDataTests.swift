@@ -230,8 +230,8 @@ class MRSessionsRealDataTests : XCTestCase {
         let app = MRAppDelegate()
         app.application(UIApplication.sharedApplication(), didFinishLaunchingWithOptions: nil)
         // At Kingfisher
-        let kingfisher = CLLocation(latitude: 53.435739, longitude: -2.165993)
-        app.locationManager(CLLocationManager(), didUpdateLocations: [kingfisher])
+        // let kingfisher = CLLocation(latitude: 53.435739, longitude: -2.165993)
+        // app.locationManager(CLLocationManager(), didUpdateLocations: [kingfisher])
         
         // Run all scenarios
         scenarios.map(runScenario(app)).forEach { print($0) }

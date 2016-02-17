@@ -159,12 +159,21 @@ class MRExerciseSessionEvaluator {
         }
 
         private mutating func addExercise(expectedExerciseId expected: MKExercise.Id, predictedExerciseId predicted: MKExercise.Id?) {
+            if expected != predicted ?? "" {
+                print("Predicted \(predicted ?? "-") but was \(expected)")
+            }
             exerciseIds.append((expected, predicted))
         }
         
         private mutating func addLabel(exerciseDetail detail: MKExerciseDetail, expectedLabels: [MKExerciseLabel], predictedLabels: [MKExerciseLabel]) {
             for expectedLabel in expectedLabels {
                 let predicted = predictedLabels.filter { $0.descriptor == expectedLabel.descriptor }.first
+                if predicted == nil {
+                    print("Predicted nothing but was \(expectedLabel) for \(detail.0)")
+                }
+                if let predicted = predicted where predicted != expectedLabel {
+                    print("Predicted \(predicted) but was \(expectedLabel) for \(detail.0)")
+                }
                 scalarLabels.append((detail, expectedLabel.descriptor, expectedLabel, predicted))
             }
         }
