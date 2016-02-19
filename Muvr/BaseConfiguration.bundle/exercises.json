@@ -28,11 +28,15 @@
  {"id":"resistanceTargeted:core/cable-crossover"},
  {"id":"resistanceTargeted:core/oblique-crunches"},
  {"id":"resistanceTargeted:core/alternate-heel-touches"},
+ {"id":"resistanceTargeted:core/cable-wood-chop"},
+ {"id":"resistanceTargeted:core/reverse-curl"},
 
  {"id":"resistanceTargeted:legs/lunges"},
  {"id":"resistanceTargeted:legs/dumbbell-calf-raise"},
  {"id":"resistanceTargeted:legs/barbell-squat"},
  {"id":"resistanceTargeted:legs/squat"},
+ {"id":"resistanceTargeted:legs/leg-press"},
+ {"id":"resistanceTargeted:legs/barbell-deadlift"},
 
  {"id":"resistanceTargeted:shoulders/dumbbell-shoulder-press"},
  {"id":"resistanceTargeted:shoulders/dumbbell-bench-press"},
@@ -44,5 +48,6 @@
  
  {"id":"indoorsCardio:cross-trainer"},
  {"id":"indoorsCardio:running-machine"},
- {"id":"indoorsCardio:rowing-machine"}
+ {"id":"indoorsCardio:rowing-machine"},
+ {"id":"indoorsCardio:stepper"}
 ]
