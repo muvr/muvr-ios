@@ -82,12 +82,15 @@ class MRExerciseSessionEvaluator {
             let filtered = filteredScalarLabels(ignoring: ignored)
             guard !filtered.isEmpty else { return nil }
             
-            var secondMaxima: [MKExerciseLabelDescriptor : Double] = [:]
-            for (k, x) in (filtered.groupBy { (_, d, _, _) in return d }) {
-                let sorted = x.map { $0.2.scalar() }.sort()
-                if sorted.count > 1 {
-                    secondMaxima[k] = sorted[sorted.count - 2]
+            func secondMax(exerciseId: MKExercise.Id) -> [MKExerciseLabelDescriptor: Double] {
+                var sms: [MKExerciseLabelDescriptor : Double] = [:]
+                for (k, x) in (filtered.filter { $0.0.0 == exerciseId }.groupBy { (_, d, _, _) in return d }) {
+                    let sorted = x.map { $0.2.scalar() }.sort()
+                    if sorted.count > 1 {
+                        sms[k] = sorted[sorted.count - 2]
+                    }
                 }
+                return sms
             }
             
             var totalLoss: Double = 0
@@ -135,7 +138,7 @@ class MRExerciseSessionEvaluator {
                 totalLoss += pow(loss, 2)
                 if abs(p!.scalar() - e.scalar()) > 0.1 { // if p and e are the same it's fine, otherwise check for stupid predicted value
                     if p!.scalar() < 0.1 && e.scalar() > 0.1 { totalStupidLoss += stupidLossIncident }
-                    if let sm = secondMaxima[td] where p!.scalar() > 2 * sm && abs(p!.scalar() - e.scalar()) > 1 {
+                    if let sm = secondMax(detail.0)[td] where p!.scalar() > 2 * sm && abs(p!.scalar() - e.scalar()) > 1 {
                         totalStupidLoss += stupidLossIncident
                     }
                 }
@@ -159,8 +162,10 @@ class MRExerciseSessionEvaluator {
         }
 
         private mutating func addExercise(expectedExerciseId expected: MKExercise.Id, predictedExerciseId predicted: MKExercise.Id?) {
-            if expected != predicted ?? "" {
-                print("Predicted \(predicted ?? "-") but was \(expected)")
+            if expected == predicted ?? "" {
+                print(" ✓ Predicted \(predicted ?? "-") and was \(expected)")
+            } else {
+                print(" ✗ Predicted \(predicted ?? "-") but was \(expected)")
             }
             exerciseIds.append((expected, predicted))
         }
@@ -169,10 +174,11 @@ class MRExerciseSessionEvaluator {
             for expectedLabel in expectedLabels {
                 let predicted = predictedLabels.filter { $0.descriptor == expectedLabel.descriptor }.first
                 if predicted == nil {
-                    print("Predicted nothing but was \(expectedLabel) for \(detail.0)")
+                    print("  ✗ Predicted nothing but was \(expectedLabel) for \(detail.0)")
                 }
-                if let predicted = predicted where predicted != expectedLabel {
-                    print("Predicted \(predicted) but was \(expectedLabel) for \(detail.0)")
+                if let predicted = predicted {
+                    if predicted == expectedLabel { print("  ✓ Predicted \(predicted) and was \(expectedLabel) for \(detail.0)") }
+                    else { print("  ✗ Predicted \(predicted) and was \(expectedLabel) for \(detail.0)") }
                 }
                 scalarLabels.append((detail, expectedLabel.descriptor, expectedLabel, predicted))
             }
