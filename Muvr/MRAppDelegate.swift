@@ -392,7 +392,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)
 //        session.labelsPredictor = predictor.map { MKRepeatLabelsPredictor(fromJson: $0.data) } ?? MKRepeatLabelsPredictor()
 //        session.labelsPredictor = predictor.map { MKPatternLabelsPredictor(fromJson: $0.data, steps: steps) } ?? MKPatternLabelsPredictor(steps: steps)
-        session.labelsPredictor = predictor.map { MKAverageLabelsPredictor(fromJson: $0.data, sessions: 3, round: roundLabel) } ?? MKAverageLabelsPredictor(sessions: 3, round: roundLabel)
+        session.labelsPredictor = predictor.map { MKAverageLabelsPredictor(fromJson: $0.data, historySize: 3, round: roundLabel) } ?? MKAverageLabelsPredictor(historySize: 3, round: roundLabel)
 
     }
     
