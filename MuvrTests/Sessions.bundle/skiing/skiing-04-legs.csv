@@ -5,6 +5,10 @@ resistanceTargeted:legs/barbell-squat,R=10,W=30,D=30,I=0.4
 resistanceTargeted:legs/barbell-squat,R=12,W=30,D=36,I=0.6
 resistanceTargeted:legs/barbell-squat,R=15,W=30,D=45,I=0.6
 
+resistanceTargeted:legs/leg-press,R=10,W=80,D=32,I=0.6
+resistanceTargeted:legs/leg-press,R=12,W=80,D=32,I=0.6
+resistanceTargeted:legs/leg-press,R=15,W=80,D=32,I=0.6
+
 resistanceTargeted:legs/squat,R=6,W=0,D=6,I=0.6
 resistanceTargeted:legs/squat,R=6,W=0,D=6,I=0.6
 resistanceTargeted:legs/squat,R=6,W=0,D=6,I=0.6

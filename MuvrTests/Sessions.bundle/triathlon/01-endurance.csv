@@ -1,5 +1,5 @@
 Endurance session #1
-resistanceTargeted:fullbody
+resistanceTargeted:arms,back,chest,core,legs,shoulders
 
 resistanceTargeted:chest/cable-crossover,R=15,W=20,D=30,I=0.4
 resistanceTargeted:chest/cable-crossover,R=20,W=20,D=40,I=0.6
