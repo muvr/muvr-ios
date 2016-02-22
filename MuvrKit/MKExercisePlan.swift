@@ -21,22 +21,18 @@ public class MKExercisePlan<E : Hashable> {
     private(set) internal var states: MKStateChain<E> = MKStateChain()
     /// The maximum number of states to keep
     private let statesCount: Int = 16
-    /// The first state, if known
-    private(set) internal var first: E?
     
     ///
     /// Initializes the exercise plan.
     ///
-    public init() {
-        self.first = nil
-    }
+    public init() { }
 
     ///
     /// Initializes the exercise plan using a state chain in its first state.
     ///
-    internal init(chain: MKMarkovChain<E>, first: E?) {
+    internal init(chain: MKMarkovChain<E>, states: MKStateChain<E>) {
         self.chain = chain
-        self.first = first
+        self.states = states
     }
     
     ///
@@ -45,8 +41,6 @@ public class MKExercisePlan<E : Hashable> {
     /// - parameter exercise: the completed exercise
     ///
     public func insert(exercise: E) {
-        if first == nil { first = exercise }
-        
         chain.addTransition(states, next: exercise)
         states.addState(exercise)
         states.trim(statesCount)
@@ -57,7 +51,7 @@ public class MKExercisePlan<E : Hashable> {
     /// exercises are known yet.
     ///
     public var next: [E] {
-        if let first = first where states.count == 0 {
+        if let first = states.states.first where states.count == 1 {
             return [first]
         }
         return uniq(chain.transitionProbabilities(states).sort { l, r in l.1 > r.1 }.map { $0.0 })

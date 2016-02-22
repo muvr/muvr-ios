@@ -49,6 +49,11 @@ protocol MRApp : MKExercisePropertySource {
     var exerciseDetails: [MKExerciseDetail] { get }
     
     ///
+    /// The most-likely next session type
+    ///
+    var nextExerciseType: MKExerciseType? { get }
+    
+    ///
     /// Performs initial setup
     ///
     func initialSetup()
@@ -124,6 +129,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
 
     var exerciseDetails: [MKExerciseDetail] = []
     
+    var nextExerciseType: MKExerciseType? {
+        let plan =  MRManagedSessionPlan.sessionPlan(atLocation: currentLocation, inManagedObjectContext: managedObjectContext)?.plan
+        return plan?.next.first
+    }
+    
     ///
     /// Returns this shared delegate
     /// - returns: this delegate ``MRApp``
@@ -189,7 +199,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         pageControlAppearance.pageIndicatorTintColor = UIColor.lightGrayColor()
         pageControlAppearance.currentPageIndicatorTintColor = UIColor.blackColor()
         pageControlAppearance.backgroundColor = UIColor.whiteColor()
-    
         
         // sync
         do {
@@ -374,6 +383,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         for (id, exerciseType, offset, duration, labels) in session.exerciseWithLabels {
             MRManagedExercise.insertNewObjectIntoSession(session, id: id, exerciseType: exerciseType, labels: labels, offset: offset, duration: duration, inManagedObjectContext: managedObjectContext)
         }
+        
+        // update session's plan
+        let plan = MRManagedSessionPlan.sessionPlan(atLocation: currentLocation, inManagedObjectContext: managedObjectContext)?.plan ?? MKExercisePlan<MKExerciseType>()
+        plan.insert(session.exerciseType)
+        MRManagedSessionPlan.upsert(plan, location: currentLocation, inManagedObjectContext: managedObjectContext)
         
         // save predictors
         MRManagedExercisePlan.upsert(session.plan, exerciseType: session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext)

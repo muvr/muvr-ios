@@ -1,6 +1,6 @@
 import Foundation
 
-extension MKExerciseType {
+public extension MKExerciseType {
     
     var metadata: [String : AnyObject] {
         switch self {
