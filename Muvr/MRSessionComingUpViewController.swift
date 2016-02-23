@@ -40,7 +40,7 @@ class MRSessionComingUpViewController: UIViewController {
         for exerciseDetail in exerciseDetails {
             let button = MRAlternateExerciseButton(type: UIButtonType.System)
             button.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
-            button.addTarget(self, action: "exerciseSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+            button.addTarget(self, action: #selector(MRSessionComingUpViewController.exerciseSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             button.exerciseDetail = exerciseDetail
             scrollView.addSubview(button)
         }

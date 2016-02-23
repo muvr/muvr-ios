@@ -58,8 +58,8 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     
     override func willActivate() {
         super.willActivate()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidStart:", name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionDidEnd:", name: MRNotifications.CurrentSessionDidEnd.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRMainController.sessionDidStart(_:)), name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRMainController.sessionDidEnd(_:)), name: MRNotifications.CurrentSessionDidEnd.rawValue, object: nil)
         activate()
     }
     
@@ -96,8 +96,8 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
         }
         
         if active {
-            addMenuItemWithItemIcon(WKMenuItemIcon.Pause, title: "Pause", action: "pause")
-            addMenuItemWithItemIcon(WKMenuItemIcon.Trash, title: "Stop",  action: "stop")
+            addMenuItemWithItemIcon(WKMenuItemIcon.Pause, title: "Pause", action: #selector(MRMainController.pause))
+            addMenuItemWithItemIcon(WKMenuItemIcon.Trash, title: "Stop",  action: #selector(MRMainController.stop))
 
             // TODO: real session will probably want to display plan or something
             exercisesTable.setNumberOfRows(0, withRowType: "exercise")

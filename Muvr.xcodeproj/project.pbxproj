@@ -219,7 +219,6 @@
 		6445C40E1C4CF57A00A0CDB9 /* MKExerciseSession+MRManagedExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6445C40D1C4CF57A00A0CDB9 /* MKExerciseSession+MRManagedExerciseSession.swift */; };
 		6445C4131C4CFA7D00A0CDB9 /* MKPhoneExerciseSession+Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6445C4121C4CFA7D00A0CDB9 /* MKPhoneExerciseSession+Metadata.swift */; };
 		6445C4151C4D52CE00A0CDB9 /* MKExerciseSession+MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6445C4141C4D52CE00A0CDB9 /* MKExerciseSession+MetadataTests.swift */; };
-		644A71F91C6113A200E59A62 /* MKLinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644A71F81C6113A200E59A62 /* MKLinearRegression.swift */; };
 		644A71FB1C61F0C900E59A62 /* MKLinearRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644A71FA1C61F0C900E59A62 /* MKLinearRegressionTests.swift */; };
 		64655B7D1C04D08400CFC763 /* MRSessionHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */; };
 		64655B7F1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */; };
@@ -563,7 +562,6 @@
 		6445C40D1C4CF57A00A0CDB9 /* MKExerciseSession+MRManagedExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseSession+MRManagedExerciseSession.swift"; sourceTree = "<group>"; };
 		6445C4121C4CFA7D00A0CDB9 /* MKPhoneExerciseSession+Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKPhoneExerciseSession+Metadata.swift"; sourceTree = "<group>"; };
 		6445C4141C4D52CE00A0CDB9 /* MKExerciseSession+MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseSession+MetadataTests.swift"; sourceTree = "<group>"; };
-		644A71F81C6113A200E59A62 /* MKLinearRegression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKLinearRegression.swift; sourceTree = "<group>"; };
 		644A71FA1C61F0C900E59A62 /* MKLinearRegressionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKLinearRegressionTests.swift; sourceTree = "<group>"; };
 		64655B7C1C04D08400CFC763 /* MRSessionHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionHealth.swift; sourceTree = "<group>"; };
 		64655B7E1C061C9300CFC763 /* MRWorkoutSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRWorkoutSessionDelegate.swift; sourceTree = "<group>"; };
@@ -910,7 +908,6 @@
 				5477910A1C24713000763197 /* MKExercisePlan.swift */,
 				54BDDDCB1C440DC70054A059 /* MKExercisePlan+JSON.swift */,
 				54FBA9661C3C692000FC4F8E /* MKPolynomialFitter.swift */,
-				644A71F81C6113A200E59A62 /* MKLinearRegression.swift */,
 				545EFC491C47D9E600987610 /* MKScalarRounder.swift */,
 				640E5EA81C6A3F1600B9F227 /* MKLabelsPredictor.swift */,
 				640E5EAA1C6A3FB500B9F227 /* MKRepeatLabelsPredictor.swift */,
@@ -1721,7 +1718,6 @@
 				54ECB7371C3FF68200B6E042 /* MKMuscleGroup.swift in Sources */,
 				5469D38B1BBAD0A200EE5ADB /* MKExerciseModelSourceDelegate.swift in Sources */,
 				54D345841BB9251700F65091 /* MKExercise.swift in Sources */,
-				644A71F91C6113A200E59A62 /* MKLinearRegression.swift in Sources */,
 				6488F4831C7312D300189F79 /* MKAverageLabelsPredictor.swift in Sources */,
 				54BD57B71BC53137008B5BC4 /* MKPhoneAppleWatchConnectivity.swift in Sources */,
 				54D345821BB924A500F65091 /* MKClassificationDelegate.swift in Sources */,
