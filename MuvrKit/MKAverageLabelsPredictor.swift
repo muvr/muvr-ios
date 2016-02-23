@@ -5,14 +5,22 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     
     public typealias Round = (MKExerciseLabelDescriptor, Double, MKExercise.Id) -> Double
     
-    // a workout is a bunch of sets of different exercises
+    ///
+    /// a workout is a bunch of sets of different exercises
+    ///
     private typealias Workout = [MKExercise.Id: ExerciseSets]
-    // the exercise sets with their metrics (label + duration)
+    ///
+    /// the exercise sets with their metrics (label + duration)
+    ///
     private typealias ExerciseSets = [ExerciseSetMetrics]
     
-    // provides functionality to handle metrics of a given set
+    ///
+    /// Provides functionality to handle metrics (i.e labels) of a given set
+    ///
     private struct ExerciseSetMetrics {
-        
+        ///
+        /// the metrics (i.e labels) of the set
+        ///
         private var metrics: [String:Double] = [:]
         
         init() {}
@@ -24,40 +32,67 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         
         init(metrics: [String:Double]) { self.metrics = metrics }
         
-        // increment a metric by a given amount
+        ///
+        /// increment a metric by a given amount
+        /// - parameter key: the name of the metric to increment
+        /// - parameter value: the increment amount
+        ///
         mutating func inc(key: String, value: Double) {
             metrics[key] = (metrics[key] ?? 0) + value
         }
         
-        // divide a metric by a given value
+        ///
+        /// divide a metric by a given value
+        /// - parameter key: the name of the metric to divide
+        /// - parameter value: the divisor
+        ///
         mutating func div(key: String, value: Double) {
             guard let v = metrics[key] else { return }
             if value == 0 { metrics.removeValueForKey(key) }
             else { metrics[key] = v / value }
         }
         
-        // keeps the minimum value for a metric between actual and given value
+        ///
+        /// keeps the minimum value for a metric between actual and given value
+        /// - parameter key: the name of the metric to compare
+        /// - parameter value: the value to compare with the actual value
+        ///
         mutating func minimum(key: String, value: Double) {
             if let v = metrics[key] { metrics[key] = min(v, value) }
             else { metrics[key] = value }
         }
         
-        // get a metric value
+        ///
+        /// get a metric value corresponding to the given key
+        /// - parameter key: the name of the metric
+        ///
         func get(key: String) -> Double? { return metrics[key] }
-        // set a metric value
+        ///
+        /// set a metric value
+        /// - parameter key: the name of the metric to store
+        /// - parameter value: the value of the metric to store
+        ///
         mutating func set(key: String, value: Double) { metrics[key] = value }
-        // update all metrics of this set given an update function
+        ///
+        /// update all metrics of this set given an update function
+        /// - parameter f: the update function that take a metric name and value as input and produces a new metric value
+        ///
         mutating func update(f: (String, Double) -> Double) {
             metrics.forEach { key, value in
                 self.metrics[key] = f(key, value)
             }
         }
-        
+        ///
+        /// apply a side-effecting function to all the metrics of this set
+        /// - parameter f: the function to apply to all the metrics. It takes the metric name and value as input.
+        ///
         func forEach(f: (String, Double) -> Void) {
             metrics.forEach(f)
         }
         
-        // convert the metrics to a ``MKExerciseLabelsWithDuration``
+        ///
+        /// convert the metrics to a ``MKExerciseLabelsWithDuration``
+        ///
         var labelsWithDuration: MKExerciseLabelsWithDuration? {
             let labels: [MKExerciseLabel] = metrics.flatMap { k, v in
                 switch k {
@@ -71,21 +106,35 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         }
     }
     
-    // holds the history of an exercise over several workouts
+    ///
+    /// Holds the history of an exercise over several workouts
+    ///
     private struct ExerciseSetsHistory {
         
+        /// 
+        /// the history of an exercise over several workouts
+        ///
         private var history: [ExerciseSets] = []
+        ///
+        /// the maximum number of workouts to keep in history
+        ///
         private let maxHistorySize: Int
-        
-        // history data as JSON object
+        ///
+        /// history data as JSON object that can be serialized
+        ///
         var metadata: [[[String: Double]]] {
             return history.map { workout in
                 return workout.map { $0.metrics }
             }
         }
-        
+        ///
+        /// create an instance with an empty history
+        ///
         init(maxHistorySize: Int) { self.maxHistorySize = maxHistorySize }
         
+        ///
+        /// create an instance containing the given history
+        ///
         init(maxHistorySize: Int, history: [[[String:Double]]]) {
             self.init(maxHistorySize: maxHistorySize)
             self.history = history.map { workout in
@@ -93,14 +142,21 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
             }
         }
         
-        // add a workout to the history
+        ///
+        /// Add a workout to the history
+        /// - parameter workout: the workout to add into the history
+        ///
         mutating func addWorkout(workout: ExerciseSets) {
             history.append(workout)
             if history.count > maxHistorySize { history.removeFirst() }
         }
         
-        // compute a weighted average over the past workout for a given sets
-        // values further away from the average count less
+        ///
+        /// Compute a weighted average over the past workouts for a given set
+        /// (values further away from the average count less)
+        /// - parameter forSet: the index of the set in the session
+        /// - returns an ``ExerciseSetMetrics`` containing the average value of each metric
+        ///
         func weightedAvg(forSet index: Int) -> ExerciseSetMetrics {
             let avg = average(forSet: index) { _, _ in return 1.0 }
             let mins = minDistance(from: avg, forSet: index)
@@ -113,7 +169,12 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
             return wAvg
         }
         
-        // compute the min distance from the given average for all the workouts in history
+        ///
+        /// Compute the min distance from the given average of a given set for all the workouts in history
+        /// - parameter from: the average to consider to compute the minDistance
+        /// - parameter forSet: the index of the set in the session
+        /// - returns an ``ExerciseSetMetrics`` containing the min distance from the average
+        ///
         private func minDistance(from avg: ExerciseSetMetrics, forSet index: Int) -> ExerciseSetMetrics {
             guard !history.isEmpty else { return ExerciseSetMetrics() }
             var mins: ExerciseSetMetrics = ExerciseSetMetrics()
@@ -128,14 +189,24 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
             return mins
         }
         
-        // compute the distance (absolute value of the difference) between a ref and a value
+        ///
+        /// Compute the distance (absolute value of the difference) between a ref and a value
+        /// - parameter from: the ``ExerciseSetMetrics`` reference (typicallly contains the average)
+        /// - parameter key: the metric name to consider to compute the distance
+        /// - parameter value: the metric value to consider to compute the distance
+        /// - returns the distance from the reference for the given metric
+        ///
         private func distance(from ref: ExerciseSetMetrics, key: String, value: Double) -> Double {
             guard let refValue = ref.get(key) else { return 0.0 }
             return abs(refValue - value)
         }
         
-        // compute the average for a given set over the whole history
-        // - parameter coeff: a function which returns the coefficient to apply for each metric (e.g. always return 1 to compute the ``regular`` average)
+        ///
+        /// Compute the average for a given set over the whole history
+        /// - parameter forSet: the index of the set in the session
+        /// - parameter coeff: a function which returns the coefficient to apply for each metric (e.g. return 1 to compute the ``regular`` average)
+        /// - returns an ``ExerciseSetMetrics`` containing the average of each exercise's metrics
+        ///
         private func average(forSet index: Int, coeff: (String, Double) -> Double) -> ExerciseSetMetrics {
             var sums: ExerciseSetMetrics = ExerciseSetMetrics()
             var counts: ExerciseSetMetrics = ExerciseSetMetrics()
@@ -158,31 +229,58 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         
     }
     
-    // the number of session to remember
+    ///
+    /// the number of session to remember
+    ///
     private let maxHistorySize: Int
     
-    // the past sessions labels
+    ///
+    /// the past sessions labels
+    ///
     private var history: [MKExercise.Id: ExerciseSetsHistory] = [:]
     
-    // the current session
+    ///
+    /// the current session
+    ///
     private var workout: [MKExercise.Id: ExerciseSets] = [:]
     
-    // the correction is used to model the "tiredness" in the current session
+    ///
+    /// the exercise correction is used to model the "tiredness" of each exercise in the current session
+    ///
     private var exerciseCorrections: [MKExercise.Id: ExerciseSetMetrics] = [:]
+    ///
+    /// the workout correction is used to model the "tiredness" of the current session globally (used when there is no correction for a given exercise)
+    ///
     private var workoutCorrection: [String: (Double, Int)] = [:]
-    // the diffs are used when the expected value is 0 (actual / expected can't be computed)
+    ///
+    /// the exercise diffs are used when the exercise's expected value is 0 (actual / expected can't be computed)
+    ///
     private var exerciseDiffs: [MKExercise.Id: ExerciseSetMetrics] = [:]
+    ///
+    /// the workout diffs are used when there is no corrections for a given exercise and the expected value is 0 (actual / expected can't be computed)
+    ///
     private var workoutDiffs: [String: (Double, Int)] = [:]
     
-    // a way to round predicted values
+    ///
+    /// a way to round predicted values
+    ///
     private let roundLabel: Round
     
+    /// 
+    /// create an empty predictor instance
+    ///
     public init(historySize: Int, round: Round) {
         self.maxHistorySize = historySize
         self.roundLabel = round
     }
     
-    // return the correction (multiplication factor) to apply to the predicted value
+    ///
+    /// Returns the correction (multiplication factor or diff) to apply to the predicted value
+    /// - parameter forExerciseId: the exercise id
+    /// - parameter key: the metric name
+    /// - returns a pair where the first element is the multiplication factor (if possible)
+    ///           and the second is the difference to add to the predicted value (if no multiplication factor can be found)
+    ///
     private func correction(forExerciseId exerciseId: MKExercise.Id, key: String) -> (Double?, Double?) {
         if let correction = exerciseCorrections[exerciseId]?.get(key) { return (correction, nil) }
         if let (correction, sets) = workoutCorrection[key] { return (correction / Double(sets), nil) }
@@ -191,18 +289,34 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         return (nil, nil)
     }
     
+    ///
+    /// Round the predicted value to the nearest possible value
+    /// - parameter forExerciseId: the exercise id
+    /// - parameter key: the metric name
+    /// - parameter value: the metric value
+    /// - returns the rounded metric value
+    ///
     private func roundValue(forExerciseId exerciseId: MKExercise.Id)(key: String, value: Double) -> Double {
         guard let label = MKExerciseLabelDescriptor(id: key) else { return value }
         return self.roundLabel(label, value, exerciseId)
     }
     
+    ///
+    /// Correct the predicted value using in-session correction (tiredness, ...)
+    /// - parameter forExerciseId: the exercise id
+    /// - parameter key: the metric name
+    /// - parameter value: the metric value
+    /// - returns the corrected metric value
+    ///
     private func correctValue(forExerciseId exerciseId: MKExercise.Id)(key: String, value: Double) -> Double {
         let (correction, diff) = self.correction(forExerciseId: exerciseId, key: key)
         return correction.map { value * $0 } ?? diff.map { value + $0 } ?? value
     }
     
-    // returns true if 2 sets are identical
-    // sets are identical if weights and reps are the same
+    ///
+    /// Returns true if 2 sets are identical
+    /// (sets are identical if weights and reps are the same)
+    ///
     private func sameAs(this: ExerciseSetMetrics)(that: ExerciseSetMetrics) -> Bool {
         let same: [Bool] = ["weight", "repetitions"].flatMap { key in
             if this.get(key) == nil && that.get(key) == nil { return nil }
@@ -212,7 +326,9 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         return !same.isEmpty && same.reduce(true) { $0 && $1 }
     }
     
-    // predict the labels for the next set of the given exercise
+    ///
+    /// Predict the labels for the next set of the given exercise
+    ///
     public func predictLabels(forExercise exerciseId: MKExercise.Id) -> MKExerciseLabelsWithDuration? {
         let currentSet = workout[exerciseId]?.count ?? 0
         
@@ -249,7 +365,9 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         return workout[exerciseId]?.last?.labelsWithDuration
     }
     
-    // stores the actual labels for the given exercise
+    ///
+    /// Stores the actual labels for the given exercise and compute the corrections to apply to the current session
+    ///
     public func correctLabels(forExercise exerciseId: MKExercise.Id, labels: MKExerciseLabelsWithDuration) {
         let metrics = ExerciseSetMetrics(labels: labels)
         
@@ -261,7 +379,9 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         workout[exerciseId] = sets
     }
     
-    // update the correction value by comparing the actual value with the average over the past sessions
+    ///
+    /// Update the correction values by comparing the actual value with the average over the past sessions
+    ///
     private func updateCorrections(forExerciseId exerciseId: MKExercise.Id, metrics: ExerciseSetMetrics) {
         let currentSet = workout[exerciseId]?.count ?? 0
         if var avg = history[exerciseId]?.weightedAvg(forSet: currentSet) {
@@ -289,9 +409,14 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     
 }
 
-// JSON implementation
+///
+/// JSON serialisation implementation
+///
 public extension MKAverageLabelsPredictor {
     
+    ///
+    /// the predictor's state as a dictionary to be serialized
+    ///
     public var state: [String : AnyObject] {
         // add current workout into history
         workout.forEach { id, exerciseWorkout in
@@ -305,7 +430,9 @@ public extension MKAverageLabelsPredictor {
             return dict
         }
     }
-    
+    ///
+    /// restore the predictor's state from the given dictionary
+    ///
     public func restore(state: [String : AnyObject]) {
         if let dict = state as? [MKExercise.Id: [[[String: Double]]]] {
             dict.forEach { id, history in
@@ -314,6 +441,9 @@ public extension MKAverageLabelsPredictor {
         }
     }
     
+    ///
+    /// create a predictor instance from the given JSON data
+    ///
     public convenience init?(fromJson json: NSData, historySize: Int, round: Round) {
         self.init(historySize: historySize, round: round)
         do { try self.restore(json) } catch { return nil }
@@ -322,6 +452,10 @@ public extension MKAverageLabelsPredictor {
 }
 
 private extension MKExerciseLabelDescriptor {
+    
+    ///
+    /// create a MKExerciseLabelDescriptor corresponding to the given name
+    ///
     init?(id: String) {
         switch id {
         case "weight": self = .Weight
