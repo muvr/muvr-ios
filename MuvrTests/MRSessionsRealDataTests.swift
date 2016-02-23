@@ -125,23 +125,22 @@ class MRSessionsRealDataTests : XCTestCase {
         }
     }
     
-    private func runScenario(app: MRAppDelegate)(scenario: String) -> String {
+    private func runScenario(app: MRAppDelegate, scenario: String) -> String {
         app.resetLabelsPredictors()
         
         var text: String = "SCENARIO \(scenario)\n"
         // Load expected scores for this scenario
         var expectedScores = readExpectedScores(scenario)
-        var writeScores = false
         var sessions = 0
         var validSessions = 0
         
         // Evaluate count sessions, giving the system the opportunity to learn the users
         // journey through the sessions
-        let evaluatedSessions: [EvaluationResult] = readSessions(app.exercisePropertiesForExerciseId, from: scenario).map(evalSession(app))
+        let evaluatedSessions: [EvaluationResult] = readSessions(app.exercisePropertiesForExerciseId, from: scenario).map { evalSession(app, loadedSession: $0) }
         
         // Check that each session in this scenario meet the expected criteria
         for (name, _, result) in evaluatedSessions {
-            sessions++
+            sessions += 1
             
             // Compute session's score: accuracy, loss, ...
             var sessionScore: SessionScore = []
@@ -161,14 +160,11 @@ class MRSessionsRealDataTests : XCTestCase {
                 }
                 
                 if passed {
-                    validSessions++
+                    validSessions += 1
                     expectedScores[name] = sessionScore
-                    writeScores = true
                 }
             }
         }
-        //if writeScores { writeExpectedScores(expectedScores, into: scenario) }
-        
         text.appendContentsOf("\nDone SCENARIO \(scenario) with \(validSessions)/\(sessions) valid sessions\n")
         
         return text
@@ -182,7 +178,7 @@ class MRSessionsRealDataTests : XCTestCase {
         }
     }
     
-    private func evalSession(app: MRAppDelegate)(loadedSession: MRLoadedSession) -> EvaluationResult {
+    private func evalSession(app: MRAppDelegate, loadedSession: MRLoadedSession) -> EvaluationResult {
         let name = "\(loadedSession.description) \(loadedSession.exerciseType)"
         print("\nEvaluating session \(loadedSession.description)")
         
@@ -198,32 +194,11 @@ class MRSessionsRealDataTests : XCTestCase {
         let bundle = NSBundle(path: bundlePath)!
         let fileName = bundle.pathsForResourcesOfType("json", inDirectory: directory).first! // assume one json file per directory
         let json = try! NSJSONSerialization.JSONObjectWithData(NSData(contentsOfFile: fileName)!, options: .AllowFragments)
-        let dict = json as! [String: [String: Double]]
-        return dict.reduce([:]) { (var dict, session) in
-            let (name, scores) = session
+        var dict: [SessionName: SessionScore] = [:]
+        (json as! [String: [String: Double]]).forEach { name, scores in
             dict[name] = scores.flatMap { Score(name: $0, value: $1) }
-            return dict
         }
-    }
-    
-    private func writeExpectedScores(scores: [SessionName: SessionScore], into directory: String) {
-        let bundlePath = NSBundle(forClass: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
-        let bundle = NSBundle(path: bundlePath)!
-        let fileName = bundle.pathsForResourcesOfType("json", inDirectory: directory).first!
-        let dict: [String: [String: Double]] = scores.reduce([:]) { (var dict, entry) in
-            let (name, scores) = entry
-            dict[name] = scores.reduce([:]) { (var scoreDict, score) in
-                scoreDict?[score.name] = score.value
-                return scoreDict
-            }
-            return dict
-        }
-        
-        let json = try! NSJSONSerialization.dataWithJSONObject(dict, options: [.PrettyPrinted])
-        json.writeToFile(fileName, atomically: true)
-        
-        print("Test scores written to \(fileName)\n")
-        print("Consider updating \(directory)/\(NSString(string: fileName).lastPathComponent) file in sessions bundle\n")
+        return dict
     }
     
     func testTimeless() {
@@ -234,7 +209,7 @@ class MRSessionsRealDataTests : XCTestCase {
         // app.locationManager(CLLocationManager(), didUpdateLocations: [kingfisher])
         
         // Run all scenarios
-        scenarios.map(runScenario(app)).forEach { print($0) }
+        scenarios.map { runScenario(app, scenario: $0) }.forEach { print($0) }
     }
     
 }

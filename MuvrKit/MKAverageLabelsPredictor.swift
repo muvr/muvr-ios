@@ -296,7 +296,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     /// - parameter value: the metric value
     /// - returns the rounded metric value
     ///
-    private func roundValue(forExerciseId exerciseId: MKExercise.Id)(key: String, value: Double) -> Double {
+    private func roundValue(forExerciseId exerciseId: MKExercise.Id, key: String, value: Double) -> Double {
         guard let label = MKExerciseLabelDescriptor(id: key) else { return value }
         return self.roundLabel(label, value, exerciseId)
     }
@@ -308,7 +308,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     /// - parameter value: the metric value
     /// - returns the corrected metric value
     ///
-    private func correctValue(forExerciseId exerciseId: MKExercise.Id)(key: String, value: Double) -> Double {
+    private func correctValue(forExerciseId exerciseId: MKExercise.Id, key: String, value: Double) -> Double {
         let (correction, diff) = self.correction(forExerciseId: exerciseId, key: key)
         return correction.map { value * $0 } ?? diff.map { value + $0 } ?? value
     }
@@ -317,13 +317,15 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     /// Returns true if 2 sets are identical
     /// (sets are identical if weights and reps are the same)
     ///
-    private func sameAs(this: ExerciseSetMetrics)(that: ExerciseSetMetrics) -> Bool {
-        let same: [Bool] = ["weight", "repetitions"].flatMap { key in
-            if this.get(key) == nil && that.get(key) == nil { return nil }
-            guard let v1 = this.get(key), let v2 = that.get(key) else { return false }
-            return v1 == v2
+    private func sameAs(this: ExerciseSetMetrics) -> (ExerciseSetMetrics) -> Bool {
+        return { that in
+            let same: [Bool] = ["weight", "repetitions"].flatMap { key in
+                if this.get(key) == nil && that.get(key) == nil { return nil }
+                guard let v1 = this.get(key), let v2 = that.get(key) else { return false }
+                return v1 == v2
+            }
+            return !same.isEmpty && same.reduce(true) { $0 && $1 }
         }
-        return !same.isEmpty && same.reduce(true) { $0 && $1 }
     }
     
     ///
@@ -334,8 +336,10 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         
         // try to return the average for the given set
         if var avg = history[exerciseId]?.weightedAvg(forSet: currentSet) {
-            avg.update(correctValue(forExerciseId: exerciseId))
-            avg.update(roundValue(forExerciseId: exerciseId))
+            avg.update {
+                let v = self.correctValue(forExerciseId: exerciseId, key: $0, value: $1)
+                return self.roundValue(forExerciseId: exerciseId, key: $0, value: v)
+            }
             return avg.labelsWithDuration
         }
         
@@ -357,7 +361,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
                 else { next.set(key, value: v2) }
                 
             }
-            next.update(roundValue(forExerciseId: exerciseId))
+            next.update { self.roundValue(forExerciseId: exerciseId, key: $0, value: $1) }
             return next.labelsWithDuration
         }
         
@@ -385,7 +389,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     private func updateCorrections(forExerciseId exerciseId: MKExercise.Id, metrics: ExerciseSetMetrics) {
         let currentSet = workout[exerciseId]?.count ?? 0
         if var avg = history[exerciseId]?.weightedAvg(forSet: currentSet) {
-            avg.update(roundValue(forExerciseId: exerciseId))
+            avg.update { self.roundValue(forExerciseId: exerciseId, key: $0, value: $1) }
             avg.forEach { key, expected in
                 guard let actual = metrics.get(key) else { return }
                 if expected > 0 {
@@ -424,11 +428,9 @@ public extension MKAverageLabelsPredictor {
             exerciseHistory.addWorkout(exerciseWorkout)
             self.history[id] = exerciseHistory
         }
-        return history.reduce([:]) { (var dict, entry) in
-            let (id, hist) = entry
-            dict[id] = hist.metadata
-            return dict
-        }
+        var dict: [String: AnyObject] = [:]
+        history.forEach { dict[$0] = $1.metadata }
+        return dict
     }
     ///
     /// restore the predictor's state from the given dictionary
