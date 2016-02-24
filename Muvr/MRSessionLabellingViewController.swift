@@ -15,7 +15,7 @@ class MRSessionLabellingScalarTableViewCell : UITableViewCell {
         let centreX = self.frame.width / 2
         let centreY = self.frame.height / 2
         let height = self.frame.height - 20
-        let width  = height * 1.2
+        let width  = ceil(height * 1.2)
         
         let frame = CGRect(x: centreX - width / 2, y: centreY - height / 2, width: width, height: height)
         let (view, scalarExerciseLabelSettable) = MRExerciseLabelViews.scalarViewForLabel(exerciseLabel, frame: frame)!

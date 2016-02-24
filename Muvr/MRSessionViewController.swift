@@ -87,6 +87,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             mainExerciseView.headerTitle = "Coming up".localized()
             mainExerciseView.exerciseDetail = ed
             mainExerciseView.exerciseLabels = ed.map(session.predictExerciseLabelsForExerciseDetail)?.0
+            mainExerciseView.exerciseDuration = ed.flatMap(session.predictDurationForExerciseDetail)
             mainExerciseView.reset()
             mainExerciseView.start(session.predictRestDuration())
             switchToViewController(comingUpViewController, fromRight: exerciseDetail == nil)
@@ -99,7 +100,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         case .InExercise(let exerciseDetail, _):
             mainExerciseView.headerTitle = "Stop".localized()
             mainExerciseView.reset()
-            mainExerciseView.start(session.predictDurationForExerciseDetail(exerciseDetail))
+            mainExerciseView.start(session.predictDurationForExerciseDetail(exerciseDetail) ?? session.defaultDurationForExerciseDetail(exerciseDetail))
             switchToViewController(inExerciseViewController)
         case .Done(let exerciseDetail, _, _, _):
             mainExerciseView.headerTitle = "Finished".localized()
@@ -176,6 +177,9 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     private func selectedExerciseDetail(selectedExerciseDetail: MKExerciseDetail) {
         mainExerciseView.exerciseDetail = selectedExerciseDetail
         mainExerciseView.exerciseLabels = session.predictExerciseLabelsForExerciseDetail(selectedExerciseDetail).0
+        if let duration = session.predictDurationForExerciseDetail(selectedExerciseDetail) {
+            mainExerciseView.exerciseDuration = duration
+        }
     }
     
     // MARK: - MRExerciseViewDelegate
@@ -194,8 +198,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         case .Ready(let exerciseDetail):
             state = .ComingUp(exerciseDetail: exerciseDetail)
         case .InExercise(let exerciseDetail, let start):
-            let (labels, _) = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
-            state = .Done(exerciseDetail: exerciseDetail, labels: labels, start: start, duration: NSDate().timeIntervalSinceDate(start))
+            let (labels, missing) = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
+            state = .Done(exerciseDetail: exerciseDetail, labels: labels + missing.filter { !labels.contains($0) } , start: start, duration: NSDate().timeIntervalSinceDate(start))
             session.clearClassificationHints()
         case .Done(let exerciseDetail, let labels, let start, let duration):
             // The user has completed the exercise, and accepted our labels

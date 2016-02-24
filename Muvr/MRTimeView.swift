@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 @IBDesignable
-class MRRepetitionsView: UIView {
+class MRTimeView: UIView {
     
     private let label: UILabel = UILabel()
     private let image: UIImageView = UIImageView()
@@ -12,15 +12,15 @@ class MRRepetitionsView: UIView {
     }
     
     @IBInspectable
-    var value: Int? {
+    var value: NSTimeInterval? {
         get { return _value }
         set(v) {
             _value = v.map { max(0, $0) }
-            label.text = v.map { NSNumberFormatter().stringFromNumber($0) } ?? nil
+            label.text = v.map { NSDateComponentsFormatter().stringFromTimeInterval($0) } ?? nil
         }
     }
     
-    var _value: Int? = nil
+    var _value: NSTimeInterval? = nil
     
     var font: UIFont = UIFont.systemFontOfSize(17) {
         didSet {
@@ -31,9 +31,9 @@ class MRRepetitionsView: UIView {
     private var fontSize: CGFloat {
         guard let text = label.text else { return label.font.pointSize }
         let font = label.font
-        var fontSize = frame.height / 2.5
+        var fontSize = frame.height / 3
         var size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
-        while (size.width > bounds.width - 8 * lineWidth) {
+        while (size.width > bounds.width - 10 * lineWidth) {
             fontSize -= 1
             size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
         }
@@ -52,14 +52,15 @@ class MRRepetitionsView: UIView {
     
     private func createUI() {
         self.backgroundColor = UIColor.orangeColor()
-        image.image = UIImage(named: "repetitions")
+        image.image = UIImage(named: "timer")
         image.contentMode = .ScaleAspectFit
         addSubview(image)
         addSubview(label)
     }
     
     override func drawRect(rect: CGRect) {
-        label.frame = self.bounds
+        let shift = min(frame.width, frame.height) / 8
+        label.frame = CGRectMake(0, shift, frame.width, frame.height - shift)
         label.textAlignment = .Center
         label.textColor = UIColor.blackColor()
         label.font = label.font.fontWithSize(fontSize)

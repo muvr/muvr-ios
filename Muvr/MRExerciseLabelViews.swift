@@ -23,6 +23,16 @@ struct MRExerciseLabelViews {
         }
     }
     
+    static func scalarViewForDuration(duration: NSTimeInterval, frame: CGRect) -> UIView {
+        let view = MRTimeView(frame: frame)
+        view.backgroundColor = UIColor.whiteColor()
+        view.accessibilityLabel = "Duration".localized()
+        view.accessibilityIdentifier = "Duration"
+        view.value = duration
+        view.accessibilityValue = String(duration)
+        return view
+    }
+    
 }
 
 extension MRWeightView : MRScalarExerciseLabelSettable {

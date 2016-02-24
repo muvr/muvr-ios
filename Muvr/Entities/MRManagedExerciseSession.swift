@@ -35,13 +35,15 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - parameter exerciseDetail: the exercise detail
     /// - returns: the expected duration
     ///
-    func predictDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
-        let (id, exerciseType, properties) = exerciseDetail
-
-        if let (_, prediction) = labelsPredictor.predictLabelsForExerciseId(id) {
+    func predictDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval? {
+        if let (_, prediction) = labelsPredictor.predictLabelsForExerciseId(exerciseDetail.0) {
             return prediction
         }
-        
+        return nil
+    }
+    
+    func defaultDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
+        let (_, exerciseType, properties) = exerciseDetail
         for property in properties {
             switch property {
             case .TypicalDuration(let duration): return duration
@@ -81,7 +83,10 @@ class MRManagedExerciseSession: NSManagedObject {
             return 10
         }
         
-        let predictions = labelsPredictor.predictLabelsForExerciseId(id)?.0 ?? []
+        let allPredictions = labelsPredictor.predictLabelsForExerciseId(id)?.0 ?? []
+        let intensity = allPredictions.filter { $0.descriptor == .Intensity }.first
+        // remove intensity from the predicted values
+        let predictions = allPredictions.filter { $0.descriptor != .Intensity}
         
         let missing: [MKExerciseLabel] = exerciseType.labelDescriptors.filter { desc in
             return !predictions.contains { $0.descriptor == desc}
@@ -89,11 +94,11 @@ class MRManagedExerciseSession: NSManagedObject {
             switch $0 {
             case .Repetitions: return .Repetitions(repetitions: 10)
             case .Weight: return .Weight(weight: defaultWeight())
-            case .Intensity: return .Intensity(intensity: 0.5)
+            case .Intensity: return intensity ?? .Intensity(intensity: 0.5)
             }
         }
         
-        return (predictions, missing)
+        return (predictions , missing)
     }
         
     ///
@@ -121,7 +126,6 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - parameter labels: the classified labels
     /// - parameter start: the start date
     /// - parameter duration: the duration
-    /// - parameter managedObjectContext: the MOC
     ///
     func addExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval) {
         let offset = start.timeIntervalSinceDate(self.start)

@@ -250,14 +250,16 @@ class MRExerciseView : UIView {
         labelsView.subviews.forEach { $0.removeFromSuperview() }
         labelsView.pagingEnabled = true
         
+        let padding: CGFloat = 10
+        let height: CGFloat = ceil(labelsView.frame.height / 2)
+        let width: CGFloat = height + padding
+        let allWidth: CGFloat = CGFloat((exerciseLabels?.count ?? 0) + (exerciseDuration == nil ? 0 : 1)) * width
+        var left: CGFloat = 0
+        
         if let exerciseLabels = exerciseLabels {
-            let padding: CGFloat = 10
-            let height: CGFloat = labelsView.frame.height / 2
-            let width: CGFloat = height + padding
-            let allWidth: CGFloat = CGFloat(exerciseLabels.count) * width
-            var left: CGFloat = 0
+            
             if allWidth < labelsView.frame.width {
-                left = (labelsView.frame.width - allWidth) / 2
+                left = ceil((labelsView.frame.width - allWidth) / 2)
             }
             
             for exerciseLabel in exerciseLabels {
@@ -266,6 +268,12 @@ class MRExerciseView : UIView {
                 let (view, _) = MRExerciseLabelViews.scalarViewForLabel(exerciseLabel, frame: frame)!
                 labelsView.addSubview(view)
             }
+        }
+        
+        if let duration = exerciseDuration {
+            let frame = CGRect(x: left, y: 0, width: width - padding, height: height - padding)
+            let view = MRExerciseLabelViews.scalarViewForDuration(duration, frame: frame)
+            labelsView.addSubview(view)
         }
     }
     
@@ -284,6 +292,12 @@ class MRExerciseView : UIView {
     // MARK: - public API
     
     var exerciseLabels: [MKExerciseLabel]? = [] {
+        didSet {
+            UIView.performWithoutAnimation(updateUI)
+        }
+    }
+    
+    var exerciseDuration: NSTimeInterval? = nil {
         didSet {
             UIView.performWithoutAnimation(updateUI)
         }

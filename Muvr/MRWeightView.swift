@@ -3,10 +3,9 @@ import UIKit
 
 @IBDesignable
 class MRWeightView: UIView {
-
-    private let label: UILabel = UILabel()
     
-    private let iconLayer: CAShapeLayer = CAShapeLayer()
+    private let label: UILabel = UILabel()
+    private let image: UIImageView = UIImageView()
     
     private var lineWidth: CGFloat {
         return min(frame.width, frame.height) / 16
@@ -22,7 +21,7 @@ class MRWeightView: UIView {
     }
     
     var _value: Double? = nil
-        
+    
     var font: UIFont = UIFont.systemFontOfSize(17) {
         didSet {
             label.font = font
@@ -32,9 +31,9 @@ class MRWeightView: UIView {
     private var fontSize: CGFloat {
         guard let text = label.text else { return label.font.pointSize }
         let font = label.font
-        var fontSize = frame.height / 2
+        var fontSize = frame.height / 2.5
         var size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
-        while (size.width > bounds.width - 6 * lineWidth) {
+        while (size.width > bounds.width - 8 * lineWidth) {
             fontSize -= 1
             size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
         }
@@ -52,53 +51,20 @@ class MRWeightView: UIView {
     }
     
     private func createUI() {
-        iconLayer.opaque = false
-        iconLayer.fillColor = UIColor.clearColor().CGColor
-        layer.addSublayer(iconLayer)
+        self.backgroundColor = UIColor.orangeColor()
+        image.image = UIImage(named: "weight")
+        image.contentMode = .ScaleAspectFit
+        addSubview(image)
         addSubview(label)
     }
     
     override func drawRect(rect: CGRect) {
-        drawIcon()
-        let radius = min(frame.width, frame.height) / 10
-        label.frame = CGRectMake(0, 2 * radius, frame.width, frame.height - 2 * radius)
+        let shift = min(frame.width, frame.height) / 4
+        label.frame = CGRectMake(0, shift, frame.width, frame.height - shift)
         label.textAlignment = .Center
-        label.textColor = UIColor.blackColor()
+        label.textColor = UIColor.whiteColor()
         label.font = label.font.fontWithSize(fontSize)
-    }
-    
-    private func drawIcon() {
-        let path = UIBezierPath()
-        let center = CGPointMake(CGRectGetMidX(self.bounds) , CGRectGetMidY(self.bounds))
-        let radius = min(frame.width, frame.height) / 7
-        let lineWidth = radius / 3
-        
-        let left = lineWidth / 2
-        let right = frame.width - lineWidth / 2
-        let top = lineWidth / 2 + 2 * radius
-        let bottom = frame.height - lineWidth / 2
-        let middleLeft = left + frame.width / 8
-        let middleRight = right - frame.width / 8
-        
-        iconLayer.strokeColor = iconLayer.fillColor
-
-        path.moveToPoint(CGPoint(x: middleLeft, y: top))
-        path.addLineToPoint(CGPoint(x: middleRight, y: top))
-        path.moveToPoint(CGPoint(x: middleRight, y: top))
-        path.addLineToPoint(CGPoint(x: right, y: bottom))
-        path.moveToPoint(CGPoint(x: right, y: bottom))
-        path.addLineToPoint(CGPoint(x: left, y: bottom))
-        path.moveToPoint(CGPoint(x: left, y: bottom))
-        path.addLineToPoint(CGPoint(x: middleLeft, y: top))
-
-        path.moveToPoint(CGPoint(x: center.x, y: top))
-        path.addArcWithCenter(CGPoint(x: center.x, y: top - radius), radius: radius, startAngle: CGFloat(M_PI_2), endAngle: 5 * CGFloat(M_PI_2), clockwise: true)
-        
-        path.lineWidth = lineWidth
-        path.lineCapStyle = .Round
-        
-        iconLayer.path = path.CGPath
-        path.stroke()
+        image.frame = self.bounds
     }
     
 }
