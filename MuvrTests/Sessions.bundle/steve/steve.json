@@ -1,11 +1,11 @@
 {
     "Steve's \"pull\" session #1 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back])" : {
-        "EA" : 0.75,
+        "EA" : 0.304,
         "LA" : 0.6666666666666667,
         "WL" : 0.05
     },
     "Steve's \"push\" session #2 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Shoulders, MuvrKit.MKMuscleGroup.Chest])" : {
-        "EA" : 0.75,
+        "EA" : 0.348,
         "LA" : 0.7,
         "WL" : 0.05
     },
@@ -15,7 +15,7 @@
         "WL" : 0.05
     },
     "Steve's \"push\" session #4 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Shoulders, MuvrKit.MKMuscleGroup.Chest])" : {
-        "EA" : 0.92,
+        "EA" : 0.913,
         "LA" : 0.9,
         "WL" : 0.05
     },
@@ -35,17 +35,17 @@
         "WL" : 0.2
     },
     "Steve's \"push\" session #8 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Shoulders, MuvrKit.MKMuscleGroup.Chest])" : {
-        "EA" : 0.957,
+        "EA" : 0.913,
         "LA" : 0.952,
         "WL" : 0.005
     },
     "Steve's \"pull\" session #9 (bad day) ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back])" : {
         "EA" : 0.8,
         "LA" : 0.56,
-        "WL" : 2
+        "WL" : 3.59
     },
     "Steve's \"push\" session #10 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Shoulders, MuvrKit.MKMuscleGroup.Chest])" : {
-        "EA" : 0.92,
+        "EA" : 0.913,
         "LA" : 0.9,
         "WL" : 0.05
     },

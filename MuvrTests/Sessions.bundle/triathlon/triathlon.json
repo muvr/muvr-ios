@@ -1,11 +1,11 @@
 {
     "Endurance session #1 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Legs, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.75,
+        "EA" : 0.323,
         "LA" : 0.5,
         "WL" : 0.35
     },
     "triathlon circuit session #2: cardio IndoorsCardio" : {
-        "EA" : 0.75
+        "EA" : 0.556
     },
     "Endurance session #3 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Legs, MuvrKit.MKMuscleGroup.Shoulders])" : {
         "EA" : 0.92,
@@ -13,7 +13,7 @@
         "WL" : 0.05
     },
     "triathlon circuit session #4: cardio IndoorsCardio" : {
-        "EA" : 0.75
+        "EA" : 0.556
     },
     "Endurance session #5 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Legs, MuvrKit.MKMuscleGroup.Shoulders])" : {
         "EA" : 0.92,
@@ -21,6 +21,6 @@
         "WL" : 0.05
     },
     "triathlon circuit session #6: cardio IndoorsCardio" : {
-        "EA" : 0.92
+        "EA" : 0.889
     }
 }
