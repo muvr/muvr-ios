@@ -71,6 +71,12 @@ protocol MRApp : MKExercisePropertySource {
     /// Ordered list (most likely first) of the available workouts
     ///
     var sessions: [MRSessionType] { get }
+
+    ///
+    /// Returns true if there are sessions on the given date
+    ///
+    func hasSessionsOnDate(date: NSDate) -> Bool
+
 }
 
 ///
@@ -124,6 +130,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
 
     var exerciseDetails: [MKExerciseDetail] = []
+    
+    func hasSessionsOnDate(date: NSDate) -> Bool {
+        return MRManagedExerciseSession.hasSessionsOnDate(date, inManagedObjectContext: managedObjectContext)
+    }
     
     ///
     /// Returns this shared delegate

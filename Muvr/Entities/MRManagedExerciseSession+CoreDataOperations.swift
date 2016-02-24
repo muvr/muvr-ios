@@ -28,5 +28,19 @@ extension MRManagedExerciseSession {
         let result = try? managedObjectContext.executeFetchRequest(request) as! [MRManagedExerciseSession]
         return result?.first
     }
+    
+    
+    ///
+    /// Check for existing sessions on a given date
+    ///
+    static func hasSessionsOnDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> Bool {
+        let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
+        let midnightToday = date.dateOnly
+        let midnightTomorrow = midnightToday.addDays(1)
+        fetchRequest.predicate = NSPredicate(format: "(start >= %@ AND start < %@)", midnightToday, midnightTomorrow)
+        fetchRequest.fetchLimit = 1
+        
+        return managedObjectContext.countForFetchRequest(fetchRequest).map { count in count > 0 } ?? false
+    }
 
 }
