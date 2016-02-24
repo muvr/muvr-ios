@@ -57,9 +57,9 @@ struct MRAverage {
     /// - returns: the 0 element
     ///
     static func zero(labels: [MKExerciseLabelDescriptor]) -> MRAverage {
-        let zeros: [MKExerciseLabelDescriptor:Double] = labels.reduce([:]) { (var d, l) in
-            d[l] = 0
-            return d
+        var zeros: [MKExerciseLabelDescriptor:Double] = [:]
+        for label in labels {
+            zeros[label] = 0
         }
         return MRAverage(count: 0, averages: zeros, averageDuration: 0)
     }
