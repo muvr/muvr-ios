@@ -44,14 +44,34 @@ workout</string>
                                     <constraint firstAttribute="height" constant="100" id="TSp-yb-XET"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="t8Q-if-Kmr">
+                                <rect key="frame" x="91" y="252" width="232" height="232"/>
+                                <color key="backgroundColor" red="0.0" green="0.64494423063793105" blue="0.46357758620689654" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="t8Q-if-Kmr" secondAttribute="height" multiplier="1:1" id="g1M-zo-Lak"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal">
+                                    <string key="title">Start
+workout</string>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startWorkout:" destination="pmY-Nl-DsG" eventType="touchUpInside" id="bRr-ip-2aL"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="t8Q-if-Kmr" firstAttribute="centerY" secondItem="Xwy-pg-dpP" secondAttribute="centerY" id="7Fv-VT-cxV"/>
                             <constraint firstAttribute="trailingMargin" secondItem="enz-nd-VyD" secondAttribute="trailing" id="DkN-PM-k2M"/>
                             <constraint firstItem="xMj-bO-G2Q" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-20" id="Eo6-rw-H8F"/>
                             <constraint firstItem="Q1S-ZS-XIG" firstAttribute="top" secondItem="enz-nd-VyD" secondAttribute="bottom" constant="19" id="Fid-RF-5dv"/>
                             <constraint firstItem="xMj-bO-G2Q" firstAttribute="top" secondItem="Q74-HE-1qC" secondAttribute="bottom" id="NoL-lP-9Ot"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xMj-bO-G2Q" secondAttribute="trailing" constant="-20" id="VZE-Eu-3o2"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="t8Q-if-Kmr" secondAttribute="trailing" constant="71" id="c6e-l2-B4h"/>
+                            <constraint firstItem="t8Q-if-Kmr" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="71" id="qJ0-ln-sz1"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Start workout" image="exercise" selectedImage="exercise_selected" id="EWj-fs-vma"/>
@@ -59,6 +79,7 @@ workout</string>
                     <connections>
                         <outlet property="calendarView" destination="xMj-bO-G2Q" id="vXa-KD-pCE"/>
                         <outlet property="changeButton" destination="enz-nd-VyD" id="5sZ-cQ-c1Z"/>
+                        <outlet property="startButton" destination="t8Q-if-Kmr" id="Uij-WT-sFb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="amo-T2-eQ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
