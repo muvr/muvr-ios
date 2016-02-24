@@ -193,9 +193,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         pageControlAppearance.currentPageIndicatorTintColor = UIColor.blackColor()
         pageControlAppearance.backgroundColor = UIColor.whiteColor()
         
+        // appearrance
         UITabBar.appearance().tintColor = UIColor.whiteColor()
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: .Normal)
-        
+        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
         UIView.appearance().tintColor = UIColor(colorLiteralRed: 77.0/255, green: 136.0/255, blue: 229.9/255, alpha: 1)
         
         // sync

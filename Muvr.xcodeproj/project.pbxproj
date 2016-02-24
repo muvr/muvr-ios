@@ -231,6 +231,7 @@
 		64BA9DCD1C84663200D8540E /* Sessions.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 64BA9DCC1C84663200D8540E /* Sessions.bundle */; };
 		64BA9DCF1C8479D200D8540E /* MRSessionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DCE1C8479D200D8540E /* MRSessionType.swift */; };
 		64BA9DD51C88554A00D8540E /* MRManagedSessionPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DD41C88554A00D8540E /* MRManagedSessionPlanTests.swift */; };
+		64BA9DB91C7E00D700D8540E /* MRStartWorkoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DB81C7E00D700D8540E /* MRStartWorkoutViewController.swift */; };
 		64FB23BC1C3E899E005312C2 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */; };
 		99835A4C1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
@@ -578,6 +579,7 @@
 		64BA9DCC1C84663200D8540E /* Sessions.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Sessions.bundle; sourceTree = "<group>"; };
 		64BA9DCE1C8479D200D8540E /* MRSessionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionType.swift; sourceTree = "<group>"; };
 		64BA9DD41C88554A00D8540E /* MRManagedSessionPlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedSessionPlanTests.swift; sourceTree = "<group>"; };
+		64BA9DB81C7E00D700D8540E /* MRStartWorkoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRStartWorkoutViewController.swift; sourceTree = "<group>"; };
 		64FB23BD1C3E899E005312C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseType+MetadataTests.swift"; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
@@ -969,6 +971,7 @@
 		548C26251C4A63DA009F299B /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				64BA9DB81C7E00D700D8540E /* MRStartWorkoutViewController.swift */,
 				54EAC09C1C4C2E8C005AA3F4 /* MRManualViewController.swift */,
 				54B27DCC1C3BE6A8000A07A2 /* MRStatisticsViewController.swift */,
 				5430FD6D1C4839D3006780CF /* MRProfileViewController.swift */,
@@ -1615,6 +1618,7 @@
 				5493FC1F1C42C9C400317A15 /* MRSessionViewController.swift in Sources */,
 				549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */,
 				543E32A01C4BC69B00D9922D /* MRManagedExerciseScalarLabel+CoreDataOperations.swift in Sources */,
+				64BA9DB91C7E00D700D8540E /* MRStartWorkoutViewController.swift in Sources */,
 				5460A79F1C443FB400070ADC /* NSPredicate+Location.swift in Sources */,
 				6428CE1E1C43FEFE00D17451 /* MRRepetitionsView.swift in Sources */,
 				54585FF11C41A4A40050D770 /* MRAggregate+Localisation.swift in Sources */,
