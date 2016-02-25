@@ -11,20 +11,12 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
     
     private var exerciseType: MKExerciseType? = .ResistanceTargeted(muscleGroups: [.Arms, .Shoulders, .Chest])
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidLayoutSubviews() {
         changeButton.titleLabel?.textAlignment = .Center
         changeButton.layer.cornerRadius = changeButton.frame.width / 2
         
         startButton.titleLabel?.textAlignment = .Center
         startButton.layer.cornerRadius =  startButton.frame.height / 2
-        
-        if let exerciseType = exerciseType {
-            switch exerciseType {
-            case .ResistanceTargeted(let muscles): startButton.setTitle("Start \(muscles.map { $0.id }.joinWithSeparator(", ")) workout", forState: .Normal)
-            case .IndoorsCardio: startButton.setTitle("Start cardio workout", forState: .Normal)
-            case .ResistanceWholeBody: startButton.setTitle("Start whole-body workout", forState: .Normal)
-            }
-        }
     }
     
     override func viewDidLoad() {
@@ -36,6 +28,18 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
         
         calendar.setDate(today)
         calendar.reload()
+        
+        displayDefaultWorkout()
+    }
+    
+    private func displayDefaultWorkout() {
+        if let exerciseType = exerciseType {
+            switch exerciseType {
+            case .ResistanceTargeted(let muscles): startButton.setTitle("Start \(muscles.map { $0.id }.joinWithSeparator(", ")) workout", forState: .Normal)
+            case .IndoorsCardio: startButton.setTitle("Start cardio workout", forState: .Normal)
+            case .ResistanceWholeBody: startButton.setTitle("Start whole-body workout", forState: .Normal)
+            }
+        }
     }
     
     @IBAction func startWorkout(sender: UIButton) {

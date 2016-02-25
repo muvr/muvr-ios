@@ -63,7 +63,9 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     
     override func viewDidLoad() {
         mainExerciseView.delegate = self
-
+        
+        UIView.appearanceWhenContainedInInstancesOfClasses([MRSessionViewController.self]).tintColor = UIColor.blackColor()
+        
         comingUpViewController = storyboard!.instantiateViewControllerWithIdentifier("ComingUpViewController") as! MRSessionComingUpViewController
         readyViewController = storyboard!.instantiateViewControllerWithIdentifier("ReadyViewController")
         inExerciseViewController = storyboard!.instantiateViewControllerWithIdentifier("InExerciseViewController")
