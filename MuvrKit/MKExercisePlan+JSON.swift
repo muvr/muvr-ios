@@ -12,10 +12,10 @@ extension MKExercisePlan {
     /// - returns: the JSON representation
     ///
     public func json(stateTransform: E -> String) -> NSData {
-        var result: [String : AnyObject] = ["chain": chain.jsonObject(stateTransform)]
-        if let first = first {
-            result["first"] = stateTransform(first)
-        }
+        let result: [String : AnyObject] = [
+            "chain": chain.jsonObject(stateTransform),
+            "states": states.jsonObject(stateTransform)
+        ]
         return try! NSJSONSerialization.dataWithJSONObject(result, options: [])
     }
     
@@ -29,13 +29,15 @@ extension MKExercisePlan {
     /// - returns: the loaded exercise plan.
     ///
     public convenience init?(json: NSData, stateTransform: AnyObject -> E?) {
-        guard let dict = try? NSJSONSerialization.JSONObjectWithData(json, options: NSJSONReadingOptions.AllowFragments),
-            let metadata = dict as? [String : AnyObject],
-            let chain = metadata["chain"],
-            let markovChain = MKMarkovChain<E>(jsonObject: chain, stateTransform: stateTransform)
+        guard let jsonObject = try? NSJSONSerialization.JSONObjectWithData(json, options: NSJSONReadingOptions.AllowFragments),
+            let dict = jsonObject as? [String : AnyObject],
+            let chain = dict["chain"],
+            let states = dict["states"],
+            let markovChain = MKMarkovChain<E>(jsonObject: chain, stateTransform: stateTransform),
+            let stateChain = MKStateChain<E>(jsonObject: states, stateTransform: stateTransform)
         else { return nil }
-        let first = metadata["first"].flatMap(stateTransform)
-        self.init(chain: markovChain, first: first)
+        
+        self.init(chain: markovChain, states: stateChain)
     }
     
 }
