@@ -1,0 +1,16 @@
+women workouts: lowerbody (day 11) - some progress
+resistanceTargeted:legs
+
+resistanceTargeted:legs/squat,R=10,W=10,D=30,I=0.4
+resistanceTargeted:legs/squat,R=10,W=10,D=30,I=0.4
+resistanceTargeted:legs/squat,R=10,W=10,D=30,I=0.4
+
+resistanceTargeted:legs/barbell-squat,R=12,W=10,D=30,I=0.6
+resistanceTargeted:legs/barbell-squat,R=15,W=10,D=30,I=0.6
+resistanceTargeted:legs/barbell-squat,R=15,W=10,D=30,I=0.6
+resistanceTargeted:legs/barbell-squat,R=15,W=10,D=30,I=0.6
+resistanceTargeted:legs/barbell-squat,R=15,W=10,D=30,I=0.6
+
+resistanceTargeted:legs/lunges,R=20,W=0,D=60,I=0.4
+resistanceTargeted:legs/lunges,R=22,W=0,D=60,I=0.4
+resistanceTargeted:legs/lunges,R=22,W=0,D=60,I=0.4

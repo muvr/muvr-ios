@@ -16,7 +16,7 @@ extension MRManagedLocationExercise {
         mo.id = id
         mo.stationProximityUUID = stationProximityUUID
         mo.location = location
-        mo.properties = properties?.flatMap { MKExerciseProperty(json: $0) } ?? []
+        mo.properties = properties?.flatMap { MKExerciseProperty(jsonObject: $0) } ?? []
     }
 
     

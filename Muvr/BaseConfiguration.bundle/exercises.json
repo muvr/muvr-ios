@@ -1,11 +1,13 @@
 [
  {"id":"resistanceTargeted:arms/triceps-pushdown"},
  {"id":"resistanceTargeted:arms/barbell-biceps-curl"},
- {"id":"resistanceTargeted:arms/biceps-curl"},
+ {"id":"resistanceTargeted:arms/dumbbell-biceps-curl"},
  {"id":"resistanceTargeted:arms/triceps-extension"},
  {"id":"resistanceTargeted:arms/reverse-cable-curl"},
  {"id":"resistanceTargeted:arms/overhead-cable-curl"},
  {"id":"resistanceTargeted:arms/triceps-dips"},
+ {"id":"resistanceTargeted:arms/cable-biceps-curl"},
+ {"id":"resistanceTargeted:arms/cable-hammer-curl"},
 
  {"id":"resistanceTargeted:back/back-extensions"},
  {"id":"resistanceTargeted:back/lateral-pulldown"},
@@ -23,14 +25,22 @@
  {"id":"resistanceTargeted:core/suitcase-crunches"},
  {"id":"resistanceTargeted:core/side-dips"},
  {"id":"resistanceTargeted:core/crunches"},
- {"id":"resistanceTargeted:core/cable-crossover"},
  {"id":"resistanceTargeted:core/oblique-crunches"},
  {"id":"resistanceTargeted:core/alternate-heel-touches"},
+ {"id":"resistanceTargeted:core/cable-wood-chop"},
+ {"id":"resistanceTargeted:core/reverse-curl"},
+ {"id":"resistanceTargeted:core/leg-raises"},
+ {"id":"resistanceTargeted:core/reverse-planks"},
+ {"id":"resistanceTargeted:core/russian-twist"},
+ {"id":"resistanceTargeted:core/dragonfly"},
+ {"id":"resistanceTargeted:core/crunch-machine"},
 
  {"id":"resistanceTargeted:legs/lunges"},
  {"id":"resistanceTargeted:legs/dumbbell-calf-raise"},
  {"id":"resistanceTargeted:legs/barbell-squat"},
  {"id":"resistanceTargeted:legs/squat"},
+ {"id":"resistanceTargeted:legs/leg-press"},
+ {"id":"resistanceTargeted:legs/barbell-deadlift"},
 
  {"id":"resistanceTargeted:shoulders/dumbbell-shoulder-press"},
  {"id":"resistanceTargeted:shoulders/dumbbell-bench-press"},
@@ -42,5 +52,6 @@
  
  {"id":"indoorsCardio:cross-trainer"},
  {"id":"indoorsCardio:running-machine"},
- {"id":"indoorsCardio:rowing-machine"}
+ {"id":"indoorsCardio:rowing-machine"},
+ {"id":"indoorsCardio:stepper"}
 ]

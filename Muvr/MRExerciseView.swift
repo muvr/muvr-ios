@@ -120,7 +120,7 @@ class MRExerciseView : UIView {
         addSubview(view)
         updateUI()
         
-        let recognizer = UILongPressGestureRecognizer(target: self, action: "buttonDidLongPress")
+        let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(MRExerciseView.buttonDidLongPress))
         recognizer.minimumPressDuration = 4
         recognizer.allowableMovement = 100
         button.addGestureRecognizer(recognizer)

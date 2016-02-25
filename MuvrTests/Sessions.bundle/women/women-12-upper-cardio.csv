@@ -1,0 +1,24 @@
+women workouts: upperbody + cardio (day 12) with variations
+resistanceTargeted:shoulders,arms,back
+
+indoorsCardio:running-machine,D=600,I=0.4
+
+resistanceTargeted:shoulders/lateral-raise,R=12,W=10,D=30,I=0.6
+resistanceTargeted:shoulders/lateral-raise,R=10,W=10,D=30,I=0.6
+resistanceTargeted:shoulders/lateral-raise,R=8,W=10,D=30,I=0.6
+
+resistanceTargeted:back/cable-row,R=15,W=10,D=30,I=0.6
+resistanceTargeted:back/cable-row,R=15,W=10,D=30,I=0.6
+resistanceTargeted:back/cable-row,R=12,W=10,D=30,I=0.6
+
+resistanceTargeted:arms/dumbbell-biceps-curl,R=10,W=10,D=30,I=0.6
+resistanceTargeted:arms/dumbbell-biceps-curl,R=10,W=10,D=30,I=0.6
+resistanceTargeted:arms/dumbbell-biceps-curl,R=8,W=10,D=30,I=0.6
+
+resistanceTargeted:shoulders/dumbbell-shoulder-press,R=10,W=10,D=30,I=0.6
+resistanceTargeted:shoulders/dumbbell-shoulder-press,R=10,W=10,D=30,I=0.6
+resistanceTargeted:shoulders/dumbbell-shoulder-press,R=10,W=10,D=30,I=0.6
+
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=10,D=30,I=0.6
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=10,D=30,I=0.6
+

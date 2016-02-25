@@ -1,0 +1,24 @@
+women workouts: upperbody + cardio (day 19) - back to normal
+resistanceTargeted:chest,shoulders,arms
+
+indoorsCardio:running-machine,D=900,I=0.4
+
+resistanceTargeted:chest/chest-press-machine,R=12,W=15,D=35,I=0.6
+resistanceTargeted:chest/chest-press-machine,R=12,W=15,D=35,I=0.6
+resistanceTargeted:chest/chest-press-machine,R=12,W=15,D=35,I=0.6
+
+resistanceTargeted:shoulders/dumbbell-shoulder-press,R=12,W=15,D=35,I=0.6
+resistanceTargeted:shoulders/dumbbell-shoulder-press,R=12,W=15,D=35,I=0.6
+resistanceTargeted:shoulders/dumbbell-shoulder-press,R=12,W=15,D=35,I=0.6
+
+resistanceTargeted:arms/dumbbell-biceps-curl,R=12,W=10,D=35,I=0.6
+resistanceTargeted:arms/dumbbell-biceps-curl,R=12,W=10,D=35,I=0.6
+resistanceTargeted:arms/dumbbell-biceps-curl,R=12,W=10,D=35,I=0.6
+
+resistanceTargeted:shoulders/lateral-raise,R=12,W=5,D=30,I=0.6
+resistanceTargeted:shoulders/lateral-raise,R=12,W=5,D=30,I=0.6
+resistanceTargeted:shoulders/lateral-raise,R=12,W=5,D=30,I=0.6
+
+resistanceTargeted:arms/triceps-dips,R=20,W=5,D=50,I=0.6
+resistanceTargeted:arms/triceps-dips,R=20,W=5,D=50,I=0.6
+resistanceTargeted:arms/triceps-dips,R=20,W=5,D=50,I=0.6

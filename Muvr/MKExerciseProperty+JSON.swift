@@ -7,25 +7,25 @@ extension MKExerciseProperty {
     static let oneRepetitionDuration = "oneRepetitionDuration"
     static let typicalDuration = "typicalDuration"
 
-    init?(json: AnyObject) {
-        guard let json = json as? [String : AnyObject],
-              let type = json["type"] as? String else { return nil}
+    init?(jsonObject: AnyObject) {
+        guard let dict = jsonObject as? [String : AnyObject],
+              let type = dict["type"] as? String else { return nil}
         
-        if let minimum = json["minimum"] as? NSNumber,
-           let step = json["step"] as? NSNumber,
-           let maximum = json["maximum"] as? NSNumber?
+        if let minimum = dict["minimum"] as? NSNumber,
+           let step = dict["step"] as? NSNumber,
+           let maximum = dict["maximum"] as? NSNumber?
            where type == MKExerciseProperty.weightProgression {
             self = .WeightProgression(minimum: minimum.doubleValue, step: step.doubleValue, maximum: maximum?.doubleValue)
-        } else if let duration = json["duration"] as? NSNumber where type == MKExerciseProperty.typicalDuration {
+        } else if let duration = dict["duration"] as? NSNumber where type == MKExerciseProperty.typicalDuration {
             self = .TypicalDuration(duration: duration.doubleValue)
-        } else if let duration = json["duration"] as? NSNumber where type == MKExerciseProperty.oneRepetitionDuration {
+        } else if let duration = dict["duration"] as? NSNumber where type == MKExerciseProperty.oneRepetitionDuration {
             self = .OneRepetitionDuration(duration: duration.doubleValue)
         } else {
             return nil
         }
     }
     
-    var json: [String : AnyObject] {
+    var jsonObject: [String : AnyObject] {
         switch self {
         case .WeightProgression(let minimum, let step, let maximum):
             var result: [String : AnyObject] = ["type":MKExerciseProperty.weightProgression, "minimum":minimum, "step":step]

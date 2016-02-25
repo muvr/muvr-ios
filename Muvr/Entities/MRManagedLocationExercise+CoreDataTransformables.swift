@@ -9,12 +9,12 @@ extension MRManagedLocationExercise {
     var properties: [MKExerciseProperty] {
         get {
             if let raw = valueForKey("properties") as? [AnyObject] {
-                return raw.flatMap { MKExerciseProperty(json: $0) }
+                return raw.flatMap { MKExerciseProperty(jsonObject: $0) }
             }
             return []
         }
         set {
-            setValue(newValue.map { $0.json }, forKey: "properties")
+            setValue(newValue.map { $0.jsonObject }, forKey: "properties")
         }
     }
     

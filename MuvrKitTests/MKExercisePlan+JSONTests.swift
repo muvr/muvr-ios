@@ -11,7 +11,7 @@ class MKExercisePlanPlusJSONTests : XCTestCase {
         p1.insert("biceps-curl")
         
         let json = p1.json { $0 }
-        let p2 = MKExercisePlan<String>.fromJsonFirst(json) { $0 as? String }!
+        let p2 = MKExercisePlan<String>(json: json) { $0 as? String }!
         
         XCTAssertEqual(p2.next.first!, "biceps-curl")
         p2.insert("biceps-curl")

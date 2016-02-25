@@ -12,7 +12,7 @@ extension MKExercisePlan {
     /// - returns: the JSON representation
     ///
     public func json(stateTransform: E -> String) -> NSData {
-        var result: [String : AnyObject] = ["chain": chain.json(stateTransform)]
+        var result: [String : AnyObject] = ["chain": chain.jsonObject(stateTransform)]
         if let first = first {
             result["first"] = stateTransform(first)
         }
@@ -20,7 +20,7 @@ extension MKExercisePlan {
     }
     
     ///
-    /// Returns the JSON representation of the plan that is at its starting point: evaluating its ``next`` property will
+    /// Returns the plan at its starting point: evaluating its ``next`` property will
     /// give the starting point of the saved chain. Technically, the loaded instance is only loading the markov chain and
     /// the first encountered state, it is not loading the state chain.
     ///
@@ -28,17 +28,14 @@ extension MKExercisePlan {
     /// - parameter stateTransform: the function to turn ``AnyObject`` into its ``E`` representation
     /// - returns: the loaded exercise plan.
     ///
-    public static func fromJsonFirst<E>(data: NSData, stateTransform: AnyObject -> E?) -> MKExercisePlan<E>? {
-        guard let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) else { return nil }
-        
-        if let json = json as? [String : AnyObject],
-            let chain = json["chain"],
-            let markovChain = MKMarkovChain<E>.fromJson(chain, stateTransform: stateTransform) {
-                let first = json["first"].flatMap(stateTransform)
-                return MKExercisePlan<E>(chain: markovChain, first: first)
-            }
-        
-        return nil
+    public convenience init?(json: NSData, stateTransform: AnyObject -> E?) {
+        guard let dict = try? NSJSONSerialization.JSONObjectWithData(json, options: NSJSONReadingOptions.AllowFragments),
+            let metadata = dict as? [String : AnyObject],
+            let chain = metadata["chain"],
+            let markovChain = MKMarkovChain<E>(jsonObject: chain, stateTransform: stateTransform)
+        else { return nil }
+        let first = metadata["first"].flatMap(stateTransform)
+        self.init(chain: markovChain, first: first)
     }
-
+    
 }

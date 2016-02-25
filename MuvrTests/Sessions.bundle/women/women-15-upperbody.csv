@@ -1,0 +1,17 @@
+women workouts: upperbody + cardio (day 15) - short session
+resistanceTargeted:chest,shoulders,arms
+
+indoorsCardio:running-machine,D=320,I=0.4
+
+resistanceTargeted:chest/chest-press-machine,R=10,W=15,D=35,I=0.6
+resistanceTargeted:chest/chest-press-machine,R=8,W=15,D=35,I=0.6
+
+resistanceTargeted:shoulders/dumbbell-shoulder-press,R=10,W=5,D=35,I=0.6
+resistanceTargeted:shoulders/dumbbell-shoulder-press,R=10,W=5,D=35,I=0.6
+resistanceTargeted:shoulders/dumbbell-shoulder-press,R=10,W=5,D=35,I=0.6
+
+resistanceTargeted:arms/dumbbell-biceps-curl,R=10,W=10,D=35,I=0.6
+resistanceTargeted:arms/dumbbell-biceps-curl,R=4,W=10,D=35,I=0.6
+
+resistanceTargeted:arms/triceps-dips,R=10,W=5,D=50,I=0.6
+resistanceTargeted:arms/triceps-dips,R=10,W=5,D=50,I=0.6

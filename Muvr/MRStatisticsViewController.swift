@@ -90,7 +90,7 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     // On appearance, show all .Types
     override func viewDidAppear(animated: Bool) {
         reloadAverages(.Types)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "persistedDataDidChanged:", name: NSManagedObjectContextDidSaveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRStatisticsViewController.persistedDataDidChange(_:)), name: NSManagedObjectContextDidSaveNotification, object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {

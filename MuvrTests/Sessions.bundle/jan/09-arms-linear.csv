@@ -1,0 +1,45 @@
+Six group session 9 with mostly linear W; mostly constant R,D,I; with more tiredness.
+resistanceTargeted:arms
+
+resistanceTargeted:arms/cable-biceps-curl,R=10,W=40,D=30,I=0.4
+resistanceTargeted:arms/triceps-pushdown, R=10,W=40,D=30,I=0.4
+resistanceTargeted:arms/cable-biceps-curl,R=10,W=45,D=30,I=0.6
+resistanceTargeted:arms/triceps-pushdown, R=10,W=45,D=30,I=0.6
+resistanceTargeted:arms/cable-biceps-curl,R=10,W=50,D=30,I=0.6
+resistanceTargeted:arms/triceps-pushdown, R=10,W=50,D=30,I=0.6
+resistanceTargeted:arms/cable-biceps-curl,R=10,W=55,D=30,I=0.8
+resistanceTargeted:arms/triceps-pushdown, R=10,W=55,D=30,I=0.8
+resistanceTargeted:arms/cable-biceps-curl,R=10,W=60,D=30,I=0.8
+resistanceTargeted:arms/triceps-pushdown, R=10,W=60,D=30,I=0.8
+resistanceTargeted:arms/cable-biceps-curl,R=8,W=65,D=30,I=0.8
+resistanceTargeted:arms/triceps-pushdown, R=8,W=65,D=30,I=0.8
+resistanceTargeted:arms/cable-biceps-curl,R=6,W=70,D=30,I=1
+resistanceTargeted:arms/triceps-pushdown, R=6,W=70,D=30,I=1
+resistanceTargeted:arms/cable-biceps-curl,R=4,W=75,D=30,I=1
+resistanceTargeted:arms/triceps-pushdown, R=4,W=75,D=30,I=1
+
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=20,D=30,I=0.4
+resistanceTargeted:arms/triceps-dips,       R=10,W=30,D=30,I=0.4
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=20,D=30,I=0.6
+resistanceTargeted:arms/triceps-dips,       R=10,W=25,D=30,I=0.6
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=20,D=30,I=0.6
+resistanceTargeted:arms/triceps-dips,       R=10,W=20,D=30,I=0.6
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=22.5,D=30,I=0.6
+resistanceTargeted:arms/triceps-dips,       R=10,W=20,D=30,I=0.6
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=22.5,D=30,I=0.8
+resistanceTargeted:arms/triceps-dips,       R=10,W=15,D=30,I=0.8
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=15,D=30,I=0.8
+resistanceTargeted:arms/triceps-dips,       R=10,W=10,D=30,I=0.8
+resistanceTargeted:arms/barbell-biceps-curl,R=10,W=10.5,D=30,I=1
+resistanceTargeted:arms/triceps-dips,       R=10,W=0,D=30,I=1
+
+resistanceTargeted:arms/dumbbell-biceps-curl,R=10,W=15,D=30,I=0.6
+resistanceTargeted:arms/triceps-extension,   R=10,W=40,D=30,I=0.6
+resistanceTargeted:arms/dumbbell-biceps-curl,R=8,W=17.5,D=30,I=0.6
+resistanceTargeted:arms/triceps-extension,   R=8,W=50,D=30,I=0.6
+resistanceTargeted:arms/dumbbell-biceps-curl,R=8,W=20,D=30,I=0.8
+resistanceTargeted:arms/triceps-extension,   R=7,W=50,D=30,I=0.8
+resistanceTargeted:arms/dumbbell-biceps-curl,R=7,W=22.5,D=30,I=0.8
+resistanceTargeted:arms/triceps-extension,   R=6,W=60,D=30,I=0.8
+resistanceTargeted:arms/dumbbell-biceps-curl,R=6,W=25,D=30,I=1
+resistanceTargeted:arms/triceps-extension,   R=5,W=80,D=30,I=1

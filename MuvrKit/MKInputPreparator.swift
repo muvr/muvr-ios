@@ -29,7 +29,7 @@ struct MKInputPreparator {
             filtered[d] = data[offset + d * stride]
         }
         
-        for var idx = 1; idx < count; ++idx {
+        for idx in 1 ..< count {
             for d in 0..<dimensions {
                 let i = idx * dimensions + d
                 filtered[i] =  data[offset + i * stride] * alpha + filtered[i-dimensions] * (1.0 - alpha)

@@ -1,0 +1,26 @@
+Lean training #3: upperbody
+resistanceTargeted:arms,chest,shoulders
+
+resistanceTargeted:chest/bench-press,
+resistanceTargeted:chest/bench-press,R=12,W=40,D=37,I=0.8
+resistanceTargeted:chest/bench-press,R=13,W=40,D=42,I=1
+
+resistanceTargeted:chest/dumbbell-flyes,R=10,W=30,D=34,I=0.8
+resistanceTargeted:chest/dumbbell-flyes,R=12,W=30,D=41,I=0.8
+resistanceTargeted:chest/dumbbell-flyes,R=11,W=30,D=38,I=1
+
+resistanceTargeted:shoulders/dumbbell-bench-press,R=10,W=30,D=27,I=0.6
+resistanceTargeted:shoulders/dumbbell-bench-press,R=12,W=30,D=34,I=0.8
+resistanceTargeted:shoulders/dumbbell-bench-press,R=14,W=30,D=34,I=1
+
+resistanceTargeted:shoulders/lateral-raise,R=10,W=20,D=30,I=0.8
+resistanceTargeted:shoulders/lateral-raise,R=12,W=20,D=40,I=0.8
+resistanceTargeted:shoulders/lateral-raise,R=9,W=20,D=30,I=1
+
+resistanceTargeted:arms/triceps-extension,R=10,W=20,D=41,I=0.8
+resistanceTargeted:arms/triceps-extension,R=12,W=20,D=46,I=0.8
+resistanceTargeted:arms/triceps-extension,R=10,W=20,D=43,I=1
+
+resistanceTargeted:arms/triceps-dips,R=10,W=0,D=30,I=0.8
+resistanceTargeted:arms/triceps-dips,R=12,W=0,D=30,I=0.8
+resistanceTargeted:arms/triceps-dips,R=13,W=0,D=30,I=1

@@ -2,6 +2,9 @@ import Foundation
 import CoreData
 import MuvrKit
 
+///
+/// Represents a workout session and handles prediction of the next exercise set
+///
 class MRManagedExerciseSession: NSManagedObject {
     typealias ExerciseRow = (MKExercise.Id, MKExerciseType, NSTimeInterval, NSTimeInterval, [MKExerciseLabel])
     /// The number of exercise ids for next estimates
@@ -14,14 +17,8 @@ class MRManagedExerciseSession: NSManagedObject {
     
     /// The set of estimated exercises, used when the session is in real-time mode
     var estimated: [MKExerciseWithLabels] = []
-    /// The weight predictor
-    var weightPredictor: MKScalarPredictor!
-    /// The duration predictor
-    var durationPredictor: MKScalarPredictor!
-    /// The repetitions predictor
-    var repetitionsPredictor: MKScalarPredictor!
-    /// The intensity predictor
-    var intensityPredictor: MKScalarPredictor!
+    /// The labels predictor
+    var labelsPredictor: MKLabelsPredictor!
 
     /// The exercise plan
     var plan: MKExercisePlan<MKExercise.Id>!
@@ -40,9 +37,8 @@ class MRManagedExerciseSession: NSManagedObject {
     ///
     func predictDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
         let (id, exerciseType, properties) = exerciseDetail
-        let n = exerciseIdCounts[id] ?? 0
 
-        if let prediction = durationPredictor.predictScalarForExerciseId(exerciseDetail.0, n: n) {
+        if let (_, prediction) = labelsPredictor.predictLabelsForExerciseId(id) {
             return prediction
         }
         
@@ -85,28 +81,21 @@ class MRManagedExerciseSession: NSManagedObject {
             return 10
         }
         
-        return exerciseType.labelDescriptors.reduce(([],[])) { labels, labelDescriptor in
-            let (predictedLabels, missingLabels) = labels
-            switch labelDescriptor {
-            case .Repetitions:
-                if let predictedRepetitions = repetitionsPredictor.predictScalarForExerciseId(id, n: n) {
-                    return (predictedLabels + [.Repetitions(repetitions: Int(predictedRepetitions))], missingLabels)
-                }
-                return (predictedLabels, missingLabels + [.Repetitions(repetitions: 10)])
-            case .Weight:
-                if let predictedWeight = weightPredictor.predictScalarForExerciseId(id, n: n) {
-                    return (predictedLabels + [.Weight(weight: predictedWeight)], missingLabels)
-                }
-                return (predictedLabels, missingLabels + [.Weight(weight: defaultWeight())])
-            case .Intensity:
-                if let predictedIntensity = intensityPredictor.predictScalarForExerciseId(id, n: n) {
-                    return (predictedLabels + [.Intensity(intensity: predictedIntensity)], missingLabels)
-                }
-                return (predictedLabels, missingLabels + [.Intensity(intensity: 0.5)])
+        let predictions = labelsPredictor.predictLabelsForExerciseId(id)?.0 ?? []
+        
+        let missing: [MKExerciseLabel] = exerciseType.labelDescriptors.filter { desc in
+            return !predictions.contains { $0.descriptor == desc}
+        }.map {
+            switch $0 {
+            case .Repetitions: return .Repetitions(repetitions: 10)
+            case .Weight: return .Weight(weight: defaultWeight())
+            case .Intensity: return .Intensity(intensity: 0.5)
             }
         }
+        
+        return (predictions, missing)
     }
-    
+        
     ///
     /// Sets the exercise detail and predicted labels that the user is performing 
     /// (typically as a result of some user interaction). This serves as a hint to the
@@ -135,15 +124,6 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - parameter managedObjectContext: the MOC
     ///
     func addExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval) {
-        func extractLabelScalar(labelToScalar: MKExerciseLabel -> Double?)(row: ExerciseRow) -> Double? {
-            for label in row.4 {
-                if let value = labelToScalar(label) {
-                    return value
-                }
-            }
-            return nil
-        }
-        
         let offset = start.timeIntervalSinceDate(self.start)
         let (id, exerciseType, _) = exerciseDetail
         exerciseWithLabels.append((id, exerciseType, offset, duration, labels))
@@ -151,17 +131,7 @@ class MRManagedExerciseSession: NSManagedObject {
         // add to the plan
         plan.insert(id)
         
-        // train the various predictors
-        let historyForThisExercise = exerciseWithLabels.filter { e in return e.0 == id }
-        
-        let weights = historyForThisExercise.flatMap(extractLabelScalar { if case .Weight(let weight) = $0 { return weight } else { return nil } } )
-        let intensities = historyForThisExercise.flatMap(extractLabelScalar { if case .Intensity(let intensity) = $0 { return intensity } else { return nil } } )
-        let repetitions = historyForThisExercise.flatMap(extractLabelScalar { if case .Repetitions(let repetitions) = $0 { return Double(repetitions) } else { return nil } } )
-        let durations = exerciseWithLabels.map { $0.3 }
-        weightPredictor.trainPositional(weights, forExerciseId: id)
-        durationPredictor.trainPositional(durations, forExerciseId: id)
-        intensityPredictor.trainPositional(intensities, forExerciseId: id)
-        repetitionsPredictor.trainPositional(repetitions, forExerciseId: id)
+        labelsPredictor.correctLabelsForExerciseId(id, labels: (labels, duration))
         
         // update counts
         exerciseIdCounts[id] = exerciseIdCounts[id].map { $0 + 1 } ?? 1

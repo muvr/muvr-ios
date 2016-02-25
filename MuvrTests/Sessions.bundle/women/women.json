@@ -1,0 +1,102 @@
+{
+    "women workouts: lowerbody (day 1) ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.636,
+        "LA" : 0.7272727272727273,
+        "WL" : 0.05
+    },
+    "women workouts: upperbody + cardio (day 2) ResistanceTargeted([MuvrKit.MKMuscleGroup.Shoulders, MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back])" : {
+        "EA" : 0.385,
+        "LA" : 0.6666666666666667,
+        "WL" : 0.05
+    },
+    "women workouts: core + legs + cardio (day 3) ResistanceTargeted([MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.389,
+        "LA" : 0.67,
+        "WL" : 0.35
+    },
+    "women workouts: legs (day 4) ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.667,
+        "LA" : 0.77,
+        "WL" : 0.05
+    },
+    "women workouts: upperbody + cardio (day 5) ResistanceTargeted([MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Shoulders, MuvrKit.MKMuscleGroup.Arms])" : {
+        "EA" : 0.5,
+        "LA" : 0.6666666666666667,
+        "WL" : 0.05
+    },
+    "women workouts: lowerbody (day 6) ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.9,
+        "LA" : 0.9,
+        "WL" : 0.05
+    },
+    "women workouts: upperbody + cardio (day 7) ResistanceTargeted([MuvrKit.MKMuscleGroup.Shoulders, MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0.05
+    },
+    "women workouts: core + legs + cardio (day 8) ResistanceTargeted([MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0.1
+    },
+    "women workouts: legs (day 9) ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.88,
+        "LA" : 0.9,
+        "WL" : 0.05
+    },
+    "women workouts: upperbody + cardio (day 10) ResistanceTargeted([MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Shoulders, MuvrKit.MKMuscleGroup.Arms])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0.05
+    },
+    "women workouts: lowerbody (day 11) - some progress ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.9,
+        "LA" : 0.75,
+        "WL" : 13.309
+    },
+    "women workouts: upperbody + cardio (day 12) with variations ResistanceTargeted([MuvrKit.MKMuscleGroup.Shoulders, MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back])" : {
+        "EA" : 0.733,
+        "LA" : 0.5,
+        "WL" : 1.17
+    },
+    "women workouts: core + legs + cardio (day 13) - small variations ResistanceTargeted([MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.706,
+        "LA" : 0.9,
+        "WL" : 0.05
+    },
+    "women workouts: legs (day 14) - good day ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.636,
+        "LA" : 0.8,
+        "WL" : 0.05
+    },
+    "women workouts: upperbody + cardio (day 15) - short session ResistanceTargeted([MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Shoulders, MuvrKit.MKMuscleGroup.Arms])" : {
+        "EA" : 0.7,
+        "LA" : 0.6,
+        "WL" : 23.242
+    },
+    "women workouts: legs (day 16) - back to normal (order changed) ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.556,
+        "LA" : 0.9,
+        "WL" : 0.05
+    },
+    "women workouts: upperbody + cardio (day 17) - back to normal ResistanceTargeted([MuvrKit.MKMuscleGroup.Shoulders, MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back])" : {
+        "EA" : 0.92,
+        "LA" : 0.75,
+        "WL" : 0.05
+    },
+    "women workouts: lowerbody (day 18) - back to normal ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.9,
+        "LA" : 0.9,
+        "WL" : 0.51
+    },
+    "women workouts: upperbody + cardio (day 19) - back to normal ResistanceTargeted([MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Shoulders, MuvrKit.MKMuscleGroup.Arms])" : {
+        "EA" : 0.92,
+        "LA" : 0.8,
+        "WL" : 0.05
+    },
+    "women workouts: core + legs + cardio (day 20) - back to normal ResistanceTargeted([MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Legs])" : {
+        "EA" : 0.92,
+        "LA" : 0.9,
+        "WL" : 0.05
+    }
+}

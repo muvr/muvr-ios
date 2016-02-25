@@ -1,0 +1,17 @@
+{
+    "Trivial session 1 with increasing linear W; constant R,D,I for arms ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms])" : {
+        "EA" : 0.714,
+        "LA" : 0.75,
+        "WL" : 0.25
+    },
+    "Trivial session 2 with increasing linear W; constant R,D,I for arms ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms])" : {
+        "EA" : 0.857,
+        "LA" : 1,
+        "WL" : 0
+    },
+    "Trivial session 3 with increasing linear W; constant R,D,I for arms ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms])" : {
+        "EA" : 0.857,
+        "LA" : 1,
+        "WL" : 0
+    }
+}

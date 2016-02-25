@@ -21,7 +21,7 @@ class MRAppTests : XCTestCase {
     func testStartEndJansLair() {
         app.locationManager(CLLocationManager(), didUpdateLocations: [CLLocation(latitude: 53.425416, longitude: -2.225455)])
         let givenDetail: MKExerciseDetail = ("resistanceTargeted:arms/biceps-curl", MKExerciseType.ResistanceWholeBody, [])
-        let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10), .Intensity(intensity: 0.5), .Weight(weight: 40)]
+        let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10), .Intensity(intensity: 0.6), .Weight(weight: 40)]
 
         // start a new session, adding one exercise
         let sessionId = try! app.startSession(forExerciseType: .ResistanceTargeted(muscleGroups: [.Arms, .Chest]))

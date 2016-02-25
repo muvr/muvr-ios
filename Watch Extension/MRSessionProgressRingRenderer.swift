@@ -12,7 +12,7 @@ class MRSessionProgressRingRenderer : NSObject {
         super.init()
         NSLog("Init Muvr watch view")
         update()
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "update", userInfo: nil, repeats: true)
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(MRSessionProgressRingRenderer.update), userInfo: nil, repeats: true)
     }
     
     deinit {
