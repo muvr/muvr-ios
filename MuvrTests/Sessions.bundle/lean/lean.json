@@ -1,47 +1,47 @@
 {
     "Lean training #1: back and biceps ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.308,
+        "EA" : 0.38,
         "LA" : 0.333,
         "WL" : 0.15
     },
     "Lean training #2: legs, abs ResistanceTargeted([MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Legs])" : {
-        "EA" : 0.333,
+        "EA" : 0.4,
         "LA" : 0.333,
         "WL" : 0.3
     },
     "Lean training #3: upperbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.333,
+        "EA" : 0.38,
         "LA" : 0.353,
         "WL" : 0.2
     },
     "Lean training #4: back and biceps ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.8,
-        "LA" : 0.9,
-        "WL" : 0.05
+        "EA" : 0.84,
+        "LA" : 0.99,
+        "WL" : 0.01
     },
     "Lean training #5: legs, abs ResistanceTargeted([MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Legs])" : {
-        "EA" : 0.92,
-        "LA" : 0.9,
-        "WL" : 0.05
+        "EA" : 0.93,
+        "LA" : 0.99,
+        "WL" : 0.01
     },
     "Lean training #6: upperbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.92,
-        "LA" : 0.9,
-        "WL" : 0.05
+        "EA" : 0.94,
+        "LA" : 0.99,
+        "WL" : 0.01
     },
     "Lean training #7: back and biceps ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.8,
-        "LA" : 0.9,
-        "WL" : 0.05
+        "EA" : 0.99,
+        "LA" : 0.99,
+        "WL" : 0.01
     },
     "Lean training #8: legs, abs ResistanceTargeted([MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Legs])" : {
-        "EA" : 0.92,
-        "LA" : 0.9,
-        "WL" : 0.05
+        "EA" : 0.99,
+        "LA" : 0.99,
+        "WL" : 0.01
     },
     "Lean training #9: upperbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.92,
-        "LA" : 0.9,
-        "WL" : 0.05
+        "EA" : 0.99,
+        "LA" : 0.99,
+        "WL" : 0.01
     }
 }
