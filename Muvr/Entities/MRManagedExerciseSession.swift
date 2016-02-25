@@ -38,7 +38,7 @@ class MRManagedExerciseSession: NSManagedObject {
     func predictDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
         let (id, exerciseType, properties) = exerciseDetail
 
-        if let (_, prediction) = labelsPredictor.predictLabels(forExercise: id) {
+        if let (_, prediction) = labelsPredictor.predictLabelsForExerciseId(id) {
             return prediction
         }
         
@@ -81,7 +81,7 @@ class MRManagedExerciseSession: NSManagedObject {
             return 10
         }
         
-        let predictions = labelsPredictor.predictLabels(forExercise: id)?.0 ?? []
+        let predictions = labelsPredictor.predictLabelsForExerciseId(id)?.0 ?? []
         
         let missing: [MKExerciseLabel] = exerciseType.labelDescriptors.filter { desc in
             return !predictions.contains { $0.descriptor == desc}
@@ -131,7 +131,7 @@ class MRManagedExerciseSession: NSManagedObject {
         // add to the plan
         plan.insert(id)
         
-        labelsPredictor.correctLabels(forExercise: id, labels: (labels, duration))
+        labelsPredictor.correctLabelsForExerciseId(id, labels: (labels, duration))
         
         // update counts
         exerciseIdCounts[id] = exerciseIdCounts[id].map { $0 + 1 } ?? 1

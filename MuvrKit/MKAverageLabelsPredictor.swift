@@ -331,7 +331,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     ///
     /// Predict the labels for the next set of the given exercise
     ///
-    public func predictLabels(forExercise exerciseId: MKExercise.Id) -> MKExerciseLabelsWithDuration? {
+    public func predictLabelsForExerciseId(exerciseId: MKExercise.Id) -> MKExerciseLabelsWithDuration? {
         let currentSet = workout[exerciseId]?.count ?? 0
         
         // try to return the average for the given set
@@ -372,7 +372,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     ///
     /// Stores the actual labels for the given exercise and compute the corrections to apply to the current session
     ///
-    public func correctLabels(forExercise exerciseId: MKExercise.Id, labels: MKExerciseLabelsWithDuration) {
+    public func correctLabelsForExerciseId(exerciseId: MKExercise.Id, labels: MKExerciseLabelsWithDuration) {
         let metrics = ExerciseSetMetrics(labels: labels)
         
         updateCorrections(forExerciseId: exerciseId, metrics: metrics)

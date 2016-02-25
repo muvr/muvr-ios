@@ -15,23 +15,21 @@ public protocol MKLabelsPredictor {
     var state: [String : AnyObject] { get }
 
     ///
-    /// called to predict the next labels and duration for the upcoming set of the given exercise
-    /// - parameter forExercise the upcoming exercise id
-    /// - return the predicted labels and duration
+    /// Predicts the next labels and duration for the upcoming exercise
+    /// - parameter exerciseId: the upcoming exercise id
+    /// - returns: the predicted labels and duration
     ///
-    func predictLabels(forExercise exercise: MKExercise.Id) -> MKExerciseLabelsWithDuration?
+    func predictLabelsForExerciseId(exerciseId: MKExercise.Id) -> MKExerciseLabelsWithDuration?
     
     ///
-    /// once the exercise set is over this method is called to provide the predictor with some feedback
-    /// The predictor should take this chance to update it's internal state before the next prediction
-    /// - parameter forExercise: the finished exercise id
-    /// - parameter labels: the labels and duration of the finished set
+    /// Corrects the labels and duration for the finished exercise
+    /// - parameter exerciseId: the finished exercise id
+    /// - parameter labels: the actual labels and duration of the finished exercise
     ///
-    func correctLabels(forExercise exerciseId: MKExercise.Id, labels: MKExerciseLabelsWithDuration)
+    func correctLabelsForExerciseId(exerciseId: MKExercise.Id, labels: MKExerciseLabelsWithDuration)
     
     ///
-    /// this method is called after unserialising the predictor. It should restore the predictor's internal state
-    /// from the provided dictionary
+    /// Restores the predictor's internal state from the provided dictionary
     /// - parameter state: the unserialised state as a dictionary
     ///
     func restore(state: [String:AnyObject])
