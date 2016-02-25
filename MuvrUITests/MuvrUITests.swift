@@ -22,6 +22,9 @@ class MuvrUITests: XCTestCase {
     func testArmsSessionWithNoExcerciseAllMissingLabels() {
         let app = XCUIApplication()
         
+        // start another workout
+        app.buttons["Start another workout"].tap()
+        
         // start the Arms session
         let tablesQuery = app.tables
         tablesQuery.staticTexts["Arms"].tap()

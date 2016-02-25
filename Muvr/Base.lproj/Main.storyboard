@@ -22,6 +22,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="enz-nd-VyD">
                                 <rect key="frame" x="289" y="563" width="105" height="105"/>
                                 <color key="backgroundColor" red="1" green="0.64494423063793105" blue="0.3478717672413793" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Start another workout" label="Start another workout"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="enz-nd-VyD" secondAttribute="height" multiplier="1:1" id="bQy-Q0-LSI"/>
                                     <constraint firstAttribute="width" constant="105" id="qtA-rr-Hol"/>
@@ -47,6 +48,7 @@ workout</string>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="t8Q-if-Kmr">
                                 <rect key="frame" x="91" y="252" width="232" height="232"/>
                                 <color key="backgroundColor" red="0.0" green="0.64494423063793105" blue="0.46357758620689654" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Start workout" label="Start workout"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="t8Q-if-Kmr" secondAttribute="height" multiplier="1:1" id="g1M-zo-Lak"/>
                                 </constraints>
@@ -113,7 +115,7 @@ workout</string>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="ZBc-n5-9HC">
-                                        <rect key="frame" x="0.0" y="114" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="50" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZBc-n5-9HC" id="9NW-NI-iv4">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>

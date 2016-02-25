@@ -33,8 +33,8 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
         
         session.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10)
         XCTAssertEqual(session.predictDurationForExerciseDetail(givenDetail), 10)
-        XCTAssertEqual(session.predictExerciseLabelsForExerciseDetail(givenDetail).0.count, 3)
-        XCTAssertEqual(session.predictExerciseLabelsForExerciseDetail(givenDetail).1.count, 0)
+        XCTAssertEqual(session.predictExerciseLabelsForExerciseDetail(givenDetail).0.count, 2)
+        XCTAssertEqual(session.predictExerciseLabelsForExerciseDetail(givenDetail).1.count, 1)
         saveContext()
     }
     
