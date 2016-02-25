@@ -27,7 +27,14 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         
         init(labels: MKExerciseLabelsWithDuration) {
             metrics["duration"] = labels.1
-            labels.0.forEach { metrics[$0.descriptor.id] = $0.value }
+            for label in labels.0 {
+                let key = label.descriptor.id
+                switch label {
+                case .Weight(let w): metrics[key] = w
+                case .Repetitions(let r): metrics[key] = Double(r)
+                case .Intensity(let i): metrics[key] = i
+                }
+            }
         }
         
         init(metrics: [String:Double]) { self.metrics = metrics }
