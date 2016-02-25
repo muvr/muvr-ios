@@ -1,32 +1,32 @@
 {
     "skiing workouts #1: lowerbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
         "EA" : 0.474,
-        "LA" : 0.5,
-        "WL" : 0.1
+        "LA" : 0.55,
+        "WL" : 0.06
     },
     "skiing workouts #2: upperbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core])" : {
-        "EA" : 0.364,
-        "LA" : 0.5,
-        "WL" : 0.05
+        "EA" : 0.45,
+        "LA" : 0.59,
+        "WL" : 0.02
     },
     "skiing workouts #3: cardio IndoorsCardio" : {
         "EA" : 0
     },
     "skiing workouts #4: lowerbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
-        "EA" : 0.842,
-        "LA" : 0.895,
-        "WL" : 0.05
+        "EA" : 0.89,
+        "LA" : 0.99,
+        "WL" : 0.01
     },
     "skiing workouts #5: upperbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core])" : {
-        "EA" : 0.9,
-        "LA" : 0.9,
+        "EA" : 0.99,
+        "LA" : 0.99,
         "WL" : 0.01
     },
     "skiing workouts #6: cardio IndoorsCardio" : {
         "EA" : 0.667
     },
     "skiing workouts #7: lowerbody (interrupted session) ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
-        "EA" : 0.625,
+        "EA" : 0.5,
         "LA" : 0.75,
         "WL" : 0.2
     },
@@ -36,19 +36,19 @@
         "WL" : 28.429
     },
     "skiing workouts #9: cardio (longer session) IndoorsCardio" : {
-        "EA" : 0.667
+        "EA" : 0.99
     },
     "skiing workouts #10: lowerbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
-        "EA" : 0.75,
-        "LA" : 0.75,
-        "WL" : 0.1
+        "EA" : 0.84,
+        "LA" : 0.99,
+        "WL" : 0.01
     },
     "skiing workouts #11: upperbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core])" : {
-        "EA" : 0.8,
-        "LA" : 0.7,
-        "WL" : 0.03
+        "EA" : 0.99,
+        "LA" : 0.72,
+        "WL" : 0.02
     },
     "skiing workouts #12: cardio IndoorsCardio" : {
-        "EA" : 0.667
+        "EA" : 0.99
     }
 }
