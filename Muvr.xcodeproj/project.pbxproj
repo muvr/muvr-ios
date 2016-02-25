@@ -220,7 +220,7 @@
 		647522621BFA427F0055C31E /* MKSensorDataEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */; };
 		6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */; };
 		6488F4831C7312D300189F79 /* MKAverageLabelsPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6488F4811C73128C00189F79 /* MKAverageLabelsPredictor.swift */; };
-		6488F4851C7469D000189F79 /* MKExerciseLabel+value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6488F4841C7469D000189F79 /* MKExerciseLabel+value.swift */; };
+		6488F4851C7469D000189F79 /* MKExerciseLabel+Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6488F4841C7469D000189F79 /* MKExerciseLabel+Value.swift */; };
 		64B477911C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B477901C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift */; };
 		64FB23BC1C3E899E005312C2 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */; };
 		99835A4C1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */; };
@@ -558,7 +558,7 @@
 		647522611BFA427F0055C31E /* MKSensorDataEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorDataEncoderTests.swift; sourceTree = "<group>"; };
 		6477A7571BDFBDE7004BC51F /* NSDate+DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+DateUtils.swift"; sourceTree = "<group>"; };
 		6488F4811C73128C00189F79 /* MKAverageLabelsPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKAverageLabelsPredictor.swift; sourceTree = "<group>"; };
-		6488F4841C7469D000189F79 /* MKExerciseLabel+value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseLabel+value.swift"; sourceTree = "<group>"; };
+		6488F4841C7469D000189F79 /* MKExerciseLabel+Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseLabel+Value.swift"; sourceTree = "<group>"; };
 		64B477901C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedExerciseScalarLabel+CoreDataAnalytics.swift"; sourceTree = "<group>"; };
 		64FB23BD1C3E899E005312C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseType+MetadataTests.swift"; sourceTree = "<group>"; };
@@ -901,7 +901,7 @@
 				545EFC491C47D9E600987610 /* MKScalarRounder.swift */,
 				640E5EA81C6A3F1600B9F227 /* MKLabelsPredictor.swift */,
 				6488F4811C73128C00189F79 /* MKAverageLabelsPredictor.swift */,
-				6488F4841C7469D000189F79 /* MKExerciseLabel+value.swift */,
+				6488F4841C7469D000189F79 /* MKExerciseLabel+Value.swift */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -1723,7 +1723,7 @@
 				640E5EA91C6A3F1600B9F227 /* MKLabelsPredictor.swift in Sources */,
 				547A44501BB8166C00C2CC06 /* MKExerciseModel.swift in Sources */,
 				54FEB0FA1C39587300EC5293 /* MKPhoneSensorDataSplitter.swift in Sources */,
-				6488F4851C7469D000189F79 /* MKExerciseLabel+value.swift in Sources */,
+				6488F4851C7469D000189F79 /* MKExerciseLabel+Value.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
