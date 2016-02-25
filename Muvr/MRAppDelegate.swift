@@ -161,7 +161,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
                       let exerciseType = MKExerciseType(exerciseId: id)
                       else { fatalError() }
                 
-                return (id, exerciseType, properties?.flatMap { MKExerciseProperty(json: $0) } ?? [])
+                return (id, exerciseType, properties?.flatMap { MKExerciseProperty(jsonObject: $0) } ?? [])
             }
             exerciseDetails = baseExerciseDetails
         } else {
