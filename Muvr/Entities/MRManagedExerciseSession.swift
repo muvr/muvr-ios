@@ -2,6 +2,9 @@ import Foundation
 import CoreData
 import MuvrKit
 
+///
+/// Represents a workout session and handles prediction of the next exercise set
+///
 class MRManagedExerciseSession: NSManagedObject {
     typealias ExerciseRow = (MKExercise.Id, MKExerciseType, NSTimeInterval, NSTimeInterval, [MKExerciseLabel])
     /// The number of exercise ids for next estimates

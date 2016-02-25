@@ -3,7 +3,7 @@ import CoreData
 import MuvrKit
 
 ///
-/// Adds CD operations
+/// CoreData operations to save/fetch ``MRManagedLabelsPredictor``
 ///
 extension MRManagedLabelsPredictor {
     
