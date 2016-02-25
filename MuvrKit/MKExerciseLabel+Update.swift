@@ -2,10 +2,20 @@ import Foundation
 
 extension MKExerciseLabel {
 
+    ///
+    /// increment this exercise label's value by one step
+    /// - parameter exerciseDetail: The associated exercise detail
+    /// - return a new ``MKExerciseLabel`` having its value incremented by one step
+    ///
     public func increment(exerciseDetail: MKExerciseDetail) -> MKExerciseLabel {
         return updateLabelForExerciseDetail(exerciseDetail, increment: true, label: self)
     }
     
+    ///
+    /// decrement this exercise label's value by one step
+    /// - parameter exerciseDetail: The associated exercise detail
+    /// - return a new ``MKExerciseLabel`` having its value decremented by one step
+    ///
     public func decrement(exerciseDetail: MKExerciseDetail) -> MKExerciseLabel {
         return self.updateLabelForExerciseDetail(exerciseDetail, increment: false, label: self)
     }
