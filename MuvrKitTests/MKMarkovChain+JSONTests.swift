@@ -19,8 +19,8 @@ class MKMarkovChainPlusJSONTests : XCTestCase {
         let s = MKStateChain(states: ["a", "b", "c"])
         s.slices.forEach { slice in c1.addTransition(slice, next: "D") }
         
-        let json = c1.json { $0 }
-        let c2 = MKMarkovChain<String>.fromJson(json) { $0 as? String }!
+        let jsonObject = c1.jsonObject { $0 }
+        let c2 = MKMarkovChain<String>(jsonObject: jsonObject) { $0 as? String }!
     
         XCTAssertEqual(c1.transitionMap.count, c2.transitionMap.count)
         for (k, vl) in c1.transitionMap {

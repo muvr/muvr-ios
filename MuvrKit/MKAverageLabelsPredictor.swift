@@ -120,9 +120,9 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         ///
         private let maxHistorySize: Int
         ///
-        /// history data as JSON object that can be serialized
+        /// history data as JSON object
         ///
-        var metadata: [[[String: Double]]] {
+        var jsonObject: [[[String: Double]]] {
             return history.map { workout in
                 return workout.map { $0.metrics }
             }
@@ -268,6 +268,8 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     
     /// 
     /// create an empty predictor instance
+    /// - parameter historySize: the number of workout sessions to keep
+    /// - parameter round: function to round predicted values
     ///
     public init(historySize: Int, round: Round) {
         self.maxHistorySize = historySize
@@ -330,6 +332,8 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     
     ///
     /// Predict the labels for the next set of the given exercise
+    /// - parameter exerciseId: the upcoming exercise id
+    /// - returns the predicted labels for this exercise
     ///
     public func predictLabelsForExerciseId(exerciseId: MKExercise.Id) -> MKExerciseLabelsWithDuration? {
         let currentSet = workout[exerciseId]?.count ?? 0
@@ -371,6 +375,8 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     
     ///
     /// Stores the actual labels for the given exercise and compute the corrections to apply to the current session
+    /// - parameter exerciseId: the exercise id of the finished exercise
+    /// - parameter labels: the labels of the finished exercise
     ///
     public func correctLabelsForExerciseId(exerciseId: MKExercise.Id, labels: MKExerciseLabelsWithDuration) {
         let metrics = ExerciseSetMetrics(labels: labels)
@@ -385,6 +391,8 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     
     ///
     /// Update the correction values by comparing the actual value with the average over the past sessions
+    /// - parameter exerciseId: the exercise id to correct
+    /// - parameter metrics: the metrics of the finished exercise
     ///
     private func updateCorrections(forExerciseId exerciseId: MKExercise.Id, metrics: ExerciseSetMetrics) {
         let currentSet = workout[exerciseId]?.count ?? 0
@@ -411,6 +419,18 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         }
     }
     
+    ///
+    /// Saves the current workout into history
+    ///
+    private func saveCurrentWorkout() {
+        workout.forEach { id, exerciseWorkout in
+            var exerciseHistory = self.history[id] ?? ExerciseSetsHistory(maxHistorySize: maxHistorySize)
+            exerciseHistory.addWorkout(exerciseWorkout)
+            self.history[id] = exerciseHistory
+        }
+        workout = [:]
+    }
+    
 }
 
 ///
@@ -419,36 +439,32 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
 public extension MKAverageLabelsPredictor {
     
     ///
-    /// the predictor's state as a dictionary to be serialized
+    /// the JSON representatioin of this predictor
     ///
-    public var state: [String : AnyObject] {
-        // add current workout into history
-        workout.forEach { id, exerciseWorkout in
-            var exerciseHistory = self.history[id] ?? ExerciseSetsHistory(maxHistorySize: maxHistorySize)
-            exerciseHistory.addWorkout(exerciseWorkout)
-            self.history[id] = exerciseHistory
-        }
+    var json: NSData {
+        saveCurrentWorkout()
+        
         var dict: [String: AnyObject] = [:]
-        history.forEach { dict[$0] = $1.metadata }
-        return dict
-    }
-    ///
-    /// restore the predictor's state from the given dictionary
-    ///
-    public func restore(state: [String : AnyObject]) {
-        if let dict = state as? [MKExercise.Id: [[[String: Double]]]] {
-            dict.forEach { id, history in
-                self.history[id] = ExerciseSetsHistory(maxHistorySize: self.maxHistorySize, history: history)
-            }
-        }
+        history.forEach { dict[$0] = $1.jsonObject }
+        
+        return try! NSJSONSerialization.dataWithJSONObject(dict, options: [])
     }
     
     ///
-    /// create a predictor instance from the given JSON data
+    /// create a predictor instance from JSON data
+    /// - parameter json: the JSON representation of the predictor
+    /// - parameter historySize: the number of workout sessions to keep
+    /// - parameter round: function to round predicted values
     ///
-    public convenience init?(fromJson json: NSData, historySize: Int, round: Round) {
+    public convenience init?(json: NSData, historySize: Int, round: Round) {
+        guard let jsonObject = try? NSJSONSerialization.JSONObjectWithData(json, options: .AllowFragments),
+              let allHistory = jsonObject as? [MKExercise.Id: [[[String: Double]]]]
+        else { return nil }
+        
         self.init(historySize: historySize, round: round)
-        do { try self.restore(json) } catch { return nil }
+        for (id, history) in allHistory {
+            self.history[id] = ExerciseSetsHistory(maxHistorySize: maxHistorySize, history: history)
+        }
     }
     
 }
@@ -456,7 +472,8 @@ public extension MKAverageLabelsPredictor {
 private extension MKExerciseLabelDescriptor {
     
     ///
-    /// create a MKExerciseLabelDescriptor corresponding to the given name
+    /// create a MKExerciseLabelDescriptor corresponding to the given id
+    /// - parameter id: the descriptor id
     ///
     init?(id: String) {
         switch id {
