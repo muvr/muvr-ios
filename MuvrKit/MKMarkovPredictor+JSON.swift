@@ -7,16 +7,24 @@ import Foundation
 extension MKMarkovPredictor {
     
     ///
+    /// Returns the JSON object representation of the predictor
+    /// - parameter stateTransform: the function to turn ``E`` into its ``String`` representation
+    /// - returns: the JSON object representation
+    ///
+    internal func jsonObject(stateTransform: E -> String) -> AnyObject {
+        return [
+            "chain": chain.jsonObject(stateTransform),
+            "states": states.jsonObject(stateTransform)
+        ]
+    }
+    
+    ///
     /// Returns the JSON representation of the predictor
     /// - parameter stateTransform: the function to turn ``E`` into its ``String`` representation
     /// - returns: the JSON representation
     ///
     public func json(stateTransform: E -> String) -> NSData {
-        let result: [String : AnyObject] = [
-            "chain": chain.jsonObject(stateTransform),
-            "states": states.jsonObject(stateTransform)
-        ]
-        return try! NSJSONSerialization.dataWithJSONObject(result, options: [])
+        return try! NSJSONSerialization.dataWithJSONObject(jsonObject(stateTransform), options: [])
     }
     
     ///
@@ -24,16 +32,27 @@ extension MKMarkovPredictor {
     /// - parameter json: the JSON object
     /// - parameter stateTransform: the function to turn ``AnyObject`` into its ``E`` representation
     ///
-    public convenience init?(json: NSData, stateTransform: AnyObject -> E?) {
-        guard let jsonObject = try? NSJSONSerialization.JSONObjectWithData(json, options: NSJSONReadingOptions.AllowFragments),
-            let dict = jsonObject as? [String : AnyObject],
+    internal convenience init?(jsonObject: AnyObject, stateTransform: AnyObject -> E?) {
+        guard let dict = jsonObject as? [String : AnyObject],
             let chain = dict["chain"],
             let states = dict["states"],
             let markovChain = MKMarkovChain<E>(jsonObject: chain, stateTransform: stateTransform),
             let stateChain = MKStateChain<E>(jsonObject: states, stateTransform: stateTransform)
-        else { return nil }
+            else { return nil }
         
         self.init(chain: markovChain, states: stateChain)
+    }
+    
+    ///
+    /// Returns the predictor initialised with all its states history
+    /// - parameter json: the JSON data
+    /// - parameter stateTransform: the function to turn ``AnyObject`` into its ``E`` representation
+    ///
+    public convenience init?(json: NSData, stateTransform: AnyObject -> E?) {
+        guard let jsonObject = try? NSJSONSerialization.JSONObjectWithData(json, options: NSJSONReadingOptions.AllowFragments)
+        else { return nil }
+        
+        self.init(jsonObject: jsonObject, stateTransform: stateTransform)
     }
     
 }
