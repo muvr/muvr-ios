@@ -23,9 +23,9 @@ extension MRManagedExercisePlan : MRManagedExerciseType {
 
 extension MRManagedExercisePlan {
     
-    var plan: MKExercisePlan<MKExercise.Id> {
+    var plan: MKMarkovPredictor<MKExercise.Id> {
         get {
-            return MKExercisePlan<MKExercise.Id>(json: managedPlan) { $0 as? MKExercise.Id }!
+            return MKMarkovPredictor<MKExercise.Id>(json: managedPlan) { $0 as? MKExercise.Id }!
         }
         set {
             managedPlan = newValue.json { $0 }

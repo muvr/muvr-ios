@@ -1,13 +1,13 @@
 import Foundation
 
 ///
-/// Adds JSON serialization to the exercise plan. Typical usage starts by having a complete exercise plan,
+/// Adds JSON serialization to the Markov predictor. Typical usage starts by having a complete history,
 /// saving it, and the loading it, but resetting it to its initial state.
 ///
-extension MKExercisePlan {
+extension MKMarkovPredictor {
     
     ///
-    /// Returns the JSON representation of the plan
+    /// Returns the JSON representation of the predictor
     /// - parameter stateTransform: the function to turn ``E`` into its ``String`` representation
     /// - returns: the JSON representation
     ///
@@ -20,13 +20,9 @@ extension MKExercisePlan {
     }
     
     ///
-    /// Returns the plan at its starting point: evaluating its ``next`` property will
-    /// give the starting point of the saved chain. Technically, the loaded instance is only loading the markov chain and
-    /// the first encountered state, it is not loading the state chain.
-    ///
+    /// Returns the predictor initialised with all its states history
     /// - parameter json: the JSON object
     /// - parameter stateTransform: the function to turn ``AnyObject`` into its ``E`` representation
-    /// - returns: the loaded exercise plan.
     ///
     public convenience init?(json: NSData, stateTransform: AnyObject -> E?) {
         guard let jsonObject = try? NSJSONSerialization.JSONObjectWithData(json, options: NSJSONReadingOptions.AllowFragments),

@@ -2,11 +2,11 @@ import Foundation
 import XCTest
 @testable import MuvrKit
 
-class MKExercisePlanTests : XCTestCase {
+class MKMarkovPredictorTests : XCTestCase {
 
     func evaluatePlan(exerciseIds: [MKExercise.Id]) -> (Double, Double) {
         let exercises = exerciseIds
-        let plan = MKExercisePlan<String>()
+        let plan = MKMarkovPredictor<String>()
         let estimates: [Bool] = (0..<exercises.count - 1).map { i in
             let completed = exercises[i]
             let expected = exercises[i + 1]

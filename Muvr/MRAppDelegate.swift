@@ -386,7 +386,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         if let plan = MRManagedExercisePlan.planForExerciseType(session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext) {
             session.plan = plan.plan
         } else {
-            session.plan = MKExercisePlan<MKExercise.Id>()
+            session.plan = MKMarkovPredictor<MKExercise.Id>()
         }
         
         let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)

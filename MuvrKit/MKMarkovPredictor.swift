@@ -1,21 +1,21 @@
 import Foundation
 
 ///
-/// The exercise plan provides predictions about the next exercise the user is
-/// likely to perform given the history of exercises. This can be used to aid 
-/// labelling and classification.
+/// The Markov predictor provides predictions about the next state that is
+/// most likely to occur given the history of previoius states.
+/// This can be used to aid labelling and classification.
 ///
 /// A typical flow is
 /// ```
-/// let plan = MKExercisePlan()
+/// let plan = MKMarkovPredictor()
 /// while still-exercising {
-///    plan.addExercise(completed-exercise)
-///    plan.nextExercises // the expected next exercises or []
+///    plan.insert(completed-exercise)
+///    plan.next // the expected next exercises or []
 /// }
 /// ```
 ///
-public class MKExercisePlan<E : Hashable> {
-    /// The chain of planned exercises that provides the predictions
+public class MKMarkovPredictor<E : Hashable> {
+    /// The chain of planned states that provides the predictions
     private(set) internal var chain: MKMarkovChain<E> = MKMarkovChain()
     /// The chain of states collected so far
     private(set) internal var states: MKStateChain<E> = MKStateChain()
@@ -23,12 +23,12 @@ public class MKExercisePlan<E : Hashable> {
     private let statesCount: Int = 16
     
     ///
-    /// Initializes the exercise plan.
+    /// Initializes the predictor.
     ///
     public init() { }
 
     ///
-    /// Initializes the exercise plan using a state chain in its first state.
+    /// Initializes the predictor using a state chain in its first state.
     ///
     internal init(chain: MKMarkovChain<E>, states: MKStateChain<E>) {
         self.chain = chain
@@ -36,19 +36,19 @@ public class MKExercisePlan<E : Hashable> {
     }
     
     ///
-    /// Adds the completed exercise to the plan.
+    /// Adds the states to the predictor's history.
     ///
-    /// - parameter exercise: the completed exercise
+    /// - parameter state: the state to add
     ///
-    public func insert(exercise: E) {
-        chain.addTransition(states, next: exercise)
-        states.addState(exercise)
+    public func insert(state: E) {
+        chain.addTransition(states, next: state)
+        states.addState(state)
         states.trim(statesCount)
     }
 
     ///
-    /// Returns the list of next exercises for the current state of the plan, or [] if no
-    /// exercises are known yet.
+    /// Returns the list of next states for the current state of the predictor, or [] if no
+    /// states are known yet.
     ///
     public var next: [E] {
         if let first = states.states.first where states.count == 1 {

@@ -68,7 +68,7 @@ extension MRManagedExercisePlan {
     /// - parameter managedObjectContext: the MOC
     /// - returns: the inserted plan
     ///
-    static func upsert(plan: MKExercisePlan<MKExercise.Id>, exerciseType: MKExerciseType, location: MRLocationCoordinate2D?,
+    static func upsert(plan: MKMarkovPredictor<MKExercise.Id>, exerciseType: MKExerciseType, location: MRLocationCoordinate2D?,
         inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan {
             
             if let existing = MRManagedExercisePlan.exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext) {
