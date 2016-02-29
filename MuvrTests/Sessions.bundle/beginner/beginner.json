@@ -1,92 +1,92 @@
 {
     "Beginner session week 1 day 1 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Legs, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.37,
         "LA" : 0.53,
-        "WL" : 0.07
+        "WL" : 0.07,
+        "EA" : 0.37
     },
     "Beginner session week 1 day 2 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Legs, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.92,
         "LA" : 0.99,
-        "WL" : 0.01
+        "WL" : 0.01,
+        "EA" : 0.92
     },
     "Beginner session week 1 day 3 (with variations) ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Legs, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.51,
         "LA" : 0.85,
-        "WL" : 0.07
+        "WL" : 0.07,
+        "EA" : 0.51
     },
     "Beginner session week 1 day 4 (back to normal) ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Legs, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.99,
         "LA" : 0.96,
-        "WL" : 0.01
+        "WL" : 0.01,
+        "EA" : 0.99
     },
     "Beginner session week 2 day 1 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.36,
-        "LA" : 0.51,
-        "WL" : 0.07
+        "LA" : 0.37,
+        "WL" : 0.08,
+        "EA" : 0.36
     },
     "Beginner session week 2 day 2 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.97,
         "LA" : 0.83,
-        "WL" : 0.04
+        "WL" : 0.04,
+        "EA" : 0.97
     },
     "Beginner session week 2 day 3 (bad day) ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.81,
         "LA" : 0.54,
-        "WL" : 1.82
+        "WL" : 1.83,
+        "EA" : 0.81
     },
     "Beginner session week 2 day 4 (back to normal) ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.99,
         "LA" : 0.84,
-        "WL" : 0.01
+        "WL" : 0.01,
+        "EA" : 0.99
     },
     "Beginner session week 3 day 1 ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
-        "EA" : 0.41,
-        "LA" : 0.5,
-        "WL" : 0.44
+        "LA" : 0.41,
+        "WL" : 0.44,
+        "EA" : 0.41
     },
     "Beginner session week 3 day 2 ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
-        "EA" : 0.83,
         "LA" : 0.66,
-        "WL" : 0.37
+        "WL" : 0.37,
+        "EA" : 0.83
     },
     "Beginner session week 3 day 3 ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
-        "EA" : 0.99,
         "LA" : 0.91,
-        "WL" : 0.01
+        "WL" : 0.01,
+        "EA" : 0.99
     },
     "Beginner session week 4 day 1 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.52,
         "LA" : 0.39,
-        "WL" : 1.19
+        "WL" : 1.19,
+        "EA" : 0.52
     },
     "Beginner session week 4 day 2 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.94,
         "LA" : 0.81,
-        "WL" : 0.37
+        "WL" : 0.37,
+        "EA" : 0.94
     },
     "Beginner session week 4 day 3 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.99,
         "LA" : 0.94,
-        "WL" : 0.01
+        "WL" : 0.01,
+        "EA" : 0.99
     },
     "Beginner session week 5 day 1 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core])" : {
-        "EA" : 0.5,
         "LA" : 0.54,
-        "WL" : 0.4
+        "WL" : 0.40,
+        "EA" : 0.50
     },
     "Beginner session week 5 day 2 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core])" : {
-        "EA" : 0.95,
         "LA" : 0.63,
-        "WL" : 0.47
+        "WL" : 0.47,
+        "EA" : 0.95
     },
     "Beginner session week 5 day 3 (good day) ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core])" : {
-        "EA" : 0.92,
         "LA" : 0.59,
-        "WL" : 0.53
+        "WL" : 0.53,
+        "EA" : 0.92
     },
     "Beginner session week 5 day 4 (some progress) ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core])" : {
-        "EA" : 0.95,
         "LA" : 0.81,
-        "WL" : 0.36
+        "WL" : 0.36,
+        "EA" : 0.95
     }
 }

@@ -1,82 +1,82 @@
 {
     "Six group session 1 with mostly linear W; mostly constant R,D,I; with tiredness. ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms])" : {
-        "EA" : 0.775,
         "LA" : 0.62,
-        "WL" : 1.21
+        "WL" : 1.21,
+        "EA" : 0.82
     },
     "A back session 2 with fairly linear progression, but some tiredness towards the end ResistanceTargeted([MuvrKit.MKMuscleGroup.Back])" : {
-        "EA" : 0.76,
         "LA" : 0.28,
-        "WL" : 0.88
+        "WL" : 0.88,
+        "EA" : 0.76
     },
     "A chest session 3 with pyramid-like variation ResistanceTargeted([MuvrKit.MKMuscleGroup.Chest])" : {
-        "EA" : 0.75,
-        "LA" : 0.338,
-        "WL" : 4.58
+        "LA" : 0.33,
+        "WL" : 4.58,
+        "EA" : 0.79
     },
     "A shoulders session 4 with linear progression; tired at the last set ResistanceTargeted([MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.8,
         "LA" : 0.66,
-        "WL" : 1.29
+        "WL" : 1.29,
+        "EA" : 0.80
     },
     "Six group session 5 with mostly linear W; mostly constant R,D,I; with tiredness. ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms])" : {
-        "EA" : 0.97,
         "LA" : 0.99,
-        "WL" : 0.01
+        "WL" : 0.01,
+        "EA" : 0.97
     },
     "A back session 6 with fairly linear progression, but some tiredness towards the end ResistanceTargeted([MuvrKit.MKMuscleGroup.Back])" : {
-        "EA" : 0.99,
         "LA" : 0.99,
-        "WL" : 0.01
+        "WL" : 0.01,
+        "EA" : 0.99
     },
     "A chest session 7 with pyramid-like variation ResistanceTargeted([MuvrKit.MKMuscleGroup.Chest])" : {
-        "EA" : 0.94,
         "LA" : 0.99,
-        "WL" : 0.01
+        "WL" : 0.01,
+        "EA" : 0.94
     },
     "A shoulders session 8 with linear progression; tired at the last set ResistanceTargeted([MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.99,
         "LA" : 0.99,
-        "WL" : 0.01
+        "WL" : 0.01,
+        "EA" : 0.99
     },
     "Six group session 9 with mostly linear W; mostly constant R,D,I; with more tiredness. ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms])" : {
-        "EA" : 0.99,
         "LA" : 0.71,
-        "WL" : 0.4
+        "WL" : 0.40,
+        "EA" : 0.99
     },
     "A back session 10 with fairly linear progression, but some tiredness towards the end ResistanceTargeted([MuvrKit.MKMuscleGroup.Back])" : {
-        "EA" : 0.99,
         "LA" : 0.99,
-        "WL" : 0.01
+        "WL" : 0.01,
+        "EA" : 0.99
     },
     "A chest session 11 with pyramid-like variation (bad day) ResistanceTargeted([MuvrKit.MKMuscleGroup.Chest])" : {
-        "EA" : 0.88,
-        "LA" : 0.231,
-        "WL" : 12.578
+        "LA" : 0.23,
+        "WL" : 12.58,
+        "EA" : 0.88
     },
     "A shoulders session 12 with linear progression; tired at the last set (little progress) ResistanceTargeted([MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.99,
         "LA" : 0.86,
-        "WL" : 0.14
+        "WL" : 0.14,
+        "EA" : 0.99
     },
     "Six group session 13 with mostly linear W; mostly constant R,D,I; with tiredness. ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms])" : {
-        "EA" : 0.99,
         "LA" : 0.87,
-        "WL" : 0.01
+        "WL" : 0.01,
+        "EA" : 0.99
     },
     "A back session 14 with fairly linear progression, but some tiredness towards the end ResistanceTargeted([MuvrKit.MKMuscleGroup.Back])" : {
-        "EA" : 0.99,
         "LA" : 0.99,
-        "WL" : 0.01
+        "WL" : 0.01,
+        "EA" : 0.99
     },
     "A chest session 15 with pyramid-like variation (back to normal) ResistanceTargeted([MuvrKit.MKMuscleGroup.Chest])" : {
-        "EA" : 0.94,
         "LA" : 0.52,
-        "WL" : 0.03
+        "WL" : 0.03,
+        "EA" : 0.94
     },
     "A shoulders session 16 with linear progression; tired at the last set ResistanceTargeted([MuvrKit.MKMuscleGroup.Shoulders])" : {
-        "EA" : 0.99,
         "LA" : 0.86,
-        "WL" : 0.01
+        "WL" : 0.01,
+        "EA" : 0.99
     }
 }

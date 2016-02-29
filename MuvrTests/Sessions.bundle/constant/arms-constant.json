@@ -1,17 +1,17 @@
 {
     "Trivial session 1 with constant R,W,D,I for biceps curl ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms])" : {
-        "EA" : 0.916,
-        "LA" : 0.916,
-        "WL" : 0
+        "LA" : 0.91,
+        "WL" : 0,
+        "EA" : 0.91,
     },
     "Trivial session 2 with constant R,W,D,I for biceps curl ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms])" : {
-        "EA" : 1,
         "LA" : 1,
-        "WL" : 0
+        "WL" : 0,
+        "EA" : 1
     },
     "Trivial session 3 with constant R,W,D,I for biceps curl ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms])" : {
-        "EA" : 1,
         "LA" : 1,
-        "WL" : 0
+        "WL" : 0,
+        "EA" : 1
     }
 }
