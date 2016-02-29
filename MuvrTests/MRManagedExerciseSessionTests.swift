@@ -25,7 +25,7 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
     
     func testAddExerciseDetail() {
         let session = MRManagedExerciseSession.insert("12312", exerciseType: .IndoorsCardio, start: NSDate(), location: nil, inManagedObjectContext: managedObjectContext)
-        session.plan = MKMarkovPredictor<MKExercise.Id>()
+        session.plan = MRManagedExercisePlan.insertNewObject(.IndoorsCardio, location: nil, inManagedObjectContext: managedObjectContext)
         session.labelsPredictor = MKAverageLabelsPredictor(historySize: 1) { _, v, _ in return v }
         
         let givenDetail: MKExerciseDetail = ("foo/bar", MKExerciseType.ResistanceWholeBody, [])

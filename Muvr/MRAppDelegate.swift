@@ -60,7 +60,7 @@ protocol MRApp : MKExercisePropertySource {
     /// - parameter exerciseType: the exercise type that the session initially starts with
     /// - returns: the session's identity
     ///
-    func startSession(forExerciseType exerciseType: MKExerciseType) throws -> String
+    func startSession(exercisePlanId: MKExercisePlan.Id?, exerciseType: MKExerciseType) throws -> String
     
     ///
     /// Ends the current exercise session, if any
@@ -92,6 +92,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private var connectivity: MKAppleWatchConnectivity!
     private var classifier: MKSessionClassifier!
     private var sensorDataSplitter: MKSensorDataSplitter!
+    private var sessionPlan: MRManagedSessionPlan!
     // :( But needed for tests
     private(set) internal var currentSession: MRManagedExerciseSession?
     private var locationManager: CLLocationManager!
@@ -174,6 +175,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         authorizeHealthKit()
         
+        sessionPlan = MRManagedSessionPlan.find(inManagedObjectContext: managedObjectContext) ??
+            MRManagedSessionPlan.insertNewObject(MKMarkovPredictor<MKExercisePlan.Id>(), inManagedObjectContext: managedObjectContext)
+        
         // main initialization
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
@@ -184,7 +188,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         pageControlAppearance.pageIndicatorTintColor = UIColor.lightGrayColor()
         pageControlAppearance.currentPageIndicatorTintColor = UIColor.blackColor()
         pageControlAppearance.backgroundColor = UIColor.whiteColor()
-    
         
         // sync
         do {
@@ -270,7 +273,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         // no running session, let's start a new one
         let session = MRManagedExerciseSession.insert(session.id, exerciseType: session.exerciseType, start: session.start, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        injectPredictors(into: session)
+        injectPredictors(into: session, exercisePlanId: nil) // no predefined plan on the watch, yet
         saveContext()
         
         showSession(session)
@@ -303,14 +306,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     /// MARK: MRAppDelegate actions
     
-    func startSession(forExerciseType exerciseType: MKExerciseType) throws -> String {
+    func startSession(exercisePlanId: MKExercisePlan.Id?, exerciseType: MKExerciseType) throws -> String {
         if currentSession != nil {
             throw MRAppError.SessionAlreadyInProgress
         }
         
         let id = NSUUID().UUIDString
         let session = MRManagedExerciseSession.insert(id, exerciseType: exerciseType, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
-        injectPredictors(into: session)
+        
+        injectPredictors(into: session, exercisePlanId: exercisePlanId)
         saveContext()
         
         showSession(session)
@@ -371,7 +375,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
         
         // save predictors
-        MRManagedExercisePlan.upsert(session.plan, exerciseType: session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        session.plan.save()
         MRManagedLabelsPredictor.upsertPredictor(location: currentLocation, sessionExerciseType: session.exerciseType, data: session.labelsPredictor.json, inManagedObjectContext: managedObjectContext)
         
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
@@ -382,16 +386,17 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///
     /// inject the predictors in the given session
     ///
-    func injectPredictors(into session: MRManagedExerciseSession) {
-        if let plan = MRManagedExercisePlan.planForExerciseType(session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext) {
-            session.plan = plan.plan
-        } else {
-            session.plan = MKMarkovPredictor<MKExercise.Id>()
-        }
+    func injectPredictors(into session: MRManagedExerciseSession, exercisePlanId: MKExercisePlan.Id?) {
+        
+        // load exercise plan or create empty one
+        let exercisePlan = MRManagedExercisePlan.planForExerciseType(session.exerciseType, id: exercisePlanId, location: currentLocation, inManagedObjectContext: managedObjectContext) ?? MRManagedExercisePlan.insertNewObject(session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        
+        session.plan = exercisePlan
         
         let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)
         session.labelsPredictor = predictor.map { MKAverageLabelsPredictor(json: $0.data, historySize: 3, round: roundLabel) } ?? MKAverageLabelsPredictor(historySize: 3, round: roundLabel)
 
+        sessionPlan.insert(exercisePlan.id)
     }
     
     func initialSetup() { }

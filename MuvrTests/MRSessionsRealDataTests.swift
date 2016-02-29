@@ -29,10 +29,25 @@ extension MRManagedLabelsPredictor {
     }
 }
 
+extension MRManagedExercisePlan {
+    
+    static func deleteAll(inManagedObjectContext managedObjectContext: NSManagedObjectContext) throws {
+        let fetchReq = NSFetchRequest(entityName: "MRManagedExercisePlan")
+        let deleteReq = NSBatchDeleteRequest(fetchRequest: fetchReq)
+        try managedObjectContext.executeRequest(deleteReq)
+        try managedObjectContext.save()
+    }
+    
+}
+
 extension MRAppDelegate {
     
     func resetLabelsPredictors() {
         try! MRManagedLabelsPredictor.deleteAll(inManagedObjectContext: managedObjectContext)
+    }
+    
+    func resetExercisePlans() {
+        try! MRManagedExercisePlan.deleteAll(inManagedObjectContext: managedObjectContext)
     }
     
 }
@@ -127,6 +142,7 @@ class MRSessionsRealDataTests : XCTestCase {
     
     private func runScenario(app: MRAppDelegate, scenario: String) -> String {
         app.resetLabelsPredictors()
+        app.resetExercisePlans()
         
         var text: String = "SCENARIO \(scenario)\n"
         // Load expected scores for this scenario
@@ -182,7 +198,7 @@ class MRSessionsRealDataTests : XCTestCase {
         let name = "\(loadedSession.description) \(loadedSession.exerciseType)"
         print("\nEvaluating session \(loadedSession.description)")
         
-        try! app.startSession(forExerciseType: loadedSession.exerciseType)
+        try! app.startSession(nil, exerciseType: loadedSession.exerciseType)
         let result = MRExerciseSessionEvaluator(loadedSession: loadedSession).evaluate(app.currentSession!)
         try! app.endCurrentSession()
         
@@ -202,8 +218,7 @@ class MRSessionsRealDataTests : XCTestCase {
     }
     
     func testTimeless() {
-        let app = MRAppDelegate()
-        app.application(UIApplication.sharedApplication(), didFinishLaunchingWithOptions: nil)
+        let app = UIApplication.sharedApplication().delegate as! MRAppDelegate
         // At Kingfisher
         // let kingfisher = CLLocation(latitude: 53.435739, longitude: -2.165993)
         // app.locationManager(CLLocationManager(), didUpdateLocations: [kingfisher])

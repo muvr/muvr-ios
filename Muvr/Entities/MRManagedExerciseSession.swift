@@ -21,7 +21,7 @@ class MRManagedExerciseSession: NSManagedObject {
     var labelsPredictor: MKLabelsPredictor!
 
     /// The exercise plan
-    var plan: MKMarkovPredictor<MKExercise.Id>!
+    var plan: MRManagedExercisePlan!
     
     ///
     /// The exercise details that are coming up, ordered by their score

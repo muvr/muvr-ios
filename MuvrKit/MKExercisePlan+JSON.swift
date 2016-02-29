@@ -20,7 +20,7 @@ extension MKExercisePlan {
     public init?(json: NSData) {
         guard let jsonObject = try? NSJSONSerialization.JSONObjectWithData(json, options: .AllowFragments),
             let dict = jsonObject as? [String: AnyObject],
-            let id = dict["id"] as? String,
+            let id = dict["id"] as? MKExercisePlan.Id,
             let name = dict["name"] as? String,
             let type = dict["type"] as? [String:AnyObject],
             let plan = dict["plan"],

@@ -8,10 +8,10 @@
 
 import Foundation
 import CoreData
-
+import MuvrKit
 
 class MRManagedExercisePlan: NSManagedObject {
-
-// Insert code here to add functionality to your managed object subclass
+    
+    var plan: MKMarkovPredictor<MKExercise.Id>!
 
 }

@@ -15,21 +15,38 @@ import MuvrKit
 
 extension MRManagedExercisePlan : MRManagedExerciseType {
 
+    /// this plan id
+    @NSManaged var id: String
+    /// id of the original plan (if not an ad-hoc session)
+    @NSManaged var templateId: String?
     @NSManaged var latitude: NSNumber?
     @NSManaged var longitude: NSNumber?
+    /// the markov chain of exercise ids
     @NSManaged private var managedPlan: NSData
 
 }
 
 extension MRManagedExercisePlan {
+        
+    override func awakeFromFetch() {
+        plan = MKMarkovPredictor<MKExercise.Id>(json: managedPlan) { $0 as? MKExercise.Id }
+    }
     
-    var plan: MKMarkovPredictor<MKExercise.Id> {
-        get {
-            return MKMarkovPredictor<MKExercise.Id>(json: managedPlan) { $0 as? MKExercise.Id }!
-        }
-        set {
-            managedPlan = newValue.json { $0 }
-        }
+    override func awakeFromInsert() {
+        plan = MKMarkovPredictor<MKExercise.Id>()
+        managedPlan = NSData()
+    }
+    
+    func save() {
+        managedPlan = plan.json { $0 }
+    }
+    
+    func insert(exerciseId: MKExercise.Id) {
+        plan.insert(exerciseId)
+    }
+    
+    var next: [MKExercise.Id] {
+        return plan.next
     }
     
 }

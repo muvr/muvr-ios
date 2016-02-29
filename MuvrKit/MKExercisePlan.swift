@@ -2,9 +2,11 @@
 /// An exercise plan is a sequence of exercises
 ///
 public struct MKExercisePlan {
+    
+    public typealias Id = String
 
     /// the exercise plan uuid
-    public let id: String
+    public let id: Id
     /// the exercise plan name
     public let name: String
     /// the exercise plan type
@@ -13,7 +15,7 @@ public struct MKExercisePlan {
     let plan: MKMarkovPredictor<MKExercise.Id>
     
     /// Creates a fully initialized exercise plan
-    public init(id: String, name: String, exerciseType: MKExerciseType, plan: MKMarkovPredictor<MKExercise.Id>) {
+    public init(id: Id, name: String, exerciseType: MKExerciseType, plan: MKMarkovPredictor<MKExercise.Id>) {
         self.id = id
         self.name = name
         self.exerciseType = exerciseType

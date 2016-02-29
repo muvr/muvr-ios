@@ -8,22 +8,20 @@ import CoreLocation
 class MRManagedExercisePlanTests : MRCoreDataTestCase {
 
     func testUpsert() {
-        let plan = MKMarkovPredictor<MKExercise.Id>()
         let location = CLLocationCoordinate2D(latitude: 0, longitude: 0)
         let exerciseType = MKExerciseType.ResistanceTargeted(muscleGroups: [.Arms, .Legs])
 
         // the plan is not there to start with
-        XCTAssertTrue(MRManagedExercisePlan.exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext) == nil)
+        XCTAssertNil(MRManagedExercisePlan.exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext))
 
         // upsert => insert
-        MRManagedExercisePlan.upsert(plan, exerciseType: exerciseType, location: location, inManagedObjectContext: managedObjectContext)
-        XCTAssertTrue(MRManagedExercisePlan.exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext) != nil)
+        let exercisePlan = MRManagedExercisePlan.insertNewObject(exerciseType, location: location, inManagedObjectContext: managedObjectContext)
+        XCTAssertNotNil(MRManagedExercisePlan.exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext))
         
         // mutate plan
-        plan.insert("foobar")
+        exercisePlan.insert("foobar")
         
         // upsert again
-        MRManagedExercisePlan.upsert(plan, exerciseType: exerciseType, location: location, inManagedObjectContext: managedObjectContext)
         let loadedPlan = MRManagedExercisePlan.exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext)!.plan
         XCTAssertEqual(loadedPlan.next, ["foobar"])
     }
