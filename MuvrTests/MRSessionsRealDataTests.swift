@@ -198,7 +198,8 @@ class MRSessionsRealDataTests : XCTestCase {
         let name = "\(loadedSession.description) \(loadedSession.exerciseType)"
         print("\nEvaluating session \(loadedSession.description)")
         
-        try! app.startSession(nil, exerciseType: loadedSession.exerciseType)
+        let p = MKExercisePlan(exerciseType: loadedSession.exerciseType)
+        try! app.startSession(.AdHoc(plan: p))
         let result = MRExerciseSessionEvaluator(loadedSession: loadedSession).evaluate(app.currentSession!)
         try! app.endCurrentSession()
         

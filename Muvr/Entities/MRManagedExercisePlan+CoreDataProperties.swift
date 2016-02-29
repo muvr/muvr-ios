@@ -19,6 +19,7 @@ extension MRManagedExercisePlan : MRManagedExerciseType {
     @NSManaged var id: String
     /// id of the original plan (if not an ad-hoc session)
     @NSManaged var templateId: String?
+    @NSManaged var name: String
     @NSManaged var latitude: NSNumber?
     @NSManaged var longitude: NSNumber?
     /// the markov chain of exercise ids

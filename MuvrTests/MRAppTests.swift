@@ -13,7 +13,8 @@ class MRAppTests : XCTestCase {
     
     
     func testStartEndWithNoLocation() {
-        try! app.startSession(nil, exerciseType: .ResistanceTargeted(muscleGroups: [.Arms, .Chest]))
+        let p = MKExercisePlan(exerciseType: .ResistanceTargeted(muscleGroups: [.Arms, .Chest]))
+        try! app.startSession(.AdHoc(plan: p))
         try! app.endCurrentSession()
     }
     
@@ -23,7 +24,8 @@ class MRAppTests : XCTestCase {
         let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10), .Intensity(intensity: 0.6), .Weight(weight: 40)]
 
         // start a new session, adding one exercise
-        let sessionId = try! app.startSession(nil, exerciseType: .ResistanceTargeted(muscleGroups: [.Arms, .Chest]))
+        let p = MKExercisePlan(exerciseType: .ResistanceTargeted(muscleGroups: [.Arms, .Chest]))
+        let sessionId = try! app.startSession(.AdHoc(plan: p))
         app.currentSession!.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10)
         let l1 = app.currentSession!.predictExerciseLabelsForExerciseDetail(givenDetail)
         XCTAssertEqual(givenLabels.sort { $0.0.id < $0.1.id }, l1.0.sort { $0.0.id < $0.1.id })
@@ -38,7 +40,7 @@ class MRAppTests : XCTestCase {
         XCTAssertEqual(l.count, givenLabels.count)
 
         // start a different session but with the same exercise type
-        try! app.startSession(nil, exerciseType: .ResistanceTargeted(muscleGroups: [.Arms, .Chest]))
+        try! app.startSession(.AdHoc(plan: p))
         // expect the right preciction
         let bc = app.currentSession!.exerciseDetailsComingUp.first!
         XCTAssertEqual(bc.0, givenDetail.0)

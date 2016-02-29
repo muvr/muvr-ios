@@ -10,9 +10,9 @@ public struct MKExercisePlan {
     /// the exercise plan name
     public let name: String
     /// the exercise plan type
-    let exerciseType: MKExerciseType
+    public let exerciseType: MKExerciseType
     /// the exercise sequence as a markov chain
-    let plan: MKMarkovPredictor<MKExercise.Id>
+    public let plan: MKMarkovPredictor<MKExercise.Id>
     
     /// Creates a fully initialized exercise plan
     public init(id: Id, name: String, exerciseType: MKExerciseType, plan: MKMarkovPredictor<MKExercise.Id>) {

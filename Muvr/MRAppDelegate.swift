@@ -60,12 +60,17 @@ protocol MRApp : MKExercisePropertySource {
     /// - parameter exerciseType: the exercise type that the session initially starts with
     /// - returns: the session's identity
     ///
-    func startSession(exercisePlanId: MKExercisePlan.Id?, exerciseType: MKExerciseType) throws -> String
+    func startSession(exercisePlan: MRExercisePlan) throws -> String
     
     ///
     /// Ends the current exercise session, if any
     ///
     func endCurrentSession() throws
+    
+    ///
+    /// Ordered list (most likely first) of the available workouts
+    ///
+    var exercisePlans: [MRExercisePlan] { get }
 }
 
 ///
@@ -273,7 +278,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         // no running session, let's start a new one
         let session = MRManagedExerciseSession.insert(session.id, exerciseType: session.exerciseType, start: session.start, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        injectPredictors(into: session, exercisePlanId: nil) // no predefined plan on the watch, yet
+        injectPredictors(into: session, exercisePlan: .AdHoc(plan: MKExercisePlan(exerciseType: session.exerciseType))) // no predefined plan on the watch, yet
         saveContext()
         
         showSession(session)
@@ -306,15 +311,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     /// MARK: MRAppDelegate actions
     
-    func startSession(exercisePlanId: MKExercisePlan.Id?, exerciseType: MKExerciseType) throws -> String {
+    func startSession(exercisePlan: MRExercisePlan) throws -> String {
         if currentSession != nil {
             throw MRAppError.SessionAlreadyInProgress
         }
         
         let id = NSUUID().UUIDString
-        let session = MRManagedExerciseSession.insert(id, exerciseType: exerciseType, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
+        let session = MRManagedExerciseSession.insert(id, exerciseType: exercisePlan.exercisePlan.exerciseType, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
         
-        injectPredictors(into: session, exercisePlanId: exercisePlanId)
+        injectPredictors(into: session, exercisePlan: exercisePlan)
         saveContext()
         
         showSession(session)
@@ -386,17 +391,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///
     /// inject the predictors in the given session
     ///
-    func injectPredictors(into session: MRManagedExerciseSession, exercisePlanId: MKExercisePlan.Id?) {
+    func injectPredictors(into session: MRManagedExerciseSession, exercisePlan: MRExercisePlan) {
         
-        // load exercise plan or create empty one
-        let exercisePlan = MRManagedExercisePlan.planForExerciseType(session.exerciseType, id: exercisePlanId, location: currentLocation, inManagedObjectContext: managedObjectContext) ?? MRManagedExercisePlan.insertNewObject(session.exerciseType, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        
-        session.plan = exercisePlan
+        session.plan = MRManagedExercisePlan.planFor(exercisePlan, location: currentLocation, inManagedObjectContext: managedObjectContext)!
         
         let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)
         session.labelsPredictor = predictor.map { MKAverageLabelsPredictor(json: $0.data, historySize: 3, round: roundLabel) } ?? MKAverageLabelsPredictor(historySize: 3, round: roundLabel)
 
-        sessionPlan.insert(exercisePlan.id)
+        sessionPlan.insert(session.plan.id)
     }
     
     func initialSetup() { }
@@ -475,6 +477,32 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         // No exercise id found. This should not happen.
         return []
+    }
+    
+    // MARK: - Exercise plans
+    
+    private var predefPlans: [MKExercisePlan] {
+        let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
+        let bundle = NSBundle(path: bundlePath)!
+        return bundle.pathsForResourcesOfType("json", inDirectory: nil).flatMap { MKExercisePlan(json: NSData(contentsOfFile: $0)!) }
+    }
+    
+    var exercisePlans: [MRExercisePlan] {
+        let userPlans = sessionPlan.next.flatMap {
+            MRManagedExercisePlan.exactPlanForId($0, location: currentLocation, inManagedObjectContext: managedObjectContext) ??
+            MRManagedExercisePlan.exactPlanForId($0, location: nil, inManagedObjectContext: managedObjectContext)
+        }
+        
+        let predefPlans: [MRExercisePlan] = self.predefPlans.flatMap { predefPlan in
+            let alreadyIncluded = userPlans.contains { $0.templateId == predefPlan.id }
+            guard !alreadyIncluded else { return nil }
+            return .Predef(plan: predefPlan)
+        }
+        
+        return userPlans.map { userPlan in
+            let p = MKExercisePlan(id: userPlan.id, name: userPlan.name, exerciseType: userPlan.exerciseType, plan: userPlan.plan)
+            return .UserDef(plan: p)
+        } + predefPlans
     }
     
     // MARK: - Core Location stack

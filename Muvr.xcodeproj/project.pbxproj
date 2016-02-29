@@ -228,6 +228,8 @@
 		64BA9DC51C80983A00D8540E /* MRManagedSessionPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DC41C80983A00D8540E /* MRManagedSessionPlan.swift */; };
 		64BA9DC71C8098AE00D8540E /* MRManagedSessionPlan+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DC61C8098AE00D8540E /* MRManagedSessionPlan+CoreDataProperties.swift */; };
 		64BA9DC91C80997300D8540E /* MRManagedSessionPlan+CoreDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DC81C80997300D8540E /* MRManagedSessionPlan+CoreDataOperations.swift */; };
+		64BA9DCD1C84663200D8540E /* Sessions.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 64BA9DCC1C84663200D8540E /* Sessions.bundle */; };
+		64BA9DCF1C8479D200D8540E /* MRExercisePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DCE1C8479D200D8540E /* MRExercisePlan.swift */; };
 		64FB23BC1C3E899E005312C2 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */; };
 		99835A4C1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
@@ -572,6 +574,8 @@
 		64BA9DC41C80983A00D8540E /* MRManagedSessionPlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedSessionPlan.swift; sourceTree = "<group>"; };
 		64BA9DC61C8098AE00D8540E /* MRManagedSessionPlan+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedSessionPlan+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		64BA9DC81C80997300D8540E /* MRManagedSessionPlan+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedSessionPlan+CoreDataOperations.swift"; sourceTree = "<group>"; };
+		64BA9DCC1C84663200D8540E /* Sessions.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Sessions.bundle; sourceTree = "<group>"; };
+		64BA9DCE1C8479D200D8540E /* MRExercisePlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisePlan.swift; sourceTree = "<group>"; };
 		64FB23BD1C3E899E005312C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseType+MetadataTests.swift"; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
@@ -743,6 +747,7 @@
 				9D30379B1B95CCC500426C70 /* Models.bundle */,
 				54CAADD61C39B19F00A7B0E6 /* Locations.bundle */,
 				543E32941C4AD71400D9922D /* BaseConfiguration.bundle */,
+				64BA9DCC1C84663200D8540E /* Sessions.bundle */,
 				543C9A031BDD425900291EC5 /* Entities */,
 				541ABBA11AC577E00056A81B /* Supporting Files */,
 				54CAADDC1C39BA6F00A7B0E6 /* Synchronisation */,
@@ -767,6 +772,7 @@
 				5460A79C1C443B8400070ADC /* CLLocationCoordinate2D+MRLocationCoordinate2D.swift */,
 				543E32901C4ACFC800D9922D /* MKExerciseProperty+JSON.swift */,
 				6445C40D1C4CF57A00A0CDB9 /* MKExerciseSession+MRManagedExerciseSession.swift */,
+				64BA9DCE1C8479D200D8540E /* MRExercisePlan.swift */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -1444,6 +1450,7 @@
 				541ABBAE1AC577E00056A81B /* LaunchScreen.xib in Resources */,
 				54CAADD71C39B19F00A7B0E6 /* Locations.bundle in Resources */,
 				543E32951C4AD71400D9922D /* BaseConfiguration.bundle in Resources */,
+				64BA9DCD1C84663200D8540E /* Sessions.bundle in Resources */,
 				541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1627,6 +1634,7 @@
 				543E328A1C4ABD4600D9922D /* MRManagedLocationExercise.swift in Sources */,
 				547BA5AF1C4AE85900CFD14A /* MRApp+Exercises.swift in Sources */,
 				640E5EAD1C6B348E00B9F227 /* MRManagedLabelsPredictor.swift in Sources */,
+				64BA9DCF1C8479D200D8540E /* MRExercisePlan.swift in Sources */,
 				54F959C11C419D7F00D6A07D /* MRAnalyticTypes.swift in Sources */,
 				543E32661C4A997500D9922D /* MRManagedLocation.swift in Sources */,
 				543E32681C4A997500D9922D /* MRManagedExerciseScalarLabel.swift in Sources */,
