@@ -60,7 +60,7 @@ protocol MRApp : MKExercisePropertySource {
     /// - parameter exerciseType: the exercise type that the session initially starts with
     /// - returns: the session's identity
     ///
-    func startSession(exercisePlan: MRExercisePlan) throws -> String
+    func startSession(sessionType: MRSessionType) throws -> String
     
     ///
     /// Ends the current exercise session, if any
@@ -70,7 +70,7 @@ protocol MRApp : MKExercisePropertySource {
     ///
     /// Ordered list (most likely first) of the available workouts
     ///
-    var exercisePlans: [MRExercisePlan] { get }
+    var sessions: [MRSessionType] { get }
 }
 
 ///
@@ -278,7 +278,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         // no running session, let's start a new one
         let session = MRManagedExerciseSession.insert(session.id, exerciseType: session.exerciseType, start: session.start, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        injectPredictors(into: session, exercisePlan: .AdHoc(exerciseType: session.exerciseType)) // no predefined plan on the watch, yet
+        injectPredictors(into: session, ofType: .AdHoc(exerciseType: session.exerciseType)) // no predefined plan on the watch, yet
         saveContext()
         
         showSession(session)
@@ -311,15 +311,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     /// MARK: MRAppDelegate actions
     
-    func startSession(exercisePlan: MRExercisePlan) throws -> String {
+    func startSession(sessionType: MRSessionType) throws -> String {
         if currentSession != nil {
             throw MRAppError.SessionAlreadyInProgress
         }
         
         let id = NSUUID().UUIDString
-        let session = MRManagedExerciseSession.insert(id, exerciseType: exercisePlan.exerciseType, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
+        let session = MRManagedExerciseSession.insert(id, exerciseType: sessionType.exerciseType, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
         
-        injectPredictors(into: session, exercisePlan: exercisePlan)
+        injectPredictors(into: session, ofType: sessionType)
         saveContext()
         
         showSession(session)
@@ -391,9 +391,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///
     /// inject the predictors in the given session
     ///
-    func injectPredictors(into session: MRManagedExerciseSession, exercisePlan: MRExercisePlan) {
+    func injectPredictors(into session: MRManagedExerciseSession, ofType sessionType: MRSessionType) {
         
-        session.plan = MRManagedExercisePlan.planForExercisePlan(exercisePlan, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        session.plan = MRManagedExercisePlan.planForSessionType(sessionType, location: currentLocation, inManagedObjectContext: managedObjectContext)
         
         let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)
         session.labelsPredictor = predictor.map { MKAverageLabelsPredictor(json: $0.data, historySize: 3, round: roundLabel) } ?? MKAverageLabelsPredictor(historySize: 3, round: roundLabel)
@@ -487,10 +487,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         return bundle.pathsForResourcesOfType("json", inDirectory: nil).flatMap { MKExercisePlan(json: NSData(contentsOfFile: $0)!) }
     }
     
-    var exercisePlans: [MRExercisePlan] {
+    var sessions: [MRSessionType] {
         let userPlans = sessionPlan.next.flatMap { MRManagedExercisePlan.planForId($0, location: currentLocation, inManagedObjectContext: managedObjectContext) }
         
-        let predefPlans: [MRExercisePlan] = self.predefPlans.flatMap { predefPlan in
+        let predefPlans: [MRSessionType] = self.predefPlans.flatMap { predefPlan in
             let alreadyIncluded = userPlans.contains { $0.templateId == predefPlan.id }
             guard !alreadyIncluded else { return nil }
             return .Predef(plan: predefPlan)

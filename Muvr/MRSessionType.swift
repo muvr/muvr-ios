@@ -1,6 +1,6 @@
 import MuvrKit
 
-enum MRExercisePlan {
+enum MRSessionType {
 
     case AdHoc(exerciseType: MKExerciseType)
     case Predef(plan: MKExercisePlan)

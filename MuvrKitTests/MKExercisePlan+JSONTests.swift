@@ -6,7 +6,7 @@ class MKExercisePlanPlusJSONTests: XCTestCase {
     
     func testExercisePlanJsonSerialisation() {
         let exerciseType: MKExerciseType = .ResistanceTargeted(muscleGroups: [.Arms, .Chest, .Shoulders])
-        let p1 = MKExercisePlan(exerciseType: exerciseType)
+        let p1 = MKExercisePlan(id: NSUUID().UUIDString, name: "Test JSON plan", exerciseType: exerciseType, plan: MKMarkovPredictor<MKExercise.Id>())
         
         p1.plan.insert("arms/biceps-curls")
         XCTAssertEqual(p1.plan.next.first!, "arms/biceps-curls")

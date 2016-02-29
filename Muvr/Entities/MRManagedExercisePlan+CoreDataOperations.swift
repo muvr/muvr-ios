@@ -101,22 +101,21 @@ extension MRManagedExercisePlan {
     }
     
     ///
-    /// Finds exercise plans whose:
+    /// Finds or create exercise plans whose:
     /// - location, if given, matches within reasonable accuracy; falling back on any location
     /// - id, if given, matches the given ``id`` precisely; falling back on more general plans.
     /// - exercise type matches the given ``type`` precisely; falling back on more general plans.
     ///
-    /// More general plans here mean plans that list only some of the muscle groups specified in case
-    /// of targeted resistance exercise.
+    /// If no matching plan is found at the current location, a new plan is created.
     ///
-    /// - parameter exerciseType: the exercise type filter
+    /// - parameter sessionType: the session type filter
     /// - parameter id: the plan id
     /// - parameter location: the location filter
     /// - parameter managedObjectContext: the MOC
     /// - returns: the matching plan
     ///
-    static func planForExercisePlan(exercisePlan: MRExercisePlan, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
-        switch exercisePlan {
+    static func planForSessionType(sessionType: MRSessionType, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
+        switch sessionType {
         case .UserDef(let p):
             if let found = exactPlanForId(p.id, location: location, inManagedObjectContext: managedObjectContext) { return found }
             if let found = exactPlanForId(p.id, location: nil, inManagedObjectContext: managedObjectContext) {
@@ -125,7 +124,7 @@ extension MRManagedExercisePlan {
                 }
                 return found
             }
-            return MRManagedExercisePlan.insertNewObject(exercisePlan, location: location, inManagedObjectContext: managedObjectContext)
+            return MRManagedExercisePlan.insertNewObject(sessionType, location: location, inManagedObjectContext: managedObjectContext)
         case .Predef(let p):
             if let found = exactPlanForTemplateId(p.id, location: location, inManagedObjectContext: managedObjectContext) { return found }
             if let found = exactPlanForTemplateId(p.id, location: nil, inManagedObjectContext: managedObjectContext) {
@@ -134,7 +133,7 @@ extension MRManagedExercisePlan {
                 }
                 return found
             }
-            return MRManagedExercisePlan.insertNewObject(exercisePlan, location: location, inManagedObjectContext: managedObjectContext)
+            return MRManagedExercisePlan.insertNewObject(sessionType, location: location, inManagedObjectContext: managedObjectContext)
         case .AdHoc(let exerciseType):
             if let found = exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext) { return found }
             if let found = exactPlanForExerciseType(exerciseType, location: nil, inManagedObjectContext: managedObjectContext) {
@@ -143,7 +142,7 @@ extension MRManagedExercisePlan {
                 }
                 return found
             }
-            return MRManagedExercisePlan.insertNewObject(exercisePlan, location: location, inManagedObjectContext: managedObjectContext)
+            return MRManagedExercisePlan.insertNewObject(sessionType, location: location, inManagedObjectContext: managedObjectContext)
         }
     }
     
@@ -171,7 +170,7 @@ extension MRManagedExercisePlan {
     /// - parameter managedObjectContext: the MOC
     /// - returns: the inserted plan
     ///
-    internal static func insertNewObject(plan: MRExercisePlan, location: MRLocationCoordinate2D?,
+    internal static func insertNewObject(sessionType: MRSessionType, location: MRLocationCoordinate2D?,
         inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan {
         
         var managedPlan = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExercisePlan", inManagedObjectContext: managedObjectContext) as! MRManagedExercisePlan
@@ -179,7 +178,7 @@ extension MRManagedExercisePlan {
         managedPlan.latitude = location?.latitude
         managedPlan.id = NSUUID().UUIDString
         
-        switch plan {
+        switch sessionType {
         case .AdHoc(let exerciseType):
             managedPlan.exerciseType = exerciseType
             managedPlan.name = exerciseType.name

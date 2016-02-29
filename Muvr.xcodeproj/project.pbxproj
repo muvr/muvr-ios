@@ -223,13 +223,12 @@
 		64B477911C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B477901C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift */; };
 		64BA9DBD1C80579300D8540E /* MKExercisePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DBC1C80579300D8540E /* MKExercisePlan.swift */; };
 		64BA9DBF1C805B8F00D8540E /* MKExercisePlan+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DBE1C805B8F00D8540E /* MKExercisePlan+JSON.swift */; };
-		64BA9DC11C8062ED00D8540E /* MKExercisePlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DC01C8062ED00D8540E /* MKExercisePlanTests.swift */; };
 		64BA9DC31C8064E300D8540E /* MKExercisePlan+JSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DC21C8064E300D8540E /* MKExercisePlan+JSONTests.swift */; };
 		64BA9DC51C80983A00D8540E /* MRManagedSessionPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DC41C80983A00D8540E /* MRManagedSessionPlan.swift */; };
 		64BA9DC71C8098AE00D8540E /* MRManagedSessionPlan+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DC61C8098AE00D8540E /* MRManagedSessionPlan+CoreDataProperties.swift */; };
 		64BA9DC91C80997300D8540E /* MRManagedSessionPlan+CoreDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DC81C80997300D8540E /* MRManagedSessionPlan+CoreDataOperations.swift */; };
 		64BA9DCD1C84663200D8540E /* Sessions.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 64BA9DCC1C84663200D8540E /* Sessions.bundle */; };
-		64BA9DCF1C8479D200D8540E /* MRExercisePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DCE1C8479D200D8540E /* MRExercisePlan.swift */; };
+		64BA9DCF1C8479D200D8540E /* MRSessionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DCE1C8479D200D8540E /* MRSessionType.swift */; };
 		64FB23BC1C3E899E005312C2 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */; };
 		99835A4C1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
@@ -569,13 +568,12 @@
 		64B477901C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedExerciseScalarLabel+CoreDataAnalytics.swift"; sourceTree = "<group>"; };
 		64BA9DBC1C80579300D8540E /* MKExercisePlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExercisePlan.swift; sourceTree = "<group>"; };
 		64BA9DBE1C805B8F00D8540E /* MKExercisePlan+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExercisePlan+JSON.swift"; sourceTree = "<group>"; };
-		64BA9DC01C8062ED00D8540E /* MKExercisePlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExercisePlanTests.swift; sourceTree = "<group>"; };
 		64BA9DC21C8064E300D8540E /* MKExercisePlan+JSONTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExercisePlan+JSONTests.swift"; sourceTree = "<group>"; };
 		64BA9DC41C80983A00D8540E /* MRManagedSessionPlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedSessionPlan.swift; sourceTree = "<group>"; };
 		64BA9DC61C8098AE00D8540E /* MRManagedSessionPlan+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedSessionPlan+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		64BA9DC81C80997300D8540E /* MRManagedSessionPlan+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedSessionPlan+CoreDataOperations.swift"; sourceTree = "<group>"; };
 		64BA9DCC1C84663200D8540E /* Sessions.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Sessions.bundle; sourceTree = "<group>"; };
-		64BA9DCE1C8479D200D8540E /* MRExercisePlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExercisePlan.swift; sourceTree = "<group>"; };
+		64BA9DCE1C8479D200D8540E /* MRSessionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionType.swift; sourceTree = "<group>"; };
 		64FB23BD1C3E899E005312C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseType+MetadataTests.swift"; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
@@ -772,7 +770,7 @@
 				5460A79C1C443B8400070ADC /* CLLocationCoordinate2D+MRLocationCoordinate2D.swift */,
 				543E32901C4ACFC800D9922D /* MKExerciseProperty+JSON.swift */,
 				6445C40D1C4CF57A00A0CDB9 /* MKExerciseSession+MRManagedExerciseSession.swift */,
-				64BA9DCE1C8479D200D8540E /* MRExercisePlan.swift */,
+				64BA9DCE1C8479D200D8540E /* MRSessionType.swift */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -937,7 +935,6 @@
 				547791101C247EAE00763197 /* MKMarkovPredictorTests.swift */,
 				54BDDDCD1C440EF60054A059 /* MKMarkovPredictor+JSONTests.swift */,
 				54FBA9681C3C6D8900FC4F8E /* MKPolynomialFitterTests.swift */,
-				64BA9DC01C8062ED00D8540E /* MKExercisePlanTests.swift */,
 				64BA9DC21C8064E300D8540E /* MKExercisePlan+JSONTests.swift */,
 			);
 			name = Plan;
@@ -1634,7 +1631,7 @@
 				543E328A1C4ABD4600D9922D /* MRManagedLocationExercise.swift in Sources */,
 				547BA5AF1C4AE85900CFD14A /* MRApp+Exercises.swift in Sources */,
 				640E5EAD1C6B348E00B9F227 /* MRManagedLabelsPredictor.swift in Sources */,
-				64BA9DCF1C8479D200D8540E /* MRExercisePlan.swift in Sources */,
+				64BA9DCF1C8479D200D8540E /* MRSessionType.swift in Sources */,
 				54F959C11C419D7F00D6A07D /* MRAnalyticTypes.swift in Sources */,
 				543E32661C4A997500D9922D /* MRManagedLocation.swift in Sources */,
 				543E32681C4A997500D9922D /* MRManagedExerciseScalarLabel.swift in Sources */,
@@ -1668,7 +1665,6 @@
 				540AA4541BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift in Sources */,
 				548CAB411BBB0FCA00A34D81 /* XCTestCase+Exceptions.swift in Sources */,
 				547791051C23641900763197 /* MKMarkovChainTests.swift in Sources */,
-				64BA9DC11C8062ED00D8540E /* MKExercisePlanTests.swift in Sources */,
 				548E27771BF3FD3D00899EBC /* MKExerciseModel+Parsing.swift in Sources */,
 				54880CAD1BC048A800349C2E /* MKRepetitionEstimatorTests.swift in Sources */,
 				6445C4151C4D52CE00A0CDB9 /* MKExerciseSession+MetadataTests.swift in Sources */,
