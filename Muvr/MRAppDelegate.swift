@@ -491,7 +491,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         let userPlans = sessionPlan.next.flatMap { MRManagedExercisePlan.planForId($0, location: currentLocation, inManagedObjectContext: managedObjectContext) }
         
         let predefPlans: [MRSessionType] = self.predefPlans.flatMap { predefPlan in
-            let alreadyIncluded = userPlans.contains { $0.templateId == predefPlan.id }
+            let alreadyIncluded = userPlans.contains { userPlan in
+                if let templateId = userPlan.templateId { return templateId == predefPlan.id }
+                return false
+            }
             guard !alreadyIncluded else { return nil }
             return .Predef(plan: predefPlan)
         }
