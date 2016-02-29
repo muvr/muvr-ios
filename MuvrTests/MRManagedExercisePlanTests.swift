@@ -15,8 +15,7 @@ class MRManagedExercisePlanTests : MRCoreDataTestCase {
         XCTAssertNil(MRManagedExercisePlan.exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext))
 
         // upsert => insert
-        let p = MKExercisePlan(exerciseType: exerciseType)
-        let exercisePlan = MRManagedExercisePlan.insertNewObject(.AdHoc(plan: p), location: location, inManagedObjectContext: managedObjectContext)
+        let exercisePlan = MRManagedExercisePlan.insertNewObject(.AdHoc(exerciseType: exerciseType), location: location, inManagedObjectContext: managedObjectContext)
         XCTAssertNotNil(MRManagedExercisePlan.exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext))
         
         // mutate plan

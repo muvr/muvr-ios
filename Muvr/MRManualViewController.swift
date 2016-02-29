@@ -19,8 +19,7 @@ class MRManualViewController : UIViewController, UITableViewDataSource, UITableV
     
     @IBAction private func start() {
         if let exerciseType = exerciseType {
-            let p = MKExercisePlan(exerciseType: exerciseType)
-            try! MRAppDelegate.sharedDelegate().startSession(.AdHoc(plan: p))
+            try! MRAppDelegate.sharedDelegate().startSession(.AdHoc(exerciseType: exerciseType))
         }
     }
     

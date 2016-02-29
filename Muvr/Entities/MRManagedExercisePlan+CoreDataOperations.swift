@@ -19,7 +19,7 @@ extension MRManagedExercisePlan {
     /// - parameter managedObjectContext: the MOC
     /// - returns: the matching plan
     ///
-    static func exactPlanForExerciseType(exerciseType: MKExerciseType, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
+    internal static func exactPlanForExerciseType(exerciseType: MKExerciseType, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExercisePlan")
         var predicate = NSPredicate(exerciseType: exerciseType)
         let adHocSessionPredicate = NSPredicate(format: "templateId = nil")
@@ -43,7 +43,7 @@ extension MRManagedExercisePlan {
     /// - parameter managedObjectContext: the MOC
     /// - returns: the matching plan
     ///
-    static func exactPlanForId(id: String, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
+    internal static func exactPlanForId(id: String, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExercisePlan")
         var predicate = NSPredicate(format: "id = %@", id)
         if let locationPredicate = (location.map { NSPredicate(location: $0) }) {
@@ -67,7 +67,7 @@ extension MRManagedExercisePlan {
     /// - parameter managedObjectContext: the MOC
     /// - returns: the matching plan
     ///
-    static func exactPlanForTemplateId(templateId: String, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
+    internal static func exactPlanForTemplateId(templateId: String, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExercisePlan")
         var predicate = NSPredicate(format: "templateId = %@", templateId)
         if let locationPredicate = (location.map { NSPredicate(location: $0) }) {
@@ -79,6 +79,25 @@ extension MRManagedExercisePlan {
         let plans = try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExercisePlan]
         
         return plans.first
+    }
+    
+    ///
+    /// Finds exercise plans whose:
+    /// - location, if given, matches within reasonable accuracy; falling back on any location
+    /// - id, if given, matches the given ``id`` precisely
+    ///
+    /// - parameter id: the plan id
+    /// - parameter location: the location filter
+    /// - parameter managedObjectContext: the MOC
+    /// - returns: the matching plan
+    ///
+    static func planForId(id: String, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
+        // try to find plan matching id and location
+        if let found = MRManagedExercisePlan.exactPlanForId(id, location: location, inManagedObjectContext: managedObjectContext) { return found }
+        // next try any location
+        if let found = MRManagedExercisePlan.exactPlanForId(id, location: nil, inManagedObjectContext: managedObjectContext) { return found }
+        // not found
+        return nil
     }
     
     ///
@@ -96,7 +115,7 @@ extension MRManagedExercisePlan {
     /// - parameter managedObjectContext: the MOC
     /// - returns: the matching plan
     ///
-    static func planFor(exercisePlan: MRExercisePlan, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
+    static func planForExercisePlan(exercisePlan: MRExercisePlan, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
         switch exercisePlan {
         case .UserDef(let p):
             if let found = exactPlanForId(p.id, location: location, inManagedObjectContext: managedObjectContext) { return found }
@@ -106,6 +125,7 @@ extension MRManagedExercisePlan {
                 }
                 return found
             }
+            return MRManagedExercisePlan.insertNewObject(exercisePlan, location: location, inManagedObjectContext: managedObjectContext)
         case .Predef(let p):
             if let found = exactPlanForTemplateId(p.id, location: location, inManagedObjectContext: managedObjectContext) { return found }
             if let found = exactPlanForTemplateId(p.id, location: nil, inManagedObjectContext: managedObjectContext) {
@@ -115,9 +135,9 @@ extension MRManagedExercisePlan {
                 return found
             }
             return MRManagedExercisePlan.insertNewObject(exercisePlan, location: location, inManagedObjectContext: managedObjectContext)
-        case .AdHoc(let p):
-            if let found = exactPlanForExerciseType(p.exerciseType, location: location, inManagedObjectContext: managedObjectContext) { return found }
-            if let found = exactPlanForExerciseType(p.exerciseType, location: nil, inManagedObjectContext: managedObjectContext) {
+        case .AdHoc(let exerciseType):
+            if let found = exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext) { return found }
+            if let found = exactPlanForExerciseType(exerciseType, location: nil, inManagedObjectContext: managedObjectContext) {
                 if let location = location {
                     return MRManagedExercisePlan.copyAtLocation(found, location: location, inManagedObjectContext: managedObjectContext)
                 }
@@ -125,8 +145,6 @@ extension MRManagedExercisePlan {
             }
             return MRManagedExercisePlan.insertNewObject(exercisePlan, location: location, inManagedObjectContext: managedObjectContext)
         }
-        // no match
-        return nil
     }
     
     ///
@@ -137,44 +155,61 @@ extension MRManagedExercisePlan {
     /// - parameter managedObjectContext: the MOC
     /// - returns: the inserted plan
     ///
-    static func copyAtLocation(exercisePlan: MRManagedExercisePlan, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan {
+    internal static func copyAtLocation(exercisePlan: MRManagedExercisePlan, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan {
         
-        var managedPlan = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExercisePlan", inManagedObjectContext: managedObjectContext) as! MRManagedExercisePlan
-        managedPlan.longitude = location?.longitude
-        managedPlan.latitude = location?.latitude
-        managedPlan.exerciseType = exercisePlan.exerciseType
-        managedPlan.name = exercisePlan.name
-        managedPlan.templateId = exercisePlan.templateId
-        managedPlan.id = exercisePlan.id
-        managedPlan.plan = exercisePlan.plan
-        
-        return managedPlan
+        if exercisePlan.longitude != location?.longitude && exercisePlan.latitude != location?.latitude {
+            return MRManagedExercisePlan.insertNewObject(.UserDef(plan: exercisePlan), location: location, inManagedObjectContext: managedObjectContext)
+        }
+        return exercisePlan
     }
     
     ///
-    /// Insert a new ``plan`` for the given ``template`` and ``location`` in the given context.
+    /// Insert a new ``managed plan`` for the given ``plan`` and ``location`` in the given context.
     ///
     /// - parameter exerciseType: the exercise type
     /// - parameter location: the location, if known
     /// - parameter managedObjectContext: the MOC
     /// - returns: the inserted plan
     ///
-    static func insertNewObject(template: MRExercisePlan, location: MRLocationCoordinate2D?,
+    internal static func insertNewObject(plan: MRExercisePlan, location: MRLocationCoordinate2D?,
         inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan {
         
-            var managedPlan = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExercisePlan", inManagedObjectContext: managedObjectContext) as! MRManagedExercisePlan
-            managedPlan.longitude = location?.longitude
-            managedPlan.latitude = location?.latitude
-            managedPlan.exerciseType = template.exercisePlan.exerciseType
-            if case .Predef(let p) = template {
-                managedPlan.templateId = p.id
-                managedPlan.plan = p.plan
-            }
-            managedPlan.id = NSUUID().UUIDString
+        var managedPlan = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExercisePlan", inManagedObjectContext: managedObjectContext) as! MRManagedExercisePlan
+        managedPlan.longitude = location?.longitude
+        managedPlan.latitude = location?.latitude
+        managedPlan.id = NSUUID().UUIDString
         
-            return managedPlan
+        switch plan {
+        case .AdHoc(let exerciseType):
+            managedPlan.exerciseType = exerciseType
+            managedPlan.name = exerciseType.name
+        case .Predef(let p):
+            managedPlan.exerciseType = p.exerciseType
+            managedPlan.templateId = p.id
+            managedPlan.plan = p.plan
+            managedPlan.name = p.name
+        case .UserDef(let mp):
+            managedPlan.exerciseType = mp.exerciseType
+            managedPlan.templateId = mp.templateId
+            managedPlan.id = mp.id
+            managedPlan.name = mp.name
+            managedPlan.plan = mp.plan
+        }
+        
+        return managedPlan
     }
     
+}
+
+private extension MKExerciseType {
     
+    /// name generated from the exercise type
+    var name: String {
+        switch self {
+        case .IndoorsCardio: return "Cardio"
+        case .ResistanceWholeBody: return "Whole body"
+        case .ResistanceTargeted(let muscleGroups): return muscleGroups.map { $0.id }.joinWithSeparator(", ")
+        }
+    }
     
 }

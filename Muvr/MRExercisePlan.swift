@@ -2,15 +2,16 @@ import MuvrKit
 
 enum MRExercisePlan {
 
-    case AdHoc(plan: MKExercisePlan)
+    case AdHoc(exerciseType: MKExerciseType)
     case Predef(plan: MKExercisePlan)
-    case UserDef(plan: MKExercisePlan)
+    case UserDef(plan: MRManagedExercisePlan)
     
-    var exercisePlan: MKExercisePlan {
+    var exerciseType: MKExerciseType {
         switch self {
-        case .AdHoc(let p): return p
-        case .Predef(let p): return p
-        case .UserDef(let p): return p
+        case .AdHoc(let exerciseType): return exerciseType
+        case .Predef(let plan): return plan.exerciseType
+        case .UserDef(let plan): return plan.exerciseType
         }
     }
+
 }

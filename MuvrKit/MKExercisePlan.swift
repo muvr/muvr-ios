@@ -22,25 +22,4 @@ public struct MKExercisePlan {
         self.plan = plan
     }
     
-    /// Creates an empty exercise plan
-    public init(exerciseType: MKExerciseType) {
-        self.id = NSUUID().UUIDString
-        self.name = exerciseType.name
-        self.exerciseType = exerciseType
-        self.plan = MKMarkovPredictor<MKExercise.Id>()
-    }
-    
-}
-
-private extension MKExerciseType {
-
-    /// name generated from the exercise type
-    var name: String {
-        switch self {
-        case .IndoorsCardio: return "Cardio"
-        case .ResistanceWholeBody: return "Whole body"
-        case .ResistanceTargeted(let muscleGroups): return muscleGroups.map { $0.id }.joinWithSeparator(", ")
-        }
-    }
-    
 }

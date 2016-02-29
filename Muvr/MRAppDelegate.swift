@@ -278,7 +278,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         // no running session, let's start a new one
         let session = MRManagedExerciseSession.insert(session.id, exerciseType: session.exerciseType, start: session.start, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        injectPredictors(into: session, exercisePlan: .AdHoc(plan: MKExercisePlan(exerciseType: session.exerciseType))) // no predefined plan on the watch, yet
+        injectPredictors(into: session, exercisePlan: .AdHoc(exerciseType: session.exerciseType)) // no predefined plan on the watch, yet
         saveContext()
         
         showSession(session)
@@ -317,7 +317,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
         
         let id = NSUUID().UUIDString
-        let session = MRManagedExerciseSession.insert(id, exerciseType: exercisePlan.exercisePlan.exerciseType, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
+        let session = MRManagedExerciseSession.insert(id, exerciseType: exercisePlan.exerciseType, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
         
         injectPredictors(into: session, exercisePlan: exercisePlan)
         saveContext()
@@ -393,7 +393,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///
     func injectPredictors(into session: MRManagedExerciseSession, exercisePlan: MRExercisePlan) {
         
-        session.plan = MRManagedExercisePlan.planFor(exercisePlan, location: currentLocation, inManagedObjectContext: managedObjectContext)!
+        session.plan = MRManagedExercisePlan.planForExercisePlan(exercisePlan, location: currentLocation, inManagedObjectContext: managedObjectContext)
         
         let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)
         session.labelsPredictor = predictor.map { MKAverageLabelsPredictor(json: $0.data, historySize: 3, round: roundLabel) } ?? MKAverageLabelsPredictor(historySize: 3, round: roundLabel)
@@ -488,10 +488,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     var exercisePlans: [MRExercisePlan] {
-        let userPlans = sessionPlan.next.flatMap {
-            MRManagedExercisePlan.exactPlanForId($0, location: currentLocation, inManagedObjectContext: managedObjectContext) ??
-            MRManagedExercisePlan.exactPlanForId($0, location: nil, inManagedObjectContext: managedObjectContext)
-        }
+        let userPlans = sessionPlan.next.flatMap { MRManagedExercisePlan.planForId($0, location: currentLocation, inManagedObjectContext: managedObjectContext) }
         
         let predefPlans: [MRExercisePlan] = self.predefPlans.flatMap { predefPlan in
             let alreadyIncluded = userPlans.contains { $0.templateId == predefPlan.id }
@@ -499,10 +496,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             return .Predef(plan: predefPlan)
         }
         
-        return userPlans.map { userPlan in
-            let p = MKExercisePlan(id: userPlan.id, name: userPlan.name, exerciseType: userPlan.exerciseType, plan: userPlan.plan)
-            return .UserDef(plan: p)
-        } + predefPlans
+        return userPlans.map { .UserDef(plan: $0) } + predefPlans
     }
     
     // MARK: - Core Location stack
