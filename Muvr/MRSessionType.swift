@@ -2,10 +2,20 @@ import MuvrKit
 
 enum MRSessionType {
 
+    ///
+    /// AdHoc session: "Manual" selection of the session's exercise type
+    ///
     case AdHoc(exerciseType: MKExerciseType)
+    ///
+    /// Predefined session: User selected one of the predefined exercise plan
+    ///
     case Predef(plan: MKExercisePlan)
+    ///
+    /// User session: User selected one of the past sessions
+    ///
     case UserDef(plan: MRManagedExercisePlan)
     
+    /// The exercise type associated to the session
     var exerciseType: MKExerciseType {
         switch self {
         case .AdHoc(let exerciseType): return exerciseType
