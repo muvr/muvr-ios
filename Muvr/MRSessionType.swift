@@ -40,9 +40,11 @@ private extension MKExerciseType {
     /// name generated from the exercise type
     var name: String {
         switch self {
-        case .IndoorsCardio: return "Cardio"
-        case .ResistanceWholeBody: return "Whole body"
-        case .ResistanceTargeted(let muscleGroups): return muscleGroups.map { $0.id }.joinWithSeparator(", ")
+        case .IndoorsCardio: return "Cardio workout"
+        case .ResistanceWholeBody: return "Whole body workout"
+        case .ResistanceTargeted(let muscleGroups):
+            let muscles = muscleGroups.map { $0.id }.joinWithSeparator(", ")
+            return "\(muscles) workout"
         }
     }
     
