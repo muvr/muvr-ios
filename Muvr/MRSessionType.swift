@@ -23,5 +23,27 @@ enum MRSessionType {
         case .UserDef(let plan): return plan.exerciseType
         }
     }
+    
+    /// The session's name
+    var name: String {
+        switch self {
+        case .AdHoc(let exerciseType): return exerciseType.name;
+        case .Predef(let plan): return plan.name
+        case .UserDef(let plan): return plan.name
+        }
+    }
 
+}
+
+private extension MKExerciseType {
+    
+    /// name generated from the exercise type
+    var name: String {
+        switch self {
+        case .IndoorsCardio: return "Cardio"
+        case .ResistanceWholeBody: return "Whole body"
+        case .ResistanceTargeted(let muscleGroups): return muscleGroups.map { $0.id }.joinWithSeparator(", ")
+        }
+    }
+    
 }

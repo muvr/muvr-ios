@@ -177,38 +177,23 @@ extension MRManagedExercisePlan {
         managedPlan.longitude = location?.longitude
         managedPlan.latitude = location?.latitude
         managedPlan.id = NSUUID().UUIDString
+        managedPlan.name = sessionType.name
         
         switch sessionType {
         case .AdHoc(let exerciseType):
             managedPlan.exerciseType = exerciseType
-            managedPlan.name = exerciseType.name
         case .Predef(let p):
             managedPlan.exerciseType = p.exerciseType
             managedPlan.templateId = p.id
             managedPlan.plan = p.plan
-            managedPlan.name = p.name
         case .UserDef(let mp):
             managedPlan.exerciseType = mp.exerciseType
             managedPlan.templateId = mp.templateId
             managedPlan.id = mp.id
-            managedPlan.name = mp.name
             managedPlan.plan = mp.plan
         }
         
         return managedPlan
-    }
-    
-}
-
-private extension MKExerciseType {
-    
-    /// name generated from the exercise type
-    var name: String {
-        switch self {
-        case .IndoorsCardio: return "Cardio"
-        case .ResistanceWholeBody: return "Whole body"
-        case .ResistanceTargeted(let muscleGroups): return muscleGroups.map { $0.id }.joinWithSeparator(", ")
-        }
     }
     
 }
