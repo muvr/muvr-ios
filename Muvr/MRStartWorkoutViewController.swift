@@ -9,7 +9,7 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
     @IBOutlet weak var startButton: UIButton!
     private let calendar = JTCalendarManager()
     
-    private var exerciseType: MKExerciseType? = .ResistanceTargeted(muscleGroups: [.Arms, .Shoulders, .Chest])
+    private var upcomingSession: MRSessionType? = nil
     
     override func viewDidLayoutSubviews() {
         changeButton.titleLabel?.textAlignment = .Center
@@ -28,23 +28,24 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
         
         calendar.setDate(today)
         calendar.reload()
-        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if upcomingSession == nil {
+            upcomingSession = MRAppDelegate.sharedDelegate().sessions.first
+        }
         displayDefaultWorkout()
     }
     
     private func displayDefaultWorkout() {
-        if let exerciseType = exerciseType {
-            switch exerciseType {
-            case .ResistanceTargeted(let muscles): startButton.setTitle("Start \(muscles.map { $0.id }.joinWithSeparator(", ")) workout", forState: .Normal)
-            case .IndoorsCardio: startButton.setTitle("Start cardio workout", forState: .Normal)
-            case .ResistanceWholeBody: startButton.setTitle("Start whole-body workout", forState: .Normal)
-            }
+        if let session = upcomingSession {
+            startButton.setTitle("Start \(session.name)", forState: .Normal)
         }
     }
     
     @IBAction func startWorkout(sender: UIButton) {
-        if let exerciseType = exerciseType {
-            try! MRAppDelegate.sharedDelegate().startSession(forExerciseType: exerciseType)
+        if let session = upcomingSession {
+            try! MRAppDelegate.sharedDelegate().startSession(session)
         }
     }
     
