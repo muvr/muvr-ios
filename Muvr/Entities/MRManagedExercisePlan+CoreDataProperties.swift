@@ -23,19 +23,24 @@ extension MRManagedExercisePlan : MRManagedExerciseType {
     @NSManaged var latitude: NSNumber?
     @NSManaged var longitude: NSNumber?
     /// the markov chain of exercise ids
-    @NSManaged private var managedPlan: NSData
+    @NSManaged private var managedPlan: NSData?
 
 }
 
 extension MRManagedExercisePlan {
         
     override func awakeFromFetch() {
-        plan = MKMarkovPredictor<MKExercise.Id>(json: managedPlan) { $0 as? MKExercise.Id }
+        if let data = managedPlan {
+            plan = MKMarkovPredictor<MKExercise.Id>(json: data) { $0 as? MKExercise.Id }
+        } else {
+            plan = MKMarkovPredictor<MKExercise.Id>()
+            managedPlan = plan.json { $0 }
+        }
     }
     
     override func awakeFromInsert() {
         plan = MKMarkovPredictor<MKExercise.Id>()
-        managedPlan = NSData()
+        managedPlan = plan.json { $0 }
     }
     
     func save() {

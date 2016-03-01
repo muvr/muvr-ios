@@ -18,6 +18,7 @@ extension MRManagedSessionPlan {
         fetchRequest.fetchLimit = 1
         
         let plans = try! managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedSessionPlan]
+        if let p = plans.first where p.plan == nil { p.awakeFromFetch() }
         return plans.first
     }
     
