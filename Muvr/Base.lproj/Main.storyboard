@@ -19,19 +19,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xMj-bO-G2Q" customClass="JTHorizontalCalendarView">
-                                <rect key="frame" x="0.0" y="64" width="414" height="100"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="gs5-6F-2ja"/>
-                                </constraints>
-                            </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WRL-8p-95E">
-                                <rect key="frame" x="7" y="546" width="400" height="133"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="WRL-8p-95E" secondAttribute="height" multiplier="3:1" id="uVk-9R-YSn"/>
-                                </constraints>
-                            </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="t8Q-if-Kmr" customClass="MRWorkoutButton" customModule="Muvr" customModuleProvider="target">
                                 <rect key="frame" x="80" y="240" width="255" height="255"/>
                                 <color key="backgroundColor" red="0.0" green="0.64313725489999995" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -54,25 +41,37 @@ workout</string>
                                     <action selector="startWorkout:" destination="pmY-Nl-DsG" eventType="touchUpInside" id="bRr-ip-2aL"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HIz-Nl-27v" customClass="JTHorizontalCalendarView">
+                                <rect key="frame" x="0.0" y="64" width="414" height="92"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="HIz-Nl-27v" secondAttribute="height" multiplier="9:2" id="sqr-1x-LhJ"/>
+                                </constraints>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pa4-Xb-OTx">
+                                <rect key="frame" x="15" y="551" width="384" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="pa4-Xb-OTx" secondAttribute="height" multiplier="3:1" id="zGP-wl-8HQ"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="WRL-8p-95E" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-13" id="2WY-aT-I70"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="xMj-bO-G2Q" secondAttribute="trailing" constant="-20" id="G7Z-mx-Pbb"/>
-                            <constraint firstItem="xMj-bO-G2Q" firstAttribute="top" secondItem="Q74-HE-1qC" secondAttribute="bottom" id="N4r-Ob-425"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="WRL-8p-95E" secondAttribute="trailing" constant="-13" id="X2m-5V-cGx"/>
-                            <constraint firstItem="xMj-bO-G2Q" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-20" id="c5B-Dy-ant"/>
+                            <constraint firstItem="pa4-Xb-OTx" firstAttribute="centerX" secondItem="Xwy-pg-dpP" secondAttribute="centerX" id="26d-N1-Kzd"/>
+                            <constraint firstItem="pa4-Xb-OTx" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-5" id="IAi-rg-3gg"/>
+                            <constraint firstItem="HIz-Nl-27v" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-20" id="Rwa-Hu-s8Y"/>
+                            <constraint firstItem="Q1S-ZS-XIG" firstAttribute="top" secondItem="pa4-Xb-OTx" secondAttribute="bottom" constant="8" id="cc9-pz-o14"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="HIz-Nl-27v" secondAttribute="trailing" constant="-20" id="dOn-4J-Rap"/>
                             <constraint firstItem="t8Q-if-Kmr" firstAttribute="centerX" secondItem="Xwy-pg-dpP" secondAttribute="centerX" id="fAu-XB-exd"/>
                             <constraint firstItem="t8Q-if-Kmr" firstAttribute="centerY" secondItem="Xwy-pg-dpP" secondAttribute="centerY" id="fXZ-oe-DhN"/>
                             <constraint firstItem="t8Q-if-Kmr" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="60" id="iDc-pc-BIU"/>
-                            <constraint firstItem="Q1S-ZS-XIG" firstAttribute="top" secondItem="WRL-8p-95E" secondAttribute="bottom" constant="8" id="t2K-fb-lHL"/>
+                            <constraint firstItem="HIz-Nl-27v" firstAttribute="top" secondItem="Q74-HE-1qC" secondAttribute="bottom" id="pdg-zR-Qr7"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Start workout" image="exercise" selectedImage="exercise_selected" id="EWj-fs-vma"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
-                        <outlet property="calendarView" destination="xMj-bO-G2Q" id="vXa-KD-pCE"/>
-                        <outlet property="scrollView" destination="WRL-8p-95E" id="CMN-WL-qb6"/>
+                        <outlet property="calendarView" destination="HIz-Nl-27v" id="F1d-F6-O0C"/>
+                        <outlet property="scrollView" destination="pa4-Xb-OTx" id="xqo-Fz-oJN"/>
                         <outlet property="startButton" destination="t8Q-if-Kmr" id="Uij-WT-sFb"/>
                     </connections>
                 </viewController>
@@ -83,7 +82,7 @@ workout</string>
         <!--Manual-->
         <scene sceneID="JL1-Iw-8WF">
             <objects>
-                <viewController storyboardIdentifier="adhoc" id="e3O-P6-qPY" customClass="MRManualViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="adhoc" automaticallyAdjustsScrollViewInsets="NO" id="e3O-P6-qPY" customClass="MRManualViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6zv-lr-PxA"/>
                         <viewControllerLayoutGuide type="bottom" id="5Qi-ZJ-mwA"/>

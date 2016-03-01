@@ -7,11 +7,14 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
     @IBOutlet weak var calendarView: JTHorizontalCalendarView!
     @IBOutlet weak var startButton: MRWorkoutButton!
     @IBOutlet weak var scrollView: UIScrollView!
+    private var manualViewController: MRManualViewController!
     private let calendar = JTCalendarManager()
     
     private var upcomingSessions: [MRSessionType] = []
     
     override func viewDidLoad() {
+        manualViewController = storyboard?.instantiateViewControllerWithIdentifier("adhoc") as! MRManualViewController
+        
         let today = NSDate()
         calendar.settings.weekModeEnabled = true
         calendar.contentView = calendarView
@@ -72,9 +75,7 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
     }
     
     func selectAnotherWorkout() {
-        if let controller = storyboard?.instantiateViewControllerWithIdentifier("adhoc") {
-            showViewController(controller, sender: self)
-        }
+        showViewController(manualViewController, sender: self)
     }
     
     @IBAction func startWorkout(sender: MRWorkoutButton) {
