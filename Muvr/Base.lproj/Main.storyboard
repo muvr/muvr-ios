@@ -19,46 +19,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="enz-nd-VyD">
-                                <rect key="frame" x="289" y="563" width="105" height="105"/>
-                                <color key="backgroundColor" red="1" green="0.64494423063793105" blue="0.3478717672413793" alpha="1" colorSpace="calibratedRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="Start another workout" label="Start another workout"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="enz-nd-VyD" secondAttribute="height" multiplier="1:1" id="bQy-Q0-LSI"/>
-                                    <constraint firstAttribute="width" constant="105" id="qtA-rr-Hol"/>
-                                </constraints>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal">
-                                    <string key="title">Start
-another
-workout</string>
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="e3O-P6-qPY" kind="show" id="NDK-2F-fOk"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xMj-bO-G2Q" customClass="JTHorizontalCalendarView">
                                 <rect key="frame" x="0.0" y="64" width="414" height="100"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="TSp-yb-XET"/>
+                                    <constraint firstAttribute="height" constant="100" id="gs5-6F-2ja"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="t8Q-if-Kmr">
-                                <rect key="frame" x="91" y="252" width="232" height="232"/>
-                                <color key="backgroundColor" red="0.0" green="0.64494423063793105" blue="0.46357758620689654" alpha="1" colorSpace="calibratedRGB"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WRL-8p-95E">
+                                <rect key="frame" x="7" y="546" width="400" height="133"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="WRL-8p-95E" secondAttribute="height" multiplier="3:1" id="uVk-9R-YSn"/>
+                                </constraints>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="t8Q-if-Kmr" customClass="MRWorkoutButton" customModule="Muvr" customModuleProvider="target">
+                                <rect key="frame" x="80" y="240" width="255" height="255"/>
+                                <color key="backgroundColor" red="0.0" green="0.64313725489999995" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Start workout" label="Start workout"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="t8Q-if-Kmr" secondAttribute="height" multiplier="1:1" id="g1M-zo-Lak"/>
+                                    <constraint firstAttribute="width" secondItem="t8Q-if-Kmr" secondAttribute="height" multiplier="1:1" id="YEN-4W-V5u"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal">
                                     <string key="title">Start
 workout</string>
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                        <color key="value" red="0.0" green="0.64313725489999995" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="startWorkout:" destination="pmY-Nl-DsG" eventType="touchUpInside" id="bRr-ip-2aL"/>
                                 </connections>
@@ -66,21 +57,22 @@ workout</string>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="t8Q-if-Kmr" firstAttribute="centerY" secondItem="Xwy-pg-dpP" secondAttribute="centerY" id="7Fv-VT-cxV"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="enz-nd-VyD" secondAttribute="trailing" id="DkN-PM-k2M"/>
-                            <constraint firstItem="xMj-bO-G2Q" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-20" id="Eo6-rw-H8F"/>
-                            <constraint firstItem="Q1S-ZS-XIG" firstAttribute="top" secondItem="enz-nd-VyD" secondAttribute="bottom" constant="19" id="Fid-RF-5dv"/>
-                            <constraint firstItem="xMj-bO-G2Q" firstAttribute="top" secondItem="Q74-HE-1qC" secondAttribute="bottom" id="NoL-lP-9Ot"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="xMj-bO-G2Q" secondAttribute="trailing" constant="-20" id="VZE-Eu-3o2"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="t8Q-if-Kmr" secondAttribute="trailing" constant="71" id="c6e-l2-B4h"/>
-                            <constraint firstItem="t8Q-if-Kmr" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="71" id="qJ0-ln-sz1"/>
+                            <constraint firstItem="WRL-8p-95E" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-13" id="2WY-aT-I70"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="xMj-bO-G2Q" secondAttribute="trailing" constant="-20" id="G7Z-mx-Pbb"/>
+                            <constraint firstItem="xMj-bO-G2Q" firstAttribute="top" secondItem="Q74-HE-1qC" secondAttribute="bottom" id="N4r-Ob-425"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="WRL-8p-95E" secondAttribute="trailing" constant="-13" id="X2m-5V-cGx"/>
+                            <constraint firstItem="xMj-bO-G2Q" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-20" id="c5B-Dy-ant"/>
+                            <constraint firstItem="t8Q-if-Kmr" firstAttribute="centerX" secondItem="Xwy-pg-dpP" secondAttribute="centerX" id="fAu-XB-exd"/>
+                            <constraint firstItem="t8Q-if-Kmr" firstAttribute="centerY" secondItem="Xwy-pg-dpP" secondAttribute="centerY" id="fXZ-oe-DhN"/>
+                            <constraint firstItem="t8Q-if-Kmr" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="60" id="iDc-pc-BIU"/>
+                            <constraint firstItem="Q1S-ZS-XIG" firstAttribute="top" secondItem="WRL-8p-95E" secondAttribute="bottom" constant="8" id="t2K-fb-lHL"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Start workout" image="exercise" selectedImage="exercise_selected" id="EWj-fs-vma"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="calendarView" destination="xMj-bO-G2Q" id="vXa-KD-pCE"/>
-                        <outlet property="changeButton" destination="enz-nd-VyD" id="5sZ-cQ-c1Z"/>
+                        <outlet property="scrollView" destination="WRL-8p-95E" id="CMN-WL-qb6"/>
                         <outlet property="startButton" destination="t8Q-if-Kmr" id="Uij-WT-sFb"/>
                     </connections>
                 </viewController>
@@ -91,7 +83,7 @@ workout</string>
         <!--Manual-->
         <scene sceneID="JL1-Iw-8WF">
             <objects>
-                <viewController id="e3O-P6-qPY" customClass="MRManualViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="adhoc" id="e3O-P6-qPY" customClass="MRManualViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6zv-lr-PxA"/>
                         <viewControllerLayoutGuide type="bottom" id="5Qi-ZJ-mwA"/>
@@ -100,18 +92,8 @@ workout</string>
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHc-BC-6jz">
-                                <rect key="frame" x="20" y="628" width="374" height="36"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="Ieh-rf-qQ1"/>
-                                </constraints>
-                                <state key="normal" title="Start"/>
-                                <connections>
-                                    <action selector="start" destination="e3O-P6-qPY" eventType="touchUpInside" id="EkV-IY-mo8"/>
-                                </connections>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="iZl-Lw-dr4">
-                                <rect key="frame" x="0.0" y="64" width="414" height="547"/>
+                                <rect key="frame" x="0.0" y="20" width="414" height="643"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="ZBc-n5-9HC">
@@ -128,18 +110,24 @@ workout</string>
                                     <outlet property="delegate" destination="e3O-P6-qPY" id="EaD-7T-vxu"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHc-BC-6jz">
+                                <rect key="frame" x="20" y="680" width="374" height="36"/>
+                                <state key="normal" title="Start"/>
+                                <connections>
+                                    <action selector="start" destination="e3O-P6-qPY" eventType="touchUpInside" id="EkV-IY-mo8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="leadingMargin" secondItem="OHc-BC-6jz" secondAttribute="leading" id="4PB-of-Plg"/>
-                            <constraint firstItem="OHc-BC-6jz" firstAttribute="centerX" secondItem="rtO-JM-4Zc" secondAttribute="centerX" id="88j-nu-r3m"/>
-                            <constraint firstItem="iZl-Lw-dr4" firstAttribute="leading" secondItem="rtO-JM-4Zc" secondAttribute="leadingMargin" constant="-20" id="HV0-1M-tYq"/>
-                            <constraint firstItem="iZl-Lw-dr4" firstAttribute="top" secondItem="6zv-lr-PxA" secondAttribute="bottom" id="Iu9-HC-zhz"/>
-                            <constraint firstItem="5Qi-ZJ-mwA" firstAttribute="top" secondItem="iZl-Lw-dr4" secondAttribute="bottom" constant="76" id="SMZ-Tj-BbS"/>
-                            <constraint firstItem="5Qi-ZJ-mwA" firstAttribute="top" secondItem="OHc-BC-6jz" secondAttribute="bottom" constant="23" id="WaB-TC-5H6"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="OHc-BC-6jz" secondAttribute="trailing" id="iYM-LQ-iOz"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="iZl-Lw-dr4" secondAttribute="trailing" constant="-20" id="mi4-uc-aH7"/>
-                            <constraint firstItem="OHc-BC-6jz" firstAttribute="top" secondItem="iZl-Lw-dr4" secondAttribute="bottom" constant="17" id="z2n-C2-l4s"/>
+                            <constraint firstItem="5Qi-ZJ-mwA" firstAttribute="top" secondItem="iZl-Lw-dr4" secondAttribute="bottom" constant="73" id="9jm-AB-8ww"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="iZl-Lw-dr4" secondAttribute="trailing" constant="-20" id="F9b-5A-Yvo"/>
+                            <constraint firstItem="5Qi-ZJ-mwA" firstAttribute="top" secondItem="OHc-BC-6jz" secondAttribute="bottom" constant="20" id="K4j-of-lvN"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="OHc-BC-6jz" secondAttribute="leading" id="LIp-v2-pb8"/>
+                            <constraint firstItem="iZl-Lw-dr4" firstAttribute="top" secondItem="6zv-lr-PxA" secondAttribute="bottom" id="Lj3-A8-QBR"/>
+                            <constraint firstItem="iZl-Lw-dr4" firstAttribute="leading" secondItem="rtO-JM-4Zc" secondAttribute="leadingMargin" constant="-20" id="h5B-ZK-TOW"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="OHc-BC-6jz" secondAttribute="trailing" id="ou3-CO-UCN"/>
+                            <constraint firstItem="OHc-BC-6jz" firstAttribute="top" secondItem="iZl-Lw-dr4" secondAttribute="bottom" constant="17" id="we4-SX-27p"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Manual" image="exercise" selectedImage="exercise_selected" id="fi2-5k-ObL"/>

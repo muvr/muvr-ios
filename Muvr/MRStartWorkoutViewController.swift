@@ -5,46 +5,80 @@ import JTCalendar
 class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
 
     @IBOutlet weak var calendarView: JTHorizontalCalendarView!
-    @IBOutlet weak var changeButton: UIButton!
-    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var startButton: MRWorkoutButton!
+    @IBOutlet weak var scrollView: UIScrollView!
     private let calendar = JTCalendarManager()
     
-    private var upcomingSession: MRSessionType? = nil
-    
-    override func viewDidLayoutSubviews() {
-        changeButton.titleLabel?.textAlignment = .Center
-        changeButton.layer.cornerRadius = changeButton.frame.width / 2
-        
-        startButton.titleLabel?.textAlignment = .Center
-        startButton.layer.cornerRadius =  startButton.frame.height / 2
-    }
+    private var upcomingSessions: [MRSessionType] = []
     
     override func viewDidLoad() {
         let today = NSDate()
-        calendar.menuView = JTCalendarMenuView()
-        calendar.contentView = calendarView
         calendar.settings.weekModeEnabled = true
+        calendar.contentView = calendarView
         calendar.delegate = self
-        
         calendar.setDate(today)
         calendar.reload()
     }
     
     override func viewWillAppear(animated: Bool) {
-        if upcomingSession == nil {
-            upcomingSession = MRAppDelegate.sharedDelegate().sessions.first
-        }
-        displayDefaultWorkout()
+        upcomingSessions = MRAppDelegate.sharedDelegate().sessions
+        displayWorkouts()
     }
     
-    private func displayDefaultWorkout() {
-        if let session = upcomingSession {
-            startButton.setTitle("Start \(session.name)", forState: .Normal)
+    ///
+    /// Compute the buttons' frames after scrollView layout
+    ///
+    override func viewDidLayoutSubviews() {
+        let buttonWidth = scrollView.frame.width / 3
+        let buttonPadding: CGFloat = 5
+        scrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(scrollView.subviews.count), scrollView.frame.height)
+        for (index, button) in scrollView.subviews.enumerate() {
+            button.frame = CGRectMake(CGFloat(index) * buttonWidth + (buttonPadding / 2), buttonPadding, buttonWidth - buttonPadding, buttonWidth - buttonPadding)
+        }
+    }
+
+    
+    private func displayWorkouts() {
+        if let session = upcomingSessions.first {
+            startButton.session = session
+        }
+        
+        scrollView.subviews.forEach { $0.removeFromSuperview() }
+        
+        let buttonWidth = scrollView.frame.width / 3
+        scrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(upcomingSessions.count), scrollView.frame.height)
+        let buttonColor = UIColor(colorLiteralRed: 0, green: 164 / 255, blue: 118 / 255, alpha: 1.0)
+        
+        if upcomingSessions.count > 1 {
+            for session in upcomingSessions[1..<upcomingSessions.count] {
+                let button = MRWorkoutButton(type: UIButtonType.System)
+                button.color = buttonColor
+                button.session = session
+                button.setTitleColor(buttonColor, forState: .Normal)
+                button.addTarget(self, action: #selector(MRStartWorkoutViewController.startWorkout(_:)), forControlEvents: [.TouchUpInside])
+                scrollView.addSubview(button)
+            }
+        }
+        
+        // add "Start another workout" button
+        let button = MRWorkoutButton(type: UIButtonType.System)
+        button.color = .orangeColor()
+        button.backgroundColor = .orangeColor()
+        button.setTitleColor(.whiteColor(), forState: .Normal)
+        button.setTitle("Start another workout", forState: .Normal)
+        button.addTarget(self, action: #selector(MRStartWorkoutViewController.selectAnotherWorkout), forControlEvents: [.TouchUpInside])
+        scrollView.addSubview(button)
+        
+    }
+    
+    func selectAnotherWorkout() {
+        if let controller = storyboard?.instantiateViewControllerWithIdentifier("adhoc") {
+            showViewController(controller, sender: self)
         }
     }
     
-    @IBAction func startWorkout(sender: UIButton) {
-        if let session = upcomingSession {
+    @IBAction func startWorkout(sender: MRWorkoutButton) {
+        if let session = sender.session {
             try! MRAppDelegate.sharedDelegate().startSession(session)
         }
     }
