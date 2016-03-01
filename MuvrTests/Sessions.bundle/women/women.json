@@ -1,4 +1,8 @@
 {
+    "women": {
+        "SA": 0.60
+    },
+    
     "women workouts: lowerbody (day 1) ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
         "LA" : 0.72,
         "WL" : 0.01,

@@ -1,4 +1,8 @@
 {
+    "triathlon": {
+        "SA": 0.83
+    },
+    
     "Endurance session #1 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Legs, MuvrKit.MKMuscleGroup.Shoulders])" : {
         "LA" : 0.50,
         "WL" : 0.34,

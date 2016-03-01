@@ -180,8 +180,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         authorizeHealthKit()
         
-        sessionPlan = MRManagedSessionPlan.find(inManagedObjectContext: managedObjectContext) ??
-            MRManagedSessionPlan.insertNewObject(MKMarkovPredictor<MKExercisePlan.Id>(), inManagedObjectContext: managedObjectContext)
+        loadSessionPlan()
         
         // main initialization
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -226,6 +225,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
                 NSLog("Failed to get HealthKit authorisation: \(error)")
             }
         }
+    }
+    
+    func loadSessionPlan() {
+        sessionPlan = MRManagedSessionPlan.find(inManagedObjectContext: managedObjectContext) ??
+            MRManagedSessionPlan.insertNewObject(MKMarkovPredictor<MKExercisePlan.Id>(), inManagedObjectContext: managedObjectContext)
     }
     
     func applicationDidBecomeActive(application: UIApplication) {

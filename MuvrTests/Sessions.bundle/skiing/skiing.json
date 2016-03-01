@@ -1,4 +1,8 @@
 {
+    "skiing": {
+        "SA": 0.66
+    },
+    
     "skiing workouts #1: lowerbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
         "LA" : 0.55,
         "WL" : 0.06,

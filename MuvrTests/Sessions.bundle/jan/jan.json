@@ -1,4 +1,8 @@
 {
+    "jan": {
+        "SA": 0.68
+    },
+    
     "Six group session 1 with mostly linear W; mostly constant R,D,I; with tiredness. ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms])" : {
         "LA" : 0.62,
         "WL" : 1.21,

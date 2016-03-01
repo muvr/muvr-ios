@@ -1,4 +1,8 @@
 {
+    "lean": {
+        "SA": 0.55
+    },
+    
     "Lean training #1: back and biceps ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Shoulders])" : {
         "LA" : 0.33,
         "WL" : 0.14,

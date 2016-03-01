@@ -40,6 +40,17 @@ extension MRManagedExercisePlan {
     
 }
 
+extension MRManagedSessionPlan {
+    
+    static func deleteAll(inManagedObjectContext managedObjectContext: NSManagedObjectContext) throws {
+        let fetchReq = NSFetchRequest(entityName: "MRManagedSessionPlan")
+        let deleteReq = NSBatchDeleteRequest(fetchRequest: fetchReq)
+        try managedObjectContext.executeRequest(deleteReq)
+        try managedObjectContext.save()
+    }
+    
+}
+
 extension MRAppDelegate {
     
     func resetLabelsPredictors() {
@@ -48,6 +59,11 @@ extension MRAppDelegate {
     
     func resetExercisePlans() {
         try! MRManagedExercisePlan.deleteAll(inManagedObjectContext: managedObjectContext)
+    }
+    
+    func resetSessionPlan() {
+        try! MRManagedSessionPlan.deleteAll(inManagedObjectContext: managedObjectContext)
+        self.loadSessionPlan()
     }
     
 }
@@ -65,19 +81,21 @@ extension MRAppDelegate {
 class MRSessionsRealDataTests : XCTestCase {
     
     private typealias SessionName = String
-    private typealias EvaluationResult = (SessionName, MKExerciseType, MRExerciseSessionEvaluator.Result) // TODO Result should not be an array
+    private typealias EvaluationResult = (SessionName, MKExerciseType, MRExerciseSessionEvaluator.Result, Bool)
     private typealias SessionScore = [Score]
     
     private enum Score {
         case ExerciseAccuracy(value: Double)
         case LabelAccuracy(value: Double)
         case WeightedLoss(value: Double)
+        case SessionAccuracy(value: Double)
         
         var value: Double {
             switch self {
             case .ExerciseAccuracy(let v): return v
             case .LabelAccuracy(let v): return v
             case .WeightedLoss(let v): return v
+            case .SessionAccuracy(let v): return v
             }
         }
         
@@ -91,6 +109,7 @@ class MRSessionsRealDataTests : XCTestCase {
             case .ExerciseAccuracy: return "EA"
             case .LabelAccuracy: return "LA"
             case .WeightedLoss: return "WL"
+            case .SessionAccuracy: return "SA"
             }
         }
         
@@ -99,6 +118,7 @@ class MRSessionsRealDataTests : XCTestCase {
             case .ExerciseAccuracy: return "Exercise Accuracy"
             case .LabelAccuracy: return "Label Accuracy"
             case .WeightedLoss: return "Weighted Loss"
+            case .SessionAccuracy: return "Session Accuracy"
             }
         }
         
@@ -107,6 +127,7 @@ class MRSessionsRealDataTests : XCTestCase {
             case "EA": self = .ExerciseAccuracy(value: value)
             case "LA": self = .LabelAccuracy(value: value)
             case "WL": self = .WeightedLoss(value: value)
+            case "SA": self = .SessionAccuracy(value: value)
             default: return nil
             }
         }
@@ -124,6 +145,9 @@ class MRSessionsRealDataTests : XCTestCase {
             case .WeightedLoss:
                 XCTAssertLessThanOrEqual(p, e, "Weighted loss for \(session)")
                 return p <= e
+            case .SessionAccuracy:
+                XCTAssertGreaterThanOrEqual(p, e, "Session accuracy for \(session)")
+                return p >= e
             }
         }
     }
@@ -143,20 +167,23 @@ class MRSessionsRealDataTests : XCTestCase {
     private func runScenario(app: MRAppDelegate, scenario: String) -> String {
         app.resetLabelsPredictors()
         app.resetExercisePlans()
+        app.resetSessionPlan()
         
         var text: String = "SCENARIO \(scenario)\n"
         // Load expected scores for this scenario
         var expectedScores = readExpectedScores(scenario)
-        var sessions = 0
-        var validSessions = 0
+        var sessions = 0 // number of sessions in the scenario
+        var validSessions = 0 // number of sessions matching expected threshold
+        var correctSessions = 0 // number of sessions types correctly predicted
         
         // Evaluate count sessions, giving the system the opportunity to learn the users
         // journey through the sessions
         let evaluatedSessions: [EvaluationResult] = readSessions(app.exercisePropertiesForExerciseId, from: scenario).map { evalSession(app, loadedSession: $0) }
         
         // Check that each session in this scenario meet the expected criteria
-        for (name, _, result) in evaluatedSessions {
+        for (name, _, result, correctSession) in evaluatedSessions {
             sessions += 1
+            if correctSession { correctSessions += 1 }
             
             // Compute session's score: accuracy, loss, ...
             var sessionScore: SessionScore = []
@@ -181,6 +208,14 @@ class MRSessionsRealDataTests : XCTestCase {
                 }
             }
         }
+        let score: Score = .SessionAccuracy(value: Double(correctSessions) / Double(sessions))
+        if let expectedScore = expectedScores[scenario] {
+            let exp = expectedScore.filter { $0.name == score.name }.first
+            if let expected = exp {
+                let isBetter = score.isBetterThan(expected, session: scenario)
+                text.appendContentsOf("\n\(isBetter ? "✓" : "✗") \(score.description): \(expected.truncValue) -> \(score.truncValue)\n")
+            }
+        }
         text.appendContentsOf("\nDone SCENARIO \(scenario) with \(validSessions)/\(sessions) valid sessions\n")
         
         return text
@@ -198,11 +233,18 @@ class MRSessionsRealDataTests : XCTestCase {
         let name = "\(loadedSession.description) \(loadedSession.exerciseType)"
         print("\nEvaluating session \(loadedSession.description)")
         
+        var correctSession = false
+        if let s = app.sessions.first {
+            correctSession = s.exerciseType == loadedSession.exerciseType
+            print("Predicted session: \(s.exerciseType) \(correctSession ? "and": "but") was \(loadedSession.exerciseType)")
+        } else {
+            print("Predicted session: nothing but was \(loadedSession.exerciseType)")
+        }
         try! app.startSession(.AdHoc(exerciseType: loadedSession.exerciseType))
         let result = MRExerciseSessionEvaluator(loadedSession: loadedSession).evaluate(app.currentSession!)
         try! app.endCurrentSession()
         
-        return (name, loadedSession.exerciseType, result)
+        return (name, loadedSession.exerciseType, result, correctSession)
     }
     
     private func readExpectedScores(directory: String) -> [SessionName: SessionScore] {

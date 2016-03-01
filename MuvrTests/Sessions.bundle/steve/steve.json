@@ -1,4 +1,8 @@
 {
+    "steve": {
+        "SA": 0.81
+    },
+    
     "Steve's \"pull\" session #1 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back])" : {
         "LA" : 0.66,
         "WL" : 0.01,

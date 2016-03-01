@@ -1,4 +1,8 @@
 {
+    "linear": {
+        "SA": 0.66
+    },
+    
     "Trivial session 1 with increasing linear W; constant R,D,I for arms ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms])" : {
         "LA" : 0.78,
         "WL" : 0.24,

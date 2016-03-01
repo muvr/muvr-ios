@@ -1,4 +1,8 @@
 {
+    "beginner": {
+        "SA": 0.55
+    },
+    
     "Beginner session week 1 day 1 ResistanceTargeted([MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Legs, MuvrKit.MKMuscleGroup.Shoulders])" : {
         "LA" : 0.53,
         "WL" : 0.07,
