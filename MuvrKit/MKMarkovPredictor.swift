@@ -51,10 +51,9 @@ public class MKMarkovPredictor<E : Hashable> {
     /// states are known yet.
     ///
     public var next: [E] {
-        if let first = states.states.first where states.count == 1 {
-            return [first]
-        }
-        return uniq(chain.transitionProbabilities(states).sort { l, r in l.1 > r.1 }.map { $0.0 })
+        // makes sure latest state is included in the predictions
+        let last = states.states.last.map { [$0] } ?? []
+        return uniq(chain.transitionProbabilities(states).sort { l, r in l.1 > r.1 }.map { $0.0 } + last)
     }
     
     // Unique filter, keeping order

@@ -11,7 +11,7 @@ class MKMarkovPredictorTests : XCTestCase {
             let completed = exercises[i]
             let expected = exercises[i + 1]
             plan.insert(completed)
-         
+            
             return plan.next.first.map { $0 == expected} ?? true
         }
         let successes = Double(estimates.filter { $0 == true }.count)
@@ -32,6 +32,16 @@ class MKMarkovPredictorTests : XCTestCase {
             "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension", "biceps-curl", "triceps-extension"])
         XCTAssertGreaterThan(s, 0.80)
         XCTAssertLessThan(f, 0.2)
+    }
+    
+    func testNextReturnsAllKnownStates() {
+        let p = MKMarkovPredictor<Int>()
+        XCTAssertEqual(p.next.count, 0)
+        
+        for s in 1..<50 {
+            p.insert(s)
+            XCTAssertEqual(p.next.count, s)
+        }
     }
     
 }
