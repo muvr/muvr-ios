@@ -21,6 +21,8 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
         calendar.delegate = self
         calendar.setDate(today)
         calendar.reload()
+        
+        setTitleImage(named: "muvr_logo_white")
     }
     
     override func viewWillAppear(animated: Bool) {

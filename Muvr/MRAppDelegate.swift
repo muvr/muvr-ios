@@ -372,11 +372,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         // display ``SessionViewController``
         let svc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as! MRSessionViewController
         svc.setSession(session)
-        //window?.rootViewController!.presentViewController(svc!, animated: true, completion: nil)
         if let nvc = window?.rootViewController?.childViewControllers.first as? UINavigationController {
             nvc.showViewController(svc, sender: session)
             svc.navigationItem.setHidesBackButton(true, animated: false)
-            svc.title = "Muvr"
         }
         sessionViewController = svc
         

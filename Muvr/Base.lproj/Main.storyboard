@@ -7,7 +7,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Muvr-->
+        <!--Start workout-->
         <scene sceneID="efw-sW-bnd">
             <objects>
                 <viewController id="pmY-Nl-DsG" customClass="MRStartWorkoutViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
@@ -16,11 +16,23 @@
                         <viewControllerLayoutGuide type="bottom" id="Q1S-ZS-XIG"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Xwy-pg-dpP">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="t8Q-if-Kmr" customClass="MRWorkoutButton" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="80" y="215" width="255" height="255"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HIz-Nl-27v" customClass="JTHorizontalCalendarView">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="92"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="HIz-Nl-27v" secondAttribute="height" multiplier="9:2" id="sqr-1x-LhJ"/>
+                                </constraints>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pa4-Xb-OTx">
+                                <rect key="frame" x="15" y="487" width="384" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="pa4-Xb-OTx" secondAttribute="height" multiplier="3:1" id="zGP-wl-8HQ"/>
+                                </constraints>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="t8Q-if-Kmr" customClass="MRWorkoutButton" customModule="Muvr" customModuleProvider="target">
+                                <rect key="frame" x="80" y="165" width="255" height="255"/>
                                 <color key="backgroundColor" red="0.0" green="0.64313725489999995" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Start workout" label="Start workout"/>
                                 <constraints>
@@ -41,34 +53,22 @@ workout</string>
                                     <action selector="startWorkout:" destination="pmY-Nl-DsG" eventType="touchUpInside" id="bRr-ip-2aL"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HIz-Nl-27v" customClass="JTHorizontalCalendarView">
-                                <rect key="frame" x="0.0" y="64" width="414" height="92"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="HIz-Nl-27v" secondAttribute="height" multiplier="9:2" id="sqr-1x-LhJ"/>
-                                </constraints>
-                            </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pa4-Xb-OTx">
-                                <rect key="frame" x="15" y="551" width="384" height="128"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="pa4-Xb-OTx" secondAttribute="height" multiplier="3:1" id="zGP-wl-8HQ"/>
-                                </constraints>
-                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="pa4-Xb-OTx" firstAttribute="centerX" secondItem="Xwy-pg-dpP" secondAttribute="centerX" id="26d-N1-Kzd"/>
                             <constraint firstItem="pa4-Xb-OTx" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-5" id="IAi-rg-3gg"/>
+                            <constraint firstItem="t8Q-if-Kmr" firstAttribute="top" secondItem="HIz-Nl-27v" secondAttribute="bottom" constant="73" id="O5q-3o-4G9"/>
                             <constraint firstItem="HIz-Nl-27v" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-20" id="Rwa-Hu-s8Y"/>
                             <constraint firstItem="Q1S-ZS-XIG" firstAttribute="top" secondItem="pa4-Xb-OTx" secondAttribute="bottom" constant="8" id="cc9-pz-o14"/>
                             <constraint firstAttribute="trailingMargin" secondItem="HIz-Nl-27v" secondAttribute="trailing" constant="-20" id="dOn-4J-Rap"/>
                             <constraint firstItem="t8Q-if-Kmr" firstAttribute="centerX" secondItem="Xwy-pg-dpP" secondAttribute="centerX" id="fAu-XB-exd"/>
-                            <constraint firstItem="t8Q-if-Kmr" firstAttribute="centerY" secondItem="Xwy-pg-dpP" secondAttribute="centerY" id="fXZ-oe-DhN"/>
                             <constraint firstItem="t8Q-if-Kmr" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="60" id="iDc-pc-BIU"/>
                             <constraint firstItem="HIz-Nl-27v" firstAttribute="top" secondItem="Q74-HE-1qC" secondAttribute="bottom" id="pdg-zR-Qr7"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Start workout" image="exercise" selectedImage="exercise_selected" id="EWj-fs-vma"/>
-                    <navigationItem key="navigationItem" title="Muvr" id="YY0-LO-IN0"/>
+                    <navigationItem key="navigationItem" id="YY0-LO-IN0"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="calendarView" destination="HIz-Nl-27v" id="F1d-F6-O0C"/>
@@ -319,7 +319,7 @@ workout</string>
                 <navigationController title="Muvr" id="orP-HL-QbD" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Exercise" image="exercise" selectedImage="exercise_selected" id="zTv-eN-7Y7"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="mpd-bR-fvC">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="mpd-bR-fvC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.30196078430000001" green="0.53333333329999999" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>

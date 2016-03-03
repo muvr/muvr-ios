@@ -66,6 +66,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     override func viewDidLoad() {
         mainExerciseView.delegate = self
         
+        setTitleImage(named: "muvr_logo_white")
+        
         UIView.appearanceWhenContainedInInstancesOfClasses([MRSessionViewController.self]).tintColor = UIColor.blackColor()
         
         comingUpViewController = storyboard!.instantiateViewControllerWithIdentifier("ComingUpViewController") as! MRSessionComingUpViewController
@@ -134,8 +136,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     ///
     private func switchToViewController(controller: UIViewController, fromRight: Bool = true) {
         /// The frame where the details view are displayed (takes all available space below the main circle view)
-        let y = mainExerciseView.frame.origin.y + mainExerciseView.frame.height + 20
-        let frame = CGRectMake(0, y, view.bounds.width, view.bounds.height - y)
+        let y = mainExerciseView.frame.height
+        let frame = CGRectMake(0, y, view.bounds.width, (tabBarController?.tabBar.frame.origin.y ?? view.bounds.height) - y)
         
         if let previousController = childViewControllers.first {
             let leftFrame = CGRectMake(-frame.width, frame.origin.y, frame.width, frame.height)

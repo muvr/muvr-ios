@@ -63,6 +63,8 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     // On load, we set up the views and hide the back button by default
     // We also set up the < symbol for the back button
     override func viewDidLoad() {
+        setTitleImage(named: "muvr_logo_white")
+        
         pieChartBackButton.hidden = true
         
         pieChartView.delegate = self

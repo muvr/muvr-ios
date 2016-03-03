@@ -7,4 +7,8 @@ class MRProfileViewController : UIViewController {
         MRAppDelegate.sharedDelegate().initialSetup()
     }
     
+    override func viewDidLoad() {
+        setTitleImage(named: "muvr_logo_white")
+    }
+    
 }
