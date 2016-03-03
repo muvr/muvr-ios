@@ -485,25 +485,32 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     // MARK: - Exercise plans
     
-    private var predefPlans: [MKExercisePlan] {
+    ///
+    /// the list of predefined exercise plans
+    ///
+    private var predefinedPlans: [MKExercisePlan] {
         let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
         return bundle.pathsForResourcesOfType("json", inDirectory: nil).flatMap { MKExercisePlan(json: NSData(contentsOfFile: $0)!) }
     }
     
+    ///
+    /// the ordered list of the upcoming sessions
+    /// (including all predefined sessions)
+    ///
     var sessions: [MRSessionType] {
         let userPlans = sessionPlan.next.flatMap { MRManagedExercisePlan.planForId($0, location: currentLocation, inManagedObjectContext: managedObjectContext) }
         
-        let predefPlans: [MRSessionType] = self.predefPlans.flatMap { predefPlan in
+        let predefPlans: [MRSessionType] = predefinedPlans.flatMap { predefPlan in
             let alreadyIncluded = userPlans.contains { userPlan in
                 if let templateId = userPlan.templateId { return templateId == predefPlan.id }
                 return false
             }
             guard !alreadyIncluded else { return nil }
-            return .Predef(plan: predefPlan)
+            return .Predefined(plan: predefPlan)
         }
         
-        return userPlans.map { .UserDef(plan: $0) } + predefPlans
+        return userPlans.map { .UserDefined(plan: $0) } + predefPlans
     }
     
     // MARK: - Core Location stack

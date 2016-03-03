@@ -1,5 +1,10 @@
 ///
 /// An exercise plan is a sequence of exercises
+/// The exercise sequence is embedded into a Markov predictor
+/// in order to provide predictions about the next exercise the user is
+/// likely to perform.
+/// This can be used to provide 'pre-defined' exercise plan to the user
+/// or allow a user to 'export' his own exercise plans.
 ///
 public struct MKExercisePlan {
     

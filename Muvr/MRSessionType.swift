@@ -1,5 +1,9 @@
 import MuvrKit
 
+///
+/// the session content's (exercise type and plan)
+/// It indicates the 'origin' of the session (adhoc, predefined, user session)
+///
 enum MRSessionType {
 
     ///
@@ -9,18 +13,18 @@ enum MRSessionType {
     ///
     /// Predefined session: User selected one of the predefined exercise plan
     ///
-    case Predef(plan: MKExercisePlan)
+    case Predefined(plan: MKExercisePlan)
     ///
     /// User session: User selected one of the past sessions
     ///
-    case UserDef(plan: MRManagedExercisePlan)
+    case UserDefined(plan: MRManagedExercisePlan)
     
     /// The exercise type associated to the session
     var exerciseType: MKExerciseType {
         switch self {
         case .AdHoc(let exerciseType): return exerciseType
-        case .Predef(let plan): return plan.exerciseType
-        case .UserDef(let plan): return plan.exerciseType
+        case .Predefined(let plan): return plan.exerciseType
+        case .UserDefined(let plan): return plan.exerciseType
         }
     }
     
@@ -28,8 +32,8 @@ enum MRSessionType {
     var name: String {
         switch self {
         case .AdHoc(let exerciseType): return exerciseType.name;
-        case .Predef(let plan): return plan.name
-        case .UserDef(let plan): return plan.name
+        case .Predefined(let plan): return plan.name
+        case .UserDefined(let plan): return plan.name
         }
     }
 

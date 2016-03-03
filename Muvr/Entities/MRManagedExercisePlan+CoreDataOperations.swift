@@ -116,7 +116,7 @@ extension MRManagedExercisePlan {
     ///
     static func planForSessionType(sessionType: MRSessionType, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
         switch sessionType {
-        case .UserDef(let p):
+        case .UserDefined(let p):
             if let found = exactPlanForId(p.id, location: location, inManagedObjectContext: managedObjectContext) { return found }
             if let found = exactPlanForId(p.id, location: nil, inManagedObjectContext: managedObjectContext) {
                 if let location = location {
@@ -125,7 +125,7 @@ extension MRManagedExercisePlan {
                 return found
             }
             return MRManagedExercisePlan.insertNewObject(sessionType, location: location, inManagedObjectContext: managedObjectContext)
-        case .Predef(let p):
+        case .Predefined(let p):
             if let found = exactPlanForTemplateId(p.id, location: location, inManagedObjectContext: managedObjectContext) { return found }
             if let found = exactPlanForTemplateId(p.id, location: nil, inManagedObjectContext: managedObjectContext) {
                 if let location = location {
@@ -157,7 +157,7 @@ extension MRManagedExercisePlan {
     internal static func copyAtLocation(exercisePlan: MRManagedExercisePlan, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan {
         
         if exercisePlan.longitude != location?.longitude && exercisePlan.latitude != location?.latitude {
-            return MRManagedExercisePlan.insertNewObject(.UserDef(plan: exercisePlan), location: location, inManagedObjectContext: managedObjectContext)
+            return MRManagedExercisePlan.insertNewObject(.UserDefined(plan: exercisePlan), location: location, inManagedObjectContext: managedObjectContext)
         }
         return exercisePlan
     }
@@ -182,11 +182,11 @@ extension MRManagedExercisePlan {
         switch sessionType {
         case .AdHoc(let exerciseType):
             managedPlan.exerciseType = exerciseType
-        case .Predef(let p):
+        case .Predefined(let p):
             managedPlan.exerciseType = p.exerciseType
             managedPlan.templateId = p.id
             managedPlan.plan = p.plan
-        case .UserDef(let mp):
+        case .UserDefined(let mp):
             managedPlan.exerciseType = mp.exerciseType
             managedPlan.templateId = mp.templateId
             managedPlan.id = mp.id
