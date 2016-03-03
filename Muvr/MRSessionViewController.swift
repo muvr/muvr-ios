@@ -53,6 +53,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     private var inExerciseViewController: UIViewController!
     private var labellingViewController: MRSessionLabellingViewController!
     
+    private var onHold = false
+    
     ///
     /// Sets the session to be displayed by this controller
     /// - parameter session: the session
@@ -72,8 +74,17 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         labellingViewController = storyboard!.instantiateViewControllerWithIdentifier("LabellingViewController") as! MRSessionLabellingViewController
     }
     
-    override func viewDidAppear(animated: Bool) {
-        refreshViewsForState(state)
+    override func viewWillAppear(animated: Bool) {
+        if onHold {
+            onHold = false
+            mainExerciseView.resume()
+        }
+        else { refreshViewsForState(state) }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        onHold = true
+        mainExerciseView.pause()
     }
     
     ///

@@ -31,9 +31,7 @@ class MRWorkoutButton: UIButton {
         titleLabel?.adjustsFontSizeToFitWidth = true
         titleLabel?.font = titleLabel?.font.fontWithSize(4 * lineWidth)
         
-        titleEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
-        
-        
+        titleEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12) 
         
         layer.cornerRadius = radius
         layer.borderWidth = lineWidth

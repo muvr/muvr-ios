@@ -192,22 +192,23 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         loadSessionPlan()
         
-        // main initialization
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window!.makeKeyAndVisible()
-        window!.rootViewController = storyboard.instantiateInitialViewController()
-        
-        let pageControlAppearance = UIPageControl.appearance()
-        pageControlAppearance.pageIndicatorTintColor = UIColor.lightGrayColor()
-        pageControlAppearance.currentPageIndicatorTintColor = UIColor.blackColor()
-        pageControlAppearance.backgroundColor = UIColor.whiteColor()
         
         // appearrance
         UITabBar.appearance().tintColor = UIColor.whiteColor()
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: .Normal)
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
         UIView.appearance().tintColor = UIColor(colorLiteralRed: 77.0/255, green: 136.0/255, blue: 229.9/255, alpha: 1)
+        
+        let pageControlAppearance = UIPageControl.appearance()
+        pageControlAppearance.pageIndicatorTintColor = UIColor.lightGrayColor()
+        pageControlAppearance.currentPageIndicatorTintColor = UIColor.blackColor()
+        pageControlAppearance.backgroundColor = UIColor.whiteColor()
+        
+        // main initialization
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window!.makeKeyAndVisible()
+        window!.rootViewController = storyboard.instantiateInitialViewController()
         
         // sync
         do {
@@ -369,9 +370,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         currentSession = session
         
         // display ``SessionViewController``
-        let svc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as? MRSessionViewController
-        svc!.setSession(session)
-        window?.rootViewController!.presentViewController(svc!, animated: true, completion: nil)
+        let svc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as! MRSessionViewController
+        svc.setSession(session)
+        //window?.rootViewController!.presentViewController(svc!, animated: true, completion: nil)
+        if let nvc = window?.rootViewController?.childViewControllers.first as? UINavigationController {
+            nvc.showViewController(svc, sender: session)
+            svc.navigationItem.setHidesBackButton(true, animated: false)
+            svc.title = "Muvr"
+        }
         sessionViewController = svc
         
         // keep application active while in-session
@@ -388,8 +394,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private func terminateSession(session: MRManagedExerciseSession) {
         if let currentSession = currentSession where currentSession == session {
             // dismiss ``SessionViewController``
-            sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
-            sessionViewController = nil
+            // sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
+            if let nvc = sessionViewController?.navigationController {
+                nvc.popViewControllerAnimated(true)
+                sessionViewController = nil
+            }
             self.currentSession = nil
             application.idleTimerDisabled = false
         }

@@ -57,6 +57,14 @@ class MRExerciseView : UIView {
     /* Controlling progress bar animation with isAnimating */
     private var isAnimating: Bool = false
     private var fireCircleDidComplete: Bool = true
+    
+    /// circle animation
+    private var animationStartTime: CFTimeInterval? = nil
+    private var animationPauseTime: CFTimeInterval? = nil
+    private var animationDuration: CFTimeInterval? = nil
+    private var elapsedTime: CFTimeInterval {
+        return (animationPauseTime ?? 0) - (animationStartTime ?? 0)
+    }
 
     private let circleLayer: CAShapeLayer = CAShapeLayer()
     
@@ -88,14 +96,26 @@ class MRExerciseView : UIView {
         if isCircleAnimation(anim) {
             circleLayer.strokeColor = progressFullColor.CGColor
             isAnimating = true
+            if animationDuration == nil { // new animation started
+                animationStartTime = CACurrentMediaTime()
+                animationDuration = anim.duration
+            } else { // animation was playing
+                animationStartTime = CACurrentMediaTime() - elapsedTime // discard paused time
+            }
+            animationPauseTime = animationStartTime
         }
     }
     
     override func animationDidStop(anim: CAAnimation, finished: Bool) {
         isAnimating = false
-        if finished && fireCircleDidComplete {
-            delegate?.exerciseViewCircleDidComplete(self)
-        }
+        
+            if finished {
+                animationStartTime = nil
+                animationPauseTime = nil
+                animationDuration = nil
+                if fireCircleDidComplete { delegate?.exerciseViewCircleDidComplete(self) }
+            }
+        
     }
     
     private func isCircleAnimation(anim: CAAnimation) -> Bool {
@@ -191,10 +211,10 @@ class MRExerciseView : UIView {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         
         // Set the animation duration appropriately
-        animation.duration = duration
+        animation.duration = duration - elapsedTime
         
         // Animate from 0 (no circle) to 1 (full circle)
-        animation.fromValue = 0
+        animation.fromValue =  elapsedTime / duration
         animation.toValue = 1
         animation.delegate = self
         // Do a linear animation (i.e. the speed of the animation stays the same)
@@ -213,6 +233,16 @@ class MRExerciseView : UIView {
         let pauseTime = layer.convertTime(CACurrentMediaTime(), fromLayer: nil)
         layer.speed = 0.0
         layer.timeOffset = pauseTime
+    }
+    
+    func pause() {
+         animationPauseTime = CACurrentMediaTime()
+    }
+    
+    func resume() {
+        if let duration = animationDuration {
+            animateCircle(duration)
+        }
     }
     
     private func resumeLayer(layer: CALayer) {
@@ -333,6 +363,9 @@ class MRExerciseView : UIView {
     func reset() {
         layer.removeAnimationForKey("animateCircle")
         isAnimating = false
+        animationStartTime = nil
+        animationPauseTime = nil
+        animationDuration = nil
         fireCircleDidComplete = false
         circleLayer.strokeColor = UIColor.clearColor().CGColor
     }
