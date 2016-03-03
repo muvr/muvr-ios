@@ -146,15 +146,12 @@ public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBW
                 print("exercise completed")
                 break
             case .Dead:
-                //                delegate.deviceSession(sessionId, exerciseCompletedFrom: deviceId)
                 print("Watch died! Stopping current session.")
                 if let session = self.session {
                     stop(session)
                 }
                 deviceHandler.watchDisconnected()
                 break
-            default:
-                fatalError("Match error")
             }
             
             return true
@@ -163,14 +160,18 @@ public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBW
     
         func handleAccelerometerData(atDeviceTime: CFTimeInterval, data: NSData) {
             do {
-                let new = try MKSensorData(decoding: data)
-                if session.sensorData != nil {
-                    try session.sensorData!.append(new)
+                if self.session != nil {
+                    let new = try MKSensorData(decoding: data)
+                    if self.session.sensorData != nil {
+                        try self.session.sensorData!.append(new)
+                    } else {
+                        self.session.sensorData = new
+                    }
+                    sensorDataConnectivityDelegate.sensorDataConnectivityDidReceiveSensorData(accumulated: session.sensorData!, new: new, session: session)
+                    NSLog("\(atDeviceTime) with \(new.duration); now accumulated \(session.sensorData!.duration)")
                 } else {
-                    session.sensorData = new
+                    NSLog("\(atDeviceTime) Ignored incomming data because session is nil.")
                 }
-                sensorDataConnectivityDelegate.sensorDataConnectivityDidReceiveSensorData(accumulated: session.sensorData!, new: new, session: session)
-                NSLog("\(atDeviceTime) with \(new.duration); now accumulated \(session.sensorData!.duration)")
             } catch {
                 NSLog("\(error)")
             }
@@ -311,34 +312,4 @@ public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBW
     public func pebbleCentral(central: PBPebbleCentral, watchDidDisconnect watch: PBWatch) {
         NSLog("Pebble watchDidDisconnect %@", watch)
     }
-    
-//    func notifyClassifying() {
-//        // TODO: Needed at all?
-//    }
-//    
-//    func notifyExercising() {
-//        currentSession?.send(0xa0000002)
-//    }
-//    
-//    func notifyNotMoving() {
-//        currentSession?.send(0xa0000000)
-//    }
-//    
-//    func notifyMoving() {
-//        currentSession?.send(0xa0000001)
-//    }
-    
-//    func notifySimpleClassificationCompleted(exercises: [MRClassifiedResistanceExercise]) {
-//        currentSession?.send(0xa0000003, data: MessageDataEncoder.formatMRResistanceExercises(exercises))
-//    }
-//    
-//    func notifySimpleCurrent(ec: (MRResistanceExercise, Double)) {
-//        let (exercise, confidence) = ec
-//        let data = NSMutableData(length: sizeof(resistance_exercise_t))!
-//        let name = UnsafePointer<Int8>(exercise.title.cStringUsingEncoding(NSASCIIStringEncoding)!)
-//        mk_resistance_exercise(data.mutableBytes, name, UInt8(confidence * 100), 0, 0, 0)
-//        
-//        assert(data.length <= 124, "Too much data to send over BLE.")
-//        currentSession?.send(0xa0000004, data: data)
-//    }
 }
