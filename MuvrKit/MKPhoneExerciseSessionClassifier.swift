@@ -12,7 +12,11 @@ public protocol MKExerciseModelSource {
     /// - parameter exerciseType: the exercise type for which to load a model
     ///
     func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel
-    
+
+    ///
+    /// Gets the activity model
+    ///
+    func activityModel() throws -> MKExerciseModel
 }
 
 ///

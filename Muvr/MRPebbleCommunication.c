@@ -7,6 +7,7 @@
 //
 
 #include <stdio.h>
+#include <string.h>
 #include "MRPebbleCommunication.h"
 
 void mk_resistance_exercise(void *memory, const char *name, const uint8_t confidence, const uint8_t repetitions, const uint8_t intensity, const uint16_t weight) {

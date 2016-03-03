@@ -1,7 +1,6 @@
 import Foundation
 
 public typealias MKTimestamp = Double
-public typealias MKDuration = Double
 
 ///
 /// Various failures that are thrown by the operations in the ``MKSensorData``
@@ -28,7 +27,7 @@ public enum MKSensorDataError : ErrorType {
     ///
     /// - parameter gap: the duration of the gap
     ///
-    case TooDiscontinous(gap: MKDuration)
+    case TooDiscontinous(gap: NSTimeInterval)
     
     ///
     /// The sample count does not match the expected count for the given dimensionality
@@ -83,7 +82,7 @@ public struct MKSensorData {
     ///
     /// Computes the duration
     ///
-    public var duration: MKDuration {
+    public var duration: NSTimeInterval {
         return Double(samples.count / dimension) / Double(samplesPerSecond)
     }
     
@@ -102,7 +101,7 @@ public struct MKSensorData {
     ///
     /// returns a new MKSensorData containing only the data for the specified period
     ///
-    public func slice(offset: MKTimestamp, duration: MKDuration) throws -> MKSensorData {
+    public func slice(offset: MKTimestamp, duration: NSTimeInterval) throws -> MKSensorData {
         let freq = Double(samplesPerSecond)
         if offset < 0 || offset + duration > self.duration + (1 / freq) { // avoid rounding issues (e.g 4.2000000001)
             throw MKSensorDataError.SliceOutOfRange
@@ -132,7 +131,7 @@ public struct MKSensorData {
             return
         }
 
-        let maxGap: MKDuration = 300
+        let maxGap: NSTimeInterval = 300
         let gap = that.start - self.end
     
         if gap > maxGap { throw MKSensorDataError.TooDiscontinous(gap: gap) }
