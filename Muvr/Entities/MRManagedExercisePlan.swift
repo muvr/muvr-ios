@@ -10,8 +10,12 @@ import Foundation
 import CoreData
 import MuvrKit
 
+///
+/// Contains the list of exercise to be performed in a workout session
+/// (The exercise list is stored as a MarkovChain)
+///
 class MRManagedExercisePlan: NSManagedObject {
     
-    var plan: MKMarkovPredictor<MKExercise.Id>!
+    internal var plan: MKMarkovPredictor<MKExercise.Id>!
 
 }

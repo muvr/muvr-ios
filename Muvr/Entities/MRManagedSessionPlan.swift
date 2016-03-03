@@ -2,10 +2,11 @@ import CoreData
 import MuvrKit
 
 ///
-/// Stores the Markov chain of a user's exercise plans into core data
+/// Contains the user's exercise plan ids
+/// (The exercise plans id are stored in a MarkovChain)
 ///
 class MRManagedSessionPlan: NSManagedObject {
-    
-    var plan: MKMarkovPredictor<MKExercisePlan.Id>!
+
+    internal var plan: MKMarkovPredictor<MKExercisePlan.Id>!
     
 }

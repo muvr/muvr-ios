@@ -19,8 +19,16 @@ extension Array {
 
 import CoreData
 
+
+///
+/// Provides delete capability (for data clean up before running a scenario)
+///
 extension MRManagedLabelsPredictor {
 
+    ///
+    /// Deletes all existing labels predictor in the given context
+    /// - parameter managedObjectContext
+    ///
     static func deleteAll(inManagedObjectContext managedObjectContext: NSManagedObjectContext) throws {
         let fetchReq = NSFetchRequest(entityName: "MRManagedLabelsPredictor")
         let deleteReq = NSBatchDeleteRequest(fetchRequest: fetchReq)
@@ -29,8 +37,15 @@ extension MRManagedLabelsPredictor {
     }
 }
 
+///
+/// Provides delete capability (for data clean up before running a scenario)
+///
 extension MRManagedExercisePlan {
     
+    ///
+    /// Deletes all existing exercise ids predictor in the given context
+    /// - parameter managedObjectContext
+    ///
     static func deleteAll(inManagedObjectContext managedObjectContext: NSManagedObjectContext) throws {
         let fetchReq = NSFetchRequest(entityName: "MRManagedExercisePlan")
         let deleteReq = NSBatchDeleteRequest(fetchRequest: fetchReq)
@@ -40,8 +55,15 @@ extension MRManagedExercisePlan {
     
 }
 
+///
+/// Provides delete capability (for data clean up before running a scenario)
+///
 extension MRManagedSessionPlan {
     
+    ///
+    /// Deletes all existing exercise plan ids predictor in the given context
+    /// - parameter managedObjectContext
+    ///
     static func deleteAll(inManagedObjectContext managedObjectContext: NSManagedObjectContext) throws {
         let fetchReq = NSFetchRequest(entityName: "MRManagedSessionPlan")
         let deleteReq = NSBatchDeleteRequest(fetchRequest: fetchReq)
@@ -53,16 +75,14 @@ extension MRManagedSessionPlan {
 
 extension MRAppDelegate {
     
-    func resetLabelsPredictors() {
+    func cleanup() {
+        // delete labels predictor
         try! MRManagedLabelsPredictor.deleteAll(inManagedObjectContext: managedObjectContext)
-    }
-    
-    func resetExercisePlans() {
+        // delete exercise plans
         try! MRManagedExercisePlan.deleteAll(inManagedObjectContext: managedObjectContext)
-    }
-    
-    func resetSessionPlan() {
+        // delete session plan
         try! MRManagedSessionPlan.deleteAll(inManagedObjectContext: managedObjectContext)
+        // load empty session plan
         self.loadSessionPlan()
     }
     
@@ -165,9 +185,7 @@ class MRSessionsRealDataTests : XCTestCase {
     }
     
     private func runScenario(app: MRAppDelegate, scenario: String) -> String {
-        app.resetLabelsPredictors()
-        app.resetExercisePlans()
-        app.resetSessionPlan()
+        app.cleanup() // remove any existing data
         
         var text: String = "SCENARIO \(scenario)\n"
         // Load expected scores for this scenario
