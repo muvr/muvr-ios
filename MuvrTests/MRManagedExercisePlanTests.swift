@@ -20,10 +20,34 @@ class MRManagedExercisePlanTests : MRCoreDataTestCase {
         
         // mutate plan
         exercisePlan.insert("foobar")
+        exercisePlan.save()
         
         // upsert again
         let loadedPlan = MRManagedExercisePlan.exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext)!.plan
         XCTAssertEqual(loadedPlan.next, ["foobar"])
+    }
+    
+    func testChangeLocation() {
+        let location0 = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+        let exerciseType = MKExerciseType.ResistanceTargeted(muscleGroups: [.Arms, .Legs])
+        let sessionType = MRSessionType.AdHoc(exerciseType: exerciseType)
+        
+        let planAtLoc0 = MRManagedExercisePlan.planForSessionType(sessionType, location: location0, inManagedObjectContext: managedObjectContext)
+        planAtLoc0.insert("foobar")
+        planAtLoc0.save()
+        
+        let location1 = CLLocationCoordinate2D(latitude: 1, longitude: 1)
+        let planAtLoc1 = MRManagedExercisePlan.planForSessionType(sessionType, location: location1, inManagedObjectContext: managedObjectContext)
+        XCTAssertEqual(planAtLoc1.next, ["foobar"])
+        
+        planAtLoc1.insert("foobaz")
+        planAtLoc1.save()
+        
+        let loadedPlan1 = MRManagedExercisePlan.planForSessionType(sessionType, location: location1, inManagedObjectContext: managedObjectContext)
+        XCTAssertEqual(loadedPlan1.next, ["foobar", "foobaz"])
+        
+        let loadedPlan0 = MRManagedExercisePlan.planForSessionType(sessionType, location: location0, inManagedObjectContext: managedObjectContext)
+        XCTAssertEqual(loadedPlan0.next, ["foobar"])
     }
 
 }

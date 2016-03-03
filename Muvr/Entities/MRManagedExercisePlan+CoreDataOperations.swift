@@ -114,7 +114,7 @@ extension MRManagedExercisePlan {
     /// - parameter managedObjectContext: the MOC
     /// - returns: the matching plan
     ///
-    static func planForSessionType(sessionType: MRSessionType, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
+    static func planForSessionType(sessionType: MRSessionType, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan {
         switch sessionType {
         case .UserDefined(let p):
             if let found = exactPlanForId(p.id, location: location, inManagedObjectContext: managedObjectContext) { return found }
@@ -185,15 +185,24 @@ extension MRManagedExercisePlan {
         case .Predefined(let p):
             managedPlan.exerciseType = p.exerciseType
             managedPlan.templateId = p.id
-            managedPlan.plan = p.plan
+            managedPlan.setPlan(p.plan)
         case .UserDefined(let mp):
             managedPlan.exerciseType = mp.exerciseType
             managedPlan.templateId = mp.templateId
             managedPlan.id = mp.id
-            managedPlan.plan = mp.plan
+            managedPlan.setPlan(mp.plan)
         }
         
         return managedPlan
+    }
+    
+    ///
+    /// set the `plan` property by making a copy of the given plan
+    /// - parameter plan the plan to set
+    ///
+    private func setPlan(plan: MKMarkovPredictor<MKExercisePlan.Id>) {
+        let json = plan.json { $0 }
+        self.plan = MKMarkovPredictor<MKExercisePlan.Id>(json: json) { $0 as? MKExercisePlan.Id }
     }
     
 }

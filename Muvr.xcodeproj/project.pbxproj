@@ -229,6 +229,7 @@
 		64BA9DC91C80997300D8540E /* MRManagedSessionPlan+CoreDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DC81C80997300D8540E /* MRManagedSessionPlan+CoreDataOperations.swift */; };
 		64BA9DCD1C84663200D8540E /* Sessions.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 64BA9DCC1C84663200D8540E /* Sessions.bundle */; };
 		64BA9DCF1C8479D200D8540E /* MRSessionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DCE1C8479D200D8540E /* MRSessionType.swift */; };
+		64BA9DD51C88554A00D8540E /* MRManagedSessionPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DD41C88554A00D8540E /* MRManagedSessionPlanTests.swift */; };
 		64FB23BC1C3E899E005312C2 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */; };
 		99835A4C1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */; };
 		9D30379C1B95CCC500426C70 /* Models.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D30379B1B95CCC500426C70 /* Models.bundle */; };
@@ -574,6 +575,7 @@
 		64BA9DC81C80997300D8540E /* MRManagedSessionPlan+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedSessionPlan+CoreDataOperations.swift"; sourceTree = "<group>"; };
 		64BA9DCC1C84663200D8540E /* Sessions.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Sessions.bundle; sourceTree = "<group>"; };
 		64BA9DCE1C8479D200D8540E /* MRSessionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionType.swift; sourceTree = "<group>"; };
+		64BA9DD41C88554A00D8540E /* MRManagedSessionPlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedSessionPlanTests.swift; sourceTree = "<group>"; };
 		64FB23BD1C3E899E005312C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseType+MetadataTests.swift"; sourceTree = "<group>"; };
 		9D30379B1B95CCC500426C70 /* Models.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Models.bundle; sourceTree = "<group>"; };
@@ -851,6 +853,7 @@
 			children = (
 				544B4A681C45372B005703E1 /* MRManagedExercisePlanTests.swift */,
 				543E32991C4BAAB100D9922D /* MRManagedExerciseSessionTests.swift */,
+				64BA9DD41C88554A00D8540E /* MRManagedSessionPlanTests.swift */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -1779,6 +1782,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64BA9DD51C88554A00D8540E /* MRManagedSessionPlanTests.swift in Sources */,
 				54D09E9D1C5E7ACF00C0A9F5 /* MRExerciseSessionEvaluator.Result+Description.swift in Sources */,
 				543E328E1C4AC18B00D9922D /* MKExercise+ExerciseIdTests.swift in Sources */,
 				544B4A691C45372B005703E1 /* MRManagedExercisePlanTests.swift in Sources */,
