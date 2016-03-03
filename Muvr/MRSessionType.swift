@@ -43,13 +43,12 @@ private extension MKExerciseType {
     
     /// name generated from the exercise type
     var name: String {
+        var workoutName = self.title
         switch self {
-        case .IndoorsCardio: return "Cardio workout"
-        case .ResistanceWholeBody: return "Whole body workout"
-        case .ResistanceTargeted(let muscleGroups):
-            let muscles = muscleGroups.map { $0.id }.joinWithSeparator(", ")
-            return "\(muscles) workout"
+        case .ResistanceTargeted(let muscleGroups): workoutName = muscleGroups.map { $0.title }.joinWithSeparator(", ")
+        default: break
         }
+        return "%@ workout".localized(workoutName).localizedCapitalizedString
     }
     
 }
