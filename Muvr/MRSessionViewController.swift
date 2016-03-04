@@ -68,7 +68,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         
         setTitleImage(named: "muvr_logo_white")
         
-        UIView.appearanceWhenContainedInInstancesOfClasses([MRSessionViewController.self]).tintColor = UIColor.blackColor()
+        UIView.appearanceWhenContainedInInstancesOfClasses([MRSessionViewController.self]).tintColor = MRColor.black
         
         comingUpViewController = storyboard!.instantiateViewControllerWithIdentifier("ComingUpViewController") as! MRSessionComingUpViewController
         readyViewController = storyboard!.instantiateViewControllerWithIdentifier("ReadyViewController")
@@ -233,7 +233,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         switch state {
         case .ComingUp:
             // We've exhausted our rest time. Turn orange to give the user a kick.
-            mainExerciseView.progressFullColor = UIColor.orangeColor()
+            mainExerciseView.progressFullColor = MRColor.orange
         case .Ready(let exerciseDetail):
             // We've had the time to get ready. Now time to exercise.
             let (labels, _) = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)

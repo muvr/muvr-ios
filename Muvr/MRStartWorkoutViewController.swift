@@ -11,6 +11,7 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
     private let calendar = JTCalendarManager()
     
     private var upcomingSessions: [MRSessionType] = []
+    private var selectedSession: MRSessionType? = nil
     
     override func viewDidLoad() {
         manualViewController = storyboard?.instantiateViewControllerWithIdentifier("adhoc") as! MRManualViewController
@@ -28,6 +29,7 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
     override func viewWillAppear(animated: Bool) {
         upcomingSessions = MRAppDelegate.sharedDelegate().sessions
         displayWorkouts()
+        calendar.reload()
     }
     
     ///
@@ -45,32 +47,32 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
     
     private func displayWorkouts() {
         if let session = upcomingSessions.first {
-            startButton.session = session
+            selectedSession = session
+            startButton.setTitle("Start %@".localized(session.name), forState: .Normal)
         }
         
         scrollView.subviews.forEach { $0.removeFromSuperview() }
         
         let buttonWidth = scrollView.frame.width / 3
         scrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(upcomingSessions.count), scrollView.frame.height)
-        let buttonColor = UIColor(colorLiteralRed: 0, green: 164 / 255, blue: 118 / 255, alpha: 1.0)
         
         if upcomingSessions.count > 1 {
-            for session in upcomingSessions[1..<upcomingSessions.count] {
+            for session in upcomingSessions {
                 let button = MRWorkoutButton(type: UIButtonType.System)
-                button.color = buttonColor
+                button.color = MRColor.green
                 button.session = session
-                button.setTitleColor(buttonColor, forState: .Normal)
-                button.addTarget(self, action: #selector(MRStartWorkoutViewController.startWorkout(_:)), forControlEvents: [.TouchUpInside])
+                button.setTitleColor(MRColor.green, forState: .Normal)
+                button.addTarget(self, action: #selector(MRStartWorkoutViewController.changeWorkout(_:)), forControlEvents: [.TouchUpInside])
                 scrollView.addSubview(button)
             }
         }
         
         // add "Start another workout" button
         let button = MRWorkoutButton(type: UIButtonType.System)
-        button.color = .orangeColor()
-        button.backgroundColor = .orangeColor()
+        button.color = MRColor.orange
+        button.backgroundColor = MRColor.orange
         button.setTitleColor(.whiteColor(), forState: .Normal)
-        button.setTitle("Start another workout", forState: .Normal)
+        button.setTitle("Start another workout".localized(), forState: .Normal)
         button.addTarget(self, action: #selector(MRStartWorkoutViewController.selectAnotherWorkout), forControlEvents: [.TouchUpInside])
         scrollView.addSubview(button)
         
@@ -80,8 +82,15 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
         showViewController(manualViewController, sender: self)
     }
     
-    @IBAction func startWorkout(sender: MRWorkoutButton) {
+    func changeWorkout(sender: MRWorkoutButton) {
         if let session = sender.session {
+            selectedSession = session
+            startButton.setTitle("Start %@".localized(session.name), forState: .Normal)
+        }
+    }
+    
+    @IBAction func startWorkout(sender: MRWorkoutButton) {
+        if let session = selectedSession {
             try! MRAppDelegate.sharedDelegate().startSession(session)
         }
     }
@@ -115,6 +124,18 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
         return date.compare(dateAtEndOfWeek) == .OrderedAscending
     }
     
+    ///
+    /// Change the font of the week day labels
+    ///
+    func calendarBuildWeekDayView(calendar: JTCalendarManager!) -> UIView! {
+        let view = JTCalendarWeekDayView()
+        for label in view.dayViews as! [UILabel] {
+            label.font = UIFont.boldSystemFontOfSize(label.font.pointSize)
+            label.textColor = MRColor.black
+        }
+        return view
+    }
+    
 }
 
 struct JTCalendarHelper {
@@ -133,13 +154,13 @@ struct JTCalendarHelper {
                 dayView.textLabel.textColor = UIColor.whiteColor()
             } else if JTCalendarHelper.dateHelper.date(NSDate(), isTheSameDayThan: dayView.date) {
                 dayView.circleView.hidden = false
-                dayView.circleView.backgroundColor = UIColor.grayColor()
+                dayView.circleView.backgroundColor = MRColor.gray
                 dayView.dotView.backgroundColor = UIColor.whiteColor()
                 dayView.textLabel.textColor = UIColor.whiteColor()
             } else {
                 dayView.circleView.hidden = true
-                dayView.dotView.backgroundColor = UIView.appearance().tintColor
-                dayView.textLabel.textColor = UIColor.blackColor()
+                dayView.dotView.backgroundColor = MRColor.orange
+                dayView.textLabel.textColor = MRColor.black
             }
             
             

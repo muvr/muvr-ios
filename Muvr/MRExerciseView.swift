@@ -39,7 +39,7 @@ class MRExerciseView : UIView {
     @IBOutlet private weak var labelsView: UIScrollView!
         
     /// set progress colors
-    var progressEmptyColor : UIColor = UIColor.grayColor()
+    var progressEmptyColor : UIColor = MRColor.gray
     var progressFullColor : UIColor = UIColor.clearColor() {
         didSet {
             let animation = CABasicAnimation(keyPath: "strokeColor")
@@ -170,7 +170,7 @@ class MRExerciseView : UIView {
         arc.strokeEnd = strokeEnd
         arc.strokeColor = color.CGColor
         arc.fillColor = UIColor.clearColor().CGColor
-        arc.shadowColor = UIColor.blackColor().CGColor
+        arc.shadowColor = MRColor.black.CGColor
         arc.shadowRadius = 0
         arc.shadowOpacity = 0
         arc.shadowOffset = CGSizeZero
@@ -190,7 +190,7 @@ class MRExerciseView : UIView {
 
         circleLayer.path = circlePath
         circleLayer.fillColor = UIColor.clearColor().CGColor
-        circleLayer.shadowColor = UIColor.blackColor().CGColor
+        circleLayer.shadowColor = MRColor.black.CGColor
         circleLayer.strokeColor = self.progressFullColor.CGColor
         circleLayer.lineWidth = lineWidth * 4
         circleLayer.strokeStart = 0.0

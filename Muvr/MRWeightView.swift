@@ -51,7 +51,6 @@ class MRWeightView: UIView {
     }
     
     private func createUI() {
-        self.backgroundColor = UIColor.orangeColor()
         image.image = UIImage(named: "weight")
         image.contentMode = .ScaleAspectFit
         addSubview(image)

@@ -30,7 +30,7 @@ class MRAlternateExerciseButton: UIButton {
 
         layer.cornerRadius = radius
         layer.borderWidth = lineWidth
-        layer.borderColor = UIColor.darkTextColor().CGColor
+        layer.borderColor = MRColor.gray.CGColor
     }
     
 }

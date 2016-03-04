@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UaB-VL-s9m" customClass="MRExerciseView" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="20" y="28" width="374" height="374"/>
+                                <rect key="frame" x="32" y="36" width="350" height="350"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="UaB-VL-s9m" secondAttribute="height" multiplier="1:1" id="qCp-Hs-LGy"/>
@@ -29,9 +29,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="UaB-VL-s9m" firstAttribute="top" secondItem="65O-mu-fcy" secondAttribute="bottom" constant="8" id="0tw-lD-D4z"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="UaB-VL-s9m" secondAttribute="trailing" id="mgh-SG-21y"/>
-                            <constraint firstItem="UaB-VL-s9m" firstAttribute="leading" secondItem="K0h-cg-yrp" secondAttribute="leadingMargin" id="ofw-bt-EpS"/>
+                            <constraint firstItem="UaB-VL-s9m" firstAttribute="top" secondItem="65O-mu-fcy" secondAttribute="bottom" constant="16" id="0tw-lD-D4z"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="UaB-VL-s9m" secondAttribute="trailing" constant="12" id="mgh-SG-21y"/>
+                            <constraint firstItem="UaB-VL-s9m" firstAttribute="leading" secondItem="K0h-cg-yrp" secondAttribute="leadingMargin" constant="12" id="ofw-bt-EpS"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -58,16 +58,28 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hTE-1K-VgU">
-                                <rect key="frame" x="20" y="304" width="374" height="128"/>
+                                <rect key="frame" x="20" y="327" width="374" height="125"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="4nM-r1-JuC"/>
+                                    <constraint firstAttribute="width" secondItem="hTE-1K-VgU" secondAttribute="height" multiplier="3:1" id="LpJ-Pp-1Co"/>
                                 </constraints>
                             </scrollView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coming up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9f5-ln-Re3">
+                                <rect key="frame" x="20" y="308" width="374" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="xyW-Lc-NwD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="hTE-1K-VgU" firstAttribute="centerY" secondItem="aZe-Gr-4hr" secondAttribute="centerY" id="XhE-sq-EeH"/>
+                            <constraint firstItem="hTE-1K-VgU" firstAttribute="top" secondItem="9f5-ln-Re3" secondAttribute="bottom" constant="-2" id="Fe9-oX-lJi"/>
+                            <constraint firstItem="9f5-ln-Re3" firstAttribute="width" secondItem="hTE-1K-VgU" secondAttribute="width" id="Iie-ii-yE4"/>
+                            <constraint firstItem="hTE-1K-VgU" firstAttribute="centerY" secondItem="aZe-Gr-4hr" secondAttribute="centerY" constant="21" id="XhE-sq-EeH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="hTE-1K-VgU" secondAttribute="trailing" id="izg-sq-TbE"/>
                             <constraint firstAttribute="leadingMargin" secondItem="hTE-1K-VgU" secondAttribute="leading" id="n6b-ts-g82"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="9f5-ln-Re3" secondAttribute="leading" id="wgk-KS-mql"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3wG-mO-nS9"/>
@@ -154,14 +166,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="69" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="whI-rb-ilP">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="69" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="whI-rb-ilP">
                                 <rect key="frame" x="0.0" y="20" width="414" height="716"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="label" rowHeight="69" id="HFF-1f-adO" customClass="MRSessionLabellingScalarTableViewCell" customModule="Muvr" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="69"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HFF-1f-adO" id="aQW-4E-SNf">
+                                        <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HFF-1f-adO" id="aQW-4E-SNf">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="69"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>

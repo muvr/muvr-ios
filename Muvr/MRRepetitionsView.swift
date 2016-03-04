@@ -51,7 +51,6 @@ class MRRepetitionsView: UIView {
     }
     
     private func createUI() {
-        self.backgroundColor = UIColor.orangeColor()
         image.image = UIImage(named: "repetitions")
         image.contentMode = .ScaleAspectFit
         addSubview(image)
@@ -61,7 +60,7 @@ class MRRepetitionsView: UIView {
     override func drawRect(rect: CGRect) {
         label.frame = self.bounds
         label.textAlignment = .Center
-        label.textColor = UIColor.blackColor()
+        label.textColor = MRColor.black
         label.font = label.font.fontWithSize(fontSize)
         image.frame = self.bounds
     }

@@ -51,7 +51,6 @@ class MRTimeView: UIView {
     }
     
     private func createUI() {
-        self.backgroundColor = UIColor.orangeColor()
         image.image = UIImage(named: "timer")
         image.contentMode = .ScaleAspectFit
         addSubview(image)
@@ -62,7 +61,7 @@ class MRTimeView: UIView {
         let shift = min(frame.width, frame.height) / 8
         label.frame = CGRectMake(0, shift, frame.width, frame.height - shift)
         label.textAlignment = .Center
-        label.textColor = UIColor.blackColor()
+        label.textColor = MRColor.black
         label.font = label.font.fontWithSize(fontSize)
         image.frame = self.bounds
     }

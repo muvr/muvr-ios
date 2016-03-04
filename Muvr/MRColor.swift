@@ -17,4 +17,16 @@ struct MRColor {
         return UIColor(colorLiteralRed: 34.0/255, green: 34.0/255, blue: 34.0/255, alpha: 1)
     }
     
+    static var green: UIColor {
+        return UIColor(colorLiteralRed: 63.0/255, green: 204.0/255, blue: 58.0/255, alpha: 1)
+    }
+    
+    static var orange: UIColor {
+        return UIColor.orangeColor()
+    }
+    
+    static var gray: UIColor {
+        return UIColor.grayColor()
+    }
+    
 }

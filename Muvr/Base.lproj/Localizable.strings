@@ -16,6 +16,8 @@
 
 /* Workout */
 "%@ workout" = "%@ workout";
+"Start %@" = "Start %@";
+"Start another workout" = "Start another workout";
 
 /* MRAggregate */
 "MRAggregate.types" = "types";
