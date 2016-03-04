@@ -78,15 +78,20 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         if onHold {
-            onHold = false
             mainExerciseView.resume()
         }
-        else { refreshViewsForState(state) }
     }
     
     override func viewWillDisappear(animated: Bool) {
         onHold = true
         mainExerciseView.pause()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        if onHold {
+            onHold = false
+        }
+        else { refreshViewsForState(state) }
     }
     
     ///
@@ -136,8 +141,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     ///
     private func switchToViewController(controller: UIViewController, fromRight: Bool = true) {
         /// The frame where the details view are displayed (takes all available space below the main circle view)
-        let y = mainExerciseView.frame.height
-        let frame = CGRectMake(0, y, view.bounds.width, (tabBarController?.tabBar.frame.origin.y ?? view.bounds.height) - y)
+        let y = mainExerciseView.frame.origin.y + mainExerciseView.frame.height
+        let frame = CGRectMake(0, y, view.bounds.width, view.bounds.height - y)
         
         if let previousController = childViewControllers.first {
             let leftFrame = CGRectMake(-frame.width, frame.origin.y, frame.width, frame.height)

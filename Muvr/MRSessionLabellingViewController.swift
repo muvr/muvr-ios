@@ -55,6 +55,14 @@ class MRSessionLabellingViewController: UIViewController, UITableViewDataSource 
     private var labels: [MKExerciseLabel] = []
     private var exerciseDetail: MKExerciseDetail!
     
+    /// Makes sure the table is entirely visible
+    /// When there is not enough space (e.g. iPhone 5) the table is displayed over the main circle
+    override func viewDidLayoutSubviews() {
+        let offset = tableView.contentSize.height - tableView.frame.height
+        tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y - offset, tableView.frame.width, tableView.contentSize.height)
+    }
+    
+    
     ///
     /// Sets exercise detail and the labels for the users to verify.
     ///
