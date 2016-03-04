@@ -42,6 +42,11 @@ class MuvrUITests: XCTestCase {
         // Don't set any labels
         app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].tap()
         
+        // Check that default labels are saved
+        XCTAssertNotNil(app.otherElements["Repetitions"].value)
+        XCTAssertNotNil(app.otherElements["Weight"].value)
+        XCTAssertNotNil(app.otherElements["Intensity"].value)
+        
         // Stop session
         app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].pressForDuration(6)
     }

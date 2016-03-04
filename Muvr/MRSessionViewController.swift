@@ -194,8 +194,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         case .Ready(let exerciseDetail):
             state = .ComingUp(exerciseDetail: exerciseDetail)
         case .InExercise(let exerciseDetail, let start):
-            let (labels, _) = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
-            state = .Done(exerciseDetail: exerciseDetail, labels: labels, start: start, duration: NSDate().timeIntervalSinceDate(start))
+            let (labels, missing) = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
+            state = .Done(exerciseDetail: exerciseDetail, labels: labels + missing.filter { !labels.contains($0) } , start: start, duration: NSDate().timeIntervalSinceDate(start))
             session.clearClassificationHints()
         case .Done(let exerciseDetail, let labels, let start, let duration):
             // The user has completed the exercise, and accepted our labels
