@@ -59,7 +59,13 @@ class MRSessionLabellingViewController: UIViewController, UITableViewDataSource 
     /// When there is not enough space (e.g. iPhone 5) the table is displayed over the main circle
     override func viewDidLayoutSubviews() {
         let offset = tableView.contentSize.height - tableView.frame.height
-        tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y - offset, tableView.frame.width, tableView.contentSize.height)
+        if offset > 0 {
+            // not enough space
+            tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y - offset, tableView.frame.width, tableView.contentSize.height)
+        } else {
+            // center in available space
+            tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y - offset / 2, tableView.frame.width, tableView.contentSize.height)
+        }
     }
     
     

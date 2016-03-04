@@ -19,7 +19,7 @@
                     </constraints>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" red="0.30196078430000001" green="0.53333333329999999" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.058823529411764705" green="0.33333333333333331" blue="0.52549019607843139" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="CaE-5r-pcA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="85" id="HhM-CU-8Dj"/>
                 <constraint firstItem="CaE-5r-pcA" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="lTW-TV-vFm"/>

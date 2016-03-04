@@ -16,7 +16,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Q1S-ZS-XIG"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Xwy-pg-dpP">
-                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HIz-Nl-27v" customClass="JTHorizontalCalendarView">
@@ -149,11 +149,11 @@ workout</string>
                         <viewControllerLayoutGuide type="bottom" id="HkM-yw-VV5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="icj-Ls-VKc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQr-sd-xQy">
-                                <rect key="frame" x="20" y="649" width="374" height="30"/>
+                                <rect key="frame" x="20" y="585" width="374" height="30"/>
                                 <state key="normal" title="Initial setup"/>
                                 <connections>
                                     <action selector="initialSetup" destination="Mou-Np-bON" eventType="touchUpInside" id="5rG-4M-s4V"/>
@@ -181,11 +181,11 @@ workout</string>
                 <tabBarController id="wdg-mi-HgG" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Muvr" id="MJW-ld-Vob"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="ryi-yj-vb9">
+                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="ryi-yj-vb9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.30196078431372547" green="0.53333333333333333" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.058823529409999999" green="0.33333333329999998" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
@@ -204,10 +204,10 @@ workout</string>
                 <navigationController title="Muvr" id="CrI-eL-EiK" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Statistics" image="sessions" selectedImage="sessions_selected" id="A8l-Ub-Q0o"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="UFk-FC-Ugh">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="UFk-FC-Ugh">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.30196078430000001" green="0.53333333329999999" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.058823529409999999" green="0.33333333329999998" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="k9I-oM-iXu" kind="relationship" relationship="rootViewController" id="mGA-tn-zNd"/>
@@ -226,11 +226,11 @@ workout</string>
                         <viewControllerLayoutGuide type="bottom" id="uUC-vn-soj"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8aw-gp-UgC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="zJx-4N-ka1">
-                                <rect key="frame" x="20" y="75" width="374" height="29"/>
+                                <rect key="frame" x="20" y="11" width="374" height="29"/>
                                 <segments>
                                     <segment title="#"/>
                                     <segment title="W"/>
@@ -243,15 +243,22 @@ workout</string>
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XcF-KD-ktC">
-                                <rect key="frame" x="20" y="620" width="374" height="47"/>
+                                <rect key="frame" x="20" y="556" width="374" height="47"/>
                                 <string key="text">Here be line chart with selected (or all) data over last x sessions. Maybe showing some regressions, too.
 </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ngj-ju-m1W">
+                                <rect key="frame" x="20" y="440" width="374" height="30"/>
+                                <state key="normal" title="Start arms session"/>
+                                <connections>
+                                    <action selector="start" destination="k9I-oM-iXu" eventType="touchUpInside" id="6bW-9C-PxD"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wnD-hc-8AK" customClass="PieChartView" customModule="Charts">
-                                <rect key="frame" x="20" y="114" width="374" height="374"/>
+                                <rect key="frame" x="20" y="50" width="374" height="374"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNW-SJ-6Dt">
                                         <rect key="frame" x="97" y="97" width="180" height="180"/>
@@ -275,13 +282,6 @@ workout</string>
                                     <constraint firstItem="rNW-SJ-6Dt" firstAttribute="leading" secondItem="wnD-hc-8AK" secondAttribute="leading" constant="97" id="nhl-iB-SoZ"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ngj-ju-m1W">
-                                <rect key="frame" x="20" y="504" width="374" height="30"/>
-                                <state key="normal" title="Start arms session"/>
-                                <connections>
-                                    <action selector="start" destination="k9I-oM-iXu" eventType="touchUpInside" id="6bW-9C-PxD"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -322,7 +322,7 @@ workout</string>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="mpd-bR-fvC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.30196078430000001" green="0.53333333329999999" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.058823529409999999" green="0.33333333329999998" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="pmY-Nl-DsG" kind="relationship" relationship="rootViewController" id="nay-L8-VeU"/>
@@ -338,10 +338,10 @@ workout</string>
                 <navigationController id="9Hh-7G-1PP" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="profile" selectedImage="profile_selected" id="7zx-8Z-ZaP"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="b1c-oj-rbJ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="b1c-oj-rbJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.30196078430000001" green="0.53333333329999999" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.058823529409999999" green="0.33333333329999998" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="Mou-Np-bON" kind="relationship" relationship="rootViewController" id="Jj2-07-UaE"/>
