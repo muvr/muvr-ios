@@ -18,6 +18,8 @@
 "%@ workout" = "%@ workout";
 "Start %@" = "Start %@";
 "Start another workout" = "Start another workout";
+"No workout" = "No workout";
+"No workout for today yet" = "No workout for today yet";
 
 /* MRAggregate */
 "MRAggregate.types" = "types";

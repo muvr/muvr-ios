@@ -2,13 +2,16 @@ import UIKit
 import MuvrKit
 import JTCalendar
 
-class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
+class MRStartWorkoutViewController: UIViewController, UITableViewDataSource, JTCalendarDelegate  {
 
     @IBOutlet weak var calendarView: JTHorizontalCalendarView!
     @IBOutlet weak var startButton: MRWorkoutButton!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var sessionTable: UITableView!
     private var manualViewController: MRManualViewController!
     private let calendar = JTCalendarManager()
+    private var selectedDate: NSDate = NSDate()
+    private var sessionsOnDate: [MRManagedExerciseSession] = []
     
     private var upcomingSessions: [MRSessionType] = []
     private var selectedSession: MRSessionType? = nil
@@ -21,15 +24,20 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
         calendar.contentView = calendarView
         calendar.delegate = self
         calendar.setDate(today)
-        calendar.reload()
+        
+        sessionTable.dataSource = self
+        selectedDate = today
+        sessionsOnDate = MRAppDelegate.sharedDelegate().sessionsOnDate(today)
         
         setTitleImage(named: "muvr_logo_white")
     }
     
     override func viewWillAppear(animated: Bool) {
         upcomingSessions = MRAppDelegate.sharedDelegate().sessions
+        sessionsOnDate = MRAppDelegate.sharedDelegate().sessionsOnDate(selectedDate)
         displayWorkouts()
         calendar.reload()
+        sessionTable.reloadData()
     }
     
     ///
@@ -107,6 +115,9 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
     func calendar(calendar: JTCalendarManager!, didTouchDayView dv: UIView!) {
         let dayView = dv as! JTCalendarDayView
         calendar.setDate(dayView.date)
+        selectedDate = dayView.date
+        sessionsOnDate = MRAppDelegate.sharedDelegate().sessionsOnDate(selectedDate)
+        sessionTable.reloadData()
     }
     
     ///
@@ -134,6 +145,27 @@ class MRStartWorkoutViewController: UIViewController, JTCalendarDelegate {
             label.textColor = MRColor.black
         }
         return view
+    }
+    
+    // MARK: TableViewDataSource
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return max(1, sessionsOnDate.count)
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("sessionCell", forIndexPath: indexPath)
+        if sessionsOnDate.isEmpty {
+            if selectedDate.dateOnly == NSDate().dateOnly { cell.textLabel?.text = "No workout for today yet".localized() }
+            else { cell.textLabel?.text = "No workout".localized() }
+        } else {
+            let session = sessionsOnDate[indexPath.row]
+            let format = NSDateFormatter()
+            format.dateStyle = .NoStyle
+            format.timeStyle = .ShortStyle
+            cell.textLabel?.text = "\(format.stringFromDate(session.start)) \(session.name)"
+        }
+        return cell
     }
     
 }

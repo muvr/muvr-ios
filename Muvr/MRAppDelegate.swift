@@ -76,6 +76,11 @@ protocol MRApp : MKExercisePropertySource {
     /// Returns true if there are sessions on the given date
     ///
     func hasSessionsOnDate(date: NSDate) -> Bool
+    
+    ///
+    /// Returns the sessions found on the given date
+    ///
+    func sessionsOnDate(date: NSDate) -> [MRManagedExerciseSession]
 
 }
 
@@ -133,6 +138,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func hasSessionsOnDate(date: NSDate) -> Bool {
         return MRManagedExerciseSession.hasSessionsOnDate(date, inManagedObjectContext: managedObjectContext)
+    }
+    
+    func sessionsOnDate(date: NSDate) -> [MRManagedExerciseSession] {
+        return MRManagedExerciseSession.fetchSessionsOnDate(date, inManagedObjectContext: managedObjectContext)
     }
     
     ///
@@ -419,7 +428,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// inject the predictors in the given session
     ///
     func injectPredictors(into session: MRManagedExerciseSession, ofType sessionType: MRSessionType) {
-        
+        session.name = sessionType.name
         session.plan = MRManagedExercisePlan.planForSessionType(sessionType, location: currentLocation, inManagedObjectContext: managedObjectContext)
         
         let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)

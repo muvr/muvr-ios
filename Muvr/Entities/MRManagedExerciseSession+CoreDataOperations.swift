@@ -42,5 +42,18 @@ extension MRManagedExerciseSession {
         
         return managedObjectContext.countForFetchRequest(fetchRequest).map { count in count > 0 } ?? false
     }
+    
+    ///
+    /// Fetch the sessions on a given date
+    ///
+    static func fetchSessionsOnDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
+        let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
+        let midnightToday = date.dateOnly
+        let midnightTomorrow = midnightToday.addDays(1)
+        fetchRequest.predicate = NSPredicate(format: "(start >= %@ AND start < %@)", midnightToday, midnightTomorrow)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "start", ascending: false)]
+        
+        return (try? managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]) ?? []
+    }
 
 }

@@ -31,8 +31,34 @@
                                     <constraint firstAttribute="width" secondItem="pa4-Xb-OTx" secondAttribute="height" multiplier="3:1" id="zGP-wl-8HQ"/>
                                 </constraints>
                             </scrollView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3Fe-0w-sdH">
+                                <rect key="frame" x="20" y="100" width="374" height="42"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="3Fe-0w-sdH" secondAttribute="height" multiplier="9:1" id="OPU-N5-rmi"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="sessionCell" textLabel="KJP-ZL-4yy" style="IBUITableViewCellStyleDefault" id="TTm-r2-ThB">
+                                        <rect key="frame" x="0.0" y="28" width="374" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TTm-r2-ThB" id="5Ta-41-Ke8">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KJP-ZL-4yy">
+                                                    <rect key="frame" x="15" y="0.0" width="344" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="t8Q-if-Kmr" customClass="MRWorkoutButton" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="80" y="165" width="255" height="255"/>
+                                <rect key="frame" x="80" y="182" width="255" height="255"/>
                                 <color key="backgroundColor" red="0.2470588235" green="0.80000000000000004" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Start workout" label="Start workout"/>
                                 <constraints>
@@ -58,13 +84,16 @@ workout</string>
                         <constraints>
                             <constraint firstItem="pa4-Xb-OTx" firstAttribute="centerX" secondItem="Xwy-pg-dpP" secondAttribute="centerX" id="26d-N1-Kzd"/>
                             <constraint firstItem="pa4-Xb-OTx" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-5" id="IAi-rg-3gg"/>
-                            <constraint firstItem="t8Q-if-Kmr" firstAttribute="top" secondItem="HIz-Nl-27v" secondAttribute="bottom" constant="73" id="O5q-3o-4G9"/>
+                            <constraint firstItem="3Fe-0w-sdH" firstAttribute="top" secondItem="HIz-Nl-27v" secondAttribute="bottom" constant="8" id="Jpp-nS-12a"/>
                             <constraint firstItem="HIz-Nl-27v" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-20" id="Rwa-Hu-s8Y"/>
+                            <constraint firstItem="t8Q-if-Kmr" firstAttribute="top" secondItem="3Fe-0w-sdH" secondAttribute="bottom" constant="40" id="WDR-QG-YbR"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3Fe-0w-sdH" secondAttribute="trailing" id="WVD-dA-7VZ"/>
                             <constraint firstItem="Q1S-ZS-XIG" firstAttribute="top" secondItem="pa4-Xb-OTx" secondAttribute="bottom" constant="16" id="cc9-pz-o14"/>
                             <constraint firstAttribute="trailingMargin" secondItem="HIz-Nl-27v" secondAttribute="trailing" constant="-20" id="dOn-4J-Rap"/>
                             <constraint firstItem="t8Q-if-Kmr" firstAttribute="centerX" secondItem="Xwy-pg-dpP" secondAttribute="centerX" id="fAu-XB-exd"/>
                             <constraint firstItem="t8Q-if-Kmr" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="60" id="iDc-pc-BIU"/>
                             <constraint firstItem="HIz-Nl-27v" firstAttribute="top" secondItem="Q74-HE-1qC" secondAttribute="bottom" id="pdg-zR-Qr7"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="3Fe-0w-sdH" secondAttribute="leading" id="upu-Wb-epL"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Start workout" image="exercise" selectedImage="exercise_selected" id="EWj-fs-vma"/>
@@ -73,6 +102,7 @@ workout</string>
                     <connections>
                         <outlet property="calendarView" destination="HIz-Nl-27v" id="F1d-F6-O0C"/>
                         <outlet property="scrollView" destination="pa4-Xb-OTx" id="xqo-Fz-oJN"/>
+                        <outlet property="sessionTable" destination="3Fe-0w-sdH" id="yBn-m2-kpR"/>
                         <outlet property="startButton" destination="t8Q-if-Kmr" id="Uij-WT-sFb"/>
                     </connections>
                 </viewController>
