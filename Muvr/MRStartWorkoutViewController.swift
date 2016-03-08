@@ -3,9 +3,8 @@ import MuvrKit
 import JTCalendar
 
 class MRStartWorkoutViewController: UIViewController, UITableViewDataSource, JTCalendarDelegate  {
-
     @IBOutlet weak var calendarView: JTHorizontalCalendarView!
-    @IBOutlet weak var startButton: MRWorkoutButton!
+    @IBOutlet weak var startButton: MRAlternativeWorkoutButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var sessionTable: UITableView!
     private var manualViewController: MRManualViewController!
@@ -13,8 +12,8 @@ class MRStartWorkoutViewController: UIViewController, UITableViewDataSource, JTC
     private var selectedDate: NSDate = NSDate()
     private var sessionsOnDate: [MRManagedExerciseSession] = []
     
-    private var upcomingSessions: [MRSessionType] = []
-    private var selectedSession: MRSessionType? = nil
+    private var upcomingSessionTypes: [MRSessionType] = []
+    private var selectedSessionType: MRSessionType? = nil
     
     override func viewDidLoad() {
         manualViewController = storyboard?.instantiateViewControllerWithIdentifier("adhoc") as! MRManualViewController
@@ -33,7 +32,7 @@ class MRStartWorkoutViewController: UIViewController, UITableViewDataSource, JTC
     }
     
     override func viewWillAppear(animated: Bool) {
-        upcomingSessions = MRAppDelegate.sharedDelegate().sessions
+        upcomingSessionTypes = MRAppDelegate.sharedDelegate().sessions
         sessionsOnDate = MRAppDelegate.sharedDelegate().sessionsOnDate(selectedDate)
         displayWorkouts()
         calendar.reload()
@@ -54,21 +53,21 @@ class MRStartWorkoutViewController: UIViewController, UITableViewDataSource, JTC
 
     
     private func displayWorkouts() {
-        if let session = upcomingSessions.first {
-            selectedSession = session
-            startButton.setTitle("Start %@".localized(session.name), forState: .Normal)
+        if let sessionType = upcomingSessionTypes.first {
+            selectedSessionType = sessionType
+            startButton.setTitle("Start %@".localized(sessionType.name), forState: .Normal)
         }
         
         scrollView.subviews.forEach { $0.removeFromSuperview() }
         
         let buttonWidth = scrollView.frame.width / 3
-        scrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(upcomingSessions.count), scrollView.frame.height)
+        scrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(upcomingSessionTypes.count), scrollView.frame.height)
         
-        if upcomingSessions.count > 1 {
-            for session in upcomingSessions {
-                let button = MRWorkoutButton(type: UIButtonType.System)
+        if upcomingSessionTypes.count > 1 {
+            for sessionType in upcomingSessionTypes {
+                let button = MRAlternativeWorkoutButton(type: UIButtonType.System)
                 button.color = MRColor.green
-                button.session = session
+                button.sessionType = sessionType
                 button.setTitleColor(MRColor.green, forState: .Normal)
                 button.addTarget(self, action: #selector(MRStartWorkoutViewController.changeWorkout(_:)), forControlEvents: [.TouchUpInside])
                 scrollView.addSubview(button)
@@ -76,7 +75,7 @@ class MRStartWorkoutViewController: UIViewController, UITableViewDataSource, JTC
         }
         
         // add "Start another workout" button
-        let button = MRWorkoutButton(type: UIButtonType.System)
+        let button = MRAlternativeWorkoutButton(type: UIButtonType.System)
         button.color = MRColor.orange
         button.backgroundColor = MRColor.orange
         button.setTitleColor(.whiteColor(), forState: .Normal)
@@ -86,20 +85,20 @@ class MRStartWorkoutViewController: UIViewController, UITableViewDataSource, JTC
         
     }
     
-    func selectAnotherWorkout() {
+    @objc private func selectAnotherWorkout() {
         showViewController(manualViewController, sender: self)
     }
     
-    func changeWorkout(sender: MRWorkoutButton) {
-        if let session = sender.session {
-            selectedSession = session
-            startButton.setTitle("Start %@".localized(session.name), forState: .Normal)
+    @objc private func changeWorkout(sender: MRAlternativeWorkoutButton) {
+        if let sessionType = sender.sessionType {
+            selectedSessionType = sessionType
+            startButton.setTitle("Start %@".localized(sessionType.name), forState: .Normal)
         }
     }
     
-    @IBAction func startWorkout(sender: MRWorkoutButton) {
-        if let session = selectedSession {
-            try! MRAppDelegate.sharedDelegate().startSession(session)
+    @IBAction private func startWorkout(sender: MRAlternativeWorkoutButton) {
+        if let sessionType = selectedSessionType {
+            try! MRAppDelegate.sharedDelegate().startSession(sessionType)
         }
     }
     

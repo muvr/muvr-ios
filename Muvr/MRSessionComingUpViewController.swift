@@ -38,7 +38,7 @@ class MRSessionComingUpViewController: UIViewController {
         scrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(exerciseDetails.count), scrollView.frame.height)
         
         for exerciseDetail in exerciseDetails {
-            let button = MRAlternateExerciseButton(type: UIButtonType.System)
+            let button = MRAlternativeExerciseButton(type: UIButtonType.System)
             button.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
             button.addTarget(self, action: #selector(MRSessionComingUpViewController.exerciseSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             button.exerciseDetail = exerciseDetail
@@ -48,7 +48,7 @@ class MRSessionComingUpViewController: UIViewController {
     
     /// This needs to be public as a handler for the button tap event. Do not call.
     func exerciseSelected(sender: UIButton) {
-        if let exercise = (sender as? MRAlternateExerciseButton)?.exerciseDetail {
+        if let exercise = (sender as? MRAlternativeExerciseButton)?.exerciseDetail {
             onSelected(exercise)
         }
     }

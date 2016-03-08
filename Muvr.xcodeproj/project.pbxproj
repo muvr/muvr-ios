@@ -211,7 +211,8 @@
 		6428CE261C44FC3000D17451 /* MRCircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE251C44FC3000D17451 /* MRCircleButton.swift */; };
 		6428CE2A1C45127500D17451 /* MRSessionComingUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE291C45127500D17451 /* MRSessionComingUpViewController.swift */; };
 		6428CE2C1C451FC700D17451 /* MRSessionLabellingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE2B1C451FC700D17451 /* MRSessionLabellingViewController.swift */; };
-		6428CE321C45340700D17451 /* MRAlternateExerciseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE311C45340700D17451 /* MRAlternateExerciseButton.swift */; };
+		6428CE321C45340700D17451 /* MRAlternativeExerciseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE311C45340700D17451 /* MRAlternativeExerciseButton.swift */; };
+		6439AD1F1C8F269B00B96DB8 /* MRAlternativeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6439AD1E1C8F269B00B96DB8 /* MRAlternativeButton.swift */; };
 		6445C40E1C4CF57A00A0CDB9 /* MKExerciseSession+MRManagedExerciseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6445C40D1C4CF57A00A0CDB9 /* MKExerciseSession+MRManagedExerciseSession.swift */; };
 		6445C4131C4CFA7D00A0CDB9 /* MKPhoneExerciseSession+Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6445C4121C4CFA7D00A0CDB9 /* MKPhoneExerciseSession+Metadata.swift */; };
 		6445C4151C4D52CE00A0CDB9 /* MKExerciseSession+MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6445C4141C4D52CE00A0CDB9 /* MKExerciseSession+MetadataTests.swift */; };
@@ -231,9 +232,9 @@
 		64BA9DC91C80997300D8540E /* MRManagedSessionPlan+CoreDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DC81C80997300D8540E /* MRManagedSessionPlan+CoreDataOperations.swift */; };
 		64BA9DCD1C84663200D8540E /* Sessions.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 64BA9DCC1C84663200D8540E /* Sessions.bundle */; };
 		64BA9DCF1C8479D200D8540E /* MRSessionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DCE1C8479D200D8540E /* MRSessionType.swift */; };
-		64BA9DD11C85AA9800D8540E /* MRWorkoutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DD01C85AA9800D8540E /* MRWorkoutButton.swift */; };
+		64BA9DD11C85AA9800D8540E /* MRAlternativeWorkoutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DD01C85AA9800D8540E /* MRAlternativeWorkoutButton.swift */; };
 		64BA9DD51C88554A00D8540E /* MRManagedSessionPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BA9DD41C88554A00D8540E /* MRManagedSessionPlanTests.swift */; };
-		64EB48CB1C888F3E000A4C36 /* UIViewController+NavBarTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EB48CA1C888F3E000A4C36 /* UIViewController+NavBarTitle.swift */; };
+		64EB48CB1C888F3E000A4C36 /* UIViewController+TitleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EB48CA1C888F3E000A4C36 /* UIViewController+TitleImage.swift */; };
 		64EB48CD1C89AA94000A4C36 /* MRColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EB48CC1C89AA94000A4C36 /* MRColor.swift */; };
 		64FB23BC1C3E899E005312C2 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 64FB23BE1C3E899E005312C2 /* Localizable.stringsdict */; };
 		99835A4C1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */; };
@@ -562,7 +563,8 @@
 		6428CE251C44FC3000D17451 /* MRCircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRCircleButton.swift; sourceTree = "<group>"; };
 		6428CE291C45127500D17451 /* MRSessionComingUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionComingUpViewController.swift; sourceTree = "<group>"; };
 		6428CE2B1C451FC700D17451 /* MRSessionLabellingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionLabellingViewController.swift; sourceTree = "<group>"; };
-		6428CE311C45340700D17451 /* MRAlternateExerciseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRAlternateExerciseButton.swift; sourceTree = "<group>"; };
+		6428CE311C45340700D17451 /* MRAlternativeExerciseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRAlternativeExerciseButton.swift; sourceTree = "<group>"; };
+		6439AD1E1C8F269B00B96DB8 /* MRAlternativeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRAlternativeButton.swift; sourceTree = "<group>"; };
 		6445C40D1C4CF57A00A0CDB9 /* MKExerciseSession+MRManagedExerciseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseSession+MRManagedExerciseSession.swift"; sourceTree = "<group>"; };
 		6445C4121C4CFA7D00A0CDB9 /* MKPhoneExerciseSession+Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKPhoneExerciseSession+Metadata.swift"; sourceTree = "<group>"; };
 		6445C4141C4D52CE00A0CDB9 /* MKExerciseSession+MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseSession+MetadataTests.swift"; sourceTree = "<group>"; };
@@ -582,9 +584,9 @@
 		64BA9DC81C80997300D8540E /* MRManagedSessionPlan+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedSessionPlan+CoreDataOperations.swift"; sourceTree = "<group>"; };
 		64BA9DCC1C84663200D8540E /* Sessions.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Sessions.bundle; sourceTree = "<group>"; };
 		64BA9DCE1C8479D200D8540E /* MRSessionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionType.swift; sourceTree = "<group>"; };
-		64BA9DD01C85AA9800D8540E /* MRWorkoutButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRWorkoutButton.swift; sourceTree = "<group>"; };
+		64BA9DD01C85AA9800D8540E /* MRAlternativeWorkoutButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRAlternativeWorkoutButton.swift; sourceTree = "<group>"; };
 		64BA9DD41C88554A00D8540E /* MRManagedSessionPlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedSessionPlanTests.swift; sourceTree = "<group>"; };
-		64EB48CA1C888F3E000A4C36 /* UIViewController+NavBarTitle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavBarTitle.swift"; sourceTree = "<group>"; };
+		64EB48CA1C888F3E000A4C36 /* UIViewController+TitleImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+TitleImage.swift"; sourceTree = "<group>"; };
 		64EB48CC1C89AA94000A4C36 /* MRColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRColor.swift; sourceTree = "<group>"; };
 		64FB23BD1C3E899E005312C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		99835A4B1C46B016001B1E66 /* MKExerciseType+MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseType+MetadataTests.swift"; sourceTree = "<group>"; };
@@ -971,7 +973,7 @@
 			children = (
 				548C26261C4A63E9009F299B /* Session */,
 				548C26251C4A63DA009F299B /* Home */,
-				64EB48CA1C888F3E000A4C36 /* UIViewController+NavBarTitle.swift */,
+				64EB48CA1C888F3E000A4C36 /* UIViewController+TitleImage.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1097,10 +1099,11 @@
 				64AD0F381C7CAC07008AD760 /* MRTimeView.swift */,
 				6428CE231C44EEAA00D17451 /* MRBarsView.swift */,
 				6428CE251C44FC3000D17451 /* MRCircleButton.swift */,
-				6428CE311C45340700D17451 /* MRAlternateExerciseButton.swift */,
 				543E329B1C4BB1ED00D9922D /* MRExerciseLabelViews.swift */,
 				543E32A11C4BDBD200D9922D /* MRScalarExerciseLabelSettable.swift */,
-				64BA9DD01C85AA9800D8540E /* MRWorkoutButton.swift */,
+				6439AD1E1C8F269B00B96DB8 /* MRAlternativeButton.swift */,
+				6428CE311C45340700D17451 /* MRAlternativeExerciseButton.swift */,
+				64BA9DD01C85AA9800D8540E /* MRAlternativeWorkoutButton.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1586,13 +1589,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6428CE321C45340700D17451 /* MRAlternateExerciseButton.swift in Sources */,
+				6428CE321C45340700D17451 /* MRAlternativeExerciseButton.swift in Sources */,
 				6428CE241C44EEAA00D17451 /* MRBarsView.swift in Sources */,
 				54EFE97B1BDEC74E00AE190A /* MRAppDelegate+UITesting.swift in Sources */,
 				5421AEC31C404039009CB4FA /* MKMuscleGroup+Localisation.swift in Sources */,
 				640E5EAF1C6B34EB00B9F227 /* MRManagedLabelsPredictor+CoreDataProperties.swift in Sources */,
 				6445C40E1C4CF57A00A0CDB9 /* MKExerciseSession+MRManagedExerciseSession.swift in Sources */,
 				5437BD3F1C40493400B518D9 /* MKExerciseTypeDescriptor+ExerciseId.swift in Sources */,
+				6439AD1F1C8F269B00B96DB8 /* MRAlternativeButton.swift in Sources */,
 				543E329E1C4BC53000D9922D /* MRManagedExercise+CoreDataOperations.swift in Sources */,
 				5493FC221C42D17100317A15 /* String+Localization.swift in Sources */,
 				FC1AC75B1ADE984500832DE7 /* MRUserDefaults.swift in Sources */,
@@ -1618,7 +1622,7 @@
 				543E90B21C26FF640050F87A /* Aws.swift in Sources */,
 				6428CE261C44FC3000D17451 /* MRCircleButton.swift in Sources */,
 				543E327E1C4AB57A00D9922D /* MRManagedExerciseSession+CoreDataOperations.swift in Sources */,
-				64BA9DD11C85AA9800D8540E /* MRWorkoutButton.swift in Sources */,
+				64BA9DD11C85AA9800D8540E /* MRAlternativeWorkoutButton.swift in Sources */,
 				54CAADDE1C39BA9300A7B0E6 /* MRLocationSynchronisation.swift in Sources */,
 				543E32671C4A997500D9922D /* MRManagedExerciseScalarLabel+CoreDataProperties.swift in Sources */,
 				6428CE2C1C451FC700D17451 /* MRSessionLabellingViewController.swift in Sources */,
@@ -1657,7 +1661,7 @@
 				543E32661C4A997500D9922D /* MRManagedLocation.swift in Sources */,
 				543E32681C4A997500D9922D /* MRManagedExerciseScalarLabel.swift in Sources */,
 				64EB48CD1C89AA94000A4C36 /* MRColor.swift in Sources */,
-				64EB48CB1C888F3E000A4C36 /* UIViewController+NavBarTitle.swift in Sources */,
+				64EB48CB1C888F3E000A4C36 /* UIViewController+TitleImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
