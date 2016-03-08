@@ -5,9 +5,9 @@ import MuvrKit
 ///
 /// Draws a button that displays the given exercise in a rounded button
 ///
-class MRAlternateExerciseButton: MRAlternativeButton {
+class MRAlternativeExerciseButton: MRAlternativeButton {
     
-    /// When set, update the button with the exercise's title
+    /// The exercise detail displayed in this button
     var exerciseDetail: MKExerciseDetail? = nil {
         didSet {
             let title = exerciseDetail.map { MKExercise.title($0.0) }
