@@ -67,6 +67,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         mainExerciseView.delegate = self
         
         setTitleImage(named: "muvr_logo_white")
+        navigationItem.setHidesBackButton(true, animated: false)
         
         UIView.appearanceWhenContainedInInstancesOfClasses([MRSessionViewController.self]).tintColor = MRColor.black
         
