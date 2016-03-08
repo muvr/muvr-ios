@@ -5,7 +5,7 @@ import MuvrKit
 ///
 /// Draws a button that displays the given exercise in a rounded button
 ///
-class MRAlternateExerciseButton: UIButton {
+class MRAlternateExerciseButton: MRAlternativeButton {
     
     /// When set, update the button with the exercise's title
     var exerciseDetail: MKExerciseDetail? = nil {
@@ -15,22 +15,6 @@ class MRAlternateExerciseButton: UIButton {
             accessibilityHint = "Alternative".localized()
             setTitle(title, forState: .Normal)
         }
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        titleLabel?.numberOfLines = 3
-        titleLabel?.lineBreakMode = .ByWordWrapping
-        titleLabel?.textAlignment = .Center
-        titleEdgeInsets = UIEdgeInsets(top: 3, left: 6, bottom: 3, right: 6)
-
-        let radius = min(frame.width, frame.height) / 2
-        let lineWidth = radius / 16
-
-        layer.cornerRadius = radius
-        layer.borderWidth = lineWidth
-        layer.borderColor = MRColor.gray.CGColor
     }
     
 }

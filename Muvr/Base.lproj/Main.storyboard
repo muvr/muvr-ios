@@ -57,7 +57,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="t8Q-if-Kmr" customClass="MRWorkoutButton" customModule="Muvr" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="t8Q-if-Kmr" customClass="MRAlternateWorkoutButton" customModule="Muvr" customModuleProvider="target">
                                 <rect key="frame" x="80" y="182" width="255" height="255"/>
                                 <color key="backgroundColor" red="0.2470588235" green="0.80000000000000004" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Start workout" label="Start workout"/>

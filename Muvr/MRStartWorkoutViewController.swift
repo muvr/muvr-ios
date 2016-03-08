@@ -4,8 +4,9 @@ import JTCalendar
 
 class MRStartWorkoutViewController: UIViewController, UITableViewDataSource, JTCalendarDelegate  {
 
+
     @IBOutlet weak var calendarView: JTHorizontalCalendarView!
-    @IBOutlet weak var startButton: MRWorkoutButton!
+    @IBOutlet weak var startButton: MRAlternateWorkoutButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var sessionTable: UITableView!
     private var manualViewController: MRManualViewController!
@@ -66,7 +67,7 @@ class MRStartWorkoutViewController: UIViewController, UITableViewDataSource, JTC
         
         if upcomingSessions.count > 1 {
             for session in upcomingSessions {
-                let button = MRWorkoutButton(type: UIButtonType.System)
+                let button = MRAlternateWorkoutButton(type: UIButtonType.System)
                 button.color = MRColor.green
                 button.session = session
                 button.setTitleColor(MRColor.green, forState: .Normal)
@@ -76,7 +77,7 @@ class MRStartWorkoutViewController: UIViewController, UITableViewDataSource, JTC
         }
         
         // add "Start another workout" button
-        let button = MRWorkoutButton(type: UIButtonType.System)
+        let button = MRAlternateWorkoutButton(type: UIButtonType.System)
         button.color = MRColor.orange
         button.backgroundColor = MRColor.orange
         button.setTitleColor(.whiteColor(), forState: .Normal)
@@ -90,14 +91,14 @@ class MRStartWorkoutViewController: UIViewController, UITableViewDataSource, JTC
         showViewController(manualViewController, sender: self)
     }
     
-    func changeWorkout(sender: MRWorkoutButton) {
+    func changeWorkout(sender: MRAlternateWorkoutButton) {
         if let session = sender.session {
             selectedSession = session
             startButton.setTitle("Start %@".localized(session.name), forState: .Normal)
         }
     }
     
-    @IBAction func startWorkout(sender: MRWorkoutButton) {
+    @IBAction func startWorkout(sender: MRAlternateWorkoutButton) {
         if let session = selectedSession {
             try! MRAppDelegate.sharedDelegate().startSession(session)
         }

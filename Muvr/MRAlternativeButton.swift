@@ -1,21 +1,12 @@
 import UIKit
 
 @IBDesignable
-class MRWorkoutButton: UIButton {
-
+class MRAlternativeButton: UIButton {
+    
     @IBInspectable
-    var color: UIColor = UIColor.darkTextColor() {
+    var color: UIColor = MRColor.gray {
         didSet {
             layer.borderColor = color.CGColor
-        }
-    }
-    
-    var session: MRSessionType? = nil {
-        didSet {
-            let title = session.map { $0.name }
-            accessibilityLabel = title
-            accessibilityHint = "Workout".localized()
-            setTitle(title, forState: .Normal)
         }
     }
     
@@ -29,9 +20,9 @@ class MRWorkoutButton: UIButton {
         titleLabel?.lineBreakMode = .ByWordWrapping
         titleLabel?.textAlignment = .Center
         titleLabel?.adjustsFontSizeToFitWidth = true
-        titleLabel?.font = titleLabel?.font.fontWithSize(4 * lineWidth)
+        titleLabel?.font = titleLabel?.font.fontWithSize(4.2 * lineWidth)
         
-        titleEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12) 
+        titleEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         
         layer.cornerRadius = radius
         layer.borderWidth = lineWidth
