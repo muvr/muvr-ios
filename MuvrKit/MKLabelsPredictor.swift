@@ -10,17 +10,17 @@ public protocol MKLabelsPredictor {
     
     ///
     /// Predicts the next labels and duration for the upcoming exercise
-    /// - parameter exerciseId: the upcoming exercise id
+    /// - parameter exerciseDetail: the upcoming exercise detail
     /// - returns: the predicted labels and duration
     ///
-    func predictLabelsForExerciseId(exerciseId: MKExercise.Id) -> MKExerciseLabelsWithDuration?
+    func predictLabelsForExercise(exerciseDetail: MKExerciseDetail) -> MKExerciseLabelsWithDuration?
     
     ///
     /// Corrects the labels and duration for the finished exercise
-    /// - parameter exerciseId: the finished exercise id
+    /// - parameter exerciseDetail: the finished exercise detail
     /// - parameter labels: the actual labels and duration of the finished exercise
     ///
-    func correctLabelsForExerciseId(exerciseId: MKExercise.Id, labels: MKExerciseLabelsWithDuration)
+    func correctLabelsForExercise(exerciseDetail: MKExerciseDetail, labels: MKExerciseLabelsWithDuration)
     
     ///
     ///  The JSON representation of the predictor

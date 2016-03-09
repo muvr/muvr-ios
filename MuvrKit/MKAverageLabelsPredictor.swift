@@ -339,30 +339,30 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     
     ///
     /// Predict the labels for the next set of the given exercise
-    /// - parameter exerciseId: the upcoming exercise id
+    /// - parameter exerciseDetail: the upcoming exercise detail
     /// - returns the predicted labels for this exercise
     ///
-    public func predictLabelsForExerciseId(exerciseId: MKExercise.Id) -> MKExerciseLabelsWithDuration? {
-        let currentSet = workout[exerciseId]?.count ?? 0
+    public func predictLabelsForExercise(exerciseDetail: MKExerciseDetail) -> MKExerciseLabelsWithDuration? {
+        let currentSet = workout[exerciseDetail.id]?.count ?? 0
         
         // try to return the average for the given set
-        if var avg = history[exerciseId]?.weightedAvg(forSet: currentSet) {
+        if var avg = history[exerciseDetail.id]?.weightedAvg(forSet: currentSet) {
             avg.update {
-                let v = self.correctValue(forExerciseId: exerciseId, key: $0, value: $1)
-                return self.roundValue(forExerciseId: exerciseId, key: $0, value: v)
+                let v = self.correctValue(forExerciseId: exerciseDetail.id, key: $0, value: $1)
+                return self.roundValue(forExerciseId: exerciseDetail.id, key: $0, value: v)
             }
             return avg.labelsWithDuration
         }
         
         // tries to find a similar set in the current session
-        if let sets = workout[exerciseId],
+        if let sets = workout[exerciseDetail.id],
            let last = sets.last,
            let i = sets.indexOf(sameAs(last)) where i + 1 < sets.count {
             return sets[i + 1].labelsWithDuration
         }
         
         // compute the progression over the past 2 sets in the current session
-        if let sets = workout[exerciseId] where sets.count > 1 {
+        if let sets = workout[exerciseDetail.id] where sets.count > 1 {
             let last = sets.count - 1
             let set1 = sets[last - 1]
             let set2 = sets[last]
@@ -372,28 +372,28 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
                 else { next.set(key, value: v2) }
                 
             }
-            next.update { self.roundValue(forExerciseId: exerciseId, key: $0, value: $1) }
+            next.update { self.roundValue(forExerciseId: exerciseDetail.id, key: $0, value: $1) }
             return next.labelsWithDuration
         }
         
         // return the previous value in the current session
-        return workout[exerciseId]?.last?.labelsWithDuration
+        return workout[exerciseDetail.id]?.last?.labelsWithDuration
     }
     
     ///
     /// Stores the actual labels for the given exercise and compute the corrections to apply to the current session
-    /// - parameter exerciseId: the exercise id of the finished exercise
+    /// - parameter exerciseDetail: the exercise detail of the finished exercise
     /// - parameter labels: the labels of the finished exercise
     ///
-    public func correctLabelsForExerciseId(exerciseId: MKExercise.Id, labels: MKExerciseLabelsWithDuration) {
+    public func correctLabelsForExercise(exerciseDetail: MKExerciseDetail, labels: MKExerciseLabelsWithDuration) {
         let metrics = ExerciseSetMetrics(labels: labels)
         
-        updateCorrections(forExerciseId: exerciseId, metrics: metrics)
+        updateCorrections(forExerciseId: exerciseDetail.id, metrics: metrics)
         
         // stores this set into the current session
-        var sets = workout[exerciseId] ?? []
+        var sets = workout[exerciseDetail.id] ?? []
         sets.append(metrics)
-        workout[exerciseId] = sets
+        workout[exerciseDetail.id] = sets
     }
     
     ///

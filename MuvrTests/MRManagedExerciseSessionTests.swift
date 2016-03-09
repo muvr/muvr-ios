@@ -28,7 +28,7 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
         session.plan = MRManagedExercisePlan.insertNewObject(.AdHoc(exerciseType: .IndoorsCardio), location: nil, inManagedObjectContext: managedObjectContext)
         session.labelsPredictor = MKAverageLabelsPredictor(historySize: 1) { _, v, _ in return v }
         
-        let givenDetail: MKExerciseDetail = MKExerciseDetail(id: "foo/bar", type: MKExerciseType.ResistanceWholeBody, muscle: nil, labels: [], properties: [])
+        let givenDetail: MKExerciseDetail = MKExerciseDetail(id: "foo/bar", type: MKExerciseType.ResistanceWholeBody, muscle: nil, labels: [.Repetitions, .Weight, .Intensity], properties: [])
         let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10), .Intensity(intensity: 0.5), .Weight(weight: 40)]
         
         session.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10)
