@@ -195,7 +195,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
                     }
                 }
                 let labels = labelNames.flatMap { MKExerciseLabelDescriptor(id: $0) }
-                return MKExerciseDetail(id: id, type: exerciseType, labels: labels, properties: properties)
+                let muscle = (exercise["muscle"] as? String).flatMap { MKMuscle(id: $0) }
+                return MKExerciseDetail(id: id, type: exerciseType, muscle: muscle, labels: labels, properties: properties)
             }
             exerciseDetails = baseExerciseDetails
         } else {
@@ -550,9 +551,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private func updatedLocation(location: CLLocation) {
         currentLocation = MRManagedLocation.findAtLocation(location.coordinate, inManagedObjectContext: managedObjectContext)
         if let currentLocation = currentLocation {
-            currentLocationExerciseDetails = currentLocation.managedExercises.map { le in
-                let labels = baseExerciseDetails.filter { $0.id == le.id }.first?.labels ?? []
-                return MKExerciseDetail(id: le.id, type: MKExerciseType(exerciseId: le.id)!, labels: labels, properties: le.properties)
+            currentLocationExerciseDetails = currentLocation.managedExercises.flatMap { le in
+                guard let detail = baseExerciseDetails.filter({ $0.id == le.id }).first else { return nil }
+                let labels = detail.labels ?? []
+                let muscle = detail.muscle
+                return MKExerciseDetail(id: le.id, type: detail.type, muscle: muscle, labels: labels, properties: le.properties)
             }
             exerciseDetails =
                 currentLocationExerciseDetails +

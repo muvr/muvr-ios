@@ -204,6 +204,9 @@
 		640E5EAD1C6B348E00B9F227 /* MRManagedLabelsPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640E5EAC1C6B348E00B9F227 /* MRManagedLabelsPredictor.swift */; };
 		640E5EAF1C6B34EB00B9F227 /* MRManagedLabelsPredictor+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640E5EAE1C6B34EB00B9F227 /* MRManagedLabelsPredictor+CoreDataProperties.swift */; };
 		640E5EB11C6B356C00B9F227 /* MRManagedLabelsPredictor+CoreDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640E5EB01C6B356C00B9F227 /* MRManagedLabelsPredictor+CoreDataOperations.swift */; };
+		641557691C903F630020B7AA /* MKMuscle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641557671C903ADD0020B7AA /* MKMuscle.swift */; };
+		6415576C1C90636C0020B7AA /* MKMuscleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6415576B1C90636C0020B7AA /* MKMuscleTests.swift */; };
+		6415576E1C9065150020B7AA /* MKExerciseDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6415576D1C9065150020B7AA /* MKExerciseDetailTests.swift */; };
 		6423635D1C18A20E00ABF4CA /* MRCoreDataTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6423635C1C18A20E00ABF4CA /* MRCoreDataTestCase.swift */; };
 		6428CE1E1C43FEFE00D17451 /* MRRepetitionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE1D1C43FEFE00D17451 /* MRRepetitionsView.swift */; };
 		6428CE221C4416D300D17451 /* MRWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE211C4416D300D17451 /* MRWeightView.swift */; };
@@ -554,6 +557,9 @@
 		640E5EAC1C6B348E00B9F227 /* MRManagedLabelsPredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedLabelsPredictor.swift; sourceTree = "<group>"; };
 		640E5EAE1C6B34EB00B9F227 /* MRManagedLabelsPredictor+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedLabelsPredictor+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		640E5EB01C6B356C00B9F227 /* MRManagedLabelsPredictor+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedLabelsPredictor+CoreDataOperations.swift"; sourceTree = "<group>"; };
+		641557671C903ADD0020B7AA /* MKMuscle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMuscle.swift; sourceTree = "<group>"; };
+		6415576B1C90636C0020B7AA /* MKMuscleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMuscleTests.swift; sourceTree = "<group>"; };
+		6415576D1C9065150020B7AA /* MKExerciseDetailTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseDetailTests.swift; sourceTree = "<group>"; };
 		6423635A1C18A20E00ABF4CA /* MuvrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MuvrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6423635C1C18A20E00ABF4CA /* MRCoreDataTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRCoreDataTestCase.swift; sourceTree = "<group>"; };
 		6423635E1C18A20E00ABF4CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -911,6 +917,7 @@
 		546E685A1BB98D0800DC0FEF /* MuvrKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				6415576A1C9063510020B7AA /* Biomechanics */,
 				547791031C23640800763197 /* Plan */,
 				54E913171BC306A500B7F9F0 /* Resources */,
 				548E27751BF3FD2900899EBC /* Model */,
@@ -921,6 +928,7 @@
 				54EAC09E1C4C2FF8005AA3F4 /* MKExerciseTypeTests.swift */,
 				546E685D1BB98D0800DC0FEF /* Info.plist */,
 				548CAB401BBB0FCA00A34D81 /* XCTestCase+Exceptions.swift */,
+				6415576D1C9065150020B7AA /* MKExerciseDetailTests.swift */,
 			);
 			path = MuvrKitTests;
 			sourceTree = "<group>";
@@ -1169,6 +1177,15 @@
 		54ECB7321C3FF35E00B6E042 /* Biomechanics */ = {
 			isa = PBXGroup;
 			children = (
+				641557671C903ADD0020B7AA /* MKMuscle.swift */,
+			);
+			name = Biomechanics;
+			sourceTree = "<group>";
+		};
+		6415576A1C9063510020B7AA /* Biomechanics */ = {
+			isa = PBXGroup;
+			children = (
+				6415576B1C90636C0020B7AA /* MKMuscleTests.swift */,
 			);
 			name = Biomechanics;
 			sourceTree = "<group>";
@@ -1677,6 +1694,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6415576E1C9065150020B7AA /* MKExerciseDetailTests.swift in Sources */,
 				546E685C1BB98D0800DC0FEF /* MKMuvrKitTests.swift in Sources */,
 				546E68671BB98D1D00DC0FEF /* MKSensorDataSingleTypeTests.swift in Sources */,
 				5487F5A41BB9C4C500ED2E97 /* MKSensorData+InternalCodecTests.swift in Sources */,
@@ -1687,6 +1705,7 @@
 				547791111C247EAE00763197 /* MKMarkovPredictorTests.swift in Sources */,
 				54BDDDCE1C440EF60054A059 /* MKMarkovPredictor+JSONTests.swift in Sources */,
 				9D6D27AF1BE23ABD00F4E4A7 /* MKForwardPropagatorTests.swift in Sources */,
+				6415576C1C90636C0020B7AA /* MKMuscleTests.swift in Sources */,
 				548E277F1BF3FFA700899EBC /* MKActivationFunction+ApplyOn.swift in Sources */,
 				548CAB3D1BBAF72600A34D81 /* MKClassifierTests.swift in Sources */,
 				540AA4541BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift in Sources */,
@@ -1735,6 +1754,7 @@
 				54ECB73A1C3FF70900B6E042 /* MKExerciseType.swift in Sources */,
 				54D345801BB9245E00F65091 /* MKSensorDataDelegate.swift in Sources */,
 				5421AECB1C40489B009CB4FA /* MKExerciseTypeDescriptor.swift in Sources */,
+				641557691C903F630020B7AA /* MKMuscle.swift in Sources */,
 				5471DD3A1BC13911007D1034 /* MKSensorData+Scaffolding.swift in Sources */,
 				64BA9DBD1C80579300D8540E /* MKExercisePlan.swift in Sources */,
 				543C54091BF3C8D80059F80A /* MKLayerConfiguration+Parsing.swift in Sources */,

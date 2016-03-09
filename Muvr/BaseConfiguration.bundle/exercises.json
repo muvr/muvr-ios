@@ -1,179 +1,222 @@
 [
  {
     "id":"resistanceTargeted:arms/triceps-pushdown",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "triceps"
  },
  {
     "id":"resistanceTargeted:arms/barbell-biceps-curl",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "biceps"
  },
  {
     "id":"resistanceTargeted:arms/dumbbell-biceps-curl",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "biceps"
  },
  {
     "id":"resistanceTargeted:arms/triceps-extension",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "triceps"
  },
  {
     "id":"resistanceTargeted:arms/reverse-cable-curl",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "biceps"
  },
  {
     "id":"resistanceTargeted:arms/overhead-cable-curl",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "biceps"
  },
  {
     "id":"resistanceTargeted:arms/triceps-dips",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "triceps"
  },
  {
     "id":"resistanceTargeted:arms/cable-biceps-curl",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "biceps"
  },
  {
     "id":"resistanceTargeted:arms/cable-hammer-curl",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "biceps"
  },
  {
     "id":"resistanceTargeted:back/back-extensions",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "erector-spinae"
  },
  {
     "id":"resistanceTargeted:back/lateral-pulldown",
-    "labels": ["repetitions", "weight", "intensity"]
- },
- {
-    "id":"resistanceTargeted:back/reverse-flyes",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "lats"
  },
  {
     "id":"resistanceTargeted:back/upright-row",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "trapezius"
  },
  {
     "id":"resistanceTargeted:back/cable-row",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "lats"
+ },
+ {
+    "id":"resistanceTargeted:arms/reverse-curl",
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "biceps"
+ },
+ {
+    "id":"resistanceTargeted:back/pull-up",
+    "labels": ["repetitions", "intensity"],
+    "muscle": "lats"
  },
 
  {
     "id":"resistanceTargeted:chest/angle-chest-press",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "pectoralis"
  },
  {
     "id":"resistanceTargeted:chest/dumbbell-flyes",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "pectoralis"
  },
  {
     "id":"resistanceTargeted:chest/bench-press",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "pectoralis"
  },
  {
     "id":"resistanceTargeted:chest/butterfly-machine",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "pectoralis"
  },
  {
     "id":"resistanceTargeted:chest/chest-press-machine",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "pectoralis"
  },
  {
     "id":"resistanceTargeted:chest/cable-crossover",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "pectoralis"
  },
 
  {
     "id":"resistanceTargeted:core/suitcase-crunches",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "abs"
  },
  {
     "id":"resistanceTargeted:core/side-dips",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "obliques"
  },
  {
     "id":"resistanceTargeted:core/crunches",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "abs"
  },
  {
     "id":"resistanceTargeted:core/oblique-crunches",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "obliques"
  },
  {
     "id":"resistanceTargeted:core/alternate-heel-touches",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "abs"
  },
  {
     "id":"resistanceTargeted:core/cable-wood-chop",
-    "labels": ["repetitions", "weight", "intensity"]
- },
- {
-    "id":"resistanceTargeted:core/reverse-curl",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "abs"
  },
  {
     "id":"resistanceTargeted:core/leg-raises",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "abs"
  },
  {
     "id":"resistanceTargeted:core/reverse-planks",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "abs"
  },
  {
     "id":"resistanceTargeted:core/russian-twist",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "abs"
  },
  {
     "id":"resistanceTargeted:core/dragonfly",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "abs"
  },
  {
     "id":"resistanceTargeted:core/crunch-machine",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "abs"
  },
 
  {
     "id":"resistanceTargeted:legs/lunges",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "glutes"
  },
  {
     "id":"resistanceTargeted:legs/dumbbell-calf-raise",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "calves"
  },
  {
     "id":"resistanceTargeted:legs/barbell-squat",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "quadriceps"
  },
  {
     "id":"resistanceTargeted:legs/squat",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "intensity"],
+    "muscle": "quadriceps"
  },
  {
     "id":"resistanceTargeted:legs/leg-press",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "quadriceps"
  },
  {
     "id":"resistanceTargeted:legs/barbell-deadlift",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "hamstrings"
  },
 
  {
     "id":"resistanceTargeted:shoulders/dumbbell-shoulder-press",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "deltoid"
  },
  {
     "id":"resistanceTargeted:shoulders/dumbbell-bench-press",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "deltoid"
  },
  {
     "id":"resistanceTargeted:shoulders/lateral-raise",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "deltoid"
  },
  {
     "id":"resistanceTargeted:shoulders/vertical-swing",
-    "labels": ["repetitions", "weight", "intensity"]
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "deltoid"
  },
  {
-    "id":"resistanceTargeted:shoulders/pull-up",
-    "labels": ["repetitions", "intensity"]
+    "id":"resistanceTargeted:shoulders/reverse-flyes",
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "deltoid"
  },
  
  {
