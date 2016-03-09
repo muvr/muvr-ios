@@ -380,13 +380,12 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         currentSession = session
         
         // display ``SessionViewController``
-        let svc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionViewController") as! MRSessionViewController
-        svc.setSession(session)
-        if let nvc = window?.rootViewController?.childViewControllers.first as? UINavigationController {
-            nvc.showViewController(svc, sender: session)
-            svc.navigationItem.setHidesBackButton(true, animated: false)
+        if let nvc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionNavigationViewController") as? UINavigationController,
+            let svc = nvc.viewControllers.first as? MRSessionViewController {
+            svc.setSession(session)
+            sessionViewController = svc
+            window?.rootViewController?.presentViewController(nvc, animated: true, completion: nil)
         }
-        sessionViewController = svc
         
         // keep application active while in-session
         application.idleTimerDisabled = true
@@ -402,11 +401,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private func terminateSession(session: MRManagedExerciseSession) {
         if let currentSession = currentSession where currentSession == session {
             // dismiss ``SessionViewController``
-            // sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
-            if let nvc = sessionViewController?.navigationController {
-                nvc.popViewControllerAnimated(true)
-                sessionViewController = nil
-            }
+            sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
             self.currentSession = nil
             application.idleTimerDisabled = false
         }
