@@ -196,7 +196,7 @@ class MRSessionsRealDataTests : XCTestCase {
         
         // Evaluate count sessions, giving the system the opportunity to learn the users
         // journey through the sessions
-        let evaluatedSessions: [EvaluationResult] = readSessions(app.exercisePropertiesForExerciseId, from: scenario).map { evalSession(app, loadedSession: $0) }
+        let evaluatedSessions: [EvaluationResult] = readSessions(app.exerciseDetailForExerciseId, from: scenario).map { evalSession(app, loadedSession: $0) }
         
         // Check that each session in this scenario meet the expected criteria
         for (name, _, result, correctSession) in evaluatedSessions {
@@ -239,11 +239,11 @@ class MRSessionsRealDataTests : XCTestCase {
         return text
     }
     
-    private func readSessions(properties: MKExercise.Id -> [MKExerciseProperty], from directory: String) -> [MRLoadedSession] {
+    private func readSessions(detail: MKExercise.Id -> MKExerciseDetail?, from directory: String) -> [MRLoadedSession] {
         let bundlePath = NSBundle(forClass: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
         return bundle.pathsForResourcesOfType("csv", inDirectory: directory).sort().map { path in
-            return MRSessionLoader.read(path, properties: properties)
+            return MRSessionLoader.read(path, detail: detail)
         }
     }
     

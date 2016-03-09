@@ -11,11 +11,8 @@ extension MRApp {
     /// - returns: the combined list of exercise details
     ///
     func exerciseDetailsForExerciseIds(exerciseIds: [MKExercise.Id], favouringType type: MKExerciseType) -> [MKExerciseDetail] {
-        let plannedDetails: [MKExerciseDetail] = exerciseIds.map { exerciseId in
-            let properties = exercisePropertiesForExerciseId(exerciseId)
-            let type = MKExerciseType(exerciseId: exerciseId)!
-            return MKExerciseDetail(id: exerciseId, type: type, properties: properties)
-        }
+        let plannedDetails: [MKExerciseDetail] = exerciseIds.flatMap { exerciseDetailForExerciseId($0) }
+        
         var otherDetails: [MKExerciseDetail] = exerciseDetails.filter { exerciseDetail in
             return !exerciseIds.contains { $0 == exerciseDetail.id }
         }

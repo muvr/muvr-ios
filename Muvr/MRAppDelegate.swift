@@ -182,11 +182,20 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         if let allExercises = try! NSJSONSerialization.JSONObjectWithData(data, options: []) as? [[String:AnyObject]] {
             baseExerciseDetails = allExercises.map { exercise in
                 guard let id = exercise["id"] as? String,
-                      let properties = exercise["properties"] as? [AnyObject]?,
-                      let exerciseType = MKExerciseType(exerciseId: id)
+                      let propertiesObject = exercise["properties"] as? [AnyObject]?,
+                      let exerciseType = MKExerciseType(exerciseId: id),
+                      let labelNames = exercise["labels"] as? [String]
                       else { fatalError() }
-                
-                return MKExerciseDetail(id: id, type: exerciseType, properties: properties?.flatMap { MKExerciseProperty(jsonObject: $0) } ?? [])
+                var properties = propertiesObject?.flatMap { MKExerciseProperty(jsonObject: $0) } ?? []
+                if properties.isEmpty {
+                    switch exerciseType {
+                    case .ResistanceTargeted: properties = defaultResistanceTargetedProperties
+                    case .IndoorsCardio: properties = []
+                    case .ResistanceWholeBody: properties = []
+                    }
+                }
+                let labels = labelNames.flatMap { MKExerciseLabelDescriptor(id: $0) }
+                return MKExerciseDetail(id: id, type: exerciseType, labels: labels, properties: properties)
             }
             exerciseDetails = baseExerciseDetails
         } else {
@@ -459,7 +468,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     private func roundWeight(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
-        for property in exercisePropertiesForExerciseId(exerciseId) {
+        guard let detail = exerciseDetailForExerciseId(exerciseId) else { return max(0, value) }
+        for property in detail.properties {
             if case .WeightProgression(let minimum, let step, let maximum) = property {
                 return MKScalarRounderFunction.roundMinMax(value, minimum: minimum, step: step, maximum: maximum)
             }
@@ -476,7 +486,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     private func stepWeight(value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
-        for property in exercisePropertiesForExerciseId(exerciseId) {
+        guard let detail = exerciseDetailForExerciseId(exerciseId) else { return value + Double(n) }
+        for property in detail.properties {
             if case .WeightProgression(let minimum, let step, let maximum) = property {
                 return min(maximum ?? 999, max(minimum, value + Double(n) * step))
             }
@@ -495,20 +506,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - Exercise properties
     private let defaultResistanceTargetedProperties: [MKExerciseProperty] = [.WeightProgression(minimum: 0, step: 0.5, maximum: nil)]
     
-    func exercisePropertiesForExerciseId(exerciseId: MKExercise.Id) -> [MKExerciseProperty] {
+    func exerciseDetailForExerciseId(exerciseId: MKExercise.Id) -> MKExerciseDetail? {
         for exerciseDetail in exerciseDetails where exerciseDetail.id == exerciseId {
-            if exerciseDetail.properties.isEmpty {
-                switch exerciseDetail.type {
-                case .ResistanceTargeted: return defaultResistanceTargetedProperties
-                case .IndoorsCardio: return []
-                case .ResistanceWholeBody: return []
-                }
-            }
-            return exerciseDetail.properties
+            return exerciseDetail
         }
         
         // No exercise id found. This should not happen.
-        return []
+        return nil
     }
     
     // MARK: - Exercise plans
@@ -547,7 +551,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         currentLocation = MRManagedLocation.findAtLocation(location.coordinate, inManagedObjectContext: managedObjectContext)
         if let currentLocation = currentLocation {
             currentLocationExerciseDetails = currentLocation.managedExercises.map { le in
-                return MKExerciseDetail(id: le.id, type: MKExerciseType(exerciseId: le.id)!, properties: le.properties)
+                let labels = baseExerciseDetails.filter { $0.id == le.id }.first?.labels ?? []
+                return MKExerciseDetail(id: le.id, type: MKExerciseType(exerciseId: le.id)!, labels: labels, properties: le.properties)
             }
             exerciseDetails =
                 currentLocationExerciseDetails +

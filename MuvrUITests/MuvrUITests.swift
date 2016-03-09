@@ -22,6 +22,7 @@ class MuvrUITests: XCTestCase {
     func testArmsSessionWithNoExcerciseAllMissingLabels() {
         let app = XCUIApplication()
         
+        NSThread.sleepForTimeInterval(0.1)
         // start another workout
         app.buttons["Start another workout"].tap()
         

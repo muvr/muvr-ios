@@ -24,5 +24,17 @@ public enum MKExerciseLabelDescriptor {
         case .Intensity: return "intensity"
         }
     }
+    
+    ///
+    /// Initializes a descriptor corresponding to the given id
+    ///
+    public init?(id: String) {
+        switch id {
+        case "weight": self = .Weight
+        case "repetitions": self = .Repetitions
+        case "intensity": self = .Intensity
+        default: return nil
+        }
+    }
 
 }

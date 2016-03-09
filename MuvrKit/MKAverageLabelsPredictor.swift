@@ -475,19 +475,3 @@ public extension MKAverageLabelsPredictor {
     }
     
 }
-
-private extension MKExerciseLabelDescriptor {
-    
-    ///
-    /// create a MKExerciseLabelDescriptor corresponding to the given id
-    /// - parameter id: the descriptor id
-    ///
-    init?(id: String) {
-        switch id {
-        case "weight": self = .Weight
-        case "repetitions": self = .Repetitions
-        case "intensity": self = .Intensity
-        default: return nil
-        }
-    }
-}

@@ -6,10 +6,10 @@ import Foundation
 public protocol MKExercisePropertySource {
     
     ///
-    /// Finds all exercise properties for the given ``exerciseId``.
+    /// Finds all exercise details for the given ``exerciseId``.
     /// - parameter exerciseId: the exercise identity
-    /// - returns: the exercise, empty if none available
+    /// - returns: the exercise details, nil if none available
     ///
-    func exercisePropertiesForExerciseId(exerciseId: MKExercise.Id) -> [MKExerciseProperty]
+    func exerciseDetailForExerciseId(exerciseId: MKExercise.Id) -> MKExerciseDetail?
     
 }

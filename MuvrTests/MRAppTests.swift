@@ -19,7 +19,7 @@ class MRAppTests : XCTestCase {
     
     func testStartEndJansLair() {
         app.locationManager(CLLocationManager(), didUpdateLocations: [CLLocation(latitude: 53.425416, longitude: -2.225455)])
-        let givenDetail: MKExerciseDetail = MKExerciseDetail(id: "resistanceTargeted:arms/biceps-curl", type: MKExerciseType.ResistanceWholeBody, properties: [])
+        let givenDetail: MKExerciseDetail = MKExerciseDetail(id: "resistanceTargeted:arms/dumbbell-biceps-curl", type: MKExerciseType.ResistanceWholeBody, labels: [.Repetitions, .Weight, .Intensity], properties: [])
         let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10), .Intensity(intensity: 0.6), .Weight(weight: 40)]
 
         // start a new session, adding one exercise

@@ -22,7 +22,6 @@ extension MKExerciseLabel {
     
     private func updateLabelForExerciseDetail(exerciseDetail: MKExerciseDetail, increment: Bool, label: MKExerciseLabel) -> MKExerciseLabel {
         let properties: [MKExerciseProperty] = exerciseDetail.properties
-        
         switch label {
         case .Intensity(var intensity):
             if increment { intensity = min(1, intensity + 0.2) } else { intensity = max(0, intensity - 0.2) }

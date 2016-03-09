@@ -15,7 +15,7 @@ class MRSessionLoader {
         
     }
     
-    static func read(fileName: String, properties: MKExercise.Id -> [MKExerciseProperty]) -> MRLoadedSession {
+    static func read(fileName: String, detail: MKExercise.Id -> MKExerciseDetail?) -> MRLoadedSession {
         
         func parseLabel(text: String) -> MKExerciseLabel? {
             let components = text.componentsSeparatedByString("=")
@@ -35,9 +35,8 @@ class MRSessionLoader {
         let rows: [MRLoadedSession.Row] = lines[2..<lines.count].flatMap { line in
             let lineComponents = line.componentsSeparatedByString(",")
             if let exerciseId = lineComponents.first,
-                let exerciseType = MKExerciseType(exerciseId: exerciseId) {
+                let detail = detail(exerciseId) {
                 let labels = lineComponents[1..<lineComponents.count].flatMap(parseLabel)
-                let detail = MKExerciseDetail(id: exerciseId, type: exerciseType, properties: properties(exerciseId))
                 return (detail, labels)
             }
             return nil
