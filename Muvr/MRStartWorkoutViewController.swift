@@ -4,12 +4,10 @@ import MuvrKit
 class MRStartWorkoutViewController: UIViewController  {
     @IBOutlet weak var startButton: MRAlternativeWorkoutButton!
     @IBOutlet weak var scrollView: UIScrollView!
-    private var manualViewController: MRManualViewController!
     private var upcomingSessions: [MRSessionType] = []
     private var selectedSession: MRSessionType? = nil
     
     override func viewDidLoad() {
-        manualViewController = storyboard?.instantiateViewControllerWithIdentifier("adhoc") as! MRManualViewController
         setTitleImage(named: "muvr_logo_white")
     }
     
@@ -65,7 +63,7 @@ class MRStartWorkoutViewController: UIViewController  {
     }
     
     @objc private func selectAnotherWorkout() {
-        showViewController(manualViewController, sender: self)
+        performSegueWithIdentifier("manual", sender: nil)
     }
     
     @objc private func changeWorkout(sender: MRAlternativeWorkoutButton) {
