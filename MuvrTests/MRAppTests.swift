@@ -19,7 +19,7 @@ class MRAppTests : XCTestCase {
     
     func testStartEndJansLair() {
         app.locationManager(CLLocationManager(), didUpdateLocations: [CLLocation(latitude: 53.425416, longitude: -2.225455)])
-        let givenDetail: MKExerciseDetail = ("resistanceTargeted:arms/biceps-curl", MKExerciseType.ResistanceWholeBody, [])
+        let givenDetail: MKExerciseDetail = MKExerciseDetail(id: "resistanceTargeted:arms/biceps-curl", type: MKExerciseType.ResistanceWholeBody, properties: [])
         let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10), .Intensity(intensity: 0.6), .Weight(weight: 40)]
 
         // start a new session, adding one exercise
@@ -41,7 +41,7 @@ class MRAppTests : XCTestCase {
         try! app.startSession(.AdHoc(exerciseType: .ResistanceTargeted(muscleGroups: [.Arms, .Chest])))
         // expect the right preciction
         let bc = app.currentSession!.exerciseDetailsComingUp.first!
-        XCTAssertEqual(bc.0, givenDetail.0)
+        XCTAssertEqual(bc.id, givenDetail.id)
         let labels = app.currentSession!.predictExerciseLabelsForExerciseDetail(bc)
         XCTAssertEqual(givenLabels.filter { $0.descriptor != .Intensity }.sort { $0.0.id < $0.1.id }, labels.0.sort { $0.0.id < $0.1.id })
         try! app.endCurrentSession()

@@ -36,21 +36,20 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - returns: the expected duration
     ///
     func predictDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval? {
-        if let (_, prediction) = labelsPredictor.predictLabelsForExerciseId(exerciseDetail.0) {
+        if let (_, prediction) = labelsPredictor.predictLabelsForExerciseId(exerciseDetail.id) {
             return prediction
         }
         return nil
     }
     
     func defaultDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
-        let (_, exerciseType, properties) = exerciseDetail
-        for property in properties {
+        for property in exerciseDetail.properties {
             switch property {
             case .TypicalDuration(let duration): return duration
             default: continue
             }
         }
-        switch exerciseType {
+        switch exerciseDetail.type {
         case .IndoorsCardio: return 45 * 60
         case .ResistanceTargeted: return 60
         case .ResistanceWholeBody: return 60
@@ -71,11 +70,10 @@ class MRManagedExerciseSession: NSManagedObject {
     ///            and the "not predicted" labels (with some sensible value) in the other
     ///
     func predictExerciseLabelsForExerciseDetail(exerciseDetail: MKExerciseDetail) -> ([MKExerciseLabel], [MKExerciseLabel]) {
-        let (id, exerciseType, properties) = exerciseDetail
-        let n = exerciseIdCounts[id] ?? 0
+        let n = exerciseIdCounts[exerciseDetail.id] ?? 0
         
         func defaultWeight() -> Double {
-            for property in properties {
+            for property in exerciseDetail.properties {
                 if case .WeightProgression(let minimum, let step, _) = property {
                     return minimum + step
                 }
@@ -83,7 +81,7 @@ class MRManagedExerciseSession: NSManagedObject {
             return 10
         }
         
-        let allPredictions = labelsPredictor.predictLabelsForExerciseId(id)?.0 ?? []
+        let allPredictions = labelsPredictor.predictLabelsForExerciseId(exerciseDetail.id)?.0 ?? []
         let intensity = allPredictions.filter { $0.descriptor == .Intensity }.first
         // remove intensity from the predicted values
         let predictions = allPredictions.filter { $0.descriptor != .Intensity}
@@ -129,16 +127,15 @@ class MRManagedExerciseSession: NSManagedObject {
     ///
     func addExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval) {
         let offset = start.timeIntervalSinceDate(self.start)
-        let (id, exerciseType, _) = exerciseDetail
-        exerciseWithLabels.append((id, exerciseType, offset, duration, labels))
+        exerciseWithLabels.append((exerciseDetail.id, exerciseDetail.type, offset, duration, labels))
         
         // add to the plan
-        plan.insert(id)
+        plan.insert(exerciseDetail.id)
         
-        labelsPredictor.correctLabelsForExerciseId(id, labels: (labels, duration))
+        labelsPredictor.correctLabelsForExerciseId(exerciseDetail.id, labels: (labels, duration))
         
         // update counts
-        exerciseIdCounts[id] = exerciseIdCounts[id].map { $0 + 1 } ?? 1
+        exerciseIdCounts[exerciseDetail.id] = exerciseIdCounts[exerciseDetail.id].map { $0 + 1 } ?? 1
     }
     
 }

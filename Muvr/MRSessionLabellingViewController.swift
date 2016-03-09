@@ -89,7 +89,7 @@ class MRSessionLabellingViewController: UIViewController, UITableViewDataSource 
     }
     
     private func findProperty(predicate: MKExerciseProperty -> Bool) -> MKExerciseProperty? {
-        for property in exerciseDetail.2 {
+        for property in exerciseDetail.properties {
             if predicate(property) {
                 return property
             }

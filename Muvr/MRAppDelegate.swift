@@ -186,7 +186,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
                       let exerciseType = MKExerciseType(exerciseId: id)
                       else { fatalError() }
                 
-                return (id, exerciseType, properties?.flatMap { MKExerciseProperty(jsonObject: $0) } ?? [])
+                return MKExerciseDetail(id: id, type: exerciseType, properties: properties?.flatMap { MKExerciseProperty(jsonObject: $0) } ?? [])
             }
             exerciseDetails = baseExerciseDetails
         } else {
@@ -496,15 +496,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private let defaultResistanceTargetedProperties: [MKExerciseProperty] = [.WeightProgression(minimum: 0, step: 0.5, maximum: nil)]
     
     func exercisePropertiesForExerciseId(exerciseId: MKExercise.Id) -> [MKExerciseProperty] {
-        for (id, exerciseType, properties) in exerciseDetails where id == exerciseId {
-            if properties.isEmpty {
-                switch exerciseType {
+        for exerciseDetail in exerciseDetails where exerciseDetail.id == exerciseId {
+            if exerciseDetail.properties.isEmpty {
+                switch exerciseDetail.type {
                 case .ResistanceTargeted: return defaultResistanceTargetedProperties
                 case .IndoorsCardio: return []
                 case .ResistanceWholeBody: return []
                 }
             }
-            return properties
+            return exerciseDetail.properties
         }
         
         // No exercise id found. This should not happen.
@@ -547,15 +547,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         currentLocation = MRManagedLocation.findAtLocation(location.coordinate, inManagedObjectContext: managedObjectContext)
         if let currentLocation = currentLocation {
             currentLocationExerciseDetails = currentLocation.managedExercises.map { le in
-                return (le.id, MKExerciseType(exerciseId: le.id)!, le.properties)
+                return MKExerciseDetail(id: le.id, type: MKExerciseType(exerciseId: le.id)!, properties: le.properties)
             }
             exerciseDetails =
                 currentLocationExerciseDetails +
                 baseExerciseDetails.filter { bed in
-                    let (beId, _, _) = bed
                     return !currentLocationExerciseDetails.contains { ced in
-                        let (ceId, _, _) = ced
-                        return ceId == beId
+                        return ced.id == bed.id
                     }
                 }
         } else {

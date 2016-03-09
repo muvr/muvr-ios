@@ -84,7 +84,7 @@ class MRExerciseSessionEvaluator {
             
             func secondMax(exerciseId: MKExercise.Id) -> [MKExerciseLabelDescriptor: Double] {
                 var sms: [MKExerciseLabelDescriptor : Double] = [:]
-                for (k, x) in (filtered.filter { $0.0.0 == exerciseId }.groupBy { (_, d, _, _) in return d }) {
+                for (k, x) in (filtered.filter { $0.0.id == exerciseId }.groupBy { (_, d, _, _) in return d }) {
                     let sorted = x.map { $0.2.scalar() }.sort()
                     if sorted.count > 1 {
                         sms[k] = sorted[sorted.count - 2]
@@ -101,7 +101,7 @@ class MRExerciseSessionEvaluator {
                 switch basis {
                 case .NumberOfTaps:
                     var taps: Int = 0
-                    let minimum = detail.2.flatMap {
+                    let minimum = detail.properties.flatMap {
                         if case .WeightProgression(let minimum, _, _) = $0 {
                             return minimum
                         }
@@ -130,15 +130,15 @@ class MRExerciseSessionEvaluator {
                     } else if loss > 20 {
                         prefix = "!!! "
                     }
-                    print("\(prefix) loss \(loss) at \(detail.0); \(e) vs \(p!)")
-                    print("\(prefix) \(detail.2)")
+                    print("\(prefix) loss \(loss) at \(detail.id); \(e) vs \(p!)")
+                    print("\(prefix) \(detail.properties)")
                 }
                 
         
                 totalLoss += pow(loss, 2)
                 if abs(p!.scalar() - e.scalar()) > 0.1 { // if p and e are the same it's fine, otherwise check for stupid predicted value
                     if p!.scalar() < 0.1 && e.scalar() > 0.1 { totalStupidLoss += stupidLossIncident }
-                    if let sm = secondMax(detail.0)[td] where p!.scalar() > 2 * sm && abs(p!.scalar() - e.scalar()) > 1 {
+                    if let sm = secondMax(detail.id)[td] where p!.scalar() > 2 * sm && abs(p!.scalar() - e.scalar()) > 1 {
                         totalStupidLoss += stupidLossIncident
                     }
                 }
@@ -174,11 +174,11 @@ class MRExerciseSessionEvaluator {
             for expectedLabel in expectedLabels {
                 let predicted = predictedLabels.filter { $0.descriptor == expectedLabel.descriptor }.first
                 if predicted == nil {
-                    print("  ✗ Predicted nothing but was \(expectedLabel) for \(detail.0)")
+                    print("  ✗ Predicted nothing but was \(expectedLabel) for \(detail.id)")
                 }
                 if let predicted = predicted {
-                    if predicted == expectedLabel { print("  ✓ Predicted \(predicted) and was \(expectedLabel) for \(detail.0)") }
-                    else { print("  ✗ Predicted \(predicted) and was \(expectedLabel) for \(detail.0)") }
+                    if predicted == expectedLabel { print("  ✓ Predicted \(predicted) and was \(expectedLabel) for \(detail.id)") }
+                    else { print("  ✗ Predicted \(predicted) and was \(expectedLabel) for \(detail.id)") }
                 }
                 scalarLabels.append((detail, expectedLabel.descriptor, expectedLabel, predicted))
             }
@@ -197,13 +197,12 @@ class MRExerciseSessionEvaluator {
         var result: Result = Result()
         
         for (detail, labels) in loadedSession.rows {
-            let (exerciseId, _, _) = detail
-            if let (predictedExerciseId, _, _) = session.exerciseDetailsComingUp.first {
+            if let predictedExercise = session.exerciseDetailsComingUp.first {
                 let (predictedLabels, _) = session.predictExerciseLabelsForExerciseDetail(detail)
                 result.addLabel(exerciseDetail: detail, expectedLabels: labels, predictedLabels: predictedLabels)
-                result.addExercise(expectedExerciseId: exerciseId, predictedExerciseId: predictedExerciseId)
+                result.addExercise(expectedExerciseId: detail.id, predictedExerciseId: predictedExercise.id)
             } else {
-                result.addExercise(expectedExerciseId: exerciseId, predictedExerciseId: nil)
+                result.addExercise(expectedExerciseId: detail.id, predictedExerciseId: nil)
             }
             session.addExerciseDetail(detail, labels: labels, start: NSDate(), duration: 30)
         }

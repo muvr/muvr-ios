@@ -14,21 +14,21 @@ extension MRApp {
         let plannedDetails: [MKExerciseDetail] = exerciseIds.map { exerciseId in
             let properties = exercisePropertiesForExerciseId(exerciseId)
             let type = MKExerciseType(exerciseId: exerciseId)!
-            return (exerciseId, type, properties)
+            return MKExerciseDetail(id: exerciseId, type: type, properties: properties)
         }
         var otherDetails: [MKExerciseDetail] = exerciseDetails.filter { exerciseDetail in
-            return !exerciseIds.contains { $0 == exerciseDetail.0 }
+            return !exerciseIds.contains { $0 == exerciseDetail.id }
         }
         
         otherDetails.sortInPlace { l, r in
-            switch (l.1.isContainedWithin(type), r.1.isContainedWithin(type)) {
+            switch (l.type.isContainedWithin(type), r.type.isContainedWithin(type)) {
             case (true, false): return true
             case (false, true): return false
             default:
-                if l.1 == r.1 {
-                    return MKExercise.title(l.0) < MKExercise.title(r.0)
+                if l.type == r.type {
+                    return MKExercise.title(l.id) < MKExercise.title(r.id)
                 } else {
-                    return l.1 < r.1
+                    return l.type < r.type
                 }
             }
         }

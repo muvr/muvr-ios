@@ -37,7 +37,8 @@ class MRSessionLoader {
             if let exerciseId = lineComponents.first,
                 let exerciseType = MKExerciseType(exerciseId: exerciseId) {
                 let labels = lineComponents[1..<lineComponents.count].flatMap(parseLabel)
-                return ((exerciseId, exerciseType, properties(exerciseId)), labels)
+                let detail = MKExerciseDetail(id: exerciseId, type: exerciseType, properties: properties(exerciseId))
+                return (detail, labels)
             }
             return nil
         }
