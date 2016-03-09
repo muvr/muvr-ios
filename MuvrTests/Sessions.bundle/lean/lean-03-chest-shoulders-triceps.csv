@@ -1,7 +1,7 @@
 Lean training #3: upperbody
 resistanceTargeted:arms,chest,shoulders
 
-resistanceTargeted:chest/bench-press,
+resistanceTargeted:chest/bench-press,R=10,W=40,D=34,I=0.8
 resistanceTargeted:chest/bench-press,R=12,W=40,D=37,I=0.8
 resistanceTargeted:chest/bench-press,R=13,W=40,D=42,I=1
 

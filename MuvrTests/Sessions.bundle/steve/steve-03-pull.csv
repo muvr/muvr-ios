@@ -3,9 +3,9 @@ resistanceTargeted:arms,back
 
 indoorsCardio:cross-trainer,D=300
 
-resistanceTargeted:back/upright-barbell-row,R=10,W=40,D=30,I=0.6
-resistanceTargeted:back/upright-barbell-row,R=10,W=40,D=30,I=0.6
-resistanceTargeted:back/upright-barbell-row,R=10,W=40,D=30,I=0.6
+resistanceTargeted:back/upright-row,R=10,W=40,D=30,I=0.6
+resistanceTargeted:back/upright-row,R=10,W=40,D=30,I=0.6
+resistanceTargeted:back/upright-row,R=10,W=40,D=30,I=0.6
 
 resistanceTargeted:arms/barbell-biceps-curl,R=10,W=25,D=30,I=0.6
 resistanceTargeted:arms/barbell-biceps-curl,R=10,W=25,D=30,I=0.6

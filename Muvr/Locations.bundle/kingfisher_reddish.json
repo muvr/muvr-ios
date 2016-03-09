@@ -48,7 +48,7 @@
                     "properties":[{"type":"weightProgression", "minimum":2.5, "step":2.5}]
                  },
                  {
-                    "id":"resistanceTargeted:back/reverse-flyes",
+                    "id":"resistanceTargeted:shoulders/reverse-flyes",
                     "properties":[{"type":"weightProgression", "minimum":7, "step":7}]
                  },
                  {

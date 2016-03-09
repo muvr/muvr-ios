@@ -3,9 +3,9 @@ resistanceTargeted:arms,shoulders,chest
 
 indoorsCardio:cross-trainer,D=300
 
-resistanceTargeted:chest/dumbbell-bench-press,R=10,W=16,D=30,I=0.6
-resistanceTargeted:chest/dumbbell-bench-press,R=10,W=16,D=30,I=0.6
-resistanceTargeted:chest/dumbbell-bench-press,R=10,W=16,D=30,I=0.6
+resistanceTargeted:shoulders/dumbbell-bench-press,R=10,W=16,D=30,I=0.6
+resistanceTargeted:shoulders/dumbbell-bench-press,R=10,W=16,D=30,I=0.6
+resistanceTargeted:shoulders/dumbbell-bench-press,R=10,W=16,D=30,I=0.6
 
 resistanceTargeted:shoulders/dumbbell-shoulder-press,R=10,W=10,D=30,I=0.6
 resistanceTargeted:shoulders/dumbbell-shoulder-press,R=10,W=10,D=30,I=0.6

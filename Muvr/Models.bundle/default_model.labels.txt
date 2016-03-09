@@ -15,13 +15,13 @@ resistanceTargeted:core/side-dips
 resistanceTargeted:core/crunches
 resistanceTargeted:arms/reverse-cable-curl
 resistanceTargeted:legs/lunges
-resistanceTargeted:core/cable-crossover
+resistanceTargeted:chest/cable-crossover
 resistanceTargeted:core/oblique-crunches
 resistanceWholeBody:iron-cross
 resistanceTargeted:legs/squat
 resistanceTargeted:arms/triceps-dips
 resistanceTargeted:legs/dumbbell-calf-raise
-resistanceTargeted:back/reverse-flyes
+resistanceTargeted:shoulders/reverse-flyes
 resistanceTargeted:chest/bench-press
 resistanceTargeted:legs/barbell-squat
 resistanceTargeted:chest/butterfly-machine

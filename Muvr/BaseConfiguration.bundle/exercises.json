@@ -45,6 +45,12 @@
     "muscle": "biceps"
  },
  {
+    "id":"resistanceTargeted:arms/reverse-curl",
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "biceps"
+ },
+ 
+ {
     "id":"resistanceTargeted:back/back-extensions",
     "labels": ["repetitions", "weight", "intensity"],
     "muscle": "erector-spinae"
@@ -65,13 +71,8 @@
     "muscle": "lats"
  },
  {
-    "id":"resistanceTargeted:arms/reverse-curl",
-    "labels": ["repetitions", "weight", "intensity"],
-    "muscle": "biceps"
- },
- {
-    "id":"resistanceTargeted:back/pull-up",
-    "labels": ["repetitions", "intensity"],
+    "id":"resistanceTargeted:back/leverage-high-row",
+    "labels": ["repetitions", "intensity", "weight"],
     "muscle": "lats"
  },
 
@@ -217,6 +218,16 @@
     "id":"resistanceTargeted:shoulders/reverse-flyes",
     "labels": ["repetitions", "weight", "intensity"],
     "muscle": "deltoid"
+ },
+ {
+    "id": "resistanceTargeted:shoulders/shrugs",
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "trapezius"
+ },
+ {
+    "id":"resistanceTargeted:shoulders/pull-up",
+    "labels": ["repetitions", "intensity", "weight"],
+    "muscle": "lats"
  },
  
  {

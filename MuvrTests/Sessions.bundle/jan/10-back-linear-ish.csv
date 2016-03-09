@@ -5,28 +5,28 @@ resistanceTargeted:back/cable-row,         R=20,W=44,D=30,I=0.4
 resistanceTargeted:back/leverage-high-row, R=20,W=45,D=30,I=0.4
 resistanceTargeted:back/upright-row,       R=20,W=20,D=30,I=0.4
 resistanceTargeted:back/lateral-pulldown,  R=20,W=49,D=30,I=0.4
-resistanceTargeted:back/reverse-flyes,     R=20,W=49,D=30,I=0.4
+resistanceTargeted:shoulders/reverse-flyes,     R=20,W=49,D=30,I=0.4
 
 resistanceTargeted:back/cable-row,         R=18,W=48,D=30,I=0.6
 resistanceTargeted:back/leverage-high-row, R=18,W=50,D=30,I=0.6
 resistanceTargeted:back/upright-row,       R=18,W=30,D=30,I=0.6
 resistanceTargeted:back/lateral-pulldown,  R=18,W=56,D=30,I=0.6
-resistanceTargeted:back/reverse-flyes,     R=18,W=56,D=30,I=0.6
+resistanceTargeted:shoulders/reverse-flyes,     R=18,W=56,D=30,I=0.6
 
 resistanceTargeted:back/cable-row,         R=15,W=52,D=30,I=0.8
 resistanceTargeted:back/leverage-high-row, R=15,W=55,D=30,I=0.8
 resistanceTargeted:back/upright-row,       R=14,W=40,D=30,I=0.8
 resistanceTargeted:back/lateral-pulldown,  R=11,W=63,D=30,I=0.8
-resistanceTargeted:back/reverse-flyes,     R=11,W=63,D=30,I=0.8
+resistanceTargeted:shoulders/reverse-flyes,     R=11,W=63,D=30,I=0.8
 
 resistanceTargeted:back/cable-row,         R=10,W=56,D=30,I=0.8
 resistanceTargeted:back/leverage-high-row, R=10,W=60,D=30,I=0.8
 resistanceTargeted:back/upright-row,       R=11,W=45,D=30,I=0.8
 resistanceTargeted:back/lateral-pulldown,  R=7,W=70,D=30,I=0.8
-resistanceTargeted:back/reverse-flyes,     R=7,W=70,D=30,I=0.8
+resistanceTargeted:shoulders/reverse-flyes,     R=7,W=70,D=30,I=0.8
 
 resistanceTargeted:back/cable-row,         R=7,W=60,D=30,I=1
 resistanceTargeted:back/leverage-high-row, R=7,W=65,D=30,I=1
 resistanceTargeted:back/upright-row,       R=7,W=50,D=30,I=1
 resistanceTargeted:back/lateral-pulldown,  R=7,W=77,D=30,I=1
-resistanceTargeted:back/reverse-flyes,     R=7,W=77,D=30,I=1
+resistanceTargeted:shoulders/reverse-flyes,     R=7,W=77,D=30,I=1
