@@ -1,0 +1,1229 @@
+{
+    "type" : {
+        "id" : "resistanceTargeted",
+        "muscleGroups" : [
+                          "arms",
+                          "chest",
+                          "shoulders",
+                          "legs"
+                          ]
+    },
+    "plan" : {
+        "chain" : [
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/pull-up",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-squat" : 2,
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1,
+                   "resistanceTargeted:arms\/triceps-dips" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1,
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1,
+                   "resistanceTargeted:legs\/barbell-deadlift" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-squat" : 1,
+                   "resistanceTargeted:chest\/bench-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-squat" : 1,
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-squat" : 1,
+                   "resistanceTargeted:chest\/bench-press" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1,
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/barbell-deadlift" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:legs\/barbell-deadlift",
+                                   "resistanceTargeted:shoulders\/pull-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/pull-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/bench-press",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:legs\/barbell-squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   }
+                   ],
+        "states" : [
+                    "resistanceTargeted:chest\/bench-press",
+                    "resistanceTargeted:chest\/bench-press",
+                    "resistanceTargeted:chest\/bench-press",
+                    "resistanceTargeted:legs\/barbell-squat",
+                    "resistanceTargeted:legs\/barbell-squat",
+                    "resistanceTargeted:legs\/barbell-squat",
+                    "resistanceTargeted:arms\/triceps-dips",
+                    "resistanceTargeted:arms\/triceps-dips",
+                    "resistanceTargeted:arms\/triceps-dips",
+                    "resistanceTargeted:legs\/barbell-deadlift",
+                    "resistanceTargeted:legs\/barbell-deadlift",
+                    "resistanceTargeted:legs\/barbell-deadlift",
+                    "resistanceTargeted:shoulders\/pull-up",
+                    "resistanceTargeted:shoulders\/pull-up",
+                    "resistanceTargeted:shoulders\/pull-up"
+                    ]
+    },
+    "id" : "BAF3A2F4-7F63-4A32-9E7F-94F3478791CE",
+    "name" : "Strength workout"
+}

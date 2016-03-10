@@ -1,0 +1,1673 @@
+{
+    "type" : {
+        "id" : "resistanceWholeBody"
+    },
+    "plan" : {
+        "chain" : [
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:stepper" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:chest\/chest-press" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:stepper" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:stepper" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:stepper" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:stepper" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:chest\/chest-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceWholeBody:rope-climbing"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:cross-trainer" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:cross-trainer" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:chest\/chest-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:chest\/chest-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/leg-press" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:chest\/chest-press" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:chest\/chest-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:cross-trainer" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/leg-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:stepper" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/leg-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:cross-trainer" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/leg-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:stepper" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:stepper" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:chest\/chest-press" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:cross-trainer" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:stepper" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:chest\/chest-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/leg-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/leg-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:cross-trainer" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:stepper" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:cross-trainer" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:chest\/chest-press" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:cross-trainer" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/leg-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/leg-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:stepper" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:chest\/chest-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:stepper" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:rowing-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/lateral-pulldown" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:cross-trainer" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:chest\/chest-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:running-machine" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/leg-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/leg-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:chest\/chest-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper",
+                                   "resistanceTargeted:chest\/chest-press",
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceWholeBody:rope-climbing" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:rowing-machine",
+                                   "indoorsCardio:running-machine",
+                                   "resistanceTargeted:back\/lateral-pulldown",
+                                   "resistanceWholeBody:rope-climbing",
+                                   "indoorsCardio:cross-trainer",
+                                   "resistanceTargeted:legs\/leg-press",
+                                   "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                                   "indoorsCardio:stepper"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:chest\/chest-press" : 1
+                   }
+                   }
+                   ],
+        "states" : [
+                    "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                    "indoorsCardio:stepper",
+                    "resistanceTargeted:chest\/chest-press",
+                    "indoorsCardio:rowing-machine",
+                    "indoorsCardio:running-machine",
+                    "resistanceTargeted:back\/lateral-pulldown",
+                    "resistanceWholeBody:rope-climbing",
+                    "indoorsCardio:cross-trainer",
+                    "resistanceTargeted:legs\/leg-press",
+                    "resistanceTargeted:shoulders\/dumbbell-shoulder-press",
+                    "indoorsCardio:stepper",
+                    "resistanceTargeted:chest\/chest-press",
+                    "indoorsCardio:rowing-machine",
+                    "indoorsCardio:running-machine",
+                    "resistanceTargeted:back\/lateral-pulldown",
+                    "resistanceWholeBody:rope-climbing"
+                    ]
+    },
+    "id" : "656E005B-25F5-4311-B166-C8779A69454D",
+    "name" : "Fatburn workout"
+}

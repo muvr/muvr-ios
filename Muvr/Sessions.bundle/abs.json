@@ -1,0 +1,1272 @@
+{
+    "type" : {
+        "id" : "resistanceTargeted",
+        "muscleGroups" : [
+                          "core"
+                          ]
+    },
+    "plan" : {
+        "chain" : [
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/reverse-curl" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/oblique-crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/hip-raises" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/cable-wood-chop" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/oblique-crunches" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/reverse-curl" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/hip-raises" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/reverse-curl" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/leg-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/leg-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/cable-wood-chop" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/cable-wood-chop" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/cable-wood-chop" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/reverse-curl" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/oblique-crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/oblique-crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/oblique-crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/hip-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/hip-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/leg-raises" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/leg-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/oblique-crunches" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/leg-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/hip-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/leg-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/cable-wood-chop" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/hip-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/leg-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/hip-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/leg-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/hip-raises" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/hip-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/cable-wood-chop" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/oblique-crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/cable-wood-chop" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/reverse-curl" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/cable-wood-chop" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/oblique-crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/oblique-crunches" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/oblique-crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/cable-wood-chop"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/oblique-crunches" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/hip-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/leg-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/cable-wood-chop" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/reverse-curl" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/leg-raises" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/hip-raises" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/oblique-crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/hip-raises" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/reverse-curl" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/cable-wood-chop" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/oblique-crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/leg-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/cable-wood-chop" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/hip-raises" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/hip-raises"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:back\/back-extension" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/reverse-curl" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:arms\/reverse-curl",
+                                   "resistanceTargeted:core\/leg-raises",
+                                   "resistanceTargeted:core\/cable-wood-chop",
+                                   "resistanceTargeted:core\/oblique-crunches",
+                                   "resistanceTargeted:core\/hip-raises",
+                                   "resistanceTargeted:back\/back-extension",
+                                   "resistanceTargeted:core\/plank",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/reverse-curl" : 1
+                   }
+                   }
+                   ],
+        "states" : [
+                    "resistanceTargeted:core\/crunches",
+                    "resistanceTargeted:arms\/reverse-curl",
+                    "resistanceTargeted:core\/leg-raises",
+                    "resistanceTargeted:core\/cable-wood-chop",
+                    "resistanceTargeted:core\/oblique-crunches",
+                    "resistanceTargeted:core\/hip-raises",
+                    "resistanceTargeted:back\/back-extension",
+                    "resistanceTargeted:core\/plank",
+                    "resistanceTargeted:core\/crunches",
+                    "resistanceTargeted:arms\/reverse-curl",
+                    "resistanceTargeted:core\/leg-raises",
+                    "resistanceTargeted:core\/cable-wood-chop",
+                    "resistanceTargeted:core\/oblique-crunches",
+                    "resistanceTargeted:core\/hip-raises",
+                    "resistanceTargeted:back\/back-extension",
+                    "resistanceTargeted:core\/plank"
+                    ]
+    },
+    "id" : "00114C38-3745-43AF-BDD6-4B33E70360AD",
+    "name" : "Abs workout"
+}

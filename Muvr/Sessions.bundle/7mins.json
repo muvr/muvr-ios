@@ -1,0 +1,3112 @@
+{
+    "type" : {
+        "id" : "resistanceWholeBody"
+    },
+    "plan" : {
+        "chain" : [
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:jumping-jacks" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:jumping-jacks" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2,
+                   "indoorsCardio:jumping-jacks" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:jumping-jacks" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:jumping-jacks" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:jumping-jacks" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:jumping-jacks" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:jumping-jacks" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:jumping-jacks" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:jumping-jacks" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:jumping-jacks" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:jumping-jacks" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/lunges" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:high-knees-running" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/step-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/side-plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank"
+                                   ],
+                   "transitionSet" : {
+                   "indoorsCardio:jumping-jacks" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/wall-sit" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/crunches" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges",
+                                   "resistanceTargeted:shoulders\/push-up-with-rotation",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "resistanceTargeted:core\/side-plank",
+                                   "indoorsCardio:jumping-jacks",
+                                   "resistanceTargeted:legs\/wall-sit",
+                                   "resistanceTargeted:shoulders\/push-up",
+                                   "resistanceTargeted:core\/crunches",
+                                   "resistanceTargeted:legs\/step-up"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:legs\/squat" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms\/triceps-dips" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:legs\/step-up",
+                                   "resistanceTargeted:legs\/squat",
+                                   "resistanceTargeted:arms\/triceps-dips"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:core\/plank" : 2
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms\/triceps-dips",
+                                   "resistanceTargeted:core\/plank",
+                                   "indoorsCardio:high-knees-running",
+                                   "resistanceTargeted:legs\/lunges"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/push-up-with-rotation" : 2
+                   }
+                   }
+                   ],
+        "states" : [
+                    "resistanceTargeted:shoulders\/push-up-with-rotation",
+                    "resistanceTargeted:core\/side-plank",
+                    "resistanceTargeted:core\/side-plank",
+                    "indoorsCardio:jumping-jacks",
+                    "resistanceTargeted:legs\/wall-sit",
+                    "resistanceTargeted:shoulders\/push-up",
+                    "resistanceTargeted:core\/crunches",
+                    "resistanceTargeted:legs\/step-up",
+                    "resistanceTargeted:legs\/squat",
+                    "resistanceTargeted:arms\/triceps-dips",
+                    "resistanceTargeted:core\/plank",
+                    "indoorsCardio:high-knees-running",
+                    "resistanceTargeted:legs\/lunges",
+                    "resistanceTargeted:shoulders\/push-up-with-rotation",
+                    "resistanceTargeted:core\/side-plank",
+                    "resistanceTargeted:core\/side-plank"
+                    ]
+    },
+    "id" : "B34CAAC7-F1A3-44FF-8DE4-D69EAD302E8C",
+    "name" : "7 minutes workout"
+}
