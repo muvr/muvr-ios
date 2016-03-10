@@ -121,32 +121,32 @@ public class MKSensorDataSplitter {
         do {
             let results = try eneClassifier.classify(block: data, maxResults: 2)
             NSLog("Exercise / no exercise \(results)")
-            if let classificationResult = results.first {
-                let (result, confidence) = classificationResult
-                if result.id == "E" && result.duration >= minimumExerciseDuration {
-                    // this is an exercise block - get the corresponding data section
-                    let data = try data.slice(result.offset, duration: result.duration)
-                    // adjust the offset with the offset from the original block
-                    // the offset returned by the classifier is relative to the current exercise block
-                    //return exercises.map(self.shiftOffset(result.offset)).map(self.updateRepetitions(repetitions))
-                    return ([], [], from + data.duration)
-                } else {
-                    return ([], [], from + data.duration)
-                }
-            }
+            let exerciseRegions: [MKSensorDataSplit] =
+                results
+                .filter{ exercise, _ in
+                    exercise.type == MKExerciseTypeDescriptor.GenericExercise }
+                .flatMap{ (exercise, _) in
+                    return try? .Automatic(startOffset: exercise.offset, data: data.slice(exercise.offset, duration: exercise.duration)) }
+            
+            let completed = exerciseRegions.filter{exercise in exercise.end != data.end}
+            
+            let partial = exerciseRegions.filter{exercise in exercise.end == data.end}
+            
+            let lastCompleted = completed.maxElement { l, r in l.end < r.end }?.end ?? from
+            
+            return (completed, partial, lastCompleted)
         } catch let ex {
             NSLog("Failed to classify block: \(ex)")
-            return ([], [], from + data.duration)
+            return ([], [], 0)
         }
-        return ([], [], from + data.duration)
     }
 
     func split(from from: NSTimeInterval, data: MKSensorData) -> Split {
-        if let hints = hintSource.classificationHints {
-            return hintedSplit(from, data: data, hints: hints)
-        } else {
+        //if let hints = hintSource.classificationHints {
+        //    return hintedSplit(from, data: data, hints: hints)
+        //} else {
             return automatedSplit(from, data: data)
-        }
+        //}
     }
     
 }

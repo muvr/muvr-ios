@@ -216,6 +216,13 @@ public struct MKClassifier {
         
         return mergedBlocks
     }
+    
+    ///
+    ///
+    ///
+    public func expectedExampleDuration() -> Double {
+        return model.minimumDuration
+    }
 }
 
 struct MKClassifiedExerciseBlock {
