@@ -19,9 +19,7 @@ class MuvrUITests: XCTestCase {
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
     
-    func testArmsSessionWithNoExcerciseAllMissingLabels() {
-        let app = XCUIApplication()
-        
+    func startArmsSession(app: XCUIApplication) {
         NSThread.sleepForTimeInterval(0.1)
         // start another workout
         app.buttons["Start another workout"].tap()
@@ -30,6 +28,22 @@ class MuvrUITests: XCTestCase {
         let tablesQuery = app.tables
         tablesQuery.staticTexts["Arms"].tap()
         app.buttons["Start"].tap()
+    }
+    
+    func findExercise(app: XCUIApplication, scrollView: String, exerciseName: String) {
+        var names = app.scrollViews[scrollView].buttons.allElementsBoundByIndex.map { $0.label }
+        var lastName: String? = nil
+        while !names.contains(exerciseName) && (lastName != names.last) {
+            app.scrollViews[scrollView].swipeLeft()
+            lastName = names.last
+            names = app.scrollViews[scrollView].buttons.allElementsBoundByIndex.map { $0.label }
+        }
+    }
+    
+    func testArmsSessionWithNoExcerciseAllMissingLabels() {
+        let app = XCUIApplication()
+        
+        startArmsSession(app)
         
         // start the BBC exercise
         app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].tap()
@@ -53,6 +67,25 @@ class MuvrUITests: XCTestCase {
         
         // Stop session
         app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].pressForDuration(6)
+    }
+    
+    func testAlternativeExercises() {
+        let app = XCUIApplication()
+        
+        startArmsSession(app)
+        
+        // swipe to fiind "Triceps dips"
+        findExercise(app, scrollView: "Coming up exercises", exerciseName: "Triceps Dips")
+        
+        // click on "Triceps dips"
+        app.scrollViews["Coming up exercises"].buttons["Triceps Dips"].tap()
+        
+        // swipe alternatives to find "Triceps extensions"
+        findExercise(app, scrollView: "Alternatives exercises", exerciseName: "Triceps Extensions")
+        
+        // check alternatives contains "Triceps extension"
+        let alternatives = app.scrollViews["Coming up exercises"].buttons.allElementsBoundByIndex.map { $0.label }
+        XCTAssertTrue(alternatives.contains("Triceps Extensions"))
     }
     
     override func tearDown() {

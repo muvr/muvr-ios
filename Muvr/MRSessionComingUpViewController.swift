@@ -5,7 +5,7 @@ import MuvrKit
 ///
 /// Displays a scroll view of exercises that are coming up in the exercise session.
 /// To use, call the ``setExercises`` function, providing the list of exercises to
-/// be displayed, and an action to be called when an execie is selected.
+/// be displayed, and an action to be called when an exercise is selected.
 ///
 class MRSessionComingUpViewController: UIViewController {
     @IBOutlet weak var comingUpScrollView: UIScrollView!
@@ -13,6 +13,14 @@ class MRSessionComingUpViewController: UIViewController {
     typealias OnSelected = MKExerciseDetail -> Void
     private var onSelected: OnSelected!
     private var exerciseDetails: [MKExerciseDetail] = []
+    
+    ///
+    /// set the accessibility identifiers
+    ///
+    override func viewDidLoad() {
+        comingUpScrollView.accessibilityIdentifier = "Coming up exercises"
+        alternativeScrollView.accessibilityIdentifier = "Alternative exercises"
+    }
     
     ///
     /// Compute the buttons' frames after scrollView layout
