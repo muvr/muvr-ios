@@ -19,6 +19,12 @@ class MuvrUITests: XCTestCase {
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
     
+    ///
+    /// Starts a session of the given type:
+    /// - click "Start another workout" button 
+    /// - then select the given type from the table
+    /// - and click the start button
+    ///
     func startSession(app: XCUIApplication, sessionType: String) {
         NSThread.sleepForTimeInterval(0.1)
         // start another workout
@@ -30,6 +36,11 @@ class MuvrUITests: XCTestCase {
         app.buttons["Start"].tap()
     }
     
+    ///
+    /// Swipe the specified scroll view until the given exercise button is found
+    /// or the end is reached.
+    /// - parameter scrollView: the name of the scrollview to swipe ("Coming up exercises" or "Alternatives exercises")
+    ///
     func findExercise(app: XCUIApplication, scrollView: String, exerciseName: String) {
         var names = app.scrollViews[scrollView].buttons.allElementsBoundByIndex.map { $0.label }
         var lastName: String? = nil
