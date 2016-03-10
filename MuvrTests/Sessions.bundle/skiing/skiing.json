@@ -6,7 +6,7 @@
     "skiing workouts #1: lowerbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Legs])" : {
         "LA" : 0.55,
         "WL" : 0.06,
-        "EA" : 0.52
+        "EA" : 0.47
     },
     "skiing workouts #2: upperbody ResistanceTargeted([MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Core])" : {
         "LA" : 0.59,

@@ -1,0 +1,21 @@
+{
+    "trx": {
+        "SA": 0.66
+    },
+    
+    "TRX workout: fullbody (day 1) ResistanceTargeted([MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Legs])" : {
+        "LA" : 0.50,
+        "WL" : 0.01,
+        "EA" : 0.05
+    },
+    "TRX workout: fullbody (day 2) sequence change ResistanceTargeted([MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Legs])" : {
+        "LA" : 0.99,
+        "WL" : 0.01,
+        "EA" : 0.44
+    },
+    "TRX workout: fullbody (day 3) more sets ResistanceTargeted([MuvrKit.MKMuscleGroup.Core, MuvrKit.MKMuscleGroup.Chest, MuvrKit.MKMuscleGroup.Arms, MuvrKit.MKMuscleGroup.Back, MuvrKit.MKMuscleGroup.Legs])" : {
+        "LA" : 0.75,
+        "WL" : 0.01,
+        "EA" : 0.62
+    }
+}
