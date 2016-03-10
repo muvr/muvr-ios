@@ -63,7 +63,10 @@
 "dumbbell-calf-raise" = "dumbbell calf raise";
 "dumbbell-flyes" = "dumbbell flyes";
 "dumbbell-shoulder-press" = "dumbbell shoulder press";
+"high-knees-running" = "high knees running";
+"hip-raises" = "hip raises";
 "iron-cross" = "iron cross";
+"jumping-jacks" = "jumping jacks";
 "lateral-pulldown" = "lateral pulldown";
 "lateral-pulldown-straight" = "lateral pulldown straight";
 "lateral-raise" = "lateral raise";
@@ -73,17 +76,23 @@
 "lunges" = "lunges";
 "oblique-crunches" = "oblique crunches";
 "overhead-cable-curl" = "overhead cable curl";
+"plank" = "plank";
 "pull-up" = "pull-up";
+"push-up" = "push-up";
+"push-up-with-rotation" = "push-up with rotation";
 "reverse-cable-curl" = "reverse cable curls";
 "reverse-curl" = "reverse curl";
 "reverse-flyes" = "reverse flyes";
-"reverse-planks" = "reverse planks";
+"reverse-plank" = "reverse plank";
+"rope-climbing" = "rope climbing";
 "rowing-machine" = "rowing machine";
 "running-machine" = "running machine";
 "russian-twist" = "russian twist";
 "shrugs" = "shrugs";
 "side-dips" = "side dips";
+"side-plank" = "side plank";
 "squat" = "squat";
+"step-up" = "step-up";
 "stepper" = "stepper";
 "suitcase-crunches" = "suitcase crunches";
 "triceps-dips" = "triceps dips";
@@ -101,5 +110,6 @@
 "upright-barbell-row" = "upright barbell row";
 "upright-row" = "upright row";
 "vertical-swing" = "vertical swing";
+"wall-sit" = "wall sit";
 
 

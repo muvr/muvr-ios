@@ -143,9 +143,19 @@
     "muscle": "abs"
  },
  {
-    "id":"resistanceTargeted:core/reverse-planks",
-    "labels": ["repetitions", "weight", "intensity"],
+    "id":"resistanceTargeted:core/plank",
+    "labels": ["weight", "intensity"],
     "muscle": "abs"
+ },
+ {
+    "id":"resistanceTargeted:core/reverse-plank",
+    "labels": ["weight", "intensity"],
+    "muscle": "abs"
+ },
+ {
+    "id":"resistanceTargeted:core/side-plank",
+    "labels": ["weight", "intensity"],
+    "muscle": "obliques"
  },
  {
     "id":"resistanceTargeted:core/russian-twist",
@@ -160,6 +170,11 @@
  {
     "id":"resistanceTargeted:core/crunch-machine",
     "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "abs"
+ },
+ {
+    "id": "resistanceTargeted:core/hip-raises",
+    "labels": ["repetitions", "intensity", "weight"],
     "muscle": "abs"
  },
 
@@ -192,6 +207,16 @@
     "id":"resistanceTargeted:legs/barbell-deadlift",
     "labels": ["repetitions", "weight", "intensity"],
     "muscle": "hamstrings"
+ },
+ {
+    "id": "resistanceTargeted:legs/wall-sit",
+    "labels": ["intensity"],
+    "muscle": "quadriceps"
+ },
+ {
+    "id": "resistanceTargeted:legs/step-up",
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "quadriceps"
  },
 
  {
@@ -229,10 +254,24 @@
     "labels": ["repetitions", "intensity", "weight"],
     "muscle": "lats"
  },
+ {
+    "id":"resistanceTargeted:shoulders/push-up",
+    "labels": ["repetitions", "intensity"],
+    "muscle": "deltoid"
+ },
+ {
+    "id":"resistanceTargeted:shoulders/push-up-with-rotation",
+    "labels": ["repetitions", "intensity"],
+    "muscle": "deltoid"
+ },
  
  {
     "id":"resistanceWholeBody:iron-cross",
     "labels": ["repetitions", "weight", "intensity"]
+ },
+ {
+    "id":"resistanceWholeBody:rope-climbing",
+    "labels": ["repetitions", "intensity"]
  },
  
  {
@@ -249,6 +288,14 @@
  },
  {
     "id":"indoorsCardio:stepper",
+    "labels": ["intensity"]
+ },
+ {
+    "id": "indoorsCardio:jumping-jacks",
+    "labels": ["intensity"]
+ },
+ {
+    "id": "indoorsCardio:high-knees-running",
     "labels": ["intensity"]
  },
  
