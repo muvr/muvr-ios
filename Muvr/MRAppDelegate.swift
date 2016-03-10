@@ -200,8 +200,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
                 if properties.isEmpty {
                     switch exerciseType {
                     case .ResistanceTargeted: properties = defaultResistanceTargetedProperties
-                    case .IndoorsCardio: properties = []
-                    case .ResistanceWholeBody: properties = []
+                    case .IndoorsCardio, .ResistanceWholeBody, .GenericNonExercise, .GenericExercise: properties = []
                     }
                 }
                 let labels = labelNames.flatMap { MKExerciseLabelDescriptor(id: $0) }
@@ -286,10 +285,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             return
         }
         // Only proceed if no apple watch available (otherwise workout is saved by the watch)
-        if connectivity.reachable {
-            NSLog("HealthKit workout saved by apple watch")
-            return
-        }
+//        if connectivity.reachable {
+//            NSLog("HealthKit workout saved by apple watch")
+//            return
+//        }
         
         let healthStore = HKHealthStore()
         if healthStore.authorizationStatusForType(HKObjectType.workoutType()) != .SharingAuthorized {

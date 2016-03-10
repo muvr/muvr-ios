@@ -15,6 +15,10 @@ extension MKExerciseType {
             return "Whole Body"
         case .IndoorsCardio:
             return "Indoors Cardio"
+        case .GenericExercise:
+            return "Some Exercise"
+        case .GenericNonExercise:
+            return "No Exercise"
         }
     }
     

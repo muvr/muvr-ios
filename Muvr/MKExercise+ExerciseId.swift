@@ -46,7 +46,7 @@ extension MKExercise {
             // the last component is not a station
             return (components[0], restComponents, nil)
         }
-        return nil
+        return (exerciseId, [], nil)
     }
     
 }

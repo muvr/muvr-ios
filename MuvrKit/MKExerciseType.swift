@@ -6,6 +6,8 @@ public enum MKExerciseType : Equatable, Hashable {
     public static let resistanceTargeted = "resistanceTargeted"
     public static let resistanceWholeBody = "resistanceWholeBody"
     public static let indoorsCardio = "indoorsCardio"
+    public static let genericExercise = "E"
+    public static let genericNonExercise = "-"
     
     /// General indoors cardio: treadmill, cross-trainer, even spinning at the moment
     case IndoorsCardio
@@ -16,6 +18,12 @@ public enum MKExerciseType : Equatable, Hashable {
     /// Specific resistance exercise targeting the given ``muscleGroups``
     /// - parameter muscleGroups: the muscle groups
     case ResistanceTargeted(muscleGroups: [MKMuscleGroup])
+    
+    /// Placeholder if there is no specific information about the exercise
+    case GenericExercise
+    
+    /// No exercise at all
+    case GenericNonExercise
     
     ///
     /// Indicates whether self is contained in that. This is useful for targeted 
@@ -42,6 +50,8 @@ public enum MKExerciseType : Equatable, Hashable {
             case .IndoorsCardio: return 1
             case .ResistanceWholeBody: return 17
             case .ResistanceTargeted(let mgs): return 31 + mgs.reduce(0) { Int.addWithOverflow($0, $1.hashValue).0 }
+            case .GenericExercise: return 23
+            case .GenericNonExercise: return 27
             }
         }
     }
@@ -54,6 +64,7 @@ public enum MKExerciseType : Equatable, Hashable {
         case .IndoorsCardio: return [.Intensity]
         case .ResistanceTargeted: return [.Repetitions, .Weight, .Intensity]
         case .ResistanceWholeBody: return [.Repetitions, .Weight, .Intensity]
+        default: return []
         }
     }
     
@@ -65,6 +76,8 @@ public enum MKExerciseType : Equatable, Hashable {
         case .ResistanceTargeted: return MKExerciseType.resistanceTargeted
         case .ResistanceWholeBody: return MKExerciseType.resistanceWholeBody
         case .IndoorsCardio: return MKExerciseType.indoorsCardio
+        case .GenericNonExercise: return MKExerciseType.genericNonExercise
+        case .GenericExercise: return MKExerciseType.genericExercise
         }
     }
 

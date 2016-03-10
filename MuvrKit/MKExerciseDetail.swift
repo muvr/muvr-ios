@@ -37,6 +37,7 @@ public struct MKExerciseDetail {
         switch type {
         case .IndoorsCardio, .ResistanceWholeBody: return type == exerciseDetail.type
         case .ResistanceTargeted: return muscle == exerciseDetail.muscle
+        case .GenericExercise, .GenericNonExercise: return false
         }
     }
     
