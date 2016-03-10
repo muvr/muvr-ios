@@ -19,14 +19,14 @@ class MuvrUITests: XCTestCase {
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
     
-    func startArmsSession(app: XCUIApplication) {
+    func startSession(app: XCUIApplication, sessionType: String) {
         NSThread.sleepForTimeInterval(0.1)
         // start another workout
         app.buttons["Start another workout"].tap()
         
         // start the Arms session
         let tablesQuery = app.tables
-        tablesQuery.staticTexts["Arms"].tap()
+        tablesQuery.staticTexts[sessionType].tap()
         app.buttons["Start"].tap()
     }
     
@@ -43,7 +43,7 @@ class MuvrUITests: XCTestCase {
     func testArmsSessionWithNoExcerciseAllMissingLabels() {
         let app = XCUIApplication()
         
-        startArmsSession(app)
+        startSession(app, sessionType: "Arms")
         
         // start the BBC exercise
         app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].tap()
@@ -72,9 +72,9 @@ class MuvrUITests: XCTestCase {
     func testAlternativeExercises() {
         let app = XCUIApplication()
         
-        startArmsSession(app)
+        startSession(app, sessionType: "Arms")
         
-        // swipe to fiind "Triceps dips"
+        // swipe to find "Triceps dips"
         findExercise(app, scrollView: "Coming up exercises", exerciseName: "Triceps Dips")
         
         // click on "Triceps dips"
@@ -86,6 +86,47 @@ class MuvrUITests: XCTestCase {
         // check alternatives contains "Triceps extension"
         let alternatives = app.scrollViews["Coming up exercises"].buttons.allElementsBoundByIndex.map { $0.label }
         XCTAssertTrue(alternatives.contains("Triceps Extensions"))
+        
+        // click on "Triceps extension"
+        app.scrollViews["Alternatives exercises"].buttons["Triceps Extension"].tap()
+        
+        // start "triceps extension" exercise
+        app.otherElements["Exercise control"].buttons["Triceps Extension"].tap()
+    }
+    
+    func testTRXExercise() {
+        let app = XCUIApplication()
+        
+        startSession(app, sessionType: "Core")
+        
+        // find "reverse plank"
+        findExercise(app, scrollView: "Coming up exercises", exerciseName: "Trx Atomic Press")
+        
+        // start "reverse plank"
+        app.scrollViews["Coming up exercises"].buttons["Trx Atomic Press"].tap()
+        app.otherElements["Exercise control"].buttons["Trx Atomic Press"].tap()
+        
+        // wait 5 sec to pass "get ready" screen
+        NSThread.sleepForTimeInterval(5.1)
+        
+        // train for 10 sec
+        NSThread.sleepForTimeInterval(10)
+        
+        // end exercise
+        app.otherElements["Exercise control"].buttons["Trx Atomic Press"].tap()
+        
+        // accept default labels
+        app.otherElements["Exercise control"].buttons["Trx Atomic Press"].tap()
+        
+        // check there are only duration and repetitions labels
+        let labels = app.otherElements.allElementsBoundByIndex.map { $0.label }
+        XCTAssertTrue(labels.contains("Duration"))
+        XCTAssertTrue(labels.contains("Repetitions"))
+        XCTAssertFalse(labels.contains("Weight"))
+        
+        // Stop session
+        app.otherElements["Exercise control"].buttons["Trx Atomic Press"].pressForDuration(6)
+        
     }
     
     override func tearDown() {
