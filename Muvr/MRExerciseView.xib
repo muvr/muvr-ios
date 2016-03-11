@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10115" systemVersion="15E61b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10112" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10084"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10083"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -21,6 +21,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2St-qC-a3j">
                     <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="2St-qC-a3j" secondAttribute="height" multiplier="1:1" id="B47-QP-PlZ"/>
                     </constraints>
@@ -30,6 +31,8 @@
                     <state key="normal" title="Biceps curl"/>
                     <connections>
                         <action selector="buttonDidPressed:" destination="-1" eventType="touchUpInside" id="PiS-hG-HZG"/>
+                        <outletCollection property="gestureRecognizers" destination="AKO-zV-RyR" appends="YES" id="kxb-9w-BUX"/>
+                        <outletCollection property="gestureRecognizers" destination="9tG-gI-rWN" appends="YES" id="B0K-bZ-SNF"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coming up" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7pg-7b-bw1">
@@ -45,6 +48,7 @@
                     </constraints>
                 </scrollView>
             </subviews>
+            <gestureRecognizers/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="HMd-tw-Hug" secondAttribute="trailing" constant="8" id="7aS-zO-ejQ"/>
                 <constraint firstItem="HMd-tw-Hug" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="CjH-X2-Buk"/>
@@ -60,5 +64,15 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="359" y="201"/>
         </view>
+        <swipeGestureRecognizer direction="right" id="AKO-zV-RyR">
+            <connections>
+                <action selector="buttonDidSwipe:" destination="-1" id="Ia9-Cf-Vb1"/>
+            </connections>
+        </swipeGestureRecognizer>
+        <swipeGestureRecognizer direction="left" id="9tG-gI-rWN">
+            <connections>
+                <action selector="buttonDidSwipe:" destination="-1" id="5p6-lh-Moc"/>
+            </connections>
+        </swipeGestureRecognizer>
     </objects>
 </document>

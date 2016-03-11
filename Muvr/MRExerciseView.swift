@@ -15,6 +15,11 @@ protocol MRExerciseViewDelegate {
     /// Called when the circle animation gets to the end
     /// - parameter exerciseView: the view that has finished animating
     func exerciseViewCircleDidComplete(exerciseView: MRExerciseView)
+    
+    /// Called when the exercise button is swiped
+    /// - parameter exerciseView: the view where the swipe occured
+    /// - parameter direction: the swipe direction 
+    func exerciseViewSwiped(exerciseView: MRExerciseView, direction: UISwipeGestureRecognizerDirection)
 }
 
 ///
@@ -29,7 +34,7 @@ protocol MRExerciseViewDelegate {
 /// the exercise to be displayed.
 ///
 @IBDesignable
-class MRExerciseView : UIView {
+class MRExerciseView : UIView, UIGestureRecognizerDelegate {
     
     var view: UIView!
     var delegate: MRExerciseViewDelegate?
@@ -71,7 +76,6 @@ class MRExerciseView : UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         createUI()
-
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -235,16 +239,6 @@ class MRExerciseView : UIView {
         layer.timeOffset = pauseTime
     }
     
-    func pause() {
-         animationPauseTime = CACurrentMediaTime()
-    }
-    
-    func resume() {
-        if let duration = animationDuration {
-            animateCircle(duration)
-        }
-    }
-    
     private func resumeLayer(layer: CALayer) {
         let pausedTime = layer.timeOffset
         layer.speed = 1.0
@@ -310,6 +304,10 @@ class MRExerciseView : UIView {
     
     @IBAction private func buttonDidPressed(sender: UIButton) {
         delegate?.exerciseViewTapped(self)
+    }
+    
+    @IBAction private func buttonDidSwipe(recognizer: UISwipeGestureRecognizer) {
+        delegate?.exerciseViewSwiped(self, direction: recognizer.direction)
     }
     
     func buttonDidLongPress() {

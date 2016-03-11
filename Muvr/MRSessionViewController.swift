@@ -53,7 +53,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     private var inExerciseViewController: UIViewController!
     private var labellingViewController: MRSessionLabellingViewController!
     
-    private var onHold = false
+    private var comingUpExerciseDetails: [MKExerciseDetail] = []
     
     ///
     /// Sets the session to be displayed by this controller
@@ -77,22 +77,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         labellingViewController = storyboard!.instantiateViewControllerWithIdentifier("LabellingViewController") as! MRSessionLabellingViewController
     }
     
-    override func viewWillAppear(animated: Bool) {
-        if onHold {
-            mainExerciseView.resume()
-        }
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        onHold = true
-        mainExerciseView.pause()
-    }
-    
     override func viewDidAppear(animated: Bool) {
-        if onHold {
-            onHold = false
-        }
-        else { refreshViewsForState(state) }
+        refreshViewsForState(state)
     }
     
     ///
@@ -103,8 +89,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         mainExerciseView.progressFullColor = state.color
         switch state {
         case .ComingUp(let exerciseDetail):
-            let comingUp = session.exerciseDetailsComingUp
-            let ed = exerciseDetail ?? comingUp.first
+            comingUpExerciseDetails = session.exerciseDetailsComingUp
+            let ed = exerciseDetail ?? comingUpExerciseDetails.first
             mainExerciseView.headerTitle = "Coming up".localized()
             mainExerciseView.exerciseDetail = ed
             mainExerciseView.exerciseLabels = ed.map(session.predictExerciseLabelsForExerciseDetail)?.0
@@ -112,7 +98,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             mainExerciseView.reset()
             mainExerciseView.start(session.predictRestDuration())
             switchToViewController(comingUpViewController, fromRight: exerciseDetail == nil)
-            comingUpViewController.setExerciseDetails(comingUp, onSelected: selectedExerciseDetail)
+            comingUpViewController.setExerciseDetails(comingUpExerciseDetails, onSelected: selectedExerciseDetail)
         case .Ready:
             mainExerciseView.headerTitle = "Get ready for".localized()
             mainExerciseView.reset()
@@ -201,6 +187,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         if let duration = session.predictDurationForExerciseDetail(selectedExerciseDetail) {
             mainExerciseView.exerciseDuration = duration
         }
+        state = .ComingUp(exerciseDetail: selectedExerciseDetail)
     }
     
     // MARK: - MRExerciseViewDelegate
@@ -248,6 +235,23 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             refreshViewsForState(state)
         default: return
         }
+    }
+    
+    func exerciseViewSwiped(exerciseView: MRExerciseView, direction: UISwipeGestureRecognizerDirection) {
+        guard case .ComingUp(let ed) = state, let selected = ed ?? comingUpExerciseDetails.first else { return }
+        let alternatives = comingUpExerciseDetails.filter { $0.isAlternativeOf(selected) }
+        
+        let index = alternatives.indexOf { selected.id == $0.id } ?? 0
+        let length = alternatives.count
+        
+        func next() -> Int? {
+            if direction == .Left { return (index + 1) % length }
+            if direction == .Right { return (index - 1 + length) % length }
+            return nil
+        }
+        
+        guard let n = next() else { return }
+        selectedExerciseDetail(alternatives[n])
     }
     
 }
