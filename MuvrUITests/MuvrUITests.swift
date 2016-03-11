@@ -27,6 +27,10 @@ class MuvrUITests: XCTestCase {
     ///
     func startSession(app: XCUIApplication, sessionType: String) {
         NSThread.sleepForTimeInterval(0.1)
+        
+        // swipe to "Start another workout"
+        swipeTo(app, scrollView: "Workouts", target: "Start another workout")
+        
         // start another workout
         app.buttons["Start another workout"].tap()
         
@@ -39,15 +43,30 @@ class MuvrUITests: XCTestCase {
     ///
     /// Swipe the specified scroll view until the given exercise button is found
     /// or the end is reached.
-    /// - parameter scrollView: the name of the scrollview to swipe ("Coming up exercises" or "Alternatives exercises")
+    /// - parameter scrollView: the name of the scrollview to swipe 
+    /// - parameter target: the name of the button to look for
     ///
-    func findExercise(app: XCUIApplication, scrollView: String, exerciseName: String) {
+    func swipeTo(app: XCUIApplication, scrollView: String, target: String) {
         var names = app.scrollViews[scrollView].buttons.allElementsBoundByIndex.map { $0.label }
         var lastName: String? = nil
-        while !names.contains(exerciseName) && (lastName != names.last) {
+        while !names.contains(target) && (lastName != names.last) {
             app.scrollViews[scrollView].swipeLeft()
             lastName = names.last
             names = app.scrollViews[scrollView].buttons.allElementsBoundByIndex.map { $0.label }
+        }
+    }
+    
+    
+    ///
+    /// swipe main button until the given exercise is found
+    /// - parameter exerciseName: the name of the exercise to look for
+    ///
+    func swipeToExercise(app: XCUIApplication, exerciseName: String) {
+        let first = app.otherElements["Exercise control"].buttons.allElementsBoundByIndex.first?.label ?? ""
+        var current: String = ""
+        while (current != exerciseName && current != first) {
+            app.otherElements["Exercise control"].swipeLeft()
+            current = app.otherElements["Exercise control"].buttons.allElementsBoundByIndex.first?.label ?? ""
         }
     }
     
@@ -86,23 +105,16 @@ class MuvrUITests: XCTestCase {
         startSession(app, sessionType: "Arms")
         
         // swipe to find "Triceps dips"
-        findExercise(app, scrollView: "Coming up exercises", exerciseName: "Triceps Dips")
+        swipeTo(app, scrollView: "Coming up exercises", target: "Triceps Dips")
         
         // click on "Triceps dips"
         app.scrollViews["Coming up exercises"].buttons["Triceps Dips"].tap()
         
         // swipe alternatives to find "Triceps extensions"
-        findExercise(app, scrollView: "Alternatives exercises", exerciseName: "Triceps Extensions")
-        
-        // check alternatives contains "Triceps extension"
-        let alternatives = app.scrollViews["Coming up exercises"].buttons.allElementsBoundByIndex.map { $0.label }
-        XCTAssertTrue(alternatives.contains("Triceps Extensions"))
-        
-        // click on "Triceps extension"
-        app.scrollViews["Alternatives exercises"].buttons["Triceps Extension"].tap()
+        swipeToExercise(app, exerciseName: "Triceps Extensions")
         
         // start "triceps extension" exercise
-        app.otherElements["Exercise control"].buttons["Triceps Extension"].tap()
+        app.otherElements["Exercise control"].buttons["Triceps Extensions"].tap()
     }
     
     func testTRXExercise() {
@@ -111,7 +123,7 @@ class MuvrUITests: XCTestCase {
         startSession(app, sessionType: "Core")
         
         // find "reverse plank"
-        findExercise(app, scrollView: "Coming up exercises", exerciseName: "Trx Atomic Press")
+        swipeTo(app, scrollView: "Coming up exercises", target: "Trx Atomic Press")
         
         // start "reverse plank"
         app.scrollViews["Coming up exercises"].buttons["Trx Atomic Press"].tap()

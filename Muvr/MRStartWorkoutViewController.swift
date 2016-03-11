@@ -9,6 +9,7 @@ class MRStartWorkoutViewController: UIViewController  {
     
     override func viewDidLoad() {
         setTitleImage(named: "muvr_logo_white")
+        scrollView.accessibilityIdentifier = "Workouts"
     }
     
     override func viewWillAppear(animated: Bool) {
