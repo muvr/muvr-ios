@@ -18,7 +18,7 @@ protocol MRExerciseViewDelegate {
     
     /// Called when the exercise button is swiped
     /// - parameter exerciseView: the view where the swipe occured
-    /// - parameter direction: the swipe direction 
+    /// - parameter direction: the swipe direction (Left or Right)
     func exerciseViewSwiped(exerciseView: MRExerciseView, direction: UISwipeGestureRecognizerDirection)
 }
 
@@ -34,7 +34,7 @@ protocol MRExerciseViewDelegate {
 /// the exercise to be displayed.
 ///
 @IBDesignable
-class MRExerciseView : UIView, UIGestureRecognizerDelegate {
+class MRExerciseView : UIView {
     
     var view: UIView!
     var delegate: MRExerciseViewDelegate?
