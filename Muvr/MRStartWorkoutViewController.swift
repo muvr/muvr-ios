@@ -44,9 +44,9 @@ class MRStartWorkoutViewController: UIViewController  {
         if upcomingSessions.count > 1 {
             for sessionType in upcomingSessions {
                 let button = MRAlternativeWorkoutButton(type: UIButtonType.System)
-                button.color = MRColor.green
+                button.color = MRColor.gray
                 button.sessionType = sessionType
-                button.setTitleColor(MRColor.green, forState: .Normal)
+                button.setTitleColor(MRColor.black, forState: .Normal)
                 button.addTarget(self, action: #selector(MRStartWorkoutViewController.changeWorkout(_:)), forControlEvents: [.TouchUpInside])
                 scrollView.addSubview(button)
             }

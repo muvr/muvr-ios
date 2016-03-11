@@ -19,12 +19,6 @@
                         <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pa4-Xb-OTx">
-                                <rect key="frame" x="15" y="479" width="384" height="128"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="pa4-Xb-OTx" secondAttribute="height" multiplier="3:1" id="zGP-wl-8HQ"/>
-                                </constraints>
-                            </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="t8Q-if-Kmr" customClass="MRAlternativeWorkoutButton" customModule="Muvr" customModuleProvider="target">
                                 <rect key="frame" x="32" y="12" width="351" height="351"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Start workout" label="Start workout"/>
@@ -46,13 +40,31 @@ workout</string>
                                     <action selector="startWorkout:" destination="pmY-Nl-DsG" eventType="touchUpInside" id="bRr-ip-2aL"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CR1-dm-STi">
+                                <rect key="frame" x="15" y="371" width="384" height="252"/>
+                                <subviews>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pa4-Xb-OTx">
+                                        <rect key="frame" x="0.0" y="62" width="384" height="128"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="pa4-Xb-OTx" secondAttribute="height" multiplier="3:1" id="zGP-wl-8HQ"/>
+                                        </constraints>
+                                    </scrollView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="pa4-Xb-OTx" firstAttribute="leading" secondItem="CR1-dm-STi" secondAttribute="leading" id="N9I-GO-yEf"/>
+                                    <constraint firstAttribute="trailing" secondItem="pa4-Xb-OTx" secondAttribute="trailing" id="PEL-vn-wTP"/>
+                                    <constraint firstItem="pa4-Xb-OTx" firstAttribute="centerY" secondItem="CR1-dm-STi" secondAttribute="centerY" id="msh-bl-P2l"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="pa4-Xb-OTx" firstAttribute="centerX" secondItem="Xwy-pg-dpP" secondAttribute="centerX" id="26d-N1-Kzd"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="CR1-dm-STi" secondAttribute="trailing" constant="-5" id="9B8-nF-aAh"/>
                             <constraint firstItem="t8Q-if-Kmr" firstAttribute="top" secondItem="Q74-HE-1qC" secondAttribute="bottom" constant="12" id="Bkz-nF-usw"/>
-                            <constraint firstItem="pa4-Xb-OTx" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-5" id="IAi-rg-3gg"/>
-                            <constraint firstItem="Q1S-ZS-XIG" firstAttribute="top" secondItem="pa4-Xb-OTx" secondAttribute="bottom" constant="16" id="cc9-pz-o14"/>
+                            <constraint firstItem="CR1-dm-STi" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-5" id="CH7-xY-Xzm"/>
+                            <constraint firstItem="CR1-dm-STi" firstAttribute="top" secondItem="t8Q-if-Kmr" secondAttribute="bottom" constant="8" id="QWF-Ru-BYG"/>
+                            <constraint firstItem="Q1S-ZS-XIG" firstAttribute="top" secondItem="CR1-dm-STi" secondAttribute="bottom" id="U1D-A0-OIB"/>
                             <constraint firstItem="t8Q-if-Kmr" firstAttribute="centerX" secondItem="Xwy-pg-dpP" secondAttribute="centerX" id="fAu-XB-exd"/>
                             <constraint firstItem="t8Q-if-Kmr" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="12" id="iDc-pc-BIU"/>
                         </constraints>
