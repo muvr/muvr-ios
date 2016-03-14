@@ -255,7 +255,7 @@ class MRExerciseView : UIView {
         let font = button.titleLabel!.font
         var fontSize = frame.height / 8
         var size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
-        while (size.width > button.bounds.width - 6 * lineWidth) {
+        while (size.width > button.bounds.width - 30 - 6 * lineWidth) {
             fontSize -= 1
             size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
         }
@@ -267,7 +267,7 @@ class MRExerciseView : UIView {
         let title = exerciseDetail.map { MKExercise.title($0.id) }
         button.setTitle(title, forState: UIControlState.Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(buttonFontSize)
-        button.titleEdgeInsets = UIEdgeInsets()
+        //button.titleEdgeInsets = UIEdgeInsets()
         
         accessibilityLabel = title
 
@@ -301,6 +301,13 @@ class MRExerciseView : UIView {
         }
     }
     
+    @IBAction private func swipeLeftButtonDidPress(sender: UIButton) {
+        delegate?.exerciseViewSwiped(self, direction: .Left)
+    }
+    
+    @IBAction private func swipeRightButtonDidPress(sender: UIButton) {
+        delegate?.exerciseViewSwiped(self, direction: .Right)
+    }
     
     @IBAction private func buttonDidPressed(sender: UIButton) {
         delegate?.exerciseViewTapped(self)

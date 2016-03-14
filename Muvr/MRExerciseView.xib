@@ -8,7 +8,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MRExerciseView" customModule="Muvr" customModuleProvider="target">
             <connections>
-                <outlet property="button" destination="2St-qC-a3j" id="CDW-Pd-qe4"/>
+                <outlet property="button" destination="2St-qC-a3j" id="lQa-CL-LaH"/>
                 <outlet property="headerLabel" destination="7pg-7b-bw1" id="bSG-Ya-ajj"/>
                 <outlet property="labelsView" destination="HMd-tw-Hug" id="ZGy-LZ-NW4"/>
             </connections>
@@ -27,7 +27,7 @@
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="50"/>
                     <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <inset key="titleEdgeInsets" minX="0.0" minY="-150" maxX="0.0" maxY="0.0"/>
+                    <inset key="titleEdgeInsets" minX="30" minY="0.0" maxX="30" maxY="0.0"/>
                     <state key="normal" title="Biceps curl"/>
                     <connections>
                         <action selector="buttonDidPressed:" destination="-1" eventType="touchUpInside" id="PiS-hG-HZG"/>
@@ -47,18 +47,38 @@
                         <constraint firstAttribute="width" secondItem="HMd-tw-Hug" secondAttribute="height" multiplier="3:1" id="1qW-oc-1b2"/>
                     </constraints>
                 </scrollView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZnC-KO-eKr">
+                    <rect key="frame" x="0.0" y="174" width="30" height="51"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="&lt;"/>
+                    <connections>
+                        <action selector="swipeLeftButtonDidPress:" destination="-1" eventType="touchUpInside" id="O9C-vR-iq5"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M0R-c1-DjZ">
+                    <rect key="frame" x="370" y="174" width="30" height="51"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="&gt;"/>
+                    <connections>
+                        <action selector="swipeRightButtonDidPress:" destination="-1" eventType="touchUpInside" id="OvB-4V-k6p"/>
+                    </connections>
+                </button>
             </subviews>
             <gestureRecognizers/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="HMd-tw-Hug" secondAttribute="trailing" constant="8" id="7aS-zO-ejQ"/>
+                <constraint firstItem="ZnC-KO-eKr" firstAttribute="leading" secondItem="2St-qC-a3j" secondAttribute="leading" id="8gY-Tl-sDE"/>
                 <constraint firstItem="HMd-tw-Hug" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="CjH-X2-Buk"/>
                 <constraint firstItem="2St-qC-a3j" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Dq9-ag-HCH"/>
                 <constraint firstAttribute="trailing" secondItem="7pg-7b-bw1" secondAttribute="trailing" id="IAV-C3-Btm"/>
                 <constraint firstAttribute="bottom" secondItem="HMd-tw-Hug" secondAttribute="bottom" constant="8" id="UST-XQ-aDN"/>
                 <constraint firstItem="2St-qC-a3j" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="WHw-mG-oQQ"/>
+                <constraint firstItem="ZnC-KO-eKr" firstAttribute="centerY" secondItem="2St-qC-a3j" secondAttribute="centerY" id="ZbW-iE-yH2"/>
                 <constraint firstItem="2St-qC-a3j" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="e93-dh-6hw"/>
+                <constraint firstItem="M0R-c1-DjZ" firstAttribute="centerY" secondItem="2St-qC-a3j" secondAttribute="centerY" id="f0k-2W-dak"/>
                 <constraint firstItem="7pg-7b-bw1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="62" id="i6X-Rz-0xA"/>
                 <constraint firstItem="7pg-7b-bw1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lFR-9p-v1R"/>
+                <constraint firstItem="M0R-c1-DjZ" firstAttribute="trailing" secondItem="2St-qC-a3j" secondAttribute="trailing" id="qr6-q9-eo3"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
