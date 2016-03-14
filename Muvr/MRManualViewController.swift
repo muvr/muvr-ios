@@ -2,6 +2,7 @@ import UIKit
 import MuvrKit
 
 class MRManualViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
     @IBOutlet private weak var startButton: UIButton!
     private var exerciseType: MKExerciseType? = nil
     private let exerciseTypeDescriptors: [MKExerciseTypeDescriptor] = [
@@ -12,6 +13,7 @@ class MRManualViewController : UIViewController, UITableViewDataSource, UITableV
     private let muscleGroups: [MKMuscleGroup] = [
         .Arms, .Back, .Chest, .Core, .Shoulders, .Legs
     ]
+    
     
     /// A list of our checked things. Use ``keyFromIndexPath`` to compute the key Int.
     /// The value indicates whether the item is checked or not.

@@ -24,8 +24,13 @@ class MuvrUITests: XCTestCase {
     /// - click "Start another workout" button 
     /// - then select the given type from the table
     /// - and click the start button
+    /// 
+    /// - parameter app: The iOS application
+    /// - parameter workoutType: "Custom" or "Library"
+    /// - parameter sessionType: if library workout: the workout name, 
+    ///                          if custom workout: the main exercise type of the session
     ///
-    func startSession(app: XCUIApplication, sessionType: String) {
+    func startSession(app: XCUIApplication, workoutType: String, sessionType: String) {
         NSThread.sleepForTimeInterval(0.1)
         
         // swipe to "Start another workout"
@@ -33,6 +38,9 @@ class MuvrUITests: XCTestCase {
         
         // start another workout
         app.buttons["Start another workout"].tap()
+        
+        // select the custom workout
+        app.segmentedControls["Workout control"].buttons[workoutType].tap()
         
         // start the Arms session
         let tablesQuery = app.tables
@@ -73,7 +81,7 @@ class MuvrUITests: XCTestCase {
     func testArmsSessionWithNoExcerciseAllMissingLabels() {
         let app = XCUIApplication()
         
-        startSession(app, sessionType: "Arms")
+        startSession(app, workoutType: "Custom", sessionType: "Arms")
         
         // start the BBC exercise
         app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].tap()
@@ -102,7 +110,7 @@ class MuvrUITests: XCTestCase {
     func testAlternativeExercises() {
         let app = XCUIApplication()
         
-        startSession(app, sessionType: "Arms")
+        startSession(app, workoutType: "Custom", sessionType: "Arms")
         
         // swipe to find "Triceps dips"
         swipeTo(app, scrollView: "Coming up exercises", target: "Triceps Dips")
@@ -120,7 +128,7 @@ class MuvrUITests: XCTestCase {
     func testTRXExercise() {
         let app = XCUIApplication()
         
-        startSession(app, sessionType: "Core")
+        startSession(app, workoutType: "Custom", sessionType: "Core")
         
         // find "reverse plank"
         swipeTo(app, scrollView: "Coming up exercises", target: "Trx Atomic Press")
@@ -149,7 +157,13 @@ class MuvrUITests: XCTestCase {
         
         // Stop session
         app.otherElements["Exercise control"].buttons["Trx Atomic Press"].pressForDuration(6)
-        
+    }
+    
+    func testLibraryTRXWorkout() {
+        let app = XCUIApplication()
+        startSession(app, workoutType: "Library", sessionType: "TRX workout")
+        // Stop session
+        app.otherElements["Exercise control"].buttons["Trx Triceps Press"].pressForDuration(6)
     }
     
     override func tearDown() {

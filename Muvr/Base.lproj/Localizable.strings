@@ -20,6 +20,8 @@
 "Start another workout" = "Start another workout";
 "No workout" = "No workout";
 "No workout for today yet" = "No workout for today yet";
+"Custom" = "Custom";
+"Library" = "Library";
 
 /* MRAggregate */
 "MRAggregate.types" = "types";

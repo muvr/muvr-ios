@@ -13,7 +13,7 @@ class MRStartWorkoutViewController: UIViewController  {
     }
     
     override func viewWillAppear(animated: Bool) {
-        upcomingSessions = MRAppDelegate.sharedDelegate().sessions
+        upcomingSessions = MRAppDelegate.sharedDelegate().sessionTypes
         displayWorkouts()
     }
     
@@ -64,6 +64,9 @@ class MRStartWorkoutViewController: UIViewController  {
     }
     
     @objc private func selectAnotherWorkout() {
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        navigationItem.backBarButtonItem = backButton
         performSegueWithIdentifier("manual", sender: nil)
     }
     
