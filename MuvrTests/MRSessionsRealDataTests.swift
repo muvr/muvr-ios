@@ -252,7 +252,7 @@ class MRSessionsRealDataTests : XCTestCase {
         print("\nEvaluating session \(loadedSession.description)")
         
         var correctSession = false
-        if let s = app.sessions.first {
+        if let s = app.sessionTypes.first {
             correctSession = s.exerciseType == loadedSession.exerciseType
             print("Predicted session: \(s.exerciseType) \(correctSession ? "and": "but") was \(loadedSession.exerciseType)")
         } else {

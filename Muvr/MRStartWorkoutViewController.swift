@@ -13,7 +13,7 @@ class MRStartWorkoutViewController: UIViewController  {
     }
     
     override func viewWillAppear(animated: Bool) {
-        upcomingSessions = MRAppDelegate.sharedDelegate().sessions
+        upcomingSessions = MRAppDelegate.sharedDelegate().sessionTypes
         displayWorkouts()
     }
     

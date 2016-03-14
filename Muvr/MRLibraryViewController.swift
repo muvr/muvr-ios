@@ -10,7 +10,7 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
     /// the tableview containing the workouts
     @IBOutlet private weak var tableView: UITableView!
     /// the predefined workouts
-    private var workouts = MRAppDelegate.sharedDelegate().predefinedSessions
+    private var workouts = MRAppDelegate.sharedDelegate().predefinedSessionTypes
     /// the selected workout
     private var selectedWorkout: MRSessionType? = nil
     

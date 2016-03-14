@@ -70,12 +70,12 @@ protocol MRApp : MKExercisePropertySource {
     ///
     /// Ordered list (most likely first) of the available workouts
     ///
-    var sessions: [MRSessionType] { get }
+    var sessionTypes: [MRSessionType] { get }
     
     ///
     /// Predefined list (alphabetical order) of the predefined workouts
     ///
-    var predefinedSessions: [MRSessionType] { get }
+    var predefinedSessionTypes: [MRSessionType] { get }
 
     ///
     /// Returns true if there are sessions on the given date
@@ -527,7 +527,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///
     /// the list of predefined exercise plans
     ///
-    var predefinedSessions: [MRSessionType] {
+    var predefinedSessionTypes: [MRSessionType] {
         let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
         return bundle.pathsForResourcesOfType("json", inDirectory: nil).flatMap {
@@ -538,7 +538,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///
     /// The default exercise plan
     ///
-    private var defaultSession: MRSessionType? {
+    private var defaultSessionType: MRSessionType? {
         let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
         if let defaultFile = bundle.pathForResource("default_workout", ofType: "json"),
@@ -553,10 +553,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// the ordered list of the upcoming sessions
     /// (when no workouts have been recorded the returned list contains only the default workout plan)
     ///
-    var sessions: [MRSessionType] {
+    var sessionTypes: [MRSessionType] {
         let userPlans = sessionPlan.next.flatMap { MRManagedExercisePlan.planForId($0, location: currentLocation, inManagedObjectContext: managedObjectContext) }
         
-        if userPlans.isEmpty, let defaultPlan = defaultSession {
+        if userPlans.isEmpty, let defaultPlan = defaultSessionType {
             // user has not started any workout yet, return the default plan
             return [defaultPlan]
         }
