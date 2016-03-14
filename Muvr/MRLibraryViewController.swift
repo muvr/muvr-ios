@@ -1,10 +1,17 @@
 import MuvrKit
 
+///
+/// Displays the predefined workouts in a tableview
+///
 class MRLibraryViewController: UIViewController, UITableViewDataSource {
 
+    /// starts the workout
     @IBOutlet private weak var startButton: UIButton!
+    /// the tableview containing the workouts
     @IBOutlet private weak var tableView: UITableView!
+    /// the predefined workouts
     private var workouts = MRAppDelegate.sharedDelegate().predefinedSessions
+    /// the selected workout
     private var selectedWorkout: MRSessionType? = nil
     
     // MARK: - UITableViewDataSource
@@ -30,6 +37,9 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
         startButton.enabled = true
     }
     
+    ///
+    /// Unselect any selected table rows
+    ///
     private func clearSelection() {
         for r in 0..<workouts.count {
             let ip = NSIndexPath(forRow: r, inSection: 0)
@@ -39,6 +49,9 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
         selectedWorkout = nil
     }
     
+    ///
+    /// Starts the selected workout
+    ///
     @IBAction func startWorkout(sender: UIButton) {
         guard let workout = selectedWorkout else { return }
         try! MRAppDelegate.sharedDelegate().startSession(workout)
