@@ -75,7 +75,7 @@ workout</string>
                     <connections>
                         <outlet property="scrollView" destination="pa4-Xb-OTx" id="xqo-Fz-oJN"/>
                         <outlet property="startButton" destination="t8Q-if-Kmr" id="bqf-qO-ba7"/>
-                        <segue destination="e3O-P6-qPY" kind="show" identifier="manual" id="6j6-Dr-2nY"/>
+                        <segue destination="c5O-YA-09I" kind="show" identifier="manual" id="2nm-uj-WT8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="amo-T2-eQ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -85,7 +85,7 @@ workout</string>
         <!--Manual-->
         <scene sceneID="JL1-Iw-8WF">
             <objects>
-                <viewController storyboardIdentifier="adhoc" automaticallyAdjustsScrollViewInsets="NO" id="e3O-P6-qPY" customClass="MRManualViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="manual" automaticallyAdjustsScrollViewInsets="NO" id="e3O-P6-qPY" customClass="MRManualViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6zv-lr-PxA"/>
                         <viewControllerLayoutGuide type="bottom" id="5Qi-ZJ-mwA"/>
@@ -133,6 +133,8 @@ workout</string>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Manual" image="exercise" selectedImage="exercise_selected" id="fi2-5k-ObL"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="startButton" destination="OHc-BC-6jz" id="LqB-gu-o1i"/>
@@ -140,7 +142,17 @@ workout</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Maq-PK-msg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2599" y="-1536"/>
+            <point key="canvasLocation" x="-2062" y="-1928"/>
+        </scene>
+        <!--Workout Page View Controller-->
+        <scene sceneID="iVc-g6-26z">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="c5O-YA-09I" customClass="MRWorkoutPageViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JK8-DQ-ERX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2554" y="-1536"/>
         </scene>
         <!--Muvr-->
         <scene sceneID="OuP-f3-XRY">
@@ -392,6 +404,69 @@ workout</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PEo-qf-Lu8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3699" y="203"/>
+        </scene>
+        <!--Manual-->
+        <scene sceneID="qjq-pc-sNP">
+            <objects>
+                <viewController storyboardIdentifier="library" automaticallyAdjustsScrollViewInsets="NO" id="lUz-ja-lVz" customClass="MRLibraryViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="arm-j8-xTr"/>
+                        <viewControllerLayoutGuide type="bottom" id="raH-dS-EaX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5ps-PP-hqW">
+                        <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jS1-QX-N8b">
+                                <rect key="frame" x="20" y="567" width="374" height="36"/>
+                                <state key="normal" title="Start"/>
+                                <connections>
+                                    <action selector="startWorkout:" destination="lUz-ja-lVz" eventType="touchUpInside" id="6EY-Oa-IVS"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="U4R-MM-ID8">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="550"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="fWF-Tw-K9z">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fWF-Tw-K9z" id="tYA-QP-h9e">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="lUz-ja-lVz" id="FjB-BS-Uio"/>
+                                    <outlet property="delegate" destination="lUz-ja-lVz" id="eTA-hE-gxe"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="jS1-QX-N8b" firstAttribute="top" secondItem="U4R-MM-ID8" secondAttribute="bottom" constant="17" id="1eR-1H-BBw"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="U4R-MM-ID8" secondAttribute="trailing" constant="-20" id="AP9-ba-5YQ"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="jS1-QX-N8b" secondAttribute="leading" id="EHE-xc-aB6"/>
+                            <constraint firstItem="U4R-MM-ID8" firstAttribute="leading" secondItem="5ps-PP-hqW" secondAttribute="leadingMargin" constant="-20" id="Gw4-mJ-dbg"/>
+                            <constraint firstItem="U4R-MM-ID8" firstAttribute="top" secondItem="arm-j8-xTr" secondAttribute="bottom" id="Kso-cw-CNM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="jS1-QX-N8b" secondAttribute="trailing" id="MpR-Sc-vUf"/>
+                            <constraint firstItem="raH-dS-EaX" firstAttribute="top" secondItem="U4R-MM-ID8" secondAttribute="bottom" constant="73" id="hYv-nn-8Rs"/>
+                            <constraint firstItem="raH-dS-EaX" firstAttribute="top" secondItem="jS1-QX-N8b" secondAttribute="bottom" constant="20" id="s5b-aK-2zY"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Manual" image="exercise" selectedImage="exercise_selected" id="O1G-P1-9h3"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="startButton" destination="jS1-QX-N8b" id="tZ4-22-ZoC"/>
+                        <outlet property="tableView" destination="U4R-MM-ID8" id="Qib-aA-uSH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jh5-Yb-Ezh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2062" y="-1060"/>
         </scene>
     </scenes>
     <resources>

@@ -71,6 +71,11 @@ protocol MRApp : MKExercisePropertySource {
     /// Ordered list (most likely first) of the available workouts
     ///
     var sessions: [MRSessionType] { get }
+    
+    ///
+    /// Predefined list (alphabetical order) of the predefined workouts
+    ///
+    var predefinedSessions: [MRSessionType] { get }
 
     ///
     /// Returns true if there are sessions on the given date
@@ -218,6 +223,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
         UINavigationBar.appearance().backgroundColor = MRColor.darkBlue
         UIView.appearance().tintColor = MRColor.darkBlue
+        UIView.appearanceWhenContainedInInstancesOfClasses([UINavigationBar.self]).tintColor = .whiteColor()
         
         let pageControlAppearance = UIPageControl.appearance()
         pageControlAppearance.pageIndicatorTintColor = UIColor.lightGrayColor()
@@ -521,29 +527,41 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///
     /// the list of predefined exercise plans
     ///
-    private var predefinedPlans: [MKExercisePlan] {
+    var predefinedSessions: [MRSessionType] {
         let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
-        return bundle.pathsForResourcesOfType("json", inDirectory: nil).flatMap { MKExercisePlan(json: NSData(contentsOfFile: $0)!) }
+        return bundle.pathsForResourcesOfType("json", inDirectory: nil).flatMap {
+            MKExercisePlan(json: NSData(contentsOfFile: $0)!).map { .Predefined(plan: $0) }
+        }
+    }
+    
+    ///
+    /// The default exercise plan
+    ///
+    private var defaultSession: MRSessionType? {
+        let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
+        let bundle = NSBundle(path: bundlePath)!
+        if let defaultFile = bundle.pathForResource("default_workout", ofType: "json"),
+            let data = NSData(contentsOfFile: defaultFile),
+            let plan = MKExercisePlan(json: data) {
+            return .Predefined(plan: plan)
+        }
+        return nil
     }
     
     ///
     /// the ordered list of the upcoming sessions
-    /// (including all predefined sessions)
+    /// (when no workouts have been recorded the returned list contains only the default workout plan)
     ///
     var sessions: [MRSessionType] {
         let userPlans = sessionPlan.next.flatMap { MRManagedExercisePlan.planForId($0, location: currentLocation, inManagedObjectContext: managedObjectContext) }
         
-        let predefPlans: [MRSessionType] = predefinedPlans.flatMap { predefPlan in
-            let alreadyIncluded = userPlans.contains { userPlan in
-                if let templateId = userPlan.templateId { return templateId == predefPlan.id }
-                return false
-            }
-            guard !alreadyIncluded else { return nil }
-            return .Predefined(plan: predefPlan)
+        if userPlans.isEmpty, let defaultPlan = defaultSession {
+            // user has not started any workout yet, return the default plan
+            return [defaultPlan]
         }
         
-        return userPlans.map { .UserDefined(plan: $0) } + predefPlans
+        return userPlans.map { .UserDefined(plan: $0) }
     }
     
     // MARK: - Core Location stack

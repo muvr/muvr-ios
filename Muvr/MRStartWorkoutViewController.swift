@@ -64,6 +64,9 @@ class MRStartWorkoutViewController: UIViewController  {
     }
     
     @objc private func selectAnotherWorkout() {
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        navigationItem.backBarButtonItem = backButton
         performSegueWithIdentifier("manual", sender: nil)
     }
     
