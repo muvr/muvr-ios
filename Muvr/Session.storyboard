@@ -38,7 +38,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UaB-VL-s9m" customClass="MRExerciseView" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="32" y="16" width="350" height="350"/>
+                                <rect key="frame" x="32" y="40" width="350" height="350"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="UaB-VL-s9m" secondAttribute="height" multiplier="1:1" id="qCp-Hs-LGy"/>
@@ -47,7 +47,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="UaB-VL-s9m" firstAttribute="top" secondItem="65O-mu-fcy" secondAttribute="bottom" constant="16" id="68S-I3-p9U"/>
+                            <constraint firstItem="UaB-VL-s9m" firstAttribute="top" secondItem="65O-mu-fcy" secondAttribute="bottom" constant="40" id="68S-I3-p9U"/>
                             <constraint firstAttribute="trailingMargin" secondItem="UaB-VL-s9m" secondAttribute="trailing" constant="12" id="mgh-SG-21y"/>
                             <constraint firstItem="UaB-VL-s9m" firstAttribute="leading" secondItem="K0h-cg-yrp" secondAttribute="leadingMargin" constant="12" id="ofw-bt-EpS"/>
                         </constraints>

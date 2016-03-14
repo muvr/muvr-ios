@@ -44,6 +44,7 @@ class MRStartWorkoutViewController: UIViewController  {
         if upcomingSessions.count > 1 {
             for sessionType in upcomingSessions {
                 let button = MRAlternativeWorkoutButton(type: UIButtonType.System)
+                button.lineWidth = 2
                 button.color = MRColor.gray
                 button.sessionType = sessionType
                 button.setTitleColor(MRColor.black, forState: .Normal)

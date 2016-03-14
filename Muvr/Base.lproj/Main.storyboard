@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="t8Q-if-Kmr" customClass="MRAlternativeWorkoutButton" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="32" y="12" width="351" height="351"/>
+                                <rect key="frame" x="32" y="40" width="351" height="351"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Start workout" label="Start workout"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="t8Q-if-Kmr" secondAttribute="height" multiplier="1:1" id="YEN-4W-V5u"/>
@@ -33,7 +33,7 @@ workout</string>
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
-                                        <integer key="value" value="4"/>
+                                        <integer key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
@@ -41,10 +41,10 @@ workout</string>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CR1-dm-STi">
-                                <rect key="frame" x="15" y="371" width="384" height="252"/>
+                                <rect key="frame" x="15" y="391" width="384" height="232"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pa4-Xb-OTx">
-                                        <rect key="frame" x="0.0" y="62" width="384" height="128"/>
+                                        <rect key="frame" x="0.0" y="52" width="384" height="128"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="pa4-Xb-OTx" secondAttribute="height" multiplier="3:1" id="zGP-wl-8HQ"/>
                                         </constraints>
@@ -61,9 +61,9 @@ workout</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="CR1-dm-STi" secondAttribute="trailing" constant="-5" id="9B8-nF-aAh"/>
-                            <constraint firstItem="t8Q-if-Kmr" firstAttribute="top" secondItem="Q74-HE-1qC" secondAttribute="bottom" constant="12" id="Bkz-nF-usw"/>
+                            <constraint firstItem="t8Q-if-Kmr" firstAttribute="top" secondItem="Q74-HE-1qC" secondAttribute="bottom" constant="40" id="Bkz-nF-usw"/>
                             <constraint firstItem="CR1-dm-STi" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="-5" id="CH7-xY-Xzm"/>
-                            <constraint firstItem="CR1-dm-STi" firstAttribute="top" secondItem="t8Q-if-Kmr" secondAttribute="bottom" constant="8" id="QWF-Ru-BYG"/>
+                            <constraint firstItem="CR1-dm-STi" firstAttribute="top" secondItem="t8Q-if-Kmr" secondAttribute="bottom" id="QWF-Ru-BYG"/>
                             <constraint firstItem="Q1S-ZS-XIG" firstAttribute="top" secondItem="CR1-dm-STi" secondAttribute="bottom" id="U1D-A0-OIB"/>
                             <constraint firstItem="t8Q-if-Kmr" firstAttribute="centerX" secondItem="Xwy-pg-dpP" secondAttribute="centerX" id="fAu-XB-exd"/>
                             <constraint firstItem="t8Q-if-Kmr" firstAttribute="leading" secondItem="Xwy-pg-dpP" secondAttribute="leadingMargin" constant="12" id="iDc-pc-BIU"/>

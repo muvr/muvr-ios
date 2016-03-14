@@ -56,7 +56,7 @@ class MRExerciseView : UIView {
         }
     }
     
-    private let lineWidth: CGFloat = 4
+    private let lineWidth: CGFloat = 2
     
     private var longTapped: Bool = false
     /* Controlling progress bar animation with isAnimating */
@@ -196,7 +196,7 @@ class MRExerciseView : UIView {
         circleLayer.fillColor = UIColor.clearColor().CGColor
         circleLayer.shadowColor = MRColor.black.CGColor
         circleLayer.strokeColor = self.progressFullColor.CGColor
-        circleLayer.lineWidth = lineWidth * 4
+        circleLayer.lineWidth = lineWidth * 8
         circleLayer.strokeStart = 0.0
         circleLayer.shadowRadius = 1
         circleLayer.shadowOpacity = 0
