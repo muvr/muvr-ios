@@ -89,6 +89,23 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     }
     
     ///
+    /// Show the predicted labels and duration in the main exercise view.
+    /// All expected labels must be predicted otherwise no labels are shown.
+    ///
+    private func showPredictedLabels() {
+        let ed = mainExerciseView.exerciseDetail
+        let expectedLabels = ed?.labels.filter { $0 != .Intensity } ?? []
+        let predictedLabels = ed.map(session.predictExerciseLabelsForExerciseDetail)?.0 ?? []
+        if predictedLabels.count >= expectedLabels.count {
+            mainExerciseView.exerciseLabels = predictedLabels
+            mainExerciseView.exerciseDuration = ed.flatMap(session.predictDurationForExerciseDetail)
+        } else {
+            mainExerciseView.exerciseLabels = nil
+            mainExerciseView.exerciseDuration = nil
+        }
+    }
+    
+    ///
     /// Updates the main title and the detail controller according the ``state``.
     /// - parameter state: the state to be displayed
     ///
@@ -100,9 +117,8 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             let ed = exerciseDetail ?? comingUpExerciseDetails.first
             mainExerciseView.headerTitle = "Coming up".localized()
             mainExerciseView.exerciseDetail = ed
-            mainExerciseView.exerciseLabels = ed.map(session.predictExerciseLabelsForExerciseDetail)?.0
-            mainExerciseView.exerciseDuration = ed.flatMap(session.predictDurationForExerciseDetail)
             mainExerciseView.swipeButtonsHidden = false
+            showPredictedLabels()
             mainExerciseView.reset()
             mainExerciseView.start(session.predictRestDuration())
             switchToViewController(comingUpViewController, fromRight: exerciseDetail == nil) {
@@ -196,10 +212,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     /// - parameter exercise: the selected exercise
     private func selectedExerciseDetail(selectedExerciseDetail: MKExerciseDetail) {
         mainExerciseView.exerciseDetail = selectedExerciseDetail
-        mainExerciseView.exerciseLabels = session.predictExerciseLabelsForExerciseDetail(selectedExerciseDetail).0
-        if let duration = session.predictDurationForExerciseDetail(selectedExerciseDetail) {
-            mainExerciseView.exerciseDuration = duration
-        }
+        showPredictedLabels()
         state = .ComingUp(exerciseDetail: selectedExerciseDetail)
         mainExerciseView.swipeButtonsHidden = alternatives.isEmpty
     }
