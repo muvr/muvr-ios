@@ -277,7 +277,6 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         }
         
         guard let n = next() else { return }
-        print("Swipe \(index) -> \(n): \(selected.id) -> \(alternatives[n].id)")
         selectedExerciseDetail(alternatives[n])
     }
     

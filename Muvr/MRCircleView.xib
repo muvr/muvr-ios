@@ -50,15 +50,15 @@
                     </constraints>
                 </scrollView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZnC-KO-eKr" customClass="MRSwipeButton" customModule="Muvr" customModuleProvider="target">
-                    <rect key="frame" x="8" y="174" width="15" height="52"/>
+                    <rect key="frame" x="8" y="190" width="15" height="20"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="15" id="lQA-Pm-CG1"/>
-                        <constraint firstAttribute="height" constant="52" id="m4a-HT-elG"/>
+                        <constraint firstAttribute="height" constant="20" id="m4a-HT-elG"/>
                     </constraints>
                     <state key="normal" title="&lt;"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
-                            <real key="value" value="2"/>
+                            <real key="value" value="3"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="forward" value="NO"/>
                     </userDefinedRuntimeAttributes>
@@ -67,15 +67,15 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M0R-c1-DjZ" customClass="MRSwipeButton" customModule="Muvr" customModuleProvider="target">
-                    <rect key="frame" x="377" y="174" width="15" height="52"/>
+                    <rect key="frame" x="377" y="190" width="15" height="20"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="15" id="UmD-Z9-a5H"/>
-                        <constraint firstAttribute="height" constant="52" id="c0o-zT-lim"/>
+                        <constraint firstAttribute="height" constant="20" id="c0o-zT-lim"/>
                     </constraints>
                     <state key="normal" title="&gt;"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
-                            <real key="value" value="2"/>
+                            <real key="value" value="3"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="forward" value="YES"/>
                     </userDefinedRuntimeAttributes>
