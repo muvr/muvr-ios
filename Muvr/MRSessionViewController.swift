@@ -4,7 +4,7 @@ import MuvrKit
 ///
 /// The session view controller displays the session in progress
 ///
-class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
+class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     
     /// The state this controller is in
     enum State {
@@ -40,7 +40,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     }
     
     /// The circle that displays an exercise and a round bar
-    @IBOutlet private weak var mainExerciseView: MRExerciseView!
+    @IBOutlet private weak var mainExerciseView: MRCircleExerciseView!
     
     /// The session–in–progress
     private var session: MRManagedExerciseSession!
@@ -59,7 +59,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     private var alternatives: [MKExerciseDetail] {
         guard case .ComingUp(let ed) = state, let selected = ed ?? comingUpExerciseDetails.first else { return [] }
         let visibleExerciseIds = comingUpViewController.visibleExerciseDetails.map { $0.id }
-        return comingUpExerciseDetails.filter { $0.isAlternativeOf(selected) && !visibleExerciseIds.contains($0.id) }
+        return comingUpExerciseDetails.filter { $0.isAlternativeOf(selected) && (selected.id == $0.id || !visibleExerciseIds.contains($0.id)) }
     }
     
     ///
@@ -75,8 +75,6 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         
         setTitleImage(named: "muvr_logo_white")
         navigationItem.setHidesBackButton(true, animated: false)
-        
-        UIView.appearanceWhenContainedInInstancesOfClasses([MRSessionViewController.self]).tintColor = MRColor.black
         
         comingUpViewController = storyboard!.instantiateViewControllerWithIdentifier("ComingUpViewController") as! MRSessionComingUpViewController
         readyViewController = storyboard!.instantiateViewControllerWithIdentifier("ReadyViewController")
@@ -117,12 +115,12 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             let ed = exerciseDetail ?? comingUpExerciseDetails.first
             mainExerciseView.headerTitle = "Coming up".localized()
             mainExerciseView.exerciseDetail = ed
-            mainExerciseView.swipeButtonsHidden = false
+            mainExerciseView.swipeButtonsHidden = alternatives.count < 2
             showPredictedLabels()
             mainExerciseView.reset()
             mainExerciseView.start(session.predictRestDuration())
             switchToViewController(comingUpViewController, fromRight: exerciseDetail == nil) {
-                self.mainExerciseView.swipeButtonsHidden = self.alternatives.isEmpty
+                self.mainExerciseView.swipeButtonsHidden = self.alternatives.count < 2
             }
             comingUpViewController.setExerciseDetails(comingUpExerciseDetails, onSelected: selectedExerciseDetail)
         case .Ready:
@@ -217,15 +215,15 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         mainExerciseView.swipeButtonsHidden = alternatives.isEmpty
     }
     
-    // MARK: - MRExerciseViewDelegate
+    // MARK: - MRCircleViewDelegate
     
-    func exerciseViewLongTapped(exerciseView: MRExerciseView) {
+    func circleViewLongTapped(exerciseView: MRCircleView) {
         if case .ComingUp = state {
             try! MRAppDelegate.sharedDelegate().endCurrentSession()
         }
     }
     
-    func exerciseViewTapped(exerciseView: MRExerciseView) {
+    func circleViewTapped(exerciseView: MRCircleView) {
         switch state {
         case .ComingUp:
             // The user has tapped on the exercise. Let's get ready
@@ -244,7 +242,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         refreshViewsForState(state)
     }
     
-    func exerciseViewCircleDidComplete(exerciseView: MRExerciseView) {
+    func circleViewCircleDidComplete(exerciseView: MRCircleView) {
         switch state {
         case .ComingUp:
             // We've exhausted our rest time. Turn orange to give the user a kick.
@@ -264,7 +262,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         }
     }
     
-    func exerciseViewSwiped(exerciseView: MRExerciseView, direction: UISwipeGestureRecognizerDirection) {
+    func circleViewSwiped(exerciseView: MRCircleView, direction: UISwipeGestureRecognizerDirection) {
         guard case .ComingUp(let ed) = state, let selected = ed ?? comingUpExerciseDetails.first else { return }
         let index = alternatives.indexOf { selected.id == $0.id } ?? 0
         let length = alternatives.count

@@ -224,6 +224,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         UINavigationBar.appearance().backgroundColor = MRColor.darkBlue
         UIView.appearance().tintColor = MRColor.darkBlue
         UIView.appearanceWhenContainedInInstancesOfClasses([UINavigationBar.self]).tintColor = .whiteColor()
+        UIView.appearanceWhenContainedInInstancesOfClasses([MRCircleView.self]).tintColor = MRColor.black
         
         let pageControlAppearance = UIPageControl.appearance()
         pageControlAppearance.pageIndicatorTintColor = UIColor.lightGrayColor()

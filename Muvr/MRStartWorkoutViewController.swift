@@ -1,8 +1,8 @@
 import UIKit
 import MuvrKit
 
-class MRStartWorkoutViewController: UIViewController  {
-    @IBOutlet weak var startButton: MRAlternativeWorkoutButton!
+class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
+    @IBOutlet weak var startButton: MRCircleWorkoutView!
     @IBOutlet weak var scrollView: UIScrollView!
     private var upcomingSessions: [MRSessionType] = []
     private var selectedSession: MRSessionType? = nil
@@ -10,6 +10,7 @@ class MRStartWorkoutViewController: UIViewController  {
     override func viewDidLoad() {
         setTitleImage(named: "muvr_logo_white")
         scrollView.accessibilityIdentifier = "Workouts"
+        startButton.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -27,13 +28,15 @@ class MRStartWorkoutViewController: UIViewController  {
         for (index, button) in scrollView.subviews.enumerate() {
             button.frame = CGRectMake(CGFloat(index) * buttonWidth + (buttonPadding / 2), buttonPadding, buttonWidth - buttonPadding, buttonWidth - buttonPadding)
         }
+        startButton.sessionType = selectedSession
     }
 
     
     private func displayWorkouts() {
         if let sessionType = upcomingSessions.first {
             selectedSession = sessionType
-            startButton.setTitle("Start %@".localized(sessionType.name), forState: .Normal)
+            startButton.headerTitle = "Start".localized()
+            startButton.sessionType = sessionType
         }
         
         scrollView.subviews.forEach { $0.removeFromSuperview() }
@@ -74,11 +77,13 @@ class MRStartWorkoutViewController: UIViewController  {
     @objc private func changeWorkout(sender: MRAlternativeWorkoutButton) {
         if let sessionType = sender.sessionType {
             selectedSession = sessionType
-            startButton.setTitle("Start %@".localized(sessionType.name), forState: .Normal)
+            startButton.sessionType = sessionType
         }
     }
     
-    @IBAction private func startWorkout(sender: MRAlternativeWorkoutButton) {
+    /// MARK: MRCircleViewDelegate
+    
+    func circleViewTapped(circleView: MRCircleView) {
         if let sessionType = selectedSession {
             try! MRAppDelegate.sharedDelegate().startSession(sessionType)
         }
