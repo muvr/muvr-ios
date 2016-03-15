@@ -14,6 +14,13 @@ class MRSessionComingUpViewController: UIViewController {
     private var exerciseDetails: [MKExerciseDetail] = []
     
     ///
+    /// The exercise details currently visible inside the scroll view
+    ///
+    var visibleExerciseDetails: [MKExerciseDetail] {
+        return comingUpScrollView?.visibleSubviews.flatMap { ($0 as? MRAlternativeExerciseButton)?.exerciseDetail } ?? []
+    }
+    
+    ///
     /// set the accessibility identifiers
     ///
     override func viewDidLoad() {

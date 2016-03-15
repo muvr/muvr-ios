@@ -55,6 +55,13 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     
     private var comingUpExerciseDetails: [MKExerciseDetail] = []
     
+    /// The list of alternatives exercises
+    private var alternatives: [MKExerciseDetail] {
+        guard case .ComingUp(let ed) = state, let selected = ed ?? comingUpExerciseDetails.first else { return [] }
+        let visibleExerciseIds = comingUpViewController.visibleExerciseDetails.map { $0.id }
+        return comingUpExerciseDetails.filter { $0.isAlternativeOf(selected) && !visibleExerciseIds.contains($0.id) }
+    }
+    
     ///
     /// Sets the session to be displayed by this controller
     /// - parameter session: the session
@@ -95,12 +102,16 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             mainExerciseView.exerciseDetail = ed
             mainExerciseView.exerciseLabels = ed.map(session.predictExerciseLabelsForExerciseDetail)?.0
             mainExerciseView.exerciseDuration = ed.flatMap(session.predictDurationForExerciseDetail)
+            mainExerciseView.swipeButtonsHidden = false
             mainExerciseView.reset()
             mainExerciseView.start(session.predictRestDuration())
-            switchToViewController(comingUpViewController, fromRight: exerciseDetail == nil)
+            switchToViewController(comingUpViewController, fromRight: exerciseDetail == nil) {
+                self.mainExerciseView.swipeButtonsHidden = self.alternatives.isEmpty
+            }
             comingUpViewController.setExerciseDetails(comingUpExerciseDetails, onSelected: selectedExerciseDetail)
         case .Ready:
             mainExerciseView.headerTitle = "Get ready for".localized()
+            mainExerciseView.swipeButtonsHidden = true
             mainExerciseView.reset()
             mainExerciseView.start(5)
             switchToViewController(readyViewController)
@@ -126,7 +137,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     /// - parameter controller: the controller whose view is to be displayed in the container
     /// - parameter fromRight: true if the new controller appears from the right of the screen
     ///
-    private func switchToViewController(controller: UIViewController, fromRight: Bool = true) {
+    private func switchToViewController(controller: UIViewController, fromRight: Bool = true, completion: (Void -> Void)? = nil) {
         /// The frame where the details view are displayed (takes all available space below the main circle view)
         let y = mainExerciseView.frame.origin.y + mainExerciseView.frame.height
         let frame = CGRectMake(0, y, view.bounds.width, view.bounds.height - y)
@@ -150,6 +161,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
                 }, completion: { finished in
                     previousController.removeFromParentViewController()
                     controller.didMoveToParentViewController(self)
+                    if let comp = completion where finished { comp() }
                 }
             )
         } else {
@@ -165,6 +177,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
                 }, completion: { finished in
                     controller.didMoveToParentViewController(self)
                     controller.endAppearanceTransition()
+                    if let comp = completion where finished { comp() }
                 }
             )
         }
@@ -188,6 +201,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             mainExerciseView.exerciseDuration = duration
         }
         state = .ComingUp(exerciseDetail: selectedExerciseDetail)
+        mainExerciseView.swipeButtonsHidden = alternatives.isEmpty
     }
     
     // MARK: - MRExerciseViewDelegate
@@ -239,18 +253,18 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     
     func exerciseViewSwiped(exerciseView: MRExerciseView, direction: UISwipeGestureRecognizerDirection) {
         guard case .ComingUp(let ed) = state, let selected = ed ?? comingUpExerciseDetails.first else { return }
-        let alternatives = comingUpExerciseDetails.filter { $0.isAlternativeOf(selected) }
-        
         let index = alternatives.indexOf { selected.id == $0.id } ?? 0
         let length = alternatives.count
         
         func next() -> Int? {
+            guard length > 0 else { return nil }
             if direction == .Left { return (index + 1) % length }
             if direction == .Right { return (index - 1 + length) % length }
             return nil
         }
         
         guard let n = next() else { return }
+        print("Swipe \(index) -> \(n): \(selected.id) -> \(alternatives[n].id)")
         selectedExerciseDetail(alternatives[n])
     }
     

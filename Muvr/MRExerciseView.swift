@@ -42,6 +42,8 @@ class MRExerciseView : UIView {
     @IBOutlet private weak var button: UIButton!
     @IBOutlet private weak var headerLabel: UILabel!
     @IBOutlet private weak var labelsView: UIScrollView!
+    @IBOutlet private weak var swipeLeftButton: UIButton!
+    @IBOutlet private weak var swipeRightButton: UIButton!
         
     /// set progress colors
     var progressEmptyColor : UIColor = MRColor.gray
@@ -53,6 +55,12 @@ class MRExerciseView : UIView {
             animation.duration = 0.3
             circleLayer.strokeColor = progressFullColor.CGColor
             circleLayer.addAnimation(animation, forKey: "animateColor")
+        }
+    }
+    
+    var swipeButtonsHidden: Bool = true {
+        didSet {
+            UIView.performWithoutAnimation(updateUI)
         }
     }
     
@@ -255,7 +263,7 @@ class MRExerciseView : UIView {
         let font = button.titleLabel!.font
         var fontSize = frame.height / 8
         var size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
-        while (size.width > button.bounds.width - 30 - 6 * lineWidth) {
+        while (size.width > button.bounds.width - 2 * swipeRightButton.bounds.width - 6 * lineWidth - 8) {
             fontSize -= 1
             size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
         }
@@ -264,10 +272,12 @@ class MRExerciseView : UIView {
     
 
     private func updateUI() {
+        swipeLeftButton.hidden = swipeButtonsHidden
+        swipeRightButton.hidden = swipeButtonsHidden
+        
         let title = exerciseDetail.map { MKExercise.title($0.id) }
         button.setTitle(title, forState: UIControlState.Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(buttonFontSize)
-        //button.titleEdgeInsets = UIEdgeInsets()
         
         accessibilityLabel = title
 

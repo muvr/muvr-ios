@@ -386,11 +386,11 @@ workout</string>
             </objects>
             <point key="canvasLocation" x="-3699" y="-1536"/>
         </scene>
-        <!--Profile-->
+        <!--Workouts-->
         <scene sceneID="P2D-zS-KoX">
             <objects>
                 <navigationController id="9Hh-7G-1PP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" image="profile" selectedImage="profile_selected" id="7zx-8Z-ZaP"/>
+                    <tabBarItem key="tabBarItem" title="Workouts" image="profile" selectedImage="profile_selected" id="7zx-8Z-ZaP"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="b1c-oj-rbJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
