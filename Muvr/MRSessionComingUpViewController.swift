@@ -14,6 +14,13 @@ class MRSessionComingUpViewController: UIViewController {
     private var exerciseDetails: [MKExerciseDetail] = []
     
     ///
+    /// The exercise details currently visible inside the scroll view
+    ///
+    var visibleExerciseDetails: [MKExerciseDetail] {
+        return comingUpScrollView?.visibleSubviews.flatMap { ($0 as? MRAlternativeExerciseButton)?.exerciseDetail } ?? []
+    }
+    
+    ///
     /// set the accessibility identifiers
     ///
     override func viewDidLoad() {
@@ -48,6 +55,7 @@ class MRSessionComingUpViewController: UIViewController {
         
         for exerciseDetail in exerciseDetails {
             let button = MRAlternativeExerciseButton(type: UIButtonType.System)
+            button.lineWidth = 2
             button.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
             button.addTarget(self, action: #selector(MRSessionComingUpViewController.exerciseSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             button.exerciseDetail = exerciseDetail

@@ -119,10 +119,10 @@ class MuvrUITests: XCTestCase {
         app.scrollViews["Coming up exercises"].buttons["Triceps Dips"].tap()
         
         // swipe alternatives to find "Triceps extensions"
-        swipeToExercise(app, exerciseName: "Triceps Extensions")
+        swipeToExercise(app, exerciseName: "Trx Triceps Press")
         
         // start "triceps extension" exercise
-        app.otherElements["Exercise control"].buttons["Triceps Extensions"].tap()
+        app.otherElements["Exercise control"].buttons["Trx Triceps Press"].tap()
     }
     
     func testTRXExercise() {
@@ -164,6 +164,18 @@ class MuvrUITests: XCTestCase {
         startSession(app, workoutType: "Library", sessionType: "TRX workout")
         // Stop session
         app.otherElements["Exercise control"].buttons["Trx Triceps Press"].pressForDuration(6)
+    }
+    
+    func testDefaultWorkout() {
+        let app = XCUIApplication()
+        
+        NSThread.sleepForTimeInterval(0.1)
+        
+        // start default workout
+        app.otherElements["Workout control"].buttons["Full body workout"].tap()
+        
+        // stop session
+        app.otherElements["Exercise control"].buttons["Dumbbell Shoulder Press"].pressForDuration(6)
     }
     
     override func tearDown() {

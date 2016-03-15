@@ -4,7 +4,7 @@ import MuvrKit
 ///
 /// The session view controller displays the session in progress
 ///
-class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
+class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     
     /// The state this controller is in
     enum State {
@@ -40,7 +40,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     }
     
     /// The circle that displays an exercise and a round bar
-    @IBOutlet private weak var mainExerciseView: MRExerciseView!
+    @IBOutlet private weak var mainExerciseView: MRCircleExerciseView!
     
     /// The session–in–progress
     private var session: MRManagedExerciseSession!
@@ -54,6 +54,13 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     private var labellingViewController: MRSessionLabellingViewController!
     
     private var comingUpExerciseDetails: [MKExerciseDetail] = []
+    
+    /// The list of alternatives exercises
+    private var alternatives: [MKExerciseDetail] {
+        guard case .ComingUp(let ed) = state, let selected = ed ?? comingUpExerciseDetails.first else { return [] }
+        let visibleExerciseIds = comingUpViewController.visibleExerciseDetails.map { $0.id }
+        return comingUpExerciseDetails.filter { $0.isAlternativeOf(selected) && (selected.id == $0.id || !visibleExerciseIds.contains($0.id)) }
+    }
     
     ///
     /// Sets the session to be displayed by this controller
@@ -82,6 +89,23 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     }
     
     ///
+    /// Show the predicted labels and duration in the main exercise view.
+    /// All expected labels must be predicted otherwise no labels are shown.
+    ///
+    private func showPredictedLabels() {
+        let ed = mainExerciseView.exerciseDetail
+        let expectedLabels = ed?.labels.filter { $0 != .Intensity } ?? []
+        let predictedLabels = ed.map(session.predictExerciseLabelsForExerciseDetail)?.0 ?? []
+        if predictedLabels.count >= expectedLabels.count {
+            mainExerciseView.exerciseLabels = predictedLabels
+            mainExerciseView.exerciseDuration = ed.flatMap(session.predictDurationForExerciseDetail)
+        } else {
+            mainExerciseView.exerciseLabels = nil
+            mainExerciseView.exerciseDuration = nil
+        }
+    }
+    
+    ///
     /// Updates the main title and the detail controller according the ``state``.
     /// - parameter state: the state to be displayed
     ///
@@ -93,14 +117,17 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
             let ed = exerciseDetail ?? comingUpExerciseDetails.first
             mainExerciseView.headerTitle = "Coming up".localized()
             mainExerciseView.exerciseDetail = ed
-            mainExerciseView.exerciseLabels = ed.map(session.predictExerciseLabelsForExerciseDetail)?.0
-            mainExerciseView.exerciseDuration = ed.flatMap(session.predictDurationForExerciseDetail)
+            mainExerciseView.swipeButtonsHidden = alternatives.count < 2
+            showPredictedLabels()
             mainExerciseView.reset()
             mainExerciseView.start(session.predictRestDuration())
-            switchToViewController(comingUpViewController, fromRight: exerciseDetail == nil)
+            switchToViewController(comingUpViewController, fromRight: exerciseDetail == nil) {
+                self.mainExerciseView.swipeButtonsHidden = self.alternatives.count < 2
+            }
             comingUpViewController.setExerciseDetails(comingUpExerciseDetails, onSelected: selectedExerciseDetail)
         case .Ready:
             mainExerciseView.headerTitle = "Get ready for".localized()
+            mainExerciseView.swipeButtonsHidden = true
             mainExerciseView.reset()
             mainExerciseView.start(5)
             switchToViewController(readyViewController)
@@ -126,7 +153,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     /// - parameter controller: the controller whose view is to be displayed in the container
     /// - parameter fromRight: true if the new controller appears from the right of the screen
     ///
-    private func switchToViewController(controller: UIViewController, fromRight: Bool = true) {
+    private func switchToViewController(controller: UIViewController, fromRight: Bool = true, completion: (Void -> Void)? = nil) {
         /// The frame where the details view are displayed (takes all available space below the main circle view)
         let y = mainExerciseView.frame.origin.y + mainExerciseView.frame.height
         let frame = CGRectMake(0, y, view.bounds.width, view.bounds.height - y)
@@ -150,6 +177,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
                 }, completion: { finished in
                     previousController.removeFromParentViewController()
                     controller.didMoveToParentViewController(self)
+                    if let comp = completion where finished { comp() }
                 }
             )
         } else {
@@ -165,6 +193,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
                 }, completion: { finished in
                     controller.didMoveToParentViewController(self)
                     controller.endAppearanceTransition()
+                    if let comp = completion where finished { comp() }
                 }
             )
         }
@@ -183,22 +212,20 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
     /// - parameter exercise: the selected exercise
     private func selectedExerciseDetail(selectedExerciseDetail: MKExerciseDetail) {
         mainExerciseView.exerciseDetail = selectedExerciseDetail
-        mainExerciseView.exerciseLabels = session.predictExerciseLabelsForExerciseDetail(selectedExerciseDetail).0
-        if let duration = session.predictDurationForExerciseDetail(selectedExerciseDetail) {
-            mainExerciseView.exerciseDuration = duration
-        }
+        showPredictedLabels()
         state = .ComingUp(exerciseDetail: selectedExerciseDetail)
+        mainExerciseView.swipeButtonsHidden = alternatives.isEmpty
     }
     
-    // MARK: - MRExerciseViewDelegate
+    // MARK: - MRCircleViewDelegate
     
-    func exerciseViewLongTapped(exerciseView: MRExerciseView) {
+    func circleViewLongTapped(exerciseView: MRCircleView) {
         if case .ComingUp = state {
             try! MRAppDelegate.sharedDelegate().endCurrentSession()
         }
     }
     
-    func exerciseViewTapped(exerciseView: MRExerciseView) {
+    func circleViewTapped(exerciseView: MRCircleView) {
         switch state {
         case .ComingUp:
             // The user has tapped on the exercise. Let's get ready
@@ -217,7 +244,7 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         refreshViewsForState(state)
     }
     
-    func exerciseViewCircleDidComplete(exerciseView: MRExerciseView) {
+    func circleViewCircleDidComplete(exerciseView: MRCircleView) {
         switch state {
         case .ComingUp:
             // We've exhausted our rest time. Turn orange to give the user a kick.
@@ -237,14 +264,13 @@ class MRSessionViewController : UIViewController, MRExerciseViewDelegate {
         }
     }
     
-    func exerciseViewSwiped(exerciseView: MRExerciseView, direction: UISwipeGestureRecognizerDirection) {
+    func circleViewSwiped(exerciseView: MRCircleView, direction: UISwipeGestureRecognizerDirection) {
         guard case .ComingUp(let ed) = state, let selected = ed ?? comingUpExerciseDetails.first else { return }
-        let alternatives = comingUpExerciseDetails.filter { $0.isAlternativeOf(selected) }
-        
         let index = alternatives.indexOf { selected.id == $0.id } ?? 0
         let length = alternatives.count
         
         func next() -> Int? {
+            guard length > 0 else { return nil }
             if direction == .Left { return (index + 1) % length }
             if direction == .Right { return (index - 1 + length) % length }
             return nil

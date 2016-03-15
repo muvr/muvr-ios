@@ -28,7 +28,7 @@ class MRAlternativeButton: UIButton {
         titleLabel?.lineBreakMode = .ByWordWrapping
         titleLabel?.textAlignment = .Center
         titleLabel?.adjustsFontSizeToFitWidth = true
-        titleLabel?.font = titleLabel?.font.fontWithSize(4.2 * radius16)
+        titleLabel?.font = titleLabel?.font.fontWithSize(min(4.2 * radius16, 28))
         
         titleEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         

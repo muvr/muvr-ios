@@ -16,7 +16,7 @@
 
 /* Workout */
 "%@ workout" = "%@ workout";
-"Start %@" = "Start %@";
+"Start" = "Start";
 "Start another workout" = "Start another workout";
 "No workout" = "No workout";
 "No workout for today yet" = "No workout for today yet";

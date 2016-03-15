@@ -1,47 +1,47 @@
 import UIKit
 import MuvrKit
 
-/// Provides callbacks for the users of the ``MRExerciseView``
-protocol MRExerciseViewDelegate {
+/// Provides callbacks for the users of the ``MRCircleView``
+@objc protocol MRCircleViewDelegate {
     
-    /// Called when the exercise button is tapped
-    /// - parameter exerciseView: the view where the tap originated
-    func exerciseViewTapped(exerciseView: MRExerciseView)
+    /// Called when the main button is tapped
+    /// - parameter circleView: the view where the tap originated
+    optional func circleViewTapped(circleView: MRCircleView)
     
-    /// Called when the exercise button is long-tapped
-    /// - parameter exerciseView: the view where the long tap originated
-    func exerciseViewLongTapped(exerciseView: MRExerciseView)
+    /// Called when the main button is long-tapped
+    /// - parameter circleView: the view where the long tap originated
+    optional func circleViewLongTapped(circleView: MRCircleView)
     
     /// Called when the circle animation gets to the end
-    /// - parameter exerciseView: the view that has finished animating
-    func exerciseViewCircleDidComplete(exerciseView: MRExerciseView)
+    /// - parameter circleView: the view that has finished animating
+    optional func circleViewCircleDidComplete(circleView: MRCircleView)
     
-    /// Called when the exercise button is swiped
-    /// - parameter exerciseView: the view where the swipe occured
+    /// Called when the main button is swiped
+    /// - parameter circleView: the view where the swipe occured
     /// - parameter direction: the swipe direction (Left or Right)
-    func exerciseViewSwiped(exerciseView: MRExerciseView, direction: UISwipeGestureRecognizerDirection)
+    optional func circleViewSwiped(circleView: MRCircleView, direction: UISwipeGestureRecognizerDirection)
+    
 }
 
 ///
 /// Displays a button with a progress ring around it, displaying details of an
-/// exercise to be performed or being performed.
+/// exercise or workout to be performed or being performed.
 ///
-/// It can be used to display upcoming exercise. Tapping the button triggers
+/// It can be used to display upcoming exercise or workout. Tapping the button triggers
 /// transition to _in exercise_. Tapping the button then will cause transition
 /// to done exercising.
 ///
-/// The crucial property is ``exercise``, which allows the user to get or set
-/// the exercise to be displayed.
-///
 @IBDesignable
-class MRExerciseView : UIView {
+class MRCircleView : UIView {
     
     var view: UIView!
-    var delegate: MRExerciseViewDelegate?
+    var delegate: MRCircleViewDelegate?
     
     @IBOutlet private weak var button: UIButton!
     @IBOutlet private weak var headerLabel: UILabel!
-    @IBOutlet private weak var labelsView: UIScrollView!
+    @IBOutlet private weak var labelScrollView: UIScrollView!
+    @IBOutlet private weak var swipeLeftButton: UIButton!
+    @IBOutlet private weak var swipeRightButton: UIButton!
         
     /// set progress colors
     var progressEmptyColor : UIColor = MRColor.gray
@@ -56,7 +56,28 @@ class MRExerciseView : UIView {
         }
     }
     
-    private let lineWidth: CGFloat = 4
+    var swipeButtonsHidden: Bool = true {
+        didSet {
+            UIView.performWithoutAnimation(updateUI)
+        }
+    }
+    
+    var title: String? {
+        didSet {
+            button.setTitle(title, forState: UIControlState.Normal)
+            UIView.performWithoutAnimation(updateUI)
+        }
+    }
+    
+    /// All the label views to display inside the circle
+    /// the view frames are conputed by the circle view
+    var labelViews: [UIView]? {
+        didSet {
+            UIView.performWithoutAnimation(updateUI)
+        }
+    }
+    
+    private let lineWidth: CGFloat = 2
     
     private var longTapped: Bool = false
     /* Controlling progress bar animation with isAnimating */
@@ -86,9 +107,8 @@ class MRExerciseView : UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         button.layer.cornerRadius = (frame.height - 8) / 2
-        let f = button.titleLabel!.font
-        button.titleLabel!.font = UIFont(name: f.fontName, size: frame.height / 8)
-        headerLabel.font = UIFont(name: f.fontName, size: frame.height / 12)
+        button.titleLabel!.font = button.titleLabel!.font.fontWithSize(frame.height / 8)
+        headerLabel.font = headerLabel.font.fontWithSize(frame.height / 14)
     }
     
     override func drawRect(rect: CGRect) {
@@ -117,7 +137,7 @@ class MRExerciseView : UIView {
                 animationStartTime = nil
                 animationPauseTime = nil
                 animationDuration = nil
-                if fireCircleDidComplete { delegate?.exerciseViewCircleDidComplete(self) }
+                if fireCircleDidComplete { delegate?.circleViewCircleDidComplete?(self) }
             }
         
     }
@@ -130,8 +150,6 @@ class MRExerciseView : UIView {
     }
     
     private func createUI() {
-        accessibilityIdentifier = "Exercise control"
-        
         view = loadViewFromNib()
         view.frame = bounds
         view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
@@ -144,7 +162,7 @@ class MRExerciseView : UIView {
         addSubview(view)
         updateUI()
         
-        let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(MRExerciseView.buttonDidLongPress))
+        let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(MRCircleView.buttonDidLongPress))
         recognizer.minimumPressDuration = 4
         recognizer.allowableMovement = 100
         button.addGestureRecognizer(recognizer)
@@ -152,7 +170,7 @@ class MRExerciseView : UIView {
     
     private func loadViewFromNib() -> UIView {
         let bundle = NSBundle(forClass: self.dynamicType)
-        let nib = UINib(nibName: "MRExerciseView", bundle: bundle)
+        let nib = UINib(nibName: "MRCircleView", bundle: bundle)
         
         // Assumes UIView is top level and only object in CustomView.xib file
         let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
@@ -196,7 +214,7 @@ class MRExerciseView : UIView {
         circleLayer.fillColor = UIColor.clearColor().CGColor
         circleLayer.shadowColor = MRColor.black.CGColor
         circleLayer.strokeColor = self.progressFullColor.CGColor
-        circleLayer.lineWidth = lineWidth * 4
+        circleLayer.lineWidth = lineWidth * 8
         circleLayer.strokeStart = 0.0
         circleLayer.shadowRadius = 1
         circleLayer.shadowOpacity = 0
@@ -249,13 +267,11 @@ class MRExerciseView : UIView {
     }
     
     private var buttonFontSize: CGFloat {
-        guard let exerciseDetail = exerciseDetail else { return button.titleLabel!.font.pointSize }
-        
-        let text = MKExercise.title(exerciseDetail.id)
+        guard let text = button.titleLabel?.text else { return button.titleLabel!.font.pointSize }
         let font = button.titleLabel!.font
         var fontSize = frame.height / 8
         var size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
-        while (size.width > button.bounds.width - 6 * lineWidth) {
+        while (size.width > button.bounds.width - 2 * swipeRightButton.bounds.width - 6 * lineWidth - 8) {
             fontSize -= 1
             size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
         }
@@ -264,81 +280,59 @@ class MRExerciseView : UIView {
     
 
     private func updateUI() {
-        let title = exerciseDetail.map { MKExercise.title($0.id) }
-        button.setTitle(title, forState: UIControlState.Normal)
-        button.titleLabel?.font = UIFont.systemFontOfSize(buttonFontSize)
-        button.titleEdgeInsets = UIEdgeInsets()
+        swipeLeftButton.hidden = swipeButtonsHidden
+        swipeRightButton.hidden = swipeButtonsHidden
         
-        accessibilityLabel = title
+        button.titleLabel?.font = button.titleLabel?.font.fontWithSize(buttonFontSize)
+        
+        accessibilityLabel = button.titleLabel?.text
 
-        labelsView.subviews.forEach { $0.removeFromSuperview() }
-        labelsView.pagingEnabled = true
+        labelScrollView.subviews.forEach { $0.removeFromSuperview() }
+        labelScrollView.pagingEnabled = true
         
         let padding: CGFloat = 10
-        let height: CGFloat = ceil(labelsView.frame.height / 2)
+        let height: CGFloat = ceil(labelScrollView.frame.height / 2)
         let width: CGFloat = height + padding
-        let allWidth: CGFloat = CGFloat((exerciseLabels?.count ?? 0) + (exerciseDuration == nil ? 0 : 1)) * width
+        let views = labelViews ?? []
+        let allWidth: CGFloat = CGFloat(views.count) * width
         var left: CGFloat = 0
         
-        if let exerciseLabels = exerciseLabels {
-            
-            if allWidth < labelsView.frame.width {
-                left = ceil((labelsView.frame.width - allWidth) / 2)
+        for view in views {
+            if left == 0 && allWidth < labelScrollView.frame.width {
+                left = ceil((labelScrollView.frame.width - allWidth) / 2)
             }
             
-            for exerciseLabel in exerciseLabels {
-                let frame = CGRect(x: left, y: 0, width: width - padding, height: height - padding)
-                left += width
-                let (view, _) = MRExerciseLabelViews.scalarViewForLabel(exerciseLabel, frame: frame)!
-                labelsView.addSubview(view)
-            }
-        }
-        
-        if let duration = exerciseDuration {
             let frame = CGRect(x: left, y: 0, width: width - padding, height: height - padding)
-            let view = MRExerciseLabelViews.scalarViewForDuration(duration, frame: frame)
-            labelsView.addSubview(view)
+            left += width
+            view.frame = frame
+            labelScrollView.addSubview(view)
         }
     }
     
+    @IBAction private func swipeLeftButtonDidPress(sender: UIButton) {
+        delegate?.circleViewSwiped?(self, direction: .Left)
+    }
+    
+    @IBAction private func swipeRightButtonDidPress(sender: UIButton) {
+        delegate?.circleViewSwiped?(self, direction: .Right)
+    }
     
     @IBAction private func buttonDidPressed(sender: UIButton) {
-        delegate?.exerciseViewTapped(self)
+        delegate?.circleViewTapped?(self)
     }
     
     @IBAction private func buttonDidSwipe(recognizer: UISwipeGestureRecognizer) {
-        delegate?.exerciseViewSwiped(self, direction: recognizer.direction)
+        delegate?.circleViewSwiped?(self, direction: recognizer.direction)
     }
     
     func buttonDidLongPress() {
         if !longTapped {
-            delegate?.exerciseViewLongTapped(self)
+            delegate?.circleViewLongTapped?(self)
             longTapped = true
         }
     }
 
     // MARK: - public API
-    
-    var exerciseLabels: [MKExerciseLabel]? = [] {
-        didSet {
-            UIView.performWithoutAnimation(updateUI)
-        }
-    }
-    
-    var exerciseDuration: NSTimeInterval? = nil {
-        didSet {
-            UIView.performWithoutAnimation(updateUI)
-        }
-    }
-    
-    ///
-    /// The exercise being displayed
-    ///
-    var exerciseDetail: MKExerciseDetail? {
-        didSet {
-            UIView.performWithoutAnimation(updateUI)
-        }
-    }
     
     var headerTitle: String? {
         didSet {
