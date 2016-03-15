@@ -107,9 +107,8 @@ class MRCircleView : UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         button.layer.cornerRadius = (frame.height - 8) / 2
-        let f = button.titleLabel!.font
-        button.titleLabel!.font = UIFont(name: f.fontName, size: frame.height / 8)
-        headerLabel.font = UIFont(name: f.fontName, size: frame.height / 12)
+        button.titleLabel!.font = button.titleLabel!.font.fontWithSize(frame.height / 8)
+        headerLabel.font = headerLabel.font.fontWithSize(frame.height / 14)
     }
     
     override func drawRect(rect: CGRect) {
@@ -284,7 +283,7 @@ class MRCircleView : UIView {
         swipeLeftButton.hidden = swipeButtonsHidden
         swipeRightButton.hidden = swipeButtonsHidden
         
-        button.titleLabel?.font = UIFont.systemFontOfSize(buttonFontSize)
+        button.titleLabel?.font = button.titleLabel?.font.fontWithSize(buttonFontSize)
         
         accessibilityLabel = button.titleLabel?.text
 
