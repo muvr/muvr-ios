@@ -45,14 +45,16 @@ class MRCircleButton: UIButton {
     override func drawRect(rect: CGRect) {
         let radius = min(frame.width, frame.height) / 2
         let center = CGPointMake(CGRectGetMidX(bounds) , CGRectGetMidY(bounds))
-        let lineWidth = radius / 10
+        let lineWidth = radius / 16
         let path = UIBezierPath()
+        let padding = 0.35 * radius
         path.addArcWithCenter(center, radius: radius - lineWidth / 2, startAngle: 0, endAngle: 2 * CGFloat(M_PI), clockwise: true)
-        path.moveToPoint(CGPoint(x: center.x - radius / 2, y: center.y))
-        path.addLineToPoint(CGPoint(x: center.x + radius / 2, y: center.y))
+        
+        path.moveToPoint(CGPoint(x: center.x - padding, y: center.y))
+        path.addLineToPoint(CGPoint(x: center.x + padding, y: center.y))
         if increase {
-            path.moveToPoint(CGPoint(x: center.x, y: center.y - radius / 2))
-            path.addLineToPoint(CGPoint(x: center.x, y: center.y + radius / 2))
+            path.moveToPoint(CGPoint(x: center.x, y: center.y - padding))
+            path.addLineToPoint(CGPoint(x: center.x, y: center.y + padding))
         }
         path.lineCapStyle = .Round
         path.lineWidth = lineWidth

@@ -76,6 +76,8 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         setTitleImage(named: "muvr_logo_white")
         navigationItem.setHidesBackButton(true, animated: false)
         
+        UIView.appearanceWhenContainedInInstancesOfClasses([MRSessionViewController.self]).tintColor = MRColor.black
+        
         comingUpViewController = storyboard!.instantiateViewControllerWithIdentifier("ComingUpViewController") as! MRSessionComingUpViewController
         readyViewController = storyboard!.instantiateViewControllerWithIdentifier("ReadyViewController")
         inExerciseViewController = storyboard!.instantiateViewControllerWithIdentifier("InExerciseViewController")
