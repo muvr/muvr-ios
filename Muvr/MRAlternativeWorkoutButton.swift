@@ -16,4 +16,12 @@ class MRAlternativeWorkoutButton: MRAlternativeButton {
         }
     }
     
+    /// True when the user has ``masterised`` this workout
+    var achieved: Bool = false {
+        didSet {
+            let image = achieved ? UIImage(named: "star") : nil
+            setImage(image, forState: .Normal)
+            setNeedsLayout()
+        }
+    }
 }

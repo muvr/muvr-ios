@@ -2,8 +2,8 @@ import UIKit
 import MuvrKit
 
 class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
-    @IBOutlet weak var startButton: MRCircleWorkoutView!
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet private weak var startButton: MRCircleWorkoutView!
+    @IBOutlet private weak var scrollView: UIScrollView!
     private var upcomingSessions: [MRSessionType] = []
     private var selectedSession: MRSessionType? = nil
     

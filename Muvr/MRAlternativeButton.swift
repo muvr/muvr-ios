@@ -35,6 +35,18 @@ class MRAlternativeButton: UIButton {
         layer.cornerRadius = radius
         layer.borderWidth = lineWidth
         layer.borderColor = color.CGColor
+
+        if imageView?.image != nil {
+            let top = 0.7 * frame.height
+            let r = radius * 0.7
+            let h = (frame.height - top - r) / 2
+            let x = (frame.width - r) / 2
+            
+            imageView?.tintColor = titleColorForState(.Normal)
+            imageEdgeInsets = UIEdgeInsets(top: top + h, left: x, bottom: h, right: x)
+            contentEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 12, right: 8)
+            titleLabel?.frame = frame
+        }
     }
     
 }
