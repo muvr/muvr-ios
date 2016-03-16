@@ -55,5 +55,17 @@ extension MRManagedExerciseSession {
         
         return (try? managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]) ?? []
     }
+    
+    ///
+    /// Fetch all the sessions since the given date
+    ///
+    static func fetchSessionsSinceDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
+        let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
+        let from = date.dateOnly
+        fetchRequest.predicate = NSPredicate(format: "start >= %@", from)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "start", ascending: false)]
+        
+        return (try? managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]) ?? []
+    }
 
 }

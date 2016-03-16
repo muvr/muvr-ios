@@ -4,7 +4,7 @@ import MuvrKit
 class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
     @IBOutlet private weak var startButton: MRCircleWorkoutView!
     @IBOutlet private weak var scrollView: UIScrollView!
-    private var upcomingSessions: [MRSessionType] = []
+    private var upcomingSessions: [(MRSessionType, [MRAchievement])] = []
     private var selectedSession: MRSessionType? = nil
     
     override func viewDidLoad() {
@@ -14,7 +14,8 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
     }
     
     override func viewWillAppear(animated: Bool) {
-        upcomingSessions = MRAppDelegate.sharedDelegate().sessionTypes
+        let app = MRAppDelegate.sharedDelegate()
+        upcomingSessions = app.sessionTypes.map { ($0, app.achievementsForSessionType($0)) }
         displayWorkouts()
     }
     
@@ -34,9 +35,7 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
     
     private func displayWorkouts() {
         if let sessionType = upcomingSessions.first {
-            selectedSession = sessionType
-            startButton.headerTitle = "Start".localized()
-            startButton.sessionType = sessionType
+            displayMainWorkout(sessionType.0)
         }
         
         scrollView.subviews.forEach { $0.removeFromSuperview() }
@@ -49,7 +48,8 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
                 let button = MRAlternativeWorkoutButton(type: UIButtonType.System)
                 button.lineWidth = 2
                 button.color = MRColor.gray
-                button.sessionType = sessionType
+                button.sessionType = sessionType.0
+                button.achieved = !sessionType.1.isEmpty
                 button.setTitleColor(MRColor.black, forState: .Normal)
                 button.addTarget(self, action: #selector(MRStartWorkoutViewController.changeWorkout(_:)), forControlEvents: [.TouchUpInside])
                 scrollView.addSubview(button)
@@ -67,6 +67,18 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
         
     }
     
+    private func displayMainWorkout(sessionType: MRSessionType) {
+        selectedSession = sessionType
+        startButton.sessionType = sessionType
+        
+        let achievements = upcomingSessions.filter { $0.0.name == sessionType.name }.first?.1 ?? []
+        let views: [UIView] = achievements.map { achievement in
+            let image = UIImage(named: achievement)
+            return UIImageView(image: image)
+        }
+        startButton.labelViews = views
+    }
+    
     @objc private func selectAnotherWorkout() {
         let backButton = UIBarButtonItem()
         backButton.title = ""
@@ -76,8 +88,7 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
     
     @objc private func changeWorkout(sender: MRAlternativeWorkoutButton) {
         if let sessionType = sender.sessionType {
-            selectedSession = sessionType
-            startButton.sessionType = sessionType
+            displayMainWorkout(sessionType)
         }
     }
     
