@@ -4,11 +4,11 @@ import MuvrKit
 
 extension MRManagedExerciseSession {
     
-    static func insert(id: String, exerciseType: MKExerciseType, start: NSDate, location: MRManagedLocation?, inManagedObjectContext  managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession {
-        var e = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExerciseSession", inManagedObjectContext: managedObjectContext) as! MRManagedExerciseSession
+    static func insert(id: String, plan: MRManagedExercisePlan, start: NSDate, location: MRManagedLocation?, inManagedObjectContext  managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession {
+        let e = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExerciseSession", inManagedObjectContext: managedObjectContext) as! MRManagedExerciseSession
         
         e.id = id
-        e.exerciseType = exerciseType
+        e.plan = plan
         e.start = start
         e.completed = false
         e.uploaded = false

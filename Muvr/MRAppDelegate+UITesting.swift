@@ -29,7 +29,6 @@ extension MRAppDelegate  {
             }
 
         }
-        
         return true
     }
     

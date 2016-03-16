@@ -324,9 +324,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             return
         }
         
+        // get the exercise plan for this session
+        let sessionType: MRSessionType = .AdHoc(exerciseType: session.exerciseType)  // no predefined plan on the watch, yet
+        let plan = MRManagedExercisePlan.planForSessionType(sessionType, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        
         // no running session, let's start a new one
-        let session = MRManagedExerciseSession.insert(session.id, exerciseType: session.exerciseType, start: session.start, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        injectPredictors(into: session, ofType: .AdHoc(exerciseType: session.exerciseType)) // no predefined plan on the watch, yet
+        let session = MRManagedExerciseSession.insert(session.id, plan: plan, start: session.start, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        injectPredictors(into: session)
         saveContext()
         
         showSession(session)
@@ -365,9 +369,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
         
         let id = NSUUID().UUIDString
-        let session = MRManagedExerciseSession.insert(id, exerciseType: sessionType.exerciseType, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
+        let plan = MRManagedExercisePlan.planForSessionType(sessionType, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        let session = MRManagedExerciseSession.insert(id, plan: plan, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
         
-        injectPredictors(into: session, ofType: sessionType)
+        injectPredictors(into: session)
         saveContext()
         
         showSession(session)
@@ -440,11 +445,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///
     /// inject the predictors in the given session
     ///
-    func injectPredictors(into session: MRManagedExerciseSession, ofType sessionType: MRSessionType) {
-        session.name = sessionType.name
-        session.plan = MRManagedExercisePlan.planForSessionType(sessionType, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        
-        let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)
+    func injectPredictors(into session: MRManagedExerciseSession) {
+      let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)
         session.labelsPredictor = predictor.map { MKAverageLabelsPredictor(json: $0.data, historySize: 3, round: roundLabel) } ?? MKAverageLabelsPredictor(historySize: 3, round: roundLabel)
 
         sessionPlan.insert(session.plan.id)
