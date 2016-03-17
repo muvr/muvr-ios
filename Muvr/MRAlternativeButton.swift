@@ -30,24 +30,28 @@ class MRAlternativeButton: UIButton {
         titleLabel?.adjustsFontSizeToFitWidth = true
         titleLabel?.font = titleLabel?.font.fontWithSize(min(4.2 * radius16, 28))
         
-        layer.cornerRadius = radius
-        layer.borderWidth = lineWidth
-        layer.borderColor = color.CGColor
-
         if imageView?.image != nil {
             let top = 0.7 * frame.height
-            let r = radius * 0.7
-            let h = (frame.height - top - r) / 2
+            let r = radius * 0.5
+            let h = (frame.height - top - r)
             let x = (frame.width - r) / 2
             
             imageView?.tintColor = titleColorForState(.Normal)
-            imageEdgeInsets = UIEdgeInsets(top: top + h, left: x, bottom: h, right: x)
-            titleEdgeInsets = UIEdgeInsets(top: -40, left: 0, bottom: 40, right: 0)
-            contentEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 12, right: 8)
-            titleLabel?.frame = frame
+            //imageView?.frame = CGRectMake(x, top, r, r)
+            imageEdgeInsets = UIEdgeInsets(top: top, left: x, bottom: h, right: x)
+            
+            titleLabel?.frame = CGRectMake(0, 0, frame.width, frame.height)
+            titleEdgeInsets = UIEdgeInsets()
         } else {
             titleEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         }
+        
+        contentVerticalAlignment = .Center
+        contentHorizontalAlignment = .Center
+        
+        layer.cornerRadius = radius
+        layer.borderWidth = lineWidth
+        layer.borderColor = color.CGColor
     }
     
 }

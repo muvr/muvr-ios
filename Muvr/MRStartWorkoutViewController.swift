@@ -70,6 +70,7 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
     private func displayMainWorkout(sessionType: MRSessionType) {
         selectedSession = sessionType
         startButton.sessionType = sessionType
+        startButton.headerTitle = "Start".localized()
         
         let achievements = upcomingSessions.filter { $0.0.name == sessionType.name }.first?.1 ?? []
         let views: [UIView] = achievements.map { achievement in
