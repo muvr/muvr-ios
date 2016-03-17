@@ -49,6 +49,16 @@
     "labels": ["repetitions", "weight", "intensity"],
     "muscle": "biceps"
  },
+ {
+    "id":"resistanceTargeted:arms/body-weight-dips",
+    "labels": ["repetitions", "intensity"],
+    "muscle": "triceps"
+ },
+ {
+    "id": "resistanceTargeted:arms/triceps-press",
+    "labels": ["repetitions", "intensity"],
+    "muscle": "triceps"
+ },
  
  {
     "id":"resistanceTargeted:back/back-extensions",
@@ -74,6 +84,11 @@
     "id":"resistanceTargeted:back/leverage-high-row",
     "labels": ["repetitions", "intensity", "weight"],
     "muscle": "lats"
+ },
+ {
+    "id":"resistanceTargeted:back/double-arm-high-pull",
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "trapezius"
  },
 
  {
@@ -103,6 +118,11 @@
  },
  {
     "id":"resistanceTargeted:chest/cable-crossover",
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "pectoralis"
+ },
+ {
+    "id": "resistanceTargeted:chest/single-arm-chest-press",
     "labels": ["repetitions", "weight", "intensity"],
     "muscle": "pectoralis"
  },
@@ -199,6 +219,11 @@
     "muscle": "quadriceps"
  },
  {
+    "id": "resistanceTargeted:legs/sumo-squat",
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "quadriceps"
+ },
+ {
     "id":"resistanceTargeted:legs/leg-press",
     "labels": ["repetitions", "weight", "intensity"],
     "muscle": "quadriceps"
@@ -217,6 +242,16 @@
     "id": "resistanceTargeted:legs/step-up",
     "labels": ["repetitions", "weight", "intensity"],
     "muscle": "quadriceps"
+ },
+ {
+    "id": "resistanceTargeted:legs/cable-kickback",
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "glutes"
+ },
+ {
+    "id": "resistanceTargeted:legs/hamstring-curl",
+    "labels": ["repetitions", "intensity"],
+    "muscle": "hamstrings"
  },
 
  {
@@ -264,6 +299,26 @@
     "labels": ["repetitions", "intensity"],
     "muscle": "deltoid"
  },
+ {
+    "id":"resistanceTargeted:shoulders/single-arm-high-row",
+    "labels": ["repetitions", "intensity", "weight"],
+    "muscle": "deltoid"
+ },
+ {
+    "id":"resistanceTargeted:shoulders/single-arm-shoulder-press",
+    "labels": ["repetitions", "intensity", "weight"],
+    "muscle": "deltoid"
+ },
+ {
+    "id":"resistanceTargeted:shoulders/single-arm-reverse-fly",
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "deltoid"
+ },
+ {
+    "id":"resistanceTargeted:shoulders/cable-standing-row",
+    "labels": ["repetitions", "weight", "intensity"],
+    "muscle": "deltoid"
+ },
  
  {
     "id":"resistanceWholeBody:iron-cross",
@@ -272,6 +327,22 @@
  {
     "id":"resistanceWholeBody:rope-climbing",
     "labels": ["repetitions", "intensity"]
+ },
+ {
+    "id":"resistanceWholeBody:kettlebell-tip",
+    "labels": ["repetitions", "weight", "intensity"]
+ },
+ {
+    "id": "resistanceWholeBody:double-arm-swing",
+    "labels": ["repetitions", "weight", "intensity"]
+ },
+ {
+    "id": "resistanceWholeBody:double-arm-push-press",
+    "labels": ["repetitions", "weight", "intensity"]
+ },
+ {
+    "id": "resistanceWholeBody:windmill",
+    "labels": ["repetitions", "weight", "intensity"]
  },
  
  {
@@ -288,6 +359,10 @@
  },
  {
     "id":"indoorsCardio:stepper",
+    "labels": ["intensity"]
+ },
+ {
+    "id":"indoorsCardio:recumbent-bike",
     "labels": ["intensity"]
  },
  {

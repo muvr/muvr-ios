@@ -3107,6 +3107,73 @@
                     "resistanceTargeted:core\/side-plank"
                     ]
     },
-    "id" : "B34CAAC7-F1A3-44FF-8DE4-D69EAD302E8C",
+    "id" : "F1C04690-5229-4471-B598-898DC5E44889",
+    "items" : [
+               {
+               "id" : "indoorsCardio:jumping-jacks",
+               "rest" : 10,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:legs\/wall-sit",
+               "rest" : 10,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:shoulders\/push-up",
+               "rest" : 10,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:core\/crunches",
+               "rest" : 10,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:legs\/step-up",
+               "rest" : 10,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:legs\/squat",
+               "rest" : 10,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:arms\/triceps-dips",
+               "rest" : 10,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:core\/plank",
+               "rest" : 10,
+               "duration" : 30
+               },
+               {
+               "id" : "indoorsCardio:high-knees-running",
+               "rest" : 10,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:legs\/lunges",
+               "rest" : 10,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:shoulders\/push-up-with-rotation",
+               "rest" : 10,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:core\/side-plank",
+               "rest" : 10,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:core\/side-plank",
+               "rest" : 10,
+               "duration" : 30
+               }
+               ],
     "name" : "7 minutes workout"
 }

@@ -50,25 +50,33 @@
 "barbell-deadlift" = "barbell deadlift";
 "barbell-squat" = "barbell squat";
 "bench-press" = "bench press";
+"body-weight-dips" = "body weight dips";
 "butterfly-machine" = "butterfly machine";
 "cable-biceps-curl" = "cable biceps curl";
 "cable-crossover" = "cable crossover";
 "cable-hammer-curl" = "cable hammer curl";
+"cable-kickback" = "cable kickback";
 "cable-row" = "cable row";
+"cable-standing-row" = "cable standing row";
 "cable-wood-chop" = "cable wood chop";
 "chest-press-machine" = "chest press machine";
 "cross-trainer" = "cross trainer";
 "crunch-machine" = "crunch machine";
 "crunches" = "crunches";
+"double-arm-high-pull" = "double arm high pull";
+"double-arm-push-press" = "double arm push press";
+"double-arm-swing" = "double arm swing";
 "dumbbell-bench-press" = "dumbbell bench press";
 "dumbbell-biceps-curl" = "dumbbell biceps curls";
 "dumbbell-calf-raise" = "dumbbell calf raise";
 "dumbbell-flyes" = "dumbbell flyes";
 "dumbbell-shoulder-press" = "dumbbell shoulder press";
+"hamstring-curl" = "hamstring curl";
 "high-knees-running" = "high knees running";
 "hip-raises" = "hip raises";
 "iron-cross" = "iron cross";
 "jumping-jacks" = "jumping jacks";
+"kettlebell-tip" = "kettlebell tip";
 "lateral-pulldown" = "lateral pulldown";
 "lateral-pulldown-straight" = "lateral pulldown straight";
 "lateral-raise" = "lateral raise";
@@ -82,6 +90,7 @@
 "pull-up" = "pull-up";
 "push-up" = "push-up";
 "push-up-with-rotation" = "push-up with rotation";
+"recumbent-bike" = "recumbent bike";
 "reverse-cable-curl" = "reverse cable curls";
 "reverse-curl" = "reverse curl";
 "reverse-flyes" = "reverse flyes";
@@ -93,12 +102,18 @@
 "shrugs" = "shrugs";
 "side-dips" = "side dips";
 "side-plank" = "side plank";
+"single-arm-chest-press" = "single arm chest press";
+"single-arm-high-row" = "single arm high row";
+"single-arm-reverse-fly" = "single arm reverse fly";
+"single-arm-shoulder-press" = "single arm shoulder press";
 "squat" = "squat";
 "step-up" = "step-up";
 "stepper" = "stepper";
 "suitcase-crunches" = "suitcase crunches";
+"sumo-squat" = "sumo squat";
 "triceps-dips" = "triceps dips";
 "triceps-extension" = "triceps extensions";
+"triceps-press" = "triceps press";
 "triceps-pushdown" = "triceps pushdown";
 "trx-45deg-row" = "TRX 45 degree row";
 "trx-atomic-press" = "TRX atomic press";
@@ -113,5 +128,6 @@
 "upright-row" = "upright row";
 "vertical-swing" = "vertical swing";
 "wall-sit" = "wall sit";
+"windmill" = "windmill";
 
 
