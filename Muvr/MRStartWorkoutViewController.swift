@@ -49,7 +49,7 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
                 button.lineWidth = 2
                 button.color = MRColor.gray
                 button.sessionType = sessionType.0
-                button.achieved = !sessionType.1.isEmpty
+                button.achievement = sessionType.1.first // display only 1st achievement
                 button.setTitleColor(MRColor.black, forState: .Normal)
                 button.addTarget(self, action: #selector(MRStartWorkoutViewController.changeWorkout(_:)), forControlEvents: [.TouchUpInside])
                 scrollView.addSubview(button)
