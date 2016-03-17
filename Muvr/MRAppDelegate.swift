@@ -468,7 +468,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             let template = exercisePlans.filter({ $0.id == templateId }).first else { return }
         
         let fromDate = NSDate().addDays(-30)
-        let sessions = MRManagedExerciseSession.fetchSessionsSinceDate(fromDate, inManagedObjectContext: managedObjectContext)
+        let sessions = session.fetchSimilarSessionsSinceDate(fromDate, inManagedObjectContext: managedObjectContext)
         guard let achievement = MRSessionAppraiser().achievementForSessions(sessions, plan: template) else { return }
         
         MRManagedAchievement.insertNewObject(achievement, plan: session.plan, inManagedObjectContext: managedObjectContext)

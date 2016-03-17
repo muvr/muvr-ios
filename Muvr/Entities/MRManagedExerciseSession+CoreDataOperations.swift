@@ -59,10 +59,16 @@ extension MRManagedExerciseSession {
     ///
     /// Fetch all the sessions since the given date
     ///
-    static func fetchSessionsSinceDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
+    func fetchSimilarSessionsSinceDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
         let from = date.dateOnly
-        fetchRequest.predicate = NSPredicate(format: "start >= %@", from)
+        var predicates = [NSPredicate(format: "start >= %@", from)]
+        if let templateId = plan.templateId {
+            predicates.append(NSPredicate(format: "plan.templateId = %@", templateId))
+        } else {
+            predicates.append(NSPredicate(format: "plan.id = %@", plan.id))
+        }
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "start", ascending: false)]
         
         return (try? managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]) ?? []
