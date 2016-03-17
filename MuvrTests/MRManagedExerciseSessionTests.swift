@@ -39,4 +39,16 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
         saveContext()
     }
     
+    func testSimilarSessions() {
+        let cardio = MRManagedExercisePlan.insertNewObject(.AdHoc(exerciseType: .IndoorsCardio), location: nil, inManagedObjectContext: managedObjectContext)
+        let strength = MRManagedExercisePlan.insertNewObject(.AdHoc(exerciseType: .ResistanceWholeBody), location: nil, inManagedObjectContext: managedObjectContext)
+        let session1 = MRManagedExerciseSession.insert("12341", plan: cardio, start: NSDate(), location: nil, inManagedObjectContext: managedObjectContext)
+        session1.end = NSDate() // finish session 1
+        let session2 = MRManagedExerciseSession.insert("12342", plan: strength, start: NSDate(), location: nil, inManagedObjectContext: managedObjectContext)
+        session2.end = NSDate() // finish session 2
+        let lastSession = MRManagedExerciseSession.insert("12343", plan: cardio, start: NSDate(), location: nil, inManagedObjectContext: managedObjectContext)
+        lastSession.end = NSDate() // finish session 3
+        XCTAssertEqual(2, lastSession.fetchSimilarSessionsSinceDate(NSDate(), inManagedObjectContext: managedObjectContext).count)
+    }
+    
 }
