@@ -34,8 +34,8 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
 
     
     private func displayWorkouts() {
-        if let sessionType = upcomingSessions.first {
-            displayMainWorkout(sessionType.0)
+        if let sessionType = upcomingSessions.first?.0 {
+            displayMainWorkout(sessionType)
         }
         
         scrollView.subviews.forEach { $0.removeFromSuperview() }

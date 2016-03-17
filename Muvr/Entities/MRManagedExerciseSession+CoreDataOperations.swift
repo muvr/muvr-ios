@@ -57,7 +57,13 @@ extension MRManagedExerciseSession {
     }
     
     ///
-    /// Fetch all the sessions since the given date
+    /// Fetch all the similar sessions since the given date.
+    /// A similar sessions is a session based on the same exercise plan as this session.
+    /// The sessions must be over (end date is set)
+    ///
+    /// - parameter date: fetch sessions after this date
+    /// - parameter inManagedObjectContext: the MOC to use for the request
+    /// - returns a list of all the similar ended session (including this session if ended)
     ///
     func fetchSimilarSessionsSinceDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")

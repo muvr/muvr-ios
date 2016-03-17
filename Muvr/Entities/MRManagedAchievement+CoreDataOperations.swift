@@ -3,12 +3,12 @@ import CoreData
 extension MRManagedAchievement {
 
     ///
-    /// Insert a new achievement.
+    /// Insert a new achievement (if it doesn't exists otherwise returns the existing one).
     ///
     /// - parameter name: the achievement name
     /// - parameter plan: the "achieved" exercise plan
     /// - parameter managedObjectContext: the MOC
-    /// - returns: the inserted achievement
+    /// - returns: the inserted achievement (or the existing one)
     ///
     static func insertNewObject(achievement: MRAchievement, plan: MRManagedExercisePlan, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedAchievement {
         let achievements = fetchAchievementsForPlan(plan, inManagedObjectContext: managedObjectContext)

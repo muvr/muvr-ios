@@ -37,7 +37,6 @@ class MRAlternativeButton: UIButton {
             let x = (frame.width - r) / 2
             
             imageView?.tintColor = titleColorForState(.Normal)
-            //imageView?.frame = CGRectMake(x, top, r, r)
             imageEdgeInsets = UIEdgeInsets(top: top, left: x, bottom: h, right: x)
             
             titleLabel?.frame = CGRectMake(0, 0, frame.width, frame.height)
