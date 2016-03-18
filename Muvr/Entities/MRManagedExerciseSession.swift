@@ -94,7 +94,6 @@ class MRManagedExerciseSession: NSManagedObject {
             case .Intensity: return intensity ?? .Intensity(intensity: 0.5)
             }
         }
-        
         return (predictions , missing)
     }
         
@@ -115,8 +114,8 @@ class MRManagedExerciseSession: NSManagedObject {
     /// and update the labels predictor
     ///
     private func correctLabelsForLastExercise() {
-        if let (lastExercise, lastLabels, start) = lastExercise {
-            let endDate = NSDate(timeInterval: lastLabels.1, sinceDate: start)
+        if let (lastExercise, lastLabels, start) = lastExercise, let duration = lastLabels.1 {
+            let endDate = NSDate(timeInterval: duration, sinceDate: start)
             let rest = NSDate().timeIntervalSinceDate(endDate)
             labelsPredictor.correctLabelsForExercise(lastExercise, labels: (lastLabels.0, lastLabels.1, rest))
         }

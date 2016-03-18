@@ -116,8 +116,9 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
                 default: return nil
                 }
             }
+            let duration = metrics["duration"]
             let rest = metrics["rest"]
-            return metrics["duration"].map { (labels, $0, rest) }
+            return (labels, duration, rest)
         }
     }
     
@@ -459,6 +460,25 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
             self.history[id] = exerciseHistory
         }
         workout = [:]
+    }
+    
+    
+    ///
+    /// Loads the predefined plan by building up history data from the plan
+    ///
+    public func loadPredefinedPlan(plan: MKExercisePlan) {
+        guard history.isEmpty && workout.isEmpty else { return }
+        
+        /// create workout metrics
+        for exercise in plan.items {
+            let labels = (exercise.labels ?? [], exercise.duration, exercise.rest)
+            let metrics = ExerciseSetMetrics(labels: labels)
+            var sets = workout[exercise.id] ?? ExerciseSets()
+            sets.append(metrics)
+            workout[exercise.id] = sets
+        }
+        
+        saveCurrentWorkout()
     }
     
 }

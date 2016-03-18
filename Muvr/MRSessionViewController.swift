@@ -97,15 +97,9 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     ///
     private func showPredictedLabels() {
         let ed = mainExerciseView.exerciseDetail
-        let expectedLabels = ed?.labels.filter { $0 != .Intensity } ?? []
         let predictedLabels = ed.map(session.predictExerciseLabelsForExerciseDetail)?.0 ?? []
-        if predictedLabels.count >= expectedLabels.count {
-            mainExerciseView.exerciseLabels = predictedLabels
-            mainExerciseView.exerciseDuration = ed.flatMap(session.predictDurationForExerciseDetail)
-        } else {
-            mainExerciseView.exerciseLabels = nil
-            mainExerciseView.exerciseDuration = nil
-        }
+        mainExerciseView.exerciseLabels = predictedLabels
+        mainExerciseView.exerciseDuration = ed.flatMap(session.predictDurationForExerciseDetail)
     }
     
     ///
