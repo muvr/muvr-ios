@@ -29,19 +29,7 @@ class MRManagedExerciseSession: NSManagedObject {
         return MRAppDelegate.sharedDelegate().exerciseDetailsForExerciseIds(plan.next, favouringType: exerciseType)
     }
     
-    ///
-    /// Predicts the duration for the given ``exerciseDetail``
-    /// - parameter exerciseDetail: the exercise detail
-    /// - returns: the expected duration
-    ///
-    func predictDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval? {
-        if let (_, prediction, _) = labelsPredictor.predictLabelsForExercise(exerciseDetail) {
-            return prediction
-        }
-        return nil
-    }
-    
-    func defaultDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
+    private func defaultDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
         for property in exerciseDetail.properties {
             switch property {
             case .TypicalDuration(let duration): return duration
@@ -56,19 +44,12 @@ class MRManagedExerciseSession: NSManagedObject {
     }
     
     ///
-    /// Predicts the needed rest duration
-    ///
-    func predictRestDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
-        return labelsPredictor.predictLabelsForExercise(exerciseDetail).flatMap { $0.2 } ?? 60
-    }
-    
-    ///
     /// Predicts labels for the given ``exerciseDetail``.
     /// - parameter exerciseDetail: the ED
     /// - returns: Tuple containing the predicted labels (may be empty) in one-hand 
     ///            and the "not predicted" labels (with some sensible value) in the other
     ///
-    func predictExerciseLabelsForExerciseDetail(exerciseDetail: MKExerciseDetail) -> ([MKExerciseLabel], [MKExerciseLabel]) {
+    func predictExerciseLabelsForExerciseDetail(exerciseDetail: MKExerciseDetail) -> (MKExerciseLabelsWithDuration, MKExerciseLabelsWithDuration) {
         let n = exerciseIdCounts[exerciseDetail.id] ?? 0
         
         func defaultWeight() -> Double {
@@ -80,10 +61,11 @@ class MRManagedExerciseSession: NSManagedObject {
             return 10
         }
         
-        let allPredictions = labelsPredictor.predictLabelsForExercise(exerciseDetail)?.0 ?? []
-        let intensity = allPredictions.filter { $0.descriptor == .Intensity }.first
+        let allPredictions = labelsPredictor.predictLabelsForExercise(exerciseDetail) ?? ([], nil, nil)
+        
+        let intensity = allPredictions.0.filter { $0.descriptor == .Intensity }.first
         // remove intensity from the predicted values
-        let predictions = allPredictions.filter { $0.descriptor != .Intensity}
+        let predictions = allPredictions.0.filter { $0.descriptor != .Intensity}
         
         let missing: [MKExerciseLabel] = exerciseDetail.labels.filter { desc in
             return !predictions.contains { $0.descriptor == desc}
@@ -94,7 +76,13 @@ class MRManagedExerciseSession: NSManagedObject {
             case .Intensity: return intensity ?? .Intensity(intensity: 0.5)
             }
         }
-        return (predictions , missing)
+        var missingDuration: NSTimeInterval? = nil
+        if allPredictions.1 == nil { missingDuration = defaultDurationForExerciseDetail(exerciseDetail) }
+        
+        var missingRest: NSTimeInterval? = nil
+        if allPredictions.2 == nil { missingRest = 60 }
+        
+        return ((predictions, allPredictions.1, allPredictions.2) , (missing, missingDuration, missingRest))
     }
         
     ///
