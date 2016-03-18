@@ -90,9 +90,12 @@ class MuvrUITests: XCTestCase {
         // wait for > 5 s: we're now exercising
         NSThread.sleepForTimeInterval(5.1)
         app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].tap()
+        
+        // long press while exercising -> shouldn't do anything
+        app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].pressForDuration(6)
 
-        // Wait for 30 seconds, then stop
-        NSThread.sleepForTimeInterval(30)
+        // Wait for 20 more seconds, then stop
+        NSThread.sleepForTimeInterval(20)
         app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].tap()
         
         // Don't set any labels
