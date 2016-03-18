@@ -27,6 +27,8 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         /// - parameter start: the start date
         /// - parameter duration: the duration
         case Done(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval)
+        /// The session is over (fix long press callback)
+        case Idle
         
         var color: UIColor {
             switch self {
@@ -34,6 +36,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             case .Ready: return UIColor.orangeColor()
             case .InExercise: return UIColor.redColor()
             case .Done: return UIColor.grayColor()
+            case .Idle: return UIColor.clearColor()
             }
         }
         
@@ -143,6 +146,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             switchToViewController(labellingViewController)
             let (predictedLabels, missingLabels) = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
             labellingViewController.setExerciseDetail(exerciseDetail, predictedLabels: predictedLabels, missingLabels: missingLabels, onLabelsUpdated: labelUpdated)
+        case .Idle: break;
         }
     }
     
@@ -222,6 +226,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     func circleViewLongTapped(exerciseView: MRCircleView) {
         if case .ComingUp = state {
             try! MRAppDelegate.sharedDelegate().endCurrentSession()
+            state = .Idle
         }
     }
     
@@ -240,6 +245,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             // The user has completed the exercise, and accepted our labels
             session.addExerciseDetail(exerciseDetail, labels: labels, start: start, duration: duration)
             state = .ComingUp(exerciseDetail: nil)
+        case .Idle: break
         }
         refreshViewsForState(state)
     }

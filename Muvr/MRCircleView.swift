@@ -79,7 +79,6 @@ class MRCircleView : UIView {
     
     private let lineWidth: CGFloat = 2
     
-    private var longTapped: Bool = false
     /* Controlling progress bar animation with isAnimating */
     private var isAnimating: Bool = false
     private var fireCircleDidComplete: Bool = true
@@ -326,10 +325,7 @@ class MRCircleView : UIView {
     }
     
     func buttonDidLongPress() {
-        if !longTapped {
             delegate?.circleViewLongTapped?(self)
-            longTapped = true
-        }
     }
 
     // MARK: - public API
