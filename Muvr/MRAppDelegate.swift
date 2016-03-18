@@ -456,7 +456,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     func injectPredictors(into session: MRManagedExerciseSession) {
       let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)
         session.labelsPredictor = predictor.map { MKAverageLabelsPredictor(json: $0.data, historySize: 3, round: roundLabel) } ?? MKAverageLabelsPredictor(historySize: 3, round: roundLabel)
-
         sessionPlan.insert(session.plan.id)
     }
     

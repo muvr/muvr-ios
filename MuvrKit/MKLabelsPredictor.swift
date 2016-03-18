@@ -1,4 +1,7 @@
-public typealias MKExerciseLabelsWithDuration = ([MKExerciseLabel], NSTimeInterval)
+///
+/// Tuple of (labels, duration, rest duration)
+///
+public typealias MKExerciseLabelsWithDuration = ([MKExerciseLabel], NSTimeInterval, NSTimeInterval?)
 
 ///
 /// The interface implemented by label predictor.

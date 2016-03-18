@@ -123,7 +123,8 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             mainExerciseView.swipeButtonsHidden = alternatives.count < 2
             showPredictedLabels()
             mainExerciseView.reset()
-            mainExerciseView.start(session.predictRestDuration())
+            let restDuration = ed.map(session.predictRestDurationForExerciseDetail) ?? 60
+            mainExerciseView.start(max(5, restDuration - 5)) // remove the 5s of the get ready countdown from rest duration
             switchToViewController(comingUpViewController, fromRight: exerciseDetail == nil) {
                 self.mainExerciseView.swipeButtonsHidden = self.alternatives.count < 2
             }

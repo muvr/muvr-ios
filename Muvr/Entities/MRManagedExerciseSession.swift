@@ -14,6 +14,8 @@ class MRManagedExerciseSession: NSManagedObject {
     private(set) internal var classificationHints: [MKClassificationHint] = []
     /// The accumulated exercise rows
     private(set) internal var exerciseWithLabels: [ExerciseRow] = []
+    /// The last exercise done in this session (exercise detail, labels and duration, start time)
+    private var lastExercise: (MKExerciseDetail, MKExerciseLabelsWithDuration, NSDate)? = nil
     
     /// The set of estimated exercises, used when the session is in real-time mode
     var estimated: [MKExerciseWithLabels] = []
@@ -33,7 +35,7 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - returns: the expected duration
     ///
     func predictDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval? {
-        if let (_, prediction) = labelsPredictor.predictLabelsForExercise(exerciseDetail) {
+        if let (_, prediction, _) = labelsPredictor.predictLabelsForExercise(exerciseDetail) {
             return prediction
         }
         return nil
@@ -56,8 +58,8 @@ class MRManagedExerciseSession: NSManagedObject {
     ///
     /// Predicts the needed rest duration
     ///
-    func predictRestDuration() -> NSTimeInterval {
-        return 60
+    func predictRestDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
+        return labelsPredictor.predictLabelsForExercise(exerciseDetail).flatMap { $0.2 } ?? 60
     }
     
     ///
@@ -104,7 +106,21 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - parameter labels: the predicted labels
     ///
     func setClassificationHint(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel]) {
+        correctLabelsForLastExercise()
         classificationHints = [.ExplicitExercise(start: NSDate().timeIntervalSinceDate(start), duration: nil, expectedExercises: [(exerciseDetail, labels)])]
+    }
+    
+    ///
+    /// Compute the rest duration for the last exercise 
+    /// and update the labels predictor
+    ///
+    private func correctLabelsForLastExercise() {
+        if let (lastExercise, lastLabels, start) = lastExercise {
+            let endDate = NSDate(timeInterval: lastLabels.1, sinceDate: start)
+            let rest = NSDate().timeIntervalSinceDate(endDate)
+            labelsPredictor.correctLabelsForExercise(lastExercise, labels: (lastLabels.0, lastLabels.1, rest))
+        }
+        lastExercise = nil
     }
     
     ///
@@ -129,7 +145,10 @@ class MRManagedExerciseSession: NSManagedObject {
         // add to the plan
         plan.insert(exerciseDetail.id)
         
-        labelsPredictor.correctLabelsForExercise(exerciseDetail, labels: (labels, duration))
+        // save the exercise
+        let labelsWithDuration: MKExerciseLabelsWithDuration = (labels, duration, nil) // don't no rest time yet
+        lastExercise = (exerciseDetail, labelsWithDuration, start)
+        labelsPredictor.correctLabelsForExercise(exerciseDetail, labels: labelsWithDuration)
         
         // update counts
         exerciseIdCounts[exerciseDetail.id] = exerciseIdCounts[exerciseDetail.id].map { $0 + 1 } ?? 1
