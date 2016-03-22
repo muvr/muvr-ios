@@ -23,6 +23,10 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         ///
         private var metrics: [String:Double] = [:]
         
+        var isEmpty: Bool {
+            return metrics.isEmpty
+        }
+        
         init() {}
         
         init(labels: MKExerciseLabelsWithDuration) {
@@ -346,7 +350,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         let currentSet = workout[exerciseDetail.id]?.count ?? 0
         
         // try to return the average for the given set
-        if var avg = history[exerciseDetail.id]?.weightedAvg(forSet: currentSet) {
+        if var avg = history[exerciseDetail.id]?.weightedAvg(forSet: currentSet) where !avg.isEmpty {
             avg.update {
                 let v = self.correctValue(forExerciseId: exerciseDetail.id, key: $0, value: $1)
                 return self.roundValue(forExerciseId: exerciseDetail.id, key: $0, value: v)
@@ -429,7 +433,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     ///
     /// Saves the current workout into history
     ///
-    private func saveCurrentWorkout() {
+    internal func saveCurrentWorkout() {
         workout.forEach { id, exerciseWorkout in
             var exerciseHistory = self.history[id] ?? ExerciseSetsHistory(maxHistorySize: maxHistorySize)
             exerciseHistory.addWorkout(exerciseWorkout)
