@@ -560,9 +560,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private var exercisePlans: [MKExercisePlan] {
         let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
-        return bundle.pathsForResourcesOfType("json", inDirectory: nil).flatMap {
-            MKExercisePlan(json: NSData(contentsOfFile: $0)!)
-        }
+        return bundle.pathsForResourcesOfType("json", inDirectory: nil).flatMap { MKExercisePlan(file: NSURL(fileURLWithPath: $0)) }
     }
     
     ///
@@ -579,8 +577,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
         if let defaultFile = bundle.pathForResource("default_workout", ofType: "json"),
-            let data = NSData(contentsOfFile: defaultFile),
-            let plan = MKExercisePlan(json: data) {
+            let plan = MKExercisePlan(file: NSURL(fileURLWithPath: defaultFile)) {
             return .Predefined(plan: plan)
         }
         return nil

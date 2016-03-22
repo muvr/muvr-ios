@@ -20,20 +20,23 @@ public struct MKExercisePlan {
     public let plan: MKMarkovPredictor<MKExercise.Id>
     /// the exercise sequence with their recommended values (duration, reps, rest, ...)
     public let items: [MKExercisePlanItem]
+    /// the filename (with no extension)
+    public let filename: String?
     
     
     /// Creates a fully initialized exercise plan
-    public init(id: Id, name: String, exerciseType: MKExerciseType, plan: MKMarkovPredictor<MKExercise.Id>, items: [MKExercisePlanItem]) {
+    public init(id: Id, name: String, exerciseType: MKExerciseType, plan: MKMarkovPredictor<MKExercise.Id>, items: [MKExercisePlanItem], filename: String?) {
         self.id = id
         self.name = name
         self.exerciseType = exerciseType
         self.plan = plan
         self.items = items
+        self.filename = filename
     }
     
     /// Creates a fully initialized exercise plan by inserting the given exercises into the markov chain
     public init(id: Id, name: String, exerciseType: MKExerciseType, items: [MKExercisePlanItem]) {
-        self.init(id: id, name: name, exerciseType: exerciseType, plan: MKMarkovPredictor<MKExercise.Id>(), items: items)
+        self.init(id: id, name: name, exerciseType: exerciseType, plan: MKMarkovPredictor<MKExercise.Id>(), items: items, filename: nil)
         
         // populate the markov chain by inserting 2x the exercises
         items.forEach { self.plan.insert($0.id) }
