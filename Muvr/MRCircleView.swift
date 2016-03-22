@@ -234,18 +234,23 @@ class MRCircleView : UIView, UIPickerViewDelegate, UIPickerViewDataSource, UIGes
         addSubview(view)
         updateUI()
         
-        let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(MRCircleView.buttonDidLongPress))
-        recognizer.minimumPressDuration = 4
-        recognizer.allowableMovement = 100
-        button.addGestureRecognizer(recognizer)
-        pickerView.addGestureRecognizer(recognizer)
+        func longPressGestureRecognizer() -> UILongPressGestureRecognizer {
+            let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(MRCircleView.buttonDidLongPress))
+            recognizer.minimumPressDuration = 4
+            recognizer.allowableMovement = 100
+            return recognizer
+        }
+        
+        button.addGestureRecognizer(longPressGestureRecognizer())
+        pickerView.addGestureRecognizer(longPressGestureRecognizer())
         
         pickerView.dataSource = self
         pickerView.delegate = self
+        
         /// The picker view is not "clickable" so setup a gesture recognizer to handle touch up events
-        let pickerRecognizer = MRTouchUpGestureRecognizer(target: self, action: #selector(MRCircleView.buttonDidPressed(_:)))
-        pickerRecognizer.delegate = self
-        pickerView.addGestureRecognizer(pickerRecognizer)
+        let recognizer = MRTouchUpGestureRecognizer(target: self, action: #selector(MRCircleView.buttonDidPressed(_:)))
+        recognizer.delegate = self
+        pickerView.addGestureRecognizer(recognizer)
     }
     
     private func loadViewFromNib() -> UIView {
@@ -436,18 +441,6 @@ class MRCircleView : UIView, UIPickerViewDelegate, UIPickerViewDataSource, UIGes
     /// Enables simultaneous gesture recognizers on the picker view for the "touch up" event to work
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
-    }
-    
-    /// Makes sure to "touch up" occurs on the selected item
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if let _ = gestureRecognizer as? UILongPressGestureRecognizer { return true }
-        
-        if let index = selectedIndex where index < pickerItems.count {
-            if CGRectContainsPoint(pickerView.bounds, touch.locationInView(pickerItems[index])) {
-                return true
-            }
-        }
-        return false
     }
 
     // MARK: - public API
