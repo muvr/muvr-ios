@@ -220,6 +220,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         mainExerciseView.exerciseDetails = alternatives
         mainExerciseView.exerciseLabels = currentExercise.predicted.0
         mainExerciseView.exerciseDuration = currentExercise.predicted.1
+        mainExerciseView.selectedIndex = alternatives.indexOf { selectedExerciseDetail.id == $0.id }
     }
     
     // MARK: - MRCircleViewDelegate
