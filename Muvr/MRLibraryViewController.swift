@@ -71,18 +71,23 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
         try! MRAppDelegate.sharedDelegate().startSession(workout)
     }
     
+    ///
+    /// Shows the workout description
+    /// (workout descriptions are stored as HTML files)
+    ///
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        guard let button = sender as? MRLibraryInfoButton,
+        guard let webView = segue.destinationViewController.view as? UIWebView,
+              let button = sender as? MRLibraryInfoButton,
               let workout = button.workout,
-              let webView = segue.destinationViewController.view as? UIWebView
+              case .Predefined(let plan) = workout,
+              let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle"),
+              let bundle = NSBundle(path: bundlePath),
+              let path = bundle.pathForResource(plan.filename, ofType: "html", inDirectory: "www"),
+              let url = NSURL(string: path)
         else { return }
-        let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
-        let bundle = NSBundle(path: bundlePath)!
-        let path = bundle.pathForResource("default_workout", ofType: "html", inDirectory: "www")
-        let url = NSURL(string: path!)
-        let request = NSURLRequest(URL: url!)
+        
+        let request = NSURLRequest(URL: url)
         webView.loadRequest(request)
-        print(path)
     }
     
 }
