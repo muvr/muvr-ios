@@ -166,7 +166,7 @@ class MuvrUITests: XCTestCase {
         let app = XCUIApplication()
         startSession(app, workoutType: "Library", sessionType: "TRX workout")
         // Stop session
-        app.otherElements["Exercise control"].buttons["Trx Triceps Press"].pressForDuration(6)
+        app.otherElements["Exercise control"].buttons["Trx Biceps Curl"].pressForDuration(6)
     }
 
     func testDefaultWorkout() {

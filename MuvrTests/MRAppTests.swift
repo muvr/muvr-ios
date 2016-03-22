@@ -25,8 +25,8 @@ class MRAppTests : XCTestCase {
         // start a new session, adding one exercise
         let sessionId = try! app.startSession(.AdHoc(exerciseType: .ResistanceTargeted(muscleGroups: [.Arms, .Chest])))
         app.currentSession!.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10)
-        let l1 = app.currentSession!.predictExerciseLabelsForExerciseDetail(givenDetail)
-        XCTAssertEqual(givenLabels.filter { $0.descriptor != .Intensity }.sort { $0.0.id < $0.1.id }, l1.0.sort { $0.0.id < $0.1.id })
+        let (predicted1, _) = app.currentSession!.predictExerciseLabelsForExerciseDetail(givenDetail)
+        XCTAssertEqual(givenLabels.filter { $0.descriptor != .Intensity }.sort { $0.0.id < $0.1.id }, predicted1.0.sort { $0.0.id < $0.1.id })
         try! app.endCurrentSession()
         
         // try to load it
@@ -42,8 +42,8 @@ class MRAppTests : XCTestCase {
         // expect the right preciction
         let bc = app.currentSession!.exerciseDetailsComingUp.first!
         XCTAssertEqual(bc.id, givenDetail.id)
-        let labels = app.currentSession!.predictExerciseLabelsForExerciseDetail(bc)
-        XCTAssertEqual(givenLabels.filter { $0.descriptor != .Intensity }.sort { $0.0.id < $0.1.id }, labels.0.sort { $0.0.id < $0.1.id })
+        let (predicted2, _) = app.currentSession!.predictExerciseLabelsForExerciseDetail(bc)
+        XCTAssertEqual(givenLabels.filter { $0.descriptor != .Intensity }.sort { $0.0.id < $0.1.id }, predicted2.0.sort { $0.0.id < $0.1.id })
         try! app.endCurrentSession()
         
     }
