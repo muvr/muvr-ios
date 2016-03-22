@@ -185,7 +185,8 @@ class MRCircleView : UIView, UIPickerViewDelegate, UIPickerViewDataSource, UIGes
     }
     
     override func drawRect(rect: CGRect) {
-        addCirle(bounds.width + 10, capRadius: lineWidth, color: progressEmptyColor, strokeStart: 0.0, strokeEnd: 1.0)
+        pickerView.accessibilityIdentifier = accessibilityIdentifier.map { "\($0) picker" }
+        addCircle(bounds.width + 10, capRadius: lineWidth, color: progressEmptyColor, strokeStart: 0.0, strokeEnd: 1.0)
         createProgressCircle()
     }
     
@@ -205,14 +206,12 @@ class MRCircleView : UIView, UIPickerViewDelegate, UIPickerViewDataSource, UIGes
     
     override func animationDidStop(anim: CAAnimation, finished: Bool) {
         isAnimating = false
-        
-            if finished {
-                animationStartTime = nil
-                animationPauseTime = nil
-                animationDuration = nil
-                if fireCircleDidComplete { delegate?.circleViewCircleDidComplete?(self) }
-            }
-        
+        if finished {
+            animationStartTime = nil
+            animationPauseTime = nil
+            animationDuration = nil
+            if fireCircleDidComplete { delegate?.circleViewCircleDidComplete?(self) }
+        }
     }
     
     private func isCircleAnimation(anim: CAAnimation) -> Bool {
@@ -239,6 +238,7 @@ class MRCircleView : UIView, UIPickerViewDelegate, UIPickerViewDataSource, UIGes
         recognizer.minimumPressDuration = 4
         recognizer.allowableMovement = 100
         button.addGestureRecognizer(recognizer)
+        pickerView.addGestureRecognizer(recognizer)
         
         pickerView.dataSource = self
         pickerView.delegate = self
@@ -258,7 +258,7 @@ class MRCircleView : UIView, UIPickerViewDelegate, UIPickerViewDataSource, UIGes
         return view
     }
     
-    private func addCirle(arcRadius: CGFloat, capRadius: CGFloat, color: UIColor, strokeStart: CGFloat, strokeEnd: CGFloat) {
+    private func addCircle(arcRadius: CGFloat, capRadius: CGFloat, color: UIColor, strokeStart: CGFloat, strokeEnd: CGFloat) {
         let centerPoint = CGPointMake(CGRectGetMidX(self.bounds) , CGRectGetMidY(self.bounds))
         let startAngle = CGFloat(M_PI_2)
         let endAngle = CGFloat(M_PI * 2 + M_PI_2)
@@ -413,6 +413,7 @@ class MRCircleView : UIView, UIPickerViewDelegate, UIPickerViewDataSource, UIGes
         let label = view as? UILabel ?? UILabel()
         pickerItems[row] = label
         label.text = titles[row]
+        label.accessibilityIdentifier = titles[row]
         label.textAlignment = .Center
         label.userInteractionEnabled = false
         if let font = self.button.titleLabel?.font {
@@ -439,6 +440,8 @@ class MRCircleView : UIView, UIPickerViewDelegate, UIPickerViewDataSource, UIGes
     
     /// Makes sure to "touch up" occurs on the selected item
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if let _ = gestureRecognizer as? UILongPressGestureRecognizer { return true }
+        
         if let index = selectedIndex where index < pickerItems.count {
             if CGRectContainsPoint(pickerView.bounds, touch.locationInView(pickerItems[index])) {
                 return true
