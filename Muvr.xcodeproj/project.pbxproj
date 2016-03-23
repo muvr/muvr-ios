@@ -207,7 +207,6 @@
 		641557691C903F630020B7AA /* MKMuscle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641557671C903ADD0020B7AA /* MKMuscle.swift */; };
 		6415576C1C90636C0020B7AA /* MKMuscleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6415576B1C90636C0020B7AA /* MKMuscleTests.swift */; };
 		6415576E1C9065150020B7AA /* MKExerciseDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6415576D1C9065150020B7AA /* MKExerciseDetailTests.swift */; };
-		641BD3931CA19FE6009AB01E /* MKAverageLabelsPredictorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641BD3921CA19FE6009AB01E /* MKAverageLabelsPredictorTests.swift */; };
 		641BD37D1C999E7B009AB01E /* MRManagedAchievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641BD37C1C999E7B009AB01E /* MRManagedAchievement.swift */; };
 		641BD37F1C999EAE009AB01E /* MRManagedAchievement+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641BD37E1C999EAE009AB01E /* MRManagedAchievement+CoreDataProperties.swift */; };
 		641BD3811C999F4F009AB01E /* MRManagedAchievement+CoreDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641BD3801C999F4F009AB01E /* MRManagedAchievement+CoreDataOperations.swift */; };
@@ -216,6 +215,7 @@
 		641BD38B1C9AB628009AB01E /* MRSessionAppraiserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641BD38A1C9AB628009AB01E /* MRSessionAppraiserTests.swift */; };
 		641BD38D1C9AD1A4009AB01E /* MKExercisePlanItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641BD38C1C9AD1A4009AB01E /* MKExercisePlanItem.swift */; };
 		641BD3911C9AD8C4009AB01E /* MKExercisePlanItem+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641BD3901C9AD8C4009AB01E /* MKExercisePlanItem+JSON.swift */; };
+		641BD3931CA19FE6009AB01E /* MKAverageLabelsPredictorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641BD3921CA19FE6009AB01E /* MKAverageLabelsPredictorTests.swift */; };
 		6423635D1C18A20E00ABF4CA /* MRCoreDataTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6423635C1C18A20E00ABF4CA /* MRCoreDataTestCase.swift */; };
 		6428CE1E1C43FEFE00D17451 /* MRRepetitionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE1D1C43FEFE00D17451 /* MRRepetitionsView.swift */; };
 		6428CE221C4416D300D17451 /* MRWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE211C4416D300D17451 /* MRWeightView.swift */; };
@@ -575,7 +575,6 @@
 		641557671C903ADD0020B7AA /* MKMuscle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMuscle.swift; sourceTree = "<group>"; };
 		6415576B1C90636C0020B7AA /* MKMuscleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMuscleTests.swift; sourceTree = "<group>"; };
 		6415576D1C9065150020B7AA /* MKExerciseDetailTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseDetailTests.swift; sourceTree = "<group>"; };
-		641BD3921CA19FE6009AB01E /* MKAverageLabelsPredictorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKAverageLabelsPredictorTests.swift; sourceTree = "<group>"; };
 		641BD37C1C999E7B009AB01E /* MRManagedAchievement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedAchievement.swift; sourceTree = "<group>"; };
 		641BD37E1C999EAE009AB01E /* MRManagedAchievement+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedAchievement+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		641BD3801C999F4F009AB01E /* MRManagedAchievement+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedAchievement+CoreDataOperations.swift"; sourceTree = "<group>"; };
@@ -584,6 +583,7 @@
 		641BD38A1C9AB628009AB01E /* MRSessionAppraiserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionAppraiserTests.swift; sourceTree = "<group>"; };
 		641BD38C1C9AD1A4009AB01E /* MKExercisePlanItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExercisePlanItem.swift; sourceTree = "<group>"; };
 		641BD3901C9AD8C4009AB01E /* MKExercisePlanItem+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExercisePlanItem+JSON.swift"; sourceTree = "<group>"; };
+		641BD3921CA19FE6009AB01E /* MKAverageLabelsPredictorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKAverageLabelsPredictorTests.swift; sourceTree = "<group>"; };
 		6423635A1C18A20E00ABF4CA /* MuvrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MuvrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6423635C1C18A20E00ABF4CA /* MRCoreDataTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRCoreDataTestCase.swift; sourceTree = "<group>"; };
 		6423635E1C18A20E00ABF4CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2004,7 +2004,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2021,7 +2021,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
@@ -2050,7 +2050,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2060,7 +2060,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
