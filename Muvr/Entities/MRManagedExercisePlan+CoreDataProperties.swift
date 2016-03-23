@@ -29,6 +29,8 @@ extension MRManagedExercisePlan : MRManagedExerciseType {
     @NSManaged var longitude: NSNumber?
     /// the markov chain of exercise ids
     @NSManaged private var managedPlan: NSData?
+    /// the sessions running this plan
+    @NSManaged var sessions: NSSet?
 
 }
 

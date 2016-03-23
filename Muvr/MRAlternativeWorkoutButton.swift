@@ -16,4 +16,11 @@ class MRAlternativeWorkoutButton: MRAlternativeButton {
         }
     }
     
+    /// True when the user has ``masterised`` this workout
+    var achievement: String? {
+        didSet {
+            setImage(achievement.flatMap { UIImage(named: $0) }, forState: .Normal)
+            setNeedsLayout()
+        }
+    }
 }

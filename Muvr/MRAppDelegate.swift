@@ -86,6 +86,11 @@ protocol MRApp : MKExercisePropertySource {
     /// Returns the sessions found on the given date
     ///
     func sessionsOnDate(date: NSDate) -> [MRManagedExerciseSession]
+    
+    ///
+    /// Returns the achievements for the given session type
+    ///
+    func achievementsForSessionType(sessionType: MRSessionType) -> [MRAchievement]
 
 }
 
@@ -324,9 +329,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             return
         }
         
+        // get the exercise plan for this session
+        let sessionType: MRSessionType = .AdHoc(exerciseType: session.exerciseType)  // no predefined plan on the watch, yet
+        let plan = MRManagedExercisePlan.planForSessionType(sessionType, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        
         // no running session, let's start a new one
-        let session = MRManagedExerciseSession.insert(session.id, exerciseType: session.exerciseType, start: session.start, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        injectPredictors(into: session, ofType: .AdHoc(exerciseType: session.exerciseType)) // no predefined plan on the watch, yet
+        let session = MRManagedExerciseSession.insert(session.id, plan: plan, start: session.start, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        injectPredictors(into: session)
         saveContext()
         
         showSession(session)
@@ -365,9 +374,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
         
         let id = NSUUID().UUIDString
-        let session = MRManagedExerciseSession.insert(id, exerciseType: sessionType.exerciseType, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
+        let plan = MRManagedExercisePlan.planForSessionType(sessionType, location: currentLocation, inManagedObjectContext: managedObjectContext)
+        let session = MRManagedExerciseSession.insert(id, plan: plan, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
         
-        injectPredictors(into: session, ofType: sessionType)
+        injectPredictors(into: session)
         saveContext()
         
         showSession(session)
@@ -434,20 +444,34 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
         
+        // check if user deserves any achievements
+        recordAchievementsForSession(session)
+        
         saveContext()
     }
     
     ///
     /// inject the predictors in the given session
     ///
-    func injectPredictors(into session: MRManagedExerciseSession, ofType sessionType: MRSessionType) {
-        session.name = sessionType.name
-        session.plan = MRManagedExercisePlan.planForSessionType(sessionType, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        
-        let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)
+    func injectPredictors(into session: MRManagedExerciseSession) {
+      let predictor = MRManagedLabelsPredictor.predictorFor(location: currentLocation, sessionExerciseType: session.exerciseType, inManagedObjectContext: managedObjectContext)
         session.labelsPredictor = predictor.map { MKAverageLabelsPredictor(json: $0.data, historySize: 3, round: roundLabel) } ?? MKAverageLabelsPredictor(historySize: 3, round: roundLabel)
 
         sessionPlan.insert(session.plan.id)
+    }
+    
+    ///
+    /// Check and save user achievements for the given session
+    ///
+    private func recordAchievementsForSession(session: MRManagedExerciseSession) {
+        guard let templateId = session.plan.templateId,
+            let template = exercisePlans.filter({ $0.id == templateId }).first else { return }
+        
+        let fromDate = NSDate().addDays(-30)
+        let sessions = session.fetchSimilarSessionsSinceDate(fromDate, inManagedObjectContext: managedObjectContext)
+        guard let achievement = MRSessionAppraiser().achievementForSessions(sessions, plan: template) else { return }
+        
+        MRManagedAchievement.insertNewObject(achievement, plan: session.plan, inManagedObjectContext: managedObjectContext)
     }
     
     func initialSetup() { }
@@ -526,14 +550,21 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - Exercise plans
     
     ///
-    /// the list of predefined exercise plans
+    /// the configured exercise plans
     ///
-    var predefinedSessionTypes: [MRSessionType] {
+    private var exercisePlans: [MKExercisePlan] {
         let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
         return bundle.pathsForResourcesOfType("json", inDirectory: nil).flatMap {
-            MKExercisePlan(json: NSData(contentsOfFile: $0)!).map { .Predefined(plan: $0) }
+            MKExercisePlan(json: NSData(contentsOfFile: $0)!)
         }
+    }
+    
+    ///
+    /// the list of predefined exercise plans
+    ///
+    var predefinedSessionTypes: [MRSessionType] {
+        return exercisePlans.map { .Predefined(plan: $0) }
     }
     
     ///
@@ -563,6 +594,18 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
         
         return userPlans.map { .UserDefined(plan: $0) }
+    }
+    
+    ///
+    /// Returns the list of achievements for the given session type
+    ///
+    func achievementsForSessionType(sessionType: MRSessionType) -> [MRAchievement] {
+        switch sessionType {
+        case .UserDefined(let plan):
+            return MRManagedAchievement.fetchAchievementsForPlan(plan, inManagedObjectContext: managedObjectContext).map { $0.name }
+        default:
+            return []
+        }
     }
     
     // MARK: - Core Location stack

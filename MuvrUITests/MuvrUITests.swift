@@ -168,7 +168,7 @@ class MuvrUITests: XCTestCase {
         // Stop session
         app.otherElements["Exercise control"].buttons["Trx Triceps Press"].pressForDuration(6)
     }
-    
+
     func testDefaultWorkout() {
         let app = XCUIApplication()
         
@@ -176,6 +176,8 @@ class MuvrUITests: XCTestCase {
         
         // start default workout
         app.otherElements["Workout control"].buttons["Full body workout"].tap()
+        
+        NSThread.sleepForTimeInterval(0.1)
         
         // stop session
         app.otherElements["Exercise control"].buttons["Dumbbell Shoulder Press"].pressForDuration(6)

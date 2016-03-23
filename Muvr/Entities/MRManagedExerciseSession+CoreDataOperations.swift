@@ -4,11 +4,11 @@ import MuvrKit
 
 extension MRManagedExerciseSession {
     
-    static func insert(id: String, exerciseType: MKExerciseType, start: NSDate, location: MRManagedLocation?, inManagedObjectContext  managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession {
-        var e = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExerciseSession", inManagedObjectContext: managedObjectContext) as! MRManagedExerciseSession
+    static func insert(id: String, plan: MRManagedExercisePlan, start: NSDate, location: MRManagedLocation?, inManagedObjectContext  managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession {
+        let e = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExerciseSession", inManagedObjectContext: managedObjectContext) as! MRManagedExerciseSession
         
         e.id = id
-        e.exerciseType = exerciseType
+        e.plan = plan
         e.start = start
         e.completed = false
         e.uploaded = false
@@ -51,6 +51,30 @@ extension MRManagedExerciseSession {
         let midnightToday = date.dateOnly
         let midnightTomorrow = midnightToday.addDays(1)
         fetchRequest.predicate = NSPredicate(format: "(start >= %@ AND start < %@)", midnightToday, midnightTomorrow)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "start", ascending: false)]
+        
+        return (try? managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]) ?? []
+    }
+    
+    ///
+    /// Fetch all the similar sessions since the given date.
+    /// A similar sessions is a session based on the same exercise plan as this session.
+    /// The sessions must be over (end date is set)
+    ///
+    /// - parameter date: fetch sessions after this date
+    /// - parameter inManagedObjectContext: the MOC to use for the request
+    /// - returns a list of all the similar ended session (including this session if ended)
+    ///
+    func fetchSimilarSessionsSinceDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
+        let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
+        let from = date.dateOnly
+        var predicates = [NSPredicate(format: "start >= %@", from), NSPredicate(format: "end != nil")]
+        if let templateId = plan.templateId {
+            predicates.append(NSPredicate(format: "plan.templateId = %@", templateId))
+        } else {
+            predicates.append(NSPredicate(format: "plan.id = %@", plan.id))
+        }
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "start", ascending: false)]
         
         return (try? managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]) ?? []

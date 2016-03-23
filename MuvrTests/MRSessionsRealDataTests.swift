@@ -19,69 +19,21 @@ extension Array {
 
 import CoreData
 
-
-///
-/// Provides delete capability (for data clean up before running a scenario)
-///
-extension MRManagedLabelsPredictor {
-
-    ///
-    /// Deletes all existing labels predictor in the given context
-    /// - parameter managedObjectContext
-    ///
-    static func deleteAll(inManagedObjectContext managedObjectContext: NSManagedObjectContext) throws {
-        let fetchReq = NSFetchRequest(entityName: "MRManagedLabelsPredictor")
-        let deleteReq = NSBatchDeleteRequest(fetchRequest: fetchReq)
-        try managedObjectContext.executeRequest(deleteReq)
-        try managedObjectContext.save()
-    }
-}
-
-///
-/// Provides delete capability (for data clean up before running a scenario)
-///
-extension MRManagedExercisePlan {
-    
-    ///
-    /// Deletes all existing exercise ids predictor in the given context
-    /// - parameter managedObjectContext
-    ///
-    static func deleteAll(inManagedObjectContext managedObjectContext: NSManagedObjectContext) throws {
-        let fetchReq = NSFetchRequest(entityName: "MRManagedExercisePlan")
-        let deleteReq = NSBatchDeleteRequest(fetchRequest: fetchReq)
-        try managedObjectContext.executeRequest(deleteReq)
-        try managedObjectContext.save()
-    }
-    
-}
-
-///
-/// Provides delete capability (for data clean up before running a scenario)
-///
-extension MRManagedSessionPlan {
-    
-    ///
-    /// Deletes all existing exercise plan ids predictor in the given context
-    /// - parameter managedObjectContext
-    ///
-    static func deleteAll(inManagedObjectContext managedObjectContext: NSManagedObjectContext) throws {
-        let fetchReq = NSFetchRequest(entityName: "MRManagedSessionPlan")
-        let deleteReq = NSBatchDeleteRequest(fetchRequest: fetchReq)
-        try managedObjectContext.executeRequest(deleteReq)
-        try managedObjectContext.save()
-    }
-    
-}
-
 extension MRAppDelegate {
     
-    func cleanup() {
-        // delete labels predictor
-        try! MRManagedLabelsPredictor.deleteAll(inManagedObjectContext: managedObjectContext)
-        // delete exercise plans
-        try! MRManagedExercisePlan.deleteAll(inManagedObjectContext: managedObjectContext)
-        // delete session plan
-        try! MRManagedSessionPlan.deleteAll(inManagedObjectContext: managedObjectContext)
+    ///
+    /// Destroys and recreates the persistent store
+    /// Makes sure every scenario runs on fresh data
+    ///
+    func cleanup() throws {
+        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("MuvrCoreData.sqlite")
+        try persistentStoreCoordinator.destroyPersistentStoreAtURL(url, withType: NSSQLiteStoreType, options: nil)
+        try persistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+        
+        // reset the current location
+        let error = NSError(domain: "test", code: 0, userInfo: nil)
+        locationManager(CLLocationManager(), didFailWithError: error)
+        
         // load empty session plan
         self.loadSessionPlan()
     }
@@ -185,7 +137,7 @@ class MRSessionsRealDataTests : XCTestCase {
     }
     
     private func runScenario(app: MRAppDelegate, scenario: String) -> String {
-        app.cleanup() // remove any existing data
+        try! app.cleanup() // remove any existing data
         
         var text: String = "SCENARIO \(scenario)\n"
         // Load expected scores for this scenario
