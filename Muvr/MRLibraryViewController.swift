@@ -1,5 +1,17 @@
 import MuvrKit
 
+class MRLibraryInfoButton: UIButton {
+
+    var workout: MRSessionType?
+    
+}
+
+class MRLibaryWorkoutCell: UITableViewCell {
+
+    @IBOutlet private weak var infoButton: MRLibraryInfoButton!
+    
+}
+
 ///
 /// Displays the predefined workouts in a tableview
 ///
@@ -24,8 +36,10 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! MRLibaryWorkoutCell
         cell.textLabel?.text = workouts[indexPath.row].name
+        cell.textLabel?.backgroundColor = .clearColor()
+        cell.infoButton.workout = workouts[indexPath.row]
         return cell
     }
     
@@ -55,6 +69,25 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
     @IBAction func startWorkout(sender: UIButton) {
         guard let workout = selectedWorkout else { return }
         try! MRAppDelegate.sharedDelegate().startSession(workout)
+    }
+    
+    ///
+    /// Shows the workout description
+    /// (workout descriptions are stored as HTML files)
+    ///
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        guard let webView = segue.destinationViewController.view as? UIWebView,
+              let button = sender as? MRLibraryInfoButton,
+              let workout = button.workout,
+              case .Predefined(let plan) = workout,
+              let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle"),
+              let bundle = NSBundle(path: bundlePath),
+              let path = bundle.pathForResource(plan.filename, ofType: "html", inDirectory: "www"),
+              let url = NSURL(string: path)
+        else { return }
+        
+        let request = NSURLRequest(URL: url)
+        webView.loadRequest(request)
     }
     
 }

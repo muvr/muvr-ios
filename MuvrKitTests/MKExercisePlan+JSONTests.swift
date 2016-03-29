@@ -12,7 +12,7 @@ class MKExercisePlanPlusJSONTests: XCTestCase {
         XCTAssertEqual(p1.plan.next.first!, exercise.id)
         
         let json = p1.json
-        let p2 = MKExercisePlan(json: json)!
+        let p2 = MKExercisePlan(json: json, filename: nil)!
         
         XCTAssertEqual(p2.id, p1.id)
         XCTAssertEqual(p2.name, p1.name)

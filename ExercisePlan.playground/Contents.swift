@@ -22,21 +22,19 @@ extension MKExercisePlan {
     }
 }
 
-///
-/// The workout name
-//
-let workoutName = "Swissball workout"
+struct Workout {
 
-///
-/// the workout exercise type
-///
-let exerciseType: MKExerciseType = .ResistanceTargeted(muscleGroups: [.Core, .Legs])
+    let name: String
+    let type: MKExerciseType
+    let exercises: [MKExercisePlanItem]
+    
+    var plan: MKExercisePlan {
+        return MKExercisePlan(id: NSUUID().UUIDString, name: name, exerciseType: type, items: exercises)
+    }
+}
 
 
-///
-/// The sequence of exercises to perform in the workout
-///
-let trx = [
+let trx = Workout(name: "TRX workout", type: .ResistanceTargeted(muscleGroups: [.Arms, .Back, .Chest, .Core, .Legs, .Shoulders]), exercises: [
 
     MKExercisePlanItem(id: "resistanceTargeted:arms/trx-biceps-curl", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 12)]),
     MKExercisePlanItem(id: "resistanceTargeted:arms/trx-biceps-curl", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 12)]),
@@ -65,9 +63,9 @@ let trx = [
     MKExercisePlanItem(id: "resistanceTargeted:arms/trx-triceps-press", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 10)]),
     MKExercisePlanItem(id: "resistanceTargeted:arms/trx-triceps-press", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 10)])
     
-]
+])
 
-let sevenMins = [
+let sevenMins = Workout(name: "7 minutes workout", type: .ResistanceWholeBody, exercises: [
     MKExercisePlanItem(id: "indoorsCardio:jumping-jacks", duration: 30, rest: 10, labels: nil),
     MKExercisePlanItem(id: "resistanceTargeted:legs/wall-sit", duration: 30, rest: 10, labels: nil),
     MKExercisePlanItem(id: "resistanceTargeted:shoulders/push-up", duration: 30, rest: 10, labels: nil),
@@ -81,9 +79,9 @@ let sevenMins = [
     MKExercisePlanItem(id: "resistanceTargeted:shoulders/push-up-with-rotation", duration: 30, rest: 10, labels: nil),
     MKExercisePlanItem(id: "resistanceTargeted:core/side-plank", duration: 30, rest: 10, labels: nil),
     MKExercisePlanItem(id: "resistanceTargeted:core/side-plank", duration: 30, rest: 10, labels: nil)
-]
+])
 
-let fatburn = [
+let fatburn = Workout(name: "Fatburn workout", type: .IndoorsCardio, exercises: [
     MKExercisePlanItem(id: "indoorsCardio:cross-trainer", duration: 180, rest: 15, labels: nil),
     MKExercisePlanItem(id: "indoorsCardio:cross-trainer", duration: 120, rest: 15, labels: nil),
     MKExercisePlanItem(id: "indoorsCardio:cross-trainer", duration: 120, rest: 15, labels: nil),
@@ -106,9 +104,9 @@ let fatburn = [
     MKExercisePlanItem(id: "resistanceTargeted:back/lateral-pulldown", duration: 60, rest: 15, labels: nil),
     
     MKExercisePlanItem(id: "resistanceWholeBody:rope-climbing", duration: 180, rest: 15, labels: nil)
-]
+])
 
-let strength = [
+let strength = Workout(name: "Strength workout", type: .ResistanceTargeted(muscleGroups: [.Arms, .Chest, .Shoulders, .Legs]), exercises: [
     MKExercisePlanItem(id: "resistanceTargeted:chest/bench-press", duration: nil, rest: 60, labels: [.Repetitions(repetitions: 6)]),
     MKExercisePlanItem(id: "resistanceTargeted:chest/bench-press", duration: nil, rest: 60, labels: [.Repetitions(repetitions: 6)]),
     MKExercisePlanItem(id: "resistanceTargeted:chest/bench-press", duration: nil, rest: 60, labels: [.Repetitions(repetitions: 6)]),
@@ -128,9 +126,9 @@ let strength = [
     MKExercisePlanItem(id: "resistanceTargeted:shoulders/pull-up", duration: nil, rest: 60, labels: [.Repetitions(repetitions: 6)]),
     MKExercisePlanItem(id: "resistanceTargeted:shoulders/pull-up", duration: nil, rest: 60, labels: [.Repetitions(repetitions: 6)]),
     MKExercisePlanItem(id: "resistanceTargeted:shoulders/pull-up", duration: nil, rest: 60, labels: [.Repetitions(repetitions: 6)])
-]
+])
 
-let abs = [
+let abs = Workout(name: "Abs workout", type: .ResistanceTargeted(muscleGroups: [.Core]), exercises: [
     MKExercisePlanItem(id: "resistanceTargeted:core/crunches", duration: 30, rest: 30, labels: nil),
     MKExercisePlanItem(id: "resistanceTargeted:arms/reverse-curl", duration: 30, rest: 30, labels: nil),
     MKExercisePlanItem(id: "resistanceTargeted:core/leg-raises", duration: 30, rest: 30, labels: nil),
@@ -139,9 +137,9 @@ let abs = [
     MKExercisePlanItem(id: "resistanceTargeted:core/hip-raises", duration: 30, rest: 30, labels: nil),
     MKExercisePlanItem(id: "resistanceTargeted:back/back-extension", duration: 30, rest: 30, labels: nil),
     MKExercisePlanItem(id: "resistanceTargeted:core/plank", duration: 30, rest: 30, labels: nil)
-]
+])
 
-let kettlebells = [
+let kettlebells = Workout(name: "KettleBells workout", type: .ResistanceWholeBody, exercises: [
     MKExercisePlanItem(id: "resistanceTargeted:legs/sumo-squat", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 15)]),
     MKExercisePlanItem(id: "resistanceWholeBody:kettlebell-tip", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 10)]),
     MKExercisePlanItem(id: "resistanceTargeted:shoulders/single-arm-high-row", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 10)]),
@@ -158,9 +156,9 @@ let kettlebells = [
     MKExercisePlanItem(id: "resistanceTargeted:arms/triceps-extension", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 12)]),
     MKExercisePlanItem(id: "resistanceTargeted:back/double-arm-high-pull", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 12)]),
     MKExercisePlanItem(id: "resistanceTargeted:back/windmill", duration: nil, rest: 60, labels: [.Repetitions(repetitions: 6)]),
-]
+])
 
-let upperbody = [
+let upperbody = Workout(name: "Upperbody workout", type: .ResistanceTargeted(muscleGroups: [.Arms, .Chest, .Shoulders]), exercises: [
     MKExercisePlanItem(id: "resistanceTargeted:chest/bench-press", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 15)]),
     MKExercisePlanItem(id: "resistanceTargeted:chest/bench-press", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 15)]),
     
@@ -187,9 +185,9 @@ let upperbody = [
     
     MKExercisePlanItem(id: "resistanceTargeted:arms/reverse-curl", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 15)]),
     MKExercisePlanItem(id: "resistanceTargeted:arms/reverse-curl", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 15)])
-]
+])
 
-let cable = [
+let cable = Workout(name: "Cable machine workout", type: .ResistanceTargeted(muscleGroups: [.Arms, .Chest, .Core, .Legs, .Shoulders]), exercises: [
     MKExercisePlanItem(id: "resistanceTargeted:chest/single-arm-chest-press", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 12)]),
     MKExercisePlanItem(id: "resistanceTargeted:chest/single-arm-chest-press", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 12)]),
     
@@ -216,9 +214,9 @@ let cable = [
     
     MKExercisePlanItem(id: "resistanceTargeted:chest/cable-crossover", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 12)]),
     MKExercisePlanItem(id: "resistanceTargeted:chest/cable-crossover", duration: nil, rest: 30, labels: [.Repetitions(repetitions: 12)])
-]
+])
 
-let swissball = [
+let swissball = Workout(name: "Swissball workout", type: .ResistanceTargeted(muscleGroups: [.Core, .Legs]), exercises: [
     MKExercisePlanItem(id: "indoorsCardio:running-machine", duration: 180, rest: 30, labels: nil),
     MKExercisePlanItem(id: "indoorsCardio:running-machine", duration: 600, rest: 30, labels: nil),
     
@@ -245,12 +243,12 @@ let swissball = [
     
     MKExercisePlanItem(id: "indoorsCardio:recumbent-bike", duration: 600, rest: 30, labels: nil),
     MKExercisePlanItem(id: "indoorsCardio:recumbent-bike", duration: 500, rest: 30, labels: nil)
-]
+])
 
-let p = MKExercisePlan(id: NSUUID().UUIDString, name: workoutName, exerciseType: exerciseType, items: swissball)
+let workout = fatburn
 
 let url = try! NSFileManager.defaultManager().URLForDirectory(.DocumentDirectory, inDomain: .AllDomainsMask, appropriateForURL: NSURL(), create: false).URLByAppendingPathComponent("plan.json")
-try! p.prettyJson.writeToURL(url, options: .AtomicWrite)
+try! workout.plan.prettyJson.writeToURL(url, options: .AtomicWrite)
 
 print("Plan written to \(url.path!)")
 print("\n run the following commande and paste into a json file in Muvr/Sessions.bundle/")

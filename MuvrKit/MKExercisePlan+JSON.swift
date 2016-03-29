@@ -18,7 +18,7 @@ extension MKExercisePlan {
     /// Returns the exercise plan initialised with all its exercise history
     /// - parameter json: the JSON data
     ///
-    public init?(json: NSData) {
+    public init?(json: NSData, filename: String?) {
         guard let jsonObject = try? NSJSONSerialization.JSONObjectWithData(json, options: .AllowFragments),
             let dict = jsonObject as? [String: AnyObject],
             let id = dict["id"] as? MKExercisePlan.Id,
@@ -31,7 +31,17 @@ extension MKExercisePlan {
         
         let items = (dict["items"] as? [AnyObject] ?? []).flatMap { MKExercisePlanItem(jsonObject: $0) }
         
-        self.init(id: id, name: name, exerciseType: exerciseType, plan: exercisePlan, items: items)
+        self.init(id: id, name: name, exerciseType: exerciseType, plan: exercisePlan, items: items, filename: filename)
+    }
+    
+    ///
+    /// Returns the exercise plan initialised with all its exercise history
+    /// - parameter file: the file URL
+    ///
+    public init?(file: NSURL) {
+        guard let data = NSData(contentsOfURL: file) else { return nil }
+        let filename = file.lastPathComponent.map { $0.substringToIndex($0.endIndex.advancedBy(-5)) } // remove .json extension
+        self.init(json: data, filename: filename)
     }
     
 }
