@@ -199,7 +199,7 @@ class MRExerciseSessionEvaluator {
         for (detail, labels) in loadedSession.rows {
             if let predictedExercise = session.exerciseDetailsComingUp.first {
                 let (predictedLabels, _) = session.predictExerciseLabelsForExerciseDetail(detail)
-                result.addLabel(exerciseDetail: detail, expectedLabels: labels, predictedLabels: predictedLabels)
+                result.addLabel(exerciseDetail: detail, expectedLabels: labels, predictedLabels: predictedLabels.0)
                 result.addExercise(expectedExerciseId: detail.id, predictedExerciseId: predictedExercise.id)
             } else {
                 result.addExercise(expectedExerciseId: detail.id, predictedExerciseId: nil)

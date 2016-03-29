@@ -31,6 +31,9 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         
         init(labels: MKExerciseLabelsWithDuration) {
             metrics["duration"] = labels.1
+            if let rest = labels.2 {
+                metrics["rest"] = rest
+            }
             for label in labels.0 {
                 let key = label.descriptor.id
                 switch label {
@@ -113,7 +116,9 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
                 default: return nil
                 }
             }
-            return metrics["duration"].map { (labels, $0) }
+            let duration = metrics["duration"]
+            let rest = metrics["rest"]
+            return (labels, duration, rest)
         }
     }
     
@@ -376,6 +381,14 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
                 else { next.set(key, value: v2) }
                 
             }
+            // for the rest duration needs to consider one earlier set
+            if let rest1 = set1.get("rest") {
+                if last > 1 {
+                    if let rest0 = sets[last - 2].get("rest") { next.set("rest", value: 2 * rest1 - rest0) }
+                } else {
+                    next.set("rest", value: rest1)
+                }
+            }
             next.update { self.roundValue(forExerciseId: exerciseDetail.id, key: $0, value: $1) }
             return next.labelsWithDuration
         }
@@ -396,7 +409,14 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         
         // stores this set into the current session
         var sets = workout[exerciseDetail.id] ?? []
-        sets.append(metrics)
+        if let rest = labels.2, var lastSet = sets.last {
+            // set already stored, update the rest duration
+            lastSet.set("rest", value: rest)
+            sets[sets.count - 1] = lastSet
+        } else {
+            // store new set
+            sets.append(metrics)
+        }
         workout[exerciseDetail.id] = sets
     }
     
@@ -440,6 +460,25 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
             self.history[id] = exerciseHistory
         }
         workout = [:]
+    }
+    
+    
+    ///
+    /// Loads the predefined plan by building up history data from the plan
+    ///
+    public func loadPredefinedPlan(plan: MKExercisePlan) {
+        guard history.isEmpty && workout.isEmpty else { return }
+        
+        /// create workout metrics
+        for exercise in plan.items {
+            let labels = (exercise.labels ?? [], exercise.duration, exercise.rest)
+            let metrics = ExerciseSetMetrics(labels: labels)
+            var sets = workout[exercise.id] ?? ExerciseSets()
+            sets.append(metrics)
+            workout[exercise.id] = sets
+        }
+        
+        saveCurrentWorkout()
     }
     
 }

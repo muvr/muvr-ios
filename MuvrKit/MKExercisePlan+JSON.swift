@@ -8,7 +8,8 @@ extension MKExercisePlan {
             "id": id,
             "name": name,
             "type": exerciseType.metadata,
-            "plan": plan.jsonObject { $0 }
+            "plan": plan.jsonObject { $0 },
+            "items": items.map { $0.jsonObject }
         ]
         return try! NSJSONSerialization.dataWithJSONObject(jsonObject, options: [])
     }
@@ -27,7 +28,10 @@ extension MKExercisePlan {
             let exerciseType = MKExerciseType(metadata: type),
             let exercisePlan = MKMarkovPredictor<MKExercise.Id>(jsonObject: plan, stateTransform: { $0 as? String })
         else { return nil }
-        self.init(id: id, name: name, exerciseType: exerciseType, plan: exercisePlan)
+        
+        let items = (dict["items"] as? [AnyObject] ?? []).flatMap { MKExercisePlanItem(jsonObject: $0) }
+        
+        self.init(id: id, name: name, exerciseType: exerciseType, plan: exercisePlan, items: items)
     }
     
 }

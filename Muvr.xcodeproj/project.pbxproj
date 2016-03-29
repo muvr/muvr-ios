@@ -214,6 +214,8 @@
 		641BD3831C99A1FD009AB01E /* MRManagedAchievementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641BD3821C99A1FD009AB01E /* MRManagedAchievementTests.swift */; };
 		641BD3851C99A792009AB01E /* MRSessionAppraiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641BD3841C99A792009AB01E /* MRSessionAppraiser.swift */; };
 		641BD38B1C9AB628009AB01E /* MRSessionAppraiserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641BD38A1C9AB628009AB01E /* MRSessionAppraiserTests.swift */; };
+		641BD38D1C9AD1A4009AB01E /* MKExercisePlanItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641BD38C1C9AD1A4009AB01E /* MKExercisePlanItem.swift */; };
+		641BD3911C9AD8C4009AB01E /* MKExercisePlanItem+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641BD3901C9AD8C4009AB01E /* MKExercisePlanItem+JSON.swift */; };
 		6423635D1C18A20E00ABF4CA /* MRCoreDataTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6423635C1C18A20E00ABF4CA /* MRCoreDataTestCase.swift */; };
 		6428CE1E1C43FEFE00D17451 /* MRRepetitionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE1D1C43FEFE00D17451 /* MRRepetitionsView.swift */; };
 		6428CE221C4416D300D17451 /* MRWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428CE211C4416D300D17451 /* MRWeightView.swift */; };
@@ -580,6 +582,8 @@
 		641BD3821C99A1FD009AB01E /* MRManagedAchievementTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedAchievementTests.swift; sourceTree = "<group>"; };
 		641BD3841C99A792009AB01E /* MRSessionAppraiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionAppraiser.swift; sourceTree = "<group>"; };
 		641BD38A1C9AB628009AB01E /* MRSessionAppraiserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSessionAppraiserTests.swift; sourceTree = "<group>"; };
+		641BD38C1C9AD1A4009AB01E /* MKExercisePlanItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExercisePlanItem.swift; sourceTree = "<group>"; };
+		641BD3901C9AD8C4009AB01E /* MKExercisePlanItem+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExercisePlanItem+JSON.swift"; sourceTree = "<group>"; };
 		6423635A1C18A20E00ABF4CA /* MuvrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MuvrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6423635C1C18A20E00ABF4CA /* MRCoreDataTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRCoreDataTestCase.swift; sourceTree = "<group>"; };
 		6423635E1C18A20E00ABF4CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -977,6 +981,8 @@
 				6488F4811C73128C00189F79 /* MKAverageLabelsPredictor.swift */,
 				64BA9DBC1C80579300D8540E /* MKExercisePlan.swift */,
 				64BA9DBE1C805B8F00D8540E /* MKExercisePlan+JSON.swift */,
+				641BD38C1C9AD1A4009AB01E /* MKExercisePlanItem.swift */,
+				641BD3901C9AD8C4009AB01E /* MKExercisePlanItem+JSON.swift */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -1809,6 +1815,7 @@
 				64BA9DBD1C80579300D8540E /* MKExercisePlan.swift in Sources */,
 				543C54091BF3C8D80059F80A /* MKLayerConfiguration+Parsing.swift in Sources */,
 				54266B141BB92F16007A8A8A /* MKSensorData+Decoding.swift in Sources */,
+				641BD3911C9AD8C4009AB01E /* MKExercisePlanItem+JSON.swift in Sources */,
 				545269051BB9AB6C003F8EE8 /* MKSensorDataType+Decoding.swift in Sources */,
 				5421920C1C46EF2C002FD224 /* MKExerciseProperty.swift in Sources */,
 				54D3457E1BB9232A00F65091 /* MKClassifier.swift in Sources */,
@@ -1839,6 +1846,7 @@
 				54FBA9671C3C692000FC4F8E /* MKPolynomialFitter.swift in Sources */,
 				5474E8A41BF3E9D900A29D3B /* MKExerciseModel+Parsing.swift in Sources */,
 				5477910B1C24713000763197 /* MKMarkovPredictor.swift in Sources */,
+				641BD38D1C9AD1A4009AB01E /* MKExercisePlanItem.swift in Sources */,
 				546E68521BB969DD00DC0FEF /* MKSensorData+Encoding.swift in Sources */,
 				54BDDDC81C4409060054A059 /* MKMarkovChain+JSON.swift in Sources */,
 				5431545C1BE107F60031BE61 /* MKForwardPropagator.swift in Sources */,
