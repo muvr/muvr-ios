@@ -49,6 +49,13 @@ class MuvrUITests: XCTestCase {
     }
     
     ///
+    /// Stops the current session
+    ///
+    func stopSession(app: XCUIApplication) {
+        app.otherElements["Exercise control"].pickers["Exercise control picker"].pressForDuration(6)
+    }
+    
+    ///
     /// Swipe the specified scroll view until the given exercise button is found
     /// or the end is reached.
     /// - parameter scrollView: the name of the scrollview to swipe 
@@ -70,12 +77,7 @@ class MuvrUITests: XCTestCase {
     /// - parameter exerciseName: the name of the exercise to look for
     ///
     func swipeToExercise(app: XCUIApplication, exerciseName: String) {
-        let first = app.otherElements["Exercise control"].buttons.allElementsBoundByIndex.first?.label ?? ""
-        var current: String = ""
-        while (current != exerciseName && current != first) {
-            app.otherElements["Exercise control"].swipeLeft()
-            current = app.otherElements["Exercise control"].buttons.allElementsBoundByIndex.first?.label ?? ""
-        }
+//        app.otherElements["Exercise control"].pickers["Exercise control picker"].pickerWheels.element.adjustToPickerWheelValue(exerciseName)
     }
     
     func testArmsSessionWithNoExcerciseAllMissingLabels() {
@@ -84,12 +86,17 @@ class MuvrUITests: XCTestCase {
         startSession(app, workoutType: "Custom", sessionType: "Arms")
         
         // start the BBC exercise
-        app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].tap()
+        app.otherElements["Exercise control"].pickers["Exercise control picker"].tap()
+        
         // go back
         app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].tap()
+        NSThread.sleepForTimeInterval(0.1)
+        
+        // start again
+        app.otherElements["Exercise control"].pickers["Exercise control picker"].tap()
+        
         // wait for > 5 s: we're now exercising
         NSThread.sleepForTimeInterval(5.1)
-        app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].tap()
         
         // long press while exercising -> shouldn't do anything
         app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].pressForDuration(6)
@@ -107,7 +114,7 @@ class MuvrUITests: XCTestCase {
         XCTAssertNotNil(app.otherElements["Duration"].value)
         
         // Stop session
-        app.otherElements["Exercise control"].buttons["Barbell Biceps Curls"].pressForDuration(6)
+        stopSession(app)
     }
     
     func testAlternativeExercises() {
@@ -125,7 +132,7 @@ class MuvrUITests: XCTestCase {
         swipeToExercise(app, exerciseName: "Trx Triceps Press")
         
         // start "triceps extension" exercise
-        app.otherElements["Exercise control"].buttons["Trx Triceps Press"].tap()
+        app.otherElements["Exercise control"].pickers["Exercise control picker"].tap()
     }
     
     func testTRXExercise() {
@@ -133,12 +140,12 @@ class MuvrUITests: XCTestCase {
         
         startSession(app, workoutType: "Custom", sessionType: "Core")
         
-        // find "reverse plank"
+        // find "Atomic Press"
         swipeTo(app, scrollView: "Coming up exercises", target: "Trx Atomic Press")
         
-        // start "reverse plank"
+        // start "Atomic Press"
         app.scrollViews["Coming up exercises"].buttons["Trx Atomic Press"].tap()
-        app.otherElements["Exercise control"].buttons["Trx Atomic Press"].tap()
+        app.otherElements["Exercise control"].pickers["Exercise control picker"].tap()
         
         // wait 5 sec to pass "get ready" screen
         NSThread.sleepForTimeInterval(5.1)
@@ -159,20 +166,23 @@ class MuvrUITests: XCTestCase {
         XCTAssertFalse(labels.contains("Weight"))
         
         // Stop session
-        app.otherElements["Exercise control"].buttons["Trx Atomic Press"].pressForDuration(6)
+        stopSession(app)
     }
     
     func testLibraryTRXWorkout() {
         let app = XCUIApplication()
         startSession(app, workoutType: "Library", sessionType: "TRX workout")
-        // Stop session
-        app.otherElements["Exercise control"].buttons["Trx Biceps Curl"].pressForDuration(6)
+        let labels = app.otherElements.allElementsBoundByIndex.map { $0.label }
+        XCTAssertFalse(labels.contains("Duration"))
+        XCTAssertTrue(labels.contains("Repetitions")) /// Configured reps should be shown
+        XCTAssertFalse(labels.contains("Weight"))
+        stopSession(app)
     }
 
     func testDefaultWorkout() {
         let app = XCUIApplication()
         
-        NSThread.sleepForTimeInterval(0.1)
+        NSThread.sleepForTimeInterval(0.5)
         
         // start default workout
         app.otherElements["Workout control"].buttons["Full body workout"].tap()
@@ -180,7 +190,7 @@ class MuvrUITests: XCTestCase {
         NSThread.sleepForTimeInterval(0.1)
         
         // stop session
-        app.otherElements["Exercise control"].buttons["Dumbbell Shoulder Press"].pressForDuration(6)
+        stopSession(app)
     }
     
     override func tearDown() {

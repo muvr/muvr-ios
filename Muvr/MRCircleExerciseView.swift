@@ -26,6 +26,19 @@ class MRCircleExerciseView: MRCircleView {
     }
     
     ///
+    /// The exercises being displayed
+    ///
+    var exerciseDetails: [MKExerciseDetail] = [] {
+        didSet {
+            titles = exerciseDetails.map { MKExercise.title($0.id) }
+            if let detail = exerciseDetail,
+                let index = exerciseDetails.indexOf({ $0.id == detail.id }) {
+                selectedIndex = index
+            }
+        }
+    }
+    
+    ///
     /// The exercise 'predicted' labels for the displayed exercise
     ///
     var exerciseLabels: [MKExerciseLabel]? {

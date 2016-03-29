@@ -16,10 +16,36 @@ import MuvrKit
     /// - parameter circleView: the view that has finished animating
     optional func circleViewCircleDidComplete(circleView: MRCircleView)
     
-    /// Called when the main button is swiped
-    /// - parameter circleView: the view where the swipe occured
-    /// - parameter direction: the swipe direction (Left or Right)
-    optional func circleViewSwiped(circleView: MRCircleView, direction: UISwipeGestureRecognizerDirection)
+    /// Called when the selected title changes
+    /// - parameter the index of the selected title
+    optional func circleSelectedIndexChanged(circleView: MRCircleView, index: Int)
+    
+}
+
+import UIKit.UIGestureRecognizerSubclass
+
+///
+/// Gesture recognizer firing only "Touch up" events
+///
+private class MRTouchUpGestureRecognizer: UIGestureRecognizer {
+    
+    var pressed = false
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent) {
+        pressed = true
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent) {
+        if state == .Possible && pressed {
+            pressed = false
+            state = .Recognized
+        }
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent) {
+        pressed = false
+        state = .Failed
+    }
     
 }
 
@@ -32,7 +58,7 @@ import MuvrKit
 /// to done exercising.
 ///
 @IBDesignable
-class MRCircleView : UIView {
+class MRCircleView : UIView, UIPickerViewDelegate, UIPickerViewDataSource, UIGestureRecognizerDelegate {
     
     var view: UIView!
     var delegate: MRCircleViewDelegate?
@@ -40,8 +66,7 @@ class MRCircleView : UIView {
     @IBOutlet private weak var button: UIButton!
     @IBOutlet private weak var headerLabel: UILabel!
     @IBOutlet private weak var labelScrollView: UIScrollView!
-    @IBOutlet private weak var swipeLeftButton: UIButton!
-    @IBOutlet private weak var swipeRightButton: UIButton!
+    @IBOutlet private weak var pickerView: UIPickerView!
         
     /// set progress colors
     var progressEmptyColor : UIColor = MRColor.gray
@@ -56,16 +81,65 @@ class MRCircleView : UIView {
         }
     }
     
-    var swipeButtonsHidden: Bool = true {
+    var pickerHidden: Bool = true {
         didSet {
+            // toggle pickerView and title visibility
+            pickerView.hidden = pickerHidden
+            button.titleLabel?.hidden = !pickerHidden
+            if pickerHidden {
+                // show correct title
+                if let index = selectedIndex {
+                    button.setTitle(titles[index], forState: .Normal)
+                }
+            } else {
+                // remove title (avoids flickering)
+                button.setTitle("", forState: .Normal)
+                button.titleLabel?.text = ""
+                if let title = title {
+                    // select correct item
+                    selectedIndex = titles.indexOf(title)
+                    if let index = selectedIndex {
+                        pickerView.selectRow(index, inComponent: 0, animated: false)
+                    }
+                }
+            }
             UIView.performWithoutAnimation(updateUI)
         }
     }
     
+    /// the title property is displayed in the button's title label
     var title: String? {
         didSet {
-            button.setTitle(title, forState: UIControlState.Normal)
+            button.setTitle(title, forState: .Normal)
+            buttonFontSize = title.map(buttonFontSize)
             UIView.performWithoutAnimation(updateUI)
+        }
+    }
+    
+    /// the titles values are shown inside a picker view
+    var titles: [String] = [] {
+        didSet {
+            if selectedIndex == nil && !titles.isEmpty { selectedIndex = 0 }
+            buttonFontSize = titles.map(buttonFontSize).minElement()
+            pickerItems = [UILabel](count: titles.count, repeatedValue: UILabel())
+            pickerView.reloadAllComponents()
+            pickerView.selectRow(0, inComponent: 0, animated: false)
+            UIView.performWithoutAnimation(updateUI)
+        }
+    }
+    
+    /// the views for the picker items
+    private var pickerItems: [UILabel] = []
+    
+    /// the title's font size
+    private var buttonFontSize: CGFloat?
+    
+    /// the selected index in the picker view
+    var selectedIndex: Int? {
+        didSet {
+            if let index = selectedIndex where index < titles.count {
+                pickerView.selectRow(index, inComponent: 0, animated: false)
+            }
         }
     }
     
@@ -111,7 +185,8 @@ class MRCircleView : UIView {
     }
     
     override func drawRect(rect: CGRect) {
-        addCirle(bounds.width + 10, capRadius: lineWidth, color: progressEmptyColor, strokeStart: 0.0, strokeEnd: 1.0)
+        pickerView.accessibilityIdentifier = accessibilityIdentifier.map { "\($0) picker" }
+        addCircle(bounds.width + 10, capRadius: lineWidth, color: progressEmptyColor, strokeStart: 0.0, strokeEnd: 1.0)
         createProgressCircle()
     }
     
@@ -131,14 +206,12 @@ class MRCircleView : UIView {
     
     override func animationDidStop(anim: CAAnimation, finished: Bool) {
         isAnimating = false
-        
-            if finished {
-                animationStartTime = nil
-                animationPauseTime = nil
-                animationDuration = nil
-                if fireCircleDidComplete { delegate?.circleViewCircleDidComplete?(self) }
-            }
-        
+        if finished {
+            animationStartTime = nil
+            animationPauseTime = nil
+            animationDuration = nil
+            if fireCircleDidComplete { delegate?.circleViewCircleDidComplete?(self) }
+        }
     }
     
     private func isCircleAnimation(anim: CAAnimation) -> Bool {
@@ -161,10 +234,23 @@ class MRCircleView : UIView {
         addSubview(view)
         updateUI()
         
-        let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(MRCircleView.buttonDidLongPress))
-        recognizer.minimumPressDuration = 4
-        recognizer.allowableMovement = 100
-        button.addGestureRecognizer(recognizer)
+        func longPressGestureRecognizer() -> UILongPressGestureRecognizer {
+            let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(MRCircleView.buttonDidLongPress))
+            recognizer.minimumPressDuration = 4
+            recognizer.allowableMovement = 100
+            return recognizer
+        }
+        
+        button.addGestureRecognizer(longPressGestureRecognizer())
+        pickerView.addGestureRecognizer(longPressGestureRecognizer())
+        
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        
+        /// The picker view is not "clickable" so setup a gesture recognizer to handle touch up events
+        let recognizer = MRTouchUpGestureRecognizer(target: self, action: #selector(MRCircleView.buttonDidPressed(_:)))
+        recognizer.delegate = self
+        pickerView.addGestureRecognizer(recognizer)
     }
     
     private func loadViewFromNib() -> UIView {
@@ -177,7 +263,7 @@ class MRCircleView : UIView {
         return view
     }
     
-    private func addCirle(arcRadius: CGFloat, capRadius: CGFloat, color: UIColor, strokeStart: CGFloat, strokeEnd: CGFloat) {
+    private func addCircle(arcRadius: CGFloat, capRadius: CGFloat, color: UIColor, strokeStart: CGFloat, strokeEnd: CGFloat) {
         let centerPoint = CGPointMake(CGRectGetMidX(self.bounds) , CGRectGetMidY(self.bounds))
         let startAngle = CGFloat(M_PI_2)
         let endAngle = CGFloat(M_PI * 2 + M_PI_2)
@@ -265,12 +351,11 @@ class MRCircleView : UIView {
         layer.beginTime = timeSincePause
     }
     
-    private var buttonFontSize: CGFloat {
-        guard let text = button.titleLabel?.text else { return button.titleLabel!.font.pointSize }
+    private func buttonFontSize(text: String) -> CGFloat {
         let font = button.titleLabel!.font
         var fontSize = frame.height / 8
         var size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
-        while (size.width > button.bounds.width - 2 * swipeRightButton.bounds.width - 6 * lineWidth - 8) {
+        while (size.width > button.bounds.width - 6 * lineWidth - 8) {
             fontSize -= 1
             size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
         }
@@ -279,10 +364,9 @@ class MRCircleView : UIView {
     
 
     private func updateUI() {
-        swipeLeftButton.hidden = swipeButtonsHidden
-        swipeRightButton.hidden = swipeButtonsHidden
-        
-        button.titleLabel?.font = button.titleLabel?.font.fontWithSize(buttonFontSize)
+        if let font = button.titleLabel?.font, let fontSize = buttonFontSize {
+            button.titleLabel?.font = font.fontWithSize(fontSize)
+        }
         
         accessibilityLabel = button.titleLabel?.text
 
@@ -308,24 +392,55 @@ class MRCircleView : UIView {
         }
     }
     
-    @IBAction private func swipeLeftButtonDidPress(sender: UIButton) {
-        delegate?.circleViewSwiped?(self, direction: .Left)
-    }
-    
-    @IBAction private func swipeRightButtonDidPress(sender: UIButton) {
-        delegate?.circleViewSwiped?(self, direction: .Right)
-    }
-    
-    @IBAction private func buttonDidPressed(sender: UIButton) {
+    @objc @IBAction private func buttonDidPressed(sender: UIButton) {
         delegate?.circleViewTapped?(self)
     }
     
-    @IBAction private func buttonDidSwipe(recognizer: UISwipeGestureRecognizer) {
-        delegate?.circleViewSwiped?(self, direction: recognizer.direction)
+    func buttonDidLongPress() {
+        delegate?.circleViewLongTapped?(self)
     }
     
-    func buttonDidLongPress() {
-            delegate?.circleViewLongTapped?(self)
+    // MARK: UIPickerViewDataSource
+    
+    // returns the number of 'columns' to display.
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // returns the # of rows in each component..
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return titles.count
+    }
+    
+    // MARK: UIPickerViewDelegate
+    
+    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
+        let label = view as? UILabel ?? UILabel()
+        pickerItems[row] = label
+        label.text = titles[row]
+        label.accessibilityIdentifier = titles[row]
+        label.textAlignment = .Center
+        label.userInteractionEnabled = false
+        if let font = self.button.titleLabel?.font {
+            label.font = font.fontWithSize(buttonFontSize!)
+        }
+        return label
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedIndex = row
+        delegate?.circleSelectedIndexChanged?(self, index: row)
+    }
+    
+    func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return bounds.height / 8
+    }
+    
+    // MARK: UIGestureRecognizerDelegate
+    
+    /// Enables simultaneous gesture recognizers on the picker view for the "touch up" event to work
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 
     // MARK: - public API

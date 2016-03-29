@@ -11,6 +11,7 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
         setTitleImage(named: "muvr_logo_white")
         scrollView.accessibilityIdentifier = "Workouts"
         startButton.delegate = self
+        startButton.pickerHidden = true
     }
     
     override func viewWillAppear(animated: Bool) {

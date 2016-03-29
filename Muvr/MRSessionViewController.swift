@@ -82,8 +82,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     /// The list of alternatives exercises
     private var alternatives: [MKExerciseDetail] {
         guard case .ComingUp(let currentExercise, _) = state, let selected = currentExercise?.detail ?? comingUpExerciseDetails.first else { return [] }
-        let visibleExerciseIds = comingUpViewController.visibleExerciseDetails.map { $0.id }
-        return comingUpExerciseDetails.filter { $0.isAlternativeOf(selected) && (selected.id == $0.id || !visibleExerciseIds.contains($0.id)) }
+        return comingUpExerciseDetails.filter { $0.isAlternativeOf(selected) }
     }
     
     ///
@@ -119,20 +118,20 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     private func refreshViewsForState(state: State) {
         mainExerciseView.progressFullColor = state.color
         switch state {
-        case .ComingUp(_, let rest):
+        case .ComingUp(let exercise, let rest):
             comingUpExerciseDetails = session.exerciseDetailsComingUp
             mainExerciseView.headerTitle = "Coming up".localized()
-            selectedExerciseDetail(comingUpExerciseDetails.first!)
+            mainExerciseView.pickerHidden = false
+            selectedExerciseDetail(exercise?.detail ?? comingUpExerciseDetails.first!)
             mainExerciseView.reset()
             let restDuration = rest ?? 60
             mainExerciseView.start(max(5, restDuration - 5)) // remove the 5s of the get ready countdown from rest duration
-            switchToViewController(comingUpViewController, fromRight: false) {
-                self.mainExerciseView.swipeButtonsHidden = self.alternatives.count < 2
-            }
+            switchToViewController(comingUpViewController, fromRight: exercise != nil)
             comingUpViewController.setExerciseDetails(comingUpExerciseDetails, onSelected: selectedExerciseDetail)
-        case .Ready:
+        case .Ready(let exercise, _):
             mainExerciseView.headerTitle = "Get ready for".localized()
-            mainExerciseView.swipeButtonsHidden = true
+            mainExerciseView.pickerHidden = true
+            mainExerciseView.exerciseDetail = exercise.detail
             mainExerciseView.reset()
             mainExerciseView.start(5)
             switchToViewController(readyViewController)
@@ -158,7 +157,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     /// - parameter controller: the controller whose view is to be displayed in the container
     /// - parameter fromRight: true if the new controller appears from the right of the screen
     ///
-    private func switchToViewController(controller: UIViewController, fromRight: Bool = true, completion: (Void -> Void)? = nil) {
+    private func switchToViewController(controller: UIViewController, fromRight: Bool = true) {
         /// The frame where the details view are displayed (takes all available space below the main circle view)
         let y = mainExerciseView.frame.origin.y + mainExerciseView.frame.height
         let frame = CGRectMake(0, y, view.bounds.width, view.bounds.height - y)
@@ -182,7 +181,6 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
                 }, completion: { finished in
                     previousController.removeFromParentViewController()
                     controller.didMoveToParentViewController(self)
-                    if let comp = completion where finished { comp() }
                 }
             )
         } else {
@@ -198,7 +196,6 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
                 }, completion: { finished in
                     controller.didMoveToParentViewController(self)
                     controller.endAppearanceTransition()
-                    if let comp = completion where finished { comp() }
                 }
             )
         }
@@ -217,13 +214,13 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     /// - parameter exercise: the selected exercise
     private func selectedExerciseDetail(selectedExerciseDetail: MKExerciseDetail) {
         guard case .ComingUp(_, let rest) = state else { return }
-        mainExerciseView.exerciseDetail = selectedExerciseDetail
         let (predicted, missing) = session.predictExerciseLabelsForExerciseDetail(selectedExerciseDetail)
         let currentExercise = CurrentExercise(detail: selectedExerciseDetail, predicted: predicted, missing: missing)
+        state = .ComingUp(exercise: currentExercise, rest: rest)
+        mainExerciseView.exerciseDetails = alternatives
         mainExerciseView.exerciseLabels = currentExercise.predicted.0
         mainExerciseView.exerciseDuration = currentExercise.predicted.1
-        mainExerciseView.swipeButtonsHidden = alternatives.count < 2
-        state = .ComingUp(exercise: currentExercise, rest: rest)
+        mainExerciseView.selectedIndex = alternatives.indexOf { selectedExerciseDetail.id == $0.id }
     }
     
     // MARK: - MRCircleViewDelegate
@@ -273,21 +270,14 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         }
     }
     
-    func circleViewSwiped(exerciseView: MRCircleView, direction: UISwipeGestureRecognizerDirection) {
-        guard case .ComingUp(let exercise, _) = state, let selected = exercise?.detail ?? comingUpExerciseDetails.first else { return }
-        
-        let index = alternatives.indexOf { selected.id == $0.id } ?? 0
-        let length = alternatives.count
-        
-        func next() -> Int? {
-            guard length > 0 else { return nil }
-            if direction == .Left { return (index + 1) % length }
-            if direction == .Right { return (index - 1 + length) % length }
-            return nil
-        }
-        
-        guard let n = next() else { return }
-        selectedExerciseDetail(alternatives[n])
+    func circleSelectedIndexChanged(circleView: MRCircleView, index: Int) {
+        guard case .ComingUp(_, let rest) = state else { return }
+        let exerciseDetail = mainExerciseView.exerciseDetails[index]
+        let (predicted, missing) = session.predictExerciseLabelsForExerciseDetail(exerciseDetail)
+        let exercise = CurrentExercise(detail: exerciseDetail, predicted: predicted, missing: missing)
+        mainExerciseView.exerciseLabels = predicted.0
+        mainExerciseView.exerciseDuration = predicted.1
+        state = .ComingUp(exercise: exercise, rest: rest)
     }
     
 }
