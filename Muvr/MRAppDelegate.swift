@@ -253,6 +253,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         return true
     }
     
+    /// MARK: HealthKit
+    
     /// manage healthkit access authorisation
     private func authorizeHealthKit() {
         // Only proceed if health data is available.
@@ -273,6 +275,39 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             } else {
                 NSLog("Failed to get HealthKit authorisation: \(error)")
             }
+        }
+    }
+    
+    /// save workout into healthkit
+    private func addSessionToHealthKit(session: MRManagedExerciseSession) {
+        // Only proceed if health data is available.
+        guard HKHealthStore.isHealthDataAvailable() else {
+            NSLog("HealthKit not available")
+            return
+        }
+        // Only proceed if no apple watch available (otherwise workout is saved by the watch)
+        if connectivity.reachable {
+            NSLog("HealthKit workout saved by apple watch")
+            return
+        }
+        
+        let healthStore = HKHealthStore()
+        if healthStore.authorizationStatusForType(HKObjectType.workoutType()) != .SharingAuthorized {
+            NSLog("Healthkit saving workout not authorised")
+            return
+        }
+        
+        let start = session.start
+        let end = session.end ?? NSDate()
+        let duration = end.timeIntervalSinceDate(start)
+        
+        let workout = HKWorkout(activityType: HKWorkoutActivityType.TraditionalStrengthTraining, startDate: start, endDate: end, duration: duration, totalEnergyBurned: nil, totalDistance: nil, metadata: ["session":session.name])
+        healthStore.saveObject(workout) { success, error in
+            if let error = error where !success {
+                NSLog("Failed to save workout: \(error)")
+                return
+            }
+            NSLog("Workout saved to healthkit")
         }
     }
     
@@ -443,6 +478,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         MRManagedLabelsPredictor.upsertPredictor(location: currentLocation, sessionExerciseType: session.exerciseType, data: session.labelsPredictor.json, inManagedObjectContext: managedObjectContext)
         
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
+        
+        // add workout to healthkit
+        addSessionToHealthKit(session)
         
         // check if user deserves any achievements
         recordAchievementsForSession(session)
