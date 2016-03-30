@@ -281,7 +281,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// save workout into healthkit
     private func addSessionToHealthKit(session: MRManagedExerciseSession) {
         // Only proceed if health data is available.
-        guard HKHealthStore.isHealthDataAvailable() else {
+        if !HKHealthStore.isHealthDataAvailable() {
             NSLog("HealthKit not available")
             return
         }
