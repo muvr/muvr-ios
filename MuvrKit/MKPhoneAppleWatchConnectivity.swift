@@ -11,6 +11,10 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate {
     public let sensorDataConnectivityDelegate: MKSensorDataConnectivityDelegate
     /// The delegate that will receive session calls
     public let exerciseConnectivitySessionDelegate: MKExerciseConnectivitySessionDelegate
+    
+    public var reachable: Bool {
+        return WCSession.defaultSession().reachable
+    }
 
     public init(sensorDataConnectivityDelegate: MKSensorDataConnectivityDelegate, exerciseConnectivitySessionDelegate: MKExerciseConnectivitySessionDelegate) {
         self.sensorDataConnectivityDelegate = sensorDataConnectivityDelegate
