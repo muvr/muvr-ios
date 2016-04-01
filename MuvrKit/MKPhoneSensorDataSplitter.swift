@@ -132,7 +132,7 @@ public class MKSensorDataSplitter {
             
             let partial = exerciseRegions.filter{exercise in exercise.end == data.end}
             
-            let lastCompleted = completed.maxElement { l, r in l.end < r.end }?.end ?? from
+            let lastCompleted = completed.map { $0.end }.maxElement() ?? from
             
             return (completed, partial, lastCompleted)
         } catch let ex {
