@@ -298,10 +298,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             return
         }
         // Only proceed if no apple watch available (otherwise workout is saved by the watch)
-//        if connectivity.reachable {
-//            NSLog("HealthKit workout saved by apple watch")
-//            return
-//        }
+        if connectedWatch == .AppleWatch && connectivity.reachable {
+            NSLog("HealthKit workout saved by Apple watch")
+            return
+        }
         
         let healthStore = HKHealthStore()
         if healthStore.authorizationStatusForType(HKObjectType.workoutType()) != .SharingAuthorized {

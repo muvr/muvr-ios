@@ -19,6 +19,8 @@ public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBW
     private(set) public var sessions: [MKExerciseConnectivitySession] = []
     /// The delegate that will receive session calls
     public let exerciseConnectivitySessionDelegate: MKExerciseConnectivitySessionDelegate
+    /// indicates when the watch is reachable
+    private(set) public var reachable: Bool = false
     
     ///
     /// MessageKeyDecoder
@@ -286,10 +288,12 @@ public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBW
     // MARK: PBPebbleCentral implementation
     
     public func pebbleCentral(central: PBPebbleCentral, watchDidConnect watch: PBWatch, isNew: Bool) {
+        reachable = true
         NSLog("Connected %@", watch)
     }
     
     public func pebbleCentral(central: PBPebbleCentral, watchDidDisconnect watch: PBWatch) {
+        reachable = false
         NSLog("Pebble watchDidDisconnect %@", watch)
     }
 }
