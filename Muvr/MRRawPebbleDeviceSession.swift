@@ -10,7 +10,7 @@ protocol MKPebbleDeviceDelegate {
     func watchDisconnected()
 }
 
-public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDelegate, MKPebbleDeviceDelegate {
+public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDelegate, MKPebbleDeviceDelegate, MKPhoneConnectivity {
     private let central = PBPebbleCentral.defaultCentral()
     private var currentSession: MRPebbleDeviceSession?
     private let sensorDataConnectivityDelegate: MKSensorDataConnectivityDelegate
@@ -122,15 +122,15 @@ public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBW
             case .AccelerometerData(data: let data):
                 handleAccelerometerData(CACurrentMediaTime(), data: data)
                 break
-            case .Accepted(index: let index):
+            case .Accepted:
 //                delegate.deviceSession(sessionId, exerciseAccepted: index, from: deviceId)
                  print("Accepted")
                 break
-            case .Rejected(index: let index):
+            case .Rejected:
 //                delegate.deviceSession(sessionId, exerciseRejected: index, from: deviceId)
                  print("rejected")
                 break
-            case .TimedOut(index: let index):
+            case .TimedOut:
 //                delegate.deviceSession(sessionId, exerciseSelectionTimedOut: index, from: deviceId)
                  print("timed out")
                 break
@@ -192,19 +192,6 @@ public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBW
             if let session = self.session {
                 send(MessageKeyDecoder.stopRecording)
                 stop(session)
-            }
-        }
-        
-        func propagateEstimation(estimate: [MKExerciseWithLabels]) {
-            if let mostLikely = estimate.first {
-                let data = NSMutableData(length: sizeof(resistance_exercise_t))!
-                let shortName = mostLikely.0.id.characters.split{$0 == "/"}.map(String.init)[1]
-                let name = UnsafePointer<Int8>(shortName.cStringUsingEncoding(NSASCIIStringEncoding)!)
-            
-                mk_resistance_exercise(data.mutableBytes, name, UInt8(1 * 100), 0, 0, 0)
-            
-                assert(data.length <= 124, "Too much data to send over BLE.")
-                send(MessageKeyDecoder.classificationEstimate, data: data)
             }
         }
         
@@ -280,13 +267,6 @@ public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBW
         } else {
             print("TRYING TO STOP A SESSION ON THE PEBBLE THAT IS NOT ACTIVE")
         }
-    }
-    
-    ///
-    /// Stops the currently running session
-    ///
-    public func propagateEstimation(session: MKExerciseSession, estimate: [MKExerciseWithLabels]) {
-        currentSession?.propagateEstimation(estimate)
     }
     
     ///

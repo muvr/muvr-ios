@@ -4,6 +4,12 @@ import MuvrKit
 import CoreData
 import CoreLocation
 
+/// The connected watch
+enum ConnectedWatch {
+    case AppleWatch
+    case Pebble
+}
+
 ///
 /// The notifications: when creating a new notification, be sure to add it only here
 /// and never use notification key constants anywhere else.
@@ -111,11 +117,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     MKSessionClassifierDelegate, MKClassificationHintSource, MKExerciseModelSource,
     MRApp, MRSuperEvilMegacorpApp {
     
+    let connectedWatch = ConnectedWatch.AppleWatch
+    
     var window: UIWindow?
     
     private let sessionStoryboard = UIStoryboard(name: "Session", bundle: nil)
     private var sessionViewController: UIViewController?
-    private var connectivity: MRRawPebbleConnectedDevice!
+    private var connectivity: MKPhoneConnectivity!
     private var classifier: MKSessionClassifier!
     private var sensorDataSplitter: MKSensorDataSplitter!
     private var sessionPlan: MRManagedSessionPlan!
@@ -180,10 +188,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         self.application = application
-        // set up the classification and connectivity
+        // set up the classification
         sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
         classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: sensorDataSplitter, delegate: self)
-        connectivity = MRRawPebbleConnectedDevice(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        
+        // set up watch connectivity
+        switch connectedWatch {
+        case .Pebble: connectivity = MRRawPebbleConnectedDevice(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        case .AppleWatch: connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        }
 
         // Load base configuration
         let baseConfigurationPath = NSBundle.mainBundle().pathForResource("BaseConfiguration", ofType: "bundle")!
@@ -408,7 +421,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels]) {
         if let currentSession = findSession(withId: session.id) {
             currentSession.estimated = estimated
-            connectivity.propagateEstimation(session, estimate: estimated)
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidEstimate.rawValue, object: currentSession.objectID)
         }
     }
