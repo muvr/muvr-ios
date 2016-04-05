@@ -79,7 +79,7 @@ class MKConnectivityTests : XCTestCase {
         XCTAssertEqual(delegates.session!.start, start)
         
         let end = NSDate()
-        let sensorData = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 300, repeatedValue: 0))
+        let sensorData = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist, dataFormat: .Float32)], start: 0, samplesPerSecond: 50, samples: [Float](count: 300, repeatedValue: 0))
         let f = WCMockSessionFile(sensorData: sensorData, metadata: ["timestamp":NSTimeInterval(0), "id":"1234", "exerciseType":["id":"resistanceTargeted", "muscleGroups":["arms"]], "start":start.timeIntervalSinceReferenceDate, "end": end.timeIntervalSinceReferenceDate])
         // sends last chunk of data
         c.session(WCSession.defaultSession(), didReceiveFile: f)
@@ -98,7 +98,7 @@ class MKConnectivityTests : XCTestCase {
         let start = NSDate()
         c.session(WCSession.defaultSession(), didReceiveUserInfo: ["action":"start", "id":"1234", "exerciseType":["id":"resistanceTargeted", "muscleGroups":["arms"]], "start":start.timeIntervalSinceReferenceDate])
         
-        let sensorData = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 300, repeatedValue: 0))
+        let sensorData = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist, dataFormat: .Float32)], start: 0, samplesPerSecond: 50, samples: [Float](count: 300, repeatedValue: 0))
         let f = WCMockSessionFile(sensorData: sensorData, metadata: ["timestamp":NSTimeInterval(0), "id":"1234", "exerciseType":["id":"resistanceTargeted", "muscleGroups":["arms"]], "start":start.timeIntervalSinceReferenceDate])
         c.session(WCSession.defaultSession(), didReceiveFile: f)
         c.session(WCSession.defaultSession(), didReceiveFile: f)

@@ -7,7 +7,7 @@ class MKAverageLabelsPredictorTests: XCTestCase {
     func testPredictNewHistory() {
         let predictor = MKAverageLabelsPredictor(historySize: 3, round: { _, value, _ in return value })
         let bicepsCurl = MKExerciseDetail(id: "biceps-curl", type: .ResistanceTargeted(muscleGroups: [.Arms]), muscle: .Biceps, labels: [.Repetitions, .Weight], properties: [])
-        let labels: MKExerciseLabelsWithDuration = ([.Repetitions(repetitions: 10), .Weight(weight: 7.5)], 11.0)
+        let labels: MKExerciseLabelsWithDuration = ([.Repetitions(repetitions: 10), .Weight(weight: 7.5)], 11.0, 10.0)
         // 1st workout with 2 sets of biceps curls
         predictor.correctLabelsForExercise(bicepsCurl, labels: labels)
         predictor.correctLabelsForExercise(bicepsCurl, labels: labels)
