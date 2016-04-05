@@ -123,7 +123,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     private let sessionStoryboard = UIStoryboard(name: "Session", bundle: nil)
     private var sessionViewController: UIViewController?
-    private var connectivity: MKPhoneConnectivity!
+    private var connectivity: MKDeviceConnectivity!
     private var classifier: MKSessionClassifier!
     private var sensorDataSplitter: MKSensorDataSplitter!
     private var sessionPlan: MRManagedSessionPlan!

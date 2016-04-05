@@ -4,7 +4,7 @@ import WatchConnectivity
 ///
 /// The iOS counterpart of the connectivity interface
 ///
-public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate, MKPhoneConnectivity {
+public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate, MKDeviceConnectivity {
     /// all sessions
     private(set) public var sessions: [MKExerciseConnectivitySession] = []
     /// The delegate that will receive the sensor data

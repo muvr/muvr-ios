@@ -40,7 +40,6 @@ class MRManagedExerciseSession: NSManagedObject {
         case .IndoorsCardio: return 45 * 60
         case .ResistanceTargeted: return 60
         case .ResistanceWholeBody: return 60
-        default: return 60
         }
     }
     

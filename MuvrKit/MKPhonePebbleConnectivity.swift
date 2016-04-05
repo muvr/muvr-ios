@@ -9,7 +9,7 @@ protocol MKPebbleDeviceDelegate {
     func watchDisconnected()
 }
 
-public class MKPebbleConnectivity : NSObject, PBPebbleCentralDelegate, PBWatchDelegate, MKPebbleDeviceDelegate, MKPhoneConnectivity {
+public class MKPebbleConnectivity : NSObject, PBPebbleCentralDelegate, PBWatchDelegate, MKPebbleDeviceDelegate, MKDeviceConnectivity {
     private let central = PBPebbleCentral.defaultCentral()
     private var currentSession: MKPebbleDeviceSession?
     private let sensorDataConnectivityDelegate: MKSensorDataConnectivityDelegate
