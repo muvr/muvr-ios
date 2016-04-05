@@ -1,6 +1,5 @@
 import Foundation
-import MuvrKit
-
+import PebbleKit
 
 protocol MKPebbleDeviceDelegate {
     
@@ -10,9 +9,9 @@ protocol MKPebbleDeviceDelegate {
     func watchDisconnected()
 }
 
-public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBWatchDelegate, MKPebbleDeviceDelegate, MKPhoneConnectivity {
+public class MKPebbleConnectivity : NSObject, PBPebbleCentralDelegate, PBWatchDelegate, MKPebbleDeviceDelegate, MKPhoneConnectivity {
     private let central = PBPebbleCentral.defaultCentral()
-    private var currentSession: MRPebbleDeviceSession?
+    private var currentSession: MKPebbleDeviceSession?
     private let sensorDataConnectivityDelegate: MKSensorDataConnectivityDelegate
     
     /// all sessions
@@ -93,7 +92,7 @@ public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBW
     ///
     /// Pebble device session
     ///
-    private class MRPebbleDeviceSession {
+    private class MKPebbleDeviceSession {
         private var updateHandler: AnyObject?
         private let watch: PBWatch!
         private var session: MKExerciseConnectivitySession!
@@ -125,26 +124,26 @@ public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBW
                 handleAccelerometerData(CACurrentMediaTime(), data: data)
                 break
             case .Accepted:
-//                delegate.deviceSession(sessionId, exerciseAccepted: index, from: deviceId)
-                 print("Accepted")
+                //                delegate.deviceSession(sessionId, exerciseAccepted: index, from: deviceId)
+                print("Accepted")
                 break
             case .Rejected:
-//                delegate.deviceSession(sessionId, exerciseRejected: index, from: deviceId)
-                 print("rejected")
+                //                delegate.deviceSession(sessionId, exerciseRejected: index, from: deviceId)
+                print("rejected")
                 break
             case .TimedOut:
-//                delegate.deviceSession(sessionId, exerciseSelectionTimedOut: index, from: deviceId)
-                 print("timed out")
+                //                delegate.deviceSession(sessionId, exerciseSelectionTimedOut: index, from: deviceId)
+                print("timed out")
                 break
             case .TrainingCompleted:
-//                delegate.deviceSession(sessionId, exerciseTrainingCompletedFrom: deviceId)
+                //                delegate.deviceSession(sessionId, exerciseTrainingCompletedFrom: deviceId)
                 print("training completed")
                 if let session = self.session {
                     stop(session)
                 }
                 break
             case .ExerciseCompleted:
-//                delegate.deviceSession(sessionId, exerciseCompletedFrom: deviceId)
+                //                delegate.deviceSession(sessionId, exerciseCompletedFrom: deviceId)
                 print("exercise completed")
                 break
             case .Dead:
@@ -159,7 +158,7 @@ public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBW
             return true
         }
         
-    
+        
         func handleAccelerometerData(atDeviceTime: CFTimeInterval, data: NSData) {
             do {
                 if self.session != nil {
@@ -218,7 +217,7 @@ public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBW
         }
     }
     
-    init(sensorDataConnectivityDelegate: MKSensorDataConnectivityDelegate, exerciseConnectivitySessionDelegate: MKExerciseConnectivitySessionDelegate) {
+    public init(sensorDataConnectivityDelegate: MKSensorDataConnectivityDelegate, exerciseConnectivitySessionDelegate: MKExerciseConnectivitySessionDelegate) {
         self.sensorDataConnectivityDelegate = sensorDataConnectivityDelegate
         self.exerciseConnectivitySessionDelegate = exerciseConnectivitySessionDelegate
         
@@ -247,8 +246,8 @@ public class MRRawPebbleConnectedDevice : NSObject, PBPebbleCentralDelegate, PBW
             } else {
                 let watch = central.lastConnectedWatch()!
                 watch.appMessagesLaunch { (watch, error) in
-                    self.currentSession = MRPebbleDeviceSession(watch: watch, sensorDataConnectivityDelegate: self.sensorDataConnectivityDelegate, exerciseConnectivitySessionDelegate: self.exerciseConnectivitySessionDelegate, deviceDelegate: self)
-
+                    self.currentSession = MKPebbleDeviceSession(watch: watch, sensorDataConnectivityDelegate: self.sensorDataConnectivityDelegate, exerciseConnectivitySessionDelegate: self.exerciseConnectivitySessionDelegate, deviceDelegate: self)
+                    
                     self.currentSession?.start(connectivitySession)
                 }
             }

@@ -117,7 +117,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     MKSessionClassifierDelegate, MKClassificationHintSource, MKExerciseModelSource,
     MRApp, MRSuperEvilMegacorpApp {
     
-    let connectedWatch = ConnectedWatch.AppleWatch
+    let connectedWatch = ConnectedWatch.Pebble
     
     var window: UIWindow?
     
@@ -194,7 +194,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         // set up watch connectivity
         switch connectedWatch {
-        case .Pebble: connectivity = MRRawPebbleConnectedDevice(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        case .Pebble: connectivity = MKPebbleConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
         case .AppleWatch: connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
         }
 
@@ -213,7 +213,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
                 if properties.isEmpty {
                     switch exerciseType {
                     case .ResistanceTargeted: properties = defaultResistanceTargetedProperties
-                    case .IndoorsCardio, .ResistanceWholeBody, .GenericNonExercise, .GenericExercise: properties = []
+                    case .IndoorsCardio, .ResistanceWholeBody: properties = []
                     }
                 }
                 let labels = labelNames.flatMap { MKExerciseLabelDescriptor(id: $0) }
@@ -358,13 +358,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel {
         return try loadModel("default")
-    }
-    
-    
-    // MARK: - Activity model source
-    
-    func activityModel() throws -> MKExerciseModel {
-        return try loadModel("slacking")
     }
     
     // MARK: - Session classification

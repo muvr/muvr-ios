@@ -6,4 +6,6 @@ enum MKCodecError : ErrorType {
     
     case CompressionFailed
     case DecompressionFailed
+    
+    case NotSupported
 }

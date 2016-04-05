@@ -69,8 +69,7 @@ public extension MKSensorData {
             case .Accelerometer(_, .Float32):
                 samples[i] = try bytes.next()
             case .Accelerometer(_, .Int16):
-                let acceleration: Int16 = try bytes.next()
-                samples[i] = Float(acceleration) / 4000
+                throw MKCodecError.NotSupported
             default:
                 samples[i] = try bytes.next()
             }

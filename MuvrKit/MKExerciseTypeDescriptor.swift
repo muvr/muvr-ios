@@ -9,10 +9,6 @@ public enum MKExerciseTypeDescriptor {
     case ResistanceTargeted
     /// Treadmill, cross trainer, etc
     case IndoorsCardio
-    /// Placeholder if there is no specific information about the exercise
-    case GenericExercise
-    /// No exercise at all
-    case GenericNonExercise
     
     /// Returns a concrete type from this general one
     public var concrete: MKExerciseType {
@@ -20,8 +16,6 @@ public enum MKExerciseTypeDescriptor {
         case .ResistanceWholeBody: return .ResistanceWholeBody
         case .ResistanceTargeted: return .ResistanceTargeted(muscleGroups: [.Arms, .Core, .Chest, .Shoulders, .Legs, .Back])
         case .IndoorsCardio: return .IndoorsCardio
-        case .GenericExercise: return .GenericExercise
-        case .GenericNonExercise: return .GenericNonExercise
         }
     }
     

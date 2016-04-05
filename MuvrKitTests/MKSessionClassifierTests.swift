@@ -54,15 +54,6 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
         
         return model
     }
-    
-    
-    ///
-    /// Not used
-    /// Returns the same model as `exerciseModelForExerciseType`
-    ///
-    func activityModel() throws -> MKExerciseModel {
-        return try exerciseModelForExerciseType(.GenericExercise)
-    }
         
     ///
     /// Tests that the simple flow of start -> one block of sensor data -> end works as expected, namely that:

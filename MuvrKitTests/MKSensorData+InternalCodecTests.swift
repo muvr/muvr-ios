@@ -96,4 +96,5 @@ class MKSensorDataInternalCodecTests : XCTestCase {
         XCTAssertEqual(d, dx)
         XCTAssertEqual(start, decodeStart)
     }
+
 }

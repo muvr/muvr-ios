@@ -16,10 +16,6 @@ extension MKExerciseTypeDescriptor {
             self = .ResistanceWholeBody
         } else if type == MKExerciseType.indoorsCardio {
             self = .IndoorsCardio
-        } else if type == MKExerciseType.genericExercise {
-            self = .GenericExercise
-        } else if type == MKExerciseType.genericNonExercise {
-            self = .GenericNonExercise
         } else {
             return nil
         }
