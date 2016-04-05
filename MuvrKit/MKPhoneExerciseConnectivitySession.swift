@@ -38,7 +38,7 @@ public struct MKExerciseConnectivitySession {
     /// - parameter metadata: the metadata to be parsed
     /// - returns: the parsed instance
     ///
-    internal init?(metadata: [String : AnyObject]) {
+    init?(metadata: [String : AnyObject]) {
         guard let sessionId = metadata["id"] as? String,
             let startTimestamp = metadata["start"] as? Double,
             let exerciseType = metadata["exerciseType"] as? [String : AnyObject]

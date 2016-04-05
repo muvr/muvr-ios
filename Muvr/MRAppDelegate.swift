@@ -4,6 +4,12 @@ import MuvrKit
 import CoreData
 import CoreLocation
 
+/// The connected watch
+enum ConnectedWatch {
+    case AppleWatch
+    case Pebble
+}
+
 ///
 /// The notifications: when creating a new notification, be sure to add it only here
 /// and never use notification key constants anywhere else.
@@ -111,11 +117,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     MKSessionClassifierDelegate, MKClassificationHintSource, MKExerciseModelSource,
     MRApp, MRSuperEvilMegacorpApp {
     
+    let connectedWatch = ConnectedWatch.Pebble
+    
     var window: UIWindow?
     
     private let sessionStoryboard = UIStoryboard(name: "Session", bundle: nil)
     private var sessionViewController: UIViewController?
-    private var connectivity: MKAppleWatchConnectivity!
+    private var connectivity: MKDeviceConnectivity!
     private var classifier: MKSessionClassifier!
     private var sensorDataSplitter: MKSensorDataSplitter!
     private var sessionPlan: MRManagedSessionPlan!
@@ -180,10 +188,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         self.application = application
-        // set up the classification and connectivity
+        // set up the classification
         sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
         classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: sensorDataSplitter, delegate: self)
-        connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        
+        // set up watch connectivity
+        switch connectedWatch {
+        case .Pebble: connectivity = MKPebbleConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        case .AppleWatch: connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        }
 
         // Load base configuration
         let baseConfigurationPath = NSBundle.mainBundle().pathForResource("BaseConfiguration", ofType: "bundle")!
@@ -200,8 +213,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
                 if properties.isEmpty {
                     switch exerciseType {
                     case .ResistanceTargeted: properties = defaultResistanceTargetedProperties
-                    case .IndoorsCardio: properties = []
-                    case .ResistanceWholeBody: properties = []
+                    case .IndoorsCardio, .ResistanceWholeBody: properties = []
                     }
                 }
                 let labels = labelNames.flatMap { MKExerciseLabelDescriptor(id: $0) }
@@ -286,8 +298,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             return
         }
         // Only proceed if no apple watch available (otherwise workout is saved by the watch)
-        if connectivity.reachable {
-            NSLog("HealthKit workout saved by apple watch")
+        if connectedWatch == .AppleWatch && connectivity.reachable {
+            NSLog("HealthKit workout saved by Apple watch")
             return
         }
         
@@ -335,12 +347,17 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         fatalError("Could not extract MKExerciseTypeDescriptor from \(exerciseId).")
     }
     
+    private func loadModel(name: String) throws -> MKExerciseModel {
+        let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
+        let modelsBundle = NSBundle(path: path)!
+        return try MKExerciseModel(fromBundle: modelsBundle, id: name, labelExtractor: exerciseIdToLabel)
+    }
+
+    
     // MARK: - Exercise model source
     
     func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel {
-        let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
-        let modelsBundle = NSBundle(path: path)!
-        return try MKExerciseModel(fromBundle: modelsBundle, id: "default", labelExtractor: exerciseIdToLabel)
+        return try loadModel("default")
     }
     
     // MARK: - Session classification

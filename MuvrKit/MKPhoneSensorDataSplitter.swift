@@ -116,35 +116,7 @@ public class MKSensorDataSplitter {
     }
 
     private func automatedSplit(from: NSTimeInterval, data: MKSensorData) -> Split {
-        // TODO: Reimplement me
-        /*
-        private func classify(exerciseModelId exerciseModelId: MKExerciseModelId, sensorData: MKSensorData) -> [MKClassifiedExercise]? {
-        do {
-        let exerciseModel = try exerciseModelSource.getExerciseModel(id: exerciseModelId)
-        let exerciseClassifier = try MKClassifier(model: exerciseModel)
-        
-        let results = try eneClassifier.classify(block: sensorData, maxResults: 2)
-        NSLog("Exercise / no exercise \(results)")
-        return try results.flatMap { result -> [MKClassifiedExercise] in
-        if result.exerciseId == "E" && result.duration >= exerciseModel.minimumDuration {
-        // this is an exercise block - get the corresponding data section
-        let data = try sensorData.slice(result.offset, duration: result.duration)
-        // classify the exercises in this block
-        let exercises = try! exerciseClassifier.classify(block: data, maxResults: 10)
-        // adjust the offset with the offset from the original block
-        // the offset returned by the classifier is relative to the current exercise block
-        let (repetitions, _) = try self.repetitionEstimator.estimate(data: data)
-        return exercises.map(self.shiftOffset(result.offset)).map(self.updateRepetitions(repetitions))
-        } else {
-        return []
-        }
-        }
-        } catch let ex {
-        NSLog("Failed to classify block: \(ex)")
-        return []
-        }
-        }
-        */
+        // not yet implemented
         return ([], [], from + data.duration)
     }
 

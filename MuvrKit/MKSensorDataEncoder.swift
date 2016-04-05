@@ -164,8 +164,8 @@ public final class MKSensorDataEncoder {
         var start: Double = startDate?.timeIntervalSinceReferenceDate ?? 0
         var types = self.types.flatMap { (type: MKSensorDataType) -> [UInt8] in
             switch type {
-            case .Accelerometer(location: MKSensorDataType.Location.LeftWrist):  return [UInt8(0x74), UInt8(0x61), UInt8(0x6c), UInt8(0x0)]
-            case .Accelerometer(location: MKSensorDataType.Location.RightWrist): return [UInt8(0x74), UInt8(0x61), UInt8(0x72), UInt8(0x0)]
+            case .Accelerometer(location: .LeftWrist):  return [UInt8(0x74), UInt8(0x61), UInt8(0x6c), UInt8(0x52)]
+            case .Accelerometer(location: .RightWrist): return [UInt8(0x74), UInt8(0x61), UInt8(0x72), UInt8(0x52)]
             case .Gyroscope(location: MKSensorDataType.Location.LeftWrist):      return [UInt8(0x74), UInt8(0x67), UInt8(0x6c), UInt8(0x0)]
             case .Gyroscope(location: MKSensorDataType.Location.RightWrist):     return [UInt8(0x74), UInt8(0x67), UInt8(0x72), UInt8(0x0)]
             case .HeartRate:                                                     return [UInt8(0x74), UInt8(0x68), UInt8(0x2d), UInt8(0x0)]

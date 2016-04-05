@@ -5,8 +5,7 @@ extension MKExerciseType {
     var metadata: [String : AnyObject] {
         switch self {
         case .ResistanceTargeted(let muscleGroups): return ["id":id, "muscleGroups":muscleGroups.map { $0.id }]
-        case .ResistanceWholeBody: return ["id":id]
-        case .IndoorsCardio: return ["id":id]
+        default: return ["id":id]
         }
     }
     

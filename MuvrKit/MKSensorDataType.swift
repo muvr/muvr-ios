@@ -14,7 +14,6 @@ public enum MKSensorDataType : Equatable {
         case RightWrist
     }
     
-    
     ///
     /// The required dimension of the data
     ///

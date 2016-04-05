@@ -172,7 +172,7 @@ class MuvrUITests: XCTestCase {
     func testDefaultWorkout() {
         let app = XCUIApplication()
         
-        NSThread.sleepForTimeInterval(0.1)
+        NSThread.sleepForTimeInterval(1)
         
         // start default workout
         app.otherElements["Workout control"].buttons["Full body workout"].tap()
