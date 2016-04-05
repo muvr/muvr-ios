@@ -10,7 +10,7 @@ public struct MKExerciseConnectivitySession {
     /// last chunk of data received
     internal(set) public var last: Bool
     /// accumulated sensor data
-    public(set) public var sensorData: MKSensorData?
+    internal(set) public var sensorData: MKSensorData?
     /// the file datastamps
     internal var sensorDataFileTimestamps = Set<NSTimeInterval>()
     // the exercise type
