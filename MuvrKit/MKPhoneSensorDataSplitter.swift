@@ -93,8 +93,6 @@ public class MKSensorDataSplitter {
     typealias Split = ([MKSensorDataSplit], [MKSensorDataSplit], NSTimeInterval)
     
     //private let eneClassifier: MKClassifier
-    
-    private let minimumExerciseDuration: NSTimeInterval = 8
 
     public init(exerciseModelSource: MKExerciseModelSource, hintSource: MKClassificationHintSource) {
         self.hintSource = hintSource

@@ -23,7 +23,7 @@ public struct MKExerciseConnectivitySession {
     /// - parameter exerciseModelId: the exercise model identity
     /// - parameter startDate: the start date
     ///
-    public init(id: String, start: NSDate, end: NSDate?, last: Bool, exerciseType: MKExerciseType) {
+    internal init(id: String, start: NSDate, end: NSDate?, last: Bool, exerciseType: MKExerciseType) {
         self.id = id
         self.start = start
         self.end = end
