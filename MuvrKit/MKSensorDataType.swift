@@ -2,7 +2,7 @@
 /// The sensor data type
 ///
 public enum MKSensorDataType : Equatable {
-    case Accelerometer(location: Location, dataFormat: SensorDataFormat)
+    case Accelerometer(location: Location)
     case Gyroscope(location: Location)
     case HeartRate
     
@@ -12,13 +12,6 @@ public enum MKSensorDataType : Equatable {
         case LeftWrist
         /// the right wrist
         case RightWrist
-    }
-    
-    /// The enumeration of how the sensor data looks like
-    public enum SensorDataFormat : Equatable {
-        case Float32
-        
-        case Int16
     }
     
     ///
@@ -35,7 +28,7 @@ public enum MKSensorDataType : Equatable {
 
 public func ==(lhs: MKSensorDataType, rhs: MKSensorDataType) -> Bool {
     switch (lhs, rhs) {
-    case (.Accelerometer(let ll, _), .Accelerometer(let rl, _)): return ll == rl
+    case (.Accelerometer(let ll), .Accelerometer(let rl)): return ll == rl
     case (.Gyroscope(let ll), .Gyroscope(let rl)): return ll == rl
     case (.HeartRate, .HeartRate): return true
     default: return false

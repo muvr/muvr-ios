@@ -5,19 +5,19 @@ import XCTest
 class MKRepetitionEstimatorTests : XCTestCase {
 
     func testSimpleSynthetic() {
-        let block = MKSensorData.sensorData(types: [.Accelerometer(location: .LeftWrist, dataFormat: .Float32)], samplesPerSecond: 100, generating: 400, withValue: .Sin1(period: 10))
+        let block = MKSensorData.sensorData(types: [.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, generating: 400, withValue: .Sin1(period: 10))
         let (count, _) = try! MKRepetitionEstimator().estimate(data: block)
         XCTAssertEqual(count, 5)
     }
     
     func testSimpleTooFast() {
-        let block = MKSensorData.sensorData(types: [.Accelerometer(location: .LeftWrist, dataFormat: .Float32)], samplesPerSecond: 100, generating: 400, withValue: .Sin1(period: 1))
+        let block = MKSensorData.sensorData(types: [.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, generating: 400, withValue: .Sin1(period: 1))
         let (count, _) = try! MKRepetitionEstimator().estimate(data: block)
         XCTAssertEqual(count, 0)
     }
     
     func testZero() {
-        let block = MKSensorData.sensorData(types: [.Accelerometer(location: .LeftWrist, dataFormat: .Float32)], samplesPerSecond: 100, generating: 400, withValue: .Constant(value: 0))
+        let block = MKSensorData.sensorData(types: [.Accelerometer(location: .LeftWrist)], samplesPerSecond: 100, generating: 400, withValue: .Constant(value: 0))
         let (count, _) = try! MKRepetitionEstimator().estimate(data: block)
         XCTAssertEqual(count, 0)
     }

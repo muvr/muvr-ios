@@ -26,7 +26,7 @@ class MKSensorDataInternalCodecTests : XCTestCase {
     
     func testEncodeDecode() {
         let d = try! MKSensorData(
-            types: [.Accelerometer(location: .RightWrist, dataFormat: .Float32), .Accelerometer(location: .LeftWrist, dataFormat: .Float32),
+            types: [.Accelerometer(location: .RightWrist), .Accelerometer(location: .LeftWrist),
                     .Gyroscope(location: .RightWrist), .Gyroscope(location: .LeftWrist), .HeartRate],
             start: 0,
             samplesPerSecond: 1,
@@ -83,7 +83,7 @@ class MKSensorDataInternalCodecTests : XCTestCase {
         let start = dateFormatter.dateFromString("2030-02-28")
         
         let d = try! MKSensorData(
-            types: [.Accelerometer(location: .RightWrist, dataFormat: .Float32), .Accelerometer(location: .LeftWrist, dataFormat: .Float32),
+            types: [.Accelerometer(location: .RightWrist), .Accelerometer(location: .LeftWrist),
                 .Gyroscope(location: .RightWrist), .Gyroscope(location: .LeftWrist), .HeartRate],
             start: (start?.timeIntervalSinceReferenceDate)!,
             samplesPerSecond: 1,

@@ -52,7 +52,7 @@ extension MKExerciseModel {
         weightsData.getBytes(&weights, length: weightsData.length)
         
         // TODO: load the sensorDataTypes
-        let sensorDataTypes: [MKSensorDataType] = [.Accelerometer(location: .LeftWrist, dataFormat: .Float32)]
+        let sensorDataTypes: [MKSensorDataType] = [.Accelerometer(location: .LeftWrist)]
         
         // TODO: load minimum duration
         let minimumDuration = 8.0

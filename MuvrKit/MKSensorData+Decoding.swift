@@ -33,45 +33,35 @@ public extension MKSensorData {
     /// - parameter data: the data to be decoded
     ///
     public init(decoding data: NSData) throws {
-        /*
-        let destinationBufferSize: Int = Int(UnsafePointer<UInt32>(data.bytes).memory)
-        let sourceBuffer: UnsafePointer<UInt8> = UnsafePointer<UInt8>(data.bytes.advancedBy(sizeof(UInt32)))
-        let sourceBufferSize: Int = data.length
         
-        let destinationBuffer: UnsafeMutablePointer<UInt8> = UnsafeMutablePointer<UInt8>.alloc(destinationBufferSize)
-        let status = compression_decode_buffer(destinationBuffer, destinationBufferSize, sourceBuffer, sourceBufferSize, nil, COMPRESSION_LZFSE)
-        if status == 0 {
-            throw MKCodecError.DecompressionFailed
+        enum Device: UInt8 {
+            case AppleWatch = 0x64
+            case Pebble = 0x65
         }
-        
-        let bytes = MKUnsafeBufferReader(bytes: destinationBuffer, totalLength: status)
-        */
         
         let bytes = MKUnsafeBufferReader(data: data)
 
         if bytes.length < 18 { throw MKCodecError.NotEnoughInput }
         
         try bytes.expect(UInt8(0x61), throwing: MKCodecError.BadHeader) // 1
-        try bytes.expect(UInt8(0x64), throwing: MKCodecError.BadHeader) // 2
+        let device = try Device(rawValue: bytes.next())                 // 2
+        
+        if (device == nil) { throw MKCodecError.BadHeader }
+        
         let typesCount: UInt8       = try bytes.next()                  // 3
         let samplesPerSecond: UInt8 = try bytes.next()                  // 4
         let start: Double           = try bytes.next()                  // 8
-        let samplesCount: UInt32    = try bytes.next()                  // 12
+        let valuesCount: UInt32     = try bytes.next()                  // 12
         let types = try (0..<typesCount).map { _ in                     // 18
             return try MKSensorDataType.decode(bytes)
         }
-//        let samplesData: UnsafePointer<UInt8> = try bytes.nexts(Int(samplesCount))
-        var samples: [Float] = [Float](count: Int(samplesCount), repeatedValue: 0)
+
+        var samples: [Float] = [Float](count: Int(valuesCount), repeatedValue: 0)
         
-        for i in 0..<Int(samplesCount) {
-            let dataFormat = types[i % Int(typesCount)]
-            switch(dataFormat) {
-            case .Accelerometer(_, .Float32):
-                samples[i] = try bytes.next()
-            case .Accelerometer(_, .Int16):
-                throw MKCodecError.NotSupported
-            default:
-                samples[i] = try bytes.next()
+        for i in 0..<Int(valuesCount) {
+            switch(device!) {
+            case .AppleWatch: samples[i] = try bytes.next()
+            case .Pebble: throw MKCodecError.NotSupported
             }
             
         }

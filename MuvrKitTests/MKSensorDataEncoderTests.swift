@@ -6,7 +6,7 @@ class MKSensorDataEncoderTest : XCTestCase {
     private let sample = [Float(0.5), Float(0.5), Float(0.5)]
 
     private func dataEncoder(startDate: NSDate) -> (MKSensorDataEncoder, NSMutableData) {
-        let sensor = MKSensorDataType.Accelerometer(location: .LeftWrist, dataFormat: .Float32)
+        let sensor = MKSensorDataType.Accelerometer(location: .LeftWrist)
         let data = NSMutableData()
         let target = MKMutableDataEncoderTarget(data: data)
         let encoder = MKSensorDataEncoder(target: target, types: [sensor], samplesPerSecond: 50)

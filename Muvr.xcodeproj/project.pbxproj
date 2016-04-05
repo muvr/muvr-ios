@@ -2370,7 +2370,6 @@
 					"\"$CONFIGURATION_BUILD_DIR/Charts\"",
 					"\"$CONFIGURATION_BUILD_DIR/DGRunkeeperSwitch\"",
 					"\"$CONFIGURATION_BUILD_DIR/JTCalendar\"",
-					"\"$CONFIGURATION_BUILD_DIR/PebbleKit\"",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MuvrUITests/Info.plist;
@@ -2415,10 +2414,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					$CONFIGURATION_BUILD_DIR/PebbleKit,
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MuvrKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2674,7 +2670,6 @@
 					"\"$CONFIGURATION_BUILD_DIR/Charts\"",
 					"\"$CONFIGURATION_BUILD_DIR/DGRunkeeperSwitch\"",
 					"\"$CONFIGURATION_BUILD_DIR/JTCalendar\"",
-					"\"$CONFIGURATION_BUILD_DIR/PebbleKit\"",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MuvrTests/Info.plist;

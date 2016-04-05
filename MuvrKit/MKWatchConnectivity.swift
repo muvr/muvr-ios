@@ -224,7 +224,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     ///
     public init(delegate: MKExerciseSessionConnectivityDelegate) {
         // TODO: Check whether the watch is on the left or right wrist. For now, assume left.
-        recordedTypes = [.Accelerometer(location: .LeftWrist, dataFormat: .Float32)]
+        recordedTypes = [.Accelerometer(location: .LeftWrist)]
         dimension = recordedTypes.reduce(0) { r, t in return t.dimension + r }
         self.delegate = delegate
         

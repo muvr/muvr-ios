@@ -48,7 +48,7 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
         let model = MKExerciseModel(
             layerConfiguration: try! MKLayerConfiguration.parse(text: "1200 id 250 relu 100 relu 3 logistic"),
             weights: weights,
-            sensorDataTypes: [.Accelerometer(location: .LeftWrist, dataFormat: .Float32)],
+            sensorDataTypes: [.Accelerometer(location: .LeftWrist)],
             labels: [("1", .ResistanceWholeBody), ("2", .ResistanceWholeBody), ("3", .ResistanceWholeBody)],
             minimumDuration: 0)
         
@@ -66,7 +66,7 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
         let delegate = Delegate(onClassify: classifyExpectation)
         let splitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
         let classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: splitter, delegate: delegate)
-        let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist, dataFormat: .Float32)], start: 0, samplesPerSecond: 50, samples: [Float](count: 1200, repeatedValue: 0.3))
+        let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 1200, repeatedValue: 0.3))
         let session = MKExerciseConnectivitySession(id: "1234", start: NSDate(), end: nil, last: true, exerciseType: .ResistanceWholeBody)
 
         classifier.exerciseConnectivitySessionDidStart(session: session)
