@@ -99,7 +99,7 @@ private extension MKUnsafeBufferReader {
         var x = ((ints[1] & 0x1F) << 8) | ints[0] // 13 bits
         
         // Handle signs
-        if z & 0x2000 > 0 { z |= 0xC000 }
+        if z & 0x1000 > 0 { z |= 0xE000 }
         if y & 0x1000 > 0 { y |= 0xE000 }
         if x & 0x1000 > 0 { x |= 0xE000 }
         
