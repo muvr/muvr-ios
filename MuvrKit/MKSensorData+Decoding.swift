@@ -44,9 +44,8 @@ public extension MKSensorData {
         if bytes.length < 18 { throw MKCodecError.NotEnoughInput }
         
         try bytes.expect(UInt8(0x61), throwing: MKCodecError.BadHeader) // 1
-        let deviceOpt = try Device(rawValue: bytes.next())              // 2
         
-        guard let device = deviceOpt else { throw MKCodecError.BadHeader }
+        guard let device = try Device(rawValue: bytes.next()) else { throw MKCodecError.BadHeader } // 2
         
         let typesCount: UInt8       = try bytes.next()                  // 3
         let samplesPerSecond: UInt8 = try bytes.next()                  // 4
@@ -58,7 +57,7 @@ public extension MKSensorData {
 
         var samples: [Float] = [Float](count: Int(valuesCount), repeatedValue: 0)
         
-        switch(device) {
+        switch device  {
         case .AppleWatch:
             for i in 0..<Int(valuesCount) { samples[i] = try bytes.next() }
         case .Pebble:
