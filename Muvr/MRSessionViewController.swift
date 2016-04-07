@@ -300,7 +300,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     /// Switches automatically to InExercise or Done state according
     /// to current state and user moves.
     ///
-    func userMotionDetected() {
+    @objc private func userMotionDetected() {
         switch state {
         case .ComingUp(let exercise, _):
             if mainExerciseView.completion >= 1 && session.isMoving {
