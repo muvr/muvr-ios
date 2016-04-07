@@ -146,33 +146,38 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     
 }
 
+import Accelerate
+
 private extension MKSensorData {
     
-    var avg: [Double] {
-        var averages = [Double](count: dimension, repeatedValue: 0)
-        for i in 0..<samples.count {
-            averages[i % dimension] += Double(samples[i])
+    ///
+    /// The variance of the samples contained in this sensor data
+    ///
+    var variance: [Float] {
+        let values = UnsafeMutablePointer<Float>(self.samples)
+        let rows = UInt(rowCount)
+        return (0..<3).map { dim in
+            var avg: Float = 0 // will hold the mean μ
+            var dev = [Float](count: rowCount, repeatedValue: 0) // will hold (xi - μ)
+            var variance: Float = 0
+            let dimSamples = values.advancedBy(dim)
+            
+            vDSP_meanv(dimSamples, 3, &avg, rows) // compute the mean
+            avg *= -1
+            vDSP_vsadd(dimSamples, 3, &avg, &dev, 1, rows) // substract the mean
+            vDSP_measqv(dev, 1, &variance, rows) // compute the variance
+            
+            return variance
         }
-        return averages.map { $0 / Double(self.rowCount) }
     }
     
-    var variance: [Double] {
-        let averages = self.avg
-        var variances = [Double](count: dimension, repeatedValue: 0)
-        for i in 0..<samples.count {
-            variances[i % dimension] += pow(Double(samples[i]) - averages[i % dimension], 2)
-        }
-        return variances.map { $0 / Double(self.rowCount) }
-    }
-    
+    ///
+    /// indicates if this sensor data contains any motion
+    /// motion is detected when variance is above a given threshold
+    ///
     var motionDetected: Bool {
-        // use different thresholds to detect variations on x,y,z
-        let threshold = [0.0034, 0.12, 0.012]
-        let v = self.variance
-        for i in 0..<v.count {
-            if v[i] > threshold[i] { return true }
-        }
-        return false
+        let v = variance.reduce(0.0) { return $0 + $1 }
+        return v > 0.01
     }
     
 }
