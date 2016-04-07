@@ -90,6 +90,12 @@ class MRCircleView : UIView {
     private var elapsedTime: CFTimeInterval {
         return (animationPauseTime ?? 0) - (animationStartTime ?? 0)
     }
+    /// percentage completion of the current animation
+    var completion: Double {
+        guard let duration = animationDuration where duration > 0 else { return 0 }
+        let elapsed = CACurrentMediaTime() - (animationStartTime ?? 0)
+        return elapsed / duration
+    }
 
     private let circleLayer: CAShapeLayer = CAShapeLayer()
     
@@ -131,14 +137,9 @@ class MRCircleView : UIView {
     
     override func animationDidStop(anim: CAAnimation, finished: Bool) {
         isAnimating = false
-        
-            if finished {
-                animationStartTime = nil
-                animationPauseTime = nil
-                animationDuration = nil
-                if fireCircleDidComplete { delegate?.circleViewCircleDidComplete?(self) }
-            }
-        
+        if finished {
+            if fireCircleDidComplete { delegate?.circleViewCircleDidComplete?(self) }
+        }
     }
     
     private func isCircleAnimation(anim: CAAnimation) -> Bool {

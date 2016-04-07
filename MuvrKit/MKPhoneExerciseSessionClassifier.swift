@@ -128,7 +128,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
             
             // report the estimated exercises
             let classifiedPartial = self.classifySplits(partial, session: session)
-            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEstimate(exerciseSession, estimated: classifiedPartial) }
+            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEstimate(exerciseSession, estimated: classifiedPartial, motionDetected: new.motionDetected) }
 
             if session.last {
                 // session completed: all data received
@@ -142,6 +142,37 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     ///
     private func sessionIndex(session: MKExerciseConnectivitySession) -> Int? {
         return sessions.indexOf { $0.id == session.id }
+    }
+    
+}
+
+private extension MKSensorData {
+    
+    var avg: [Double] {
+        var averages = [Double](count: dimension, repeatedValue: 0)
+        for i in 0..<samples.count {
+            averages[i % dimension] += Double(samples[i])
+        }
+        return averages.map { $0 / Double(self.rowCount) }
+    }
+    
+    var variance: [Double] {
+        let averages = self.avg
+        var variances = [Double](count: dimension, repeatedValue: 0)
+        for i in 0..<samples.count {
+            variances[i % dimension] += pow(Double(samples[i]) - averages[i % dimension], 2)
+        }
+        return variances.map { $0 / Double(self.rowCount) }
+    }
+    
+    var motionDetected: Bool {
+        // use different thresholds to detect variations on x,y,z
+        let threshold = [0.0034, 0.12, 0.012]
+        let v = self.variance
+        for i in 0..<v.count {
+            if v[i] > threshold[i] { return true }
+        }
+        return false
     }
     
 }
