@@ -59,13 +59,16 @@ public extension MKSensorData {
         
         switch device  {
         case .AppleWatch:
-            for i in 0..<Int(valuesCount) { samples[i] = try bytes.next() }
+            for i in 0..<Int(valuesCount) {
+                samples[i] = try bytes.next()
+            }
         case .Pebble:
             for i in 0..<Int(valuesCount) / 3 {
                 let (x, y, z) = try bytes.nextPebbleSample()
-                samples[3 * i] = x
-                samples[3 * i + 1] = y
-                samples[3 * i + 2] = z
+                // normalize in -1,1 range
+                samples[3 * i] = x / 4095
+                samples[3 * i + 1] = y / 4095
+                samples[3 * i + 2] = z / 4095
             }
         }
         
@@ -86,8 +89,8 @@ private extension MKUnsafeBufferReader {
         return bytes
     }
     
-    /// Reads 5 bytes from the given buffer corresponding to x,y,z values.
-    /// x,y,z values are encoded on 13, 13 and 14 bits respectively (total: 40 bits)
+    /// Reads 5 bytes from this buffer corresponding to x,y,z values.
+    /// x,y,z values are encoded on 13 bits (total: 39 bits + 1 spare bit)
     /// - returns the x,y,z values as a tuple
     func nextPebbleSample() throws -> (Float, Float, Float) {
         // read 40 bits and store each of them into UInt16 to ease bit handling
