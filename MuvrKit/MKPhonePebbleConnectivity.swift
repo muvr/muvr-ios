@@ -227,6 +227,13 @@ public class MKPebbleConnectivity : NSObject, PBPebbleCentralDelegate, PBWatchDe
         central.appUUID = uuid
         central.delegate = self
         central.run()
+        
+        NSLog("Waiting for Pebble...")
+        for _ in 0..<10 {
+            if central.connectedWatches.count > 0 { break }
+            NSThread.sleepForTimeInterval(0.5)
+        }
+        NSLog("Done waiting.")
     }
     
     // MARK: Device implementation
