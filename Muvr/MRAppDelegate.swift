@@ -347,17 +347,12 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         fatalError("Could not extract MKExerciseTypeDescriptor from \(exerciseId).")
     }
     
-    private func loadModel(name: String) throws -> MKExerciseModel {
-        let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
-        let modelsBundle = NSBundle(path: path)!
-        return try MKExerciseModel(fromBundle: modelsBundle, id: name, labelExtractor: exerciseIdToLabel)
-    }
-
-    
     // MARK: - Exercise model source
     
     func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel {
-        return try loadModel("default")
+        let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
+        let modelsBundle = NSBundle(path: path)!
+        return try MKExerciseModel(fromBundle: modelsBundle, id: "default", labelExtractor: exerciseIdToLabel)
     }
     
     // MARK: - Session classification

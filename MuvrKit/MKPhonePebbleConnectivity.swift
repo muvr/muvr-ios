@@ -238,10 +238,10 @@ public class MKPebbleConnectivity : NSObject, PBPebbleCentralDelegate, PBWatchDe
         let connectivitySession = MKExerciseConnectivitySession(id: session.id, start: NSDate(), end: nil, last: false, exerciseType: session.exerciseType)
         if currentSession == nil {
             if central.connectedWatches.count > 1 {
-                print("TOO MANY PEBBLES CONNECTED!")
+                NSLog("Too many Pebbles connected!")
                 return
             } else if central.connectedWatches.count == 0 {
-                print("NO PEBBLE CONNECTED!")
+                NSLog("No Pebble connected!")
                 return
             } else {
                 let watch = central.lastConnectedWatch()!
@@ -266,7 +266,7 @@ public class MKPebbleConnectivity : NSObject, PBPebbleCentralDelegate, PBWatchDe
         if currentSession?.session?.id == session.id {
             currentSession?.stopCurrentSessionAndNotifyWatch()
         } else {
-            print("TRYING TO STOP A SESSION ON THE PEBBLE THAT IS NOT ACTIVE")
+            NSLog("Trying to stop a session on Pebble that is not active on the phone.")
         }
     }
     
