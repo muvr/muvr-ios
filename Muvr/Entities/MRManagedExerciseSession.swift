@@ -22,6 +22,9 @@ class MRManagedExerciseSession: NSManagedObject {
     /// The labels predictor
     var labelsPredictor: MKLabelsPredictor!
     
+    /// is the user currently moving
+    var isMoving: Bool = false
+    
     ///
     /// The exercise details that are coming up, ordered by their score
     ///

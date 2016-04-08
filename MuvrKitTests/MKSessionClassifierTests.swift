@@ -12,14 +12,18 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
         var classified: MKExerciseSession?
         var ended: MKExerciseSession?
         var started: MKExerciseSession?
+        var estimated: MKExerciseSession?
+        var motionDetected: Bool = false
         
-        private let classifyExpectation: XCTestExpectation
+        private let classifyExpectation: XCTestExpectation?
+        private let estimateExpectation: XCTestExpectation?
         
         ///
-        /// Initialises this instance, assigning the ``classifyExpectation`` and ``summariseExpectation``.
+        /// Initialises this instance, assigning the ``classifyExpectation`` and ``estimateExpectation``.
         ///
-        init(onClassify classifyExpectation: XCTestExpectation) {
+        init(onClassify classifyExpectation: XCTestExpectation?, onEstimate estimateExpectation: XCTestExpectation?) {
             self.classifyExpectation = classifyExpectation
+            self.estimateExpectation = estimateExpectation
         }
         
         func sessionClassifierDidStart(session: MKExerciseSession) {
@@ -28,15 +32,17 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
 
         func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKExerciseWithLabels], sensorData: MKSensorData) {
             self.classified = session
-            self.classifyExpectation.fulfill()
+            self.classifyExpectation?.fulfill()
         }
         
         func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
             self.ended = session
         }
         
-        func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels]) {
-            // noop
+        func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels], motionDetected: Bool) {
+            self.estimated = session
+            self.motionDetected = motionDetected
+            self.estimateExpectation?.fulfill()
         }
     }
     
@@ -63,7 +69,7 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
     func testSimpleSessionFlow() {
         let classifyExpectation = expectationWithDescription("classify")
         
-        let delegate = Delegate(onClassify: classifyExpectation)
+        let delegate = Delegate(onClassify: classifyExpectation, onEstimate: nil)
         let splitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
         let classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: splitter, delegate: delegate)
         let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 1200, repeatedValue: 0.3))
@@ -77,5 +83,32 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
             // TODO: add assertions here
         }
     }
+    
+    ///
+    /// Tests that user motion is detected
+    ///
+    func testMotionDetection() {
+        let estimateExpectation = expectationWithDescription("estimate")
+        
+        var samples = [Float](count: 1200, repeatedValue: 0.3)
+        for i in 0..<samples.count/2 {
+            samples[2 * i] *= -1
+        }
+        let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: samples)
+        let session = MKExerciseConnectivitySession(id: "1234", start: NSDate(), end: nil, last: true, exerciseType: .ResistanceWholeBody)
+        
+        
+        let delegate = Delegate(onClassify: nil, onEstimate: estimateExpectation)
+        let splitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
+        let classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: splitter, delegate: delegate)
+        classifier.exerciseConnectivitySessionDidStart(session: session)
+        classifier.sensorDataConnectivityDidReceiveSensorData(accumulated: sd, new: sd, session: session)
+        classifier.exerciseConnectivitySessionDidEnd(session: session.withData(sd))
+        
+        waitForExpectationsWithTimeout(10) { err in
+            XCTAssertTrue(delegate.motionDetected)
+        }
+    }
+    
     
 }

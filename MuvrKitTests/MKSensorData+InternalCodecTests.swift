@@ -104,13 +104,13 @@ class MKSensorDataInternalCodecTests : XCTestCase {
         let sensorData = try! MKSensorData(decoding: data)
         XCTAssertEqual(50, sensorData.rowCount)
         
-        XCTAssertEqual(-1000, sensorData.samples[0])
-        XCTAssertEqual(1000, sensorData.samples[1])
-        XCTAssertEqual(-456, sensorData.samples[2])
+        XCTAssertEqual(-1000/4095, sensorData.samples[0])
+        XCTAssertEqual(1000/4095, sensorData.samples[1])
+        XCTAssertEqual(-456/4095, sensorData.samples[2])
         
-        XCTAssertEqual(-1049, sensorData.samples[147])
-        XCTAssertEqual(1049, sensorData.samples[148])
-        XCTAssertEqual(-456, sensorData.samples[149])
+        XCTAssertEqual(-1049/4095, sensorData.samples[147])
+        XCTAssertEqual(1049/4095, sensorData.samples[148])
+        XCTAssertEqual(-456/4095, sensorData.samples[149])
     }
 
 }

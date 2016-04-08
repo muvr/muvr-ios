@@ -128,7 +128,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
             
             // report the estimated exercises
             let classifiedPartial = self.classifySplits(partial, session: session)
-            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEstimate(exerciseSession, estimated: classifiedPartial) }
+            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEstimate(exerciseSession, estimated: classifiedPartial, motionDetected: new.motionDetected) }
 
             if session.last {
                 // session completed: all data received
@@ -142,6 +142,42 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     ///
     private func sessionIndex(session: MKExerciseConnectivitySession) -> Int? {
         return sessions.indexOf { $0.id == session.id }
+    }
+    
+}
+
+import Accelerate
+
+private extension MKSensorData {
+    
+    ///
+    /// The variance of the samples contained in this sensor data
+    ///
+    var variance: [Float] {
+        let values = UnsafeMutablePointer<Float>(self.samples)
+        let rows = UInt(rowCount)
+        return (0..<3).map { dim in
+            var avg: Float = 0 // will hold the mean μ
+            var dev = [Float](count: rowCount, repeatedValue: 0) // will hold (xi - μ)
+            var variance: Float = 0
+            let dimSamples = values.advancedBy(dim)
+            
+            vDSP_meanv(dimSamples, 3, &avg, rows) // compute the mean
+            avg *= -1
+            vDSP_vsadd(dimSamples, 3, &avg, &dev, 1, rows) // substract the mean
+            vDSP_measqv(dev, 1, &variance, rows) // compute the variance
+            
+            return variance
+        }
+    }
+    
+    ///
+    /// indicates if this sensor data contains any motion
+    /// motion is detected when variance is above a given threshold
+    ///
+    var motionDetected: Bool {
+        let v = variance.reduce(0.0) { return $0 + $1 }
+        return v > 0.01
     }
     
 }

@@ -109,7 +109,12 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRSessionViewController.userMotionDetected), name: MRNotifications.SessionDidEstimate.rawValue, object: session.objectID)
         refreshViewsForState(state)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     ///
@@ -288,6 +293,31 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         
         guard let n = next() else { return }
         selectedExerciseDetail(alternatives[n])
+    }
+    
+    ///
+    /// Callback invoked when new chunk of data has been estimated
+    /// Switches automatically to InExercise or Done state according
+    /// to current state and user moves.
+    ///
+    @objc private func userMotionDetected() {
+        switch state {
+        case .ComingUp(let exercise, _):
+            if mainExerciseView.completion >= 1 && session.isMoving {
+                // Rest time is exhausted and user is moving
+                session.setClassificationHint(exercise!.detail, labels: exercise!.predicted.0)
+                state = .InExercise(exercise: exercise!, start: NSDate())
+                refreshViewsForState(state)
+            }
+        case .InExercise(let exercise, let start):
+            if mainExerciseView.completion >= 1 && !session.isMoving {
+                // Exercise time is exhausted and user is not moving
+                state = .Done(exercise: exercise, labels: exercise.labels, start: start, duration: NSDate().timeIntervalSinceDate(start))
+                session.clearClassificationHints()
+                refreshViewsForState(state)
+            }
+        default: break
+        }
     }
     
 }

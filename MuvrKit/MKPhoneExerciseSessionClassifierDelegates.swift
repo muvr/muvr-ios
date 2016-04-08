@@ -22,8 +22,9 @@ public protocol MKSessionClassifierDelegate {
     ///
     /// - parameter session: the current snapshot of the session
     /// - parameter estimated: the estimated exercises
+    /// - parameter motionDetected: true if user movement is detected in the latest sensorData chunk
     ///
-    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels])
+    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels], motionDetected: Bool)
     
     ///
     /// The session has ended

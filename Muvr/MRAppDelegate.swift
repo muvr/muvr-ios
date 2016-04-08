@@ -411,9 +411,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         saveContext()
     }
     
-    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels]) {
+    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels], motionDetected: Bool) {
         if let currentSession = findSession(withId: session.id) {
             currentSession.estimated = estimated
+            currentSession.isMoving = motionDetected
             NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidEstimate.rawValue, object: currentSession.objectID)
         }
     }
