@@ -87,16 +87,18 @@ public protocol MKSessionClassifierDelegate {
     ///
     /// - parameter session: the current snapshot of the session
     /// - parameter trigger: trigger that caused the classifier to "think" that there may be an exercise
+    /// - returns: the updated session state
     ///
-    func sessionClassifierDidStartExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger)
+    func sessionClassifierDidStartExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State?
     
     ///
     /// Called when the session classification estimates the exercise that has ended
     ///
     /// - parameter session: the current snapshot of the session
     /// - parameter trigger: trigger that caused the classifier to "think" that there may no longer be an exercise
+    /// - returns: the updated session state
     ///
-    func sessionClassifierDidEndExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateEndTrigger)
+    func sessionClassifierDidEndExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State?
     
     ///
     /// The session has ended

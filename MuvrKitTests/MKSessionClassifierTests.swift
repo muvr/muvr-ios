@@ -33,12 +33,16 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
             endExpectation?.fulfill()
         }
         
-        func sessionClassifierDidEndExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateEndTrigger) {
+        func sessionClassifierDidEndExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State? {
             endExerciseExpectation?.fulfill()
+            endExerciseTrigger = trigger
+            return .NotExercising
         }
         
-        func sessionClassifierDidStartExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) {
+        func sessionClassifierDidStartExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State? {
             startExerciseExpectation?.fulfill()
+            startExerciseTrigger = trigger
+            return .Exercising(exerciseId: "")
         }
         
     }
@@ -71,7 +75,7 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
         let splitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
         let classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: splitter, delegate: delegate)
         let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 1200, repeatedValue: 0.3))
-        let session = MKExerciseConnectivitySession(id: "1234", start: NSDate(), end: nil, last: true, exerciseType: .ResistanceWholeBody)
+        let session = MKExerciseConnectivitySession(id: "1234", start: NSDate(), end: nil, last: false, exerciseType: .ResistanceWholeBody)
 
         classifier.exerciseConnectivitySessionDidStart(session: session)
         classifier.sensorDataConnectivityDidReceiveSensorData(accumulated: sd, new: sd, session: session)
@@ -95,7 +99,7 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
         }
         let movement   = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: samples)
         let noMovement = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 1200, repeatedValue: 0.3))
-        let session = MKExerciseConnectivitySession(id: "1234", start: NSDate(), end: nil, last: true, exerciseType: .ResistanceWholeBody)
+        let session = MKExerciseConnectivitySession(id: "1234", start: NSDate(), end: nil, last: false, exerciseType: .ResistanceWholeBody)
         
         let delegate = Delegate(startExpectation: nil, endExpectation: nil, startExerciseExpectation: see, endExerciseExpectation: eee)
         let splitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)

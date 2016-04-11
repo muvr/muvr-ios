@@ -109,7 +109,8 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRSessionViewController.userMotionDetected), name: MRNotifications.SessionDidStartExercise.rawValue, object: session.objectID)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRSessionViewController.sessionDidStartExercise), name: MRNotifications.SessionDidStartExercise.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRSessionViewController.sessionDidEndExercise), name: MRNotifications.SessionDidEndExercise.rawValue, object: nil)
         refreshViewsForState(state)
     }
     
@@ -294,32 +295,23 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         guard let n = next() else { return }
         selectedExerciseDetail(alternatives[n])
     }
-    
-    ///
-    /// Callback invoked when new chunk of data has been estimated
-    /// Switches automatically to InExercise or Done state according
-    /// to current state and user moves.
-    ///
-    @objc private func userMotionDetected() {
-        /*
-        switch state {
-        case .ComingUp(let exercise, _):
-            if mainExerciseView.completion >= 1 && session.isMoving {
-                // Rest time is exhausted and user is moving
-                session.setClassificationHint(exercise!.detail, labels: exercise!.predicted.0)
-                state = .InExercise(exercise: exercise!, start: NSDate())
-                refreshViewsForState(state)
-            }
-        case .InExercise(let exercise, let start):
-            if mainExerciseView.completion >= 1 && !session.isMoving {
-                // Exercise time is exhausted and user is not moving
-                state = .Done(exercise: exercise, labels: exercise.labels, start: start, duration: NSDate().timeIntervalSinceDate(start))
-                session.clearClassificationHints()
-                refreshViewsForState(state)
-            }
-        default: break
+
+    /// Notification selector on exercise did end
+    @objc private func sessionDidEndExercise() {
+        if case .InExercise(let exercise, let start) = state {
+            state = .Done(exercise: exercise, labels: exercise.labels, start: start, duration: NSDate().timeIntervalSinceDate(start))
+            session.clearClassificationHints()
+            refreshViewsForState(state)
         }
-         */
+    }
+
+    /// Notification selector on exercise did start
+    @objc private func sessionDidStartExercise() {
+        if case .ComingUp(let .Some(exercise), _) = state {
+            session.setClassificationHint(exercise.detail, labels: exercise.predicted.0)
+            state = .InExercise(exercise: exercise, start: NSDate())
+            refreshViewsForState(state)
+        }
     }
     
 }

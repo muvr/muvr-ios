@@ -68,7 +68,7 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
         pieChartBackButton.hidden = true
         
         pieChartView.delegate = self
-        pieChartView.holeTransparent = true
+        pieChartView.holeColor = nil
         pieChartView.holeRadiusPercent = 0.88
         pieChartView.transparentCircleRadiusPercent = 0.88
         pieChartView.descriptionText = ""
@@ -190,7 +190,7 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
             ys.append(BarChartDataEntry(value: transform(average), xIndex: index, data: nil))
             xs.append(key.title)
         }
-        let dataSet = PieChartDataSet(yVals: ys)
+        let dataSet = PieChartDataSet(yVals: ys, label: nil)
         dataSet.colors = ChartColorTemplates.liberty() + ChartColorTemplates.pastel()
         if ys.count > 1 { dataSet.sliceSpace = 2 }
         
