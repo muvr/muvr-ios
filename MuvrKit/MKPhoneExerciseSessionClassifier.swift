@@ -14,6 +14,12 @@ public protocol MKExerciseModelSource {
     func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel
 }
 
+struct MKExerciseSessionDetail {
+    /// The offset of the last classified exercises
+    var classificationStart: NSTimeInterval = 0
+    
+}
+
 ///
 /// Implementation of the two connectivity delegates that can classify the incoming data
 ///
@@ -56,8 +62,9 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         
     public func exerciseConnectivitySessionDidEnd(session session: MKExerciseConnectivitySession) {
         if let index = sessionIndex(session) {
-            sessions[index] = MKExerciseSession(exerciseConnectivitySession: session)
-            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEnd(self.sessions[index], sensorData: session.sensorData) }
+            let es = MKExerciseSession(exerciseConnectivitySession: session)
+            sessions[index] = es
+            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEndSession(es, sensorData: session.sensorData) }
         }
 
 // TODO: Re-think
@@ -75,9 +82,9 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         if sessionIndex(session) == nil {
             let exerciseSession = MKExerciseSession(exerciseConnectivitySession: session)
             sessions.append(exerciseSession)
-            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidStart(exerciseSession) }
+            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidStartSession(exerciseSession) }
             if (session.end != nil) {
-                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEnd(exerciseSession, sensorData: session.sensorData) }
+                dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEndSession(exerciseSession, sensorData: session.sensorData) }
             }
         }
     }
@@ -113,24 +120,25 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         var exerciseSession = MKExerciseSession(exerciseConnectivitySession: session)
         if (sessions[index].end == nil && session.end != nil) {
             // didn't know this session has ended - issue ``didEnd`` event
-            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEnd(exerciseSession, sensorData: session.sensorData) }
+            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEndSession(exerciseSession, sensorData: session.sensorData) }
         }
         
         dispatch_async(classificationQueue) {
             // split the accumulated data into areas of suspected exercise
-            let (completed, partial, newStart) = self.sensorDataSplitter.split(from: exerciseSession.classificationStart, data: accumulated)
-            exerciseSession.classificationStart = newStart
-            self.sessions[index] = exerciseSession
+            //let (completed, partial, newStart) = self.sensorDataSplitter.split(from: exerciseSession.classificationStart, data: accumulated)
+            //exerciseSession.classificationStart = newStart
+            //self.sessions[index] = exerciseSession
 
             // report the completely classified exercises
-            let classifiedCompleted = self.classifySplits(completed, session: session)
-            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidClassify(exerciseSession, classified: classifiedCompleted, sensorData: accumulated) }
+            //let classifiedCompleted = self.classifySplits(completed, session: session)
+            //dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidClassify(exerciseSession, classified: classifiedCompleted, sensorData: accumulated) }
             
             // report the estimated exercises
-            let classifiedPartial = self.classifySplits(partial, session: session)
-            dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEstimate(exerciseSession, estimated: classifiedPartial, motionDetected: new.motionDetected) }
-
-            if session.last {
+            //let classifiedPartial = self.classifySplits(partial, session: session)
+            //dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEstimate(exerciseSession, estimated: classifiedPartial, motionDetected: new.motionDetected) }
+            
+            
+            if session.last, let index = self.sessionIndex(session) {
                 // session completed: all data received
                 self.sessions.removeAtIndex(index)
             }

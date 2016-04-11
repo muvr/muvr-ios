@@ -7,6 +7,12 @@ import MuvrKit
 ///
 class MRManagedExerciseSession: NSManagedObject {
     typealias ExerciseRow = (MKExercise.Id, MKExerciseType, NSTimeInterval, NSTimeInterval, [MKExerciseLabel])
+    
+    enum State {
+        case NotExercising
+        case Exercising(exercise: MKExerciseWithLabels)
+    }
+    
     /// The number of exercise ids for next estimates
     private var exerciseIdCounts: [MKExercise.Id : Int] = [:]
     /// The exercise detail the user has explicitly started
@@ -17,13 +23,11 @@ class MRManagedExerciseSession: NSManagedObject {
     /// The last exercise done in this session (exercise detail, labels and duration, start time)
     private var lastExercise: (MKExerciseDetail, MKExerciseLabelsWithDuration, NSDate)? = nil
     
-    /// The set of estimated exercises, used when the session is in real-time mode
-    var estimated: [MKExerciseWithLabels] = []
+    /// The current session state
+    var state: State = .NotExercising
+    
     /// The labels predictor
     var labelsPredictor: MKLabelsPredictor!
-    
-    /// is the user currently moving
-    var isMoving: Bool = false
     
     ///
     /// The exercise details that are coming up, ordered by their score

@@ -109,7 +109,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRSessionViewController.userMotionDetected), name: MRNotifications.SessionDidEstimate.rawValue, object: session.objectID)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRSessionViewController.userMotionDetected), name: MRNotifications.SessionDidStartExercise.rawValue, object: session.objectID)
         refreshViewsForState(state)
     }
     
@@ -301,6 +301,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     /// to current state and user moves.
     ///
     @objc private func userMotionDetected() {
+        /*
         switch state {
         case .ComingUp(let exercise, _):
             if mainExerciseView.completion >= 1 && session.isMoving {
@@ -318,6 +319,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             }
         default: break
         }
+         */
     }
     
 }

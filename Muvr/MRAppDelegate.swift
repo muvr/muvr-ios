@@ -15,10 +15,10 @@ enum ConnectedWatch {
 /// and never use notification key constants anywhere else.
 ///
 enum MRNotifications : String {
-    case CurrentSessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
-    case CurrentSessionDidStart = "MRNotificationsCurrentSessionDidStart"
-    case SessionDidEstimate = "MRNotificationSessionDidEstimate"
-    case SessionDidClassify = "MRNotificationSessionDidClassify"
+    case SessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
+    case SessionDidStart = "MRNotificationsCurrentSessionDidStart"
+    case SessionDidStartExercise = "MRNotificationSessionDidStartExercise"
+    case SessionDidEndExercise = "MRNotificationSessionDidEndExercise"
     
     case LocationDidObtain = "MRNotificationLocationDidObtain"
     
@@ -368,7 +368,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         return MRManagedExerciseSession.fetchSession(withId: id, inManagedObjectContext: managedObjectContext)
     }
     
-    func sessionClassifierDidStart(session: MKExerciseSession) {
+    func sessionClassifierDidStartSession(session: MKExerciseSession) {
         if let currentSession = currentSession {
             // Watch is running wrong session, update it with current session
             connectivity.startSession(MKExerciseSession(managedSession: currentSession))
@@ -388,7 +388,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         showSession(session)
     }
     
-    func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
+    func sessionClassifierDidEndSession(session: MKExerciseSession, sensorData: MKSensorData?) {
         if let currentSession = findSession(withId: session.id) {
             currentSession.end = session.end
             currentSession.completed = session.completed
@@ -397,20 +397,26 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
     
-    func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKExerciseWithLabels], sensorData: MKSensorData) {
+//    func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKExerciseWithLabels], sensorData: MKSensorData) {
+//        if let currentSession = findSession(withId: session.id) {
+//            currentSession.sensorData = sensorData.encode()
+//            currentSession.completed = session.completed
+//            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidClassify.rawValue, object: currentSession.objectID)
+//        }
+//        saveContext()
+//    }
+
+    func sessionClassifierDidStartExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) {
         if let currentSession = findSession(withId: session.id) {
-            currentSession.sensorData = sensorData.encode()
-            currentSession.completed = session.completed
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidClassify.rawValue, object: currentSession.objectID)
+            // TODO: currentSession.state = ...
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidStartExercise.rawValue, object: currentSession.objectID)
         }
-        saveContext()
     }
     
-    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels], motionDetected: Bool) {
+    func sessionClassifierDidEndExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateEndTrigger) {
         if let currentSession = findSession(withId: session.id) {
-            currentSession.estimated = estimated
-            currentSession.isMoving = motionDetected
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidEstimate.rawValue, object: currentSession.objectID)
+            // TODO: currentSession.state = ...
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidEndExercise.rawValue, object: currentSession.objectID)
         }
     }
     
@@ -465,7 +471,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         // keep application active while in-session
         application.idleTimerDisabled = true
         
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: session.objectID)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidStart.rawValue, object: session.objectID)
     }
     
     
@@ -490,7 +496,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         session.plan.save()
         MRManagedLabelsPredictor.upsertPredictor(location: currentLocation, sessionExerciseType: session.exerciseType, data: session.labelsPredictor.json, inManagedObjectContext: managedObjectContext)
         
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidEnd.rawValue, object: session.objectID)
         
         // add workout to healthkit
         addSessionToHealthKit(session)

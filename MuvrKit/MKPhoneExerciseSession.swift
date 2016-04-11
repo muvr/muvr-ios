@@ -12,9 +12,6 @@ public struct MKExerciseSession {
     /// the exercise type
     public let exerciseType: MKExerciseType
     
-    /// The offset of the last classified exercises
-    internal var classificationStart: NSTimeInterval = 0
-    
     public init(exerciseType: MKExerciseType) {
         self.id = NSUUID().UUIDString
         self.start = NSDate()
