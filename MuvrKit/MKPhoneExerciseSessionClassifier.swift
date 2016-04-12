@@ -165,15 +165,19 @@ private extension MKSensorData {
     var variance: [Float] {
         let values = UnsafeMutablePointer<Float>(self.samples)
         let rows = UInt(rowCount)
-        return (0..<3).map { dim in
+        
+        if types.count != 1 { fatalError("variance not implemented for more than one sensor type.") }
+        
+        let type = types.first!
+        return (0..<type.dimension).map { dim in
             var avg: Float = 0 // will hold the mean μ
-            var dev = [Float](count: rowCount, repeatedValue: 0) // will hold (xi - μ)
+            var dev = [Float](count: self.rowCount, repeatedValue: 0) // will hold (xi - μ)
             var variance: Float = 0
             let dimSamples = values.advancedBy(dim)
             
-            vDSP_meanv(dimSamples, 3, &avg, rows) // compute the mean
+            vDSP_meanv(dimSamples, type.dimension, &avg, rows) // compute the mean
             avg *= -1
-            vDSP_vsadd(dimSamples, 3, &avg, &dev, 1, rows) // substract the mean
+            vDSP_vsadd(dimSamples, type.dimension, &avg, &dev, 1, rows) // substract the mean
             vDSP_measqv(dev, 1, &variance, rows) // compute the variance
             
             return variance
