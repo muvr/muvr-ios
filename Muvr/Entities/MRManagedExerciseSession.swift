@@ -7,6 +7,7 @@ import MuvrKit
 ///
 class MRManagedExerciseSession: NSManagedObject {
     typealias ExerciseRow = (MKExercise.Id, MKExerciseType, NSTimeInterval, NSTimeInterval, [MKExerciseLabel])
+    
     /// The number of exercise ids for next estimates
     private var exerciseIdCounts: [MKExercise.Id : Int] = [:]
     /// The exercise detail the user has explicitly started
@@ -16,14 +17,9 @@ class MRManagedExerciseSession: NSManagedObject {
     private(set) internal var exerciseWithLabels: [ExerciseRow] = []
     /// The last exercise done in this session (exercise detail, labels and duration, start time)
     private var lastExercise: (MKExerciseDetail, MKExerciseLabelsWithDuration, NSDate)? = nil
-    
-    /// The set of estimated exercises, used when the session is in real-time mode
-    var estimated: [MKExerciseWithLabels] = []
+
     /// The labels predictor
     var labelsPredictor: MKLabelsPredictor!
-    
-    /// is the user currently moving
-    var isMoving: Bool = false
     
     ///
     /// The exercise details that are coming up, ordered by their score
@@ -31,7 +27,32 @@ class MRManagedExerciseSession: NSManagedObject {
     var exerciseDetailsComingUp: [MKExerciseDetail] {
         return MRAppDelegate.sharedDelegate().exerciseDetailsForExerciseIds(plan.next, favouringType: exerciseType)
     }
-    
+
+    ///
+    /// Called on ``MKExerciseSessionClassifier.sessionClassifierDidStartExercise`` to process the transition
+    /// and to decide whether to really move to the exercising state
+    /// - parameter trigger: the trigger
+    /// - returns: the new session state
+    ///
+    func sessionClassifierDidStartExercise(trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State {
+        if MRAppDelegate.sharedDelegate().deviceSteadyAndLevel {
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidStartExercise.rawValue, object: objectID)
+            return .Exercising(exerciseId: "")
+        }
+        return .NotExercising
+    }
+
+    ///
+    /// Called on ``MKExerciseSessionClassifier.sessionClassifierDidEndExercise`` to process the transition
+    /// and to decide whether to really move to the not exercising state
+    /// - parameter trigger: the trigger
+    /// - returns: the new session state
+    ///
+    func sessionClassifierDidEndExercise(trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State {
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidEndExercise.rawValue, object: objectID)
+        return .NotExercising
+    }
+
     private func defaultDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
         for property in exerciseDetail.properties {
             switch property {

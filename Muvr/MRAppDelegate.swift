@@ -1,6 +1,7 @@
 import UIKit
 import HealthKit
 import MuvrKit
+import CoreMotion
 import CoreData
 import CoreLocation
 
@@ -15,10 +16,10 @@ enum ConnectedWatch {
 /// and never use notification key constants anywhere else.
 ///
 enum MRNotifications : String {
-    case CurrentSessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
-    case CurrentSessionDidStart = "MRNotificationsCurrentSessionDidStart"
-    case SessionDidEstimate = "MRNotificationSessionDidEstimate"
-    case SessionDidClassify = "MRNotificationSessionDidClassify"
+    case SessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
+    case SessionDidStart = "MRNotificationsCurrentSessionDidStart"
+    case SessionDidStartExercise = "MRNotificationSessionDidStartExercise"
+    case SessionDidEndExercise = "MRNotificationSessionDidEndExercise"
     
     case LocationDidObtain = "MRNotificationLocationDidObtain"
     
@@ -43,6 +44,15 @@ enum MRAppError : ErrorType {
 /// The public interface to the app delegate
 ///
 protocol MRApp : MKExercisePropertySource {
+
+    ///
+    /// Indicates that the device is steady and level for some duration of time; this typically
+    /// means that the user has placed the phone on the floor.
+    ///
+    /// This is useful to detect when the user is "messing" with his or her device, and therefore
+    /// unlikely to benefit from automatic exercising -> not exercising transitions.
+    ///
+    var deviceSteadyAndLevel: Bool { get }
     
     ///
     /// The user's current location
@@ -60,10 +70,8 @@ protocol MRApp : MKExercisePropertySource {
     func initialSetup()
     
     ///
-    /// Explicitly starts an exercise session for the given ``type``.
-    /// TODO: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Does not match the code!
-    ///
-    /// - parameter exerciseType: the exercise type that the session initially starts with
+    /// Start a session with the given ``sessionType``
+    /// - parameter sessionType: the type that the session initially starts with
     /// - returns: the session's identity
     ///
     func startSession(sessionType: MRSessionType) throws -> String
@@ -127,6 +135,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private var classifier: MKSessionClassifier!
     private var sensorDataSplitter: MKSensorDataSplitter!
     private var sessionPlan: MRManagedSessionPlan!
+    private var motionManager: CMMotionManager!
     // :( But needed for tests
     private(set) internal var currentSession: MRManagedExerciseSession?
     private var locationManager: CLLocationManager!
@@ -134,10 +143,27 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
 
     private var baseExerciseDetails: [MKExerciseDetail] = []
     private var currentLocationExerciseDetails: [MKExerciseDetail] = []
-    
-    // The phone application instance (used to enable/disable idle timer)
-    private var application: UIApplication!
-    
+
+    // MARK: - Device steady and level
+
+    private var deviceMotionEndTimestap: CFTimeInterval? = nil
+
+    private func deviceMotionUpdate(motion: CMDeviceMotion?, error: NSError?) {
+        if let motion = motion {
+            if abs(motion.gravity.x) > 0.1 ||
+               abs(motion.gravity.y) > 0.1 ||
+               abs(motion.gravity.z) < 0.9 {
+               deviceMotionEndTimestap = CFAbsoluteTimeGetCurrent()
+            }
+        }
+    }
+
+    var deviceSteadyAndLevel: Bool {
+        get {
+            return deviceMotionEndTimestap.map { CFAbsoluteTimeGetCurrent() - $0 > 5 } ?? false
+        }
+    }
+
     // MARK: - MKClassificationHintSource
     var classificationHints: [MKClassificationHint]? {
         get {
@@ -187,7 +213,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - UIApplicationDelegate code
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        self.application = application
         // set up the classification
         sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
         classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: sensorDataSplitter, delegate: self)
@@ -228,7 +253,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         locationManager = CLLocationManager()
         locationManager.delegate = self
-        
+
+        motionManager = CMMotionManager()
+        motionManager.deviceMotionUpdateInterval = 0.25
+
         authorizeHealthKit()
         
         loadSessionPlan()
@@ -258,13 +286,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         do {
             try MRLocationSynchronisation().synchronise(inManagedObjectContext: managedObjectContext)
             saveContext()
-        } catch let e {
-            NSLog(":( \(e)")
+        } catch {
+            NSLog(":( \(error)")
         }
         
         return true
     }
-    
+
     /// MARK: HealthKit
     
     /// manage healthkit access authorisation
@@ -332,10 +360,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.AuthorizedWhenInUse {
             locationManager.requestWhenInUseAuthorization()
         }
+        motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: deviceMotionUpdate)
         application.idleTimerDisabled = currentSession != nil
         locationManager.requestLocation()
     }
-    
+
     func applicationWillResignActive(application: UIApplication) {
         application.idleTimerDisabled = false
     }
@@ -368,7 +397,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         return MRManagedExerciseSession.fetchSession(withId: id, inManagedObjectContext: managedObjectContext)
     }
     
-    func sessionClassifierDidStart(session: MKExerciseSession) {
+    func sessionClassifierDidStartSession(session: MKExerciseSession) {
         if let currentSession = currentSession {
             // Watch is running wrong session, update it with current session
             connectivity.startSession(MKExerciseSession(managedSession: currentSession))
@@ -388,7 +417,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         showSession(session)
     }
     
-    func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
+    func sessionClassifierDidEndSession(session: MKExerciseSession, sensorData: MKSensorData?) {
         if let currentSession = findSession(withId: session.id) {
             currentSession.end = session.end
             currentSession.completed = session.completed
@@ -397,21 +426,18 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
     
-    func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKExerciseWithLabels], sensorData: MKSensorData) {
+    func sessionClassifierDidStartExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State? {
         if let currentSession = findSession(withId: session.id) {
-            currentSession.sensorData = sensorData.encode()
-            currentSession.completed = session.completed
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidClassify.rawValue, object: currentSession.objectID)
+            return currentSession.sessionClassifierDidStartExercise(trigger)
         }
-        saveContext()
+        return nil
     }
     
-    func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels], motionDetected: Bool) {
+    func sessionClassifierDidEndExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State? {
         if let currentSession = findSession(withId: session.id) {
-            currentSession.estimated = estimated
-            currentSession.isMoving = motionDetected
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidEstimate.rawValue, object: currentSession.objectID)
+            return currentSession.sessionClassifierDidEndExercise(trigger)
         }
+        return nil
     }
     
     /// MARK: MRAppDelegate actions
@@ -463,9 +489,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
         
         // keep application active while in-session
-        application.idleTimerDisabled = true
+        UIApplication.sharedApplication().idleTimerDisabled = true
         
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: session.objectID)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidStart.rawValue, object: session.objectID)
     }
     
     
@@ -478,7 +504,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             // dismiss ``SessionViewController``
             sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
             self.currentSession = nil
-            application.idleTimerDisabled = false
+            UIApplication.sharedApplication().idleTimerDisabled = false
         }
         
         // save exercises
@@ -490,7 +516,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         session.plan.save()
         MRManagedLabelsPredictor.upsertPredictor(location: currentLocation, sessionExerciseType: session.exerciseType, data: session.labelsPredictor.json, inManagedObjectContext: managedObjectContext)
         
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: session.objectID)
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidEnd.rawValue, object: session.objectID)
         
         // add workout to healthkit
         addSessionToHealthKit(session)

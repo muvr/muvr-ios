@@ -9,41 +9,42 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
     /// so that the test can be executed asynchronously.
     ///
     class Delegate : MKSessionClassifierDelegate {
-        var classified: MKExerciseSession?
-        var ended: MKExerciseSession?
-        var started: MKExerciseSession?
-        var estimated: MKExerciseSession?
-        var motionDetected: Bool = false
+        var endExerciseTrigger: MKSessionClassifierDelegateEndTrigger?
+        var startExerciseTrigger: MKSessionClassifierDelegateStartTrigger?
         
-        private let classifyExpectation: XCTestExpectation?
-        private let estimateExpectation: XCTestExpectation?
+        private let startExerciseExpectation: XCTestExpectation?
+        private let endExerciseExpectation: XCTestExpectation?
+        private let startExpectation: XCTestExpectation?
+        private let endExpectation: XCTestExpectation?
         
-        ///
-        /// Initialises this instance, assigning the ``classifyExpectation`` and ``estimateExpectation``.
-        ///
-        init(onClassify classifyExpectation: XCTestExpectation?, onEstimate estimateExpectation: XCTestExpectation?) {
-            self.classifyExpectation = classifyExpectation
-            self.estimateExpectation = estimateExpectation
+        init(startExpectation: XCTestExpectation?, endExpectation: XCTestExpectation?,
+             startExerciseExpectation: XCTestExpectation?, endExerciseExpectation: XCTestExpectation?) {
+            self.startExpectation = startExpectation
+            self.endExpectation = endExpectation
+            self.startExerciseExpectation = startExerciseExpectation
+            self.endExerciseExpectation = endExerciseExpectation
         }
         
-        func sessionClassifierDidStart(session: MKExerciseSession) {
-            self.started = session
-        }
-
-        func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKExerciseWithLabels], sensorData: MKSensorData) {
-            self.classified = session
-            self.classifyExpectation?.fulfill()
+        func sessionClassifierDidStartSession(session: MKExerciseSession) {
+            startExpectation?.fulfill()
         }
         
-        func sessionClassifierDidEnd(session: MKExerciseSession, sensorData: MKSensorData?) {
-            self.ended = session
+        func sessionClassifierDidEndSession(session: MKExerciseSession, sensorData: MKSensorData?) {
+            endExpectation?.fulfill()
         }
         
-        func sessionClassifierDidEstimate(session: MKExerciseSession, estimated: [MKExerciseWithLabels], motionDetected: Bool) {
-            self.estimated = session
-            self.motionDetected = motionDetected
-            self.estimateExpectation?.fulfill()
+        func sessionClassifierDidEndExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State? {
+            endExerciseExpectation?.fulfill()
+            endExerciseTrigger = trigger
+            return .NotExercising
         }
+        
+        func sessionClassifierDidStartExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State? {
+            startExerciseExpectation?.fulfill()
+            startExerciseTrigger = trigger
+            return .Exercising(exerciseId: "")
+        }
+        
     }
     
     let classificationHints: [MKClassificationHint]? = nil
@@ -67,13 +68,14 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
     /// - summary triggers some time after ending the session
     ///
     func testSimpleSessionFlow() {
-        let classifyExpectation = expectationWithDescription("classify")
+        let se = expectationWithDescription("start")
+        let ee = expectationWithDescription("end")
         
-        let delegate = Delegate(onClassify: classifyExpectation, onEstimate: nil)
+        let delegate = Delegate(startExpectation: se, endExpectation: ee, startExerciseExpectation: nil, endExerciseExpectation: nil)
         let splitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
         let classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: splitter, delegate: delegate)
         let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 1200, repeatedValue: 0.3))
-        let session = MKExerciseConnectivitySession(id: "1234", start: NSDate(), end: nil, last: true, exerciseType: .ResistanceWholeBody)
+        let session = MKExerciseConnectivitySession(id: "1234", start: NSDate(), end: nil, last: false, exerciseType: .ResistanceWholeBody)
 
         classifier.exerciseConnectivitySessionDidStart(session: session)
         classifier.sensorDataConnectivityDidReceiveSensorData(accumulated: sd, new: sd, session: session)
@@ -88,25 +90,29 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
     /// Tests that user motion is detected
     ///
     func testMotionDetection() {
-        let estimateExpectation = expectationWithDescription("estimate")
+        let see = expectationWithDescription("start-exercise")
+        let eee = expectationWithDescription("end-exercise")
         
         var samples = [Float](count: 1200, repeatedValue: 0.3)
         for i in 0..<samples.count/2 {
             samples[2 * i] *= -1
         }
-        let sd = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: samples)
-        let session = MKExerciseConnectivitySession(id: "1234", start: NSDate(), end: nil, last: true, exerciseType: .ResistanceWholeBody)
+        let movement   = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: samples)
+        let noMovement = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 1200, repeatedValue: 0.3))
+        let session = MKExerciseConnectivitySession(id: "1234", start: NSDate(), end: nil, last: false, exerciseType: .ResistanceWholeBody)
         
-        
-        let delegate = Delegate(onClassify: nil, onEstimate: estimateExpectation)
+        let delegate = Delegate(startExpectation: nil, endExpectation: nil, startExerciseExpectation: see, endExerciseExpectation: eee)
         let splitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
         let classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: splitter, delegate: delegate)
         classifier.exerciseConnectivitySessionDidStart(session: session)
-        classifier.sensorDataConnectivityDidReceiveSensorData(accumulated: sd, new: sd, session: session)
-        classifier.exerciseConnectivitySessionDidEnd(session: session.withData(sd))
+        classifier.sensorDataConnectivityDidReceiveSensorData(accumulated: movement, new: movement, session: session)
+        classifier.sensorDataConnectivityDidReceiveSensorData(accumulated: movement, new: movement, session: session)
+        classifier.sensorDataConnectivityDidReceiveSensorData(accumulated: movement, new: noMovement, session: session)
+        classifier.exerciseConnectivitySessionDidEnd(session: session.withData(movement))
         
         waitForExpectationsWithTimeout(10) { err in
-            XCTAssertTrue(delegate.motionDetected)
+            XCTAssertEqual(delegate.startExerciseTrigger!, MKSessionClassifierDelegateStartTrigger.MotionDetected)
+            XCTAssertEqual(delegate.endExerciseTrigger!, MKSessionClassifierDelegateEndTrigger.NoMotionDetected)
         }
     }
     
