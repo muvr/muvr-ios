@@ -145,11 +145,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private var baseExerciseDetails: [MKExerciseDetail] = []
     // the exercise details only specific for this geographical location (i.e. this gym)
     private var currentLocationExerciseDetails: [MKExerciseDetail] = []
-    // the beacon identifiers that are the closest, together with the date first seen
-    private var currentFineLocationBeacon: (NSNumber, NSNumber, NSDate)? = nil
     // the fine location ids
     private var currentFineLocationExerciseIds: [MKExercise.Id] = []
-    
+    // the last beacon
+    private var lastFineLocationBeaconDetail: (NSNumber, NSNumber, CLProximity, Double)? = nil
     private let gymRegion = CLBeaconRegion(proximityUUID: NSUUID(UUIDString: "fda50693-a4e2-4fb1-afcf-c6eb07647825")!, identifier: "gym")
 
     // MARK: - Device steady and level
@@ -749,51 +748,41 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion) {
+        func isCloser(x: CLBeacon, y: CLBeacon) -> Bool {
+            switch (x.proximity, y.proximity) {
+            case (CLProximity.Immediate, _): return true
+            case (_, CLProximity.Immediate): return false
+            case (let px, let py): return Double(px.rawValue) * x.accuracy < Double(py.rawValue) * y.accuracy
+            }
+        }
+        
         // find nearby beacons
-        let nearbyBeacons = beacons.filter { beacon in
-            let x = (beacon.proximity == CLProximity.Immediate || beacon.proximity == CLProximity.Near)
-            return beacon.accuracy < 2.0 && x
-        }
-        
-        // stay sticky to the last beacon
-        var closestBeaconDetail: (NSNumber, NSNumber)? = nil
-        
-        if let (lastBeaconMajor, lastBeaconMinor, lastSeen) = currentFineLocationBeacon where
-            NSDate().timeIntervalSinceDate(lastSeen) < 1 &&
-            nearbyBeacons.contains({ $0.major == lastBeaconMajor && $0.minor == lastBeaconMinor }) {
-            closestBeaconDetail = (lastBeaconMajor, lastBeaconMinor)
-            NSLog("Sticking to last closest beacon \(closestBeaconDetail)")
-            currentFineLocationBeacon = (lastBeaconMajor, lastBeaconMinor, lastSeen)
-        } else if let closestBeacon = (nearbyBeacons.maxElement { (x, y) in
-                switch (x.proximity, y.proximity) {
-                case (CLProximity.Immediate, _): return true
-                case (_, CLProximity.Immediate): return false
-            
-                default: fatalError("Match error")
+        let nearbyBeacons = beacons
+            .filter { beacon in
+                let x = (beacon.proximity == CLProximity.Immediate || beacon.proximity == CLProximity.Near)
+                return beacon.accuracy < 3.0 && x
             }
-            }) {
-                closestBeaconDetail = (closestBeacon.major, closestBeacon.minor)
-                NSLog("Found new closest beacon \(closestBeaconDetail)")
-        } else {
-            currentFineLocationBeacon = nil
-        }
-    
-        if let (major, minor) = closestBeaconDetail {
-            // we have the closest beacon here
-            currentFineLocationExerciseIds = MRManagedFineLocation.exerciseIdsAtMajor(major, minor: minor)
-            if currentFineLocationBeacon == nil {
+            .sort(isCloser)
+        
+        for beacon in nearbyBeacons {
+            if beacon.accuracy < 2.0 {
+                // We're very close to a beacon. This is for sure.
+                NSLog("Strong \(beacon)")
+                currentFineLocationExerciseIds = MRManagedFineLocation.exerciseIdsAtMajor(beacon.major, minor: beacon.minor)
                 NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
-            } else if let (lastBeaconMajor, lastBeaconMinor, _) = currentFineLocationBeacon where
-               lastBeaconMajor != major ||
-               lastBeaconMinor != minor {
-                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+                lastFineLocationBeaconDetail = (beacon.major, beacon.minor, beacon.proximity, beacon.accuracy)
+                return
+            } else if let (minor, major, _, _) = lastFineLocationBeaconDetail where
+                minor == beacon.minor && major == beacon.major {
+                NSLog("Weak, but sticky \(beacon)")
+                return
             }
-            currentFineLocationBeacon = (major, minor, NSDate())
-        } else {
-            currentFineLocationExerciseIds = []
-            currentFineLocationBeacon = nil
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
         }
+
+        NSLog("Weak")
+        lastFineLocationBeaconDetail = nil
+        currentFineLocationExerciseIds = []
+        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
     }
     
     // MARK: - Core Data stack
