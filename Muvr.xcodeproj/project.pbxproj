@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5400EEBD1CD8FD740097B665 /* MRManagedFineLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5400EEBC1CD8FD740097B665 /* MRManagedFineLocation.swift */; };
+		5400EEBF1CD8FE240097B665 /* MRManagedFineLocation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5400EEBE1CD8FE240097B665 /* MRManagedFineLocation+CoreDataProperties.swift */; };
+		5400EEC11CD8FE310097B665 /* MRManagedFineLocation+CoreDataOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5400EEC01CD8FE310097B665 /* MRManagedFineLocation+CoreDataOperations.swift */; };
 		5403815F1AED28A0000C8B15 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5403815E1AED28A0000C8B15 /* Settings.bundle */; };
 		540A22F61C6104E90046E864 /* MKExerciseLabel+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540A22F41C6104C90046E864 /* MKExerciseLabel+Update.swift */; };
 		540AA44D1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA44C1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift */; };
@@ -361,6 +364,9 @@
 		2E8BC412768294D37EE60577 /* Pods-Muvr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Muvr.release.xcconfig"; path = "Pods/Target Support Files/Pods-Muvr/Pods-Muvr.release.xcconfig"; sourceTree = "<group>"; };
 		497BE85714AFEA1DC732625C /* Pods_MuvrUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MuvrUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52640A4B257F8E8465C407FB /* Pods_MuvrKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MuvrKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5400EEBC1CD8FD740097B665 /* MRManagedFineLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRManagedFineLocation.swift; sourceTree = "<group>"; };
+		5400EEBE1CD8FE240097B665 /* MRManagedFineLocation+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedFineLocation+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		5400EEC01CD8FE310097B665 /* MRManagedFineLocation+CoreDataOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRManagedFineLocation+CoreDataOperations.swift"; sourceTree = "<group>"; };
 		5403815E1AED28A0000C8B15 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		540A22F41C6104C90046E864 /* MKExerciseLabel+Update.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseLabel+Update.swift"; sourceTree = "<group>"; };
 		540AA44C1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKPhoneConnectivityTests.swift; sourceTree = "<group>"; };
@@ -846,6 +852,9 @@
 				543E32871C4ABD4600D9922D /* MRManagedLocationExercise+CoreDataProperties.swift */,
 				543E32921C4AD47A00D9922D /* MRManagedLocationExercise+CoreDataTransformables.swift */,
 				543E328B1C4ABEC500D9922D /* MRManagedLocationExercise+CoreDataOperations.swift */,
+				5400EEBC1CD8FD740097B665 /* MRManagedFineLocation.swift */,
+				5400EEBE1CD8FE240097B665 /* MRManagedFineLocation+CoreDataProperties.swift */,
+				5400EEC01CD8FE310097B665 /* MRManagedFineLocation+CoreDataOperations.swift */,
 				543E32581C4A997500D9922D /* MRManagedExerciseScalarLabel.swift */,
 				543E32571C4A997500D9922D /* MRManagedExerciseScalarLabel+CoreDataProperties.swift */,
 				543E329F1C4BC69B00D9922D /* MRManagedExerciseScalarLabel+CoreDataOperations.swift */,
@@ -1829,6 +1838,7 @@
 				543E32891C4ABD4600D9922D /* MRManagedLocationExercise+CoreDataProperties.swift in Sources */,
 				543E32741C4A9EC200D9922D /* MRManagedExercisePlan+CoreDataOperations.swift in Sources */,
 				544DE9711C4023C200297C6B /* MKExerciseType+ExerciseId.swift in Sources */,
+				5400EEBD1CD8FD740097B665 /* MRManagedFineLocation.swift in Sources */,
 				5460A79D1C443B8400070ADC /* CLLocationCoordinate2D+MRLocationCoordinate2D.swift in Sources */,
 				5437BD411C404A4000B518D9 /* MKExerciseTypeDescriptor+Localisation.swift in Sources */,
 				644616641C93230400036857 /* MRLibraryViewController.swift in Sources */,
@@ -1837,6 +1847,7 @@
 				6428CE261C44FC3000D17451 /* MRCircleButton.swift in Sources */,
 				543E327E1C4AB57A00D9922D /* MRManagedExerciseSession+CoreDataOperations.swift in Sources */,
 				64BA9DD11C85AA9800D8540E /* MRAlternativeWorkoutButton.swift in Sources */,
+				5400EEC11CD8FE310097B665 /* MRManagedFineLocation+CoreDataOperations.swift in Sources */,
 				54CAADDE1C39BA9300A7B0E6 /* MRLocationSynchronisation.swift in Sources */,
 				543E32671C4A997500D9922D /* MRManagedExerciseScalarLabel+CoreDataProperties.swift in Sources */,
 				6428CE2C1C451FC700D17451 /* MRSessionLabellingViewController.swift in Sources */,
@@ -1860,6 +1871,7 @@
 				6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */,
 				543E326A1C4A997500D9922D /* MRManagedExercise.swift in Sources */,
 				644616681C98061F00036857 /* MRSwipeButton.swift in Sources */,
+				5400EEBF1CD8FE240097B665 /* MRManagedFineLocation+CoreDataProperties.swift in Sources */,
 				641BD3811C999F4F009AB01E /* MRManagedAchievement+CoreDataOperations.swift in Sources */,
 				5430FD6E1C4839D3006780CF /* MRProfileViewController.swift in Sources */,
 				5421AEC61C40422F009CB4FA /* MRAggregateKey+Localisation.swift in Sources */,

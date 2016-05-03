@@ -141,8 +141,16 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private var locationManager: CLLocationManager!
     private var currentLocation: MRManagedLocation?
 
+    // the base (common for all locations) exercise details
     private var baseExerciseDetails: [MKExerciseDetail] = []
+    // the exercise details only specific for this geographical location (i.e. this gym)
     private var currentLocationExerciseDetails: [MKExerciseDetail] = []
+    // the beacon identifiers that are the closest, together with the date first seen
+    private var currentFineLocationBeacon: (NSNumber, NSNumber, NSDate)? = nil
+    // the fine location ids
+    private var currentFineLocationExerciseIds: [MKExercise.Id] = []
+    
+    private let gymRegion = CLBeaconRegion(proximityUUID: NSUUID(UUIDString: "fda50693-a4e2-4fb1-afcf-c6eb07647825")!, identifier: "gym")
 
     // MARK: - Device steady and level
 
@@ -178,7 +186,21 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
 
-    var exerciseDetails: [MKExerciseDetail] = []
+    var exerciseDetails: [MKExerciseDetail] {
+        get {
+            let result =
+                currentLocationExerciseDetails +
+                baseExerciseDetails.filter { bed in
+                    return !currentLocationExerciseDetails.contains { ced in
+                        return ced.id == bed.id
+                    }
+                }
+            if !currentFineLocationExerciseIds.isEmpty {
+                return result.filter { red in currentFineLocationExerciseIds.contains(red.id) }
+            }
+            return result
+        }
+    }
     
     func hasSessionsOnDate(date: NSDate) -> Bool {
         return MRManagedExerciseSession.hasSessionsOnDate(date, inManagedObjectContext: managedObjectContext)
@@ -245,7 +267,6 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
                 let muscle = (exercise["muscle"] as? String).flatMap { MKMuscle(id: $0) }
                 return MKExerciseDetail(id: id, type: exerciseType, muscle: muscle, labels: labels, properties: properties)
             }
-            exerciseDetails = baseExerciseDetails
         } else {
             fatalError()
         }
@@ -363,10 +384,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: deviceMotionUpdate)
         application.idleTimerDisabled = currentSession != nil
         locationManager.requestLocation()
+        
+        locationManager.startRangingBeaconsInRegion(gymRegion)
     }
 
     func applicationWillResignActive(application: UIApplication) {
         application.idleTimerDisabled = false
+        locationManager.stopRangingBeaconsInRegion(gymRegion)
     }
     
     private func exerciseIdToLabel(exerciseId: String) -> (MKExercise.Id, MKExerciseTypeDescriptor) {
@@ -698,15 +722,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
                 let muscle = detail.muscle
                 return MKExerciseDetail(id: le.id, type: detail.type, muscle: muscle, labels: labels, properties: le.properties)
             }
-            exerciseDetails =
-                currentLocationExerciseDetails +
-                baseExerciseDetails.filter { bed in
-                    return !currentLocationExerciseDetails.contains { ced in
-                        return ced.id == bed.id
-                    }
-                }
         } else {
-            exerciseDetails = baseExerciseDetails
+            currentLocationExerciseDetails = []
         }
         
         NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
@@ -729,6 +746,54 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             let location = CLLocation(latitude: CLLocationDegrees(53.435739), longitude: CLLocationDegrees(-2.165993))
             updatedLocation(location)
         #endif
+    }
+    
+    func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion) {
+        // find nearby beacons
+        let nearbyBeacons = beacons.filter { beacon in
+            let x = (beacon.proximity == CLProximity.Immediate || beacon.proximity == CLProximity.Near)
+            return beacon.accuracy < 2.0 && x
+        }
+        
+        // stay sticky to the last beacon
+        var closestBeaconDetail: (NSNumber, NSNumber)? = nil
+        
+        if let (lastBeaconMajor, lastBeaconMinor, lastSeen) = currentFineLocationBeacon where
+            NSDate().timeIntervalSinceDate(lastSeen) < 1 &&
+            nearbyBeacons.contains({ $0.major == lastBeaconMajor && $0.minor == lastBeaconMinor }) {
+            closestBeaconDetail = (lastBeaconMajor, lastBeaconMinor)
+            NSLog("Sticking to last closest beacon \(closestBeaconDetail)")
+            currentFineLocationBeacon = (lastBeaconMajor, lastBeaconMinor, lastSeen)
+        } else if let closestBeacon = (nearbyBeacons.maxElement { (x, y) in
+                switch (x.proximity, y.proximity) {
+                case (CLProximity.Immediate, _): return true
+                case (_, CLProximity.Immediate): return false
+            
+                default: fatalError("Match error")
+            }
+            }) {
+                closestBeaconDetail = (closestBeacon.major, closestBeacon.minor)
+                NSLog("Found new closest beacon \(closestBeaconDetail)")
+        } else {
+            currentFineLocationBeacon = nil
+        }
+    
+        if let (major, minor) = closestBeaconDetail {
+            // we have the closest beacon here
+            currentFineLocationExerciseIds = MRManagedFineLocation.exerciseIdsAtMajor(major, minor: minor)
+            if currentFineLocationBeacon == nil {
+                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+            } else if let (lastBeaconMajor, lastBeaconMinor, _) = currentFineLocationBeacon where
+               lastBeaconMajor != major ||
+               lastBeaconMinor != minor {
+                NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+            }
+            currentFineLocationBeacon = (major, minor, NSDate())
+        } else {
+            currentFineLocationExerciseIds = []
+            currentFineLocationBeacon = nil
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+        }
     }
     
     // MARK: - Core Data stack

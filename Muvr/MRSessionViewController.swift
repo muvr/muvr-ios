@@ -111,6 +111,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     override func viewDidAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRSessionViewController.sessionDidStartExercise), name: MRNotifications.SessionDidStartExercise.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRSessionViewController.sessionDidEndExercise), name: MRNotifications.SessionDidEndExercise.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRSessionViewController.locationDidObtain), name: MRNotifications.LocationDidObtain.rawValue, object: nil)
         refreshViewsForState(state)
     }
     
@@ -296,6 +297,12 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         selectedExerciseDetail(alternatives[n])
     }
 
+    /// Notification selector on updated location
+    @objc private func locationDidObtain() {
+        comingUpExerciseDetails = session.exerciseDetailsComingUp
+        comingUpViewController.setExerciseDetails(comingUpExerciseDetails, onSelected: selectedExerciseDetail)
+    }
+    
     /// Notification selector on exercise did end
     @objc private func sessionDidEndExercise() {
         if case .InExercise(let exercise, let start) = state {

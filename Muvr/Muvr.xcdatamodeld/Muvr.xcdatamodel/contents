@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10158" systemVersion="15D21" minimumToolsVersion="Xcode 7.0">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Xcode 7.0">
     <entity name="MRManagedAchievement" representedClassName=".MRManagedAchievement" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -40,6 +40,11 @@
         <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedLocation" inverseName="session" inverseEntity="MRManagedLocation" syncable="YES"/>
         <relationship name="plan" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedExercisePlan" inverseName="sessions" inverseEntity="MRManagedExercisePlan" syncable="YES"/>
     </entity>
+    <entity name="MRManagedFineLocation" syncable="YES">
+        <attribute name="exerciseId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="major" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="minor" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
     <entity name="MRManagedLabelsPredictor" representedClassName=".MRManagedLabelsPredictor" syncable="YES">
         <attribute name="data" attributeType="Binary" syncable="YES"/>
         <attribute name="exerciseType" attributeType="String" syncable="YES"/>
@@ -58,21 +63,21 @@
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="properties" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="station" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="stationProximityUUID" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRManagedLocation" inverseName="exercises" inverseEntity="MRManagedLocation" syncable="YES"/>
     </entity>
     <entity name="MRManagedSessionPlan" representedClassName=".MRManagedSessionPlan" syncable="YES">
         <attribute name="managedPlan" optional="YES" attributeType="Binary" syncable="YES"/>
     </entity>
     <elements>
+        <element name="MRManagedAchievement" positionX="-1809" positionY="-324" width="128" height="105"/>
         <element name="MRManagedExercise" positionX="-1667" positionY="-81" width="128" height="135"/>
         <element name="MRManagedExercisePlan" positionX="-1701" positionY="-477" width="216" height="165"/>
         <element name="MRManagedExerciseScalarLabel" positionX="-1370" positionY="-99" width="218" height="90"/>
         <element name="MRManagedExerciseSession" positionX="-893" positionY="-171" width="128" height="180"/>
         <element name="MRManagedLabelsPredictor" positionX="-1224" positionY="-474" width="243" height="105"/>
         <element name="MRManagedLocation" positionX="-1422" positionY="-432" width="128" height="133"/>
-        <element name="MRManagedLocationExercise" positionX="-2016" positionY="-387" width="234" height="118"/>
+        <element name="MRManagedLocationExercise" positionX="-2016" positionY="-387" width="234" height="105"/>
         <element name="MRManagedSessionPlan" positionX="-1809" positionY="-324" width="128" height="60"/>
-        <element name="MRManagedAchievement" positionX="-1809" positionY="-324" width="128" height="105"/>
+        <element name="MRManagedFineLocation" positionX="-1809" positionY="-324" width="128" height="90"/>
     </elements>
 </model>
