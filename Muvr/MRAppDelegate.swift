@@ -749,32 +749,29 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion) {
         func isCloser(x: CLBeacon, y: CLBeacon) -> Bool {
-            switch (x.proximity, y.proximity) {
-            case (CLProximity.Immediate, _): return true
-            case (_, CLProximity.Immediate): return false
-            case (let px, let py): return Double(px.rawValue) * x.accuracy < Double(py.rawValue) * y.accuracy
-            }
+            return x.proximityScore < y.proximityScore
         }
         
         // find nearby beacons
         let nearbyBeacons = beacons
             .filter { beacon in
-                let x = (beacon.proximity == CLProximity.Immediate || beacon.proximity == CLProximity.Near)
-                return beacon.accuracy < 3.0 && x
+                return beacon.proximityScore > 0.20
+//                let x = (beacon.proximity == CLProximity.Immediate || beacon.proximity == CLProximity.Near)
+//                return beacon.accuracy < 3.0 && x
             }
             .sort(isCloser)
         
         for beacon in nearbyBeacons {
-            if beacon.accuracy < 2.0 {
+            if beacon.proximityScore > 0.25 {
                 // We're very close to a beacon. This is for sure.
-                NSLog("Strong \(beacon)")
+                NSLog("Strong \(beacon.major):\(beacon.minor)@\(beacon.proximityScore)")
                 currentFineLocationExerciseIds = MRManagedFineLocation.exerciseIdsAtMajor(beacon.major, minor: beacon.minor)
                 NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
                 lastFineLocationBeaconDetail = (beacon.major, beacon.minor, beacon.proximity, beacon.accuracy)
                 return
             } else if let (minor, major, _, _) = lastFineLocationBeaconDetail where
                 minor == beacon.minor && major == beacon.major {
-                NSLog("Weak, but sticky \(beacon)")
+                NSLog("Weak, but sticky \(beacon.major):\(beacon.minor)@\(beacon.proximityScore)")
                 return
             }
         }
