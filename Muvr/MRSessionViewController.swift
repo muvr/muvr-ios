@@ -38,6 +38,10 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         /// - parameter exercise: the selected exercise
         /// - parameter rest: the rest duration
         case Ready(exercise: CurrentExercise, rest: NSTimeInterval?)
+        /// The user should get the setup position for the given ``exercise``
+        /// - parameter exercise: the selected exercise
+        /// - parameter start: the start date
+        case Setup(exercise: CurrentExercise, rest: NSTimeInterval?)
         /// The user is exercising
         /// - parameter exercise: the selected exercise
         /// - parameter start: the start date
@@ -55,6 +59,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             switch self {
             case .ComingUp: return UIColor.greenColor()
             case .Ready: return UIColor.orangeColor()
+            case .Setup: return UIColor.purpleColor()
             case .InExercise: return UIColor.redColor()
             case .Done: return UIColor.grayColor()
             case .Idle: return UIColor.clearColor()
@@ -74,6 +79,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     /// The details view controllers
     private var comingUpViewController: MRSessionComingUpViewController!
     private var readyViewController: UIViewController!
+    private var setupViewController: UIViewController!
     private var inExerciseViewController: UIViewController!
     private var labellingViewController: MRSessionLabellingViewController!
     
@@ -104,6 +110,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         
         comingUpViewController = storyboard!.instantiateViewControllerWithIdentifier("ComingUpViewController") as! MRSessionComingUpViewController
         readyViewController = storyboard!.instantiateViewControllerWithIdentifier("ReadyViewController")
+        setupViewController = storyboard!.instantiateViewControllerWithIdentifier("ReadyViewController")
         inExerciseViewController = storyboard!.instantiateViewControllerWithIdentifier("InExerciseViewController")
         labellingViewController = storyboard!.instantiateViewControllerWithIdentifier("LabellingViewController") as! MRSessionLabellingViewController
     }
@@ -141,7 +148,12 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             mainExerciseView.swipeButtonsHidden = true
             mainExerciseView.reset()
             mainExerciseView.start(5)
-            switchToViewController(readyViewController)
+            switchToViewController(setupViewController)
+        case .Setup:
+            mainExerciseView.headerTitle = "Setup for exercise".localized()
+            mainExerciseView.swipeButtonsHidden = true
+            mainExerciseView.reset()
+            mainExerciseView.start(5)
         case .InExercise(let exercise, _):
             mainExerciseView.headerTitle = "Stop".localized()
             mainExerciseView.reset()
@@ -247,6 +259,8 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             // The user has tapped on the exercise. Let's get ready
             state = .Ready(exercise: exercise!, rest: rest)
         case .Ready(let exercise, let rest):
+            state = .Setup(exercise: exercise, rest: rest)
+        case .Setup(let exercise, let rest):
             state = .ComingUp(exercise: exercise, rest: rest)
         case .InExercise(let exercise, let start):
             state = .Done(exercise: exercise, labels: exercise.labels, start: start, duration: NSDate().timeIntervalSinceDate(start))
@@ -266,7 +280,12 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             // We've exhausted our rest time. Turn orange to give the user a kick.
             mainExerciseView.progressFullColor = MRColor.orange
         case .Ready(let exercise, _):
-            // We've had the time to get ready. Now time to exercise.
+            // We've had the time to get ready. Now time to get setup.
+            session.setClassificationHint(exercise.detail, labels: exercise.predicted.0)
+            state = .Setup(exercise: exercise, rest: nil)
+            refreshViewsForState(state)
+        case .Setup(let exercise, _):
+            // We've had the time to get setup. Now time to exercise.
             session.setClassificationHint(exercise.detail, labels: exercise.predicted.0)
             state = .InExercise(exercise: exercise, start: NSDate())
             refreshViewsForState(state)
