@@ -259,7 +259,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             // The user has tapped on the exercise. Let's get ready
             state = .Ready(exercise: exercise!, rest: rest)
         case .Ready(let exercise, let rest):
-            state = .Setup(exercise: exercise, rest: rest)
+            state = .ComingUp(exercise: exercise, rest: rest)
         case .Setup(let exercise, let rest):
             state = .ComingUp(exercise: exercise, rest: rest)
         case .InExercise(let exercise, let start):
