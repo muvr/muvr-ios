@@ -1,5 +1,6 @@
 import UIKit
 import MuvrKit
+import AVFoundation
 
 ///
 /// The session view controller displays the session in progress
@@ -85,6 +86,8 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     
     private var comingUpExerciseDetails: [MKExerciseDetail] = []
     
+    var player = AVAudioPlayer()
+
     /// The list of alternatives exercises
     private var alternatives: [MKExerciseDetail] {
         guard case .ComingUp(let currentExercise, _) = state, let selected = currentExercise?.detail ?? comingUpExerciseDetails.first else { return [] }
@@ -113,6 +116,8 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         setupViewController = storyboard!.instantiateViewControllerWithIdentifier("ReadyViewController")
         inExerciseViewController = storyboard!.instantiateViewControllerWithIdentifier("InExerciseViewController")
         labellingViewController = storyboard!.instantiateViewControllerWithIdentifier("LabellingViewController") as! MRSessionLabellingViewController
+
+        prepareBeep()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -125,6 +130,19 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    func prepareBeep() {
+        let beepSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("beep", ofType: "wav")!)
+        try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        try! AVAudioSession.sharedInstance().setActive(true)
+        try! player = AVAudioPlayer(contentsOfURL: beepSound)
+        player.prepareToPlay()
+        print("READY")
+    }
+
+    func beep() {
+        player.play()
+    }
+
     ///
     /// Updates the main title and the detail controller according the ``state``.
     /// - parameter state: the state to be displayed
@@ -150,11 +168,13 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             mainExerciseView.start(5)
             switchToViewController(setupViewController)
         case .Setup:
+            beep()
             mainExerciseView.headerTitle = "Setup for exercise".localized()
             mainExerciseView.swipeButtonsHidden = true
             mainExerciseView.reset()
             mainExerciseView.start(5)
         case .InExercise(let exercise, _):
+            beep()
             mainExerciseView.headerTitle = "Stop".localized()
             mainExerciseView.reset()
             mainExerciseView.start(exercise.duration!)
