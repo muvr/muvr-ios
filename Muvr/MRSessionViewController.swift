@@ -140,7 +140,10 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     }
 
     func beep() {
-        player.play()
+        // Play the peeb in the background thread to avoid freezing the UI
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            self.player.play()
+        });
     }
 
     ///
@@ -168,13 +171,13 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             mainExerciseView.start(5)
             switchToViewController(setupViewController)
         case .Setup:
-            beep()
+//            beep()
             mainExerciseView.headerTitle = "Setup for exercise".localized()
             mainExerciseView.swipeButtonsHidden = true
             mainExerciseView.reset()
             mainExerciseView.start(5)
         case .InExercise(let exercise, _):
-            beep()
+//            beep()
             mainExerciseView.headerTitle = "Stop".localized()
             mainExerciseView.reset()
             mainExerciseView.start(exercise.duration!)

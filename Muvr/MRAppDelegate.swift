@@ -417,11 +417,52 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         showSession(session)
     }
     
+    func saveAndExport(csvData: NSData) {
+        let now = NSDate(timeIntervalSinceNow: Double(NSTimeZone.localTimeZone().secondsFromGMT))
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd'T'HH-mm-ss'Z'"
+        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        let fullDate = dateFormatter.stringFromDate(now)
+
+        let exportFilePath = NSTemporaryDirectory() + "\(fullDate).csv"
+        let exportFileURL = NSURL(fileURLWithPath: exportFilePath)
+        NSFileManager.defaultManager().createFileAtPath(exportFilePath, contents: NSData(), attributes: nil)
+        var fileHandle: NSFileHandle? = nil
+        do {
+            fileHandle = try NSFileHandle(forWritingToURL: exportFileURL)
+        } catch {
+            print("Error with fileHandle")
+        }
+
+        if fileHandle != nil {
+            fileHandle!.seekToEndOfFile()
+            fileHandle!.writeData(csvData)
+
+            fileHandle!.closeFile()
+
+            let firstActivityItem = NSURL(fileURLWithPath: exportFilePath)
+            let activityViewController : UIActivityViewController = UIActivityViewController(
+                activityItems: [firstActivityItem], applicationActivities: nil)
+
+            activityViewController.excludedActivityTypes = [
+                UIActivityTypeAssignToContact,
+                UIActivityTypeSaveToCameraRoll,
+                UIActivityTypePostToFlickr,
+                UIActivityTypePostToVimeo,
+                UIActivityTypePostToTencentWeibo
+            ]
+            self.window?.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
+            print("________________________ Session Saved ________________________")
+        }
+    }
+
     func sessionClassifierDidEndSession(session: MKExerciseSession, sensorData: MKSensorData?) {
         if let currentSession = findSession(withId: session.id) {
             currentSession.end = session.end
             currentSession.completed = session.completed
             currentSession.sensorData = sensorData?.encode()
+            let csvData = sensorData?.encodeAsCsv(currentSession.exerciseWithLabels)
+            saveAndExport(csvData!)
             terminateSession(currentSession)
         }
     }
