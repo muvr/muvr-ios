@@ -115,7 +115,6 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         inExerciseViewController = storyboard!.instantiateViewControllerWithIdentifier("InExerciseViewController")
         labellingViewController = storyboard!.instantiateViewControllerWithIdentifier("LabellingViewController") as! MRSessionLabellingViewController
 
-        prepareBeep()
     }
     
     override func viewDidAppear(animated: Bool) {
