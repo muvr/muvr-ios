@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		06F5AD621CDBB5AE000D92EF /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 06F5AD611CDBB5AE000D92EF /* beep.wav */; };
 		5403815F1AED28A0000C8B15 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5403815E1AED28A0000C8B15 /* Settings.bundle */; };
 		540A22F61C6104E90046E864 /* MKExerciseLabel+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540A22F41C6104C90046E864 /* MKExerciseLabel+Update.swift */; };
 		540AA44D1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA44C1BDBE74C00908F4B /* MKPhoneConnectivityTests.swift */; };
@@ -357,7 +356,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		06F5AD611CDBB5AE000D92EF /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
 		1E1A495B7CBA704A4597668C /* Pods-MuvrKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MuvrKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MuvrKitTests/Pods-MuvrKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		28B6214119FF562B8D420693 /* Pods-MuvrKit iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MuvrKit iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MuvrKit iOS/Pods-MuvrKit iOS.release.xcconfig"; sourceTree = "<group>"; };
 		2E8BC412768294D37EE60577 /* Pods-Muvr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Muvr.release.xcconfig"; path = "Pods/Target Support Files/Pods-Muvr/Pods-Muvr.release.xcconfig"; sourceTree = "<group>"; };
@@ -810,7 +808,6 @@
 		541ABBA11AC577E00056A81B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				06F5AD611CDBB5AE000D92EF /* beep.wav */,
 				541ABBA21AC577E00056A81B /* Info.plist */,
 				548225511AC57A3500EEEFCB /* Muvr-Bridging-Header.h */,
 				54430EC61BC2CFD300541979 /* Muvr.entitlements */,
@@ -1533,7 +1530,6 @@
 				543E32951C4AD71400D9922D /* BaseConfiguration.bundle in Resources */,
 				64BA9DCD1C84663200D8540E /* Sessions.bundle in Resources */,
 				541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */,
-				06F5AD621CDBB5AE000D92EF /* beep.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

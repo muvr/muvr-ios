@@ -416,14 +416,54 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         showSession(session)
     }
-    
+
     func sessionClassifierDidEndSession(session: MKExerciseSession, sensorData: MKSensorData?) {
         if let currentSession = findSession(withId: session.id) {
             currentSession.end = session.end
             currentSession.completed = session.completed
             currentSession.sensorData = sensorData?.encode()
+            let csvData = sensorData?.encodeAsCsv(currentSession.exerciseWithLabels)
+            saveAndExport(csvData!)
             terminateSession(currentSession)
         }
+    }
+
+    func saveAndExport(csvData: NSData) {
+        let now = NSDate(timeIntervalSinceNow: Double(NSTimeZone.localTimeZone().secondsFromGMT))
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd'T'HH-mm-ss'Z'"
+        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        let filename = dateFormatter.stringFromDate(now)
+        let exportFilePath = NSTemporaryDirectory() + "\(filename).csv"
+        let exportFileURL = NSURL(fileURLWithPath: exportFilePath)
+        NSFileManager.defaultManager().createFileAtPath(exportFilePath, contents: NSData(), attributes: nil)
+
+        do {
+            let fileHandle = try NSFileHandle(forWritingToURL: exportFileURL)
+            fileHandle.seekToEndOfFile()
+            fileHandle.writeData(csvData)
+            fileHandle.closeFile()
+            NSLog("Session Saved to \(filename)")
+            shareSession(exportFilePath)
+        } catch {
+            NSLog("Error with fileHandle, filename: \(filename), error: \(error)")
+        }
+    }
+
+    func shareSession(exportFilePath: String) {
+        let firstActivityItem = NSURL(fileURLWithPath: exportFilePath)
+        let activityViewController : UIActivityViewController = UIActivityViewController(
+            activityItems: [firstActivityItem], applicationActivities: nil)
+
+        activityViewController.excludedActivityTypes = [
+            UIActivityTypeAssignToContact,
+            UIActivityTypeSaveToCameraRoll,
+            UIActivityTypePostToFlickr,
+            UIActivityTypePostToVimeo,
+            UIActivityTypePostToTencentWeibo
+        ]
+        NSLog("Sharing Session: \(exportFilePath)")
+        self.window?.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
     }
     
     func sessionClassifierDidStartExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State? {
