@@ -85,8 +85,6 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     private var labellingViewController: MRSessionLabellingViewController!
     
     private var comingUpExerciseDetails: [MKExerciseDetail] = []
-    
-    var player = AVAudioPlayer()
 
     /// The list of alternatives exercises
     private var alternatives: [MKExerciseDetail] {
@@ -129,22 +127,6 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     override func viewWillDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
-    func prepareBeep() {
-        let beepSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("beep", ofType: "wav")!)
-        try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-        try! AVAudioSession.sharedInstance().setActive(true)
-        try! player = AVAudioPlayer(contentsOfURL: beepSound)
-        player.prepareToPlay()
-        print("READY")
-    }
-
-    func beep() {
-        // Play the peeb in the background thread to avoid freezing the UI
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            self.player.play()
-        });
-    }
 
     ///
     /// Updates the main title and the detail controller according the ``state``.
@@ -171,13 +153,11 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             mainExerciseView.start(5)
             switchToViewController(setupViewController)
         case .Setup:
-//            beep()
             mainExerciseView.headerTitle = "Setup for exercise".localized()
             mainExerciseView.swipeButtonsHidden = true
             mainExerciseView.reset()
             mainExerciseView.start(5)
         case .InExercise(let exercise, _):
-//            beep()
             mainExerciseView.headerTitle = "Stop".localized()
             mainExerciseView.reset()
             mainExerciseView.start(exercise.duration!)
