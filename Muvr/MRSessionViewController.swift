@@ -101,6 +101,10 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         self.session = session
     }
     
+    func exerciseSetupDetected(label: String) {
+        mainExerciseView?.headerTitle = label
+    }
+
     override func viewDidLoad() {
         mainExerciseView.delegate = self
         
