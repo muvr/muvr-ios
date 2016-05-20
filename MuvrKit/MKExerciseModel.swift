@@ -23,6 +23,11 @@ public struct MKExerciseModel {
         self.minimumDuration = minimumDuration
     }
     
+    ///  dimensionality of the input layer
+    var inputDimension: Int {
+        return layerConfiguration[0].size
+    }
+    
     func exerciseTypeDescriptorForExerciseId(id: MKExercise.Id) -> MKExerciseTypeDescriptor? {
         for (labelId, labelTypeDescriptor) in labels {
             if labelId == id {

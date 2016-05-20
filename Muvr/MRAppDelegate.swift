@@ -147,6 +147,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - Device steady and level
 
     private var deviceMotionEndTimestap: CFTimeInterval? = nil
+    
+    private var setupExerciseModel: MKExerciseModel? = nil
 
     private func deviceMotionUpdate(motion: CMDeviceMotion?, error: NSError?) {
         if let motion = motion {
@@ -385,9 +387,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     func exerciseModelForExerciseSetup() throws -> MKExerciseModel {
-        let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
-        let modelsBundle = NSBundle(path: path)!
-        return try MKExerciseModel(fromBundle: modelsBundle, id: "setup", labelExtractor: exerciseIdToLabel)
+        if setupExerciseModel == nil {
+            let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
+            let modelsBundle = NSBundle(path: path)!
+            try setupExerciseModel = MKExerciseModel(fromBundle: modelsBundle, id: "setup", labelExtractor: exerciseIdToLabel)
+        }
+        
+        return setupExerciseModel!
     }
 
     // MARK: - Session classification
