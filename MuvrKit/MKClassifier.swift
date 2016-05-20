@@ -27,7 +27,7 @@ public struct MKClassifier {
     private let model: MKExerciseModel
     private let neuralNet: MKForwardPropagator
     private let inputPreparator: MKInputPreparator
-    private let windowSize = 400
+    private let windowSize = 50 //TODO: make it changable
     private let windowStepSize = 10
     private let numInputs: Int
     private let numClasses: Int

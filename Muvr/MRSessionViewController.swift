@@ -102,7 +102,12 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     }
     
     func exerciseSetupDetected(label: String) {
-        mainExerciseView?.headerTitle = label
+        switch state {
+        case .Setup:
+            mainExerciseView?.headerTitle = label
+        default:
+            break
+        }
     }
 
     override func viewDidLoad() {

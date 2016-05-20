@@ -107,8 +107,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     */
 
     public func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) {
-//        guard let index = sessionIndex(session) else { return } //TODO: fix this
-        let index = 0
+        guard let index = sessionIndex(session) else { return } //TODO: fix this
         let et = sessions[index]
         var es = et.0
         let esd = et.1
@@ -130,17 +129,18 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         //let classifiedPartial = self.classifySplits(partial, session: session)
         //dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEstimate(exerciseSession, estimated: classifiedPartial, motionDetected: new.motionDetected) }
 
-        let setupModel = try! exerciseModelSource.exerciseModelForExerciseSetup()
-        let setupClassifier = try! MKClassifier(model: setupModel)
-        let predictedExercises = try! setupClassifier.classify(block: accumulated, maxResults: 4)
-        let p: [MKExerciseProbability] = predictedExercises.map({ (exercise, probability) -> MKExerciseProbability in
-            return (exercise.id, probability)
-        })
-        if let newState = delegate.sessionClassifierDidSetupExercise(es, trigger: .SetupDetected(exercises: p)) {
-            es.state = newState
-            self.sessions[index] = (es, esd)
+        if accumulated.motionDetected {
+            let setupModel = try! exerciseModelSource.exerciseModelForExerciseSetup()
+            let setupClassifier = try! MKClassifier(model: setupModel)
+            let predictedExercises = try! setupClassifier.classify(block: accumulated, maxResults: 4)
+            let p: [MKExerciseProbability] = predictedExercises.map({ (exercise, probability) -> MKExerciseProbability in
+                return (exercise.id.componentsSeparatedByString("/")[1], probability)
+            })
+            if let newState = delegate.sessionClassifierDidSetupExercise(es, trigger: .SetupDetected(exercises: p)) {
+                es.state = newState
+                self.sessions[index] = (es, esd)
+            }
         }
-
         switch es.state {
         case .SetupExercise(let exerciseId):
             //TODO: how will we handle the case of .SetupExercise?

@@ -387,9 +387,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     func exerciseModelForExerciseSetup() throws -> MKExerciseModel {
         let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
         let modelsBundle = NSBundle(path: path)!
-        //TODO: change this to setup after importing the setup model
-//        return try MKExerciseModel(fromBundle: modelsBundle, id: "setup", labelExtractor: exerciseIdToLabel)
-        return try MKExerciseModel(fromBundle: modelsBundle, id: "default", labelExtractor: exerciseIdToLabel)
+        return try MKExerciseModel(fromBundle: modelsBundle, id: "setup", labelExtractor: exerciseIdToLabel)
     }
 
     // MARK: - Session classification
@@ -478,7 +476,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         if let currentSession = findSession(withId: session.id) {
             switch trigger {
             case .SetupDetected(let exercises):
-                if let exerciseId = exercises.first?.0 {
+                if let exerciseId = exercises.last?.0 {
                     sessionViewController!.exerciseSetupDetected(exerciseId)
                 }
             default:
