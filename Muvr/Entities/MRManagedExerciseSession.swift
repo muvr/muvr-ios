@@ -27,6 +27,14 @@ class MRManagedExerciseSession: NSManagedObject {
     var exerciseDetailsComingUp: [MKExerciseDetail] {
         return MRAppDelegate.sharedDelegate().exerciseDetailsForExerciseIds(plan.next, favouringType: exerciseType)
     }
+    
+    func sessionClassifierDidSetupExercise(trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State {
+        if MRAppDelegate.sharedDelegate().deviceSteadyAndLevel {
+            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidStartExercise.rawValue, object: objectID)
+            return .SetupExercise(exerciseId: "")
+        }
+        return .NotExercising
+    }
 
     ///
     /// Called on ``MKExerciseSessionClassifier.sessionClassifierDidStartExercise`` to process the transition

@@ -71,7 +71,7 @@ public func ==(lhs: MKSessionClassifierDelegateEndTrigger, rhs: MKSessionClassif
 /// Implementations will receive the results of session classification and summarisation
 ///
 public protocol MKSessionClassifierDelegate {
-    
+
     ///
     /// Called when the session classification completes. The session continues even
     /// after the classification.
@@ -81,7 +81,16 @@ public protocol MKSessionClassifierDelegate {
     /// - parameter sensorData: the sensor data collected so far
     ///
     //func sessionClassifierDidClassify(session: MKExerciseSession, classified: [MKExerciseWithLabels], sensorData: MKSensorData)
-    
+
+    ///
+    /// Called when the session classification estimates that the setup movement for an exercise has been done
+    ///
+    /// - parameter session: the current snapshot of the session
+    /// - parameter trigger: trigger that caused the classifier to "think" that there may be an exercise
+    /// - returns: the updated session state
+    ///
+    func sessionClassifierDidSetupExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State?
+
     ///
     /// Called when the session classification estimates that an exercise has started
     ///
@@ -90,7 +99,7 @@ public protocol MKSessionClassifierDelegate {
     /// - returns: the updated session state
     ///
     func sessionClassifierDidStartExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State?
-    
+
     ///
     /// Called when the session classification estimates the exercise that has ended
     ///
@@ -99,7 +108,7 @@ public protocol MKSessionClassifierDelegate {
     /// - returns: the updated session state
     ///
     func sessionClassifierDidEndExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State?
-    
+
     ///
     /// The session has ended
     ///
@@ -107,12 +116,12 @@ public protocol MKSessionClassifierDelegate {
     /// - parameter sensorData: the sensor data from the entire session
     ///
     func sessionClassifierDidEndSession(session: MKExerciseSession, sensorData: MKSensorData?)
-        
+
     ///
     /// Called when the session starts
     ///
     /// - parameter session: the session that has just started
     ///
     func sessionClassifierDidStartSession(session: MKExerciseSession)
-    
+
 }

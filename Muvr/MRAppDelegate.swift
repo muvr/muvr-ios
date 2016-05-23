@@ -130,7 +130,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     var window: UIWindow?
     
     private let sessionStoryboard = UIStoryboard(name: "Session", bundle: nil)
-    private var sessionViewController: UIViewController?
+    private var sessionViewController: MRSessionViewController?
     private var connectivity: MKDeviceConnectivity!
     private var classifier: MKSessionClassifier!
     private var sensorDataSplitter: MKSensorDataSplitter!
@@ -147,6 +147,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - Device steady and level
 
     private var deviceMotionEndTimestap: CFTimeInterval? = nil
+    
+    private var setupExerciseModel: MKExerciseModel? = nil
 
     private func deviceMotionUpdate(motion: CMDeviceMotion?, error: NSError?) {
         if let motion = motion {
@@ -384,6 +386,16 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         return try MKExerciseModel(fromBundle: modelsBundle, id: "default", labelExtractor: exerciseIdToLabel)
     }
     
+    func exerciseModelForExerciseSetup() throws -> MKExerciseModel {
+        if setupExerciseModel == nil {
+            let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
+            let modelsBundle = NSBundle(path: path)!
+            try setupExerciseModel = MKExerciseModel(fromBundle: modelsBundle, id: "setup", labelExtractor: exerciseIdToLabel)
+        }
+        
+        return setupExerciseModel!
+    }
+
     // MARK: - Session classification
     
     ///
@@ -466,6 +478,22 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         self.window?.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
     }
     
+    func sessionClassifierDidSetupExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State? {
+        if let currentSession = findSession(withId: session.id) {
+            switch trigger {
+            case .SetupDetected(let exercises):
+                if let exerciseId = exercises.last?.0 {
+                    sessionViewController!.exerciseSetupDetected(exerciseId)
+                }
+            default:
+                break
+            }
+
+            return currentSession.sessionClassifierDidSetupExercise(trigger)
+        }
+        return nil
+    }
+
     func sessionClassifierDidStartExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State? {
         if let currentSession = findSession(withId: session.id) {
             return currentSession.sessionClassifierDidStartExercise(trigger)

@@ -27,7 +27,7 @@ public struct MKClassifier {
     private let model: MKExerciseModel
     private let neuralNet: MKForwardPropagator
     private let inputPreparator: MKInputPreparator
-    private let windowSize = 400
+    private var windowSize = 50
     private let windowStepSize = 10
     private let numInputs: Int
     private let numClasses: Int
@@ -47,6 +47,8 @@ public struct MKClassifier {
         self.inputPreparator = MKInputPreparator()
         self.numInputs = self.model.layerConfiguration.first!.size
         self.numClasses = self.model.labels.count
+        // For each sample there are 3 features: (x, y, z), and inputDimension is a flattened window: window multiplied by 3, so it's always divisible by 3.
+        self.windowSize = model.inputDimension / 3
     }
     
     ///

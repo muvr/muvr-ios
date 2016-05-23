@@ -9,6 +9,9 @@ public struct MKExerciseSession {
         /// The user is not exercising
         case NotExercising
         
+        /// The user is make exercise setup
+        case SetupExercise(exerciseId: MKExercise.Id)
+
         /// The user is exercising
         /// - parameter exerciseId: the exercise being performed
         case Exercising(exerciseId: MKExercise.Id)
