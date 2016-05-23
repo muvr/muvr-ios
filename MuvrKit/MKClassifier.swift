@@ -47,6 +47,7 @@ public struct MKClassifier {
         self.inputPreparator = MKInputPreparator()
         self.numInputs = self.model.layerConfiguration.first!.size
         self.numClasses = self.model.labels.count
+        // For each sample there are 3 features: (x, y, z), and inputDimension is a flattened window: window multiplied by 3, so it's always divisible by 3.
         self.windowSize = model.inputDimension / 3
     }
     
