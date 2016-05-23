@@ -1,0 +1,77 @@
+{
+    "type" : {
+        "id" : "resistanceTargeted",
+        "muscleGroups" : []
+    },
+    "plan" : {
+        "chain" : [
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms/dumbbell-biceps-curl"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders\/lateral-raise" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders\/lateral-raise"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders/dumbbell-shoulder-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:shoulders/dumbbell-shoulder-press" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:shoulders/dumbbell-shoulder-press"
+                                   ],
+                   "transitionSet" : {
+                   "resistanceTargeted:arms/triceps-extension" : 1
+                   }
+                   },
+                   {
+                   "stateChain" : [
+                                   "resistanceTargeted:arms/triceps-extension"
+                                   ],
+                   "transitionSet" : {}
+                   }
+                   ],
+        "states" : [
+                    "resistanceTargeted:arms/dumbbell-biceps-curl",
+                    "resistanceTargeted:shoulders\/lateral-raise",
+                    "resistanceTargeted:shoulders/dumbbell-shoulder-press",
+                    "resistanceTargeted:arms/triceps-extension"
+                    ]
+    },
+    "id" : "AA864D13-C752-45BA-96C2-00ACBF494D08",
+    "items" : [
+               {
+               "id" : "resistanceTargeted:arms/dumbbell-biceps-curl",
+               "rest" : 30,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:shoulders\/lateral-raise",
+               "rest" : 30,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:shoulders/dumbbell-shoulder-press",
+               "rest" : 30,
+               "duration" : 30
+               },
+               {
+               "id" : "resistanceTargeted:arms/triceps-extension",
+               "rest" : 30,
+               "duration" : 30
+               }               ],
+    "name" : "Test workout"
+}

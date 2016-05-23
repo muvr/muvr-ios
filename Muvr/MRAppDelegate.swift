@@ -693,7 +693,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private var defaultSessionType: MRSessionType? {
         let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = NSBundle(path: bundlePath)!
-        if let defaultFile = bundle.pathForResource("default_workout", ofType: "json"),
+        if let defaultFile = bundle.pathForResource("test_workout", ofType: "json"),
             let plan = MKExercisePlan(file: NSURL(fileURLWithPath: defaultFile)) {
             return .Predefined(plan: plan)
         }
