@@ -57,6 +57,8 @@ public struct MKSensorData {
     public let samplesPerSecond: UInt
     /// The start timestamp
     public let start: MKTimestamp
+    /// Delay between start session and recieve the first sample
+    public var delay: MKTimestamp?
     
     ///
     /// Constructs a new instance of this struct, assigns the dimension and samples

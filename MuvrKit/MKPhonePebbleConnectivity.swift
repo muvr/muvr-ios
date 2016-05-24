@@ -166,7 +166,10 @@ public class MKPebbleConnectivity : NSObject, PBPebbleCentralDelegate, PBWatchDe
                     if self.session.sensorData != nil {
                         try self.session.sensorData!.append(new)
                     } else {
+                        // Record timestamp
+                        self.session.realStart = NSDate()
                         self.session.sensorData = new
+                        self.session.sensorData!.delay = self.session.realStart?.timeIntervalSinceDate(self.session.start)
                     }
                     sensorDataConnectivityDelegate.sensorDataConnectivityDidReceiveSensorData(accumulated: session.sensorData!, new: new, session: session)
                     NSLog("\(atDeviceTime) with \(new.duration); now accumulated \(session.sensorData!.duration)")
