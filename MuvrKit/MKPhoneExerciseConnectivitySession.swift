@@ -7,6 +7,8 @@ public struct MKExerciseConnectivitySession {
     internal(set) public var start: NSDate
     /// the end timestamp
     internal(set) public var end: NSDate?
+    /// the timestamp of the first recieved sample
+    internal(set) public var realStart: NSDate?
     /// last chunk of data received
     internal(set) public var last: Bool
     /// accumulated sensor data

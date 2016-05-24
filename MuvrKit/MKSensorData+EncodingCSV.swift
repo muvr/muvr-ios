@@ -19,7 +19,7 @@ public extension MKSensorData {
         let setupDuration: NSTimeInterval = 5.0
 
         func findLabel(row: Int) -> String? {
-            let now = (Double(row) / Double(samplesPerSecond)) + 1.5 //TODO: fix this magic number!
+            let now = (Double(row) / Double(samplesPerSecond)) + self.delay!
 
             func sampleBelongsTo(offset: NSTimeInterval, duration: NSTimeInterval) -> Bool {
                 let end = offset + duration
