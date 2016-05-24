@@ -28,15 +28,29 @@ public extension MKSensorData {
 
             // Find setup label
             for (id, _, offset, _, _) in exercisesWithLabels where sampleBelongsTo(offset - setupDuration, duration: setupDuration) {
-                return "setup_\(id)"
+                return "setup_\(id),,," // 3 empty values for (weight, repetitions, intensity)
             }
             // Find Exercise label
-            for (id, _, offset, duration, _) in exercisesWithLabels where sampleBelongsTo(offset, duration: duration) {
-                return id
+            for (id, _, offset, duration, labels) in exercisesWithLabels where sampleBelongsTo(offset, duration: duration) {
+                let (weight, repetitions, intensity) = expandLabels(labels)
+                return "\(id),\(weight),\(repetitions),\(intensity)"
             }
             return nil
         }
 
+        func expandLabels(labels: [MKExerciseLabel]) -> (Double, Int, Double) {
+            var weight: Double = 0
+            var repetitions: Int = 0
+            var intensity: Double = 0
+            labels.forEach { label in
+                switch label {
+                case .Weight(let value): weight = value
+                case .Repetitions(let value): repetitions = value
+                case .Intensity(let value): intensity = value
+                }
+            }
+            return (weight, repetitions, intensity)
+        }
 
         let result = NSMutableData()
         (0..<rowCount).forEach { row in
@@ -48,7 +62,7 @@ public extension MKSensorData {
             if let label = findLabel(row) {
                 result.appendASCIIString("\(label)")
             } else {
-                result.appendASCIIString("no_exercise")
+                result.appendASCIIString("no_exercise,,,") // 3 empty values for (weight, repetitions, intensity)
             }
             result.appendASCIIString("\n")
         }
