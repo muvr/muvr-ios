@@ -7,6 +7,24 @@ import AVFoundation
 ///
 class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     
+    @IBOutlet weak var labSwitch: UISwitch!
+    @IBOutlet weak var labLabel: UILabel!
+
+    let defaults = `NSUserDefaults`.standardUserDefaults()
+
+    @IBAction func labSwitchPressed(sender: AnyObject) {
+        defaults.setBool(labSwitch.on, forKey: "labMode")
+        setLabModeLabel()
+    }
+
+    private func setLabModeLabel() {
+        if labSwitch.on {
+            labLabel.text = "Lab Mode On"
+        } else {
+            labLabel.text = "Lab Mode Off"
+        }
+    }
+
     /// The current selected exercise along with predicted labels
     private struct CurrentExercise {
         /// the selected exercise details
@@ -100,7 +118,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     func setSession(session: MRManagedExerciseSession) {
         self.session = session
     }
-    
+
     func exerciseSetupDetected(label: String) {
         switch state {
         case .Setup:
@@ -112,6 +130,8 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
 
     override func viewDidLoad() {
         mainExerciseView.delegate = self
+        labSwitch.on = defaults.boolForKey("labMode")
+        setLabModeLabel()
         
         setTitleImage(named: "muvr_logo_white")
         navigationItem.setHidesBackButton(true, animated: false)
