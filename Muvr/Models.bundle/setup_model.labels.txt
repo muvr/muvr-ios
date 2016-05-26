@@ -1,6 +1,6 @@
 resistanceTargeted:shoulders/dumbbell-shoulder-press
 resistanceTargeted:shoulders/dumbbell-bench-press
+resistanceTargeted:shoulders/lateral-raise
 resistanceTargeted:arms/triceps-pushdown
 resistanceTargeted:arms/barbell-biceps-curl
 resistanceTargeted:core/suitcase-crunches
-resistanceTargeted:shoulders/lateral-raise

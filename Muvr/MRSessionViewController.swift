@@ -119,10 +119,21 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         self.session = session
     }
 
-    func exerciseSetupDetected(label: String) {
+    func exerciseSetupDetected(label: String, propability: Double) {
         switch state {
+        case .ComingUp(let exercise, _):
+            if labSwitch.on {
+                break
+            }
+            if propability < 0.7 || exercise?.detail.id != label {
+                break
+            }
+            state = .InExercise(exercise: exercise!, start: NSDate())
+            refreshViewsForState(state)
+
         case .Setup:
             mainExerciseView?.headerTitle = label
+
         default:
             break
         }
@@ -313,7 +324,11 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         case .Ready(let exercise, _):
             // We've had the time to get ready. Now time to get setup.
             session.setClassificationHint(exercise.detail, labels: exercise.predicted.0)
-            state = .Setup(exercise: exercise, rest: nil)
+            if labSwitch.on {
+                state = .Setup(exercise: exercise, rest: nil)
+            } else {
+                state = .InExercise(exercise: exercise, start: NSDate())
+            }
             refreshViewsForState(state)
         case .Setup(let exercise, _):
             // We've had the time to get setup. Now time to exercise.

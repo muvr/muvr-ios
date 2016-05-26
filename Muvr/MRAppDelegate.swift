@@ -482,8 +482,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         if let currentSession = findSession(withId: session.id) {
             switch trigger {
             case .SetupDetected(let exercises):
-                if let exerciseId = exercises.last?.0 {
-                    sessionViewController!.exerciseSetupDetected(exerciseId)
+                if let (exerciseId, propability) = exercises.last { //TODO: send the last one or all
+                    sessionViewController!.exerciseSetupDetected(exerciseId, propability: propability)
                 }
             default:
                 break

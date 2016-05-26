@@ -134,7 +134,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
             let setupClassifier = try! MKClassifier(model: setupModel)
             let predictedExercises = try! setupClassifier.classify(block: accumulated, maxResults: 4)
             let p: [MKExerciseProbability] = predictedExercises.map({ (exercise, probability) -> MKExerciseProbability in
-                return (exercise.id.componentsSeparatedByString("/")[1], probability)
+                return (exercise.id, probability)
             })
             if let newState = delegate.sessionClassifierDidSetupExercise(es, trigger: .SetupDetected(exercises: p)) {
                 es.state = newState
