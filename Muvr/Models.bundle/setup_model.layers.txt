@@ -1,1 +1,1 @@
-150 id 128 tanh 46 tanh 32 tanh 6 tanh
+750 id 150 tanh 100 tanh 4 tanh

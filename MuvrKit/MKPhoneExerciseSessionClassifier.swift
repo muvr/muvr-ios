@@ -129,12 +129,15 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         //let classifiedPartial = self.classifySplits(partial, session: session)
         //dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEstimate(exerciseSession, estimated: classifiedPartial, motionDetected: new.motionDetected) }
 
-        if accumulated.motionDetected {
+        let setupWindow = 5.0
+        NSLog("============ \(session.realStart?.timeIntervalSinceNow)")
+        if accumulated.motionDetected && session.realStart?.timeIntervalSinceNow < -setupWindow {
             let setupModel = try! exerciseModelSource.exerciseModelForExerciseSetup()
             let setupClassifier = try! MKClassifier(model: setupModel)
+            //TODO: Slice the accumlated
             let predictedExercises = try! setupClassifier.classify(block: accumulated, maxResults: 4)
             let p: [MKExerciseProbability] = predictedExercises.map({ (exercise, probability) -> MKExerciseProbability in
-                return (exercise.id.componentsSeparatedByString("/")[1], probability)
+                return (exercise.id, probability)
             })
             if let newState = delegate.sessionClassifierDidSetupExercise(es, trigger: .SetupDetected(exercises: p)) {
                 es.state = newState

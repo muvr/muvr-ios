@@ -7,6 +7,24 @@ import AVFoundation
 ///
 class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     
+    @IBOutlet weak var labSwitch: UISwitch!
+    @IBOutlet weak var labLabel: UILabel!
+
+    let defaults = `NSUserDefaults`.standardUserDefaults()
+
+    @IBAction func labSwitchPressed(sender: AnyObject) {
+        defaults.setBool(labSwitch.on, forKey: "labMode")
+        setLabModeLabel()
+    }
+
+    private func setLabModeLabel() {
+        if labSwitch.on {
+            labLabel.text = "Lab Mode On"
+        } else {
+            labLabel.text = "Lab Mode Off"
+        }
+    }
+
     /// The current selected exercise along with predicted labels
     private struct CurrentExercise {
         /// the selected exercise details
@@ -100,11 +118,22 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     func setSession(session: MRManagedExerciseSession) {
         self.session = session
     }
-    
-    func exerciseSetupDetected(label: String) {
+
+    func exerciseSetupDetected(label: String, probability: Double) {
         switch state {
+        case .ComingUp(let exercise, _):
+            if labSwitch.on {
+                break
+            }
+            if probability < 0.7 || exercise?.detail.id != label {
+                break
+            }
+            state = .InExercise(exercise: exercise!, start: NSDate())
+            refreshViewsForState(state)
+
         case .Setup:
             mainExerciseView?.headerTitle = label
+
         default:
             break
         }
@@ -112,6 +141,8 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
 
     override func viewDidLoad() {
         mainExerciseView.delegate = self
+        labSwitch.on = defaults.boolForKey("labMode")
+        setLabModeLabel()
         
         setTitleImage(named: "muvr_logo_white")
         navigationItem.setHidesBackButton(true, animated: false)
@@ -293,7 +324,11 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         case .Ready(let exercise, _):
             // We've had the time to get ready. Now time to get setup.
             session.setClassificationHint(exercise.detail, labels: exercise.predicted.0)
-            state = .Setup(exercise: exercise, rest: nil)
+            if labSwitch.on {
+                state = .Setup(exercise: exercise, rest: nil)
+            } else {
+                state = .InExercise(exercise: exercise, start: NSDate())
+            }
             refreshViewsForState(state)
         case .Setup(let exercise, _):
             // We've had the time to get setup. Now time to exercise.

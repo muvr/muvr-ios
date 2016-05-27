@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F28b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -44,10 +44,23 @@
                                     <constraint firstAttribute="width" secondItem="UaB-VL-s9m" secondAttribute="height" multiplier="1:1" id="qCp-Hs-LGy"/>
                                 </constraints>
                             </view>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="3yP-9U-OqU">
+                                <rect key="frame" x="7" y="8" width="51" height="31"/>
+                                <connections>
+                                    <action selector="labSwitchPressed:" destination="3lh-vi-YqY" eventType="valueChanged" id="YjC-vm-FPs"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Lab Mode Off" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AiP-kD-gP1">
+                                <rect key="frame" x="155" y="8" width="105" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="UaB-VL-s9m" firstAttribute="top" secondItem="65O-mu-fcy" secondAttribute="bottom" constant="40" id="68S-I3-p9U"/>
+                            <constraint firstItem="AiP-kD-gP1" firstAttribute="centerX" secondItem="K0h-cg-yrp" secondAttribute="centerX" id="Nfv-N8-iMO"/>
                             <constraint firstAttribute="trailingMargin" secondItem="UaB-VL-s9m" secondAttribute="trailing" constant="12" id="mgh-SG-21y"/>
                             <constraint firstItem="UaB-VL-s9m" firstAttribute="leading" secondItem="K0h-cg-yrp" secondAttribute="leadingMargin" constant="12" id="ofw-bt-EpS"/>
                         </constraints>
@@ -55,6 +68,8 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="labLabel" destination="AiP-kD-gP1" id="Yfv-zL-u2G"/>
+                        <outlet property="labSwitch" destination="3yP-9U-OqU" id="I9s-gR-Lx3"/>
                         <outlet property="mainExerciseView" destination="UaB-VL-s9m" id="yDO-xN-zXh"/>
                     </connections>
                 </viewController>
