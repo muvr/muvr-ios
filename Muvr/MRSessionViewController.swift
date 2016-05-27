@@ -119,13 +119,13 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         self.session = session
     }
 
-    func exerciseSetupDetected(label: String, propability: Double) {
+    func exerciseSetupDetected(label: String, probability: Double) {
         switch state {
         case .ComingUp(let exercise, _):
             if labSwitch.on {
                 break
             }
-            if propability < 0.7 || exercise?.detail.id != label {
+            if probability < 0.7 || exercise?.detail.id != label {
                 break
             }
             state = .InExercise(exercise: exercise!, start: NSDate())
