@@ -9,7 +9,8 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     
     @IBOutlet weak var labSwitch: UISwitch!
     @IBOutlet weak var labLabel: UILabel!
-
+    @IBOutlet weak var predictionProbabilityLabel: UILabel!
+    
     let defaults = `NSUserDefaults`.standardUserDefaults()
 
     @IBAction func labSwitchPressed(sender: AnyObject) {
@@ -20,8 +21,10 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     private func setLabModeLabel() {
         if labSwitch.on {
             labLabel.text = "Lab Mode On"
+            predictionProbabilityLabel.hidden = false
         } else {
             labLabel.text = "Lab Mode Off"
+            predictionProbabilityLabel.hidden = true
         }
     }
 
@@ -120,22 +123,22 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     }
 
     func exerciseSetupDetected(label: String, probability: Double) {
-        switch state {
-        case .ComingUp(let exercise, _):
-            if labSwitch.on {
+        if labSwitch.on {
+            mainExerciseView?.headerTitle = label.componentsSeparatedByString("/").last
+            let probabilityString = String(format: "%.2f", probability*100)
+            predictionProbabilityLabel.text = "%\(probabilityString)"
+        } else {
+            switch state {
+            case .ComingUp(let exercise, _):
+                if probability < 0.7 || exercise?.detail.id != label {
+                    break
+                }
+                state = .InExercise(exercise: exercise!, start: NSDate())
+                refreshViewsForState(state)
+            
+            default:
                 break
             }
-            if probability < 0.7 || exercise?.detail.id != label {
-                break
-            }
-            state = .InExercise(exercise: exercise!, start: NSDate())
-            refreshViewsForState(state)
-
-        case .Setup:
-            mainExerciseView?.headerTitle = label
-
-        default:
-            break
         }
     }
 

@@ -129,21 +129,14 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         //let classifiedPartial = self.classifySplits(partial, session: session)
         //dispatch_async(dispatch_get_main_queue()) { self.delegate.sessionClassifierDidEstimate(exerciseSession, estimated: classifiedPartial, motionDetected: new.motionDetected) }
 
-        let setupWindow = 5.0
-        NSLog("============ \(session.realStart?.timeIntervalSinceNow)")
-        if accumulated.motionDetected && session.realStart?.timeIntervalSinceNow < -setupWindow {
-            let setupModel = try! exerciseModelSource.exerciseModelForExerciseSetup()
-            let setupClassifier = try! MKClassifier(model: setupModel)
-            //TODO: Slice the accumlated
-            let predictedExercises = try! setupClassifier.classify(block: accumulated, maxResults: 4)
-            let p: [MKExerciseProbability] = predictedExercises.map({ (exercise, probability) -> MKExerciseProbability in
-                return (exercise.id, probability)
-            })
-            if let newState = delegate.sessionClassifierDidSetupExercise(es, trigger: .SetupDetected(exercises: p)) {
+        let detectedExercisesSetup = detectSetupMovement(accumulated, new: new, session: session, setupWindow: 5.0)
+        if !detectedExercisesSetup.isEmpty {
+            if let newState = delegate.sessionClassifierDidSetupExercise(es, trigger: .SetupDetected(exercises: detectedExercisesSetup)) {
                 es.state = newState
                 self.sessions[index] = (es, esd)
             }
         }
+
         switch es.state {
         case .SetupExercise(let exerciseId):
             //TODO: how will we handle the case of .SetupExercise?
@@ -169,6 +162,24 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
             // session completed: all data received
             sessions.removeAtIndex(index)
         }
+    }
+
+    private func detectSetupMovement(accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession, setupWindow: NSTimeInterval) -> [MKExerciseProbability] {
+        let now = NSDate()
+        let accumlatedInterval = now.timeIntervalSinceDate(session.realStart!)
+        if accumlatedInterval < setupWindow {
+            return [MKExerciseProbability]()
+        }
+        let lastSlice = try! accumulated.slice(accumlatedInterval - setupWindow, duration: setupWindow)
+        if !lastSlice.motionDetected {
+            return [MKExerciseProbability]()
+        }
+        let setupModel = try! exerciseModelSource.exerciseModelForExerciseSetup()
+        let setupClassifier = try! MKClassifier(model: setupModel)
+        let predictedExercises = try! setupClassifier.classify(block: lastSlice, maxResults: 4)
+        return predictedExercises.map({ (exercise, probability) -> MKExerciseProbability in
+            return (exercise.id, probability)
+        })
     }
 
     ///
