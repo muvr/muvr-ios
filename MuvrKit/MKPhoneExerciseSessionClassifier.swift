@@ -170,13 +170,18 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         if accumlatedInterval < setupWindow {
             return [MKExerciseProbability]()
         }
-        let lastSlice = try! accumulated.slice(accumlatedInterval - setupWindow, duration: setupWindow)
-        if !lastSlice.motionDetected {
+        let lastSlice: MKSensorData?
+        do {
+            lastSlice = try accumulated.slice(accumlatedInterval - setupWindow, duration: setupWindow)
+        } catch {
+            return [MKExerciseProbability]()
+        }
+        if !lastSlice!.motionDetected {
             return [MKExerciseProbability]()
         }
         let setupModel = try! exerciseModelSource.exerciseModelForExerciseSetup()
         let setupClassifier = try! MKClassifier(model: setupModel)
-        let predictedExercises = try! setupClassifier.classify(block: lastSlice, maxResults: 4)
+        let predictedExercises = try! setupClassifier.classify(block: lastSlice!, maxResults: 4)
         return predictedExercises.map({ (exercise, probability) -> MKExerciseProbability in
             return (exercise.id, probability)
         })
