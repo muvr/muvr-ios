@@ -12,6 +12,10 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
 
     let defaults = `NSUserDefaults`.standardUserDefaults()
 
+    /// Wait before acepting new detected exercises to avoid too quick view switch
+    private var lastUpdatedTime = NSDate()
+    private let setupExerciseWindow = 5.0
+
     @IBAction func labSwitchPressed(sender: AnyObject) {
         defaults.setBool(labSwitch.on, forKey: "labMode")
         setLabModeLabel()
@@ -128,6 +132,9 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             if probability < 0.7 || exercise?.detail.id != label {
                 break
             }
+            if NSDate().timeIntervalSinceDate(lastUpdatedTime) < setupExerciseWindow {
+                break
+            }
             state = .InExercise(exercise: exercise!, start: NSDate())
             refreshViewsForState(state)
 
@@ -209,6 +216,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             labellingViewController.setExerciseDetail(exercise.detail, predictedLabels: exercise.predicted.0, missingLabels: exercise.missing.0, onLabelsUpdated: labelUpdated)
         case .Idle: break;
         }
+        lastUpdatedTime = NSDate()
     }
     
     ///
@@ -311,7 +319,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             // The user has completed the exercise, and accepted our labels
             session.addExerciseDetail(exercise.detail, labels: labels, start: start, duration: duration)
             state = .ComingUp(exercise: nil, rest: exercise.rest)
-            case .Idle: break
+        case .Idle: break
         }
         refreshViewsForState(state)
     }
