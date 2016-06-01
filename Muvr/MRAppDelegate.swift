@@ -441,8 +441,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
 
     func saveAndExport(sensorData: MKSensorData?, session: MRManagedExerciseSession) {
         if sensorData == nil {
-            NSLog("Sensor data is nil, pebbel connectivity lost!")
-            alert("Pebble connectivity lost".localized(), message: "This session couldn't be saved! You need to restart the pebbel app".localized())
+            NSLog("Sensor data is nil, pebble connectivity lost!")
+            alert("Pebble connectivity lost".localized(), message: "This session couldn't be saved! You need to restart the pebble app".localized())
             return
         }
         let csvData: NSData = sensorData!.encodeAsCsv(session.exerciseWithLabels)
