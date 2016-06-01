@@ -434,13 +434,18 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             currentSession.end = session.end
             currentSession.completed = session.completed
             currentSession.sensorData = sensorData?.encode()
-            let csvData = sensorData?.encodeAsCsv(currentSession.exerciseWithLabels)
-            saveAndExport(csvData!)
+            saveAndExport(sensorData, session: currentSession)
             terminateSession(currentSession)
         }
     }
 
-    func saveAndExport(csvData: NSData) {
+    func saveAndExport(sensorData: MKSensorData?, session: MRManagedExerciseSession) {
+        if sensorData == nil {
+            NSLog("Sensor data is nil, pebbel connectivity lost!")
+            alert("Pebble connectivity lost".localized(), message: "This session couldn't be saved! You need to restart the pebbel app".localized())
+            return
+        }
+        let csvData: NSData = sensorData!.encodeAsCsv(session.exerciseWithLabels)
         let now = NSDate(timeIntervalSinceNow: Double(NSTimeZone.localTimeZone().secondsFromGMT))
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd'T'HH-mm-ss'Z'"
@@ -460,6 +465,12 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         } catch {
             NSLog("Error with fileHandle, filename: \(filename), error: \(error)")
         }
+    }
+
+    func alert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Done".localized(), style: UIAlertActionStyle.Default, handler: nil))
+        self.window?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
     }
 
     func shareSession(exportFilePath: String) {
