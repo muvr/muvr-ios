@@ -11,6 +11,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     @IBOutlet weak var labLabel: UILabel!
     @IBOutlet weak var predictionProbabilityLabel: UILabel!
     
+    @IBOutlet weak var repsCounter: UILabel!
 //    @IBOutlet weak var repsLabel: UILabel!
     
     let defaults = `NSUserDefaults`.standardUserDefaults()
@@ -35,11 +36,11 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     }
 
     func setReps(reps: Int) {
-//        repsLabel.text = "\(reps)"
+        repsCounter.text = "\(reps)"
     }
     
     func resetResp() {
-//        repsLabel.text = ""
+        repsCounter.text = ""
     }
     
     /// The current selected exercise along with predicted labels
@@ -166,7 +167,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         mainExerciseView.delegate = self
         labSwitch.on = defaults.boolForKey("labMode")
         setLabModeLabel()
-//        resetResp()
+        resetResp()
         
         setTitleImage(named: "muvr_logo_white")
         navigationItem.setHidesBackButton(true, animated: false)

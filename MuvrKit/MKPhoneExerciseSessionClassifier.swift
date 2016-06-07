@@ -136,28 +136,10 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
                 self.sessions[index] = (es, esd)
             }
         }
-
-        let repsEstimator = MKRepetitionEstimator()
-        do {
-            let now = NSDate()
-            let repsWindow = 15.0
-            let estimate: (Int, Double)?
-            let repsAccumulatedInterval = now.timeIntervalSinceDate(session.realStart!)
-//            if repsAccumulatedInterval > repsWindow {
-//                let lastSlice = try! accumulated.slice(repsAccumulatedInterval -  repsWindow, duration: repsWindow)
-//                estimate = try repsEstimator.estimate(data: lastSlice)
-//            } else {
-//                estimate = try repsEstimator.estimate(data: accumulated)
-//            }
-//            accumulated.sli
-//            let x = session.currentExerciseStart?.timeIntervalSinceDate(session.realStart!)
-//            let y = accumulated.duration - (x!)
-//            let slice = try! accumulated.slice(x!, duration: y)
-//            let (reps, _) = try repsEstimator.estimate(data: slice)
-////            let reps = estimate?.0
-//            delegate.repsCountFeed(es, reps: reps, start: NSDate(), end: now)
-        } catch {
-            
+        
+        let repsCount = countRepitions(accumulated, new: new, session: session)
+        if repsCount != nil {
+            delegate.repsCountFeed(es, reps: repsCount!, start: NSDate(), end: NSDate()) //TODO: do we still need start, end time?
         }
 
         switch es.state {
@@ -208,6 +190,22 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         return predictedExercises.map({ (exercise, probability) -> MKExerciseProbability in
             return (exercise.id, probability)
         })
+    }
+    
+    private func countRepitions(accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) -> Int? {
+        let repsEstimator = MKRepetitionEstimator()
+        do {
+            if session.currentExerciseStart == nil {
+                return nil
+            }
+            let x = session.currentExerciseStart?.timeIntervalSinceDate(session.realStart!)
+            let y = accumulated.duration - (x!)
+            let slice = try! accumulated.slice(x!, duration: y)
+            let (reps, _) = try repsEstimator.estimate(data: slice)
+            return reps
+        } catch {
+            return nil
+        }
     }
 
     ///
