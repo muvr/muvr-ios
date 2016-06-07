@@ -137,6 +137,29 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
             }
         }
 
+        let repsEstimator = MKRepetitionEstimator()
+        do {
+            let now = NSDate()
+            let repsWindow = 15.0
+            let estimate: (Int, Double)?
+            let repsAccumulatedInterval = now.timeIntervalSinceDate(session.realStart!)
+//            if repsAccumulatedInterval > repsWindow {
+//                let lastSlice = try! accumulated.slice(repsAccumulatedInterval -  repsWindow, duration: repsWindow)
+//                estimate = try repsEstimator.estimate(data: lastSlice)
+//            } else {
+//                estimate = try repsEstimator.estimate(data: accumulated)
+//            }
+//            accumulated.sli
+//            let x = session.currentExerciseStart?.timeIntervalSinceDate(session.realStart!)
+//            let y = accumulated.duration - (x!)
+//            let slice = try! accumulated.slice(x!, duration: y)
+//            let (reps, _) = try repsEstimator.estimate(data: slice)
+////            let reps = estimate?.0
+//            delegate.repsCountFeed(es, reps: reps, start: NSDate(), end: now)
+        } catch {
+            
+        }
+
         switch es.state {
         case .SetupExercise(let exerciseId):
             //TODO: how will we handle the case of .SetupExercise?

@@ -110,6 +110,10 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate, MKDev
         }
     }
     
+    public func exerciseStarted(exercise: MKExerciseDetail, start: NSDate){
+        //TODO: report the current exercise
+    }
+    
     public func endSession(session: MKExerciseSession) {
         if WCSession.defaultSession().reachable {
             WCSession.defaultSession().transferUserInfo(session.metadata)

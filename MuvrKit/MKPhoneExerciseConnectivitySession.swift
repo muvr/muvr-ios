@@ -9,6 +9,8 @@ public struct MKExerciseConnectivitySession {
     internal(set) public var end: NSDate?
     /// the timestamp of the first recieved sample
     internal(set) public var realStart: NSDate?
+    /// the timestamp of the start of the current exercise
+    internal(set) public var currentExerciseStart: NSDate?
     /// last chunk of data received
     internal(set) public var last: Bool
     /// accumulated sensor data
@@ -55,5 +57,9 @@ public struct MKExerciseConnectivitySession {
                     end: end,
                     last: last,
                     exerciseType: MKExerciseType(metadata: exerciseType)!)
+    }
+    
+    mutating func exerciseStarted() {
+        self.currentExerciseStart = NSDate()
     }
 }

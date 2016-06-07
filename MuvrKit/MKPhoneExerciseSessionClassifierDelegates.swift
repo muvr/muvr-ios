@@ -123,5 +123,13 @@ public protocol MKSessionClassifierDelegate {
     /// - parameter session: the session that has just started
     ///
     func sessionClassifierDidStartSession(session: MKExerciseSession)
+    
+    ///
+    /// Called every second after calculating the total reps of the whole exercise
+    ///
+    /// - parameter session: the session that has just started
+    /// - parameter resp: the number of reps for the current exercise
+    ///
+    func repsCountFeed(session: MKExerciseSession, reps: Int, start: NSDate, end: NSDate)
 
 }

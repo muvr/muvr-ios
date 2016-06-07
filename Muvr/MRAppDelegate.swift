@@ -77,6 +77,11 @@ protocol MRApp : MKExercisePropertySource {
     func startSession(sessionType: MRSessionType) throws -> String
     
     ///
+    ///
+    ///
+    func exerciseStarted(exercise: MKExerciseDetail, start: NSDate)
+    
+    ///
     /// Ends the current exercise session, if any
     ///
     func endCurrentSession() throws
@@ -504,6 +509,12 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
         return nil
     }
+    
+    func repsCountFeed(session: MKExerciseSession, reps: Int, start: NSDate, end: NSDate) {
+        if let currentSession = findSession(withId: session.id) {
+            sessionViewController!.repsCountFeed(reps)
+        }
+    }
 
     func sessionClassifierDidStartExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State? {
         if let currentSession = findSession(withId: session.id) {
@@ -539,6 +550,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         connectivity.startSession(MKExerciseSession(managedSession: session))
         
         return id
+    }
+    
+    func exerciseStarted(exercise: MKExerciseDetail, start: NSDate) {
+        connectivity.exerciseStarted(exercise, start: start)
     }
     
     func endCurrentSession() throws {
