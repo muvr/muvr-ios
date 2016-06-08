@@ -12,7 +12,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     @IBOutlet weak var predictionProbabilityLabel: UILabel!
     
     @IBOutlet weak var repsCounter: UILabel!
-//    @IBOutlet weak var repsLabel: UILabel!
+    var repsCounterAccumulator: Int = 0
     
     let defaults = `NSUserDefaults`.standardUserDefaults()
 
@@ -41,6 +41,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     
     func resetResp() {
         repsCounter.text = ""
+        repsCounterAccumulator = 0
     }
     
     /// The current selected exercise along with predicted labels
@@ -159,8 +160,19 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         }
     }
     
-    func repsCountFeed(reps: Int) {
-        setReps(reps)
+    func repsCountFeed(reps: Int, start: NSDate, end: NSDate) {
+        switch state {
+        case .InExercise(let exercise, _):
+            let accumulatedRepsCount = reps + repsCounterAccumulator
+            setReps(accumulatedRepsCount)
+            //TODO: This hack is to avoid calculation errors on bigger windows. Should be fixed!
+            if end.timeIntervalSinceDate(start) > 10 {
+                MRAppDelegate.sharedDelegate().exerciseStarted(exercise.detail, start: end)
+                repsCounterAccumulator = accumulatedRepsCount
+            }
+        default:
+            resetResp()
+        }
     }
 
     override func viewDidLoad() {

@@ -139,7 +139,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         
         let repsCount = countRepitions(accumulated, new: new, session: session)
         if repsCount != nil {
-            delegate.repsCountFeed(es, reps: repsCount!, start: NSDate(), end: NSDate()) //TODO: do we still need start, end time?
+            delegate.repsCountFeed(es, reps: repsCount!, start: session.currentExerciseStart!, end: NSDate()) //TODO: do we still need start, end time?
         }
 
         switch es.state {
@@ -193,15 +193,14 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     }
     
     private func countRepitions(accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) -> Int? {
-        let repsEstimator = MKRepetitionEstimator()
         do {
             if session.currentExerciseStart == nil {
                 return nil
             }
-            let x = session.currentExerciseStart?.timeIntervalSinceDate(session.realStart!)
-            let y = accumulated.duration - (x!)
-            let slice = try! accumulated.slice(x!, duration: y)
-            let (reps, _) = try repsEstimator.estimate(data: slice)
+            let offset = session.currentExerciseStart?.timeIntervalSinceDate(session.realStart!)
+            let duration = accumulated.duration - (offset!)
+            let slice = try! accumulated.slice(offset!, duration: duration)
+            let (reps, _) = try repetitionEstimator.estimate(data: slice)
             return reps
         } catch {
             return nil

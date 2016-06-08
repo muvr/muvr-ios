@@ -511,8 +511,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     func repsCountFeed(session: MKExerciseSession, reps: Int, start: NSDate, end: NSDate) {
-        if let currentSession = findSession(withId: session.id) {
-            sessionViewController!.repsCountFeed(reps)
+        if (findSession(withId: session.id) != nil) {
+            sessionViewController!.repsCountFeed(reps, start: start, end: end)
         }
     }
 
