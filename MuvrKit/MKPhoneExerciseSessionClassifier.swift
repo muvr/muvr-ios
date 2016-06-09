@@ -137,7 +137,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
             }
         }
         
-        let repsCount = countRepitions(accumulated, new: new, session: session)
+        let repsCount = countRepetitions(accumulated, new: new, session: session)
         if repsCount != nil {
             delegate.repsCountFeed(es, reps: repsCount!, start: session.currentExerciseStart!, end: NSDate()) //TODO: do we still need start, end time?
         }
@@ -192,7 +192,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         })
     }
     
-    private func countRepitions(accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) -> Int? {
+    private func countRepetitions(accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) -> Int? {
         do {
             if session.currentExerciseStart == nil {
                 return nil

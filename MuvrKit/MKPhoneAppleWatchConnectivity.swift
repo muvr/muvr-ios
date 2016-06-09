@@ -110,7 +110,7 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate, MKDev
         }
     }
     
-    public func exerciseStarted(exercise: MKExerciseDetail, start: NSDate){
+    public func exerciseStarted(exercise: MKExerciseDetail, start: NSDate) {
         //TODO: report the current exercise
     }
     
