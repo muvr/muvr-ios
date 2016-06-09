@@ -187,6 +187,10 @@ public class MKPebbleConnectivity : NSObject, PBPebbleCentralDelegate, PBWatchDe
             exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidStart(session: session)
         }
         
+        func exerciseStarted(exercise: MKExerciseDetail, start: NSDate){
+            self.session.currentExerciseStart = start
+        }
+        
         private func stop(session: MKExerciseConnectivitySession) {
             exerciseConnectivitySessionDelegate.exerciseConnectivitySessionDidEnd(session: session)
             self.session = nil
@@ -266,6 +270,13 @@ public class MKPebbleConnectivity : NSObject, PBPebbleCentralDelegate, PBWatchDe
             self.currentSession?.stopCurrentSessionAndNotifyWatch()
             self.currentSession?.start(connectivitySession)
         }
+    }
+    
+    ///
+    /// Call back when an excercise is started
+    ///
+    public func exerciseStarted(exercise: MKExerciseDetail, start: NSDate){
+        currentSession?.exerciseStarted(exercise, start: start)
     }
     
     ///

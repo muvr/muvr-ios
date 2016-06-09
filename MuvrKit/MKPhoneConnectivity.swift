@@ -13,6 +13,11 @@ public protocol MKDeviceConnectivity {
     
     
     ///
+    /// A callback to report the current exercise
+    ///
+    func exerciseStarted(exercise: MKExerciseDetail, start: NSDate)
+    
+    ///
     /// Tells the watch to end the given session
     /// - parameter session: the session to end
     ///

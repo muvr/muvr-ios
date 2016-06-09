@@ -11,6 +11,10 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     @IBOutlet weak var labLabel: UILabel!
     @IBOutlet weak var predictionProbabilityLabel: UILabel!
     
+    @IBOutlet weak var repsCounter: UILabel!
+    var currentRepsCount: Int = 0
+    var repsCounterAccumulator: Int = 0
+    
     let defaults = `NSUserDefaults`.standardUserDefaults()
 
     /// Wait before acepting new detected exercises to avoid too quick view switch
@@ -32,6 +36,17 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         }
     }
 
+    func setReps(reps: Int) {
+        repsCounter.text = "\(reps)"
+        currentRepsCount = reps
+    }
+    
+    func resetResp() {
+        repsCounter.text = ""
+        repsCounterAccumulator = 0
+        currentRepsCount = 0
+    }
+    
     /// The current selected exercise along with predicted labels
     private struct CurrentExercise {
         /// the selected exercise details
@@ -147,11 +162,29 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             }
         }
     }
+    
+    func repsCountFeed(reps: Int, start: NSDate, end: NSDate) {
+        switch state {
+        case .InExercise(let exercise, _):
+            let accumulatedRepsCount = reps + repsCounterAccumulator
+            //TODO: This hack is to avoid calculation errors on bigger windows. Should be fixed!
+            if end.timeIntervalSinceDate(start) > 10 {
+                MRAppDelegate.sharedDelegate().exerciseStarted(exercise.detail, start: end)
+                repsCounterAccumulator = accumulatedRepsCount
+            }
+            if currentRepsCount < accumulatedRepsCount {
+                setReps(accumulatedRepsCount)
+            }
+        default:
+            resetResp()
+        }
+    }
 
     override func viewDidLoad() {
         mainExerciseView.delegate = self
         labSwitch.on = defaults.boolForKey("labMode")
         setLabModeLabel()
+        resetResp()
         
         setTitleImage(named: "muvr_logo_white")
         navigationItem.setHidesBackButton(true, animated: false)
@@ -205,10 +238,11 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             mainExerciseView.swipeButtonsHidden = true
             mainExerciseView.reset()
             mainExerciseView.start(5)
-        case .InExercise(let exercise, _):
+        case .InExercise(let exercise, let start):
             mainExerciseView.headerTitle = "Stop".localized()
             mainExerciseView.reset()
             mainExerciseView.start(exercise.duration!)
+            try! MRAppDelegate.sharedDelegate().exerciseStarted(exercise.detail, start: start)
             switchToViewController(inExerciseViewController)
         case .Done(let exercise, _, _, _):
             mainExerciseView.headerTitle = "Finished".localized()
