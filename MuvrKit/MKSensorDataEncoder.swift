@@ -5,7 +5,7 @@ import Foundation
 ///
 public protocol MKSensorDataEncoderTarget {
     
-    func writeData(data: NSData, offset: UInt64?)
+    func writeData(data: Data, offset: UInt64?)
     
     func close()
 }
@@ -14,18 +14,18 @@ public protocol MKSensorDataEncoderTarget {
 /// Provides write access to a file
 ///
 public class MKFileSensorDataEncoderTarget : MKSensorDataEncoderTarget {
-    private let handle: NSFileHandle
+    private let handle: FileHandle
     
-    public init(fileUrl: NSURL) {
-        try! "".writeToURL(fileUrl, atomically: true, encoding: NSASCIIStringEncoding)
-        self.handle = try! NSFileHandle(forWritingToURL: fileUrl)
+    public init(fileUrl: URL) {
+        try! "".write(to: fileUrl, atomically: true, encoding: .ascii)
+        self.handle = try! FileHandle(forWritingTo: fileUrl)
     }
     
-    public func writeData(data: NSData, offset: UInt64?) {
+    public func writeData(data: Data, offset: UInt64?) {
         if let offset = offset {
-            handle.seekToFileOffset(offset)
+            handle.seek(toFileOffset: offset)
         }
-        handle.writeData(data)
+        handle.write(data)
     }
     
     public func close() {
@@ -45,7 +45,7 @@ public class MKMutableDataEncoderTarget : MKSensorDataEncoderTarget {
         self.data = data
     }
     
-    public func writeData(data: NSData, offset: UInt64?) {
+    public func writeData(data: Data, offset: UInt64?) {
         if let offset = offset {
             self.data.replaceBytesInRange(NSRange(location: Int(offset), length: data.length), withBytes: data.bytes, length: data.length)
         } else {
@@ -185,7 +185,7 @@ public final class MKSensorDataEncoder {
     }
     
     /// The duration encoded
-    public var duration: NSTimeInterval? {
+    public var duration: TimeInterval? {
         if sampleCount > 0 {
             return Double(sampleCount - 1) / Double(samplesPerSecond)
         }

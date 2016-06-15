@@ -8,8 +8,8 @@ public struct MKExercise {
     
     public let type: MKExerciseTypeDescriptor
     public let id: Id
-    public let duration: NSTimeInterval
-    public let offset: NSTimeInterval // exercise starting offset from begining of session
+    public let duration: TimeInterval
+    public let offset: TimeInterval // exercise starting offset from begining of session
     
     ///
     /// Copies this instance updating the given fields
@@ -19,7 +19,7 @@ public struct MKExercise {
     /// - parameter weight: the new weight
     /// - returns: the updated instance
     ///
-    func copy(offsetDelta offsetDelta: NSTimeInterval) -> MKExercise {
+    func copy(offsetDelta offsetDelta: TimeInterval) -> MKExercise {
         return MKExercise(type: type, id: id, duration: duration, offset: offset + offsetDelta)
     }
 }

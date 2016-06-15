@@ -11,14 +11,14 @@ struct MKConnectivitySettings {
     // all classifiers work with windows of 400 samples; i.e. 8 seconds.
     static let windowSize = 400
     // the convenience mapping of the # samples to wall time
-    static let windowDuration: NSTimeInterval = NSTimeInterval(windowSize) / NSTimeInterval(samplingRate)
+    static let windowDuration: TimeInterval = NSTimeInterval(windowSize) / NSTimeInterval(samplingRate)
     
     ///
     /// Computes the number of samples for the given ``duration``.
     /// - parameter duration: the required duration in seconds
     /// - returns: the number of samples
     ///
-    static func samplesForDuration(duration: NSTimeInterval) -> Int {
+    static func samplesForDuration(duration: TimeInterval) -> Int {
         return Int(duration * Double(samplingRate))
     }
 }
@@ -31,7 +31,7 @@ struct MKConnectivitySessions {
     private var sessions: [MKExerciseSession: MKExerciseSessionProperties]
     
     /// Used to persist the sessions in case of app shut down before session stopped
-    private static let fileUrl = "\(NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!)/sessions.json"
+    private static let fileUrl = "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!)/sessions.json"
     
     init() {
         self.sessions = MKConnectivitySessions.loadSessions()
@@ -42,7 +42,7 @@ struct MKConnectivitySessions {
     /// - parameter session: the session to update
     /// - parameter propsUpdate: the function that returns updated props given the old ones
     ///
-    mutating func update(session: MKExerciseSession, propsUpdate: MKExerciseSessionProperties -> MKExerciseSessionProperties) -> MKExerciseSessionProperties? {
+    mutating func update(session: MKExerciseSession, propsUpdate: (MKExerciseSessionProperties) -> MKExerciseSessionProperties) -> MKExerciseSessionProperties? {
         if let oldProps = sessions[session] {
             let newProps = propsUpdate(oldProps)
             if oldProps.ended && !newProps.ended {
@@ -50,7 +50,7 @@ struct MKConnectivitySessions {
                 return nil
             }
             sessions[session] = propsUpdate(oldProps)
-            saveSessions(sessions)
+            saveSessions(sessions: sessions)
             return sessions[session]
         }
         return nil
@@ -330,7 +330,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         ///      - date of last encoded sample
         ///      - flag indicating if it's the last chunk of data
         ///
-        func encodeSamples(from from: NSDate, to: NSDate?) -> (NSURL, NSDate, Bool)? {
+        func encodeSamples(from: NSDate, to: NSDate?) -> (NSURL, NSDate, Bool)? {
             // Indicates if the expected sample is in the requested range
             func isAfterFromDate(sample: CMRecordedAccelerometerData) -> Bool {
                 return from.timeIntervalSinceReferenceDate <= sample.startDate.timeIntervalSinceReferenceDate

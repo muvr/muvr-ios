@@ -22,13 +22,13 @@ public struct MKExerciseSessionStats {
 /// Tracks the data sent and session end date
 ///
 public struct MKExerciseSessionProperties {
-    public let start: NSDate // session start date
-    public let accelerometerStart: NSDate?
-    public let accelerometerEnd: NSDate?
-    public let end: NSDate?
+    public let start: Date // session start date
+    public let accelerometerStart: Date?
+    public let accelerometerEnd: Date?
+    public let end: Date?
     public let completed: Bool
     
-    public init(start: NSDate) {
+    public init(start: Date) {
         self.start = start
         self.accelerometerStart = nil
         self.accelerometerEnd = nil
@@ -36,7 +36,7 @@ public struct MKExerciseSessionProperties {
         self.completed = false
     }
     
-    public init(start: NSDate, accelerometerStart: NSDate?, accelerometerEnd: NSDate?, end: NSDate?, completed: Bool) {
+    public init(start: Date, accelerometerStart: Date?, accelerometerEnd: Date?, end: Date?, completed: Bool) {
         self.start = start
         self.accelerometerStart = accelerometerStart
         self.accelerometerEnd = accelerometerEnd
@@ -50,30 +50,30 @@ public struct MKExerciseSessionProperties {
     }
     
     /// Copies this instance assigning the ``end`` field
-    internal func with(end end: NSDate) -> MKExerciseSessionProperties {
+    internal func with(end: NSDate) -> MKExerciseSessionProperties {
         return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, accelerometerEnd: accelerometerEnd, end: end, completed: completed)
     }
     
     /// Copies this instance assigning the ``completed`` field
-    internal func with(completed completed: Bool) -> MKExerciseSessionProperties {
+    internal func with(completed: Bool) -> MKExerciseSessionProperties {
         return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, accelerometerEnd: accelerometerEnd, end: end, completed: completed)
     }
     
     /// Copies this instance assigning the ``accelerometerEnd`` field.
-    internal func with(accelerometerEnd accelerometerEnd: NSDate) -> MKExerciseSessionProperties {
+    internal func with(accelerometerEnd: NSDate) -> MKExerciseSessionProperties {
         // new recorded value is send + rd (because all recorded samples might not have been sent)
         return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, accelerometerEnd: accelerometerEnd, end: end, completed: completed)
     }
     
     /// Copies this instance assigning the ``accelerometerStart`` field
-    internal func with(accelerometerStart accelerometerStart: NSDate) -> MKExerciseSessionProperties {
+    internal func with(accelerometerStart: NSDate) -> MKExerciseSessionProperties {
         return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, accelerometerEnd: accelerometerEnd, end: end, completed: completed)
     }
     
     /// Indicates the session duration
     /// if the session is not over it indicates the elpased time since session start
-    public var duration: NSTimeInterval {
-        let end = self.end ?? NSDate()
+    public var duration: TimeInterval {
+        let end = self.end ?? Date()
         return end.timeIntervalSinceDate(start)
     }
     
