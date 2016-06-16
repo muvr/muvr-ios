@@ -6,12 +6,12 @@ class MRManualViewController : UIViewController, UITableViewDataSource, UITableV
     @IBOutlet private weak var startButton: UIButton!
     private var exerciseType: MKExerciseType? = nil
     private let exerciseTypeDescriptors: [MKExerciseTypeDescriptor] = [
-        .ResistanceTargeted,
-        .ResistanceWholeBody,
-        .IndoorsCardio
+        .resistanceTargeted,
+        .resistanceWholeBody,
+        .indoorsCardio
     ]
     private let muscleGroups: [MKMuscleGroup] = [
-        .Arms, .Back, .Chest, .Core, .Shoulders, .Legs
+        .arms, .back, .chest, .core, .shoulders, .legs
     ]
     
     
@@ -21,7 +21,7 @@ class MRManualViewController : UIViewController, UITableViewDataSource, UITableV
     
     @IBAction private func start() {
         if let exerciseType = exerciseType {
-            try! MRAppDelegate.sharedDelegate().startSession(.AdHoc(exerciseType: exerciseType))
+            try! MRAppDelegate.sharedDelegate().startSession(.adHoc(exerciseType: exerciseType))
         }
     }
     
@@ -123,17 +123,17 @@ class MRManualViewController : UIViewController, UITableViewDataSource, UITableV
             if selectedMuscleGroups.isEmpty {
                 exerciseType = nil
             } else {
-                exerciseType = .ResistanceTargeted(muscleGroups: selectedMuscleGroups)
+                exerciseType = .resistanceTargeted(muscleGroups: selectedMuscleGroups)
             }
         case 1 where checked:
-            exerciseType = .ResistanceWholeBody
+            exerciseType = .resistanceWholeBody
         case 2 where checked:
-            exerciseType = .IndoorsCardio
+            exerciseType = .indoorsCardio
         default:
             exerciseType = nil
         }
         
-        startButton.enabled = exerciseType != nil
+        startButton.isEnabled = exerciseType != nil
     }
 }
 

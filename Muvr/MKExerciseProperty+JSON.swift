@@ -15,11 +15,11 @@ extension MKExerciseProperty {
            let step = dict["step"] as? NSNumber,
            let maximum = dict["maximum"] as? NSNumber?
            where type == MKExerciseProperty.weightProgression {
-            self = .WeightProgression(minimum: minimum.doubleValue, step: step.doubleValue, maximum: maximum?.doubleValue)
+            self = .weightProgression(minimum: minimum.doubleValue, step: step.doubleValue, maximum: maximum?.doubleValue)
         } else if let duration = dict["duration"] as? NSNumber where type == MKExerciseProperty.typicalDuration {
-            self = .TypicalDuration(duration: duration.doubleValue)
+            self = .typicalDuration(duration: duration.doubleValue)
         } else if let duration = dict["duration"] as? NSNumber where type == MKExerciseProperty.oneRepetitionDuration {
-            self = .OneRepetitionDuration(duration: duration.doubleValue)
+            self = .oneRepetitionDuration(duration: duration.doubleValue)
         } else {
             return nil
         }
@@ -27,15 +27,15 @@ extension MKExerciseProperty {
     
     var jsonObject: [String : AnyObject] {
         switch self {
-        case .WeightProgression(let minimum, let step, let maximum):
+        case .weightProgression(let minimum, let step, let maximum):
             var result: [String : AnyObject] = ["type":MKExerciseProperty.weightProgression, "minimum":minimum, "step":step]
             if let maximum = maximum {
                 result["maximum"] = maximum
             }
             return result
-        case .TypicalDuration(let duration):
+        case .typicalDuration(let duration):
             return ["type":MKExerciseProperty.typicalDuration, "duration":duration]
-        case .OneRepetitionDuration(let duration):
+        case .oneRepetitionDuration(let duration):
             return ["type":MKExerciseProperty.oneRepetitionDuration, "duration":duration]
         }
     }

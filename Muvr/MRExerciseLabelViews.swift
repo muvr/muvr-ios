@@ -48,7 +48,7 @@ extension MRWeightView : MRScalarExerciseLabelSettable {
         accessibilityLabel = "Weight".localized()
         accessibilityIdentifier = "Weight"
         if !MRWeightView.supports(exerciseLabel) { throw MRScalarExerciseLabelSettableError.labelNotSupported }
-        if case .Weight(let weight) = exerciseLabel {
+        if case .weight(let weight) = exerciseLabel {
             value = weight
             accessibilityValue = String(weight)
         }
@@ -60,7 +60,7 @@ extension MRRepetitionsView : MRScalarExerciseLabelSettable {
     
     static func supports(_ exerciseLabel: MKExerciseLabel) -> Bool {
         switch exerciseLabel {
-        case .Repetitions: return true
+        case .repetitions: return true
         default: return false
         }
     }
@@ -69,7 +69,7 @@ extension MRRepetitionsView : MRScalarExerciseLabelSettable {
         accessibilityLabel = "Repetitions".localized()
         accessibilityIdentifier = "Repetitions"
         if !MRRepetitionsView.supports(exerciseLabel) { throw MRScalarExerciseLabelSettableError.labelNotSupported }
-        if case .Repetitions(let repetitions) = exerciseLabel {
+        if case .repetitions(let repetitions) = exerciseLabel {
             value = repetitions
             accessibilityValue = String(repetitions)
         }
@@ -80,7 +80,7 @@ extension MRBarsView : MRScalarExerciseLabelSettable {
     
     static func supports(_ exerciseLabel: MKExerciseLabel) -> Bool {
         switch exerciseLabel {
-        case .Intensity: return true
+        case .intensity: return true
         default: return false
         }
     }
@@ -90,7 +90,7 @@ extension MRBarsView : MRScalarExerciseLabelSettable {
         accessibilityIdentifier = "Intensity"
         accessibilityTraits = UIAccessibilityTraitAdjustable
         if !MRBarsView.supports(exerciseLabel) { throw MRScalarExerciseLabelSettableError.labelNotSupported }
-        if case .Intensity(let intensity) = exerciseLabel {
+        if case .intensity(let intensity) = exerciseLabel {
             value = intensity
             accessibilityValue = String(intensity)
         }

@@ -66,7 +66,7 @@ extension MRManagedExerciseSession {
     /// - returns a list of all the similar ended session (including this session if ended)
     ///
     func fetchSimilarSessionsSinceDate(_ date: Date, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
+        let fetchRequest = NSFetchRequest<MRManagedExerciseSession>(entityName: "MRManagedExerciseSession")
         let from = date.dateOnly
         var predicates = [Predicate(format: "start >= %@", from), Predicate(format: "end != nil")]
         if let templateId = plan.templateId {
@@ -77,7 +77,7 @@ extension MRManagedExerciseSession {
         fetchRequest.predicate = CompoundPredicate(andPredicateWithSubpredicates: predicates)
         fetchRequest.sortDescriptors = [SortDescriptor(key: "start", ascending: false)]
         
-        return (try? managedObjectContext.fetch(fetchRequest) as! [MRManagedExerciseSession]) ?? []
+        return (try? managedObjectContext.fetch(fetchRequest)) ?? []
     }
 
 }

@@ -244,7 +244,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             mainExerciseView.start(exercise.duration!)
             try! MRAppDelegate.sharedDelegate().exerciseStarted(exercise.detail, start: start)
             switchToViewController(inExerciseViewController)
-        case .Done(let exercise, _, _, _):
+        case .done(let exercise, _, _, _):
             mainExerciseView.headerTitle = "Finished".localized()
             mainExerciseView.reset()
             mainExerciseView.start(15)

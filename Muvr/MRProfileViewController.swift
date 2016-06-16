@@ -58,15 +58,15 @@ class MRProfileViewController : UIViewController, UITableViewDataSource, JTCalen
     /// This implementation displays a page with date that falls before the end of this week. We compute
     /// that by working out the date at the end of this week and comparing it with the given ``date``.
     ///
-    func calendar(_ calendar: JTCalendarManager!, canDisplayPageWithDate date: Date!) -> Bool {
+    func calendar(_ calendar: JTCalendarManager!, canDisplayPageWith date: Date!) -> Bool {
         let today = Date()
         
         // today as the day of week, where 1 is the first day of week (e.g. Monday in UK, Sunday in US, etc.)
-        let weekDay = Calendar.current().components(.weekday, from: today).weekday
+        let weekDay = Calendar.current().components(.weekday, from: today).weekday!
         // the end of the week where ``today`` falls into
         let dateAtEndOfWeek = today.addDays(8 - weekDay)
         
-        return date.compare(dateAtEndOfWeek) == .OrderedAscending
+        return date.compare(dateAtEndOfWeek) == .orderedAscending
     }
     
     ///
@@ -75,7 +75,7 @@ class MRProfileViewController : UIViewController, UITableViewDataSource, JTCalen
     func calendarBuildWeekDayView(_ calendar: JTCalendarManager!) -> UIView! {
         let view = JTCalendarWeekDayView()
         for label in view.dayViews as! [UILabel] {
-            label.font = UIFont.boldSystemFontOfSize(label.font.pointSize)
+            label.font = UIFont.boldSystemFont(ofSize: label.font.pointSize)
             label.textColor = MRColor.black
         }
         return view

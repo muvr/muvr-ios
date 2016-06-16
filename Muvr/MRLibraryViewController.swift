@@ -15,7 +15,7 @@ class MRLibaryWorkoutCell: UITableViewCell {
 ///
 /// Displays the predefined workouts in a tableview
 ///
-class MRLibraryViewController: UIViewController, UITableViewDataSource {
+class MRLibraryViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     /// starts the workout
     @IBOutlet private weak var startButton: UIButton!
@@ -35,18 +35,18 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
         return workouts.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! MRLibaryWorkoutCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MRLibaryWorkoutCell
         cell.textLabel?.text = workouts[indexPath.row].name
-        cell.textLabel?.backgroundColor = .clearColor()
+        cell.textLabel?.backgroundColor = .clear()
         cell.infoButton.workout = workouts[indexPath.row]
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // first, deselect all other cells in all other sections
         clearSelection()
-        tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         selectedWorkout = workouts[indexPath.row]
         startButton.isEnabled = true
     }
