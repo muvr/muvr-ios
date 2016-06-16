@@ -114,23 +114,23 @@ struct JTCalendarHelper {
         if let dayView = dv as? JTCalendarDayView {
             // Today
             if JTCalendarHelper.dateHelper.date(selectedDate, isTheSameDayThan: dayView.date) ?? false {
-                dayView.circleView.hidden = false
+                dayView.circleView.isHidden = false
                 dayView.circleView.backgroundColor = UIView.appearance().tintColor
-                dayView.dotView.backgroundColor = UIColor.whiteColor()
-                dayView.textLabel.textColor = UIColor.whiteColor()
+                dayView.dotView.backgroundColor = UIColor.white()
+                dayView.textLabel.textColor = UIColor.white()
             } else if JTCalendarHelper.dateHelper.date(Date(), isTheSameDayThan: dayView.date) {
-                dayView.circleView.hidden = false
+                dayView.circleView.isHidden = false
                 dayView.circleView.backgroundColor = MRColor.gray
-                dayView.dotView.backgroundColor = UIColor.whiteColor()
-                dayView.textLabel.textColor = UIColor.whiteColor()
+                dayView.dotView.backgroundColor = UIColor.white()
+                dayView.textLabel.textColor = UIColor.white()
             } else {
-                dayView.circleView.hidden = true
+                dayView.circleView.isHidden = true
                 dayView.dotView.backgroundColor = MRColor.orange
                 dayView.textLabel.textColor = MRColor.black
             }
             
             
-            dayView.dotView.hidden = !hasEvent(dayView.date)
+            dayView.dotView.isHidden = !hasEvent(dayView.date)
         }
     }
     

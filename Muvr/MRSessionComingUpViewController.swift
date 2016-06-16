@@ -54,10 +54,10 @@ class MRSessionComingUpViewController: UIViewController {
         comingUpScrollView.contentSize = CGSize(width: buttonWidth * CGFloat(exerciseDetails.count), height: comingUpScrollView.frame.height)
         
         for exerciseDetail in exerciseDetails {
-            let button = MRAlternativeExerciseButton(type: UIButtonType.System)
+            let button = MRAlternativeExerciseButton(type: UIButtonType.system)
             button.lineWidth = 2
-            button.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
-            button.addTarget(self, action: #selector(MRSessionComingUpViewController.exerciseSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            button.setTitleColor(UIColor.darkText(), for: [])
+            button.addTarget(self, action: #selector(MRSessionComingUpViewController.exerciseSelected(_:)), for: UIControlEvents.touchUpInside)
             button.exerciseDetail = exerciseDetail
             comingUpScrollView.addSubview(button)
         }

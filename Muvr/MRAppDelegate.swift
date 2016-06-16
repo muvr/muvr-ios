@@ -244,8 +244,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
                 var properties = propertiesObject?.flatMap { MKExerciseProperty(jsonObject: $0) } ?? []
                 if properties.isEmpty {
                     switch exerciseType {
-                    case .ResistanceTargeted: properties = defaultResistanceTargetedProperties
-                    case .IndoorsCardio, .ResistanceWholeBody: properties = []
+                    case .resistanceTargeted: properties = defaultResistanceTargetedProperties
+                    case .indoorsCardio, .resistanceWholeBody: properties = []
                     }
                 }
                 let labels = labelNames.flatMap { MKExerciseLabelDescriptor(id: $0) }
@@ -423,7 +423,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
         
         // get the exercise plan for this session
-        let sessionType: MRSessionType = .AdHoc(exerciseType: session.exerciseType)  // no predefined plan on the watch, yet
+        let sessionType: MRSessionType = .adHoc(exerciseType: session.exerciseType)  // no predefined plan on the watch, yet
         let plan = MRManagedExercisePlan.planForSessionType(sessionType, location: currentLocation, inManagedObjectContext: managedObjectContext)
         
         // no running session, let's start a new one
@@ -497,7 +497,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     func sessionClassifierDidSetupExercise(_ session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State? {
         if let currentSession = findSession(withId: session.id) {
             switch trigger {
-            case .SetupDetected(let exercises):
+            case .setupDetected(let exercises):
                 if let (exerciseId, probability) = exercises.last { //TODO: send the last one or all
                     sessionViewController!.exerciseSetupDetected(exerciseId, probability: probability)
                 }
@@ -647,7 +647,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         let sessions = session.fetchSimilarSessionsSinceDate(fromDate, inManagedObjectContext: managedObjectContext)
         guard let achievement = MRSessionAppraiser().achievementForSessions(sessions, plan: template) else { return }
         
-        MRManagedAchievement.insertNewObject(achievement, plan: session.plan, inManagedObjectContext: managedObjectContext)
+        _ = MRManagedAchievement.insertNewObject(achievement, plan: session.plan, inManagedObjectContext: managedObjectContext)
     }
     
     func initialSetup() { }
@@ -656,9 +656,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     private func roundLabel(_ label: MKExerciseLabelDescriptor, value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
         switch label {
-        case .Weight: return roundWeight(value, forExerciseId: exerciseId)
-        case .Repetitions: return roundInteger(value, forExerciseId: exerciseId)
-        case .Intensity: return roundClipToNorm(value, forExerciseId: exerciseId)
+        case .weight: return roundWeight(value, forExerciseId: exerciseId)
+        case .repetitions: return roundInteger(value, forExerciseId: exerciseId)
+        case .intensity: return roundClipToNorm(value, forExerciseId: exerciseId)
         }
     }
     
@@ -678,7 +678,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private func roundWeight(_ value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
         guard let detail = exerciseDetailForExerciseId(exerciseId) else { return max(0, value) }
         for property in detail.properties {
-            if case .WeightProgression(let minimum, let step, let maximum) = property {
+            if case .weightProgression(let minimum, let step, let maximum) = property {
                 return MKScalarRounderFunction.roundMinMax(value, minimum: minimum, step: step, maximum: maximum)
             }
         }
@@ -687,9 +687,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     private func steps(forLabel label: MKExerciseLabelDescriptor, value: Double, steps: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
         switch label {
-        case .Weight: return stepWeight(value, n: steps, forExerciseId: exerciseId)
-        case .Repetitions: return stepInteger(value, n: steps, forExerciseId: exerciseId)
-        case .Intensity: return stepIntensity(value, n: steps, forExerciseId: exerciseId)
+        case .weight: return stepWeight(value, n: steps, forExerciseId: exerciseId)
+        case .repetitions: return stepInteger(value, n: steps, forExerciseId: exerciseId)
+        case .intensity: return stepIntensity(value, n: steps, forExerciseId: exerciseId)
         }
     }
     

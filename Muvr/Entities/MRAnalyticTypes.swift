@@ -110,9 +110,9 @@ struct MRAverage {
 
 func ==(lhs: MRAggregateKey, rhs: MRAggregateKey) -> Bool {
     switch (lhs, rhs) {
-    case (.Exercise(let l), .Exercise(let r)): return l == r
-    case (.MuscleGroup(let l), .MuscleGroup(let r)): return l == r
-    case (.ExerciseType(let l), .ExerciseType(let r)): return l == r
+    case (.exercise(let l), .exercise(let r)): return l == r
+    case (.muscleGroup(let l), .muscleGroup(let r)): return l == r
+    case (.exerciseType(let l), .exerciseType(let r)): return l == r
     case (.noMuscleGroup, .noMuscleGroup): return true
     default: return false
     }
