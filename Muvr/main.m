@@ -6,6 +6,7 @@ int main(int argc, char * argv[]) {
             return UIApplicationMain(argc, argv, nil, @"Muvr.MRAppDelegate");
         } @catch (NSException *ex) {
             NSLog(@"%@", ex);
+            NSLog(@"%@", ex.description);
         }
     }
 }
