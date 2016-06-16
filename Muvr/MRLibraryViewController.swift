@@ -48,7 +48,7 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
         clearSelection()
         tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
         selectedWorkout = workouts[indexPath.row]
-        startButton.enabled = true
+        startButton.isEnabled = true
     }
     
     ///
@@ -56,10 +56,10 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
     ///
     private func clearSelection() {
         for r in 0..<workouts.count {
-            let ip = NSIndexPath(forRow: r, inSection: 0)
-            tableView.cellForRowAtIndexPath(ip)?.accessoryType = .None
+            let ip = IndexPath(row: r, section: 0)
+            tableView.cellForRow(at: ip)?.accessoryType = .none
         }
-        startButton.enabled = false
+        startButton.isEnabled = false
         selectedWorkout = nil
     }
     
@@ -80,13 +80,13 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
               let button = sender as? MRLibraryInfoButton,
               let workout = button.workout,
               case .predefined(let plan) = workout,
-              let bundlePath = Bundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle"),
+              let bundlePath = Bundle(for: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle"),
               let bundle = Bundle(path: bundlePath),
               let path = bundle.pathForResource(plan.filename, ofType: "html", inDirectory: "www"),
-              let url = NSURL(string: path)
+              let url = URL(string: path)
         else { return }
         
-        let request = NSURLRequest(URL: url)
+        let request = URLRequest(url: url)
         webView.loadRequest(request)
     }
     

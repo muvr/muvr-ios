@@ -12,7 +12,7 @@ extension MKExerciseType {
         guard let (type, rest, _) = MKExercise.componentsFromExerciseId(exerciseId) else { return nil }
         if type == MKExerciseType.resistanceTargeted {
             guard let first = rest.first else { return nil }
-            let mgs = first.componentsSeparatedByString(",").flatMap { MKMuscleGroup(id: $0) }
+            let mgs = first.components(separatedBy: ",").flatMap { MKMuscleGroup(id: $0) }
             self = MKExerciseType.ResistanceTargeted(muscleGroups: mgs)
         } else if type == MKExerciseType.indoorsCardio {
             self = .IndoorsCardio
@@ -28,7 +28,7 @@ extension MKExerciseType {
     ///
     var exerciseIdPrefix: String {
         var s = self.id + ":"
-        if case .ResistanceTargeted(let muscleGroups) = self {
+        if case .resistanceTargeted(let muscleGroups) = self {
             s = s + muscleGroups.sort { $0.id < $1.id }.reduce("") { r, mg in return r + "," + mg.id }
         }
         return s

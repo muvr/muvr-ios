@@ -9,9 +9,9 @@ extension MKExerciseType {
     /// The localised title for the type
     var title: String {
         switch self {
-        case .ResistanceTargeted(let muscleGroups): return (muscleGroups.map {"\($0)"}).joined(separator: ", ")
-        case .ResistanceWholeBody: return "Whole Body"
-        case .IndoorsCardio: return "Indoors Cardio"
+        case .resistanceTargeted(let muscleGroups): return (muscleGroups.map {"\($0)"}).joined(separator: ", ")
+        case .resistanceWholeBody: return "Whole Body"
+        case .indoorsCardio: return "Indoors Cardio"
         }
     }
     

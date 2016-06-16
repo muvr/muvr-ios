@@ -45,13 +45,13 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     @IBOutlet var exerciseTypeTable: WKInterfaceTable!
 
     private let exerciseType: [MKExerciseType] = [
-        MKExerciseType.ResistanceWholeBody,
-        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.arms]),
-        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.back]),
-        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.chest]),
-        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.core]),
-        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.legs]),
-        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.shoulders])
+        MKExerciseType.resistanceWholeBody,
+        MKExerciseType.resistanceTargeted(muscleGroups: [MKMuscleGroup.arms]),
+        MKExerciseType.resistanceTargeted(muscleGroups: [MKMuscleGroup.back]),
+        MKExerciseType.resistanceTargeted(muscleGroups: [MKMuscleGroup.chest]),
+        MKExerciseType.resistanceTargeted(muscleGroups: [MKMuscleGroup.core]),
+        MKExerciseType.resistanceTargeted(muscleGroups: [MKMuscleGroup.legs]),
+        MKExerciseType.resistanceTargeted(muscleGroups: [MKMuscleGroup.shoulders])
     ]
 
     private var renderer: MRSessionProgressRingRenderer?

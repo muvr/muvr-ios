@@ -4,20 +4,20 @@ extension MKExerciseType {
     
     var metadata: [String : AnyObject] {
         switch self {
-        case .ResistanceTargeted(let muscleGroups): return ["id":id, "muscleGroups":muscleGroups.map { $0.id }]
+        case .resistanceTargeted(let muscleGroups): return ["id":id, "muscleGroups":muscleGroups.map { $0.id }]
         default: return ["id":id]
         }
     }
     
     init?(metadata: [String : AnyObject]) {
         if let id = metadata["id"] as? String {
-            if id == MKExerciseType.resistanceWholeBody {
-                self = .ResistanceWholeBody
-            } else if id == MKExerciseType.indoorsCardio {
-                self = .IndoorsCardio
-            } else if let muscleGroupsIds = (metadata["muscleGroups"] as? [String]) where id == MKExerciseType.resistanceTargeted {
+            if id == MKExerciseType.resistanceWholeBody.id {
+                self = .resistanceWholeBody
+            } else if id == MKExerciseType.indoorsCardio.id {
+                self = .indoorsCardio
+            } else if let muscleGroupsIds = (metadata["muscleGroups"] as? [String]) where id == MKExerciseType.resistanceTargetedName {
                 let muscleGroups = muscleGroupsIds.flatMap { MKMuscleGroup(id: $0) }
-                self = .ResistanceTargeted(muscleGroups: muscleGroups)
+                self = .resistanceTargeted(muscleGroups: muscleGroups)
             } else {
                 return nil
             }

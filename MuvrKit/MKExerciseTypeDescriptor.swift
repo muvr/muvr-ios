@@ -13,9 +13,9 @@ public enum MKExerciseTypeDescriptor {
     /// Returns a concrete type from this general one
     public var concrete: MKExerciseType {
         switch self {
-        case .resistanceWholeBody: return .ResistanceWholeBody
-        case .resistanceTargeted: return .ResistanceTargeted(muscleGroups: [.arms, .core, .chest, .shoulders, .legs, .back])
-        case .indoorsCardio: return .IndoorsCardio
+        case .resistanceWholeBody: return .resistanceWholeBody
+        case .resistanceTargeted: return .resistanceTargeted(muscleGroups: [.arms, .core, .chest, .shoulders, .legs, .back])
+        case .indoorsCardio: return .indoorsCardio
         }
     }
     

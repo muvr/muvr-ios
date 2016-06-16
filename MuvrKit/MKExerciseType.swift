@@ -3,19 +3,19 @@ import Foundation
 /// The exercise type
 public enum MKExerciseType : Equatable, Hashable {
     
-    public static let resistanceTargeted = "resistanceTargeted"
-    public static let resistanceWholeBody = "resistanceWholeBody"
-    public static let indoorsCardio = "indoorsCardio"
+    public static let resistanceTargetedName = "resistanceTargeted"
+    public static let resistanceWholeBodyName = "resistanceWholeBody"
+    public static let indoorsCardioName = "indoorsCardio"
     
     /// General indoors cardio: treadmill, cross-trainer, even spinning at the moment
-    case IndoorsCardio
+    case indoorsCardio
 
     /// Whole-body resistance exercise, it targets all muscle groups
-    case ResistanceWholeBody
+    case resistanceWholeBody
     
     /// Specific resistance exercise targeting the given ``muscleGroups``
     /// - parameter muscleGroups: the muscle groups
-    case ResistanceTargeted(muscleGroups: [MKMuscleGroup])
+    case resistanceTargeted(muscleGroups: [MKMuscleGroup])
     
     ///
     /// Indicates whether self is contained in that. This is useful for targeted 
@@ -25,12 +25,12 @@ public enum MKExerciseType : Equatable, Hashable {
     ///
     public func isContainedWithin(_ that: MKExerciseType) -> Bool {
         switch (self, that) {
-        case (.ResistanceTargeted(let lmgs), .ResistanceTargeted(let rmgs)):
+        case (.resistanceTargeted(let lmgs), .resistanceTargeted(let rmgs)):
             return lmgs.reduce(true) { result, lmg in
                 return rmgs.contains(lmg)
             }
-        case (.IndoorsCardio, .IndoorsCardio): return true
-        case (.ResistanceWholeBody, .ResistanceWholeBody): return true
+        case (.indoorsCardio, .indoorsCardio): return true
+        case (.resistanceWholeBody, .resistanceWholeBody): return true
         default: return false
         }
     }
@@ -39,9 +39,9 @@ public enum MKExerciseType : Equatable, Hashable {
     public var hashValue: Int {
         get {
             switch self {
-            case .IndoorsCardio: return 1
-            case .ResistanceWholeBody: return 17
-            case .ResistanceTargeted(let mgs): return 31 + mgs.reduce(0) { Int.addWithOverflow($0, $1.hashValue).0 }
+            case .indoorsCardio: return 1
+            case .resistanceWholeBody: return 17
+            case .resistanceTargeted(let mgs): return 31 + mgs.reduce(0) { Int.addWithOverflow($0, $1.hashValue).0 }
             }
         }
     }
@@ -51,9 +51,9 @@ public enum MKExerciseType : Equatable, Hashable {
     ///
     public var labelDescriptors: [MKExerciseLabelDescriptor] {
         switch self {
-        case .IndoorsCardio: return [.intensity]
-        case .ResistanceTargeted: return [.repetitions, .weight, .intensity]
-        case .ResistanceWholeBody: return [.repetitions, .weight, .intensity]
+        case .indoorsCardio: return [.intensity]
+        case .resistanceTargeted: return [.repetitions, .weight, .intensity]
+        case .resistanceWholeBody: return [.repetitions, .weight, .intensity]
         }
     }
     
@@ -62,9 +62,9 @@ public enum MKExerciseType : Equatable, Hashable {
     ///
     public var id: String {
         switch self {
-        case .ResistanceTargeted: return MKExerciseType.resistanceTargeted
-        case .ResistanceWholeBody: return MKExerciseType.resistanceWholeBody
-        case .IndoorsCardio: return MKExerciseType.indoorsCardio
+        case .resistanceTargeted: return MKExerciseType.resistanceTargetedName
+        case .resistanceWholeBody: return MKExerciseType.resistanceWholeBodyName
+        case .indoorsCardio: return MKExerciseType.indoorsCardioName
         }
     }
 
@@ -73,9 +73,9 @@ public enum MKExerciseType : Equatable, Hashable {
 // Implementation of Equatable
 public func ==(lhs: MKExerciseType, rhs: MKExerciseType) -> Bool {
     switch (lhs, rhs) {
-    case (.IndoorsCardio, .IndoorsCardio): return true
-    case (.ResistanceWholeBody, .ResistanceWholeBody): return true
-    case (.ResistanceTargeted(let mgl), .ResistanceTargeted(let mgr)): return mgl.reduce(true) { r, mg in return r && mgr.contains(mg) }
+    case (.indoorsCardio, .indoorsCardio): return true
+    case (.resistanceWholeBody, .resistanceWholeBody): return true
+    case (.resistanceTargeted(let mgl), .resistanceTargeted(let mgr)): return mgl.reduce(true) { r, mg in return r && mgr.contains(mg) }
     default: return false
     }
 }

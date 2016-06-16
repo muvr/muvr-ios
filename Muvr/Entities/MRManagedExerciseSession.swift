@@ -45,9 +45,9 @@ class MRManagedExerciseSession: NSManagedObject {
     func sessionClassifierDidStartExercise(_ trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State {
         if MRAppDelegate.sharedDelegate().deviceSteadyAndLevel {
             NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.SessionDidStartExercise.rawValue), object: objectID)
-            return .Exercising(exerciseId: "")
+            return .exercising(exerciseId: "")
         }
-        return .NotExercising
+        return .notExercising
     }
 
     ///
@@ -58,13 +58,13 @@ class MRManagedExerciseSession: NSManagedObject {
     ///
     func sessionClassifierDidEndExercise(_ trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State {
         NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.SessionDidEndExercise.rawValue), object: objectID)
-        return .NotExercising
+        return .notExercising
     }
 
     private func defaultDurationForExerciseDetail(_ exerciseDetail: MKExerciseDetail) -> TimeInterval {
         for property in exerciseDetail.properties {
             switch property {
-            case .TypicalDuration(let duration): return duration
+            case .typicalDuration(let duration): return duration
             default: continue
             }
         }

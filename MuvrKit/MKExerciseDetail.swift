@@ -35,8 +35,8 @@ public struct MKExerciseDetail {
     ///
     public func isAlternativeOf(_ exerciseDetail: MKExerciseDetail) -> Bool {
         switch type {
-        case .IndoorsCardio, .ResistanceWholeBody: return type == exerciseDetail.type
-        case .ResistanceTargeted: return muscle == exerciseDetail.muscle
+        case .indoorsCardio, .resistanceWholeBody: return type == exerciseDetail.type
+        case .resistanceTargeted: return muscle == exerciseDetail.muscle
         }
     }
     
