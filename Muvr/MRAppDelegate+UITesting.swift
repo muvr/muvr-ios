@@ -13,7 +13,7 @@ import MuvrKit
 extension MRAppDelegate  {
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
-        if Process.arguments.contains("--reset-container") {
+        if Process.argc > 0 && Process.arguments.contains("--reset-container") {
             NSLog("Reset container.")
             let fileManager = FileManager.default()
             [FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDirectory.applicationSupportDirectory].forEach { directory  in
