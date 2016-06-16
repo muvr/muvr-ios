@@ -12,11 +12,11 @@ class MKExerciseTypePlusExerciseIdTests : XCTestCase {
             XCTAssertEqual(l, r)
         }
 
-        go(.IndoorsCardio)
-        go(.ResistanceWholeBody)
-        go(.ResistanceTargeted(muscleGroups: []))
-        go(.ResistanceTargeted(muscleGroups: [.Arms]))
-        go(.ResistanceTargeted(muscleGroups: [.Arms, .Legs]))
+        go(.indoorsCardio)
+        go(.resistanceWholeBody)
+        go(.resistanceTargeted(muscleGroups: []))
+        go(.resistanceTargeted(muscleGroups: [.arms]))
+        go(.resistanceTargeted(muscleGroups: [.arms, .legs]))
     }
     
 }

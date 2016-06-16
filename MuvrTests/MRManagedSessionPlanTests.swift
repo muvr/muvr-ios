@@ -20,7 +20,7 @@ class MRManagedSessionPlanTests : MRCoreDataTestCase {
         
         // upsert again
         let loadedPlan = MRManagedSessionPlan.find(inManagedObjectContext: managedObjectContext)!.plan
-        XCTAssertEqual(loadedPlan.next, ["foobar"])
+        XCTAssertEqual(loadedPlan!.next, ["foobar"])
     }
     
 }

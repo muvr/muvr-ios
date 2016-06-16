@@ -9,13 +9,13 @@ class MRManagedExercisePlanTests : MRCoreDataTestCase {
 
     func testUpsert() {
         let location = CLLocationCoordinate2D(latitude: 0, longitude: 0)
-        let exerciseType = MKExerciseType.ResistanceTargeted(muscleGroups: [.Arms, .Legs])
+        let exerciseType = MKExerciseType.resistanceTargeted(muscleGroups: [.arms, .legs])
 
         // the plan is not there to start with
         XCTAssertNil(MRManagedExercisePlan.exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext))
 
         // insert
-        let exercisePlan = MRManagedExercisePlan.insertNewObject(.AdHoc(exerciseType: exerciseType), location: location, inManagedObjectContext: managedObjectContext)
+        let exercisePlan = MRManagedExercisePlan.insertNewObject(.adHoc(exerciseType: exerciseType), location: location, inManagedObjectContext: managedObjectContext)
         XCTAssertNotNil(MRManagedExercisePlan.exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext))
         
         // mutate plan
@@ -24,13 +24,13 @@ class MRManagedExercisePlanTests : MRCoreDataTestCase {
         
         // upsert again
         let loadedPlan = MRManagedExercisePlan.exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext)!.plan
-        XCTAssertEqual(loadedPlan.next, ["foobar"])
+        XCTAssertEqual(loadedPlan!.next, ["foobar"])
     }
     
     func testChangeLocation() {
         let location0 = CLLocationCoordinate2D(latitude: 0, longitude: 0)
-        let exerciseType = MKExerciseType.ResistanceTargeted(muscleGroups: [.Arms, .Legs])
-        let sessionType = MRSessionType.AdHoc(exerciseType: exerciseType)
+        let exerciseType = MKExerciseType.resistanceTargeted(muscleGroups: [.arms, .legs])
+        let sessionType = MRSessionType.adHoc(exerciseType: exerciseType)
         
         let planAtLoc0 = MRManagedExercisePlan.planForSessionType(sessionType, location: location0, inManagedObjectContext: managedObjectContext)
         planAtLoc0.insert("foobar")

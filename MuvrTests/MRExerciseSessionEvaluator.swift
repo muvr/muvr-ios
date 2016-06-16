@@ -6,9 +6,9 @@ extension MKExerciseLabel {
 
     func scalar() -> Double {
         switch self {
-        case .Weight(let e): return e
-        case .Intensity(let e): return e
-        case .Repetitions(let e): return Double(e)
+        case .weight(let e): return e
+        case .intensity(let e): return e
+        case .repetitions(let e): return Double(e)
         }
     }
     
@@ -16,9 +16,9 @@ extension MKExerciseLabel {
         assert(self.descriptor == that.descriptor)
         
         switch (self, that) {
-        case (.Weight(let l), .Weight(let r)): return .Weight(weight: l - r)
-        case (.Intensity(let l), .Intensity(let r)): return .Intensity(intensity: l - r)
-        case (.Repetitions(let l), .Repetitions(let r)): return .Repetitions(repetitions: l - r)
+        case (.weight(let l), .weight(let r)): return .weight(weight: l - r)
+        case (.intensity(let l), .intensity(let r)): return .intensity(intensity: l - r)
+        case (.repetitions(let l), .repetitions(let r)): return .repetitions(repetitions: l - r)
         default: fatalError("Cannot subtract \(that) from \(self)")
         }
     }
@@ -85,7 +85,7 @@ class MRExerciseSessionEvaluator {
             func secondMax(_ exerciseId: MKExercise.Id) -> [MKExerciseLabelDescriptor: Double] {
                 var sms: [MKExerciseLabelDescriptor : Double] = [:]
                 for (k, x) in (filtered.filter { $0.0.id == exerciseId }.groupBy { (_, d, _, _) in return d }) {
-                    let sorted = x.map { $0.2.scalar() }.sort()
+                    let sorted = x.map { $0.2.scalar() }.sorted()
                     if sorted.count > 1 {
                         sms[k] = sorted[sorted.count - 2]
                     }
@@ -99,10 +99,10 @@ class MRExerciseSessionEvaluator {
             for (detail, td, e, p) in filtered where p != nil {
                 var loss: Double = 0
                 switch basis {
-                case .NumberOfTaps:
+                case .numberOfTaps:
                     var taps: Int = 0
                     let minimum = detail.properties.flatMap {
-                        if case .WeightProgression(let minimum, _, _) = $0 {
+                        if case .weightProgression(let minimum, _, _) = $0 {
                             return minimum
                         }
                         return nil
@@ -118,7 +118,7 @@ class MRExerciseSessionEvaluator {
                         while (x.subtract(p!).scalar() < 0) { taps += 1; x = x.increment(detail) }
                     }
                     loss = Double(taps)
-                case .RawValue:
+                case .rawValue:
                     loss = e.subtract(p!).scalar()
                 }
                 if loss > 0 {
@@ -204,7 +204,7 @@ class MRExerciseSessionEvaluator {
             } else {
                 result.addExercise(expectedExerciseId: detail.id, predictedExerciseId: nil)
             }
-            session.addExerciseDetail(detail, labels: labels, start: NSDate(), duration: 30)
+            session.addExerciseDetail(detail, labels: labels, start: Date(), duration: 30)
         }
 
         return result

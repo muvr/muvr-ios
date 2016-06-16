@@ -26,9 +26,9 @@ extension MRAppDelegate {
     /// Makes sure every scenario runs on fresh data
     ///
     func cleanup() throws {
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("MuvrCoreData.sqlite")
-        try persistentStoreCoordinator.destroyPersistentStoreAtURL(url, withType: NSSQLiteStoreType, options: nil)
-        try persistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+        let url = try! self.applicationDocumentsDirectory.appendingPathComponent("MuvrCoreData.sqlite")
+        try persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: NSSQLiteStoreType, options: nil)
+        try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
         
         // reset the current location
         let error = NSError(domain: "test", code: 0, userInfo: nil)
@@ -157,18 +157,18 @@ class MRSessionsRealDataTests : XCTestCase {
             
             // Compute session's score: accuracy, loss, ...
             var sessionScore: SessionScore = []
-            if let value = result.labelsAccuracy(ignoring: [.Intensity]) { sessionScore.append(.LabelAccuracy(value: value)) }
-            if let value = result.labelsWeightedLoss(.NumberOfTaps, ignoring: [.Intensity]) { sessionScore.append(.WeightedLoss(value: value)) }
-            sessionScore.append(.ExerciseAccuracy(value: result.exercisesAccuracy()))
+            if let value = result.labelsAccuracy(ignoring: [.intensity]) { sessionScore.append(.labelAccuracy(value: value)) }
+            if let value = result.labelsWeightedLoss(.numberOfTaps, ignoring: [.intensity]) { sessionScore.append(.weightedLoss(value: value)) }
+            sessionScore.append(.exerciseAccuracy(value: result.exercisesAccuracy()))
             
             // The session should meet the expected score
             if let expectedScore = expectedScores[name] {
-                text.appendContentsOf("\nSession \(name)\n")
+                text.append("\nSession \(name)\n")
                 let passed = sessionScore.reduce(true) { res, score in
                     let exp = expectedScore.filter { $0.name == score.name }.first
                     guard let expected = exp else { return res }
                     let isBetter = score.isBetterThan(expected, session: name)
-                    text.appendContentsOf("   \(isBetter ? "✓" : "✗") \(score.description): \(expected.truncValue) -> \(score.truncValue)\n")
+                    text.append("   \(isBetter ? "✓" : "✗") \(score.description): \(expected.truncValue) -> \(score.truncValue)\n")
                     return res && isBetter
                 }
                 
@@ -194,7 +194,7 @@ class MRSessionsRealDataTests : XCTestCase {
     private func readSessions(_ detail: (MKExercise.Id) -> MKExerciseDetail?, from directory: String) -> [MRLoadedSession] {
         let bundlePath = Bundle(for: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = Bundle(path: bundlePath)!
-        return bundle.pathsForResourcesOfType("csv", inDirectory: directory).sort().map { path in
+        return bundle.pathsForResources(ofType: "csv", inDirectory: directory).sorted().map { path in
             return MRSessionLoader.read(path, detail: detail)
         }
     }
@@ -210,7 +210,7 @@ class MRSessionsRealDataTests : XCTestCase {
         } else {
             print("Predicted session: nothing but was \(loadedSession.exerciseType)")
         }
-        try! app.startSession(.AdHoc(exerciseType: loadedSession.exerciseType))
+        try! app.startSession(.adHoc(exerciseType: loadedSession.exerciseType))
         let result = MRExerciseSessionEvaluator(loadedSession: loadedSession).evaluate(app.currentSession!)
         try! app.endCurrentSession()
         
@@ -230,7 +230,7 @@ class MRSessionsRealDataTests : XCTestCase {
     }
     
     func testTimeless() {
-        let app = UIApplication.sharedApplication().delegate as! MRAppDelegate
+        let app = UIApplication.shared().delegate as! MRAppDelegate
         // At Kingfisher
         // let kingfisher = CLLocation(latitude: 53.435739, longitude: -2.165993)
         // app.locationManager(CLLocationManager(), didUpdateLocations: [kingfisher])

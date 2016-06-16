@@ -7,7 +7,7 @@ class MRSessionAppraiserTests : MRCoreDataTestCase {
     
     func testBasicAchievement() {
         let template = MRAppDelegate.sharedDelegate().predefinedSessionTypes.first!
-        guard case .Predefined(let exercisePlan) = template else {
+        guard case .predefined(let exercisePlan) = template else {
             XCTFail("Can't extract exercise plan from template")
             return
         }

@@ -10,12 +10,12 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
     }
 
     func testClassificationHints() {
-        let plan = MRManagedExercisePlan.insertNewObject(.AdHoc(exerciseType: .IndoorsCardio), location: nil, inManagedObjectContext: managedObjectContext)
+        let plan = MRManagedExercisePlan.insertNewObject(.adHoc(exerciseType: .indoorsCardio), location: nil, inManagedObjectContext: managedObjectContext)
         let session = MRManagedExerciseSession.insert("12312", plan: plan, start: Date(), location: nil, inManagedObjectContext: managedObjectContext)
-        let givenDetail: MKExerciseDetail = MKExerciseDetail(id: "foo/bar", type: MKExerciseType.IndoorsCardio, muscle: nil, labels: [.Intensity], properties: [])
-        let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10)]
+        let givenDetail: MKExerciseDetail = MKExerciseDetail(id: "foo/bar", type: MKExerciseType.indoorsCardio, muscle: nil, labels: [.intensity], properties: [])
+        let givenLabels: [MKExerciseLabel] = [.repetitions(repetitions: 10)]
         session.setClassificationHint(givenDetail, labels: givenLabels)
-        if case .ExplicitExercise(let start, let duration, let expected) = session.classificationHints.first! {
+        if case .explicitExercise(let start, let duration, let expected) = session.classificationHints.first! {
             XCTAssertEqualWithAccuracy(start, start, accuracy: 0.1)
             XCTAssertNil(duration)
             let (expectedDetail, expectedLabels) = expected.first!
@@ -25,12 +25,12 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
     }
     
     func testAddExerciseDetail() {
-        let plan = MRManagedExercisePlan.insertNewObject(.AdHoc(exerciseType: .IndoorsCardio), location: nil, inManagedObjectContext: managedObjectContext)
+        let plan = MRManagedExercisePlan.insertNewObject(.adHoc(exerciseType: .indoorsCardio), location: nil, inManagedObjectContext: managedObjectContext)
         let session = MRManagedExerciseSession.insert("12312", plan: plan, start: Date(), location: nil, inManagedObjectContext: managedObjectContext)
         session.labelsPredictor = MKAverageLabelsPredictor(historySize: 1) { _, v, _ in return v }
         
-        let givenDetail: MKExerciseDetail = MKExerciseDetail(id: "foo/bar", type: MKExerciseType.ResistanceWholeBody, muscle: nil, labels: [.Repetitions, .Weight, .Intensity], properties: [])
-        let givenLabels: [MKExerciseLabel] = [.Repetitions(repetitions: 10), .Intensity(intensity: 0.5), .Weight(weight: 40)]
+        let givenDetail: MKExerciseDetail = MKExerciseDetail(id: "foo/bar", type: MKExerciseType.resistanceWholeBody, muscle: nil, labels: [.repetitions, .weight, .intensity], properties: [])
+        let givenLabels: [MKExerciseLabel] = [.repetitions(repetitions: 10), .intensity(intensity: 0.5), .weight(weight: 40)]
         
         session.addExerciseDetail(givenDetail, labels: givenLabels, start: Date(), duration: 10)
         let (predicted, missing) = session.predictExerciseLabelsForExerciseDetail(givenDetail)
@@ -41,8 +41,8 @@ class MRManagedExerciseSessionTests : MRCoreDataTestCase {
     }
     
     func testSimilarSessions() {
-        let cardio = MRManagedExercisePlan.insertNewObject(.AdHoc(exerciseType: .IndoorsCardio), location: nil, inManagedObjectContext: managedObjectContext)
-        let strength = MRManagedExercisePlan.insertNewObject(.AdHoc(exerciseType: .ResistanceWholeBody), location: nil, inManagedObjectContext: managedObjectContext)
+        let cardio = MRManagedExercisePlan.insertNewObject(.adHoc(exerciseType: .indoorsCardio), location: nil, inManagedObjectContext: managedObjectContext)
+        let strength = MRManagedExercisePlan.insertNewObject(.adHoc(exerciseType: .resistanceWholeBody), location: nil, inManagedObjectContext: managedObjectContext)
         let session1 = MRManagedExerciseSession.insert("12341", plan: cardio, start: Date(), location: nil, inManagedObjectContext: managedObjectContext)
         session1.end = Date() // finish session 1
         let session2 = MRManagedExerciseSession.insert("12342", plan: strength, start: Date(), location: nil, inManagedObjectContext: managedObjectContext)

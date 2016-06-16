@@ -9,18 +9,18 @@ extension MRExerciseSessionEvaluator.Result {
         var lastExerciseId: String = ""
         for (exerciseDetail, descriptor, expected, predicted) in scalarLabels {
             if exerciseDetail.id != lastExerciseId {
-                result.appendString("\n")
-                result.appendString("\(exerciseDetail.id):\n")
+                result.append("\n")
+                result.append("\(exerciseDetail.id):\n")
                 lastExerciseId = exerciseDetail.id
             }
             if let predicted = predicted {
                 if abs(predicted.scalar() - expected.scalar()) < 0.1 {
-                    result.appendString("  ✓ \(descriptor.id): predicted: \(predicted), actual: \(expected)\n")
+                    result.append("  ✓ \(descriptor.id): predicted: \(predicted), actual: \(expected)\n")
                 } else {
-                    result.appendString("  ✗ \(descriptor.id): predicted: \(predicted), actual: \(expected)\n")
+                    result.append("  ✗ \(descriptor.id): predicted: \(predicted), actual: \(expected)\n")
                 }
             } else {
-                result.appendString("  ✗ \(descriptor.id): predicted: (none), actual: \(expected)\n")
+                result.append("  ✗ \(descriptor.id): predicted: (none), actual: \(expected)\n")
             }
         }
         return result as String

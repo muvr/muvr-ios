@@ -10,8 +10,8 @@ class MRManagedAchievementTests : MRCoreDataTestCase {
         XCTAssertTrue(MRManagedAchievement.fetchAchievements(inManagedObjectContext: managedObjectContext).isEmpty)
         
         // insert
-        let p1 =  MRManagedExercisePlan.insertNewObject(.AdHoc(exerciseType: .IndoorsCardio), location: nil, inManagedObjectContext: managedObjectContext)
-        let p2 =  MRManagedExercisePlan.insertNewObject(.AdHoc(exerciseType: .ResistanceWholeBody), location: nil, inManagedObjectContext: managedObjectContext)
+        let p1 =  MRManagedExercisePlan.insertNewObject(.adHoc(exerciseType: .indoorsCardio), location: nil, inManagedObjectContext: managedObjectContext)
+        let p2 =  MRManagedExercisePlan.insertNewObject(.adHoc(exerciseType: .resistanceWholeBody), location: nil, inManagedObjectContext: managedObjectContext)
         let cardioAchievement = MRManagedAchievement.insertNewObject("20min run", plan: p1, inManagedObjectContext: managedObjectContext)
         XCTAssertNotNil(cardioAchievement)
         
