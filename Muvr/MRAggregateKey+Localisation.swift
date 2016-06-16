@@ -9,10 +9,10 @@ extension MRAggregateKey {
     /// Localised title
     var title: String {
         switch self {
-        case ExerciseType(let exerciseType): return exerciseType.title
+        case exerciseType(let exerciseType): return exerciseType.title
         case noMuscleGroup: return "MRAggregateKey.noMuscleGroup".localized()
-        case MuscleGroup(let muscleGroup): return muscleGroup.title
-        case Exercise(let exerciseId): return MKExercise.title(exerciseId)
+        case muscleGroup(let muscleGroup): return muscleGroup.title
+        case exercise(let exerciseId): return MKExercise.title(exerciseId)
         }
     }
     

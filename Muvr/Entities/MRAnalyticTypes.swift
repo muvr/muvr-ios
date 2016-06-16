@@ -12,9 +12,9 @@ enum MRAggregate {
     
     var labelsDescriptors: [MKExerciseLabelDescriptor] {
         switch self {
-        case .types: return [.Intensity]
-        case .MuscleGroups(let exerciseType): return exerciseType.concrete.labelDescriptors
-        case .Exercises: return MKExerciseTypeDescriptor.ResistanceTargeted.concrete.labelDescriptors
+        case .types: return [.intensity]
+        case .muscleGroups(let exerciseType): return exerciseType.concrete.labelDescriptors
+        case .exercises: return MKExerciseTypeDescriptor.resistanceTargeted.concrete.labelDescriptors
         }
     }
 }
@@ -28,9 +28,9 @@ enum MRAggregateKey : Hashable {
     
     var hashValue: Int {
         switch self {
-        case .ExerciseType(let exerciseType): return exerciseType.hashValue
-        case .MuscleGroup(let muscleGroup): return Int.multiplyWithOverflow(17, muscleGroup.hashValue).0
-        case .Exercise(let exerciseId): return Int.multiplyWithOverflow(31, exerciseId.hashValue).0
+        case .exerciseType(let exerciseType): return exerciseType.hashValue
+        case .muscleGroup(let muscleGroup): return Int.multiplyWithOverflow(17, muscleGroup.hashValue).0
+        case .exercise(let exerciseId): return Int.multiplyWithOverflow(31, exerciseId.hashValue).0
         case .noMuscleGroup: return 17
         }
     }

@@ -28,11 +28,11 @@ extension MRManagedAchievement {
     /// - returns: all the user's achievements ordered by date desc
     ///
     static func fetchAchievementsForPlan(_ plan: MRManagedExercisePlan, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedAchievement] {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedAchievement")
+        let fetchRequest = NSFetchRequest<MRManagedAchievement>(entityName: "MRManagedAchievement")
         fetchRequest.predicate = Predicate(format: "planId = %@", plan.templateId ?? plan.id)
         fetchRequest.sortDescriptors = [SortDescriptor(key: "date", ascending: false)]
         
-        return (try? managedObjectContext.fetch(fetchRequest) as! [MRManagedAchievement]) ?? []
+        return (try? managedObjectContext.fetch(fetchRequest)) ?? []
     }
     
     
@@ -42,10 +42,10 @@ extension MRManagedAchievement {
     /// - returns: all the user's achievements ordered by date desc
     ///
     static func fetchAchievements(inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedAchievement] {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedAchievement")
+        let fetchRequest = NSFetchRequest<MRManagedAchievement>(entityName: "MRManagedAchievement")
         fetchRequest.sortDescriptors = [SortDescriptor(key: "date", ascending: false)]
         
-        return (try? managedObjectContext.fetch(fetchRequest) as! [MRManagedAchievement]) ?? []
+        return (try? managedObjectContext.fetch(fetchRequest)) ?? []
     }
     
 }

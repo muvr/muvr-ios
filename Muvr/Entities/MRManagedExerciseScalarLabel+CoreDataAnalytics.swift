@@ -33,7 +33,7 @@ extension MRManagedExerciseScalarLabel {
     ///  - parameter inManagedObjectContext: the CoreData managed object context to be use for the request
     ///  - parameter aggregate: the ``MRAggregate`` used to filter the exercise labels
     ///
-    private static func analyticRequest(inManagedObjectContext managedObjectContext: NSManagedObjectContext, aggregate: MRAggregate) -> NSFetchRequest<AnyObject> {
+    private static func analyticRequest(inManagedObjectContext managedObjectContext: NSManagedObjectContext, aggregate: MRAggregate) -> NSFetchRequest<NSDictionary> {
         let labelDescriptors = aggregate.labelsDescriptors
         let fetchLimit = 100 * labelDescriptors.count
     
@@ -44,7 +44,7 @@ extension MRManagedExerciseScalarLabel {
         exerciseId.expressionResultType = NSAttributeType.stringAttributeType
         let scalarType = entity!.propertiesByName["type"]!
     
-        let fetchRequest = NSFetchRequest(entityName: (entity?.name)!)
+        let fetchRequest = NSFetchRequest<NSDictionary>(entityName: (entity?.name)!)
         fetchRequest.propertiesToFetch = [exerciseId, scalarType, countByEntity, averageFor("exercise.duration"), averageFor("value")]
         fetchRequest.propertiesToGroupBy = [exerciseId, scalarType]
         fetchRequest.sortDescriptors = [SortDescriptor(key: "exercise.session.start", ascending: false)]
@@ -52,10 +52,10 @@ extension MRManagedExerciseScalarLabel {
         fetchRequest.fetchLimit = fetchLimit
         
         switch aggregate {
-        case .Exercises(let muscleGroup):
+        case .exercises(let muscleGroup):
             // exerciseId LIKE *:%@*
             fetchRequest.predicate = Predicate(format: "exercise.id LIKE %@ AND type IN %@", "*:" + muscleGroup.id + "*", labelDescriptors.map { $0.id })
-        case .MuscleGroups(let type):
+        case .muscleGroups(let type):
             // exerciseId LIKE %@:*
             fetchRequest.predicate = Predicate(format: "exercise.id LIKE %@ AND type IN %@", type.id + "*", labelDescriptors.map { $0.id })
         case .types:
@@ -71,24 +71,24 @@ extension MRManagedExerciseScalarLabel {
     ///
     private static func keyExtractor(_ aggregate: MRAggregate) -> ((String) -> [MRAggregateKey]) {
         switch aggregate {
-        case .Exercises:
+        case .exercises:
             return { exerciseId in
-                return [.Exercise(id: exerciseId)]
+                return [.exercise(id: exerciseId)]
             }
-        case .MuscleGroups:
+        case .muscleGroups:
             return { exerciseId in
                 if let (_, mgs, _) = MKExercise.componentsFromExerciseId(exerciseId) {
                     let keys: [MRAggregateKey] = mgs.flatMap { name in
                         guard let mg = MKMuscleGroup(id: name) else { return nil }
-                        return .MuscleGroup(muscleGroup: mg)
+                        return .muscleGroup(muscleGroup: mg)
                     }
-                    return keys.isEmpty ? [.Exercise(id: exerciseId)] : keys
+                    return keys.isEmpty ? [.exercise(id: exerciseId)] : keys
                 }
                 return [.noMuscleGroup]
             }
         case .types:
             return { exerciseId in
-                return [MRAggregateKey.ExerciseType(exerciseType: MKExerciseTypeDescriptor(exerciseId: exerciseId)!)]
+                return [MRAggregateKey.exerciseType(exerciseType: MKExerciseTypeDescriptor(exerciseId: exerciseId)!)]
             }
         }
     }
@@ -98,7 +98,7 @@ extension MRManagedExerciseScalarLabel {
     ///
     static func averages(inManagedObjectContext managedObjectContext: NSManagedObjectContext, aggregate: MRAggregate) -> [(MRAggregateKey, MRAverage)] {
         let fetchRequest = analyticRequest(inManagedObjectContext: managedObjectContext, aggregate: aggregate)
-        guard let result = (try? managedObjectContext.fetch(fetchRequest)) as? [NSDictionary] else { return [] }
+        guard let result = try? managedObjectContext.fetch(fetchRequest) else { return [] }
         
         let keysForExerciseId = keyExtractor(aggregate)
         

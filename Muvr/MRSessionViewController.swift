@@ -92,7 +92,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         /// - parameter labels: the labels
         /// - parameter start: the start date
         /// - parameter duration: the duration
-        case done(exercise: CurrentExercise, labels: [MKExerciseLabel], start: NSDate, duration: TimeInterval)
+        case done(exercise: CurrentExercise, labels: [MKExerciseLabel], start: Date, duration: TimeInterval)
         /// The session is over (fix long press callback)
         case idle
         
@@ -312,8 +312,8 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     /// - parameter newExercise: the updated label
     private func labelUpdated(_ newLabels: [MKExerciseLabel]) {
         mainExerciseView.reset()
-        if case .Done(let exercise, _, let start, let duration) = state {
-            state = .Done(exercise: exercise, labels: newLabels, start: start, duration: duration)
+        if case .done(let exercise, _, let start, let duration) = state {
+            state = .done(exercise: exercise, labels: newLabels, start: start, duration: duration)
         }
     }
     
@@ -327,7 +327,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         mainExerciseView.exerciseLabels = currentExercise.predicted.0
         mainExerciseView.exerciseDuration = currentExercise.predicted.1
         mainExerciseView.swipeButtonsHidden = alternatives.count < 2
-        state = .ComingUp(exercise: currentExercise, rest: rest)
+        state = .comingUp(exercise: currentExercise, rest: rest)
     }
     
     // MARK: - MRCircleViewDelegate
@@ -349,12 +349,12 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         case .setup(let exercise, let rest):
             state = .comingUp(exercise: exercise, rest: rest)
         case .inExercise(let exercise, let start):
-            state = .Done(exercise: exercise, labels: exercise.labels, start: start, duration: Date().timeIntervalSinceDate(start))
+            state = .done(exercise: exercise, labels: exercise.labels, start: start, duration: Date().timeIntervalSince(start))
             session.clearClassificationHints()
-        case .Done(let exercise, let labels, let start, let duration):
+        case .done(let exercise, let labels, let start, let duration):
             // The user has completed the exercise, and accepted our labels
             session.addExerciseDetail(exercise.detail, labels: labels, start: start, duration: duration)
-            state = .ComingUp(exercise: nil, rest: exercise.rest)
+            state = .comingUp(exercise: nil, rest: exercise.rest)
         case .idle: break
         }
         refreshViewsForState(state)
@@ -379,10 +379,10 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             session.setClassificationHint(exercise.detail, labels: exercise.predicted.0)
             state = .inExercise(exercise: exercise, start: Date())
             refreshViewsForState(state)
-        case .Done(let exercise, let labels, let start, let duration):
+        case .done(let exercise, let labels, let start, let duration):
             // The user has completed the exercise, modified our labels, and accepted.
             session.addExerciseDetail(exercise.detail, labels: labels, start: start, duration: duration)
-            state = .ComingUp(exercise: nil, rest: exercise.rest)
+            state = .comingUp(exercise: nil, rest: exercise.rest)
             refreshViewsForState(state)
         default: return
         }
@@ -391,7 +391,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     func circleViewSwiped(_ exerciseView: MRCircleView, direction: UISwipeGestureRecognizerDirection) {
         guard case .comingUp(let exercise, _) = state, let selected = exercise?.detail ?? comingUpExerciseDetails.first else { return }
         
-        let index = alternatives.indexOf { selected.id == $0.id } ?? 0
+        let index = alternatives.index { selected.id == $0.id } ?? 0
         let length = alternatives.count
         
         func next() -> Int? {
@@ -408,7 +408,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     /// Notification selector on exercise did end
     @objc private func sessionDidEndExercise() {
         if case .inExercise(let exercise, let start) = state {
-            state = .Done(exercise: exercise, labels: exercise.labels, start: start, duration: Date().timeIntervalSinceDate(start))
+            state = .done(exercise: exercise, labels: exercise.labels, start: start, duration: Date().timeIntervalSince(start))
             session.clearClassificationHints()
             refreshViewsForState(state)
         }

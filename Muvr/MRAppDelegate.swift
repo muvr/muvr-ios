@@ -696,7 +696,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private func stepWeight(_ value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
         guard let detail = exerciseDetailForExerciseId(exerciseId) else { return value + Double(n) }
         for property in detail.properties {
-            if case .WeightProgression(let minimum, let step, let maximum) = property {
+            if case .weightProgression(let minimum, let step, let maximum) = property {
                 return min(maximum ?? 999, max(minimum, value + Double(n) * step))
             }
         }
@@ -712,7 +712,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     // MARK: - Exercise properties
-    private let defaultResistanceTargetedProperties: [MKExerciseProperty] = [.WeightProgression(minimum: 0, step: 0.5, maximum: nil)]
+    private let defaultResistanceTargetedProperties: [MKExerciseProperty] = [.weightProgression(minimum: 0, step: 0.5, maximum: nil)]
     
     func exerciseDetailForExerciseId(_ exerciseId: MKExercise.Id) -> MKExerciseDetail? {
         for exerciseDetail in exerciseDetails where exerciseDetail.id == exerciseId {
@@ -731,14 +731,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     private var exercisePlans: [MKExercisePlan] {
         let bundlePath = Bundle(for: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
         let bundle = Bundle(path: bundlePath)!
-        return bundle.pathsForResourcesOfType("json", inDirectory: nil).flatMap { MKExercisePlan(file: NSURL(fileURLWithPath: $0)) }
+        return bundle.pathsForResources(ofType: "json", inDirectory: nil).flatMap { MKExercisePlan(file: URL(fileURLWithPath: $0)) }
     }
     
     ///
     /// the list of predefined exercise plans
     ///
     var predefinedSessionTypes: [MRSessionType] {
-        return exercisePlans.map { .Predefined(plan: $0) }
+        return exercisePlans.map { .predefined(plan: $0) }
     }
     
     ///
@@ -749,7 +749,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         let bundle = Bundle(path: bundlePath)!
         if let defaultFile = bundle.pathForResource("test_workout", ofType: "json"),
             let plan = MKExercisePlan(file: URL(fileURLWithPath: defaultFile)) {
-            return .Predefined(plan: plan)
+            return .predefined(plan: plan)
         }
         return nil
     }
@@ -766,7 +766,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             return [defaultPlan]
         }
         
-        return userPlans.map { .UserDefined(plan: $0) }
+        return userPlans.map { .userDefined(plan: $0) }
     }
     
     ///

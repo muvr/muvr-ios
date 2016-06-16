@@ -17,7 +17,7 @@ extension MRApp {
             return !exerciseIds.contains { $0 == exerciseDetail.id }
         }
         
-        otherDetails.sortInPlace { l, r in
+        otherDetails.sort { l, r in
             switch (l.type.isContainedWithin(type), r.type.isContainedWithin(type)) {
             case (true, false): return true
             case (false, true): return false

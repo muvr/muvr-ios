@@ -22,8 +22,8 @@ enum MRSessionType {
     /// The exercise type associated to the session
     var exerciseType: MKExerciseType {
         switch self {
-        case .AdHoc(let exerciseType): return exerciseType
-        case .Predefined(let plan): return plan.exerciseType
+        case .adHoc(let exerciseType): return exerciseType
+        case .predefined(let plan): return plan.exerciseType
         case .userDefined(let plan): return plan.exerciseType
         }
     }
@@ -31,8 +31,8 @@ enum MRSessionType {
     /// The session's name
     var name: String {
         switch self {
-        case .AdHoc(let exerciseType): return exerciseType.name;
-        case .Predefined(let plan): return plan.name
+        case .adHoc(let exerciseType): return exerciseType.name;
+        case .predefined(let plan): return plan.name
         case .userDefined(let plan): return plan.name
         }
     }
@@ -45,10 +45,10 @@ private extension MKExerciseType {
     var name: String {
         var workoutName = self.title
         switch self {
-        case .ResistanceTargeted(let muscleGroups): workoutName = muscleGroups.map { $0.title }.joinWithSeparator(", ")
+        case .resistanceTargeted(let muscleGroups): workoutName = muscleGroups.map { $0.title }.joined(separator: ", ")
         default: break
         }
-        return "%@ workout".localized(workoutName).localizedCapitalizedString
+        return "%@ workout".localized(workoutName).localizedCapitalized
     }
     
 }
