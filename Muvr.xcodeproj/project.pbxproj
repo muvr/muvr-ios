@@ -14,6 +14,7 @@
 		540AA4511BDBFF6B00908F4B /* MKSessionClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA4501BDBFF6B00908F4B /* MKSessionClassifierTests.swift */; };
 		540AA4541BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540AA4531BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift */; };
 		540C00141C4EE1360028FA22 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 540C00131C4EE1360028FA22 /* CloudKit.framework */; };
+		54136FA31D1314C200EC9626 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54136FA21D1314C200EC9626 /* main.swift */; };
 		541ABBA41AC577E00056A81B /* MRAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541ABBA31AC577E00056A81B /* MRAppDelegate.swift */; };
 		541ABBA91AC577E00056A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBA71AC577E00056A81B /* Main.storyboard */; };
 		541ABBAB1AC577E00056A81B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 541ABBAA1AC577E00056A81B /* Images.xcassets */; };
@@ -366,6 +367,7 @@
 		540AA4501BDBFF6B00908F4B /* MKSessionClassifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSessionClassifierTests.swift; sourceTree = "<group>"; };
 		540AA4531BDC043D00908F4B /* MKExerciseConnectivitySession+SensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKExerciseConnectivitySession+SensorData.swift"; sourceTree = "<group>"; };
 		540C00131C4EE1360028FA22 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		54136FA21D1314C200EC9626 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		541ABB9E1AC577E00056A81B /* Muvr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Muvr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		541ABBA21AC577E00056A81B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		541ABBA31AC577E00056A81B /* MRAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAppDelegate.swift; sourceTree = "<group>"; };
@@ -798,6 +800,7 @@
 				64BA9DCE1C8479D200D8540E /* MRSessionType.swift */,
 				641BD3841C99A792009AB01E /* MRSessionAppraiser.swift */,
 				64EB48CC1C89AA94000A4C36 /* MRColor.swift */,
+				54136FA21D1314C200EC9626 /* main.swift */,
 			);
 			path = Muvr;
 			sourceTree = "<group>";
@@ -1905,6 +1908,7 @@
 				64B477911C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift in Sources */,
 				6428CE2A1C45127500D17451 /* MRSessionComingUpViewController.swift in Sources */,
 				64BA9DC51C80983A00D8540E /* MRManagedSessionPlan.swift in Sources */,
+				54136FA31D1314C200EC9626 /* main.swift in Sources */,
 				6477A7581BDFBDE7004BC51F /* NSDate+DateUtils.swift in Sources */,
 				543E326A1C4A997500D9922D /* MRManagedExercise.swift in Sources */,
 				644616681C98061F00036857 /* MRSwipeButton.swift in Sources */,

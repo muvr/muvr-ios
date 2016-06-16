@@ -125,7 +125,7 @@ protocol MRSuperEvilMegacorpApp {
     
 }
 
-@UIApplicationMain
+//@UIApplicationMain
 class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate,
     MKSessionClassifierDelegate, MKClassificationHintSource, MKExerciseModelSource,
     MRApp, MRSuperEvilMegacorpApp {
