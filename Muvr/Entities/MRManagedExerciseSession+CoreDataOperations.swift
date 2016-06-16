@@ -21,11 +21,11 @@ extension MRManagedExerciseSession {
     /// Fetch the session with the specified id from persistent storage
     ///
     static func fetchSession(withId id: String, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession? {
-        let request = NSFetchRequest()
+        let request = NSFetchRequest<MRManagedExerciseSession>()
         request.entity = NSEntityDescription.entity(forEntityName: "MRManagedExerciseSession", in: managedObjectContext)
         request.predicate = Predicate(format: "id == %@", id)
         
-        let result = try? managedObjectContext.fetch(request) as! [MRManagedExerciseSession]
+        let result = try? managedObjectContext.fetch(request)
         return result?.first
     }
     
@@ -34,26 +34,26 @@ extension MRManagedExerciseSession {
     /// Check for existing sessions on a given date
     ///
     static func hasSessionsOnDate(_ date: Date, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> Bool {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
+        let fetchRequest = NSFetchRequest<MRManagedExerciseSession>(entityName: "MRManagedExerciseSession")
         let midnightToday = date.dateOnly
         let midnightTomorrow = midnightToday.addDays(1)
         fetchRequest.predicate = Predicate(format: "(start >= %@ AND start < %@)", midnightToday, midnightTomorrow)
         fetchRequest.fetchLimit = 1
         
-        return managedObjectContext.countForFetchRequest(fetchRequest).map { count in count > 0 } ?? false
+        return (try? managedObjectContext.count(for: fetchRequest)).map { count in count > 0 } ?? false
     }
     
     ///
     /// Fetch the sessions on a given date
     ///
     static func fetchSessionsOnDate(_ date: Date, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
+        let fetchRequest = NSFetchRequest<MRManagedExerciseSession>(entityName: "MRManagedExerciseSession")
         let midnightToday = date.dateOnly
         let midnightTomorrow = midnightToday.addDays(1)
         fetchRequest.predicate = Predicate(format: "(start >= %@ AND start < %@)", midnightToday, midnightTomorrow)
         fetchRequest.sortDescriptors = [SortDescriptor(key: "start", ascending: false)]
         
-        return (try? managedObjectContext.fetch(fetchRequest) as! [MRManagedExerciseSession]) ?? []
+        return (try? managedObjectContext.fetch(fetchRequest)) ?? []
     }
     
     ///

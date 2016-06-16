@@ -16,7 +16,7 @@ class MRManagedExerciseSession: NSManagedObject {
     /// The accumulated exercise rows
     private(set) internal var exerciseWithLabels: [ExerciseRow] = []
     /// The last exercise done in this session (exercise detail, labels and duration, start time)
-    private var lastExercise: (MKExerciseDetail, MKExerciseLabelsWithDuration, NSDate)? = nil
+    private var lastExercise: (MKExerciseDetail, MKExerciseLabelsWithDuration, Date)? = nil
 
     /// The labels predictor
     var labelsPredictor: MKLabelsPredictor!
@@ -69,9 +69,9 @@ class MRManagedExerciseSession: NSManagedObject {
             }
         }
         switch exerciseDetail.type {
-        case .IndoorsCardio: return 45 * 60
-        case .ResistanceTargeted: return 60
-        case .ResistanceWholeBody: return 60
+        case .indoorsCardio: return 45 * 60
+        case .resistanceTargeted: return 60
+        case .resistanceWholeBody: return 60
         }
     }
     
@@ -86,7 +86,7 @@ class MRManagedExerciseSession: NSManagedObject {
         
         func defaultWeight() -> Double {
             for property in exerciseDetail.properties {
-                if case .WeightProgression(let minimum, let step, _) = property {
+                if case .weightProgression(let minimum, let step, _) = property {
                     return minimum + step
                 }
             }
@@ -95,17 +95,17 @@ class MRManagedExerciseSession: NSManagedObject {
         
         let allPredictions = labelsPredictor.predictLabelsForExercise(exerciseDetail) ?? ([], nil, nil)
         
-        let intensity = allPredictions.0.filter { $0.descriptor == .Intensity }.first
+        let intensity = allPredictions.0.filter { $0.descriptor == .intensity }.first
         // remove intensity from the predicted values
-        let predictions = allPredictions.0.filter { $0.descriptor != .Intensity}
+        let predictions = allPredictions.0.filter { $0.descriptor != .intensity}
         
         let missing: [MKExerciseLabel] = exerciseDetail.labels.filter { desc in
             return !predictions.contains { $0.descriptor == desc}
         }.map {
             switch $0 {
-            case .Repetitions: return .Repetitions(repetitions: 10)
-            case .Weight: return .Weight(weight: defaultWeight())
-            case .Intensity: return intensity ?? .Intensity(intensity: 0.5)
+            case .repetitions: return .repetitions(repetitions: 10)
+            case .weight: return .weight(weight: defaultWeight())
+            case .intensity: return intensity ?? .intensity(intensity: 0.5)
             }
         }
         var missingDuration: TimeInterval? = nil
@@ -126,7 +126,7 @@ class MRManagedExerciseSession: NSManagedObject {
     ///
     func setClassificationHint(_ exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel]) {
         correctLabelsForLastExercise()
-        classificationHints = [.ExplicitExercise(start: Date().timeIntervalSinceDate(start), duration: nil, expectedExercises: [(exerciseDetail, labels)])]
+        classificationHints = [.explicitExercise(start: Date().timeIntervalSince(start), duration: nil, expectedExercises: [(exerciseDetail, labels)])]
     }
     
     ///
@@ -135,8 +135,8 @@ class MRManagedExerciseSession: NSManagedObject {
     ///
     private func correctLabelsForLastExercise() {
         if let (lastExercise, lastLabels, start) = lastExercise, let duration = lastLabels.1 {
-            let endDate = Date(timeInterval: duration, sinceDate: start)
-            let rest = Date().timeIntervalSinceDate(endDate)
+            let endDate = Date(timeInterval: duration, since: start)
+            let rest = Date().timeIntervalSince(endDate)
             labelsPredictor.correctLabelsForExercise(lastExercise, labels: (lastLabels.0, lastLabels.1, rest))
         }
         lastExercise = nil

@@ -158,7 +158,6 @@
 		54BDDDCA1C44093F0054A059 /* MKMarkovChain+JSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BDDDC91C44093F0054A059 /* MKMarkovChain+JSONTests.swift */; };
 		54BDDDCC1C440DC70054A059 /* MKMarkovPredictor+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BDDDCB1C440DC70054A059 /* MKMarkovPredictor+JSON.swift */; };
 		54BDDDCE1C440EF60054A059 /* MKMarkovPredictor+JSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BDDDCD1C440EF60054A059 /* MKMarkovPredictor+JSONTests.swift */; };
-		54C648851C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C648841C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift */; };
 		54CAADD71C39B19F00A7B0E6 /* Locations.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 54CAADD61C39B19F00A7B0E6 /* Locations.bundle */; };
 		54CAADDE1C39BA9300A7B0E6 /* MRLocationSynchronisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CAADDD1C39BA9300A7B0E6 /* MRLocationSynchronisation.swift */; };
 		54CC465A1B08FAD5007B739A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CC46591B08FAD5007B739A /* MobileCoreServices.framework */; };
@@ -518,7 +517,6 @@
 		54BDDDC91C44093F0054A059 /* MKMarkovChain+JSONTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMarkovChain+JSONTests.swift"; sourceTree = "<group>"; };
 		54BDDDCB1C440DC70054A059 /* MKMarkovPredictor+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMarkovPredictor+JSON.swift"; sourceTree = "<group>"; };
 		54BDDDCD1C440EF60054A059 /* MKMarkovPredictor+JSONTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMarkovPredictor+JSONTests.swift"; sourceTree = "<group>"; };
-		54C648841C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+CountRequest.swift"; sourceTree = "<group>"; };
 		54CAADD61C39B19F00A7B0E6 /* Locations.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Locations.bundle; sourceTree = "<group>"; };
 		54CAADDD1C39BA9300A7B0E6 /* MRLocationSynchronisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRLocationSynchronisation.swift; sourceTree = "<group>"; };
 		54CC46591B08FAD5007B739A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -854,7 +852,6 @@
 				543E325E1C4A997500D9922D /* MRManagedExerciseSession.swift */,
 				543E325D1C4A997500D9922D /* MRManagedExerciseSession+CoreDataProperties.swift */,
 				543E327D1C4AB57A00D9922D /* MRManagedExerciseSession+CoreDataOperations.swift */,
-				54C648841C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift */,
 				543E32771C4AAAD400D9922D /* MRManagedExerciseType.swift */,
 				64B477901C4E80050082D208 /* MRManagedExerciseScalarLabel+CoreDataAnalytics.swift */,
 				640E5EAC1C6B348E00B9F227 /* MRManagedLabelsPredictor.swift */,
@@ -1894,7 +1891,6 @@
 				6428CE2C1C451FC700D17451 /* MRSessionLabellingViewController.swift in Sources */,
 				543E32911C4ACFC800D9922D /* MKExerciseProperty+JSON.swift in Sources */,
 				543E32A21C4BDBD200D9922D /* MRScalarExerciseLabelSettable.swift in Sources */,
-				54C648851C4180AF0000CB8D /* NSManagedObjectContext+CountRequest.swift in Sources */,
 				5493FC1F1C42C9C400317A15 /* MRSessionViewController.swift in Sources */,
 				549A300A1BDD0BC6006A70EB /* Muvr.xcdatamodeld in Sources */,
 				543E32A01C4BC69B00D9922D /* MRManagedExerciseScalarLabel+CoreDataOperations.swift in Sources */,

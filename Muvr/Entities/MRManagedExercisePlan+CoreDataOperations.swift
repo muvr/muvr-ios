@@ -44,7 +44,7 @@ extension MRManagedExercisePlan {
     /// - returns: the matching plan
     ///
     internal static func exactPlanForId(_ id: String, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedExercisePlan")
+        let fetchRequest = NSFetchRequest<MRManagedExercisePlan>(entityName: "MRManagedExercisePlan")
         var predicate = Predicate(format: "id = %@", id)
         if let locationPredicate = (location.map { Predicate(location: $0) }) {
             predicate = CompoundPredicate(andPredicateWithSubpredicates: [predicate, locationPredicate])
@@ -52,7 +52,7 @@ extension MRManagedExercisePlan {
         fetchRequest.predicate = predicate
         fetchRequest.fetchLimit = 1
         
-        let plans = try! managedObjectContext.fetch(fetchRequest) as! [MRManagedExercisePlan]
+        let plans = try! managedObjectContext.fetch(fetchRequest)
         
         return plans.first
     }
@@ -68,7 +68,7 @@ extension MRManagedExercisePlan {
     /// - returns: the matching plan
     ///
     internal static func exactPlanForTemplateId(_ templateId: String, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedExercisePlan")
+        let fetchRequest = NSFetchRequest<MRManagedExercisePlan>(entityName: "MRManagedExercisePlan")
         var predicate = Predicate(format: "templateId = %@", templateId)
         if let locationPredicate = (location.map { Predicate(location: $0) }) {
             predicate = CompoundPredicate(andPredicateWithSubpredicates: [predicate, locationPredicate])
@@ -76,7 +76,7 @@ extension MRManagedExercisePlan {
         fetchRequest.predicate = predicate
         fetchRequest.fetchLimit = 1
         
-        let plans = try! managedObjectContext.fetch(fetchRequest) as! [MRManagedExercisePlan]
+        let plans = try! managedObjectContext.fetch(fetchRequest)
         
         return plans.first
     }
@@ -125,7 +125,7 @@ extension MRManagedExercisePlan {
                 return found
             }
             return MRManagedExercisePlan.insertNewObject(sessionType, location: location, inManagedObjectContext: managedObjectContext)
-        case .Predefined(let p):
+        case .predefined(let p):
             if let found = exactPlanForTemplateId(p.id, location: location, inManagedObjectContext: managedObjectContext) { return found }
             if let found = exactPlanForTemplateId(p.id, location: nil, inManagedObjectContext: managedObjectContext) {
                 if let location = location {
@@ -134,7 +134,7 @@ extension MRManagedExercisePlan {
                 return found
             }
             return MRManagedExercisePlan.insertNewObject(sessionType, location: location, inManagedObjectContext: managedObjectContext)
-        case .AdHoc(let exerciseType):
+        case .adHoc(let exerciseType):
             if let found = exactPlanForExerciseType(exerciseType, location: location, inManagedObjectContext: managedObjectContext) { return found }
             if let found = exactPlanForExerciseType(exerciseType, location: nil, inManagedObjectContext: managedObjectContext) {
                 if let location = location {
@@ -180,9 +180,9 @@ extension MRManagedExercisePlan {
         managedPlan.name = sessionType.name
         
         switch sessionType {
-        case .AdHoc(let exerciseType):
+        case .adHoc(let exerciseType):
             managedPlan.exerciseType = exerciseType
-        case .Predefined(let p):
+        case .predefined(let p):
             managedPlan.exerciseType = p.exerciseType
             managedPlan.templateId = p.id
             managedPlan.setPlan(p.plan)
