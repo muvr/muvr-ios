@@ -25,7 +25,7 @@ extension MRManagedLocation {
         
         let fetchRequest = NSFetchRequest<MRManagedLocation>(entityName: "MRManagedLocation")
         fetchRequest.predicate = Predicate(latitude: latitude.doubleValue, longitude: longitude.doubleValue)
-        if let existing = try managedObjectContext.fetch(fetchRequest).first {
+        if let _ = try managedObjectContext.fetch(fetchRequest).first {
             // TODO: fixme
             // fatalError("This needs updating. The objectID needs to remain stable.")
         }

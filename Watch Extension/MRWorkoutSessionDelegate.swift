@@ -55,7 +55,10 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
             return
         }
         // Start workout session
-        let workoutSession = HKWorkoutSession(activityType: .traditionalStrengthTraining, locationType: .indoor)
+        let configuration = HKWorkoutConfiguration()
+        configuration.activityType = .traditionalStrengthTraining
+        configuration.locationType = .indoor
+        let workoutSession = try! HKWorkoutSession(configuration: configuration)
         workoutSession.delegate = self
         resetSession()
         self.start = start

@@ -9,7 +9,7 @@ extension MKSensorDataType {
         if try bytes.next() != header { throw MKCodecError.badHeader }
         let sensor: UInt8 = try bytes.next()
         let location: UInt8 = try bytes.next()
-        try bytes.next() as UInt8 // not used but still need to be read
+        try _ = bytes.next() as UInt8 // not used but still need to be read
         
         switch (sensor, location) {
         case (UInt8(0x61), UInt8(0x6c)): return .accelerometer(location: .leftWrist)

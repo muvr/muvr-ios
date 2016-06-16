@@ -68,7 +68,7 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource, UITableV
     ///
     @IBAction func startWorkout(_ sender: UIButton) {
         guard let workout = selectedWorkout else { return }
-        try! MRAppDelegate.sharedDelegate().startSession(workout)
+        try! _ = MRAppDelegate.sharedDelegate().startSession(workout)
     }
     
     ///

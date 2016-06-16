@@ -21,7 +21,7 @@ class MRManualViewController : UIViewController, UITableViewDataSource, UITableV
     
     @IBAction private func start() {
         if let exerciseType = exerciseType {
-            try! MRAppDelegate.sharedDelegate().startSession(.adHoc(exerciseType: exerciseType))
+            try! _ = MRAppDelegate.sharedDelegate().startSession(.adHoc(exerciseType: exerciseType))
         }
     }
     

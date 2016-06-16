@@ -97,7 +97,7 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
     
     func circleViewTapped(_ circleView: MRCircleView) {
         if let sessionType = selectedSession {
-            try! MRAppDelegate.sharedDelegate().startSession(sessionType)
+            try! _ = MRAppDelegate.sharedDelegate().startSession(sessionType)
         }
     }
     
