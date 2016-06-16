@@ -5,27 +5,27 @@ struct MRExerciseLabelViews {
     
     static func scalarViewForLabel(_ label: MKExerciseLabel, frame: CGRect) -> (UIView, MRScalarExerciseLabelSettable)? {
         switch label {
-        case .Intensity:
+        case .intensity:
             let view = MRBarsView(frame: frame)
-            view.backgroundColor = UIColor.whiteColor()
+            view.backgroundColor = UIColor.white()
             try! view.setExerciseLabel(label)
             return (view, view)
-        case .Repetitions:
+        case .repetitions:
             let view = MRRepetitionsView(frame: frame)
-            view.backgroundColor = UIColor.whiteColor()
+            view.backgroundColor = UIColor.white()
             try! view.setExerciseLabel(label)
             return (view, view)
-        case .Weight:
+        case .weight:
             let view = MRWeightView(frame: frame)
             try! view.setExerciseLabel(label)
-            view.backgroundColor = UIColor.whiteColor()
+            view.backgroundColor = UIColor.white()
             return (view, view)
         }
     }
     
-    static func scalarViewForDuration(_ duration: NSTimeInterval, frame: CGRect) -> UIView {
+    static func scalarViewForDuration(_ duration: TimeInterval, frame: CGRect) -> UIView {
         let view = MRTimeView(frame: frame)
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white()
         view.accessibilityLabel = "Duration".localized()
         view.accessibilityIdentifier = "Duration"
         view.value = duration
@@ -39,7 +39,7 @@ extension MRWeightView : MRScalarExerciseLabelSettable {
     
     static func supports(_ exerciseLabel: MKExerciseLabel) -> Bool {
         switch exerciseLabel {
-        case .Weight: return true
+        case .weight: return true
         default: return false
         }
     }

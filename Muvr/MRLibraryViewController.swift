@@ -27,7 +27,7 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
     private var selectedWorkout: MRSessionType? = nil
     
     // MARK: - UITableViewDataSource
-    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
@@ -75,13 +75,13 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
     /// Shows the workout description
     /// (workout descriptions are stored as HTML files)
     ///
-    override func prepareForSegue(_ segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         guard let webView = segue.destinationViewController.view as? UIWebView,
               let button = sender as? MRLibraryInfoButton,
               let workout = button.workout,
-              case .Predefined(let plan) = workout,
-              let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle"),
-              let bundle = NSBundle(path: bundlePath),
+              case .predefined(let plan) = workout,
+              let bundlePath = Bundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle"),
+              let bundle = Bundle(path: bundlePath),
               let path = bundle.pathForResource(plan.filename, ofType: "html", inDirectory: "www"),
               let url = NSURL(string: path)
         else { return }

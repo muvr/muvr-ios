@@ -4,7 +4,7 @@ import MuvrKit
 extension MKMuscleGroup {
     
     var title: String {
-        return NSLocalizedString("MKMuscleGroup.\(id)", comment: id).localizedCapitalizedString
+        return NSLocalizedString("MKMuscleGroup.\(id)", comment: id).localizedCapitalized
     }
     
 }

@@ -810,11 +810,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
-        updatedLocation(newLocation)
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdate locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         updatedLocation(locations.last!)
     }
     

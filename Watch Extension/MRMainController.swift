@@ -46,20 +46,20 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
 
     private let exerciseType: [MKExerciseType] = [
         MKExerciseType.ResistanceWholeBody,
-        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Arms]),
-        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Back]),
-        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Chest]),
-        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Core]),
-        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Legs]),
-        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.Shoulders])
+        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.arms]),
+        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.back]),
+        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.chest]),
+        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.core]),
+        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.legs]),
+        MKExerciseType.ResistanceTargeted(muscleGroups: [MKMuscleGroup.shoulders])
     ]
 
     private var renderer: MRSessionProgressRingRenderer?
     
     override func willActivate() {
         super.willActivate()
-        NotificationCenter.default().addObserver(self, selector: #selector(MRMainController.sessionDidStart(_:)), name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
-        NotificationCenter.default().addObserver(self, selector: #selector(MRMainController.sessionDidEnd(_:)), name: MRNotifications.CurrentSessionDidEnd.rawValue, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(MRMainController.sessionDidStart(_:)), name: MRNotifications.currentSessionDidStart, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(MRMainController.sessionDidEnd(_:)), name: MRNotifications.currentSessionDidEnd, object: nil)
         activate()
     }
     

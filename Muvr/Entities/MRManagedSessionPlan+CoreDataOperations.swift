@@ -14,10 +14,10 @@ extension MRManagedSessionPlan {
     /// - returns: the user session plan or nil if not found
     ///
     static func find(inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedSessionPlan? {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedSessionPlan")
+        let fetchRequest = NSFetchRequest<MRManagedSessionPlan>(entityName: "MRManagedSessionPlan")
         fetchRequest.fetchLimit = 1
         
-        let plans = try! managedObjectContext.fetch(fetchRequest) as! [MRManagedSessionPlan]
+        let plans = try! managedObjectContext.fetch(fetchRequest)
         if let p = plans.first where p.plan == nil { p.awakeFromFetch() }
         return plans.first
     }
@@ -29,7 +29,7 @@ extension MRManagedSessionPlan {
     /// - returns: the inserted plan
     ///
     static func insertNewObject(_ plan: MKMarkovPredictor<MKExercisePlan.Id>, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedSessionPlan {
-        return NSEntityDescription.insertNewObjectForEntityForName("MRManagedSessionPlan", inManagedObjectContext: managedObjectContext) as! MRManagedSessionPlan
+        return NSEntityDescription.insertNewObject(forEntityName: "MRManagedSessionPlan", into: managedObjectContext) as! MRManagedSessionPlan
     }
     
 }

@@ -1,7 +1,7 @@
 import UIKit
 import MuvrKit
-import Charts
 import CoreData
+//import Charts
 
 /// Adds support for "previous" steps; the usage is on tap of the back button 
 /// in the controller below.
@@ -27,8 +27,8 @@ extension MRAggregate {
     var previous: MRAggregate {
         switch self {
         case .types: return .types
-        case .MuscleGroups(_): return .types
-        case .Exercises(_): return .MuscleGroups(inType: .ResistanceTargeted)
+        case .muscleGroups(_): return .types
+        case .exercises(_): return .muscleGroups(inType: .resistanceTargeted)
         }
     }
     
@@ -107,9 +107,9 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     // Starts the selected session
     @IBAction func start() {
         switch aggregate {
-        case .MuscleGroups(let type):
+        case .muscleGroups(let type):
             try! MRAppDelegate.sharedDelegate().startSession(.AdHoc(exerciseType: type.concrete))
-        case .Exercises(let muscleGroup):
+        case .exercises(let muscleGroup):
             try! MRAppDelegate.sharedDelegate().startSession(.AdHoc(exerciseType: .ResistanceTargeted(muscleGroups: [muscleGroup])))
         default: break
         }
@@ -127,10 +127,10 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
             let label = labels[sender.selectedSegmentIndex - 2]
             transform = { $0.averages[label] ?? 0 }
             switch label {
-            case .Weight:
+            case .weight:
                 formatter.numberStyle = .decimal
                 formatter.maximumFractionDigits = 2
-            case .Intensity:
+            case .intensity:
                 formatter.numberStyle = .percent
             default: break
             }
@@ -142,10 +142,10 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight) {
         let (key, _) = averages[entry.xIndex]
         switch key {
-        case .ExerciseType(let exerciseType): reloadAverages(.MuscleGroups(inType: exerciseType))
-        case .MuscleGroup(let muscleGroup): reloadAverages(.Exercises(inMuscleGroup: muscleGroup))
-        case .NoMuscleGroup: reloadAverages(.MuscleGroups(inType: .ResistanceWholeBody))
-        case .Exercise(_): break
+        case .exerciseType(let exerciseType): reloadAverages(.muscleGroups(inType: exerciseType))
+        case .muscleGroup(let muscleGroup): reloadAverages(.exercises(inMuscleGroup: muscleGroup))
+        case .noMuscleGroup: reloadAverages(.muscleGroups(inType: .resistanceWholeBody))
+        case .exercise(_): break
         }
     }
 

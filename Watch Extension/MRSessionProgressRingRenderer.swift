@@ -55,9 +55,9 @@ class MRSessionProgressRingRenderer : NSObject {
         let expectedDuration = 60
         let duration = props.duration
         let outerFrame = 1 + Int(100 * duration / Double(expectedDuration * 60)) % 100
-        let readDuration = (props.accelerometerStart ?? props.start).timeIntervalSinceDate(props.start)
+        let readDuration = (props.accelerometerStart ?? props.start).timeIntervalSince(props.start)
         let innerFrame = (Int(100 * readDuration / Double(expectedDuration * 60)) ?? 0) % 100
-        let time = DateComponentsFormatter().stringFromTimeInterval(props.duration)!
+        let time = DateComponentsFormatter().string(from: props.duration)!
         let sent = ByteCountFormatter().stringFromByteCount(Int64(readDuration * 600))
         let total = ByteCountFormatter().stringFromByteCount(Int64(duration * 600))
         
@@ -91,9 +91,9 @@ class MRSessionProgressRingRenderer : NSObject {
     private func displayPendingSession(_ session: MKExerciseSession, props: MKExerciseSessionProperties) {
         let sd = MRExtensionDelegate.sharedDelegate()
         let duration = props.duration
-        let readDuration = (props.accelerometerStart ?? props.start).timeIntervalSinceDate(props.start)
+        let readDuration = (props.accelerometerStart ?? props.start).timeIntervalSince(props.start)
         let innerFrame = (Int(100 * readDuration / duration) ?? 0) % 100
-        let time = DateComponentsFormatter().stringFromTimeInterval(props.duration)!
+        let time = DateComponentsFormatter().string(from: props.duration)!
         ring.titleLabel.setText("Muvr - \(session.exerciseType.title)") // title on glance
         ring.timeLabel.setText("\(time)") // session duration
         ring.ringLabel.setText("\(innerFrame)%") // percent of data sent

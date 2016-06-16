@@ -156,8 +156,8 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
         }
         let totalEnergyBurned = energyBurned.map { HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: $0) }
         let duration = end.timeIntervalSince(start)
-        let workout = HKWorkout(activityType: HKWorkoutActivityType.TraditionalStrengthTraining, startDate: start, endDate: end, duration: duration, totalEnergyBurned: totalEnergyBurned, totalDistance: nil, metadata: ["type": exerciseType.title])
-        healthStore.saveObject(workout) { success, error in
+        let workout = HKWorkout(activityType: HKWorkoutActivityType.traditionalStrengthTraining, start: start, end: end, duration: duration, totalEnergyBurned: totalEnergyBurned, totalDistance: nil, metadata: ["type": exerciseType.title])
+        healthStore.save(workout) { success, error in
             if let error = error where !success {
                 NSLog("Failed to save workout: \(error)")
                 return

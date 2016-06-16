@@ -2,9 +2,9 @@ import WatchKit
 import WatchConnectivity
 import MuvrKit
 
-enum MRNotifications: String {
-    case CurrentSessionDidStart
-    case CurrentSessionDidEnd
+struct MRNotifications {
+    static let currentSessionDidStart: NSNotification.Name = NSNotification.Name("currentSessionDirStart")
+    static let currentSessionDidEnd: NSNotification.Name   = NSNotification.Name("currentSessionDirEnd")
 }
 
 class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKExerciseSessionConnectivityDelegate {
@@ -84,13 +84,13 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKExerciseSessionConn
     func sessionStarted(_ session: (MKExerciseSession, MKExerciseSessionProperties)) {
         let (s, p) = session
         workoutDelegate.startSession(start: p.start, exerciseType: s.exerciseType)
-        NotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: s.id)
+        NotificationCenter.default().post(name: MRNotifications.currentSessionDidStart, object: s.id)
     }
     
     func sessionEnded(_ session: (MKExerciseSession, MKExerciseSessionProperties)) {
         let (s, p) = session
         workoutDelegate.stopSession(end: p.end ?? Date())
-        NotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: s.id)
+        NotificationCenter.default().post(name: MRNotifications.currentSessionDidEnd, object: s.id)
     }
     
 }

@@ -92,7 +92,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         /// - parameter labels: the labels
         /// - parameter start: the start date
         /// - parameter duration: the duration
-        case done(exercise: CurrentExercise, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval)
+        case done(exercise: CurrentExercise, labels: [MKExerciseLabel], start: NSDate, duration: TimeInterval)
         /// The session is over (fix long press callback)
         case idle
         
@@ -102,7 +102,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             case .ready: return UIColor.orange()
             case .setup: return UIColor.purple()
             case .inExercise: return UIColor.red()
-            case .Done: return UIColor.gray()
+            case .done: return UIColor.gray()
             case .idle: return UIColor.clear()
             }
         }

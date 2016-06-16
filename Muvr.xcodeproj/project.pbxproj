@@ -151,7 +151,6 @@
 		54A776171BB8149E001586DD /* MuvrKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 54A775F81BB81467001586DD /* MuvrKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54A776211BB81562001586DD /* MuvrKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A7761C1BB8149E001586DD /* MuvrKit.framework */; };
 		54A776221BB81562001586DD /* MuvrKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 54A7761C1BB8149E001586DD /* MuvrKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		54B27DCD1C3BE6A8000A07A2 /* MRStatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B27DCC1C3BE6A8000A07A2 /* MRStatisticsViewController.swift */; };
 		54B86D0B1BD197830016DDA0 /* MRBuildDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 54B86D0A1BD197470016DDA0 /* MRBuildDetail.m */; };
 		54BD57B71BC53137008B5BC4 /* MKPhoneAppleWatchConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BD57B61BC53137008B5BC4 /* MKPhoneAppleWatchConnectivity.swift */; };
 		54BD57B91BC546EE008B5BC4 /* UI.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54BD57B81BC546EE008B5BC4 /* UI.xcassets */; };
@@ -1871,7 +1870,6 @@
 				543E32931C4AD47A00D9922D /* MRManagedLocationExercise+CoreDataTransformables.swift in Sources */,
 				644616621C9321D400036857 /* MRWorkoutPageViewController.swift in Sources */,
 				543E328C1C4ABEC500D9922D /* MRManagedLocationExercise+CoreDataOperations.swift in Sources */,
-				54B27DCD1C3BE6A8000A07A2 /* MRStatisticsViewController.swift in Sources */,
 				640E5EB11C6B356C00B9F227 /* MRManagedLabelsPredictor+CoreDataOperations.swift in Sources */,
 				5421AEBF1C403AE4009CB4FA /* MKExercise+ExerciseId.swift in Sources */,
 				543E326E1C4A997500D9922D /* MRManagedExerciseSession.swift in Sources */,

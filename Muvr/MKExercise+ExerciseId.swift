@@ -21,7 +21,7 @@ extension MKExercise {
     ///
     static func title(_ exerciseId: Id) -> String {
         let (_, e, _) = componentsFromExerciseId(exerciseId)!
-        return NSLocalizedString(e.last!, comment: "\(e.last!) exercise").localizedCapitalizedString
+        return NSLocalizedString(e.last!, comment: "\(e.last!) exercise").localizedCapitalized
     }
 
     ///
@@ -31,14 +31,14 @@ extension MKExercise {
     /// - returns: (exercise-type, [(muscle-group-1, muscle-group-2, ...], exercise-id, station?))
     ///
     static func componentsFromExerciseId(_ exerciseId: MKExercise.Id) -> (String, [String], String?)? {
-        let components = exerciseId.componentsSeparatedByString(":")
+        let components = exerciseId.components(separatedBy: ":")
         if components.count == 2 {
-            let restComponents = components[1].componentsSeparatedByString("/")
+            let restComponents = components[1].components(separatedBy: "/")
             if restComponents.count == 0 {
                 return (components[0], [components[1]], nil)
             }
             // restComponents is NEL
-            let nas = restComponents.last!.componentsSeparatedByString("@")
+            let nas = restComponents.last!.components(separatedBy: "@")
             if nas.count == 2 {
                 // the last component is station
                 return (components[0], restComponents.dropLast() + [nas.first!], nas.last!)

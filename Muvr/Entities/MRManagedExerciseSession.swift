@@ -6,7 +6,7 @@ import MuvrKit
 /// Represents a workout session and handles prediction of the next exercise set
 ///
 class MRManagedExerciseSession: NSManagedObject {
-    typealias ExerciseRow = (MKExercise.Id, MKExerciseType, NSTimeInterval, NSTimeInterval, [MKExerciseLabel])
+    typealias ExerciseRow = (MKExercise.Id, MKExerciseType, TimeInterval, TimeInterval, [MKExerciseLabel])
     
     /// The number of exercise ids for next estimates
     private var exerciseIdCounts: [MKExercise.Id : Int] = [:]
@@ -31,9 +31,9 @@ class MRManagedExerciseSession: NSManagedObject {
     func sessionClassifierDidSetupExercise(_ trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State {
         if MRAppDelegate.sharedDelegate().deviceSteadyAndLevel {
             NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.SessionDidStartExercise.rawValue), object: objectID)
-            return .SetupExercise(exerciseId: "")
+            return .setupExercise(exerciseId: "")
         }
-        return .NotExercising
+        return .notExercising
     }
 
     ///

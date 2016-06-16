@@ -14,7 +14,7 @@ extension MRManagedLabelsPredictor {
     /// - returns: the matching MRManagedLabelsPredictor
     ///
     static func exactPredictorFor(location: MRLocationCoordinate2D?, sessionExerciseType: MKExerciseType?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedLabelsPredictor? {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedLabelsPredictor")
+        let fetchRequest = NSFetchRequest<MRManagedLabelsPredictor>(entityName: "MRManagedLabelsPredictor")
         var predicates: [Predicate] = []
         if let location = location {
             predicates.append(Predicate(location: location))
@@ -27,7 +27,7 @@ extension MRManagedLabelsPredictor {
         }
         fetchRequest.fetchLimit = 1
         
-        return (try! managedObjectContext.executeFetchRequest(fetchRequest)).first as? MRManagedLabelsPredictor
+        return try! managedObjectContext.fetch(fetchRequest).first
     }
     
     ///

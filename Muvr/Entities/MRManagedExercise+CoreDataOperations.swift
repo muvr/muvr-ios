@@ -14,12 +14,12 @@ extension MRManagedExercise {
         mo.session = session
         let insertedLabels: [MRManagedExerciseScalarLabel] = labels.map { label in
             switch label {
-            case .Intensity(let intensity):
-                return MRManagedExerciseScalarLabel.insertNewObjectIntoExercise(mo, type: label.id, value: NSDecimalNumber(double: intensity), inManagedObjectContext: managedObjectContext)
-            case .Repetitions(let repetitions):
-                return MRManagedExerciseScalarLabel.insertNewObjectIntoExercise(mo, type: label.id, value: NSDecimalNumber(integer: repetitions), inManagedObjectContext: managedObjectContext)
-            case .Weight(let weight):
-                return MRManagedExerciseScalarLabel.insertNewObjectIntoExercise(mo, type: label.id, value: NSDecimalNumber(double: weight), inManagedObjectContext: managedObjectContext)
+            case .intensity(let intensity):
+                return MRManagedExerciseScalarLabel.insertNewObjectIntoExercise(mo, type: label.id, value: NSDecimalNumber(value: intensity), inManagedObjectContext: managedObjectContext)
+            case .repetitions(let repetitions):
+                return MRManagedExerciseScalarLabel.insertNewObjectIntoExercise(mo, type: label.id, value: NSDecimalNumber(value: repetitions), inManagedObjectContext: managedObjectContext)
+            case .weight(let weight):
+                return MRManagedExerciseScalarLabel.insertNewObjectIntoExercise(mo, type: label.id, value: NSDecimalNumber(value: weight), inManagedObjectContext: managedObjectContext)
             }
         }
         mo.scalarLabels = NSSet(array: insertedLabels)

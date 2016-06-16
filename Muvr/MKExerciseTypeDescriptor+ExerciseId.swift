@@ -11,11 +11,11 @@ extension MKExerciseTypeDescriptor {
     init?(exerciseId: MKExercise.Id) {
         guard let (type, _, _) = MKExercise.componentsFromExerciseId(exerciseId) else { return nil }
         if type == MKExerciseType.resistanceTargeted {
-            self = .ResistanceTargeted
+            self = .resistanceTargeted
         } else if type == MKExerciseType.resistanceWholeBody {
-            self = .ResistanceWholeBody
+            self = .resistanceWholeBody
         } else if type == MKExerciseType.indoorsCardio {
-            self = .IndoorsCardio
+            self = .indoorsCardio
         } else {
             return nil
         }

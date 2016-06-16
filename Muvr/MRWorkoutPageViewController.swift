@@ -32,7 +32,7 @@ class MRWorkoutPageViewController: UIPageViewController {
         libraryViewController = storyboard?.instantiateViewController(withIdentifier: "library") as! MRLibraryViewController
         
         // display the "library" view controller by default
-        setViewControllers([libraryViewController], direction: .Forward, animated: false, completion: nil)
+        setViewControllers([libraryViewController], direction: .forward, animated: false, completion: nil)
         
         // register callback
         segmentedControl.addTarget(self, action: #selector(MRWorkoutPageViewController.changePage(_:)), for: .valueChanged)
@@ -54,7 +54,7 @@ class MRWorkoutPageViewController: UIPageViewController {
         guard let selected = SelectedControl(rawValue: sender.selectedSegmentIndex) else { return }
         switch selected {
         case .custom: setViewControllers([customViewController], direction: .forward, animated: true, completion: nil)
-        case .library: setViewControllers([libraryViewController], direction: .Reverse, animated: true, completion: nil)
+        case .library: setViewControllers([libraryViewController], direction: .reverse, animated: true, completion: nil)
         }
     }
     

@@ -12,10 +12,10 @@ import CoreData
 extension MRManagedLocation {
     
     static func findAtLocation(_ location: MRLocationCoordinate2D, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedLocation? {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedLocation")
+        let fetchRequest = NSFetchRequest<MRManagedLocation>(entityName: "MRManagedLocation")
         fetchRequest.predicate = Predicate(location: location)
         
-        return (try! managedObjectContext.fetch(fetchRequest) as! [MRManagedLocation]).first
+        return try! managedObjectContext.fetch(fetchRequest).first
     }
 
     static func upsertFromJSON(_ json: NSDictionary, inManagedObjectContext managedObjectContext: NSManagedObjectContext) throws {
@@ -23,9 +23,9 @@ extension MRManagedLocation {
             let longitude = json["longitude"] as? NSNumber,
             let name = json["name"] as? String else { return }
         
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedLocation")
+        let fetchRequest = NSFetchRequest<MRManagedLocation>(entityName: "MRManagedLocation")
         fetchRequest.predicate = Predicate(latitude: latitude.doubleValue, longitude: longitude.doubleValue)
-        if let existing = try managedObjectContext.fetch(fetchRequest).first as? NSManagedObject {
+        if let existing = try managedObjectContext.fetch(fetchRequest).first {
             // TODO: fixme
             // fatalError("This needs updating. The objectID needs to remain stable.")
         }

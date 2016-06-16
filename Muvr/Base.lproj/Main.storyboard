@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wdg-mi-HgG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11129.15" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="wdg-mi-HgG">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11103.10"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Start workout-->
@@ -20,16 +21,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CR1-dm-STi">
-                                <rect key="frame" x="15" y="391" width="384" height="232"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pa4-Xb-OTx">
-                                        <rect key="frame" x="0.0" y="52" width="384" height="128"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="pa4-Xb-OTx" secondAttribute="height" multiplier="3:1" id="zGP-wl-8HQ"/>
                                         </constraints>
                                     </scrollView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="pa4-Xb-OTx" firstAttribute="leading" secondItem="CR1-dm-STi" secondAttribute="leading" id="N9I-GO-yEf"/>
                                     <constraint firstAttribute="trailing" secondItem="pa4-Xb-OTx" secondAttribute="trailing" id="PEL-vn-wTP"/>
@@ -37,14 +36,13 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZHX-vN-Py1" customClass="MRCircleWorkoutView" customModule="Muvr" customModuleProvider="target">
-                                <rect key="frame" x="32" y="40" width="350" height="350"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ZHX-vN-Py1" secondAttribute="height" multiplier="1:1" id="1hL-Xb-skh"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="CR1-dm-STi" secondAttribute="trailing" constant="-5" id="9B8-nF-aAh"/>
                             <constraint firstItem="CR1-dm-STi" firstAttribute="top" secondItem="ZHX-vN-Py1" secondAttribute="bottom" constant="1" id="By9-bX-ZHl"/>
@@ -57,7 +55,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Start workout" image="exercise" selectedImage="exercise_selected" id="EWj-fs-vma"/>
                     <navigationItem key="navigationItem" id="YY0-LO-IN0"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="scrollView" destination="pa4-Xb-OTx" id="xqo-Fz-oJN"/>
                         <outlet property="startButton" destination="ZHX-vN-Py1" id="A0x-4N-UEV"/>
@@ -66,7 +63,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="amo-T2-eQ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3138" y="-1536"/>
+            <point key="canvasLocation" x="-3068" y="-1537"/>
         </scene>
         <!--Manual-->
         <scene sceneID="JL1-Iw-8WF">
@@ -81,14 +78,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="iZl-Lw-dr4">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="550"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="ZBc-n5-9HC">
-                                        <rect key="frame" x="0.0" y="49.5" width="414" height="44"/>
+                                        <frame key="frameInset" minY="55" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZBc-n5-9HC" id="9NW-NI-iv4">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <frame key="frameInset" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -99,14 +95,13 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHc-BC-6jz">
-                                <rect key="frame" x="20" y="567" width="374" height="36"/>
                                 <state key="normal" title="Start"/>
                                 <connections>
                                     <action selector="start" destination="e3O-P6-qPY" eventType="touchUpInside" id="EkV-IY-mo8"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="5Qi-ZJ-mwA" firstAttribute="top" secondItem="iZl-Lw-dr4" secondAttribute="bottom" constant="73" id="9jm-AB-8ww"/>
                             <constraint firstAttribute="trailingMargin" secondItem="iZl-Lw-dr4" secondAttribute="trailing" constant="-20" id="F9b-5A-Yvo"/>
@@ -121,24 +116,21 @@
                     <tabBarItem key="tabBarItem" title="Manual" image="exercise" selectedImage="exercise_selected" id="fi2-5k-ObL"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="startButton" destination="OHc-BC-6jz" id="LqB-gu-o1i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Maq-PK-msg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2062" y="-1928"/>
+            <point key="canvasLocation" x="-1329" y="-2064"/>
         </scene>
         <!--Workout Page View Controller-->
         <scene sceneID="iVc-g6-26z">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="c5O-YA-09I" customClass="MRWorkoutPageViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController">
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                </pageViewController>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="c5O-YA-09I" customClass="MRWorkoutPageViewController" customModule="Muvr" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JK8-DQ-ERX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2554" y="-1536"/>
+            <point key="canvasLocation" x="-2371" y="-1538"/>
         </scene>
         <!--Muvr-->
         <scene sceneID="OuP-f3-XRY">
@@ -153,28 +145,26 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQr-sd-xQy">
-                                <rect key="frame" x="20" y="585" width="374" height="30"/>
                                 <state key="normal" title="Initial setup"/>
                                 <connections>
                                     <action selector="initialSetup" destination="Mou-Np-bON" eventType="touchUpInside" id="5rG-4M-s4V"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gXN-FU-jdV">
-                                <rect key="frame" x="20" y="100" width="374" height="477"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="sessionCell" textLabel="Mhf-1B-KPm" style="IBUITableViewCellStyleDefault" id="Ftg-sO-KEx">
-                                        <rect key="frame" x="0.0" y="28" width="374" height="44"/>
+                                        <frame key="frameInset" minY="28" width="374" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ftg-sO-KEx" id="BFD-zd-DKD">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <frame key="frameInset" width="374" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Mhf-1B-KPm">
-                                                    <rect key="frame" x="15" y="0.0" width="344" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="344" height="43.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -183,13 +173,12 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lyu-3p-Edr" customClass="JTHorizontalCalendarView">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="92"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Lyu-3p-Edr" secondAttribute="height" multiplier="9:2" id="YpA-RB-1PF"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="leadingMargin" secondItem="kQr-sd-xQy" secondAttribute="leading" id="ERa-zC-KqE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Lyu-3p-Edr" secondAttribute="trailing" constant="-20" id="Ujg-aP-SMg"/>
@@ -205,7 +194,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Log" image="profile" selectedImage="profile_selected" id="eXs-wO-wdl"/>
                     <navigationItem key="navigationItem" title="Muvr" id="aKG-nL-PLS"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="calendarView" destination="Lyu-3p-Edr" id="cch-GS-2VP"/>
                         <outlet property="sessionTable" destination="gXN-FU-jdV" id="kgR-lM-J6y"/>
@@ -213,20 +201,19 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CI9-an-Vqg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3138" y="203"/>
+            <point key="canvasLocation" x="-2730" y="264"/>
         </scene>
         <!--Muvr-->
         <scene sceneID="feT-0a-U3u">
             <objects>
                 <tabBarController id="wdg-mi-HgG" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Muvr" id="MJW-ld-Vob"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="ryi-yj-vb9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.058823529409999999" green="0.33333333329999998" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.058823529409999999" green="0.33333333329999998" blue="0.52549019610000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="selectedImageTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="orP-HL-QbD" kind="relationship" relationship="viewControllers" id="7vD-Bv-1bl"/>
@@ -243,11 +230,10 @@
             <objects>
                 <navigationController title="Muvr" id="CrI-eL-EiK" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Statistics" image="sessions" selectedImage="sessions_selected" id="A8l-Ub-Q0o"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="UFk-FC-Ugh">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.058823529409999999" green="0.33333333329999998" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.058823529409999999" green="0.33333333329999998" blue="0.52549019610000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="k9I-oM-iXu" kind="relationship" relationship="rootViewController" id="mGA-tn-zNd"/>
@@ -255,7 +241,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Lh-91-86a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3699" y="-690"/>
+            <point key="canvasLocation" x="-3520" y="-690"/>
         </scene>
         <!--Muvr-->
         <scene sceneID="k5A-4Z-PYA">
@@ -270,7 +256,6 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="zJx-4N-ka1">
-                                <rect key="frame" x="20" y="11" width="374" height="29"/>
                                 <segments>
                                     <segment title="#"/>
                                     <segment title="W"/>
@@ -283,25 +268,21 @@
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XcF-KD-ktC">
-                                <rect key="frame" x="20" y="556" width="374" height="47"/>
                                 <string key="text">Here be line chart with selected (or all) data over last x sessions. Maybe showing some regressions, too.
 </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ngj-ju-m1W">
-                                <rect key="frame" x="20" y="440" width="374" height="30"/>
                                 <state key="normal" title="Start arms session"/>
                                 <connections>
                                     <action selector="start" destination="k9I-oM-iXu" eventType="touchUpInside" id="6bW-9C-PxD"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wnD-hc-8AK" customClass="PieChartView" customModule="Charts">
-                                <rect key="frame" x="20" y="50" width="374" height="374"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNW-SJ-6Dt">
-                                        <rect key="frame" x="97" y="97" width="180" height="180"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="rNW-SJ-6Dt" secondAttribute="height" multiplier="1:1" id="FW5-dN-WMH"/>
                                         </constraints>
@@ -313,7 +294,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="rNW-SJ-6Dt" firstAttribute="centerY" secondItem="wnD-hc-8AK" secondAttribute="centerY" id="Cxp-Mm-MVK"/>
                                     <constraint firstAttribute="width" secondItem="wnD-hc-8AK" secondAttribute="height" multiplier="1:1" id="GcX-KW-j3L"/>
@@ -323,7 +304,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="wnD-hc-8AK" secondAttribute="trailing" id="6nr-xN-bjy"/>
                             <constraint firstItem="uUC-vn-soj" firstAttribute="top" secondItem="XcF-KD-ktC" secondAttribute="bottom" constant="20" id="DJh-Qy-M7g"/>
@@ -341,7 +322,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Statistics" image="sessions" selectedImage="sessions_selected" id="CCl-t5-2MB"/>
                     <navigationItem key="navigationItem" title="Muvr" id="9yB-Xu-xmD"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="pieChartBackButton" destination="rNW-SJ-6Dt" id="NSg-Zk-fIV"/>
                         <outlet property="pieChartView" destination="wnD-hc-8AK" id="86l-RY-EcS"/>
@@ -351,18 +331,17 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tXt-yF-dah" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3138" y="-690"/>
+            <point key="canvasLocation" x="-2791" y="-690"/>
         </scene>
         <!--Muvr-->
         <scene sceneID="nVp-iB-MpC">
             <objects>
                 <navigationController title="Muvr" id="orP-HL-QbD" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Exercise" image="exercise" selectedImage="exercise_selected" id="zTv-eN-7Y7"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="mpd-bR-fvC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.058823529409999999" green="0.33333333329999998" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.058823529409999999" green="0.33333333329999998" blue="0.52549019610000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="pmY-Nl-DsG" kind="relationship" relationship="rootViewController" id="nay-L8-VeU"/>
@@ -370,18 +349,17 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gqc-zo-Tre" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3699" y="-1536"/>
+            <point key="canvasLocation" x="-3786" y="-1537"/>
         </scene>
         <!--Workouts-->
         <scene sceneID="P2D-zS-KoX">
             <objects>
                 <navigationController id="9Hh-7G-1PP" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Workouts" image="profile" selectedImage="profile_selected" id="7zx-8Z-ZaP"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="b1c-oj-rbJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.058823529409999999" green="0.33333333329999998" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.058823529409999999" green="0.33333333329999998" blue="0.52549019610000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="Mou-Np-bON" kind="relationship" relationship="rootViewController" id="Jj2-07-UaE"/>
@@ -404,25 +382,22 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jS1-QX-N8b">
-                                <rect key="frame" x="20" y="567" width="374" height="36"/>
                                 <state key="normal" title="Start"/>
                                 <connections>
                                     <action selector="startWorkout:" destination="lUz-ja-lVz" eventType="touchUpInside" id="6EY-Oa-IVS"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="U4R-MM-ID8">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="550"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="fWF-Tw-K9z" customClass="MRLibaryWorkoutCell" customModule="Muvr" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <frame key="frameInset" minY="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fWF-Tw-K9z" id="tYA-QP-h9e">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <frame key="frameInset" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UJD-zn-h33" customClass="MRLibraryInfoButton" customModule="Muvr" customModuleProvider="target">
-                                                    <rect key="frame" x="384" y="11" width="22" height="22"/>
                                                     <connections>
                                                         <segue destination="tvo-jL-ajz" kind="show" id="fDC-zf-fag"/>
                                                     </connections>
@@ -444,7 +419,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="jS1-QX-N8b" firstAttribute="top" secondItem="U4R-MM-ID8" secondAttribute="bottom" constant="17" id="1eR-1H-BBw"/>
                             <constraint firstAttribute="trailingMargin" secondItem="U4R-MM-ID8" secondAttribute="trailing" constant="-20" id="AP9-ba-5YQ"/>
@@ -459,7 +434,6 @@
                     <tabBarItem key="tabBarItem" title="Manual" image="exercise" selectedImage="exercise_selected" id="O1G-P1-9h3"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="startButton" destination="jS1-QX-N8b" id="tZ4-22-ZoC"/>
                         <outlet property="tableView" destination="U4R-MM-ID8" id="Qib-aA-uSH"/>
@@ -467,7 +441,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jh5-Yb-Ezh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2062" y="-1060"/>
+            <point key="canvasLocation" x="-1709" y="-1022"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Kcp-te-gtI">
@@ -480,15 +454,14 @@
                     <view key="view" contentMode="scaleToFill" id="Bwb-4K-kyM" customClass="UIWebView">
                         <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9BL-LW-cwg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1531" y="-1060"/>
+            <point key="canvasLocation" x="-888" y="-1074"/>
         </scene>
     </scenes>
     <resources>

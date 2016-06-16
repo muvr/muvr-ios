@@ -13,7 +13,7 @@ class MRAlternativeExerciseButton: MRAlternativeButton {
             let title = exerciseDetail.map { MKExercise.title($0.id) }
             accessibilityLabel = title
             accessibilityHint = "Alternative".localized()
-            setTitle(title, forState: .Normal)
+            setTitle(title, for: [])
         }
     }
     

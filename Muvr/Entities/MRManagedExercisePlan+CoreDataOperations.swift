@@ -20,7 +20,7 @@ extension MRManagedExercisePlan {
     /// - returns: the matching plan
     ///
     internal static func exactPlanForExerciseType(_ exerciseType: MKExerciseType, location: MRLocationCoordinate2D?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercisePlan? {
-        let fetchRequest = NSFetchRequest(entityName: "MRManagedExercisePlan")
+        let fetchRequest = NSFetchRequest<MRManagedExercisePlan>(entityName: "MRManagedExercisePlan")
         var predicate = Predicate(exerciseType: exerciseType)
         let adHocSessionPredicate = Predicate(format: "templateId = nil")
         if let locationPredicate = (location.map { Predicate(location: $0) }) {
@@ -29,7 +29,7 @@ extension MRManagedExercisePlan {
         fetchRequest.predicate = predicate
         fetchRequest.fetchLimit = 1
         
-        let plans = try! managedObjectContext.fetch(fetchRequest) as! [MRManagedExercisePlan]
+        let plans = try! managedObjectContext.fetch(fetchRequest)
         return plans.first
     }
     

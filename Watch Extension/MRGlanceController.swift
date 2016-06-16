@@ -14,8 +14,8 @@ class MRGlanceController: WKInterfaceController, MRSessionProgressRing {
     
     override func willActivate() {
         super.willActivate()
-        NotificationCenter.default().addObserver(self, selector: #selector(MRGlanceController.sessionDidChange(_:)), name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
-        NotificationCenter.default().addObserver(self, selector: #selector(MRGlanceController.sessionDidChange(_:)), name: MRNotifications.CurrentSessionDidEnd.rawValue, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(MRGlanceController.sessionDidChange(_:)), name: MRNotifications.currentSessionDidStart, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(MRGlanceController.sessionDidChange(_:)), name: MRNotifications.currentSessionDidEnd, object: nil)
         activate()
     }
     
