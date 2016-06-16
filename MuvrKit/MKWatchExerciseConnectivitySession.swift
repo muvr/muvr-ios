@@ -55,18 +55,18 @@ public struct MKExerciseSessionProperties {
     }
     
     /// Copies this instance assigning the ``completed`` field
-    internal func with(_ completed: Bool) -> MKExerciseSessionProperties {
+    internal func withCompleted(completed: Bool) -> MKExerciseSessionProperties {
         return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, accelerometerEnd: accelerometerEnd, end: end, completed: completed)
     }
     
     /// Copies this instance assigning the ``accelerometerEnd`` field.
-    internal func with(_ accelerometerEnd: Date) -> MKExerciseSessionProperties {
+    internal func withEnd(accelerometerEnd: Date) -> MKExerciseSessionProperties {
         // new recorded value is send + rd (because all recorded samples might not have been sent)
         return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, accelerometerEnd: accelerometerEnd, end: end, completed: completed)
     }
     
     /// Copies this instance assigning the ``accelerometerStart`` field
-    internal func with(_ accelerometerStart: Date) -> MKExerciseSessionProperties {
+    internal func withStart(accelerometerStart: Date) -> MKExerciseSessionProperties {
         return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, accelerometerEnd: accelerometerEnd, end: end, completed: completed)
     }
     
@@ -74,17 +74,17 @@ public struct MKExerciseSessionProperties {
     /// if the session is not over it indicates the elpased time since session start
     public var duration: TimeInterval {
         let end = self.end ?? Date()
-        return end.timeIntervalSinceDate(start)
+        return end.timeIntervalSince(start)
     }
     
     /// Indicates the number of recorded samples
     public var recorded: Int {
-        return accelerometerEnd.map { Int($0.timeIntervalSinceDate(start)) * MKConnectivitySettings.samplingRate } ?? 0
+        return accelerometerEnd.map { Int($0.timeIntervalSince(start)) * MKConnectivitySettings.samplingRate } ?? 0
     }
     
     /// Indicates the number of sent samples
     public var sent: Int {
-        return accelerometerStart.map { Int($0.timeIntervalSinceDate(start)) * MKConnectivitySettings.samplingRate } ?? 0
+        return accelerometerStart.map { Int($0.timeIntervalSince(start)) * MKConnectivitySettings.samplingRate } ?? 0
     }
 }
 

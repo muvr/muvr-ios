@@ -206,7 +206,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
     // the current sessions
     private var sessions = MKConnectivitySessions()
     // the transfer queue
-    private let transferQueue = DispatchQueue(label: "io.muvr.transferQueue", attributes: dispatch_queue_attr_make_with_qos_class(DispatchQueueAttributes.serial, DispatchQueueAttributes.qosUserInitiated, 0))
+    private let transferQueue = DispatchQueue(label: "io.muvr.transferQueue", attributes: [DispatchQueueAttributes.serial, DispatchQueueAttributes.qosUserInitiated], target: nil)
     // the delegate receiving session start/stop events
     private let delegate: MKExerciseSessionConnectivityDelegate
     
@@ -262,6 +262,10 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         }
     }
     
+    public func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: NSError?) {
+        
+    }
+    
     ///
     /// Callled when session events (start/end) are sent from the phone
     ///
@@ -270,7 +274,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             let exerciseProps = MKExerciseSessionProperties(metadata: userInfo) else { return }
         
         if let currentSession = currentSession {
-            self.sessions.update(currentSession.0) { return $0.with(end: Date()) }
+            _ = self.sessions.update(currentSession.0) { return $0.withEnd(accelerometerEnd: Date()) }
             delegate.sessionEnded(currentSession)
         }
         if exerciseProps.end == nil {
@@ -301,9 +305,9 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
         
         transferQueue.sync {
             let (session, _) = lastSession
-            let endedProps = self.sessions.update(session) { return $0.with(end: Date()) }
+            let endedProps = self.sessions.update(session) { return $0.withEnd(accelerometerEnd: Date()) }
             // Notify phone that session ended
-            WCSession.defaultSession().transferUserInfo(session.metadata.plus(endedProps?.metadata ?? [:]))
+            WCSession.default().transferUserInfo(session.metadata.plus(endedProps?.metadata ?? [:]))
             // still try to send remaining data
             self.innerExecute()
         }
@@ -403,12 +407,12 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             let to = props.end ?? Date()
             
             // drop if older than 3 days
-            if Date().timeIntervalSinceDate(from) > 60 * 24 * 3 {
+            if Date().timeIntervalSince(from) > 60 * 24 * 3 {
                 sessions.remove(session)
                 return
             }
             
-            if (!props.ended && to.timeIntervalSinceDate(from) < MKConnectivitySettings.windowDuration) {
+            if (!props.ended && to.timeIntervalSince(from) < MKConnectivitySettings.windowDuration) {
                 NSLog("Skip transfer for chunk smaller than a single window")
                 return
             }
@@ -419,12 +423,12 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             }
             
             // update the number of recorded samples
-            let updatedProps = sessions.update(session) { return $0.with(accelerometerEnd: end).with(completed: lastChunk) }
+            let updatedProps = sessions.update(session) { return $0.withEnd(accelerometerEnd: end).withCompleted(completed: lastChunk) }
             
             // transfer what we have so far
             transferSensorDataBatch(fileUrl, session: session, props: updatedProps) {
                 // set the expected range of samples on the next call
-                let finalProps = self.sessions.update(session) { return $0.with(accelerometerStart: end) }
+                let finalProps = self.sessions.update(session) { return $0.withStart(accelerometerStart: end) }
                 NSLog("Transferred \(finalProps)")
                 
                 // Remove session if it was the last chunk of data
