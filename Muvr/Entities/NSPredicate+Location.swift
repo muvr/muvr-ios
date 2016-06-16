@@ -1,7 +1,7 @@
 import Foundation
 
 /// Adds convenience initializer for constructing predicate for a 2D location
-extension NSPredicate {
+extension Predicate {
     
     ///
     /// Constructs a predicate for the given ``location``, assuming it is expressed as

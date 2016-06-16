@@ -35,12 +35,14 @@ public struct MKScalarRounderFunction {
     /// - parameter maximum: the maximum value
     /// - returns: rounded
     ///
-    public static func roundMinMax(value: Double, minimum: Double, step: Double, maximum: Double?) -> Double {
+    public static func roundMinMax(_ value: Double, minimum: Double, step: Double, maximum: Double?) -> Double {
         if value < minimum { return minimum }
         if let maximum = maximum where value >= maximum {
             return maximum
-        }        
-        for var weight: Double = minimum; weight < maximum ?? 999; weight += step {
+        }
+        var weight: Double = minimum
+        while weight < maximum ?? 999 {
+            weight += step
             let dcw = value - weight
             let dnw = value - (weight + step)
             if dcw >= 0 && dnw <= 0 {

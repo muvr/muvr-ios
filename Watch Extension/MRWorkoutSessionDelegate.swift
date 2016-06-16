@@ -16,8 +16,8 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
     
     private var workoutSession: HKWorkoutSession? = nil
     private var exerciseType: MKExerciseType? = nil
-    private var start: NSDate? = nil
-    private var end: NSDate? = nil
+    private var start: Date? = nil
+    private var end: Date? = nil
     
     /// HK running queries
     private var queries: [HKQuery] = []
@@ -36,10 +36,10 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
         // Ask for permission
         let typesToShare: Set<HKSampleType> = [HKSampleType.workoutType()]
         let typesToRead: Set<HKSampleType> = [
-            HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)!,
-            HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)!
+            HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!,
+            HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!
         ]
-        healthStore.requestAuthorizationToShareTypes(typesToShare, readTypes: typesToRead) { success, error in
+        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { success, error in
             if success {
                 NSLog("HealthKit authorised")
             } else {
@@ -48,23 +48,23 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
         }
     }
     
-    func startSession(start start: NSDate, exerciseType type: MKExerciseType) {
+    func startSession(start: Date, exerciseType type: MKExerciseType) {
         // Only proceed if health data is available.
         guard HKHealthStore.isHealthDataAvailable() else {
             NSLog("HealthKit not available")
             return
         }
         // Start workout session
-        let workoutSession = HKWorkoutSession(activityType: .TraditionalStrengthTraining, locationType: .Indoor)
+        let workoutSession = HKWorkoutSession(activityType: .traditionalStrengthTraining, locationType: .indoor)
         workoutSession.delegate = self
         resetSession()
         self.start = start
-        self.healthStore.startWorkoutSession(workoutSession)
+        self.healthStore.start(workoutSession)
         self.workoutSession = workoutSession
         self.exerciseType = type
     }
     
-    func stopSession(end end: NSDate) {
+    func stopSession(end: Date) {
         // Only proceed if health data is available.
         guard HKHealthStore.isHealthDataAvailable() else {
             NSLog("HealthKit not available")
@@ -72,25 +72,25 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
         }
         self.end = end
         if let workoutSession = workoutSession {
-            healthStore.endWorkoutSession(workoutSession)
+            healthStore.end(workoutSession)
         }
     }
     
     /// create the queries running during a workout
     private func createQueries() -> [HKQuery] {
         guard let start = start else { return [] }
-        let startDatePredicate = HKQuery.predicateForSamplesWithStartDate(start, endDate: nil, options: .None)
-        let devicePredicate = HKQuery.predicateForObjectsFromDevices([HKDevice.localDevice()])
-        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [startDatePredicate, devicePredicate])
+        let startDatePredicate = HKQuery.predicateForSamples(withStart: start, end: nil, options: HKQueryOptions())
+        let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
+        let predicate = CompoundPredicate(andPredicateWithSubpredicates: [startDatePredicate, devicePredicate])
         
         /// callback - record the latest heartrate value
-        func updateHeartrate(samples: [HKSample]?) {
+        func updateHeartrate(_ samples: [HKSample]?) {
             // TODO dispatch to main queue
-            let heartrateUnit = HKUnit(fromString: "count/min")
+            let heartrateUnit = HKUnit(from: "count/min")
             guard let heartrateSamples = samples as? [HKQuantitySample] where !heartrateSamples.isEmpty else { return }
-            let hr = heartrateSamples[heartrateSamples.count - 1].quantity.doubleValueForUnit(heartrateUnit)
+            let hr = heartrateSamples[heartrateSamples.count - 1].quantity.doubleValue(for: heartrateUnit)
             heartrateSamples.forEach { sample in
-                let value = sample.quantity.doubleValueForUnit(heartrateUnit)
+                let value = sample.quantity.doubleValue(for: heartrateUnit)
                 NSLog("Heartrate \(value) from \(sample.startDate) to \(sample.endDate)")
             }
             self.heartrate = hr
@@ -98,12 +98,12 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
         }
         
         /// callback - record the total energy burned during session
-        func updateEnergyBurned(samples: [HKSample]?) {
+        func updateEnergyBurned(_ samples: [HKSample]?) {
             // TODO dispatch to main queue
-            let energyUnit = HKUnit.kilocalorieUnit()
+            let energyUnit = HKUnit.kilocalorie()
             guard let activeEnergyBurnedSamples = samples as? [HKQuantitySample] else { return }
             let eb = activeEnergyBurnedSamples.reduce(self.energyBurned ?? 0.0) { energy, sample in
-                let value = sample.quantity.doubleValueForUnit(energyUnit)
+                let value = sample.quantity.doubleValue(for: energyUnit)
                 NSLog("Energy burned \(value) kCal from \(sample.startDate) to \(sample.endDate)")
                 return energy + value
             }
@@ -113,7 +113,7 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
         
         /// create a query to get heartbeat samples from healthkit
         func createHeartrateQuery() -> HKQuery? {
-            guard let heartrateType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate) else {
+            guard let heartrateType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate) else {
                 NSLog("Heartrate type not available")
                 return nil
             }
@@ -128,7 +128,7 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
         
         /// create a query to get active energy burned samples from healthkit
         func createEnergyBurnedQuery() -> HKQuery? {
-            guard let activeEnergyBurnedType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned) else {
+            guard let activeEnergyBurnedType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned) else {
                 NSLog("Active energy burned type not available")
                 return nil
             }
@@ -150,12 +150,12 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
             NSLog("Incomplete workout")
             return
         }
-        if healthStore.authorizationStatusForType(HKObjectType.workoutType()) != .SharingAuthorized {
+        if healthStore.authorizationStatus(for: HKObjectType.workoutType()) != .sharingAuthorized {
             NSLog("Healthkit saving workout not authorised")
             return
         }
-        let totalEnergyBurned = energyBurned.map { HKQuantity(unit: HKUnit.kilocalorieUnit(), doubleValue: $0) }
-        let duration = end.timeIntervalSinceDate(start)
+        let totalEnergyBurned = energyBurned.map { HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: $0) }
+        let duration = end.timeIntervalSince(start)
         let workout = HKWorkout(activityType: HKWorkoutActivityType.TraditionalStrengthTraining, startDate: start, endDate: end, duration: duration, totalEnergyBurned: totalEnergyBurned, totalDistance: nil, metadata: ["type": exerciseType.title])
         healthStore.saveObject(workout) { success, error in
             if let error = error where !success {
@@ -177,10 +177,10 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
     }
     
     /// callback - begin workout session
-    func beginWorkoutSession(onDate: NSDate) {
+    func beginWorkoutSession(_ onDate: Date) {
         self.queries = createQueries()
         self.queries.forEach { query in
-            healthStore.executeQuery(query)
+            healthStore.execute(query)
         }
     }
     
@@ -188,7 +188,7 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
     func endWorkoutSession() {
         // Stop running queries
         self.queries.forEach { query in
-            healthStore.stopQuery(query)
+            healthStore.stop(query)
         }
         saveWorkout()
         resetSession()
@@ -196,15 +196,15 @@ public final class MRWorkoutSessionDelegate: NSObject, HKWorkoutSessionDelegate 
     
     /// MARK: HKWorkoutSessionDelegate
     
-    public func workoutSession(workoutSession: HKWorkoutSession, didChangeToState toState: HKWorkoutSessionState, fromState: HKWorkoutSessionState, date: NSDate) {
+    public func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
         switch toState {
-        case .Running:  self.beginWorkoutSession(date)
-        case .Ended: self.endWorkoutSession()
+        case .running:  self.beginWorkoutSession(date)
+        case .ended: self.endWorkoutSession()
         default: NSLog("Unexpected workout sessions state: \(toState)")
         }
     }
     
-    public func workoutSession(workoutSession: HKWorkoutSession, didFailWithError error: NSError) {
+    public func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: NSError) {
         NSLog("Workout session failed: \(error)")
     }
     

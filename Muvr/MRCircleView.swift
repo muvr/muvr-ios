@@ -6,20 +6,20 @@ import MuvrKit
     
     /// Called when the main button is tapped
     /// - parameter circleView: the view where the tap originated
-    optional func circleViewTapped(circleView: MRCircleView)
+    @objc optional func circleViewTapped(_ circleView: MRCircleView)
     
     /// Called when the main button is long-tapped
     /// - parameter circleView: the view where the long tap originated
-    optional func circleViewLongTapped(circleView: MRCircleView)
+    @objc optional func circleViewLongTapped(_ circleView: MRCircleView)
     
     /// Called when the circle animation gets to the end
     /// - parameter circleView: the view that has finished animating
-    optional func circleViewCircleDidComplete(circleView: MRCircleView)
+    @objc optional func circleViewCircleDidComplete(_ circleView: MRCircleView)
     
     /// Called when the main button is swiped
     /// - parameter circleView: the view where the swipe occured
     /// - parameter direction: the swipe direction (Left or Right)
-    optional func circleViewSwiped(circleView: MRCircleView, direction: UISwipeGestureRecognizerDirection)
+    @objc optional func circleViewSwiped(_ circleView: MRCircleView, direction: UISwipeGestureRecognizerDirection)
     
 }
 
@@ -45,14 +45,14 @@ class MRCircleView : UIView {
         
     /// set progress colors
     var progressEmptyColor : UIColor = MRColor.gray
-    var progressFullColor : UIColor = UIColor.clearColor() {
+    var progressFullColor : UIColor = UIColor.clear() {
         didSet {
             let animation = CABasicAnimation(keyPath: "strokeColor")
             animation.fromValue = circleLayer.strokeColor
-            animation.toValue = progressFullColor.CGColor
+            animation.toValue = progressFullColor.cgColor
             animation.duration = 0.3
-            circleLayer.strokeColor = progressFullColor.CGColor
-            circleLayer.addAnimation(animation, forKey: "animateColor")
+            circleLayer.strokeColor = progressFullColor.cgColor
+            circleLayer.add(animation, forKey: "animateColor")
         }
     }
     
@@ -64,7 +64,7 @@ class MRCircleView : UIView {
     
     var title: String? {
         didSet {
-            button.setTitle(title, forState: UIControlState.Normal)
+            button.setTitle(title, for: UIControlState())
             UIView.performWithoutAnimation(updateUI)
         }
     }
@@ -112,18 +112,18 @@ class MRCircleView : UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         button.layer.cornerRadius = (frame.height - 8) / 2
-        button.titleLabel!.font = button.titleLabel!.font.fontWithSize(frame.height / 8)
-        headerLabel.font = headerLabel.font.fontWithSize(frame.height / 14)
+        button.titleLabel!.font = button.titleLabel!.font.withSize(frame.height / 8)
+        headerLabel.font = headerLabel.font.withSize(frame.height / 14)
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         addCirle(bounds.width + 10, capRadius: lineWidth, color: progressEmptyColor, strokeStart: 0.0, strokeEnd: 1.0)
         createProgressCircle()
     }
     
-    override func animationDidStart(anim: CAAnimation) {
+    override func animationDidStart(_ anim: CAAnimation) {
         if isCircleAnimation(anim) {
-            circleLayer.strokeColor = progressFullColor.CGColor
+            circleLayer.strokeColor = progressFullColor.cgColor
             isAnimating = true
             if animationDuration == nil { // new animation started
                 animationStartTime = CACurrentMediaTime()
@@ -135,15 +135,15 @@ class MRCircleView : UIView {
         }
     }
     
-    override func animationDidStop(anim: CAAnimation, finished: Bool) {
+    override func animationDidStop(_ anim: CAAnimation, finished: Bool) {
         isAnimating = false
         if finished {
             if fireCircleDidComplete { delegate?.circleViewCircleDidComplete?(self) }
         }
     }
     
-    private func isCircleAnimation(anim: CAAnimation) -> Bool {
-        if let circleAnim = circleLayer.animationForKey("animateCircle") {
+    private func isCircleAnimation(_ anim: CAAnimation) -> Bool {
+        if let circleAnim = circleLayer.animation(forKey: "animateCircle") {
             return circleAnim == anim
         }
         return false
@@ -152,12 +152,12 @@ class MRCircleView : UIView {
     private func createUI() {
         view = loadViewFromNib()
         view.frame = bounds
-        view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
-        view.backgroundColor = UIColor.clearColor()
-        backgroundColor = UIColor.clearColor()
+        view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        view.backgroundColor = UIColor.clear()
+        backgroundColor = UIColor.clear()
         
         headerLabel.text = ""
-        button.setTitle("", forState: UIControlState.Normal)
+        button.setTitle("", for: UIControlState())
         
         addSubview(view)
         updateUI()
@@ -169,56 +169,56 @@ class MRCircleView : UIView {
     }
     
     private func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass: self.dynamicType)
+        let bundle = Bundle(for: self.dynamicType)
         let nib = UINib(nibName: "MRCircleView", bundle: bundle)
         
         // Assumes UIView is top level and only object in CustomView.xib file
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
 
         return view
     }
     
-    private func addCirle(arcRadius: CGFloat, capRadius: CGFloat, color: UIColor, strokeStart: CGFloat, strokeEnd: CGFloat) {
-        let centerPoint = CGPointMake(CGRectGetMidX(self.bounds) , CGRectGetMidY(self.bounds))
+    private func addCirle(_ arcRadius: CGFloat, capRadius: CGFloat, color: UIColor, strokeStart: CGFloat, strokeEnd: CGFloat) {
+        let centerPoint = CGPoint(x: self.bounds.midX , y: self.bounds.midY)
         let startAngle = CGFloat(M_PI_2)
         let endAngle = CGFloat(M_PI * 2 + M_PI_2)
         
-        let path = UIBezierPath(arcCenter:centerPoint, radius: (CGRectGetWidth(frame) - 4 * lineWidth) / 2 + 5, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
+        let path = UIBezierPath(arcCenter:centerPoint, radius: (frame.width - 4 * lineWidth) / 2 + 5, startAngle:startAngle, endAngle:endAngle, clockwise: true).cgPath
 
         let arc = CAShapeLayer()
         arc.lineWidth = lineWidth
         arc.path = path
         arc.strokeStart = strokeStart
         arc.strokeEnd = strokeEnd
-        arc.strokeColor = color.CGColor
-        arc.fillColor = UIColor.clearColor().CGColor
-        arc.shadowColor = MRColor.black.CGColor
+        arc.strokeColor = color.cgColor
+        arc.fillColor = UIColor.clear().cgColor
+        arc.shadowColor = MRColor.black.cgColor
         arc.shadowRadius = 0
         arc.shadowOpacity = 0
-        arc.shadowOffset = CGSizeZero
+        arc.shadowOffset = CGSize.zero
         layer.addSublayer(arc)
     }
     
     private func createProgressCircle() {
-        let centerPoint = CGPointMake(CGRectGetMidX(self.bounds) , CGRectGetMidY(self.bounds))
+        let centerPoint = CGPoint(x: self.bounds.midX , y: self.bounds.midY)
         let startAngle = CGFloat(M_PI_2)
         let endAngle = CGFloat(M_PI * 2 + M_PI_2)
         
         // Use UIBezierPath as an easy way to create the CGPath for the layer.
         // The path should be the entire circle.
-        let circlePath = UIBezierPath(arcCenter:centerPoint, radius: (CGRectGetWidth(frame) - 4 * lineWidth) / 2 + 5, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
+        let circlePath = UIBezierPath(arcCenter:centerPoint, radius: (frame.width - 4 * lineWidth) / 2 + 5, startAngle:startAngle, endAngle:endAngle, clockwise: true).cgPath
         
         // Setup the CAShapeLayer with the path, colors, and line width
 
         circleLayer.path = circlePath
-        circleLayer.fillColor = UIColor.clearColor().CGColor
-        circleLayer.shadowColor = MRColor.black.CGColor
-        circleLayer.strokeColor = self.progressFullColor.CGColor
+        circleLayer.fillColor = UIColor.clear().cgColor
+        circleLayer.shadowColor = MRColor.black.cgColor
+        circleLayer.strokeColor = self.progressFullColor.cgColor
         circleLayer.lineWidth = lineWidth * 8
         circleLayer.strokeStart = 0.0
         circleLayer.shadowRadius = 1
         circleLayer.shadowOpacity = 0
-        circleLayer.shadowOffset = CGSizeZero
+        circleLayer.shadowOffset = CGSize.zero
         circleLayer.lineCap = kCALineCapRound
         
         // Don't draw the circle initially
@@ -228,7 +228,7 @@ class MRCircleView : UIView {
         layer.addSublayer(circleLayer)
     }
     
-    private func animateCircle(duration: NSTimeInterval) {
+    private func animateCircle(_ duration: TimeInterval) {
         // We want to animate the strokeEnd property of the circleLayer
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         
@@ -248,21 +248,21 @@ class MRCircleView : UIView {
         circleLayer.strokeEnd = 1.0
         
         // Do the actual animation
-        circleLayer.addAnimation(animation, forKey: "animateCircle")
+        circleLayer.add(animation, forKey: "animateCircle")
     }
     
-    private func pauseLayer(layer: CALayer) {
-        let pauseTime = layer.convertTime(CACurrentMediaTime(), fromLayer: nil)
+    private func pauseLayer(_ layer: CALayer) {
+        let pauseTime = layer.convertTime(CACurrentMediaTime(), from: nil)
         layer.speed = 0.0
         layer.timeOffset = pauseTime
     }
     
-    private func resumeLayer(layer: CALayer) {
+    private func resumeLayer(_ layer: CALayer) {
         let pausedTime = layer.timeOffset
         layer.speed = 1.0
         layer.timeOffset = 0.0
         layer.beginTime = 0.0
-        let timeSincePause = layer.convertTime(CACurrentMediaTime(), fromLayer: nil) - pausedTime
+        let timeSincePause = layer.convertTime(CACurrentMediaTime(), from: nil) - pausedTime
         layer.beginTime = timeSincePause
     }
     
@@ -270,25 +270,25 @@ class MRCircleView : UIView {
         guard let text = button.titleLabel?.text else { return button.titleLabel!.font.pointSize }
         let font = button.titleLabel!.font
         var fontSize = frame.height / 8
-        var size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
+        var size = text.size(attributes: [NSFontAttributeName: (font?.withSize(fontSize))!])
         while (size.width > button.bounds.width - 2 * swipeRightButton.bounds.width - 6 * lineWidth - 8) {
             fontSize -= 1
-            size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
+            size = text.size(attributes: [NSFontAttributeName: (font?.withSize(fontSize))!])
         }
         return fontSize
     }
     
 
     private func updateUI() {
-        swipeLeftButton.hidden = swipeButtonsHidden
-        swipeRightButton.hidden = swipeButtonsHidden
+        swipeLeftButton.isHidden = swipeButtonsHidden
+        swipeRightButton.isHidden = swipeButtonsHidden
         
-        button.titleLabel?.font = button.titleLabel?.font.fontWithSize(buttonFontSize)
+        button.titleLabel?.font = button.titleLabel?.font.withSize(buttonFontSize)
         
         accessibilityLabel = button.titleLabel?.text
 
         labelScrollView.subviews.forEach { $0.removeFromSuperview() }
-        labelScrollView.pagingEnabled = true
+        labelScrollView.isPagingEnabled = true
         
         let padding: CGFloat = 10
         let height: CGFloat = ceil(labelScrollView.frame.height / 2)
@@ -309,19 +309,19 @@ class MRCircleView : UIView {
         }
     }
     
-    @IBAction private func swipeLeftButtonDidPress(sender: UIButton) {
-        delegate?.circleViewSwiped?(self, direction: .Left)
+    @IBAction private func swipeLeftButtonDidPress(_ sender: UIButton) {
+        delegate?.circleViewSwiped?(self, direction: .left)
     }
     
-    @IBAction private func swipeRightButtonDidPress(sender: UIButton) {
-        delegate?.circleViewSwiped?(self, direction: .Right)
+    @IBAction private func swipeRightButtonDidPress(_ sender: UIButton) {
+        delegate?.circleViewSwiped?(self, direction: .right)
     }
     
-    @IBAction private func buttonDidPressed(sender: UIButton) {
+    @IBAction private func buttonDidPressed(_ sender: UIButton) {
         delegate?.circleViewTapped?(self)
     }
     
-    @IBAction private func buttonDidSwipe(recognizer: UISwipeGestureRecognizer) {
+    @IBAction private func buttonDidSwipe(_ recognizer: UISwipeGestureRecognizer) {
         delegate?.circleViewSwiped?(self, direction: recognizer.direction)
     }
     
@@ -339,7 +339,7 @@ class MRCircleView : UIView {
     }
     
     /// Starts the animation for the given duration
-    func start(duration: NSTimeInterval) {
+    func start(_ duration: TimeInterval) {
         fireCircleDidComplete = true
         if !isAnimating {
             animateCircle(duration)
@@ -350,13 +350,13 @@ class MRCircleView : UIView {
     
     /// Reset the animation
     func reset() {
-        layer.removeAnimationForKey("animateCircle")
+        layer.removeAnimation(forKey: "animateCircle")
         isAnimating = false
         animationStartTime = nil
         animationPauseTime = nil
         animationDuration = nil
         fireCircleDidComplete = false
-        circleLayer.strokeColor = UIColor.clearColor().CGColor
+        circleLayer.strokeColor = UIColor.clear().cgColor
     }
     
 }

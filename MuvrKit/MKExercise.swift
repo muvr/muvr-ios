@@ -19,7 +19,7 @@ public struct MKExercise {
     /// - parameter weight: the new weight
     /// - returns: the updated instance
     ///
-    func copy(offsetDelta offsetDelta: TimeInterval) -> MKExercise {
+    func copy(offsetDelta: TimeInterval) -> MKExercise {
         return MKExercise(type: type, id: id, duration: duration, offset: offset + offsetDelta)
     }
 }

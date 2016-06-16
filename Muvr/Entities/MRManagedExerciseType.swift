@@ -14,10 +14,10 @@ import MuvrKit
 protocol MRManagedExerciseType {
     
     // See NSObject.valueForKey
-    func valueForKey(key: String) -> AnyObject?
+    func valueForKey(_ key: String) -> AnyObject?
     
     // See NSObject.setValue
-    func setValue(value: AnyObject?, forKey key: String)
+    func setValue(_ value: AnyObject?, forKey key: String)
     
 }
 
@@ -48,7 +48,7 @@ extension MRManagedExerciseType {
 /// use this initializer particularly when the ``MKExerciseType`` is managed
 /// in an object that conforms to ``MRManagedExerciseType``.
 ///
-extension NSPredicate {
+extension Predicate {
     
     convenience init(exerciseType: MKExerciseType) {
         self.init(format: "exerciseType = %@", exerciseType.exerciseIdPrefix)

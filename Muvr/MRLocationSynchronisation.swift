@@ -4,15 +4,15 @@ import CoreData
 class MRLocationSynchronisation {
     
     func synchronise(inManagedObjectContext managedObjectContext: NSManagedObjectContext) throws {
-        let bundlePath = NSBundle.mainBundle().pathForResource("Locations", ofType: "bundle")!
-        let locationsBundle = NSBundle(path: bundlePath)!
-        let resourcesURL = NSURL(fileURLWithPath: locationsBundle.resourcePath!)
-        let files = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(locationsBundle.resourcePath!)
+        let bundlePath = Bundle.main().pathForResource("Locations", ofType: "bundle")!
+        let locationsBundle = Bundle(path: bundlePath)!
+        let resourcesURL = URL(fileURLWithPath: locationsBundle.resourcePath!)
+        let files = try FileManager.default().contentsOfDirectory(atPath: locationsBundle.resourcePath!)
         for file in files {
-            let fileURL = resourcesURL.URLByAppendingPathComponent(file)
+            let fileURL = try! resourcesURL.appendingPathComponent(file)
             if fileURL.pathExtension == "json" {
-                let data = NSData(contentsOfURL: fileURL)!
-                let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
+                let data = try! Data(contentsOf: fileURL)
+                let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
                 if let root = json as? NSDictionary {
                     try MRManagedLocation.upsertFromJSON(root, inManagedObjectContext: managedObjectContext)
                 }

@@ -4,18 +4,18 @@ import Foundation
 /// ``MKExerciseType``.
 public enum MKExerciseTypeDescriptor {
     /// Whole body resistance exercise
-    case ResistanceWholeBody
+    case resistanceWholeBody
     /// Targeted resistance exercise
-    case ResistanceTargeted
+    case resistanceTargeted
     /// Treadmill, cross trainer, etc
-    case IndoorsCardio
+    case indoorsCardio
     
     /// Returns a concrete type from this general one
     public var concrete: MKExerciseType {
         switch self {
-        case .ResistanceWholeBody: return .ResistanceWholeBody
-        case .ResistanceTargeted: return .ResistanceTargeted(muscleGroups: [.Arms, .Core, .Chest, .Shoulders, .Legs, .Back])
-        case .IndoorsCardio: return .IndoorsCardio
+        case .resistanceWholeBody: return .ResistanceWholeBody
+        case .resistanceTargeted: return .ResistanceTargeted(muscleGroups: [.arms, .core, .chest, .shoulders, .legs, .back])
+        case .indoorsCardio: return .IndoorsCardio
         }
     }
     

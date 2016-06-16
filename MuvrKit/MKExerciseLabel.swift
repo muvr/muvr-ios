@@ -9,19 +9,19 @@ public enum MKExerciseLabel : Equatable {
     /// Weight in kilograms
     /// - parameter weight: the weight
     ///
-    case Weight(weight: Double)
+    case weight(weight: Double)
     
     ///
     /// The number of repetitions
     /// - parameter repetitions: the # repetitions
     ///
-    case Repetitions(repetitions: Int)
+    case repetitions(repetitions: Int)
     
     ///
     /// The intensity
     /// - parameter intensity: the intensity 0..1
     ///
-    case Intensity(intensity: Double)
+    case intensity(intensity: Double)
     
     // case AverageHeartRate(heartRate: Double)
     
@@ -34,9 +34,9 @@ public enum MKExerciseLabel : Equatable {
     ///
     public var descriptor: MKExerciseLabelDescriptor {
         switch self {
-        case .Weight: return .Weight
-        case .Intensity: return .Intensity
-        case .Repetitions: return .Repetitions
+        case .weight: return .weight
+        case .intensity: return .intensity
+        case .repetitions: return .repetitions
         }
     }
 
@@ -51,9 +51,9 @@ public enum MKExerciseLabel : Equatable {
 
 public func ==(lhs: MKExerciseLabel, rhs: MKExerciseLabel) -> Bool {
     switch (lhs, rhs) {
-    case (.Weight(let l), .Weight(let r)): return l == r
-    case (.Repetitions(let l), .Repetitions(let r)): return l == r
-    case (.Intensity(let l), .Intensity(let r)): return l == r
+    case (.weight(let l), .weight(let r)): return l == r
+    case (.repetitions(let l), .repetitions(let r)): return l == r
+    case (.intensity(let l), .intensity(let r)): return l == r
     default: return false
     }
 }

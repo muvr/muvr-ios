@@ -1,15 +1,15 @@
 import Foundation
 import MuvrKit
 
-enum MRScalarExerciseLabelSettableError : ErrorType {
-    case NotScalar
-    case LabelNotSupported
+enum MRScalarExerciseLabelSettableError : ErrorProtocol {
+    case notScalar
+    case labelNotSupported
 }
 
 protocol MRScalarExerciseLabelSettable {
 
-    static func supports(exerciseLabel: MKExerciseLabel) -> Bool
+    static func supports(_ exerciseLabel: MKExerciseLabel) -> Bool
     
-    func setExerciseLabel(exerciseLabel: MKExerciseLabel) throws
+    func setExerciseLabel(_ exerciseLabel: MKExerciseLabel) throws
     
 }

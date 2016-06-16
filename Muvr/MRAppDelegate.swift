@@ -7,8 +7,8 @@ import CoreLocation
 
 /// The connected watch
 enum ConnectedWatch {
-    case AppleWatch
-    case Pebble
+    case appleWatch
+    case pebble
 }
 
 ///
@@ -33,11 +33,11 @@ enum MRNotifications : String {
 ///
 /// The MRApp errors
 ///
-enum MRAppError : ErrorType {
+enum MRAppError : ErrorProtocol {
     /// A session has not ended yet and a new one tries to start
-    case SessionAlreadyInProgress
+    case sessionAlreadyInProgress
     /// No active session
-    case SessionNotStarted
+    case sessionNotStarted
 }
 
 ///
@@ -74,12 +74,12 @@ protocol MRApp : MKExercisePropertySource {
     /// - parameter sessionType: the type that the session initially starts with
     /// - returns: the session's identity
     ///
-    func startSession(sessionType: MRSessionType) throws -> String
+    func startSession(_ sessionType: MRSessionType) throws -> String
     
     ///
     ///
     ///
-    func exerciseStarted(exercise: MKExerciseDetail, start: NSDate)
+    func exerciseStarted(_ exercise: MKExerciseDetail, start: Date)
     
     ///
     /// Ends the current exercise session, if any
@@ -99,17 +99,17 @@ protocol MRApp : MKExercisePropertySource {
     ///
     /// Returns true if there are sessions on the given date
     ///
-    func hasSessionsOnDate(date: NSDate) -> Bool
+    func hasSessionsOnDate(_ date: Date) -> Bool
     
     ///
     /// Returns the sessions found on the given date
     ///
-    func sessionsOnDate(date: NSDate) -> [MRManagedExerciseSession]
+    func sessionsOnDate(_ date: Date) -> [MRManagedExerciseSession]
     
     ///
     /// Returns the achievements for the given session type
     ///
-    func achievementsForSessionType(sessionType: MRSessionType) -> [MRAchievement]
+    func achievementsForSessionType(_ sessionType: MRSessionType) -> [MRAchievement]
 
 }
 
@@ -130,7 +130,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     MKSessionClassifierDelegate, MKClassificationHintSource, MKExerciseModelSource,
     MRApp, MRSuperEvilMegacorpApp {
     
-    let connectedWatch = ConnectedWatch.Pebble
+    let connectedWatch = ConnectedWatch.pebble
     
     var window: UIWindow?
     
@@ -155,7 +155,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     private var setupExerciseModel: MKExerciseModel? = nil
 
-    private func deviceMotionUpdate(motion: CMDeviceMotion?, error: NSError?) {
+    private func deviceMotionUpdate(_ motion: CMDeviceMotion?, error: NSError?) {
         if let motion = motion {
             if abs(motion.gravity.x) > 0.1 ||
                abs(motion.gravity.y) > 0.1 ||
@@ -187,11 +187,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
 
     var exerciseDetails: [MKExerciseDetail] = []
     
-    func hasSessionsOnDate(date: NSDate) -> Bool {
+    func hasSessionsOnDate(_ date: Date) -> Bool {
         return MRManagedExerciseSession.hasSessionsOnDate(date, inManagedObjectContext: managedObjectContext)
     }
     
-    func sessionsOnDate(date: NSDate) -> [MRManagedExerciseSession] {
+    func sessionsOnDate(_ date: Date) -> [MRManagedExerciseSession] {
         return MRManagedExerciseSession.fetchSessionsOnDate(date, inManagedObjectContext: managedObjectContext)
     }
     
@@ -200,7 +200,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// - returns: this delegate ``MRApp``
     ///
     static func sharedDelegate() -> MRApp {
-        return UIApplication.sharedApplication().delegate as! MRAppDelegate
+        return UIApplication.shared().delegate as! MRAppDelegate
     }
     
     ///
@@ -208,7 +208,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// - returns: this delegate as ``MRSuperEvilMegacorpApp``
     ///
     static func superEvilMegacorpSharedDelegate() -> MRSuperEvilMegacorpApp {
-        return UIApplication.sharedApplication().delegate as! MRSuperEvilMegacorpApp
+        return UIApplication.shared().delegate as! MRSuperEvilMegacorpApp
     }
     
     // MARK: - MRSuperEvilMegacorpApp
@@ -219,22 +219,22 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     // MARK: - UIApplicationDelegate code
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // set up the classification
         sensorDataSplitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
         classifier = MKSessionClassifier(exerciseModelSource: self, sensorDataSplitter: sensorDataSplitter, delegate: self)
         
         // set up watch connectivity
         switch connectedWatch {
-        case .Pebble: connectivity = MKPebbleConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
-        case .AppleWatch: connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        case .pebble: connectivity = MKPebbleConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
+        case .appleWatch: connectivity = MKAppleWatchConnectivity(sensorDataConnectivityDelegate: classifier, exerciseConnectivitySessionDelegate: classifier)
         }
 
         // Load base configuration
-        let baseConfigurationPath = NSBundle.mainBundle().pathForResource("BaseConfiguration", ofType: "bundle")!
-        let baseConfiguration = NSBundle(path: baseConfigurationPath)!
-        let data = NSData(contentsOfFile: baseConfiguration.pathForResource("exercises", ofType: "json")!)!
-        if let allExercises = try! NSJSONSerialization.JSONObjectWithData(data, options: []) as? [[String:AnyObject]] {
+        let baseConfigurationPath = Bundle.main().pathForResource("BaseConfiguration", ofType: "bundle")!
+        let baseConfiguration = Bundle(path: baseConfigurationPath)!
+        let data = try! Data(contentsOf: URL(fileURLWithPath: baseConfiguration.pathForResource("exercises", ofType: "json")!))
+        if let allExercises = try! JSONSerialization.jsonObject(with: data, options: []) as? [[String:AnyObject]] {
             baseExerciseDetails = allExercises.map { exercise in
                 guard let id = exercise["id"] as? String,
                       let propertiesObject = exercise["properties"] as? [AnyObject]?,
@@ -270,22 +270,22 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         
         
         // appearrance
-        UITabBar.appearance().tintColor = UIColor.whiteColor()
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: .Normal)
-        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        UITabBar.appearance().tintColor = UIColor.white()
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white()], for: UIControlState())
+        UINavigationBar.appearance().tintColor = UIColor.white()
         UINavigationBar.appearance().backgroundColor = MRColor.darkBlue
         UIView.appearance().tintColor = MRColor.darkBlue
-        UIView.appearanceWhenContainedInInstancesOfClasses([UINavigationBar.self]).tintColor = .whiteColor()
-        UIView.appearanceWhenContainedInInstancesOfClasses([MRCircleView.self]).tintColor = MRColor.black
+        UIView.whenContained(inInstancesOfClasses: [UINavigationBar.self]).tintColor = .white()
+        UIView.whenContained(inInstancesOfClasses: [MRCircleView.self]).tintColor = MRColor.black
         
         let pageControlAppearance = UIPageControl.appearance()
-        pageControlAppearance.pageIndicatorTintColor = UIColor.lightGrayColor()
-        pageControlAppearance.currentPageIndicatorTintColor = UIColor.blackColor()
-        pageControlAppearance.backgroundColor = UIColor.whiteColor()
+        pageControlAppearance.pageIndicatorTintColor = UIColor.lightGray()
+        pageControlAppearance.currentPageIndicatorTintColor = UIColor.black()
+        pageControlAppearance.backgroundColor = UIColor.white()
         
         // main initialization
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window = UIWindow(frame: UIScreen.main().bounds)
         window!.makeKeyAndVisible()
         window!.rootViewController = storyboard.instantiateInitialViewController()
         
@@ -313,10 +313,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         let healthStore = HKHealthStore()
         let typesToShare: Set<HKSampleType> = [HKSampleType.workoutType()]
         let typesToRead: Set<HKSampleType> = [
-            HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)!,
-            HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)!
+            HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!,
+            HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!
         ]
-        healthStore.requestAuthorizationToShareTypes(typesToShare, readTypes: typesToRead) { success, error in
+        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { success, error in
             if success {
                 NSLog("HealthKit authorised")
             } else {
@@ -326,30 +326,30 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     }
     
     /// save workout into healthkit
-    private func addSessionToHealthKit(session: MRManagedExerciseSession) {
+    private func addSessionToHealthKit(_ session: MRManagedExerciseSession) {
         // Only proceed if health data is available.
         if !HKHealthStore.isHealthDataAvailable() {
             NSLog("HealthKit not available")
             return
         }
         // Only proceed if no apple watch available (otherwise workout is saved by the watch)
-        if connectedWatch == .AppleWatch && connectivity.reachable {
+        if connectedWatch == .appleWatch && connectivity.reachable {
             NSLog("HealthKit workout saved by Apple watch")
             return
         }
         
         let healthStore = HKHealthStore()
-        if healthStore.authorizationStatusForType(HKObjectType.workoutType()) != .SharingAuthorized {
+        if healthStore.authorizationStatus(for: HKObjectType.workoutType()) != .sharingAuthorized {
             NSLog("Healthkit saving workout not authorised")
             return
         }
         
         let start = session.start
-        let end = session.end ?? NSDate()
-        let duration = end.timeIntervalSinceDate(start)
+        let end = session.end ?? Date()
+        let duration = end.timeIntervalSince(start as Date)
         
-        let workout = HKWorkout(activityType: HKWorkoutActivityType.TraditionalStrengthTraining, startDate: start, endDate: end, duration: duration, totalEnergyBurned: nil, totalDistance: nil, metadata: ["session":session.name])
-        healthStore.saveObject(workout) { success, error in
+        let workout = HKWorkout(activityType: HKWorkoutActivityType.traditionalStrengthTraining, start: start as Date, end: end as Date, duration: duration, totalEnergyBurned: nil, totalDistance: nil, metadata: ["session":session.name])
+        healthStore.save(workout) { success, error in
             if let error = error where !success {
                 NSLog("Failed to save workout: \(error)")
                 return
@@ -363,20 +363,20 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             MRManagedSessionPlan.insertNewObject(MKMarkovPredictor<MKExercisePlan.Id>(), inManagedObjectContext: managedObjectContext)
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
-        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.AuthorizedWhenInUse {
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse {
             locationManager.requestWhenInUseAuthorization()
         }
-        motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: deviceMotionUpdate)
-        application.idleTimerDisabled = currentSession != nil
+        motionManager.startDeviceMotionUpdates(to: OperationQueue.main(), withHandler: deviceMotionUpdate)
+        application.isIdleTimerDisabled = currentSession != nil
         locationManager.requestLocation()
     }
 
-    func applicationWillResignActive(application: UIApplication) {
-        application.idleTimerDisabled = false
+    func applicationWillResignActive(_ application: UIApplication) {
+        application.isIdleTimerDisabled = false
     }
     
-    private func exerciseIdToLabel(exerciseId: String) -> (MKExercise.Id, MKExerciseTypeDescriptor) {
+    private func exerciseIdToLabel(_ exerciseId: String) -> (MKExercise.Id, MKExerciseTypeDescriptor) {
         if let descriptor = MKExerciseTypeDescriptor(exerciseId: exerciseId) {
             return (exerciseId, descriptor)
         }
@@ -385,16 +385,16 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     // MARK: - Exercise model source
     
-    func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel {
-        let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
-        let modelsBundle = NSBundle(path: path)!
+    func exerciseModelForExerciseType(_ exerciseType: MKExerciseType) throws -> MKExerciseModel {
+        let path = Bundle.main().pathForResource("Models", ofType: "bundle")!
+        let modelsBundle = Bundle(path: path)!
         return try MKExerciseModel(fromBundle: modelsBundle, id: "default", labelExtractor: exerciseIdToLabel)
     }
     
     func exerciseModelForExerciseSetup() throws -> MKExerciseModel {
         if setupExerciseModel == nil {
-            let path = NSBundle.mainBundle().pathForResource("Models", ofType: "bundle")!
-            let modelsBundle = NSBundle(path: path)!
+            let path = Bundle.main().pathForResource("Models", ofType: "bundle")!
+            let modelsBundle = Bundle(path: path)!
             try setupExerciseModel = MKExerciseModel(fromBundle: modelsBundle, id: "setup", labelExtractor: exerciseIdToLabel)
         }
         
@@ -414,7 +414,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         return MRManagedExerciseSession.fetchSession(withId: id, inManagedObjectContext: managedObjectContext)
     }
     
-    func sessionClassifierDidStartSession(session: MKExerciseSession) {
+    func sessionClassifierDidStartSession(_ session: MKExerciseSession) {
         if let currentSession = currentSession {
             // Watch is running wrong session, update it with current session
             connectivity.startSession(MKExerciseSession(managedSession: currentSession))
@@ -434,7 +434,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         showSession(session)
     }
 
-    func sessionClassifierDidEndSession(session: MKExerciseSession, sensorData: MKSensorData?) {
+    func sessionClassifierDidEndSession(_ session: MKExerciseSession, sensorData: MKSensorData?) {
         if let currentSession = findSession(withId: session.id) {
             currentSession.end = session.end
             currentSession.completed = session.completed
@@ -444,26 +444,26 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
 
-    func saveAndExport(sensorData: MKSensorData?, session: MRManagedExerciseSession) {
+    func saveAndExport(_ sensorData: MKSensorData?, session: MRManagedExerciseSession) {
         if sensorData == nil {
             NSLog("Sensor data is nil, pebble connectivity lost!")
             alert("Pebble connectivity lost".localized(), message: "This session couldn't be saved! You need to restart the pebble app".localized())
             return
         }
-        let csvData: NSData = sensorData!.encodeAsCsv(session.exerciseWithLabels)
-        let now = NSDate(timeIntervalSinceNow: Double(NSTimeZone.localTimeZone().secondsFromGMT))
-        let dateFormatter = NSDateFormatter()
+        let csvData: Data = sensorData!.encodeAsCsv(session.exerciseWithLabels)
+        let now = Date(timeIntervalSinceNow: Double(TimeZone.local().secondsFromGMT))
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd'T'HH-mm-ss'Z'"
-        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-        let filename = dateFormatter.stringFromDate(now)
+        dateFormatter.timeZone = TimeZone(forSecondsFromGMT: 0)
+        let filename = dateFormatter.string(from: now)
         let exportFilePath = NSTemporaryDirectory() + "\(filename).csv"
-        let exportFileURL = NSURL(fileURLWithPath: exportFilePath)
-        NSFileManager.defaultManager().createFileAtPath(exportFilePath, contents: NSData(), attributes: nil)
+        let exportFileURL = URL(fileURLWithPath: exportFilePath)
+        FileManager.default().createFile(atPath: exportFilePath, contents: Data(), attributes: nil)
 
         do {
-            let fileHandle = try NSFileHandle(forWritingToURL: exportFileURL)
+            let fileHandle = try FileHandle(forWritingTo: exportFileURL)
             fileHandle.seekToEndOfFile()
-            fileHandle.writeData(csvData)
+            fileHandle.write(csvData)
             fileHandle.closeFile()
             NSLog("Session Saved to \(filename)")
             shareSession(exportFilePath)
@@ -472,14 +472,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
 
-    func alert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Done".localized(), style: UIAlertActionStyle.Default, handler: nil))
-        self.window?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
+    func alert(_ title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Done".localized(), style: UIAlertActionStyle.default, handler: nil))
+        self.window?.rootViewController!.present(alert, animated: true, completion: nil)
     }
 
-    func shareSession(exportFilePath: String) {
-        let firstActivityItem = NSURL(fileURLWithPath: exportFilePath)
+    func shareSession(_ exportFilePath: String) {
+        let firstActivityItem = URL(fileURLWithPath: exportFilePath)
         let activityViewController : UIActivityViewController = UIActivityViewController(
             activityItems: [firstActivityItem], applicationActivities: nil)
 
@@ -491,10 +491,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             UIActivityTypePostToTencentWeibo
         ]
         NSLog("Sharing Session: \(exportFilePath)")
-        self.window?.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
+        self.window?.rootViewController!.present(activityViewController, animated: true, completion: nil)
     }
     
-    func sessionClassifierDidSetupExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State? {
+    func sessionClassifierDidSetupExercise(_ session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State? {
         if let currentSession = findSession(withId: session.id) {
             switch trigger {
             case .SetupDetected(let exercises):
@@ -510,20 +510,20 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         return nil
     }
     
-    func repsCountFeed(session: MKExerciseSession, reps: Int, start: NSDate, end: NSDate) {
+    func repsCountFeed(_ session: MKExerciseSession, reps: Int, start: Date, end: Date) {
         if (findSession(withId: session.id) != nil) {
             sessionViewController!.repsCountFeed(reps, start: start, end: end)
         }
     }
 
-    func sessionClassifierDidStartExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State? {
+    func sessionClassifierDidStartExercise(_ session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State? {
         if let currentSession = findSession(withId: session.id) {
             return currentSession.sessionClassifierDidStartExercise(trigger)
         }
         return nil
     }
     
-    func sessionClassifierDidEndExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State? {
+    func sessionClassifierDidEndExercise(_ session: MKExerciseSession, trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State? {
         if let currentSession = findSession(withId: session.id) {
             return currentSession.sessionClassifierDidEndExercise(trigger)
         }
@@ -532,14 +532,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     /// MARK: MRAppDelegate actions
     
-    func startSession(sessionType: MRSessionType) throws -> String {
+    func startSession(_ sessionType: MRSessionType) throws -> String {
         if currentSession != nil {
-            throw MRAppError.SessionAlreadyInProgress
+            throw MRAppError.sessionAlreadyInProgress
         }
         
-        let id = NSUUID().UUIDString
+        let id = UUID().uuidString
         let plan = MRManagedExercisePlan.planForSessionType(sessionType, location: currentLocation, inManagedObjectContext: managedObjectContext)
-        let session = MRManagedExerciseSession.insert(id, plan: plan, start: NSDate(), location: currentLocation, inManagedObjectContext: managedObjectContext)
+        let session = MRManagedExerciseSession.insert(id, plan: plan, start: Date(), location: currentLocation, inManagedObjectContext: managedObjectContext)
         
         injectPredictors(into: session)
         saveContext()
@@ -552,15 +552,15 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         return id
     }
     
-    func exerciseStarted(exercise: MKExerciseDetail, start: NSDate) {
+    func exerciseStarted(_ exercise: MKExerciseDetail, start: Date) {
         connectivity.exerciseStarted(exercise, start: start)
     }
     
     func endCurrentSession() throws {
         guard let session = currentSession else {
-            throw MRAppError.SessionNotStarted
+            throw MRAppError.sessionNotStarted
         }
-        session.end = NSDate()
+        session.end = Date()
         terminateSession(session)
         
         // notify watch that session ended
@@ -571,21 +571,21 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// Show the active session UI
     /// - parameter: session the session to show
     ///
-    private func showSession(session: MRManagedExerciseSession) {
+    private func showSession(_ session: MRManagedExerciseSession) {
         currentSession = session
         
         // display ``SessionViewController``
-        if let nvc = sessionStoryboard.instantiateViewControllerWithIdentifier("sessionNavigationViewController") as? UINavigationController,
+        if let nvc = sessionStoryboard.instantiateViewController(withIdentifier: "sessionNavigationViewController") as? UINavigationController,
             let svc = nvc.viewControllers.first as? MRSessionViewController {
             svc.setSession(session)
             sessionViewController = svc
-            window?.rootViewController?.presentViewController(nvc, animated: true, completion: nil)
+            window?.rootViewController?.present(nvc, animated: true, completion: nil)
         }
         
         // keep application active while in-session
-        UIApplication.sharedApplication().idleTimerDisabled = true
+        UIApplication.shared().isIdleTimerDisabled = true
         
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidStart.rawValue, object: session.objectID)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.SessionDidStart.rawValue), object: session.objectID)
     }
     
     
@@ -593,12 +593,12 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// Ends the current session if it matches the given session
     /// - parameter session: the session to end
     ///
-    private func terminateSession(session: MRManagedExerciseSession) {
+    private func terminateSession(_ session: MRManagedExerciseSession) {
         if let currentSession = currentSession where currentSession == session {
             // dismiss ``SessionViewController``
-            sessionViewController?.dismissViewControllerAnimated(true, completion: nil)
+            sessionViewController?.dismiss(animated: true, completion: nil)
             self.currentSession = nil
-            UIApplication.sharedApplication().idleTimerDisabled = false
+            UIApplication.shared().isIdleTimerDisabled = false
         }
         
         // save exercises
@@ -610,7 +610,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         session.plan.save()
         MRManagedLabelsPredictor.upsertPredictor(location: currentLocation, sessionExerciseType: session.exerciseType, data: session.labelsPredictor.json, inManagedObjectContext: managedObjectContext)
         
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidEnd.rawValue, object: session.objectID)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.SessionDidEnd.rawValue), object: session.objectID)
         
         // add workout to healthkit
         addSessionToHealthKit(session)
@@ -639,11 +639,11 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///
     /// Check and save user achievements for the given session
     ///
-    private func recordAchievementsForSession(session: MRManagedExerciseSession) {
+    private func recordAchievementsForSession(_ session: MRManagedExerciseSession) {
         guard let templateId = session.plan.templateId,
             let template = exercisePlans.filter({ $0.id == templateId }).first else { return }
         
-        let fromDate = NSDate().addDays(-30)
+        let fromDate = Date().addDays(-30)
         let sessions = session.fetchSimilarSessionsSinceDate(fromDate, inManagedObjectContext: managedObjectContext)
         guard let achievement = MRSessionAppraiser().achievementForSessions(sessions, plan: template) else { return }
         
@@ -654,7 +654,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     // MARK: - Scalar rounder
     
-    private func roundLabel(label: MKExerciseLabelDescriptor, value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+    private func roundLabel(_ label: MKExerciseLabelDescriptor, value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
         switch label {
         case .Weight: return roundWeight(value, forExerciseId: exerciseId)
         case .Repetitions: return roundInteger(value, forExerciseId: exerciseId)
@@ -662,20 +662,20 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
     
-    private func roundInteger(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+    private func roundInteger(_ value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
         return Double(Int(max(0, value)))
     }
     
-    private func noRound(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+    private func noRound(_ value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
         return max(0, value)
     }
     
-    private func roundClipToNorm(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+    private func roundClipToNorm(_ value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
         let x = Int(round(min(5, max(0, value * 5))))
         return Double(x) / 5
     }
     
-    private func roundWeight(value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
+    private func roundWeight(_ value: Double, forExerciseId exerciseId: MKExercise.Id) -> Double {
         guard let detail = exerciseDetailForExerciseId(exerciseId) else { return max(0, value) }
         for property in detail.properties {
             if case .WeightProgression(let minimum, let step, let maximum) = property {
@@ -693,7 +693,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
     }
     
-    private func stepWeight(value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
+    private func stepWeight(_ value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
         guard let detail = exerciseDetailForExerciseId(exerciseId) else { return value + Double(n) }
         for property in detail.properties {
             if case .WeightProgression(let minimum, let step, let maximum) = property {
@@ -703,18 +703,18 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         return value + Double(n)
     }
     
-    private func stepIntensity(value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
+    private func stepIntensity(_ value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
         return value + Double(n) * 0.2
     }
     
-    private func stepInteger(value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
+    private func stepInteger(_ value: Double, n: Int, forExerciseId exerciseId: MKExercise.Id) -> Double {
         return value + Double(n)
     }
     
     // MARK: - Exercise properties
     private let defaultResistanceTargetedProperties: [MKExerciseProperty] = [.WeightProgression(minimum: 0, step: 0.5, maximum: nil)]
     
-    func exerciseDetailForExerciseId(exerciseId: MKExercise.Id) -> MKExerciseDetail? {
+    func exerciseDetailForExerciseId(_ exerciseId: MKExercise.Id) -> MKExerciseDetail? {
         for exerciseDetail in exerciseDetails where exerciseDetail.id == exerciseId {
             return exerciseDetail
         }
@@ -729,8 +729,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// the configured exercise plans
     ///
     private var exercisePlans: [MKExercisePlan] {
-        let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
-        let bundle = NSBundle(path: bundlePath)!
+        let bundlePath = Bundle(for: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
+        let bundle = Bundle(path: bundlePath)!
         return bundle.pathsForResourcesOfType("json", inDirectory: nil).flatMap { MKExercisePlan(file: NSURL(fileURLWithPath: $0)) }
     }
     
@@ -745,10 +745,10 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     /// The default exercise plan
     ///
     private var defaultSessionType: MRSessionType? {
-        let bundlePath = NSBundle(forClass: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
-        let bundle = NSBundle(path: bundlePath)!
+        let bundlePath = Bundle(for: MRAppDelegate.self).pathForResource("Sessions", ofType: "bundle")!
+        let bundle = Bundle(path: bundlePath)!
         if let defaultFile = bundle.pathForResource("test_workout", ofType: "json"),
-            let plan = MKExercisePlan(file: NSURL(fileURLWithPath: defaultFile)) {
+            let plan = MKExercisePlan(file: URL(fileURLWithPath: defaultFile)) {
             return .Predefined(plan: plan)
         }
         return nil
@@ -772,9 +772,9 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     ///
     /// Returns the list of achievements for the given session type
     ///
-    func achievementsForSessionType(sessionType: MRSessionType) -> [MRAchievement] {
+    func achievementsForSessionType(_ sessionType: MRSessionType) -> [MRAchievement] {
         switch sessionType {
-        case .UserDefined(let plan):
+        case .userDefined(let plan):
             return MRManagedAchievement.fetchAchievementsForPlan(plan, inManagedObjectContext: managedObjectContext).map { $0.name }
         default:
             return []
@@ -783,7 +783,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     // MARK: - Core Location stack
     
-    private func updatedLocation(location: CLLocation) {
+    private func updatedLocation(_ location: CLLocation) {
         currentLocation = MRManagedLocation.findAtLocation(location.coordinate, inManagedObjectContext: managedObjectContext)
         if let currentLocation = currentLocation {
             currentLocationExerciseDetails = currentLocation.managedExercises.flatMap { le in
@@ -803,22 +803,22 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             exerciseDetails = baseExerciseDetails
         }
         
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.LocationDidObtain.rawValue, object: locationName)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.LocationDidObtain.rawValue), object: locationName)
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+    func locationManager(_ manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         updatedLocation(newLocation)
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdate locations: [CLLocation]) {
         updatedLocation(locations.last!)
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: NSError) {
         #if (arch(i386) || arch(x86_64)) && os(iOS)
             let location = CLLocation(latitude: CLLocationDegrees(53.435739), longitude: CLLocationDegrees(-2.165993))
             updatedLocation(location)
@@ -827,26 +827,26 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     // MARK: - Core Data stack
     
-    lazy var applicationDocumentsDirectory: NSURL = {
+    lazy var applicationDocumentsDirectory: URL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "io.muvr.CDemo" in the application's documents Application Support directory.
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+        let urls = FileManager.default().urlsForDirectory(.documentDirectory, inDomains: .userDomainMask)
         return urls.first!
     }()
     
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-        let modelURL = NSBundle.mainBundle().URLForResource("Muvr", withExtension: "momd")!
-        return NSManagedObjectModel(contentsOfURL: modelURL)!
+        let modelURL = Bundle.main().urlForResource("Muvr", withExtension: "momd")!
+        return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         // The persistent store coordinator for the application. This implementation creates and returns a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
         // Create the coordinator and store
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("MuvrCoreData.sqlite")
+        let url = try! self.applicationDocumentsDirectory.appendingPathComponent("MuvrCoreData.sqlite")
         var failureReason = "There was an error creating or loading the application's saved data."
         do {
-            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
         } catch {
             // Report any error we got.
             var dict = [String: AnyObject]()
@@ -867,7 +867,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     lazy var managedObjectContext: NSManagedObjectContext = {
         // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
         let coordinator = self.persistentStoreCoordinator
-        var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()

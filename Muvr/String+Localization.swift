@@ -2,7 +2,7 @@ import Foundation
 
 extension String {
     
-    func localized(args: CVarArgType...) -> String {
+    func localized(_ args: CVarArg...) -> String {
         let s = NSLocalizedString(self, comment: self)
         if args.count == 0 {
             return s

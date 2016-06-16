@@ -1,9 +1,9 @@
 import Foundation
 import Accelerate
 
-public enum MKRepetitionEstimatorError : ErrorType {
+public enum MKRepetitionEstimatorError : ErrorProtocol {
     
-    case MissingAccelerometerType
+    case missingAccelerometerType
     
 }
 
@@ -30,8 +30,8 @@ public struct MKRepetitionEstimator {
         /// - parameter margin: the margin
         /// - returns: ``true`` if ``self`` ~= ``that`` given ``margin``
         ///
-        func roughlyEquals(that: PeriodicProfile, margin: Float) -> Bool {
-            func ire(a a: Float, b: Float, margin: Float) -> Bool {
+        func roughlyEquals(_ that: PeriodicProfile, margin: Float) -> Bool {
+            func ire(a: Float, b: Float, margin: Float) -> Bool {
                 return a > (b - margin) && a < (b + margin)
             }
             
@@ -39,9 +39,9 @@ public struct MKRepetitionEstimator {
         }
     }
     
-    public func estimate(data data: MKSensorData) throws -> Estimate {
-        let (sampleDimension, sampleData) = data.samples(along: [.Accelerometer(location: .LeftWrist), .Accelerometer(location: .RightWrist)])
-        if sampleDimension == 0 { throw MKRepetitionEstimatorError.MissingAccelerometerType }
+    public func estimate(data: MKSensorData) throws -> Estimate {
+        let (sampleDimension, sampleData) = data.samples(along: [.accelerometer(location: .leftWrist), .accelerometer(location: .rightWrist)])
+        if sampleDimension == 0 { throw MKRepetitionEstimatorError.missingAccelerometerType }
 
         // MARK: Setup basic variables
         let sampleDataLength = sampleData.count / sampleDimension
@@ -54,9 +54,9 @@ public struct MKRepetitionEstimator {
         // a single accelerometer data, we have ``sampleDimension == 3``, and the values in the ``sampleData`` are 
         // ``[x0, y0, z0; x1, y1, z1; ... xn, yn, zn]``. 
         //
-        var convolutedSignal = [Float](count: sampleDataLength, repeatedValue: 0.0)
+        var convolutedSignal = [Float](repeating: 0.0, count: sampleDataLength)
         
-        var correlation = [Float](count: sampleDataLength, repeatedValue: 0.0)
+        var correlation = [Float](repeating: 0.0, count: sampleDataLength)
         
         // Convolute the different dimensions to a single one by smoothing and adding them together
         (0..<sampleDimension).forEach { (d: Int) in
@@ -67,7 +67,7 @@ public struct MKRepetitionEstimator {
                       vDSP_Length(sampleDataLength))
         }
         
-        var paddedSignal = convolutedSignal + [Float](count: sampleDataLength - 1, repeatedValue: 0.0)
+        var paddedSignal = convolutedSignal + [Float](repeating: 0.0, count: sampleDataLength - 1)
         
         // Compute autocorrelation of the padded signal with itself
         vDSP_conv(&paddedSignal, vDSP_Stride(1),
@@ -97,7 +97,9 @@ public struct MKRepetitionEstimator {
         
         for i in nDowns ..< sampleDataLength - nUps {
             var isPeak = true
-            for var j = -nDowns; j < nUps && isPeak; j += 1 {
+            var j = -nDowns
+            while j < nUps && isPeak {
+                j += 1
                 let idx  = i + j
                 let idx1 = i + j + 1
                 if j < 0 { isPeak = isPeak && correlation[idx] <  correlation[idx1] }
@@ -129,7 +131,7 @@ public struct MKRepetitionEstimator {
         
         if profiles.count > 0 {
             // MARK: Compute the mean profile from the list of profiles
-            profiles.sortInPlace { $0.totalSteps < $1.totalSteps }
+            profiles.sort { $0.totalSteps < $1.totalSteps }
             let meanProfile = profiles[profiles.count / 2]
 
             // MARK: Count the repetitions

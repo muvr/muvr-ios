@@ -7,23 +7,23 @@ public struct MKExerciseSession {
     public enum State {
         
         /// The user is not exercising
-        case NotExercising
+        case notExercising
         
         /// The user is make exercise setup
-        case SetupExercise(exerciseId: MKExercise.Id)
+        case setupExercise(exerciseId: MKExercise.Id)
 
         /// The user is exercising
         /// - parameter exerciseId: the exercise being performed
-        case Exercising(exerciseId: MKExercise.Id)
+        case exercising(exerciseId: MKExercise.Id)
         
     }
     
     /// the session id
     public let id: String
     /// the start timestamp
-    public let start: NSDate
+    public let start: Date
     /// the end timestamp
-    public let end: NSDate?
+    public let end: Date?
     /// the completed flag
     public let completed: Bool
     /// the exercise type
@@ -32,12 +32,12 @@ public struct MKExerciseSession {
     internal(set) public var state: State
     
     public init(exerciseType: MKExerciseType) {
-        self.id = NSUUID().UUIDString
-        self.start = NSDate()
+        self.id = UUID().uuidString
+        self.start = Date()
         self.end = nil
         self.completed = false
         self.exerciseType = exerciseType
-        self.state = .NotExercising
+        self.state = .notExercising
     }
     
     ///
@@ -47,24 +47,24 @@ public struct MKExerciseSession {
     ///
     init(exerciseConnectivitySession: MKExerciseConnectivitySession) {
         self.id = exerciseConnectivitySession.id
-        self.start = exerciseConnectivitySession.start
+        self.start = exerciseConnectivitySession.start as Date
         self.end = exerciseConnectivitySession.end
         self.completed = exerciseConnectivitySession.last
         self.exerciseType = exerciseConnectivitySession.exerciseType
-        self.state = .NotExercising
+        self.state = .notExercising
     }
     
     ///
     /// Constructs this instance by passing in all its parameters
     /// Allows to extend MKExerciseSession initialisers outside of MuvrKit
     ///
-    public init(id: String, start: NSDate, end: NSDate?, completed: Bool, exerciseType: MKExerciseType) {
+    public init(id: String, start: Date, end: Date?, completed: Bool, exerciseType: MKExerciseType) {
         self.id = id
         self.start = start
         self.end = end
         self.completed = completed
         self.exerciseType = exerciseType
-        self.state = .NotExercising
+        self.state = .notExercising
     }
     
 }

@@ -36,29 +36,29 @@ class MRSwipeButton: UIButton {
     }
     
     private func createUI() {
-        shapeLayer.opaque = false
+        shapeLayer.isOpaque = false
         titleLabel?.removeFromSuperview()
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         let path = UIBezierPath()
         let line = CGFloat(lineWidth)
         let zero = ceil(line / 2)
         let w = frame.width - line
         let h = frame.height - line
         if forward {
-            path.moveToPoint(CGPointMake(zero, zero))
-            path.addLineToPoint(CGPointMake(zero + w, zero + h / 2))
-            path.addLineToPoint(CGPointMake(zero, zero + h))
+            path.move(to: CGPoint(x: zero, y: zero))
+            path.addLine(to: CGPoint(x: zero + w, y: zero + h / 2))
+            path.addLine(to: CGPoint(x: zero, y: zero + h))
         } else {
-            path.moveToPoint(CGPointMake(zero + w, zero))
-            path.addLineToPoint(CGPointMake(zero, zero + h / 2))
-            path.addLineToPoint(CGPointMake(zero + w, zero + h))
+            path.move(to: CGPoint(x: zero + w, y: zero))
+            path.addLine(to: CGPoint(x: zero, y: zero + h / 2))
+            path.addLine(to: CGPoint(x: zero + w, y: zero + h))
         }
-        path.lineCapStyle = .Round
+        path.lineCapStyle = .round
         path.lineWidth = line
-        shapeLayer.path = path.CGPath
-        shapeLayer.strokeColor = self.tintColor.CGColor
+        shapeLayer.path = path.cgPath
+        shapeLayer.strokeColor = self.tintColor.cgColor
         path.stroke()
     }
     

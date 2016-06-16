@@ -6,7 +6,7 @@ import CoreLocation
 
 extension Array {
     
-    func groupBy<A : Hashable>(f: Element -> A) -> [A : [Element]] {
+    func groupBy<A : Hashable>(_ f: (Element) -> A) -> [A : [Element]] {
         var result: [A:[Element]] = [:]
         for element in self {
             let key = f(element)
@@ -57,17 +57,17 @@ class MRSessionsRealDataTests : XCTestCase {
     private typealias SessionScore = [Score]
     
     private enum Score {
-        case ExerciseAccuracy(value: Double)
-        case LabelAccuracy(value: Double)
-        case WeightedLoss(value: Double)
-        case SessionAccuracy(value: Double)
+        case exerciseAccuracy(value: Double)
+        case labelAccuracy(value: Double)
+        case weightedLoss(value: Double)
+        case sessionAccuracy(value: Double)
         
         var value: Double {
             switch self {
-            case .ExerciseAccuracy(let v): return v
-            case .LabelAccuracy(let v): return v
-            case .WeightedLoss(let v): return v
-            case .SessionAccuracy(let v): return v
+            case .exerciseAccuracy(let v): return v
+            case .labelAccuracy(let v): return v
+            case .weightedLoss(let v): return v
+            case .sessionAccuracy(let v): return v
             }
         }
         
@@ -78,46 +78,46 @@ class MRSessionsRealDataTests : XCTestCase {
         
         var name: String {
             switch self {
-            case .ExerciseAccuracy: return "EA"
-            case .LabelAccuracy: return "LA"
-            case .WeightedLoss: return "WL"
-            case .SessionAccuracy: return "SA"
+            case .exerciseAccuracy: return "EA"
+            case .labelAccuracy: return "LA"
+            case .weightedLoss: return "WL"
+            case .sessionAccuracy: return "SA"
             }
         }
         
         var description: String {
             switch self {
-            case .ExerciseAccuracy: return "Exercise Accuracy"
-            case .LabelAccuracy: return "Label Accuracy"
-            case .WeightedLoss: return "Weighted Loss"
-            case .SessionAccuracy: return "Session Accuracy"
+            case .exerciseAccuracy: return "Exercise Accuracy"
+            case .labelAccuracy: return "Label Accuracy"
+            case .weightedLoss: return "Weighted Loss"
+            case .sessionAccuracy: return "Session Accuracy"
             }
         }
         
         init?(name: String, value: Double) {
             switch name {
-            case "EA": self = .ExerciseAccuracy(value: value)
-            case "LA": self = .LabelAccuracy(value: value)
-            case "WL": self = .WeightedLoss(value: value)
-            case "SA": self = .SessionAccuracy(value: value)
+            case "EA": self = .exerciseAccuracy(value: value)
+            case "LA": self = .labelAccuracy(value: value)
+            case "WL": self = .weightedLoss(value: value)
+            case "SA": self = .sessionAccuracy(value: value)
             default: return nil
             }
         }
         
-        func isBetterThan(other: Score, session: SessionName) -> Bool {
+        func isBetterThan(_ other: Score, session: SessionName) -> Bool {
             let p = self.truncValue
             let e = other.truncValue
             switch (self) {
-            case .ExerciseAccuracy:
+            case .exerciseAccuracy:
                 XCTAssertGreaterThanOrEqual(p, e, "Exercise accuracy for \(session)")
                 return p >= e
-            case .LabelAccuracy:
+            case .labelAccuracy:
                 XCTAssertGreaterThanOrEqual(p, e, "Label accuracy for \(session)")
                 return p >= e
-            case .WeightedLoss:
+            case .weightedLoss:
                 XCTAssertLessThanOrEqual(p, e, "Weighted loss for \(session)")
                 return p <= e
-            case .SessionAccuracy:
+            case .sessionAccuracy:
                 XCTAssertGreaterThanOrEqual(p, e, "Session accuracy for \(session)")
                 return p >= e
             }
@@ -125,18 +125,18 @@ class MRSessionsRealDataTests : XCTestCase {
     }
     
     var scenarios: [String] {
-        let bundlePath = NSBundle(forClass: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
-        let bundle = NSBundle(path: bundlePath)!
-        return bundle.pathsForResourcesOfType(nil, inDirectory: nil).filter {
+        let bundlePath = Bundle(for: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
+        let bundle = Bundle(path: bundlePath)!
+        return bundle.pathsForResources(ofType: nil, inDirectory: nil).filter {
             var isDirectory: ObjCBool = false
-            NSFileManager.defaultManager().fileExistsAtPath($0, isDirectory: &isDirectory)
+            FileManager.default().fileExists(atPath: $0, isDirectory: &isDirectory)
             return isDirectory.boolValue
         }.map {
             NSString(string: $0).lastPathComponent
         }
     }
     
-    private func runScenario(app: MRAppDelegate, scenario: String) -> String {
+    private func runScenario(_ app: MRAppDelegate, scenario: String) -> String {
         try! app.cleanup() // remove any existing data
         
         var text: String = "SCENARIO \(scenario)\n"
@@ -178,28 +178,28 @@ class MRSessionsRealDataTests : XCTestCase {
                 }
             }
         }
-        let score: Score = .SessionAccuracy(value: Double(correctSessions) / Double(sessions))
+        let score: Score = .sessionAccuracy(value: Double(correctSessions) / Double(sessions))
         if let expectedScore = expectedScores[scenario] {
             let exp = expectedScore.filter { $0.name == score.name }.first
             if let expected = exp {
                 let isBetter = score.isBetterThan(expected, session: scenario)
-                text.appendContentsOf("\n\(isBetter ? "✓" : "✗") \(score.description): \(expected.truncValue) -> \(score.truncValue)\n")
+                text.append("\n\(isBetter ? "✓" : "✗") \(score.description): \(expected.truncValue) -> \(score.truncValue)\n")
             }
         }
-        text.appendContentsOf("\nDone SCENARIO \(scenario) with \(validSessions)/\(sessions) valid sessions\n")
+        text.append("\nDone SCENARIO \(scenario) with \(validSessions)/\(sessions) valid sessions\n")
         
         return text
     }
     
-    private func readSessions(detail: MKExercise.Id -> MKExerciseDetail?, from directory: String) -> [MRLoadedSession] {
-        let bundlePath = NSBundle(forClass: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
-        let bundle = NSBundle(path: bundlePath)!
+    private func readSessions(_ detail: (MKExercise.Id) -> MKExerciseDetail?, from directory: String) -> [MRLoadedSession] {
+        let bundlePath = Bundle(for: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
+        let bundle = Bundle(path: bundlePath)!
         return bundle.pathsForResourcesOfType("csv", inDirectory: directory).sort().map { path in
             return MRSessionLoader.read(path, detail: detail)
         }
     }
     
-    private func evalSession(app: MRAppDelegate, loadedSession: MRLoadedSession) -> EvaluationResult {
+    private func evalSession(_ app: MRAppDelegate, loadedSession: MRLoadedSession) -> EvaluationResult {
         let name = "\(loadedSession.description) \(loadedSession.exerciseType)"
         print("\nEvaluating session \(loadedSession.description)")
         
@@ -217,11 +217,11 @@ class MRSessionsRealDataTests : XCTestCase {
         return (name, loadedSession.exerciseType, result, correctSession)
     }
     
-    private func readExpectedScores(directory: String) -> [SessionName: SessionScore] {
-        let bundlePath = NSBundle(forClass: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
-        let bundle = NSBundle(path: bundlePath)!
-        let fileName = bundle.pathsForResourcesOfType("json", inDirectory: directory).first! // assume one json file per directory
-        let json = try! NSJSONSerialization.JSONObjectWithData(NSData(contentsOfFile: fileName)!, options: .AllowFragments)
+    private func readExpectedScores(_ directory: String) -> [SessionName: SessionScore] {
+        let bundlePath = Bundle(for: MRSessionsRealDataTests.self).pathForResource("Sessions", ofType: "bundle")!
+        let bundle = Bundle(path: bundlePath)!
+        let fileName = bundle.pathsForResources(ofType: "json", inDirectory: directory).first! // assume one json file per directory
+        let json = try! JSONSerialization.jsonObject(with: Data(contentsOf: URL(fileURLWithPath: fileName)), options: .allowFragments)
         var dict: [SessionName: SessionScore] = [:]
         (json as! [String: [String: Double]]).forEach { name, scores in
             dict[name] = scores.flatMap { Score(name: $0, value: $1) }

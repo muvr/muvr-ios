@@ -4,22 +4,22 @@ import Foundation
 public enum MKMuscleGroup {
     
     /// Arms: biceps, triceps, forearm, etc.
-    case Arms
+    case arms
     
     /// Core muscles
-    case Core
+    case core
     
     /// Shoulders, including trapezoids
-    case Shoulders
+    case shoulders
     
     /// All chest muscle groups
-    case Chest
+    case chest
     
     /// All back muscle groups
-    case Back
+    case back
     
     /// Legs, including glutes
-    case Legs
+    case legs
     
     ///
     /// Initializes this enum value from the String ``id``. Viz the ``id`` property.
@@ -27,12 +27,12 @@ public enum MKMuscleGroup {
     ///
     public init?(id: String) {
         switch id {
-        case MKMuscleGroup.Arms.id: self = .Arms
-        case MKMuscleGroup.Back.id: self = .Back
-        case MKMuscleGroup.Chest.id: self = .Chest
-        case MKMuscleGroup.Core.id: self = .Core
-        case MKMuscleGroup.Legs.id: self = .Legs
-        case MKMuscleGroup.Shoulders.id: self = .Shoulders
+        case MKMuscleGroup.arms.id: self = .arms
+        case MKMuscleGroup.back.id: self = .back
+        case MKMuscleGroup.chest.id: self = .chest
+        case MKMuscleGroup.core.id: self = .core
+        case MKMuscleGroup.legs.id: self = .legs
+        case MKMuscleGroup.shoulders.id: self = .shoulders
         default: return nil
         }
     }
@@ -42,12 +42,12 @@ public enum MKMuscleGroup {
     ///
     public var id: String {
         switch self {
-        case .Arms: return "arms"
-        case .Back: return "back"
-        case .Chest: return "chest"
-        case .Core: return "core"
-        case .Legs: return "legs"
-        case .Shoulders: return "shoulders"
+        case .arms: return "arms"
+        case .back: return "back"
+        case .chest: return "chest"
+        case .core: return "core"
+        case .legs: return "legs"
+        case .shoulders: return "shoulders"
         }
     }
 

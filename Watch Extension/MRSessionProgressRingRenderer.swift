@@ -4,7 +4,7 @@ import MuvrKit
 class MRSessionProgressRingRenderer : NSObject {
     private let ring: MRSessionProgressRing
     private let health: MRSessionHealth?
-    private var timer: NSTimer?
+    private var timer: Timer?
     
     init(ring: MRSessionProgressRing, health: MRSessionHealth?) {
         self.ring = ring
@@ -12,7 +12,7 @@ class MRSessionProgressRingRenderer : NSObject {
         super.init()
         NSLog("Init Muvr watch view")
         update()
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(MRSessionProgressRingRenderer.update), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(MRSessionProgressRingRenderer.update), userInfo: nil, repeats: true)
     }
     
     deinit {
@@ -50,16 +50,16 @@ class MRSessionProgressRingRenderer : NSObject {
         health?.energyLabel.setText("") // energy burned value
     }
     
-    private func displayCurrentSession(session: MKExerciseSession, props: MKExerciseSessionProperties) {
+    private func displayCurrentSession(_ session: MKExerciseSession, props: MKExerciseSessionProperties) {
         let sd = MRExtensionDelegate.sharedDelegate()
         let expectedDuration = 60
         let duration = props.duration
         let outerFrame = 1 + Int(100 * duration / Double(expectedDuration * 60)) % 100
         let readDuration = (props.accelerometerStart ?? props.start).timeIntervalSinceDate(props.start)
         let innerFrame = (Int(100 * readDuration / Double(expectedDuration * 60)) ?? 0) % 100
-        let time = NSDateComponentsFormatter().stringFromTimeInterval(props.duration)!
-        let sent = NSByteCountFormatter().stringFromByteCount(Int64(readDuration * 600))
-        let total = NSByteCountFormatter().stringFromByteCount(Int64(duration * 600))
+        let time = DateComponentsFormatter().stringFromTimeInterval(props.duration)!
+        let sent = ByteCountFormatter().stringFromByteCount(Int64(readDuration * 600))
+        let total = ByteCountFormatter().stringFromByteCount(Int64(duration * 600))
         
         ring.timeLabel.setText("\(time)") // elapsed time
         ring.ringLabel.setText("\(total)\n\(sent)") // amount of sensor data
@@ -88,12 +88,12 @@ class MRSessionProgressRingRenderer : NSObject {
         }
     }
     
-    private func displayPendingSession(session: MKExerciseSession, props: MKExerciseSessionProperties) {
+    private func displayPendingSession(_ session: MKExerciseSession, props: MKExerciseSessionProperties) {
         let sd = MRExtensionDelegate.sharedDelegate()
         let duration = props.duration
         let readDuration = (props.accelerometerStart ?? props.start).timeIntervalSinceDate(props.start)
         let innerFrame = (Int(100 * readDuration / duration) ?? 0) % 100
-        let time = NSDateComponentsFormatter().stringFromTimeInterval(props.duration)!
+        let time = DateComponentsFormatter().stringFromTimeInterval(props.duration)!
         ring.titleLabel.setText("Muvr - \(session.exerciseType.title)") // title on glance
         ring.timeLabel.setText("\(time)") // session duration
         ring.ringLabel.setText("\(innerFrame)%") // percent of data sent

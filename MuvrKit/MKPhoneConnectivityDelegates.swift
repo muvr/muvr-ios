@@ -12,7 +12,7 @@ public protocol MKSensorDataConnectivityDelegate {
     /// - parameter new: only the new received block
     /// - parameter session: the session
     ///
-    func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession)
+    func sensorDataConnectivityDidReceiveSensorData(accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession)
     
 }
 
@@ -25,13 +25,13 @@ public protocol MKExerciseConnectivitySessionDelegate {
     /// - parameter exerciseModelId: the exercise model id
     /// - parameter session: the session that has just started
     ///
-    func exerciseConnectivitySessionDidStart(session session: MKExerciseConnectivitySession)
+    func exerciseConnectivitySessionDidStart(session: MKExerciseConnectivitySession)
     
     ///
     /// Called when the watch ends the session
     /// 
     /// - parameter session: the session that has just ended
     ///
-    func exerciseConnectivitySessionDidEnd(session session: MKExerciseConnectivitySession)
+    func exerciseConnectivitySessionDidEnd(session: MKExerciseConnectivitySession)
     
 }

@@ -12,14 +12,14 @@ class MRAlternativeWorkoutButton: MRAlternativeButton {
             let title = sessionType?.name
             accessibilityLabel = title
             accessibilityHint = "Workout".localized()
-            setTitle(title, forState: .Normal)
+            setTitle(title, for: UIControlState())
         }
     }
     
     /// True when the user has ``masterised`` this workout
     var achievement: String? {
         didSet {
-            setImage(achievement.flatMap { UIImage(named: $0) }, forState: .Normal)
+            setImage(achievement.flatMap { UIImage(named: $0) }, for: UIControlState())
             setNeedsLayout()
         }
     }

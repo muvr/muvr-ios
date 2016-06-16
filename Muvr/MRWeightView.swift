@@ -16,13 +16,13 @@ class MRWeightView: UIView {
         get { return _value }
         set(v) {
             _value = v.map { max(0, $0) }
-            label.text = v.map { NSMassFormatter().stringFromKilograms($0) } ?? nil
+            label.text = v.map { MassFormatter().string(fromKilograms: $0) } ?? nil
         }
     }
     
     var _value: Double? = nil
     
-    var font: UIFont = UIFont.systemFontOfSize(17) {
+    var font: UIFont = UIFont.systemFont(ofSize: 17) {
         didSet {
             label.font = font
         }
@@ -32,10 +32,10 @@ class MRWeightView: UIView {
         guard let text = label.text else { return label.font.pointSize }
         let font = label.font
         var fontSize = frame.height / 2.5
-        var size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
+        var size = text.size(attributes: [NSFontAttributeName: (font?.withSize(fontSize))!])
         while (size.width > bounds.width - 8 * lineWidth) {
             fontSize -= 1
-            size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
+            size = text.size(attributes: [NSFontAttributeName: (font?.withSize(fontSize))!])
         }
         return fontSize
     }
@@ -52,17 +52,17 @@ class MRWeightView: UIView {
     
     private func createUI() {
         image.image = UIImage(named: "weight")
-        image.contentMode = .ScaleAspectFit
+        image.contentMode = .scaleAspectFit
         addSubview(image)
         addSubview(label)
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         let shift = min(frame.width, frame.height) / 4
-        label.frame = CGRectMake(0, shift, frame.width, frame.height - shift)
-        label.textAlignment = .Center
-        label.textColor = UIColor.whiteColor()
-        label.font = label.font.fontWithSize(fontSize)
+        label.frame = CGRect(x: 0, y: shift, width: frame.width, height: frame.height - shift)
+        label.textAlignment = .center
+        label.textColor = UIColor.white()
+        label.font = label.font.withSize(fontSize)
         image.frame = self.bounds
     }
     

@@ -22,7 +22,7 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKExerciseSessionConn
     /// - returns: ``MRExtensionDelegate`` instance
     ///
     static func sharedDelegate() -> MRExtensionDelegate {
-        return WKExtension.sharedExtension().delegate! as! MRExtensionDelegate
+        return WKExtension.shared().delegate! as! MRExtensionDelegate
     }
     
     /// The current session
@@ -55,7 +55,7 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKExerciseSessionConn
     ///
     /// Starts the session
     ///
-    func startSession(exerciseType: MKExerciseType) {
+    func startSession(_ exerciseType: MKExerciseType) {
         connectivity.startSession(exerciseType)
     }
     
@@ -81,16 +81,16 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKExerciseSessionConn
     
     /// MARK: MKMetadataConnectivityDelegate
     
-    func sessionStarted(session: (MKExerciseSession, MKExerciseSessionProperties)) {
+    func sessionStarted(_ session: (MKExerciseSession, MKExerciseSessionProperties)) {
         let (s, p) = session
         workoutDelegate.startSession(start: p.start, exerciseType: s.exerciseType)
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: s.id)
+        NotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidStart.rawValue, object: s.id)
     }
     
-    func sessionEnded(session: (MKExerciseSession, MKExerciseSessionProperties)) {
+    func sessionEnded(_ session: (MKExerciseSession, MKExerciseSessionProperties)) {
         let (s, p) = session
-        workoutDelegate.stopSession(end: p.end ?? NSDate())
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: s.id)
+        workoutDelegate.stopSession(end: p.end ?? Date())
+        NotificationCenter.defaultCenter().postNotificationName(MRNotifications.CurrentSessionDidEnd.rawValue, object: s.id)
     }
     
 }

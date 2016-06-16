@@ -24,14 +24,14 @@ class MRAppTests : XCTestCase {
 
         // start a new session, adding one exercise
         let sessionId = try! app.startSession(.AdHoc(exerciseType: .ResistanceTargeted(muscleGroups: [.Arms, .Chest])))
-        app.currentSession!.addExerciseDetail(givenDetail, labels: givenLabels, start: NSDate(), duration: 10)
+        app.currentSession!.addExerciseDetail(givenDetail, labels: givenLabels, start: Date(), duration: 10)
         let (predicted1, _) = app.currentSession!.predictExerciseLabelsForExerciseDetail(givenDetail)
         XCTAssertEqual(givenLabels.filter { $0.descriptor != .Intensity }.sort { $0.0.id < $0.1.id }, predicted1.0.sort { $0.0.id < $0.1.id })
         try! app.endCurrentSession()
         
         // try to load it
         let f = NSFetchRequest(entityName: "MRManagedExerciseSession")
-        f.predicate = NSPredicate(format: "id=%@", sessionId)
+        f.predicate = Predicate(format: "id=%@", sessionId)
         let r = try! app.managedObjectContext.executeFetchRequest(f).first! as! MRManagedExerciseSession
         let e = (r.exercises.allObjects as! [MRManagedExercise]).first!
         let l = e.scalarLabels.allObjects as! [MRManagedExerciseScalarLabel]

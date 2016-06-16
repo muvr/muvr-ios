@@ -15,12 +15,12 @@ class MRSessionLoader {
         
     }
     
-    static func read(fileName: String, detail: MKExercise.Id -> MKExerciseDetail?) -> MRLoadedSession {
+    static func read(_ fileName: String, detail: (MKExercise.Id) -> MKExerciseDetail?) -> MRLoadedSession {
         
-        func parseLabel(text: String) -> MKExerciseLabel? {
+        func parseLabel(_ text: String) -> MKExerciseLabel? {
             let components = text.componentsSeparatedByString("=")
             if components.count != 2 { return nil }
-            switch (components.first!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()), components.last!) {
+            switch (components.first!.stringByTrimmingCharactersInSet(CharacterSet.whitespaceCharacterSet()), components.last!) {
             case ("R", let text): return Int(text).map { MKExerciseLabel.Repetitions(repetitions: $0) }
             case ("I", let text): return Double(text).map { MKExerciseLabel.Intensity(intensity: $0) }
             case ("W", let text): return Double(text).map { MKExerciseLabel.Weight(weight: $0) }
@@ -28,8 +28,8 @@ class MRSessionLoader {
             }
         }
         
-        let content = String(data: NSData(contentsOfFile: fileName)!, encoding: NSUTF8StringEncoding)!
-        let lines = content.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+        let content = String(data: try! Data(contentsOf: URL(fileURLWithPath: fileName)), encoding: String.Encoding.utf8)!
+        let lines = content.components(separatedBy: CharacterSet.newlines)
         let description = lines[0]
         let exerciseType = MKExerciseType(exerciseId: lines[1])!
         let rows: [MRLoadedSession.Row] = lines[2..<lines.count].flatMap { line in

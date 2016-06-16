@@ -14,9 +14,9 @@ public extension MKExercisePlanItem {
             var labelDict: [String:AnyObject] = [:]
             for l in labels {
                 switch l {
-                case .Repetitions(let r): labelDict[l.id] = r
-                case .Weight(let w): labelDict[l.id] = w
-                case .Intensity(let i): labelDict[l.id] = i
+                case .repetitions(let r): labelDict[l.id] = r
+                case .weight(let w): labelDict[l.id] = w
+                case .intensity(let i): labelDict[l.id] = i
                 }
             }
             dict["labels"] = labelDict
@@ -31,16 +31,16 @@ public extension MKExercisePlanItem {
         guard let dict = jsonObject as? [String: AnyObject], let id = dict["id"] as? String
             else { return nil }
         
-        let duration = dict["duration"] as? NSTimeInterval
-        let rest = dict["rest"] as? NSTimeInterval
+        let duration = dict["duration"] as? TimeInterval
+        let rest = dict["rest"] as? TimeInterval
         var labels: [MKExerciseLabel] = []
         
         if let labelDict = dict["labels"] as? [String:AnyObject] {
             for descriptor in labelDict.keys.flatMap({ MKExerciseLabelDescriptor(id: $0) }) {
                 switch descriptor {
-                case .Repetitions: if let r = labelDict[descriptor.id] as? Int { labels.append(.Repetitions(repetitions: r)) }
-                case .Weight: if let w = labelDict[descriptor.id] as? Double { labels.append(.Weight(weight: w)) }
-                case .Intensity: if let i = labelDict[descriptor.id] as? Double { labels.append(.Intensity(intensity: i)) }
+                case .repetitions: if let r = labelDict[descriptor.id] as? Int { labels.append(.repetitions(repetitions: r)) }
+                case .weight: if let w = labelDict[descriptor.id] as? Double { labels.append(.weight(weight: w)) }
+                case .intensity: if let i = labelDict[descriptor.id] as? Double { labels.append(.intensity(intensity: i)) }
                 }
             }
         }

@@ -36,30 +36,30 @@ class MRCircleButton: UIButton {
     private func createUI() {
         accessibilityHint = "Update value"
         layer.addSublayer(circleLayer)
-        circleLayer.fillColor = UIColor.clearColor().CGColor
-        circleLayer.opaque = false
-        titleLabel?.hidden = true
+        circleLayer.fillColor = UIColor.clear().cgColor
+        circleLayer.isOpaque = false
+        titleLabel?.isHidden = true
         titleLabel?.text = nil
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         let radius = min(frame.width, frame.height) / 2
-        let center = CGPointMake(CGRectGetMidX(bounds) , CGRectGetMidY(bounds))
+        let center = CGPoint(x: bounds.midX , y: bounds.midY)
         let lineWidth = radius / 16
         let path = UIBezierPath()
         let padding = 0.35 * radius
-        path.addArcWithCenter(center, radius: radius - lineWidth / 2, startAngle: 0, endAngle: 2 * CGFloat(M_PI), clockwise: true)
+        path.addArc(withCenter: center, radius: radius - lineWidth / 2, startAngle: 0, endAngle: 2 * CGFloat(M_PI), clockwise: true)
         
-        path.moveToPoint(CGPoint(x: center.x - padding, y: center.y))
-        path.addLineToPoint(CGPoint(x: center.x + padding, y: center.y))
+        path.move(to: CGPoint(x: center.x - padding, y: center.y))
+        path.addLine(to: CGPoint(x: center.x + padding, y: center.y))
         if increase {
-            path.moveToPoint(CGPoint(x: center.x, y: center.y - padding))
-            path.addLineToPoint(CGPoint(x: center.x, y: center.y + padding))
+            path.move(to: CGPoint(x: center.x, y: center.y - padding))
+            path.addLine(to: CGPoint(x: center.x, y: center.y + padding))
         }
-        path.lineCapStyle = .Round
+        path.lineCapStyle = .round
         path.lineWidth = lineWidth
-        circleLayer.path = path.CGPath
-        circleLayer.strokeColor = self.tintColor.CGColor
+        circleLayer.path = path.cgPath
+        circleLayer.strokeColor = self.tintColor.cgColor
         path.stroke()
     }
     

@@ -4,15 +4,15 @@ import MuvrKit
 /// What value to aggregate / summarize on
 enum MRAggregate {
     /// All types, returning ``Key.ExerciseType``
-    case Types
+    case types
     /// All muscle groups in a given type, returning ``Key.MuscleGroup`` or ``Key.NoMuscleGroup``
-    case MuscleGroups(inType: MKExerciseTypeDescriptor)
+    case muscleGroups(inType: MKExerciseTypeDescriptor)
     /// All exercises in a given muscle group, returning ``Key.Exercise``
-    case Exercises(inMuscleGroup: MKMuscleGroup)
+    case exercises(inMuscleGroup: MKMuscleGroup)
     
     var labelsDescriptors: [MKExerciseLabelDescriptor] {
         switch self {
-        case .Types: return [.Intensity]
+        case .types: return [.Intensity]
         case .MuscleGroups(let exerciseType): return exerciseType.concrete.labelDescriptors
         case .Exercises: return MKExerciseTypeDescriptor.ResistanceTargeted.concrete.labelDescriptors
         }
@@ -21,17 +21,17 @@ enum MRAggregate {
 
 /// The aggregation key
 enum MRAggregateKey : Hashable {
-    case ExerciseType(exerciseType: MKExerciseTypeDescriptor)
-    case NoMuscleGroup
-    case MuscleGroup(muscleGroup: MKMuscleGroup)
-    case Exercise(id: MKExercise.Id)
+    case exerciseType(exerciseType: MKExerciseTypeDescriptor)
+    case noMuscleGroup
+    case muscleGroup(muscleGroup: MKMuscleGroup)
+    case exercise(id: MKExercise.Id)
     
     var hashValue: Int {
         switch self {
         case .ExerciseType(let exerciseType): return exerciseType.hashValue
         case .MuscleGroup(let muscleGroup): return Int.multiplyWithOverflow(17, muscleGroup.hashValue).0
         case .Exercise(let exerciseId): return Int.multiplyWithOverflow(31, exerciseId.hashValue).0
-        case .NoMuscleGroup: return 17
+        case .noMuscleGroup: return 17
         }
     }
 }
@@ -49,14 +49,14 @@ struct MRAverage {
     let averages: [MKExerciseLabelDescriptor : Double]
     
     /// The average duration
-    let averageDuration: NSTimeInterval
+    let averageDuration: TimeInterval
     
     ///
     /// A zero value suited for ``Array.reduce``.
     /// - parameter exerciseId: the exercise id
     /// - returns: the 0 element
     ///
-    static func zero(labels: [MKExerciseLabelDescriptor]) -> MRAverage {
+    static func zero(_ labels: [MKExerciseLabelDescriptor]) -> MRAverage {
         var zeros: [MKExerciseLabelDescriptor:Double] = [:]
         for label in labels {
             zeros[label] = 0
@@ -64,7 +64,7 @@ struct MRAverage {
         return MRAverage(count: 0, averages: zeros, averageDuration: 0)
     }
     
-    func with(value: Double, forLabel label: MKExerciseLabelDescriptor) -> MRAverage {
+    func with(_ value: Double, forLabel label: MKExerciseLabelDescriptor) -> MRAverage {
         var averages = self.averages
         averages[label] = value
         return MRAverage(count: count, averages: averages, averageDuration: averageDuration)
@@ -75,7 +75,7 @@ struct MRAverage {
     /// - parameter that: the other value
     /// - returns: self + that
     ///
-    func plus(that: MRAverage) -> MRAverage {
+    func plus(_ that: MRAverage) -> MRAverage {
         var averages: [MKExerciseLabelDescriptor : Double] = [:]
         self.averages.forEach { l1, v1 in
             for case let (l2, v2) in that.averages where l2 == l1 {
@@ -95,7 +95,7 @@ struct MRAverage {
     /// - parameter const: the constant to divide the values by
     /// - returns: the updated value
     ///
-    func divideBy(const: Double) -> MRAverage {
+    func divideBy(_ const: Double) -> MRAverage {
         var averages: [MKExerciseLabelDescriptor : Double] = [:]
         self.averages.forEach { l, v in
             averages[l] = v / const
@@ -113,7 +113,7 @@ func ==(lhs: MRAggregateKey, rhs: MRAggregateKey) -> Bool {
     case (.Exercise(let l), .Exercise(let r)): return l == r
     case (.MuscleGroup(let l), .MuscleGroup(let r)): return l == r
     case (.ExerciseType(let l), .ExerciseType(let r)): return l == r
-    case (.NoMuscleGroup, .NoMuscleGroup): return true
+    case (.noMuscleGroup, .noMuscleGroup): return true
     default: return false
     }
 }

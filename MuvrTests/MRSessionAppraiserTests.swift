@@ -17,19 +17,19 @@ class MRSessionAppraiserTests : MRCoreDataTestCase {
         XCTAssertNil(MRSessionAppraiser().achievementForSessions([], plan: exercisePlan))
         
         // start 1st session
-        let session1 = MRManagedExerciseSession.insert("12345", plan: plan, start: NSDate(), location: nil, inManagedObjectContext: managedObjectContext)
-        session1.end = NSDate()
+        let session1 = MRManagedExerciseSession.insert("12345", plan: plan, start: Date(), location: nil, inManagedObjectContext: managedObjectContext)
+        session1.end = Date()
         
         // no achievement yet (1 session started)
-        let similarSessions1 = session1.fetchSimilarSessionsSinceDate(NSDate(), inManagedObjectContext: managedObjectContext)
+        let similarSessions1 = session1.fetchSimilarSessionsSinceDate(Date(), inManagedObjectContext: managedObjectContext)
         XCTAssertNil(MRSessionAppraiser().achievementForSessions(similarSessions1, plan: exercisePlan))
         
         // start 2nd session
-        let session2 = MRManagedExerciseSession.insert("12346", plan: plan, start: NSDate(), location: nil, inManagedObjectContext: managedObjectContext)
-        session2.end = NSDate()
+        let session2 = MRManagedExerciseSession.insert("12346", plan: plan, start: Date(), location: nil, inManagedObjectContext: managedObjectContext)
+        session2.end = Date()
         
         // recieve the 'star' achievement
-        let similarSessions2 = session2.fetchSimilarSessionsSinceDate(NSDate(), inManagedObjectContext: managedObjectContext)
+        let similarSessions2 = session2.fetchSimilarSessionsSinceDate(Date(), inManagedObjectContext: managedObjectContext)
         XCTAssertEqual("star", MRSessionAppraiser().achievementForSessions(similarSessions2, plan: exercisePlan))
     }
 }

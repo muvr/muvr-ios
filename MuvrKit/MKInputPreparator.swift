@@ -10,7 +10,7 @@ struct MKInputPreparator {
     ///
     /// Scale the data that is in [-range/2, range/2] to be in range [-1, 1]
     ///
-    func scale(data: [Float], range: Float) -> [Float] {
+    func scale(_ data: [Float], range: Float) -> [Float] {
         return data.map{e in Float(e) / (range / 2)}
     }
     
@@ -18,12 +18,12 @@ struct MKInputPreparator {
     /// Apply a highpass filter to the passed in data using the given parameters. This will remove high frequency signal alterations from
     /// the data.
     ///
-    func highpassfilter(data: [Float], rate: Float, freq: Float, offset: Int = 0, stride: Int = 1, dimensions: Int = 1) -> [Float] {
+    func highpassfilter(_ data: [Float], rate: Float, freq: Float, offset: Int = 0, stride: Int = 1, dimensions: Int = 1) -> [Float] {
         let dt = 1.0 / rate;
         let RC = 1.0 / freq;
         let alpha = RC / (RC + dt)
         let count = (data.count - offset) / stride / dimensions
-        var filtered = [Float](count: count * dimensions, repeatedValue: 0.0)
+        var filtered = [Float](repeating: 0.0, count: count * dimensions)
         
         for d in 0..<dimensions {
             filtered[d] = data[offset + d * stride]
@@ -38,7 +38,7 @@ struct MKInputPreparator {
         return filtered
     }
     
-    func preprocess(input: [Float], dimensions: Int) -> [Float] {
+    func preprocess(_ input: [Float], dimensions: Int) -> [Float] {
         return highpassfilter(scale(input, range: self.accelerometerValueRange), rate: self.featureSampleRate, freq: self.highpassFilterCutoff, dimensions: dimensions)
     }
 }

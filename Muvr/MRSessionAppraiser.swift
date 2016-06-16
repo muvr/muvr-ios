@@ -12,7 +12,7 @@ class MRSessionAppraiser {
     /// - parameter sessions: the user sessions of the same workout
     /// - returns the achievement or nil
     ///
-    func achievementForSessions(sessions: [MRManagedExerciseSession], plan: MKExercisePlan) -> MRAchievement? {
+    func achievementForSessions(_ sessions: [MRManagedExerciseSession], plan: MKExercisePlan) -> MRAchievement? {
         let validSessions = sessions.filter { plan.id == $0.plan.templateId ?? "" }
         if validSessions.count >= 2 {
             return "star" // well done, 1 star

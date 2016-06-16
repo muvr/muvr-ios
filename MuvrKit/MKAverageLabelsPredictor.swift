@@ -37,9 +37,9 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
             for label in labels.0 {
                 let key = label.descriptor.id
                 switch label {
-                case .Weight(let w): metrics[key] = w
-                case .Repetitions(let r): metrics[key] = Double(r)
-                case .Intensity(let i): metrics[key] = i
+                case .weight(let w): metrics[key] = w
+                case .repetitions(let r): metrics[key] = Double(r)
+                case .intensity(let i): metrics[key] = i
                 }
             }
         }
@@ -51,7 +51,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         /// - parameter key: the name of the metric to increment
         /// - parameter value: the increment amount
         ///
-        mutating func inc(key: String, value: Double) {
+        mutating func inc(_ key: String, value: Double) {
             metrics[key] = (metrics[key] ?? 0) + value
         }
         
@@ -60,9 +60,9 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         /// - parameter key: the name of the metric to divide
         /// - parameter value: the divisor
         ///
-        mutating func div(key: String, value: Double) {
+        mutating func div(_ key: String, value: Double) {
             guard let v = metrics[key] else { return }
-            if value == 0 { metrics.removeValueForKey(key) }
+            if value == 0 { metrics.removeValue(forKey: key) }
             else { metrics[key] = v / value }
         }
         
@@ -71,7 +71,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         /// - parameter key: the name of the metric to compare
         /// - parameter value: the value to compare with the actual value
         ///
-        mutating func minimum(key: String, value: Double) {
+        mutating func minimum(_ key: String, value: Double) {
             if let v = metrics[key] { metrics[key] = min(v, value) }
             else { metrics[key] = value }
         }
@@ -80,18 +80,18 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         /// get a metric value corresponding to the given key
         /// - parameter key: the name of the metric
         ///
-        func get(key: String) -> Double? { return metrics[key] }
+        func get(_ key: String) -> Double? { return metrics[key] }
         ///
         /// set a metric value
         /// - parameter key: the name of the metric to store
         /// - parameter value: the value of the metric to store
         ///
-        mutating func set(key: String, value: Double) { metrics[key] = value }
+        mutating func set(_ key: String, value: Double) { metrics[key] = value }
         ///
         /// update all metrics of this set given an update function
         /// - parameter f: the update function that take a metric name and value as input and produces a new metric value
         ///
-        mutating func update(f: (String, Double) -> Double) {
+        mutating func update(_ f: (String, Double) -> Double) {
             metrics.forEach { key, value in
                 self.metrics[key] = f(key, value)
             }
@@ -100,7 +100,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         /// apply a side-effecting function to all the metrics of this set
         /// - parameter f: the function to apply to all the metrics. It takes the metric name and value as input.
         ///
-        func forEach(f: (String, Double) -> Void) {
+        func forEach(_ f: (String, Double) -> Void) {
             metrics.forEach(f)
         }
         
@@ -110,9 +110,9 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         var labelsWithDuration: MKExerciseLabelsWithDuration? {
             let labels: [MKExerciseLabel] = metrics.flatMap { k, v in
                 switch k {
-                case "weight": return .Weight(weight: v)
-                case "repetitions": return .Repetitions(repetitions: Int(round(v)))
-                case "intensity": return .Intensity(intensity: v)
+                case "weight": return .weight(weight: v)
+                case "repetitions": return .repetitions(repetitions: Int(round(v)))
+                case "intensity": return .intensity(intensity: v)
                 default: return nil
                 }
             }
@@ -162,7 +162,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         /// Add a workout to the history
         /// - parameter workout: the workout to add into the history
         ///
-        mutating func addWorkout(workout: ExerciseSets) {
+        mutating func addWorkout(_ workout: ExerciseSets) {
             history.append(workout)
             if history.count > maxHistorySize { history.removeFirst() }
         }
@@ -335,7 +335,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     /// Returns true if 2 sets are identical
     /// (sets are identical if weights and reps are the same)
     ///
-    private func sameAs(this: ExerciseSetMetrics) -> (ExerciseSetMetrics) -> Bool {
+    private func sameAs(_ this: ExerciseSetMetrics) -> (ExerciseSetMetrics) -> Bool {
         return { that in
             let same: [Bool] = ["weight", "repetitions"].flatMap { key in
                 if this.get(key) == nil && that.get(key) == nil { return nil }
@@ -351,7 +351,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     /// - parameter exerciseDetail: the upcoming exercise detail
     /// - returns the predicted labels for this exercise
     ///
-    public func predictLabelsForExercise(exerciseDetail: MKExerciseDetail) -> MKExerciseLabelsWithDuration? {
+    public func predictLabelsForExercise(_ exerciseDetail: MKExerciseDetail) -> MKExerciseLabelsWithDuration? {
         let currentSet = workout[exerciseDetail.id]?.count ?? 0
         
         // try to return the average for the given set
@@ -366,7 +366,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
         // tries to find a similar set in the current session
         if let sets = workout[exerciseDetail.id],
            let last = sets.last,
-           let i = sets.indexOf(sameAs(last)) where i + 1 < sets.count {
+           let i = sets.index(where: sameAs(last)) where i + 1 < sets.count {
             return sets[i + 1].labelsWithDuration
         }
         
@@ -402,7 +402,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     /// - parameter exerciseDetail: the exercise detail of the finished exercise
     /// - parameter labels: the labels of the finished exercise
     ///
-    public func correctLabelsForExercise(exerciseDetail: MKExerciseDetail, labels: MKExerciseLabelsWithDuration) {
+    public func correctLabelsForExercise(_ exerciseDetail: MKExerciseDetail, labels: MKExerciseLabelsWithDuration) {
         let metrics = ExerciseSetMetrics(labels: labels)
         
         updateCorrections(forExerciseId: exerciseDetail.id, metrics: metrics)
@@ -466,7 +466,7 @@ public class MKAverageLabelsPredictor: MKLabelsPredictor {
     ///
     /// Loads the predefined plan by building up history data from the plan
     ///
-    public func loadPredefinedPlan(plan: MKExercisePlan) {
+    public func loadPredefinedPlan(_ plan: MKExercisePlan) {
         guard history.isEmpty && workout.isEmpty else { return }
         
         /// create workout metrics
@@ -491,13 +491,13 @@ public extension MKAverageLabelsPredictor {
     ///
     /// the JSON representatioin of this predictor
     ///
-    var json: NSData {
+    var json: Data {
         saveCurrentWorkout()
         
         var dict: [String: AnyObject] = [:]
         history.forEach { dict[$0] = $1.jsonObject }
         
-        return try! NSJSONSerialization.dataWithJSONObject(dict, options: [])
+        return try! JSONSerialization.data(withJSONObject: dict, options: [])
     }
     
     ///
@@ -506,8 +506,8 @@ public extension MKAverageLabelsPredictor {
     /// - parameter historySize: the number of workout sessions to keep
     /// - parameter round: function to round predicted values
     ///
-    public convenience init?(json: NSData, historySize: Int, round: Round) {
-        guard let jsonObject = try? NSJSONSerialization.JSONObjectWithData(json, options: .AllowFragments),
+    public convenience init?(json: Data, historySize: Int, round: Round) {
+        guard let jsonObject = try? JSONSerialization.jsonObject(with: json, options: .allowFragments),
               let allHistory = jsonObject as? [MKExercise.Id: [[[String: Double]]]]
         else { return nil }
         

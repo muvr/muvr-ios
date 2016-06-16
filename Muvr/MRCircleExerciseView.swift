@@ -37,7 +37,7 @@ class MRCircleExerciseView: MRCircleView {
     ///
     /// the exercise 'predicted' duration of the displayed exercise
     ///
-    var exerciseDuration: NSTimeInterval? = nil {
+    var exerciseDuration: TimeInterval? = nil {
         didSet {
             createLabelViews()
         }
@@ -48,7 +48,7 @@ class MRCircleExerciseView: MRCircleView {
     ///
     private func createLabelViews() {
         var views: [UIView] = []
-        let frame = CGRectZero
+        let frame = CGRect.zero
         if let exerciseLabels = exerciseLabels {
             
             for exerciseLabel in exerciseLabels {

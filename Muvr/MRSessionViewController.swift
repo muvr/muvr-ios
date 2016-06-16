@@ -15,28 +15,28 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     var currentRepsCount: Int = 0
     var repsCounterAccumulator: Int = 0
     
-    let defaults = `NSUserDefaults`.standardUserDefaults()
+    let defaults = UserDefaults.standard()
 
     /// Wait before acepting new detected exercises to avoid too quick view switch
-    private var lastUpdatedTime = NSDate()
+    private var lastUpdatedTime = Date()
     private let setupExerciseWindow = 5.0
 
-    @IBAction func labSwitchPressed(sender: AnyObject) {
-        defaults.setBool(labSwitch.on, forKey: "labMode")
+    @IBAction func labSwitchPressed(_ sender: AnyObject) {
+        defaults.set(labSwitch.isOn, forKey: "labMode")
         setLabModeLabel()
     }
 
     private func setLabModeLabel() {
-        if labSwitch.on {
+        if labSwitch.isOn {
             labLabel.text = "Lab Mode On"
-            predictionProbabilityLabel.hidden = false
+            predictionProbabilityLabel.isHidden = false
         } else {
             labLabel.text = "Lab Mode Off"
-            predictionProbabilityLabel.hidden = true
+            predictionProbabilityLabel.isHidden = true
         }
     }
 
-    func setReps(reps: Int) {
+    func setReps(_ reps: Int) {
         repsCounter.text = "\(reps)"
         currentRepsCount = reps
     }
@@ -60,11 +60,11 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             return predicted.0 + missing.0
         }
         
-        var duration: NSTimeInterval? {
+        var duration: TimeInterval? {
             return predicted.1 ?? missing.1
         }
         
-        var rest: NSTimeInterval? {
+        var rest: TimeInterval? {
             return predicted.2 ?? missing.2
         }
     }
@@ -74,36 +74,36 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         /// The user selects his next ``exercise``
         /// - parameter exercise: the selected exercise
         /// - parameter rest: the rest duration
-        case ComingUp(exercise: CurrentExercise?, rest: NSTimeInterval?)
+        case comingUp(exercise: CurrentExercise?, rest: TimeInterval?)
         /// The user should get ready to start the given ``exercise``
         /// - parameter exercise: the selected exercise
         /// - parameter rest: the rest duration
-        case Ready(exercise: CurrentExercise, rest: NSTimeInterval?)
+        case ready(exercise: CurrentExercise, rest: TimeInterval?)
         /// The user should get the setup position for the given ``exercise``
         /// - parameter exercise: the selected exercise
         /// - parameter start: the start date
-        case Setup(exercise: CurrentExercise, rest: NSTimeInterval?)
+        case setup(exercise: CurrentExercise, rest: TimeInterval?)
         /// The user is exercising
         /// - parameter exercise: the selected exercise
         /// - parameter start: the start date
-        case InExercise(exercise: CurrentExercise, start: NSDate)
+        case inExercise(exercise: CurrentExercise, start: Date)
         /// The user has finished exercising
         /// - parameter exercise: the finished exercise
         /// - parameter labels: the labels
         /// - parameter start: the start date
         /// - parameter duration: the duration
-        case Done(exercise: CurrentExercise, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval)
+        case done(exercise: CurrentExercise, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval)
         /// The session is over (fix long press callback)
-        case Idle
+        case idle
         
         var color: UIColor {
             switch self {
-            case .ComingUp: return UIColor.greenColor()
-            case .Ready: return UIColor.orangeColor()
-            case .Setup: return UIColor.purpleColor()
-            case .InExercise: return UIColor.redColor()
-            case .Done: return UIColor.grayColor()
-            case .Idle: return UIColor.clearColor()
+            case .comingUp: return UIColor.green()
+            case .ready: return UIColor.orange()
+            case .setup: return UIColor.purple()
+            case .inExercise: return UIColor.red()
+            case .Done: return UIColor.gray()
+            case .idle: return UIColor.clear()
             }
         }
         
@@ -115,7 +115,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     /// The session–in–progress
     private var session: MRManagedExerciseSession!
     /// The current state
-    private var state: State = .ComingUp(exercise: nil, rest: nil)
+    private var state: State = .comingUp(exercise: nil, rest: nil)
     
     /// The details view controllers
     private var comingUpViewController: MRSessionComingUpViewController!
@@ -128,7 +128,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
 
     /// The list of alternatives exercises
     private var alternatives: [MKExerciseDetail] {
-        guard case .ComingUp(let currentExercise, _) = state, let selected = currentExercise?.detail ?? comingUpExerciseDetails.first else { return [] }
+        guard case .comingUp(let currentExercise, _) = state, let selected = currentExercise?.detail ?? comingUpExerciseDetails.first else { return [] }
         let visibleExerciseIds = comingUpViewController.visibleExerciseDetails.map { $0.id }
         return comingUpExerciseDetails.filter { $0.isAlternativeOf(selected) && (selected.id == $0.id || !visibleExerciseIds.contains($0.id)) }
     }
@@ -137,25 +137,25 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     /// Sets the session to be displayed by this controller
     /// - parameter session: the session
     ///
-    func setSession(session: MRManagedExerciseSession) {
+    func setSession(_ session: MRManagedExerciseSession) {
         self.session = session
     }
 
-    func exerciseSetupDetected(label: String, probability: Double) {
-        if labSwitch.on {
-            mainExerciseView?.headerTitle = label.componentsSeparatedByString("/").last
+    func exerciseSetupDetected(_ label: String, probability: Double) {
+        if labSwitch.isOn {
+            mainExerciseView?.headerTitle = label.components(separatedBy: "/").last
             let probabilityString = String(format: "%.2f", probability*100)
             predictionProbabilityLabel.text = "%\(probabilityString)"
         } else {
             switch state {
-            case .ComingUp(let exercise, _):
+            case .comingUp(let exercise, _):
                 if probability < 0.7 || exercise?.detail.id != label {
                     break
                 }
-                if NSDate().timeIntervalSinceDate(lastUpdatedTime) < setupExerciseWindow {
+                if Date().timeIntervalSince(lastUpdatedTime) < setupExerciseWindow {
                     break
                 }
-                state = .InExercise(exercise: exercise!, start: NSDate())
+                state = .inExercise(exercise: exercise!, start: Date())
                 refreshViewsForState(state)
             default:
                 break
@@ -163,12 +163,12 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         }
     }
     
-    func repsCountFeed(reps: Int, start: NSDate, end: NSDate) {
+    func repsCountFeed(_ reps: Int, start: Date, end: Date) {
         switch state {
-        case .InExercise(let exercise, _):
+        case .inExercise(let exercise, _):
             let accumulatedRepsCount = reps + repsCounterAccumulator
             //TODO: This hack is to avoid calculation errors on bigger windows. Should be fixed!
-            if end.timeIntervalSinceDate(start) > 10 {
+            if end.timeIntervalSince(start) > 10 {
                 MRAppDelegate.sharedDelegate().exerciseStarted(exercise.detail, start: end)
                 repsCounterAccumulator = accumulatedRepsCount
             }
@@ -182,41 +182,41 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
 
     override func viewDidLoad() {
         mainExerciseView.delegate = self
-        labSwitch.on = defaults.boolForKey("labMode")
+        labSwitch.isOn = defaults.bool(forKey: "labMode")
         setLabModeLabel()
         resetResp()
         
         setTitleImage(named: "muvr_logo_white")
         navigationItem.setHidesBackButton(true, animated: false)
         
-        UIView.appearanceWhenContainedInInstancesOfClasses([MRSessionViewController.self]).tintColor = MRColor.black
+        UIView.whenContained(inInstancesOfClasses: [MRSessionViewController.self]).tintColor = MRColor.black
         
-        comingUpViewController = storyboard!.instantiateViewControllerWithIdentifier("ComingUpViewController") as! MRSessionComingUpViewController
-        readyViewController = storyboard!.instantiateViewControllerWithIdentifier("ReadyViewController")
-        setupViewController = storyboard!.instantiateViewControllerWithIdentifier("ReadyViewController")
-        inExerciseViewController = storyboard!.instantiateViewControllerWithIdentifier("InExerciseViewController")
-        labellingViewController = storyboard!.instantiateViewControllerWithIdentifier("LabellingViewController") as! MRSessionLabellingViewController
+        comingUpViewController = storyboard!.instantiateViewController(withIdentifier: "ComingUpViewController") as! MRSessionComingUpViewController
+        readyViewController = storyboard!.instantiateViewController(withIdentifier: "ReadyViewController")
+        setupViewController = storyboard!.instantiateViewController(withIdentifier: "ReadyViewController")
+        inExerciseViewController = storyboard!.instantiateViewController(withIdentifier: "InExerciseViewController")
+        labellingViewController = storyboard!.instantiateViewController(withIdentifier: "LabellingViewController") as! MRSessionLabellingViewController
 
     }
     
-    override func viewDidAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRSessionViewController.sessionDidStartExercise), name: MRNotifications.SessionDidStartExercise.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRSessionViewController.sessionDidEndExercise), name: MRNotifications.SessionDidEndExercise.rawValue, object: nil)
+    override func viewDidAppear(_ animated: Bool) {
+        NotificationCenter.default().addObserver(self, selector: #selector(MRSessionViewController.sessionDidStartExercise), name: MRNotifications.SessionDidStartExercise.rawValue, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(MRSessionViewController.sessionDidEndExercise), name: MRNotifications.SessionDidEndExercise.rawValue, object: nil)
         refreshViewsForState(state)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default().removeObserver(self)
     }
 
     ///
     /// Updates the main title and the detail controller according the ``state``.
     /// - parameter state: the state to be displayed
     ///
-    private func refreshViewsForState(state: State) {
+    private func refreshViewsForState(_ state: State) {
         mainExerciseView.progressFullColor = state.color
         switch state {
-        case .ComingUp(_, let rest):
+        case .comingUp(_, let rest):
             comingUpExerciseDetails = session.exerciseDetailsComingUp
             mainExerciseView.headerTitle = "Coming up".localized()
             selectedExerciseDetail(comingUpExerciseDetails.first!)
@@ -227,18 +227,18 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
                 self.mainExerciseView.swipeButtonsHidden = self.alternatives.count < 2
             }
             comingUpViewController.setExerciseDetails(comingUpExerciseDetails, onSelected: selectedExerciseDetail)
-        case .Ready:
+        case .ready:
             mainExerciseView.headerTitle = "Get ready for".localized()
             mainExerciseView.swipeButtonsHidden = true
             mainExerciseView.reset()
             mainExerciseView.start(5)
             switchToViewController(setupViewController)
-        case .Setup:
+        case .setup:
             mainExerciseView.headerTitle = "Setup for exercise".localized()
             mainExerciseView.swipeButtonsHidden = true
             mainExerciseView.reset()
             mainExerciseView.start(5)
-        case .InExercise(let exercise, let start):
+        case .inExercise(let exercise, let start):
             mainExerciseView.headerTitle = "Stop".localized()
             mainExerciseView.reset()
             mainExerciseView.start(exercise.duration!)
@@ -250,9 +250,9 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
             mainExerciseView.start(15)
             switchToViewController(labellingViewController)
             labellingViewController.setExerciseDetail(exercise.detail, predictedLabels: exercise.predicted.0, missingLabels: exercise.missing.0, onLabelsUpdated: labelUpdated)
-        case .Idle: break;
+        case .idle: break;
         }
-        lastUpdatedTime = NSDate()
+        lastUpdatedTime = Date()
     }
     
     ///
@@ -262,22 +262,22 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     /// - parameter controller: the controller whose view is to be displayed in the container
     /// - parameter fromRight: true if the new controller appears from the right of the screen
     ///
-    private func switchToViewController(controller: UIViewController, fromRight: Bool = true, completion: (Void -> Void)? = nil) {
+    private func switchToViewController(_ controller: UIViewController, fromRight: Bool = true, completion: ((Void) -> Void)? = nil) {
         /// The frame where the details view are displayed (takes all available space below the main circle view)
         let y = mainExerciseView.frame.origin.y + mainExerciseView.frame.height
-        let frame = CGRectMake(0, y, view.bounds.width, view.bounds.height - y)
+        let frame = CGRect(x: 0, y: y, width: view.bounds.width, height: view.bounds.height - y)
         
         if let previousController = childViewControllers.first {
-            let leftFrame = CGRectMake(-frame.width, frame.origin.y, frame.width, frame.height)
-            let rightFrame = CGRectMake(frame.width, frame.origin.y, frame.width, frame.height)
+            let leftFrame = CGRect(x: -frame.width, y: frame.origin.y, width: frame.width, height: frame.height)
+            let rightFrame = CGRect(x: frame.width, y: frame.origin.y, width: frame.width, height: frame.height)
             controller.view.frame = fromRight ? rightFrame : leftFrame
             
             addChildViewController(controller)
-            previousController.willMoveToParentViewController(nil)
+            previousController.willMove(toParentViewController: nil)
             
-            transitionFromViewController(
-                previousController,
-                toViewController: controller,
+            transition(
+                from: previousController,
+                to: controller,
                 duration: 0.4,
                 options: [],
                 animations: {
@@ -285,22 +285,22 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
                     previousController.view.frame = fromRight ? leftFrame : rightFrame
                 }, completion: { finished in
                     previousController.removeFromParentViewController()
-                    controller.didMoveToParentViewController(self)
+                    controller.didMove(toParentViewController: self)
                     if let comp = completion where finished { comp() }
                 }
             )
         } else {
-            let belowFrame = CGRectMake(frame.origin.x, frame.origin.y + frame.height, frame.width, frame.height)
+            let belowFrame = CGRect(x: frame.origin.x, y: frame.origin.y + frame.height, width: frame.width, height: frame.height)
             addChildViewController(controller)
-            controller.willMoveToParentViewController(self)
+            controller.willMove(toParentViewController: self)
             controller.view.frame = belowFrame
             controller.beginAppearanceTransition(true, animated: true)
             view.addSubview(controller.view)
-            UIView.animateWithDuration(0.2,
+            UIView.animate(withDuration: 0.2,
                 animations: {
                     controller.view.frame = frame
                 }, completion: { finished in
-                    controller.didMoveToParentViewController(self)
+                    controller.didMove(toParentViewController: self)
                     controller.endAppearanceTransition()
                     if let comp = completion where finished { comp() }
                 }
@@ -310,7 +310,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     
     /// Called when the label is updated by the subcontroller
     /// - parameter newExercise: the updated label
-    private func labelUpdated(newLabels: [MKExerciseLabel]) {
+    private func labelUpdated(_ newLabels: [MKExerciseLabel]) {
         mainExerciseView.reset()
         if case .Done(let exercise, _, let start, let duration) = state {
             state = .Done(exercise: exercise, labels: newLabels, start: start, duration: duration)
@@ -319,8 +319,8 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     
     /// Called when an exercise is selected
     /// - parameter exercise: the selected exercise
-    private func selectedExerciseDetail(selectedExerciseDetail: MKExerciseDetail) {
-        guard case .ComingUp(_, let rest) = state else { return }
+    private func selectedExerciseDetail(_ selectedExerciseDetail: MKExerciseDetail) {
+        guard case .comingUp(_, let rest) = state else { return }
         mainExerciseView.exerciseDetail = selectedExerciseDetail
         let (predicted, missing) = session.predictExerciseLabelsForExerciseDetail(selectedExerciseDetail)
         let currentExercise = CurrentExercise(detail: selectedExerciseDetail, predicted: predicted, missing: missing)
@@ -332,52 +332,52 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     
     // MARK: - MRCircleViewDelegate
     
-    func circleViewLongTapped(exerciseView: MRCircleView) {
-        if case .ComingUp = state {
+    func circleViewLongTapped(_ exerciseView: MRCircleView) {
+        if case .comingUp = state {
             try! MRAppDelegate.sharedDelegate().endCurrentSession()
-            state = .Idle
+            state = .idle
         }
     }
     
-    func circleViewTapped(exerciseView: MRCircleView) {
+    func circleViewTapped(_ exerciseView: MRCircleView) {
         switch state {
-        case .ComingUp(let exercise, let rest):
+        case .comingUp(let exercise, let rest):
             // The user has tapped on the exercise. Let's get ready
-            state = .Ready(exercise: exercise!, rest: rest)
-        case .Ready(let exercise, let rest):
-            state = .ComingUp(exercise: exercise, rest: rest)
-        case .Setup(let exercise, let rest):
-            state = .ComingUp(exercise: exercise, rest: rest)
-        case .InExercise(let exercise, let start):
-            state = .Done(exercise: exercise, labels: exercise.labels, start: start, duration: NSDate().timeIntervalSinceDate(start))
+            state = .ready(exercise: exercise!, rest: rest)
+        case .ready(let exercise, let rest):
+            state = .comingUp(exercise: exercise, rest: rest)
+        case .setup(let exercise, let rest):
+            state = .comingUp(exercise: exercise, rest: rest)
+        case .inExercise(let exercise, let start):
+            state = .Done(exercise: exercise, labels: exercise.labels, start: start, duration: Date().timeIntervalSinceDate(start))
             session.clearClassificationHints()
         case .Done(let exercise, let labels, let start, let duration):
             // The user has completed the exercise, and accepted our labels
             session.addExerciseDetail(exercise.detail, labels: labels, start: start, duration: duration)
             state = .ComingUp(exercise: nil, rest: exercise.rest)
-        case .Idle: break
+        case .idle: break
         }
         refreshViewsForState(state)
     }
     
-    func circleViewCircleDidComplete(exerciseView: MRCircleView) {
+    func circleViewCircleDidComplete(_ exerciseView: MRCircleView) {
         switch state {
-        case .ComingUp:
+        case .comingUp:
             // We've exhausted our rest time. Turn orange to give the user a kick.
             mainExerciseView.progressFullColor = MRColor.orange
-        case .Ready(let exercise, _):
+        case .ready(let exercise, _):
             // We've had the time to get ready. Now time to get setup.
             session.setClassificationHint(exercise.detail, labels: exercise.predicted.0)
-            if labSwitch.on {
-                state = .Setup(exercise: exercise, rest: nil)
+            if labSwitch.isOn {
+                state = .setup(exercise: exercise, rest: nil)
             } else {
-                state = .InExercise(exercise: exercise, start: NSDate())
+                state = .inExercise(exercise: exercise, start: Date())
             }
             refreshViewsForState(state)
-        case .Setup(let exercise, _):
+        case .setup(let exercise, _):
             // We've had the time to get setup. Now time to exercise.
             session.setClassificationHint(exercise.detail, labels: exercise.predicted.0)
-            state = .InExercise(exercise: exercise, start: NSDate())
+            state = .inExercise(exercise: exercise, start: Date())
             refreshViewsForState(state)
         case .Done(let exercise, let labels, let start, let duration):
             // The user has completed the exercise, modified our labels, and accepted.
@@ -388,16 +388,16 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         }
     }
     
-    func circleViewSwiped(exerciseView: MRCircleView, direction: UISwipeGestureRecognizerDirection) {
-        guard case .ComingUp(let exercise, _) = state, let selected = exercise?.detail ?? comingUpExerciseDetails.first else { return }
+    func circleViewSwiped(_ exerciseView: MRCircleView, direction: UISwipeGestureRecognizerDirection) {
+        guard case .comingUp(let exercise, _) = state, let selected = exercise?.detail ?? comingUpExerciseDetails.first else { return }
         
         let index = alternatives.indexOf { selected.id == $0.id } ?? 0
         let length = alternatives.count
         
         func next() -> Int? {
             guard length > 0 else { return nil }
-            if direction == .Left { return (index + 1) % length }
-            if direction == .Right { return (index - 1 + length) % length }
+            if direction == .left { return (index + 1) % length }
+            if direction == .right { return (index - 1 + length) % length }
             return nil
         }
         
@@ -407,8 +407,8 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
 
     /// Notification selector on exercise did end
     @objc private func sessionDidEndExercise() {
-        if case .InExercise(let exercise, let start) = state {
-            state = .Done(exercise: exercise, labels: exercise.labels, start: start, duration: NSDate().timeIntervalSinceDate(start))
+        if case .inExercise(let exercise, let start) = state {
+            state = .Done(exercise: exercise, labels: exercise.labels, start: start, duration: Date().timeIntervalSinceDate(start))
             session.clearClassificationHints()
             refreshViewsForState(state)
         }
@@ -416,9 +416,9 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
 
     /// Notification selector on exercise did start
     @objc private func sessionDidStartExercise() {
-        if case .ComingUp(let .Some(exercise), _) = state {
+        if case .comingUp(let .some(exercise), _) = state {
             session.setClassificationHint(exercise.detail, labels: exercise.predicted.0)
-            state = .InExercise(exercise: exercise, start: NSDate())
+            state = .inExercise(exercise: exercise, start: Date())
             refreshViewsForState(state)
         }
     }

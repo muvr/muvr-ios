@@ -6,7 +6,7 @@ class MRAlternativeButton: UIButton {
     @IBInspectable
     var color: UIColor = MRColor.gray {
         didSet {
-            layer.borderColor = color.CGColor
+            layer.borderColor = color.cgColor
         }
     }
     
@@ -25,10 +25,10 @@ class MRAlternativeButton: UIButton {
         let lineWidth = CGFloat(self.lineWidth?.floatValue ?? radius16)
         
         titleLabel?.numberOfLines = 3
-        titleLabel?.lineBreakMode = .ByWordWrapping
-        titleLabel?.textAlignment = .Center
+        titleLabel?.lineBreakMode = .byWordWrapping
+        titleLabel?.textAlignment = .center
         titleLabel?.adjustsFontSizeToFitWidth = true
-        titleLabel?.font = titleLabel?.font.fontWithSize(min(4.2 * radius16, 28))
+        titleLabel?.font = titleLabel?.font.withSize(min(4.2 * radius16, 28))
         
         if imageView?.image != nil {
             let top = 0.7 * frame.height
@@ -36,21 +36,21 @@ class MRAlternativeButton: UIButton {
             let h = (frame.height - top - r)
             let x = (frame.width - r) / 2
             
-            imageView?.tintColor = titleColorForState(.Normal)
+            imageView?.tintColor = titleColor(for: UIControlState())
             imageEdgeInsets = UIEdgeInsets(top: top, left: x, bottom: h, right: x)
             
-            titleLabel?.frame = CGRectMake(0, 0, frame.width, frame.height)
+            titleLabel?.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
             titleEdgeInsets = UIEdgeInsets()
         } else {
             titleEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         }
         
-        contentVerticalAlignment = .Center
-        contentHorizontalAlignment = .Center
+        contentVerticalAlignment = .center
+        contentHorizontalAlignment = .center
         
         layer.cornerRadius = radius
         layer.borderWidth = lineWidth
-        layer.borderColor = color.CGColor
+        layer.borderColor = color.cgColor
     }
     
 }

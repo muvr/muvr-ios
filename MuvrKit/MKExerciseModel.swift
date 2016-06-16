@@ -11,11 +11,11 @@ public struct MKExerciseModel {
     /// the required sensor data types
     internal let sensorDataTypes: [MKSensorDataType]
     /// the minimum set duration
-    internal let minimumDuration: NSTimeInterval
+    internal let minimumDuration: TimeInterval
     /// the exercises as labels
     public let labels: [Label]
     
-    public init(layerConfiguration: [MKLayerConfiguration], weights: [Float], sensorDataTypes: [MKSensorDataType], labels: [Label], minimumDuration: NSTimeInterval) {
+    public init(layerConfiguration: [MKLayerConfiguration], weights: [Float], sensorDataTypes: [MKSensorDataType], labels: [Label], minimumDuration: TimeInterval) {
         self.layerConfiguration = layerConfiguration
         self.sensorDataTypes = sensorDataTypes
         self.weights = weights
@@ -28,7 +28,7 @@ public struct MKExerciseModel {
         return layerConfiguration[0].size
     }
     
-    func exerciseTypeDescriptorForExerciseId(id: MKExercise.Id) -> MKExerciseTypeDescriptor? {
+    func exerciseTypeDescriptorForExerciseId(_ id: MKExercise.Id) -> MKExerciseTypeDescriptor? {
         for (labelId, labelTypeDescriptor) in labels {
             if labelId == id {
                 return labelTypeDescriptor

@@ -22,11 +22,11 @@ struct MRColor {
     }
     
     static var orange: UIColor {
-        return UIColor.orangeColor()
+        return UIColor.orange()
     }
     
     static var gray: UIColor {
-        return UIColor.grayColor()
+        return UIColor.gray()
     }
     
 }

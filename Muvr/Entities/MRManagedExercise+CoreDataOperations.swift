@@ -4,8 +4,8 @@ import MuvrKit
 
 extension MRManagedExercise {
     
-    static func insertNewObjectIntoSession(session: MRManagedExerciseSession, id: MKExercise.Id, exerciseType: MKExerciseType, labels: [MKExerciseLabel], offset: NSTimeInterval, duration: NSTimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercise {
-        var mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExercise", inManagedObjectContext: managedObjectContext) as! MRManagedExercise
+    static func insertNewObjectIntoSession(_ session: MRManagedExerciseSession, id: MKExercise.Id, exerciseType: MKExerciseType, labels: [MKExerciseLabel], offset: TimeInterval, duration: TimeInterval, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExercise {
+        var mo = NSEntityDescription.insertNewObject(forEntityName: "MRManagedExercise", into: managedObjectContext) as! MRManagedExercise
         
         mo.id = id
         mo.exerciseType = exerciseType

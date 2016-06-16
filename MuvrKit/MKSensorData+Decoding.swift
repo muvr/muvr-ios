@@ -32,20 +32,20 @@ public extension MKSensorData {
     ///
     /// - parameter data: the data to be decoded
     ///
-    public init(decoding data: NSData) throws {
+    public init(decoding data: Data) throws {
         
         enum Device: UInt8 {
-            case AppleWatch = 0x64
-            case Pebble = 0x65
+            case appleWatch = 0x64
+            case pebble = 0x65
         }
         
         let bytes = MKUnsafeBufferReader(data: data)
 
-        if bytes.length < 18 { throw MKCodecError.NotEnoughInput }
+        if bytes.length < 18 { throw MKCodecError.notEnoughInput }
         
-        try bytes.expect(UInt8(0x61), throwing: MKCodecError.BadHeader) // 1
+        try bytes.expect(UInt8(0x61), throwing: MKCodecError.badHeader) // 1
         
-        guard let device = try Device(rawValue: bytes.next()) else { throw MKCodecError.BadHeader } // 2
+        guard let device = try Device(rawValue: bytes.next()) else { throw MKCodecError.badHeader } // 2
         
         let typesCount: UInt8       = try bytes.next()                  // 3
         let samplesPerSecond: UInt8 = try bytes.next()                  // 4
@@ -55,14 +55,14 @@ public extension MKSensorData {
             return try MKSensorDataType.decode(bytes)
         }
 
-        var samples: [Float] = [Float](count: Int(valuesCount), repeatedValue: 0)
+        var samples: [Float] = [Float](repeating: 0, count: Int(valuesCount))
         
         switch device  {
-        case .AppleWatch:
+        case .appleWatch:
             for i in 0..<Int(valuesCount) {
                 samples[i] = try bytes.next()
             }
-        case .Pebble:
+        case .pebble:
             for i in 0..<Int(valuesCount) / 3 {
                 let (x, y, z) = try bytes.nextPebbleSample()
                 // normalize in -1,1 range
@@ -81,8 +81,8 @@ private extension MKUnsafeBufferReader {
 
     /// read n bytes from the bytes buffer
     /// and return them into an array of UInt8
-    func nextBytes(n: Int) throws -> [UInt8] {
-        var bytes = [UInt8](count: n, repeatedValue: 0)
+    func nextBytes(_ n: Int) throws -> [UInt8] {
+        var bytes = [UInt8](repeating: 0, count: n)
         for i in 0..<bytes.count {
             bytes[i] = try next()
         }

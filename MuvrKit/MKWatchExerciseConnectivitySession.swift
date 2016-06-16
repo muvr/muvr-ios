@@ -50,23 +50,23 @@ public struct MKExerciseSessionProperties {
     }
     
     /// Copies this instance assigning the ``end`` field
-    internal func with(end: NSDate) -> MKExerciseSessionProperties {
+    internal func with(_ end: Date) -> MKExerciseSessionProperties {
         return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, accelerometerEnd: accelerometerEnd, end: end, completed: completed)
     }
     
     /// Copies this instance assigning the ``completed`` field
-    internal func with(completed: Bool) -> MKExerciseSessionProperties {
+    internal func with(_ completed: Bool) -> MKExerciseSessionProperties {
         return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, accelerometerEnd: accelerometerEnd, end: end, completed: completed)
     }
     
     /// Copies this instance assigning the ``accelerometerEnd`` field.
-    internal func with(accelerometerEnd: NSDate) -> MKExerciseSessionProperties {
+    internal func with(_ accelerometerEnd: Date) -> MKExerciseSessionProperties {
         // new recorded value is send + rd (because all recorded samples might not have been sent)
         return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, accelerometerEnd: accelerometerEnd, end: end, completed: completed)
     }
     
     /// Copies this instance assigning the ``accelerometerStart`` field
-    internal func with(accelerometerStart: NSDate) -> MKExerciseSessionProperties {
+    internal func with(_ accelerometerStart: Date) -> MKExerciseSessionProperties {
         return MKExerciseSessionProperties(start: start, accelerometerStart: accelerometerStart, accelerometerEnd: accelerometerEnd, end: end, completed: completed)
     }
     

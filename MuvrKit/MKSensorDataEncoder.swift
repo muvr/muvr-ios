@@ -5,7 +5,7 @@ import Foundation
 ///
 public protocol MKSensorDataEncoderTarget {
     
-    func writeData(data: Data, offset: UInt64?)
+    func writeData(_ data: Data, offset: UInt64?)
     
     func close()
 }
@@ -21,7 +21,7 @@ public class MKFileSensorDataEncoderTarget : MKSensorDataEncoderTarget {
         self.handle = try! FileHandle(forWritingTo: fileUrl)
     }
     
-    public func writeData(data: Data, offset: UInt64?) {
+    public func writeData(_ data: Data, offset: UInt64?) {
         if let offset = offset {
             handle.seek(toFileOffset: offset)
         }
@@ -45,11 +45,14 @@ public class MKMutableDataEncoderTarget : MKSensorDataEncoderTarget {
         self.data = data
     }
     
-    public func writeData(data: Data, offset: UInt64?) {
+    public func writeData(_ data: Data, offset: UInt64?) {
         if let offset = offset {
-            self.data.replaceBytesInRange(NSRange(location: Int(offset), length: data.length), withBytes: data.bytes, length: data.length)
+            //self.data.replaceBytesInRange(NSRange(location: Int(offset), length: data.length), withBytes: data.bytes, length: data.length)
+            data.withUnsafeBytes { bytes in
+                self.data.replaceBytes(in: NSRange(location: Int(offset), length: data.count), withBytes: bytes, length: data.count)
+            }
         } else {
-            self.data.appendData(data)
+            self.data.append(data)
         }
     }
     
@@ -75,7 +78,7 @@ public final class MKSensorDataEncoder {
     /// the sample count
     private var sampleCount: UInt32
     /// the first sample date
-    private(set) public var startDate: NSDate?
+    private(set) public var startDate: Date?
     /// the last written sample
     private var lastSample: [Float]?
     ///
@@ -90,25 +93,26 @@ public final class MKSensorDataEncoder {
         self.sampleCount = 0
         self.dimension = types.reduce(0) { sum, type in return sum + type.dimension }
 
-        let emptyHeader = [UInt8](count: 16 + 4 * types.count, repeatedValue: 0)
-        target.writeData(NSData(bytes: emptyHeader, length: emptyHeader.count), offset: nil)
+        let emptyHeader = [UInt8](repeating: 0, count: 16 + 4 * types.count)
+        target.writeData(Data(bytes: emptyHeader), offset: nil)
     }
     
     ///
     /// Append one "row" containing the sampled values
     /// - parameter sample: the sample
     ///
-    public func append(sample: [Float], sampleDate: NSDate) {
+    public func append(_ sample: [Float], sampleDate: Date) {
         
-        func appendSample(sample: [Float]) {
+        func appendSample(_ sample: [Float]) {
             sampleCount += UInt32(sample.count / dimension)
-            target.writeData(NSData(bytes: sample, length: sizeof(Float) * sample.count), offset: nil)
+            let d = NSData(bytes: sample, length: sizeof(Float) * sample.count)
+            target.writeData(d as Data, offset: nil)
         }
         
         /// generate missing samples between ``lastSample`` and new ``sample``
         /// using linear interpolation
-        func generateSamples(count: Int) -> [Float] {
-            var samples = [Float](count: count * dimension, repeatedValue: 0)
+        func generateSamples(_ count: Int) -> [Float] {
+            var samples = [Float](repeating: 0, count: count * dimension)
             for i in 0..<dimension {
                 let first = sample[i]
                 let last  = lastSample?[i] ?? first
@@ -117,7 +121,7 @@ public final class MKSensorDataEncoder {
                     samples[i + dimension * j] = last + ds * Float(j + 1)
                 }
             }
-            samples.appendContentsOf(sample)
+            samples.append(contentsOf: sample)
             return samples
         }
 
@@ -130,7 +134,7 @@ public final class MKSensorDataEncoder {
         
         if startDate == nil { startDate = sampleDate }
         
-        let expectedSampleCount = UInt32(round(sampleDate.timeIntervalSinceDate(startDate!) * Double(samplesPerSecond)))
+        let expectedSampleCount = UInt32(round(sampleDate.timeIntervalSince(startDate!) * Double(samplesPerSecond)))
         let diff = Int(expectedSampleCount) - Int(sampleCount)
         if diff > 0 {
             // extrapolate
@@ -164,23 +168,23 @@ public final class MKSensorDataEncoder {
         var start: Double = startDate?.timeIntervalSinceReferenceDate ?? 0
         var types = self.types.flatMap { (type: MKSensorDataType) -> [UInt8] in
             switch type {
-            case .Accelerometer(location: .LeftWrist):  return [UInt8(0x74), UInt8(0x61), UInt8(0x6c), UInt8(0x52)]
-            case .Accelerometer(location: .RightWrist): return [UInt8(0x74), UInt8(0x61), UInt8(0x72), UInt8(0x52)]
-            case .Gyroscope(location: MKSensorDataType.Location.LeftWrist):      return [UInt8(0x74), UInt8(0x67), UInt8(0x6c), UInt8(0x0)]
-            case .Gyroscope(location: MKSensorDataType.Location.RightWrist):     return [UInt8(0x74), UInt8(0x67), UInt8(0x72), UInt8(0x0)]
-            case .HeartRate:                                                     return [UInt8(0x74), UInt8(0x68), UInt8(0x2d), UInt8(0x0)]
+            case .accelerometer(location: .leftWrist):  return [UInt8(0x74), UInt8(0x61), UInt8(0x6c), UInt8(0x52)]
+            case .accelerometer(location: .rightWrist): return [UInt8(0x74), UInt8(0x61), UInt8(0x72), UInt8(0x52)]
+            case .gyroscope(location: MKSensorDataType.Location.leftWrist):      return [UInt8(0x74), UInt8(0x67), UInt8(0x6c), UInt8(0x0)]
+            case .gyroscope(location: MKSensorDataType.Location.rightWrist):     return [UInt8(0x74), UInt8(0x67), UInt8(0x72), UInt8(0x0)]
+            case .heartRate:                                                     return [UInt8(0x74), UInt8(0x68), UInt8(0x2d), UInt8(0x0)]
             }
         }
         
-        headerData.appendBytes(&header,  length: sizeof(UInt8))           // 1
-        headerData.appendBytes(&version, length: sizeof(UInt8))           // 2
-        headerData.appendBytes(&typesCount, length: sizeof(UInt8))        // 3
-        headerData.appendBytes(&samplesPerSecond, length: sizeof(UInt8))  // 4
-        headerData.appendBytes(&start, length: sizeof(Double))            // 12
-        headerData.appendBytes(&sampleCount, length: sizeof(UInt32))      // 16
-        headerData.appendBytes(&types, length: types.count)               // 16 + 4 * |types|
+        headerData.append(&header,  length: sizeof(UInt8))           // 1
+        headerData.append(&version, length: sizeof(UInt8))           // 2
+        headerData.append(&typesCount, length: sizeof(UInt8))        // 3
+        headerData.append(&samplesPerSecond, length: sizeof(UInt8))  // 4
+        headerData.append(&start, length: sizeof(Double))            // 12
+        headerData.append(&sampleCount, length: sizeof(UInt32))      // 16
+        headerData.append(&types, length: types.count)               // 16 + 4 * |types|
 
-        target.writeData(headerData, offset: 0)
+        target.writeData(headerData as Data, offset: 0)
         target.close()
     }
     
@@ -193,9 +197,9 @@ public final class MKSensorDataEncoder {
     }
     
     /// The end date of the encoder
-    public var endDate: NSDate? {
+    public var endDate: Date? {
         if let duration = duration, start = startDate {
-            return start.dateByAddingTimeInterval(duration)
+            return start.addingTimeInterval(duration)
         }
         return nil
     }

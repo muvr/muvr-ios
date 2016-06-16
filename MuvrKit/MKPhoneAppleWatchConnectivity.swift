@@ -13,7 +13,7 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate, MKDev
     public let exerciseConnectivitySessionDelegate: MKExerciseConnectivitySessionDelegate
     
     public var reachable: Bool {
-        return WCSession.defaultSession().reachable
+        return WCSession.default().isReachable
     }
 
     public init(sensorDataConnectivityDelegate: MKSensorDataConnectivityDelegate, exerciseConnectivitySessionDelegate: MKExerciseConnectivitySessionDelegate) {
@@ -22,17 +22,17 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate, MKDev
             
         super.init()
         // setup watch communication
-        WCSession.defaultSession().delegate = self
-        WCSession.defaultSession().activateSession()
+        WCSession.default().delegate = self
+        WCSession.default().activate()
     }
         
     ///
     /// Get the correct session instance (and its index) based on the received metadata
     /// Issues corresponding session start/end events
     ///
-    private func resolveSession(metadata: [String:AnyObject]) -> (MKExerciseConnectivitySession, Int)? {
+    private func resolveSession(_ metadata: [String:AnyObject]) -> (MKExerciseConnectivitySession, Int)? {
         guard let session = MKExerciseConnectivitySession(metadata: metadata) else { return nil }
-        let index = sessions.indexOf { $0.id == session.id } ?? sessions.count
+        let index = sessions.index { $0.id == session.id } ?? sessions.count
         if (index == sessions.count) {
             // first time we see this session
             sessions.append(session)
@@ -52,12 +52,24 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate, MKDev
         }
         return (sessions[index], index)
     }
-      
-    public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
-        resolveSession(userInfo)
+
+    public func sessionDidBecomeInactive(_ session: WCSession) {
+        
     }
     
-    public func session(session: WCSession, didReceiveFile file: WCSessionFile) {
+    public func sessionDidDeactivate(_ session: WCSession) {
+        
+    }
+    
+    public func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: NSError?) {
+        
+    }
+    
+    public func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
+        _ = resolveSession(userInfo)
+    }
+    
+    public func session(_ session: WCSession, didReceive file: WCSessionFile) {
         // we must have metadata
         guard let metadata = file.metadata else {
             NSLog("Missing metadata in \(file)")
@@ -69,7 +81,7 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate, MKDev
         var connectivitySession = cs
 
         // check for duplicate transmissions
-        if let timestamp = metadata["timestamp"] as? NSTimeInterval {
+        if let timestamp = metadata["timestamp"] as? TimeInterval {
             if connectivitySession.sensorDataFileTimestamps.contains(timestamp) {
                 NSLog("Received duplicate timestamp file. Ignoring")
                 return
@@ -78,13 +90,13 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate, MKDev
         }
         
         // decode the file
-        let documentsUrl = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
-        let timestamp = String(NSDate().timeIntervalSinceReferenceDate)
-        let fileUrl = NSURL(fileURLWithPath: documentsUrl).URLByAppendingPathComponent("sensordata-\(timestamp).raw")
+        let documentsUrl = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first!
+        let timestamp = String(Date().timeIntervalSinceReferenceDate)
+        let fileUrl = try! URL(fileURLWithPath: documentsUrl).appendingPathComponent("sensordata-\(timestamp).raw")
         
         do {
-            try NSFileManager.defaultManager().moveItemAtURL(file.fileURL, toURL: fileUrl)
-            let data = NSData(contentsOfURL: fileUrl)!
+            try FileManager.default().moveItem(at: file.fileURL, to: fileUrl)
+            let data = try! Data(contentsOf: fileUrl)
             let new = try MKSensorData(decoding: data)
             if connectivitySession.sensorData != nil {
                 try connectivitySession.sensorData!.append(new)
@@ -100,23 +112,23 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate, MKDev
         
         // check to see if the file we've received is the only / last file we'll get
         if connectivitySession.last {
-            sessions.removeAtIndex(index)
+            sessions.remove(at: index)
         }
     }
     
-    public func startSession(session: MKExerciseSession) {
-        if WCSession.defaultSession().reachable {
-            WCSession.defaultSession().transferUserInfo(session.metadata)
+    public func startSession(_ session: MKExerciseSession) {
+        if WCSession.default().isReachable {
+            WCSession.default().transferUserInfo(session.metadata)
         }
     }
     
-    public func exerciseStarted(exercise: MKExerciseDetail, start: NSDate) {
+    public func exerciseStarted(_ exercise: MKExerciseDetail, start: Date) {
         //TODO: report the current exercise
     }
     
-    public func endSession(session: MKExerciseSession) {
-        if WCSession.defaultSession().reachable {
-            WCSession.defaultSession().transferUserInfo(session.metadata)
+    public func endSession(_ session: MKExerciseSession) {
+        if WCSession.default().isReachable {
+            WCSession.default().transferUserInfo(session.metadata)
         }
     }
     

@@ -3,7 +3,7 @@ import CoreData
 extension MRManagedAchievement {
 
     /// the achievement date
-    @NSManaged var date: NSDate
+    @NSManaged var date: Date
     /// the workout id (i.e. template id)
     @NSManaged var planId: String
     /// the workout name

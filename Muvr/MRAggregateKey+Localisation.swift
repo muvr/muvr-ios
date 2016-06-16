@@ -10,7 +10,7 @@ extension MRAggregateKey {
     var title: String {
         switch self {
         case ExerciseType(let exerciseType): return exerciseType.title
-        case NoMuscleGroup: return "MRAggregateKey.noMuscleGroup".localized()
+        case noMuscleGroup: return "MRAggregateKey.noMuscleGroup".localized()
         case MuscleGroup(let muscleGroup): return muscleGroup.title
         case Exercise(let exerciseId): return MKExercise.title(exerciseId)
         }

@@ -9,7 +9,7 @@ import MuvrKit
 ///
 class MRSessionComingUpViewController: UIViewController {
     @IBOutlet weak var comingUpScrollView: UIScrollView!
-    typealias OnSelected = MKExerciseDetail -> Void
+    typealias OnSelected = (MKExerciseDetail) -> Void
     private var onSelected: OnSelected!
     private var exerciseDetails: [MKExerciseDetail] = []
     
@@ -33,9 +33,9 @@ class MRSessionComingUpViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         let buttonWidth = comingUpScrollView.frame.width / 3
         let buttonPadding: CGFloat = 5
-        comingUpScrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(comingUpScrollView.subviews.count), comingUpScrollView.frame.height)
-        for (index, button) in comingUpScrollView.subviews.enumerate() {
-            button.frame = CGRectMake(CGFloat(index) * buttonWidth + buttonPadding, buttonPadding, buttonWidth - buttonPadding, buttonWidth - buttonPadding)
+        comingUpScrollView.contentSize = CGSize(width: buttonWidth * CGFloat(comingUpScrollView.subviews.count), height: comingUpScrollView.frame.height)
+        for (index, button) in comingUpScrollView.subviews.enumerated() {
+            button.frame = CGRect(x: CGFloat(index) * buttonWidth + buttonPadding, y: buttonPadding, width: buttonWidth - buttonPadding, height: buttonWidth - buttonPadding)
         }
     }
     
@@ -44,14 +44,14 @@ class MRSessionComingUpViewController: UIViewController {
     /// - parameter exerciseDetails: the exercises details
     /// - parameter onSelected: the function to be called on selection
     ///
-    func setExerciseDetails(exerciseDetails: [MKExerciseDetail], onSelected: OnSelected) {
+    func setExerciseDetails(_ exerciseDetails: [MKExerciseDetail], onSelected: OnSelected) {
         self.exerciseDetails = exerciseDetails
         self.onSelected = onSelected
         
         comingUpScrollView.subviews.forEach { $0.removeFromSuperview() }
         
         let buttonWidth = comingUpScrollView.frame.width / 3
-        comingUpScrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(exerciseDetails.count), comingUpScrollView.frame.height)
+        comingUpScrollView.contentSize = CGSize(width: buttonWidth * CGFloat(exerciseDetails.count), height: comingUpScrollView.frame.height)
         
         for exerciseDetail in exerciseDetails {
             let button = MRAlternativeExerciseButton(type: UIButtonType.System)
@@ -64,7 +64,7 @@ class MRSessionComingUpViewController: UIViewController {
     }
     
     /// This needs to be public as a handler for the button tap event. Do not call.
-    func exerciseSelected(sender: UIButton) {
+    func exerciseSelected(_ sender: UIButton) {
         if let exercise = (sender as? MRAlternativeExerciseButton)?.exerciseDetail {
             onSelected(exercise)
         }

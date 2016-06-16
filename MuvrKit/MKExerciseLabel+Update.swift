@@ -7,7 +7,7 @@ extension MKExerciseLabel {
     /// - parameter exerciseDetail: The associated exercise detail
     /// - return a new ``MKExerciseLabel`` having its value incremented by one step
     ///
-    public func increment(exerciseDetail: MKExerciseDetail) -> MKExerciseLabel {
+    public func increment(_ exerciseDetail: MKExerciseDetail) -> MKExerciseLabel {
         return updateLabelForExerciseDetail(exerciseDetail, increment: true, label: self)
     }
     
@@ -16,28 +16,28 @@ extension MKExerciseLabel {
     /// - parameter exerciseDetail: The associated exercise detail
     /// - return a new ``MKExerciseLabel`` having its value decremented by one step
     ///
-    public func decrement(exerciseDetail: MKExerciseDetail) -> MKExerciseLabel {
+    public func decrement(_ exerciseDetail: MKExerciseDetail) -> MKExerciseLabel {
         return self.updateLabelForExerciseDetail(exerciseDetail, increment: false, label: self)
     }
     
-    private func updateLabelForExerciseDetail(exerciseDetail: MKExerciseDetail, increment: Bool, label: MKExerciseLabel) -> MKExerciseLabel {
+    private func updateLabelForExerciseDetail(_ exerciseDetail: MKExerciseDetail, increment: Bool, label: MKExerciseLabel) -> MKExerciseLabel {
         let properties: [MKExerciseProperty] = exerciseDetail.properties
         switch label {
-        case .Intensity(var intensity):
+        case .intensity(var intensity):
             if increment { intensity = min(1, intensity + 0.2) } else { intensity = max(0, intensity - 0.2) }
-            return .Intensity(intensity: intensity)
-        case .Repetitions(var repetitions):
+            return .intensity(intensity: intensity)
+        case .repetitions(var repetitions):
             if increment { repetitions = repetitions + 1 } else { repetitions = max(1, repetitions - 1) }
-            return .Repetitions(repetitions: repetitions)
-        case .Weight(var weight):
+            return .repetitions(repetitions: repetitions)
+        case .weight(var weight):
             for property in properties {
-                if case .WeightProgression(let minimum, let step, let maximum) = property {
+                if case .weightProgression(let minimum, let step, let maximum) = property {
                     if increment { weight = min(maximum ?? 999, weight + step) } else { weight = max(minimum, weight - step) }
-                    return .Weight(weight: weight)
+                    return .weight(weight: weight)
                 }
             }
             if increment { weight = weight + 0.5 } else { weight = weight - 0.5 }
-            return .Weight(weight: weight)
+            return .weight(weight: weight)
         }
     }
     

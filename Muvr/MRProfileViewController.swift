@@ -8,7 +8,7 @@ class MRProfileViewController : UIViewController, UITableViewDataSource, JTCalen
     @IBOutlet weak var sessionTable: UITableView!
     
     private let calendar = JTCalendarManager()
-    private var selectedDate: NSDate = NSDate()
+    private var selectedDate: Date = Date()
     private var sessionsOnDate: [MRManagedExerciseSession] = []
     
     
@@ -20,7 +20,7 @@ class MRProfileViewController : UIViewController, UITableViewDataSource, JTCalen
     override func viewDidLoad() {
         setTitleImage(named: "muvr_logo_white")
         
-        let today = NSDate()
+        let today = Date()
         calendar.settings.weekModeEnabled = true
         calendar.contentView = calendarView
         calendar.delegate = self
@@ -31,7 +31,7 @@ class MRProfileViewController : UIViewController, UITableViewDataSource, JTCalen
         sessionsOnDate = MRAppDelegate.sharedDelegate().sessionsOnDate(today)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         sessionsOnDate = MRAppDelegate.sharedDelegate().sessionsOnDate(selectedDate)
         calendar.reload()
         sessionTable.reloadData()
@@ -39,14 +39,14 @@ class MRProfileViewController : UIViewController, UITableViewDataSource, JTCalen
     
     // MARK: JTCalendarDelegate
     
-    func calendar(calendar: JTCalendarManager!, prepareDayView dv: UIView!) {
+    func calendar(_ calendar: JTCalendarManager!, prepareDayView dv: UIView!) {
         JTCalendarHelper.calendar(calendar, prepareDayView: dv, on: calendar.date()) { date in
             let dayView = dv as! JTCalendarDayView
             return MRAppDelegate.sharedDelegate().hasSessionsOnDate(dayView.date)
         }
     }
     
-    func calendar(calendar: JTCalendarManager!, didTouchDayView dv: UIView!) {
+    func calendar(_ calendar: JTCalendarManager!, didTouchDayView dv: UIView!) {
         let dayView = dv as! JTCalendarDayView
         calendar.setDate(dayView.date)
         selectedDate = dayView.date
@@ -58,11 +58,11 @@ class MRProfileViewController : UIViewController, UITableViewDataSource, JTCalen
     /// This implementation displays a page with date that falls before the end of this week. We compute
     /// that by working out the date at the end of this week and comparing it with the given ``date``.
     ///
-    func calendar(calendar: JTCalendarManager!, canDisplayPageWithDate date: NSDate!) -> Bool {
-        let today = NSDate()
+    func calendar(_ calendar: JTCalendarManager!, canDisplayPageWithDate date: Date!) -> Bool {
+        let today = Date()
         
         // today as the day of week, where 1 is the first day of week (e.g. Monday in UK, Sunday in US, etc.)
-        let weekDay = NSCalendar.currentCalendar().components(.Weekday, fromDate: today).weekday
+        let weekDay = Calendar.current().components(.weekday, from: today).weekday
         // the end of the week where ``today`` falls into
         let dateAtEndOfWeek = today.addDays(8 - weekDay)
         
@@ -72,7 +72,7 @@ class MRProfileViewController : UIViewController, UITableViewDataSource, JTCalen
     ///
     /// Change the font of the week day labels
     ///
-    func calendarBuildWeekDayView(calendar: JTCalendarManager!) -> UIView! {
+    func calendarBuildWeekDayView(_ calendar: JTCalendarManager!) -> UIView! {
         let view = JTCalendarWeekDayView()
         for label in view.dayViews as! [UILabel] {
             label.font = UIFont.boldSystemFontOfSize(label.font.pointSize)
@@ -83,21 +83,21 @@ class MRProfileViewController : UIViewController, UITableViewDataSource, JTCalen
     
     // MARK: TableViewDataSource
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return max(1, sessionsOnDate.count)
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("sessionCell", forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "sessionCell", for: indexPath)
         if sessionsOnDate.isEmpty {
-            if selectedDate.dateOnly == NSDate().dateOnly { cell.textLabel?.text = "No workout for today yet".localized() }
+            if selectedDate.dateOnly == Date().dateOnly { cell.textLabel?.text = "No workout for today yet".localized() }
             else { cell.textLabel?.text = "No workout".localized() }
         } else {
-            let session = sessionsOnDate[indexPath.row]
-            let format = NSDateFormatter()
-            format.dateStyle = .NoStyle
-            format.timeStyle = .ShortStyle
-            cell.textLabel?.text = "\(format.stringFromDate(session.start)) \(session.name)"
+            let session = sessionsOnDate[(indexPath as NSIndexPath).row]
+            let format = DateFormatter()
+            format.dateStyle = .noStyle
+            format.timeStyle = .shortStyle
+            cell.textLabel?.text = "\(format.string(from: session.start as Date)) \(session.name)"
         }
         return cell
     }
@@ -105,11 +105,11 @@ class MRProfileViewController : UIViewController, UITableViewDataSource, JTCalen
 }
 
 struct JTCalendarHelper {
-    typealias HasEvent = NSDate -> Bool
+    typealias HasEvent = (Date) -> Bool
     private static let dateHelper: JTDateHelper = JTDateHelper()
     
-    static func calendar(calendar: JTCalendarManager!, prepareDayView dv: UIView!,
-                         on selectedDate: NSDate?, hasEvent: HasEvent) {
+    static func calendar(_ calendar: JTCalendarManager!, prepareDayView dv: UIView!,
+                         on selectedDate: Date?, hasEvent: HasEvent) {
         
         if let dayView = dv as? JTCalendarDayView {
             // Today
@@ -118,7 +118,7 @@ struct JTCalendarHelper {
                 dayView.circleView.backgroundColor = UIView.appearance().tintColor
                 dayView.dotView.backgroundColor = UIColor.whiteColor()
                 dayView.textLabel.textColor = UIColor.whiteColor()
-            } else if JTCalendarHelper.dateHelper.date(NSDate(), isTheSameDayThan: dayView.date) {
+            } else if JTCalendarHelper.dateHelper.date(Date(), isTheSameDayThan: dayView.date) {
                 dayView.circleView.hidden = false
                 dayView.circleView.backgroundColor = MRColor.gray
                 dayView.dotView.backgroundColor = UIColor.whiteColor()

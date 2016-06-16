@@ -1,52 +1,52 @@
 import Foundation
 
-extension NSDate {
+extension Date {
     
     ///
     /// Computes date only components from an instance that (may) also contains time
     ///
-    var dateOnly: NSDate {
-        let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day], fromDate: self)
-        return NSCalendar.currentCalendar().dateFromComponents(components)!
+    var dateOnly: Date {
+        let components = Calendar.current().components([Calendar.Unit.year, Calendar.Unit.month, Calendar.Unit.day], from: self)
+        return Calendar.current().date(from: components)!
     }
     
     ///
     /// Adds the specified number of days to this NSDate
     ///
-    func addDays(days: Int) -> NSDate {
-        return NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: days, toDate: self, options: NSCalendarOptions.MatchFirst)!
+    func addDays(_ days: Int) -> Date {
+        return Calendar.current().date(byAdding: Calendar.Unit.day, value: days, to: self, options: Calendar.Options.matchFirst)!
     }
     
     ///
     /// Adds the specified number of hours to this NSDate
     ///
-    func addHours(hours: Int) -> NSDate {
-        return NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Hour, value: hours, toDate: self, options: NSCalendarOptions.MatchFirst)!
+    func addHours(_ hours: Int) -> Date {
+        return Calendar.current().date(byAdding: Calendar.Unit.hour, value: hours, to: self, options: Calendar.Options.matchFirst)!
     }
     
     ///
     /// Adds the specified number of seconds to this NSDate
     ///
-    func addSeconds(seconds: Int) -> NSDate {
-        return NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Second, value: seconds, toDate: self, options: NSCalendarOptions.MatchFirst)!
+    func addSeconds(_ seconds: Int) -> Date {
+        return Calendar.current().date(byAdding: Calendar.Unit.second, value: seconds, to: self, options: Calendar.Options.matchFirst)!
     }
     
     ///
     /// returns a string (HH:mm) representing the time of this NSDate
     func formatTime() -> String {
-        let format = NSDateFormatter()
+        let format = DateFormatter()
         format.dateFormat = "HH:mm"
-        return format.stringFromDate(self)
+        return format.string(from: self)
     }
     
     ///
     /// returns a string ``YYYYMMddTHHmmssZ`` UTC
     ///
     var utcString: String {
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYYMMdd'T'HHmmss'Z'"
-        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-        return dateFormatter.stringFromDate(self)
+        dateFormatter.timeZone = TimeZone(forSecondsFromGMT: 0)
+        return dateFormatter.string(from: self)
     }
     
 }

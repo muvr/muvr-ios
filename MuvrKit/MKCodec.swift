@@ -1,11 +1,11 @@
 import Foundation
 
-enum MKCodecError : ErrorType {
-    case NotEnoughInput
-    case BadHeader
+enum MKCodecError : ErrorProtocol {
+    case notEnoughInput
+    case badHeader
     
-    case CompressionFailed
-    case DecompressionFailed
+    case compressionFailed
+    case decompressionFailed
     
-    case NotSupported
+    case notSupported
 }

@@ -10,14 +10,14 @@ extension MKActivationFunction {
     /// - parameter text: the name of the activation function
     /// - returns: a parsed ``MKActivationFunction`` if ``text`` is valid, ``nil`` otherwise
     ///
-    static func parse(text text: String) -> MKActivationFunction? {
+    static func parse(text: String) -> MKActivationFunction? {
         switch text {
-        case "id": return .Identity
-        case "relu": return .ReLU
-        case "logistic": return .Sigmoid
-        case "sigmoid": return .Sigmoid
-        case "softmax": return .Softmax
-        case "tanh": return .Tanh
+        case "id": return .identity
+        case "relu": return .relu
+        case "logistic": return .sigmoid
+        case "sigmoid": return .sigmoid
+        case "softmax": return .softmax
+        case "tanh": return .tanh
         default: return nil
         }
     }
@@ -30,11 +30,11 @@ extension MKActivationFunction {
 public extension MKLayerConfiguration {
     
     /// Parse error
-    public enum ParseError : ErrorType {
+    public enum ParseError : ErrorProtocol {
         /// Invalid size
-        case InvalidSize(text: String)
+        case invalidSize(text: String)
         /// Invalid AF
-        case InvalidActivationFunction(text: String)
+        case invalidActivationFunction(text: String)
     }
 
     ///
@@ -43,13 +43,13 @@ public extension MKLayerConfiguration {
     /// - parameter text: the text to be parsed
     /// - returns: the parsed layer configuration
     ///
-    public static func parse(text text: String) throws -> [MKLayerConfiguration] {
-        let elements = text.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    public static func parse(text: String) throws -> [MKLayerConfiguration] {
+        let elements = text.components(separatedBy: CharacterSet.whitespacesAndNewlines)
         return try (0..<elements.count / 2).map { index in
             let sizeText = elements[index * 2]
             let activationFunctionText = elements[index * 2 + 1]
-            guard let size = Int(sizeText) else { throw ParseError.InvalidSize(text: sizeText) }
-            guard let activationFunction = MKActivationFunction.parse(text: activationFunctionText) else { throw ParseError.InvalidActivationFunction(text: activationFunctionText) }
+            guard let size = Int(sizeText) else { throw ParseError.invalidSize(text: sizeText) }
+            guard let activationFunction = MKActivationFunction.parse(text: activationFunctionText) else { throw ParseError.invalidActivationFunction(text: activationFunctionText) }
 
             return MKLayerConfiguration(size: size, activationFunction: activationFunction)
         }

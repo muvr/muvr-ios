@@ -9,22 +9,22 @@ enum MRSessionType {
     ///
     /// AdHoc session: "Manual" selection of the session's exercise type
     ///
-    case AdHoc(exerciseType: MKExerciseType)
+    case adHoc(exerciseType: MKExerciseType)
     ///
     /// Predefined session: User selected one of the predefined exercise plan
     ///
-    case Predefined(plan: MKExercisePlan)
+    case predefined(plan: MKExercisePlan)
     ///
     /// User session: User selected one of the past sessions
     ///
-    case UserDefined(plan: MRManagedExercisePlan)
+    case userDefined(plan: MRManagedExercisePlan)
     
     /// The exercise type associated to the session
     var exerciseType: MKExerciseType {
         switch self {
         case .AdHoc(let exerciseType): return exerciseType
         case .Predefined(let plan): return plan.exerciseType
-        case .UserDefined(let plan): return plan.exerciseType
+        case .userDefined(let plan): return plan.exerciseType
         }
     }
     
@@ -33,7 +33,7 @@ enum MRSessionType {
         switch self {
         case .AdHoc(let exerciseType): return exerciseType.name;
         case .Predefined(let plan): return plan.name
-        case .UserDefined(let plan): return plan.name
+        case .userDefined(let plan): return plan.name
         }
     }
 

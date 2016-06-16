@@ -16,7 +16,7 @@ public enum MKClassificationHint {
     /// - parameter duration: the duration
     /// - parameter expectedExercises: the exercises the user is likely to be performing
     ///
-    case ExplicitExercise(start: NSTimeInterval, duration: NSTimeInterval?, expectedExercises: [(MKExerciseDetail, [MKExerciseLabel])])
+    case explicitExercise(start: TimeInterval, duration: TimeInterval?, expectedExercises: [(MKExerciseDetail, [MKExerciseLabel])])
     
     ///
     /// The user is expected to be resting
@@ -27,21 +27,21 @@ public enum MKClassificationHint {
     /// - parameter start: the start offset
     /// - parameter duration: the duration
     ///
-    case TooMuchRest(start: NSTimeInterval, duration: NSTimeInterval?)
+    case tooMuchRest(start: TimeInterval, duration: TimeInterval?)
     
     /// The start timestamp
-    var start: NSTimeInterval {
+    var start: TimeInterval {
         switch self {
-        case .TooMuchRest(let start, _): return start
-        case .ExplicitExercise(let start, _, _): return start
+        case .tooMuchRest(let start, _): return start
+        case .explicitExercise(let start, _, _): return start
         }
     }
     
     /// The duration
-    var duration: NSTimeInterval? {
+    var duration: TimeInterval? {
         switch self {
-        case .TooMuchRest(_, let duration): return duration
-        case .ExplicitExercise(_, let duration, _): return duration
+        case .tooMuchRest(_, let duration): return duration
+        case .explicitExercise(_, let duration, _): return duration
         }
     }
     
@@ -68,20 +68,20 @@ enum MKSensorDataSplit {
     /// - parameter data: the split
     /// - parameter hint: the user-provided hint
     ///
-    case Hinted(startOffset: NSTimeInterval, data: MKSensorData, hint: MKClassificationHint)
+    case hinted(startOffset: TimeInterval, data: MKSensorData, hint: MKClassificationHint)
     
     ///
     /// Contains automatically determined exercise regions.
     /// - parameter startOffset: the offset to the start of the ``data``
     /// - parameter data: the data that should contain exercise
     ///
-    case Automatic(startOffset: NSTimeInterval, data: MKSensorData)
+    case automatic(startOffset: TimeInterval, data: MKSensorData)
     
     /// The end
-    var end: NSTimeInterval {
+    var end: TimeInterval {
         switch self {
-        case .Hinted(_, let data, _): return data.end
-        case .Automatic(_, let data): return data.end
+        case .hinted(_, let data, _): return data.end
+        case .automatic(_, let data): return data.end
         }
     }
     
@@ -90,7 +90,7 @@ enum MKSensorDataSplit {
 public class MKSensorDataSplitter {
     public let hintSource: MKClassificationHintSource!
     
-    typealias Split = ([MKSensorDataSplit], [MKSensorDataSplit], NSTimeInterval)
+    typealias Split = ([MKSensorDataSplit], [MKSensorDataSplit], TimeInterval)
     
     //private let eneClassifier: MKClassifier
 
@@ -100,27 +100,27 @@ public class MKSensorDataSplitter {
         //eneClassifier = try! MKClassifier(model: slackingModel)
     }
     
-    private func hintedSplit(from: NSTimeInterval, data: MKSensorData, hints: [MKClassificationHint]) -> Split {
+    private func hintedSplit(_ from: TimeInterval, data: MKSensorData, hints: [MKClassificationHint]) -> Split {
         // first, filter hints that appear after ``from``
         let applicableHints = hints.filter { $0.start >= from }
         
         let completed: [MKSensorDataSplit] = applicableHints.filter { $0.duration != nil }.flatMap { hint in
-            return try? .Hinted(startOffset: hint.start, data: data.slice(hint.start, duration: hint.duration!), hint: hint)
+            return try? .hinted(startOffset: hint.start, data: data.slice(hint.start, duration: hint.duration!), hint: hint)
         }
         let partial: [MKSensorDataSplit] = applicableHints.filter { $0.duration == nil }.flatMap { hint in
-            return try? .Hinted(startOffset: hint.start, data: data.slice(hint.start, duration: data.duration - hint.start), hint: hint)
+            return try? .hinted(startOffset: hint.start, data: data.slice(hint.start, duration: data.duration - hint.start), hint: hint)
         }
-        let lastCompleted = completed.maxElement { l, r in l.end < r.end }?.end ?? from
+        let lastCompleted = completed.max { l, r in l.end < r.end }?.end ?? from
         
         return (completed, partial, lastCompleted)
     }
 
-    private func automatedSplit(from: NSTimeInterval, data: MKSensorData) -> Split {
+    private func automatedSplit(_ from: TimeInterval, data: MKSensorData) -> Split {
         // not yet implemented
         return ([], [], from + data.duration)
     }
 
-    func split(from from: NSTimeInterval, data: MKSensorData) -> Split {
+    func split(from: TimeInterval, data: MKSensorData) -> Split {
         if let hints = hintSource.classificationHints {
             return hintedSplit(from, data: data, hints: hints)
         } else {

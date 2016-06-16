@@ -8,7 +8,7 @@ import MuvrKit
 extension MRManagedSessionPlan {
     
     /// the markov chain of exercise plan ids
-    @NSManaged private var managedPlan: NSData?
+    @NSManaged private var managedPlan: Data?
     
 }
 
@@ -47,7 +47,7 @@ extension MRManagedSessionPlan {
     /// It automatically updates the serialised JSON data
     /// (just save the associated ``NSManagedObjectContext`` to persist the data)
     ///
-    func insert(exercisePlanId: MKExercisePlan.Id) {
+    func insert(_ exercisePlanId: MKExercisePlan.Id) {
         plan.insert(exercisePlanId)
         managedPlan = plan.json { $0 }
     }

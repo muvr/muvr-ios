@@ -4,20 +4,20 @@ import Accelerate
 ///
 /// Possible classification errors
 ///
-public enum MKClassifierError : ErrorType {
+public enum MKClassifierError : ErrorProtocol {
     ///
     /// The sensor data does not contain any of the required sensor data types
     ///
     /// - parameter required: the required types
     ///
-    case NoSensorDataType(received: [MKSensorDataType], required: [MKSensorDataType])
+    case noSensorDataType(received: [MKSensorDataType], required: [MKSensorDataType])
     
     ///
     /// The sensor data does not contain enough data for the classification
     ///
     /// - parameter required: the required number of rows
     ///
-    case NotEnoughRows(received: Int, required: Int)
+    case notEnoughRows(received: Int, required: Int)
 }
 
 ///
@@ -59,7 +59,7 @@ public struct MKClassifier {
     ///
     /// - parameter block: the received sensor data
     ///
-    public func classify(block block: MKSensorData, maxResults: Int) throws -> [(MKExercise, Double)] {
+    public func classify(block: MKSensorData, maxResults: Int) throws -> [(MKExercise, Double)] {
         let cews = try classifyWindows(block: block, maxResults: maxResults)
         if cews.isEmpty { return [] }
         let steps = classifySteps(cews, samplesPerSecond: block.samplesPerSecond)
@@ -72,12 +72,12 @@ public struct MKClassifier {
     ///
     /// Apply the classification model to every window contained in ``block``
     ///
-    func classifyWindows(block block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExerciseWindow] {
+    func classifyWindows(block: MKSensorData, maxResults: Int) throws -> [MKClassifiedExerciseWindow] {
         // in the outer function, we perform the common decoding and basic checking
         var (dimensions, m) = block.samples(along: model.sensorDataTypes)
         if dimensions == 0 {
             // we could not find any slice that the model requires
-            throw MKClassifierError.NoSensorDataType(received: block.types, required: model.sensorDataTypes)
+            throw MKClassifierError.noSensorDataType(received: block.types, required: model.sensorDataTypes)
         }
         
         m = self.inputPreparator.preprocess(m, dimensions: dimensions)
@@ -85,7 +85,7 @@ public struct MKClassifier {
         let rowCount = m.count / dimensions
         if rowCount < windowSize {
             // not enough input for classification
-            throw MKClassifierError.NotEnoughRows(received: block.rowCount, required: windowSize)
+            throw MKClassifierError.notEnoughRows(received: block.rowCount, required: windowSize)
         }
         NSLog("Classification called for \(rowCount) samples (\(rowCount / 50)s)")
         
@@ -95,9 +95,9 @@ public struct MKClassifier {
         let cews: [MKClassifiedExerciseWindow] = try (0..<numWindows).map { window in
             let offset = dimensions * windowStepSize * window
             // NSLog("bytes \(offset)-\(offset + windowSize * sizeof(Double)); length \(doubleM.count * sizeof(Double))")
-            let featureMatrix: UnsafePointer<Float> = UnsafePointer(m).advancedBy(offset)
+            let featureMatrix: UnsafePointer<Float> = UnsafePointer(m).advanced(by: offset)
             let windowPrediction = try neuralNet.predictFeatureMatrix(featureMatrix, dimensions: dimensions, length: dimensions * windowSize)
-            let classRanking = (0..<windowPrediction.count).sort { x, y in
+            let classRanking = (0..<windowPrediction.count).sorted { x, y in
                 return windowPrediction[x] > windowPrediction[y]
             }
             let resultCount = min(maxResults, windowPrediction.count)
@@ -119,7 +119,7 @@ public struct MKClassifier {
     ///
     /// Compute the probability for every window step by averaging the probabilities over all windows containing the step
     ///
-    func classifySteps(windows: [MKClassifiedExerciseWindow], samplesPerSecond: UInt) -> [MKClassifiedExerciseBlock] {
+    func classifySteps(_ windows: [MKClassifiedExerciseWindow], samplesPerSecond: UInt) -> [MKClassifiedExerciseBlock] {
         let duration = Double(windowStepSize) / Double(samplesPerSecond)
         let stepsInWindow = Int(windowSize / windowStepSize)
         let numWindows = windows.count
@@ -138,7 +138,7 @@ public struct MKClassifier {
                     }
                 }
             }
-            let exerciseIds = avg.keys.sort { id1, id2 in
+            let exerciseIds = avg.keys.sorted { id1, id2 in
                 return avg[id1] > avg[id2]
             }
             if let exerciseId = exerciseIds.first,
@@ -154,7 +154,7 @@ public struct MKClassifier {
     ///
     /// Group together consecutive steps with the same outcome
     ///
-    func accumulateSteps(steps: [MKClassifiedExerciseBlock]) -> [MKClassifiedExerciseBlock] {
+    func accumulateSteps(_ steps: [MKClassifiedExerciseBlock]) -> [MKClassifiedExerciseBlock] {
         var result: [MKClassifiedExerciseBlock] = []
         var accumulator: MKClassifiedExerciseBlock? = nil
         for i in 0 ..< steps.count {
@@ -178,21 +178,21 @@ public struct MKClassifier {
     /// 
     /// fusion adjacent blocks separated by a 'short' block
     ///
-    func fusionBlocks(blocks: [MKClassifiedExerciseBlock], samplesPerSecond: UInt) -> [MKClassifiedExerciseBlock] {
+    func fusionBlocks(_ blocks: [MKClassifiedExerciseBlock], samplesPerSecond: UInt) -> [MKClassifiedExerciseBlock] {
         let windowDuration = Double(windowSize) / Double(samplesPerSecond)
         
-        func isLongEnough(block: MKClassifiedExerciseBlock?) -> Bool {
+        func isLongEnough(_ block: MKClassifiedExerciseBlock?) -> Bool {
             if let duration = block?.duration {
                 return duration > windowDuration            }
             return true
         }
-        func isSameExercise(block1: MKClassifiedExerciseBlock?, _ block2: MKClassifiedExerciseBlock?) -> Bool {
+        func isSameExercise(_ block1: MKClassifiedExerciseBlock?, _ block2: MKClassifiedExerciseBlock?) -> Bool {
             if let block1 = block1, let block2 = block2 {
                 return block1.id == block2.id
             }
             return false
         }
-        func canMergeWith(block1: MKClassifiedExerciseBlock?, _ block2: MKClassifiedExerciseBlock?) -> Bool {
+        func canMergeWith(_ block1: MKClassifiedExerciseBlock?, _ block2: MKClassifiedExerciseBlock?) -> Bool {
             if let block1 = block1, let block2 = block2 {
                 return isSameExercise(block1, block2)
             }
@@ -227,7 +227,7 @@ struct MKClassifiedExerciseBlock {
     var duration: MKTimestamp
     let offset: MKTimestamp
     
-    mutating func extend(by: MKClassifiedExerciseBlock) {
+    mutating func extend(_ by: MKClassifiedExerciseBlock) {
         // the new confidence the average confidence of both blocks 
         // use the duration to apply correct weights in average computation
         let conf = self.id == by.id ? by.confidence : 0.0

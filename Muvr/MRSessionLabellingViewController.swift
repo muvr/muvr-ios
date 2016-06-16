@@ -6,12 +6,12 @@ import MuvrKit
 /// A cell that displays a scalar value, like weight, repetitions or intensity
 ///
 class MRSessionLabellingScalarTableViewCell : UITableViewCell {
-    private var increment: (MKExerciseLabel -> MKExerciseLabel)!
-    private var decrement: (MKExerciseLabel -> MKExerciseLabel)!
+    private var increment: ((MKExerciseLabel) -> MKExerciseLabel)!
+    private var decrement: ((MKExerciseLabel) -> MKExerciseLabel)!
     private var exerciseLabel: MKExerciseLabel!
     private var scalarExerciseLabelSettable: MRScalarExerciseLabelSettable!
 
-    func setExerciseLabel(exerciseLabel: MKExerciseLabel, increment: MKExerciseLabel -> MKExerciseLabel, decrement: MKExerciseLabel -> MKExerciseLabel) {
+    func setExerciseLabel(_ exerciseLabel: MKExerciseLabel, increment: (MKExerciseLabel) -> MKExerciseLabel, decrement: (MKExerciseLabel) -> MKExerciseLabel) {
         let centreX = self.frame.width / 2
         let centreY = self.frame.height / 2
         let height = self.frame.height - 20
@@ -48,7 +48,7 @@ class MRSessionLabellingViewController: UIViewController, UITableViewDataSource 
     @IBOutlet private weak var tableView: UITableView!
     
     /// A function that carries the new values: (repetitions, weight, intensity)
-    typealias OnLabelsUpdated = [MKExerciseLabel] -> Void
+    typealias OnLabelsUpdated = ([MKExerciseLabel]) -> Void
     /// The function that will be called whenever a value changes
     private var onLabelsUpdated: OnLabelsUpdated!
     
@@ -65,7 +65,7 @@ class MRSessionLabellingViewController: UIViewController, UITableViewDataSource 
             }
         } else {
             // center in available space
-            tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y - offset / 2, tableView.frame.width, tableView.contentSize.height)
+            tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y - offset / 2, width: tableView.frame.width, height: tableView.contentSize.height)
         }
     }
     
@@ -76,7 +76,7 @@ class MRSessionLabellingViewController: UIViewController, UITableViewDataSource 
     /// - parameter exerciseDetail: the exercise whose values to be displayed
     /// - parameter onUpdate: a function that will be called on change of values
     ///
-    func setExerciseDetail(exerciseDetail: MKExerciseDetail, predictedLabels: [MKExerciseLabel], missingLabels: [MKExerciseLabel], onLabelsUpdated: OnLabelsUpdated) {
+    func setExerciseDetail(_ exerciseDetail: MKExerciseDetail, predictedLabels: [MKExerciseLabel], missingLabels: [MKExerciseLabel], onLabelsUpdated: OnLabelsUpdated) {
         self.onLabelsUpdated = onLabelsUpdated
         self.exerciseDetail = exerciseDetail
         self.labels = predictedLabels + missingLabels
@@ -88,7 +88,7 @@ class MRSessionLabellingViewController: UIViewController, UITableViewDataSource 
         onLabelsUpdated([])
     }
     
-    private func findProperty(predicate: MKExerciseProperty -> Bool) -> MKExerciseProperty? {
+    private func findProperty(_ predicate: (MKExerciseProperty) -> Bool) -> MKExerciseProperty? {
         for property in exerciseDetail.properties {
             if predicate(property) {
                 return property
@@ -97,7 +97,7 @@ class MRSessionLabellingViewController: UIViewController, UITableViewDataSource 
         return nil
     }
 
-    private func incrementLabel(index: Int) -> (MKExerciseLabel -> MKExerciseLabel) {
+    private func incrementLabel(_ index: Int) -> ((MKExerciseLabel) -> MKExerciseLabel) {
         return { label in
             let newLabel = label.increment(self.exerciseDetail)
             self.labels[index] = newLabel
@@ -106,7 +106,7 @@ class MRSessionLabellingViewController: UIViewController, UITableViewDataSource 
         }
     }
     
-    private func decrementLabel(index: Int) -> (MKExerciseLabel -> MKExerciseLabel) {
+    private func decrementLabel(_ index: Int) -> ((MKExerciseLabel) -> MKExerciseLabel) {
         return { label in
             let newLabel = label.decrement(self.exerciseDetail)
             self.labels[index] = newLabel
@@ -117,16 +117,16 @@ class MRSessionLabellingViewController: UIViewController, UITableViewDataSource 
     
     // MARK: - UITableViewDataSource
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return labels.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("label", forIndexPath: indexPath) as! MRSessionLabellingScalarTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath) as! MRSessionLabellingScalarTableViewCell
         cell.setExerciseLabel(labels[indexPath.row], increment: incrementLabel(indexPath.row), decrement: decrementLabel(indexPath.row))
         return cell
     }

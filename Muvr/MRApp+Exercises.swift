@@ -10,7 +10,7 @@ extension MRApp {
     /// - parameter type: the types to appear first
     /// - returns: the combined list of exercise details
     ///
-    func exerciseDetailsForExerciseIds(exerciseIds: [MKExercise.Id], favouringType type: MKExerciseType) -> [MKExerciseDetail] {
+    func exerciseDetailsForExerciseIds(_ exerciseIds: [MKExercise.Id], favouringType type: MKExerciseType) -> [MKExerciseDetail] {
         let plannedDetails: [MKExerciseDetail] = exerciseIds.flatMap { exerciseDetailForExerciseId($0) }
         
         var otherDetails: [MKExerciseDetail] = exerciseDetails.filter { exerciseDetail in

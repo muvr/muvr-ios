@@ -12,7 +12,7 @@ extension MKExerciseLabel {
         }
     }
     
-    func subtract(that: MKExerciseLabel) -> MKExerciseLabel {
+    func subtract(_ that: MKExerciseLabel) -> MKExerciseLabel {
         assert(self.descriptor == that.descriptor)
         
         switch (self, that) {
@@ -57,9 +57,9 @@ class MRExerciseSessionEvaluator {
         /// The loss value basis; note that the stupid values are not affected by the basis.
         enum LossBasis {
             /// The raw value basis; loss between e = 49 and p = 56 (with step 7) is 7^2 = 49
-            case RawValue
+            case rawValue
             /// The number of taps from wrong; loss between e = 49 and p = 56 (with step 7) is 1^2 = 1
-            case NumberOfTaps
+            case numberOfTaps
         }
         
         /// The loss of labels predictions weighted for the label range. For example, ``(e, p)`` pairs
@@ -77,12 +77,12 @@ class MRExerciseSessionEvaluator {
         /// - parameter basis: the loss calculation basis
         /// - returns: the weighted loss of label predictions.
         ///
-        func labelsWeightedLoss(basis: LossBasis, ignoring ignored: [MKExerciseLabelDescriptor]) -> Double? {
+        func labelsWeightedLoss(_ basis: LossBasis, ignoring ignored: [MKExerciseLabelDescriptor]) -> Double? {
             let stupidLossIncident: Double = 10
             let filtered = filteredScalarLabels(ignoring: ignored)
             guard !filtered.isEmpty else { return nil }
             
-            func secondMax(exerciseId: MKExercise.Id) -> [MKExerciseLabelDescriptor: Double] {
+            func secondMax(_ exerciseId: MKExercise.Id) -> [MKExerciseLabelDescriptor: Double] {
                 var sms: [MKExerciseLabelDescriptor : Double] = [:]
                 for (k, x) in (filtered.filter { $0.0.id == exerciseId }.groupBy { (_, d, _, _) in return d }) {
                     let sorted = x.map { $0.2.scalar() }.sort()
@@ -193,7 +193,7 @@ class MRExerciseSessionEvaluator {
     }
     
     
-    func evaluate(session: MRManagedExerciseSession) -> Result {
+    func evaluate(_ session: MRManagedExerciseSession) -> Result {
         var result: Result = Result()
         
         for (detail, labels) in loadedSession.rows {

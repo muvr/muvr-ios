@@ -12,15 +12,15 @@ import MuvrKit
 //
 extension MRAppDelegate  {
     
-    func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         if Process.arguments.contains("--reset-container") {
             NSLog("Reset container.")
-            let fileManager = NSFileManager.defaultManager()
-            [NSSearchPathDirectory.DocumentDirectory, NSSearchPathDirectory.ApplicationSupportDirectory].forEach { directory  in
-                if let docs = NSSearchPathForDirectoriesInDomains(directory, NSSearchPathDomainMask.UserDomainMask, true).first {
-                    (try? fileManager.contentsOfDirectoryAtPath(docs))?.forEach { file in
+            let fileManager = FileManager.default()
+            [FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDirectory.applicationSupportDirectory].forEach { directory  in
+                if let docs = NSSearchPathForDirectoriesInDomains(directory, FileManager.SearchPathDomainMask.userDomainMask, true).first {
+                    (try? fileManager.contentsOfDirectory(atPath: docs))?.forEach { file in
                         do {
-                            try fileManager.removeItemAtPath("\(docs)/\(file)")
+                            try fileManager.removeItem(atPath: "\(docs)/\(file)")
                         } catch {
                             // do nothing
                         }

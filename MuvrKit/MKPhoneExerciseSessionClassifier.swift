@@ -11,7 +11,7 @@ public protocol MKExerciseModelSource {
     ///
     /// - parameter exerciseType: the exercise type for which to load a model
     ///
-    func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel
+    func exerciseModelForExerciseType(_ exerciseType: MKExerciseType) throws -> MKExerciseModel
 
     ///
     /// Gets the setup exercise model.
@@ -22,7 +22,7 @@ public protocol MKExerciseModelSource {
 
 struct MKExerciseSessionDetail {
     /// The offset of the last classified exercises
-    var classificationStart: NSTimeInterval = 0
+    var classificationStart: TimeInterval = 0
 }
 
 ///
@@ -59,7 +59,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         repetitionEstimator = MKRepetitionEstimator()
     }
 
-    public func exerciseConnectivitySessionDidEnd(session session: MKExerciseConnectivitySession) {
+    public func exerciseConnectivitySessionDidEnd(session: MKExerciseConnectivitySession) {
         if let index = sessionIndex(session) {
             let es = MKExerciseSession(exerciseConnectivitySession: session)
             sessions[index] = (es, MKExerciseSessionDetail())
@@ -67,7 +67,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         }
     }
 
-    public func exerciseConnectivitySessionDidStart(session session: MKExerciseConnectivitySession) {
+    public func exerciseConnectivitySessionDidStart(session: MKExerciseConnectivitySession) {
         if sessionIndex(session) == nil {
             let exerciseSession = MKExerciseSession(exerciseConnectivitySession: session)
             sessions.append((exerciseSession, MKExerciseSessionDetail()))
@@ -106,7 +106,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     }
     */
 
-    public func sensorDataConnectivityDidReceiveSensorData(accumulated accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) {
+    public func sensorDataConnectivityDidReceiveSensorData(accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) {
         guard let index = sessionIndex(session) else { return } //TODO: fix this
         let et = sessions[index]
         var es = et.0
@@ -131,7 +131,7 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
 
         let detectedExercisesSetup = detectSetupMovement(accumulated, new: new, session: session, setupWindow: 5.0)
         if !detectedExercisesSetup.isEmpty {
-            if let newState = delegate.sessionClassifierDidSetupExercise(es, trigger: .SetupDetected(exercises: detectedExercisesSetup)) {
+            if let newState = delegate.sessionClassifierDidSetupExercise(es, trigger: .setupDetected(exercises: detectedExercisesSetup)) {
                 es.state = newState
                 self.sessions[index] = (es, esd)
             }
@@ -139,24 +139,24 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         
         let repsCount = countRepetitions(accumulated, new: new, session: session)
         if repsCount != nil {
-            delegate.repsCountFeed(es, reps: repsCount!, start: session.currentExerciseStart!, end: NSDate()) //TODO: do we still need start, end time?
+            delegate.repsCountFeed(es, reps: repsCount!, start: session.currentExerciseStart!, end: Date()) //TODO: do we still need start, end time?
         }
 
         switch es.state {
-        case .SetupExercise(let exerciseId):
+        case .setupExercise:
             //TODO: how will we handle the case of .SetupExercise?
             break
 
-        case .Exercising:
+        case .exercising:
             // first, check for no motion
-            if !new.motionDetected, let newState = delegate.sessionClassifierDidEndExercise(es, trigger: .NoMotionDetected) {
+            if !new.motionDetected, let newState = delegate.sessionClassifierDidEndExercise(es, trigger: .noMotionDetected) {
                 es.state = newState
                 self.sessions[index] = (es, esd)
             }
             // next, if still "exercising", consider divergence
-        case .NotExercising:
+        case .notExercising:
             // first, check for motion
-            if new.motionDetected, let newState = delegate.sessionClassifierDidStartExercise(es, trigger: .MotionDetected) {
+            if new.motionDetected, let newState = delegate.sessionClassifierDidStartExercise(es, trigger: .motionDetected) {
                 es.state = newState
                 self.sessions[index] = (es, esd)
             }
@@ -165,13 +165,13 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
 
         if session.last {
             // session completed: all data received
-            sessions.removeAtIndex(index)
+            sessions.remove(at: index)
         }
     }
 
-    private func detectSetupMovement(accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession, setupWindow: NSTimeInterval) -> [MKExerciseProbability] {
-        let now = NSDate()
-        let accumlatedInterval = now.timeIntervalSinceDate(session.realStart!)
+    private func detectSetupMovement(_ accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession, setupWindow: TimeInterval) -> [MKExerciseProbability] {
+        let now = Date()
+        let accumlatedInterval = now.timeIntervalSince(session.realStart! as Date)
         if accumlatedInterval < setupWindow {
             return [MKExerciseProbability]()
         }
@@ -192,12 +192,12 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
         })
     }
     
-    private func countRepetitions(accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) -> Int? {
+    private func countRepetitions(_ accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession) -> Int? {
         do {
             if session.currentExerciseStart == nil {
                 return nil
             }
-            let offset = session.currentExerciseStart?.timeIntervalSinceDate(session.realStart!)
+            let offset = session.currentExerciseStart?.timeIntervalSince(session.realStart! as Date)
             let duration = accumulated.duration - (offset!)
             let slice = try! accumulated.slice(offset!, duration: duration)
             let (reps, _) = try repetitionEstimator.estimate(data: slice)
@@ -210,8 +210,8 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     ///
     /// finds the session index in the active sessions
     ///
-    private func sessionIndex(session: MKExerciseConnectivitySession) -> Int? {
-        return sessions.indexOf { $0.0.id == session.id }
+    private func sessionIndex(_ session: MKExerciseConnectivitySession) -> Int? {
+        return sessions.index { $0.0.id == session.id }
     }
 
 }
@@ -232,9 +232,9 @@ private extension MKSensorData {
         let type = types.first!
         return (0..<type.dimension).map { dim in
             var avg: Float = 0 // will hold the mean μ
-            var dev = [Float](count: self.rowCount, repeatedValue: 0) // will hold (xi - μ)
+            var dev = [Float](repeating: 0, count: self.rowCount) // will hold (xi - μ)
             var variance: Float = 0
-            let dimSamples = values.advancedBy(dim)
+            let dimSamples = values.advanced(by: dim)
 
             vDSP_meanv(dimSamples, type.dimension, &avg, rows) // compute the mean
             avg *= -1

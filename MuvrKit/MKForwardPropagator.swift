@@ -37,17 +37,17 @@ public struct MKForwardPropagatorConfiguration {
     
     /// the maximum number of hidden features
     var maxNumberOfHiddenFeatures: Int {
-        let max = layerConfiguration.maxElement { x, y in return x.size < y.size }
+        let max = layerConfiguration.max { x, y in return x.size < y.size }
         return max!.size + biasUnits
     }
 }
 
 /// The error enum
-public enum MKForwardPropagatorError : ErrorType {
-    case InvalidWeightsForLayerConfiguration
-    case InvalidFeatureMatrixSize
+public enum MKForwardPropagatorError : ErrorProtocol {
+    case invalidWeightsForLayerConfiguration
+    case invalidFeatureMatrixSize
     /// no configured layers
-    case EmptyLayerConfiguration
+    case emptyLayerConfiguration
 }
 
 public class MKForwardPropagator {
@@ -77,7 +77,7 @@ public class MKForwardPropagator {
     /// Given the propagators configuration and the layer weights, construct the layers to be used during forward
     /// propagation.
     ///
-    private static func buildLayers(configuration: MKForwardPropagatorConfiguration, weights: [Element]) -> [MKForwardPropagatorLayer] {
+    private static func buildLayers(_ configuration: MKForwardPropagatorConfiguration, weights: [Element]) -> [MKForwardPropagatorLayer] {
         var layers = [MKForwardPropagatorLayer]()
             
         let numLayers = configuration.layerConfiguration.count - 1
@@ -90,7 +90,7 @@ public class MKForwardPropagator {
             // will be of demension: [ Y x (X+1) ]
             let rowCount = configuration.layerConfiguration[j + 1].size
             let columnCount = configuration.layerConfiguration[j].size + configuration.biasUnits
-            var layerWeights = [Element](count: rowCount * columnCount, repeatedValue: 0.0)
+            var layerWeights = [Element](repeating: 0.0, count: rowCount * columnCount)
             
             var totalOffset = 0
             for row in 0..<rowCount {
@@ -122,12 +122,12 @@ public class MKForwardPropagator {
     /// - parameter weights: the weights for the layers
     /// - returns: a sane instance of ``MKForwardPropagator``
     ///
-    public static func configured(configuration: MKForwardPropagatorConfiguration, weights: [Element]) throws -> MKForwardPropagator {
+    public static func configured(_ configuration: MKForwardPropagatorConfiguration, weights: [Element]) throws -> MKForwardPropagator {
         if MKForwardPropagator.getWeightsCount(configuration.layerConfiguration) != weights.count {
-            throw MKForwardPropagatorError.InvalidWeightsForLayerConfiguration
+            throw MKForwardPropagatorError.invalidWeightsForLayerConfiguration
         }
         if configuration.layerConfiguration.isEmpty {
-            throw MKForwardPropagatorError.EmptyLayerConfiguration
+            throw MKForwardPropagatorError.emptyLayerConfiguration
         }
         
         return MKForwardPropagator(configuration: configuration, weights: weights)
@@ -136,7 +136,7 @@ public class MKForwardPropagator {
     ///
     /// Number of weights needed for a given layer configuration
     ///
-    private static func getWeightsCount(layerConfiguration: [MKLayerConfiguration]) -> Int {
+    private static func getWeightsCount(_ layerConfiguration: [MKLayerConfiguration]) -> Int {
         var result = 0
         for i in 0 ..< layerConfiguration.count - 1 {
             result += (layerConfiguration[i].size + 1) * layerConfiguration[i + 1].size
@@ -147,7 +147,7 @@ public class MKForwardPropagator {
     ///
     /// Helper to swap two array references
     ///
-    private func swap(inout a: [Element], inout _ b: [Element]) {
+    private func swap(_ a: inout [Element], _ b: inout [Element]) {
         let temporaryA = a
         a = b
         b = temporaryA
@@ -157,7 +157,7 @@ public class MKForwardPropagator {
     /// Feed the input data through the neural network using forward propagation. The passed
     /// matrix should contain the feature values for one or multiple examples.
     ///
-    public func predictFeatureMatrix(matrix: UnsafePointer<Float>, dimensions: Int, length: Int) throws -> [Element] {
+    public func predictFeatureMatrix(_ matrix: UnsafePointer<Float>, dimensions: Int, length: Int) throws -> [Element] {
         let numExamples = length / self.featureVectorSize;
         let featuresPerDimension = self.featureVectorSize / dimensions
         var biasValue = configuration.biasValue
@@ -165,14 +165,14 @@ public class MKForwardPropagator {
         
         try checkInputSanity(matrix, length: length)
         
-        var currentInputs = [Element](count: self.maxNumberOfHiddenFeatures * numExamples, repeatedValue: 0)
-        var buffer = [Element](count: self.maxNumberOfHiddenFeatures * numExamples, repeatedValue: 0)
+        var currentInputs = [Element](repeating: 0, count: self.maxNumberOfHiddenFeatures * numExamples)
+        var buffer = [Element](repeating: 0, count: self.maxNumberOfHiddenFeatures * numExamples)
         
         // Copy feature-matrix into the buffer. We will transpose the feature matrix to get the
         // bias units in a row instead of a column for easier updates.
         for i in 0..<dimensions {
             vDSP_mtrans(
-                matrix.advancedBy(i), vDSP_Stride(dimensions),
+                matrix.advanced(by: i), vDSP_Stride(dimensions),
                 &currentInputs[numberOfBiasUnits + i * featuresPerDimension * numExamples], vDSP_Stride(1),
                 vDSP_Length(featuresPerDimension),
                 vDSP_Length(numExamples));
@@ -211,11 +211,11 @@ public class MKForwardPropagator {
     /// Make sure the input we received to do the forward propagation with is correctly formated, e.g.
     /// contains the expected number of features.
     ///
-    private func checkInputSanity(matrix: UnsafePointer<Float>, length: Int) throws {
+    private func checkInputSanity(_ matrix: UnsafePointer<Float>, length: Int) throws {
         let numExamples = length / self.featureVectorSize;
         
         if (length != self.featureVectorSize * numExamples || length == 0) {
-            throw MKForwardPropagatorError.InvalidFeatureMatrixSize
+            throw MKForwardPropagatorError.invalidFeatureMatrixSize
         }
     }
     

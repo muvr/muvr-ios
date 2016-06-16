@@ -12,21 +12,21 @@ public typealias MKExerciseProbability = (MKExercise.Id, Double)
 ///
 public enum MKSessionClassifierDelegateStartTrigger : Equatable {
     /// Motion from sensor detected
-    case MotionDetected
+    case motionDetected
     /// A setup movement detected, the ``exercises`` are exercises that have been setup with
     /// their probabilities, ordered by the second element
     /// - parameter exercises: the exercise ids that matched the setup move
-    case SetupDetected(exercises: [MKExerciseProbability])
+    case setupDetected(exercises: [MKExerciseProbability])
 }
 
-private func epe(l l: MKExerciseProbability, r: MKExerciseProbability) -> Bool {
+private func epe(l: MKExerciseProbability, r: MKExerciseProbability) -> Bool {
     return l.0 == r.0 && l.1 == r.1
 }
 
 public func ==(lhs: MKSessionClassifierDelegateStartTrigger, rhs: MKSessionClassifierDelegateStartTrigger) -> Bool {
     switch (lhs, rhs) {
-    case (.MotionDetected, .MotionDetected): return true
-    case (.SetupDetected(let l), .SetupDetected(let r)):
+    case (.motionDetected, .motionDetected): return true
+    case (.setupDetected(let l), .setupDetected(let r)):
         if r.count != l.count { return false }
         for i in 0..<l.count {
             if !epe(l: l[i], r: r[i]) { return false }
@@ -44,20 +44,20 @@ public func ==(lhs: MKSessionClassifierDelegateStartTrigger, rhs: MKSessionClass
 ///
 public enum MKSessionClassifierDelegateEndTrigger : Equatable {
     /// Motion from the sensors has stopped
-    case NoMotionDetected
+    case noMotionDetected
     /// The previously stable repetitive movement from the sensors has diverged
-    case MotionDiverged
+    case motionDiverged
     /// An ending movement detected, the ``exercises`` are exercises that have been setup with
     /// their probabilities, ordered by the second element
     /// - parameter exercises: the exercise ids that matched the ending move
-    case EndDetected(exercises: [MKExerciseProbability])
+    case endDetected(exercises: [MKExerciseProbability])
 }
 
 public func ==(lhs: MKSessionClassifierDelegateEndTrigger, rhs: MKSessionClassifierDelegateEndTrigger) -> Bool {
     switch (lhs, rhs) {
-    case (.NoMotionDetected, .NoMotionDetected): return true
-    case (.MotionDiverged, .MotionDiverged): return true
-    case (.EndDetected(let l), .EndDetected(let r)):
+    case (.noMotionDetected, .noMotionDetected): return true
+    case (.motionDiverged, .motionDiverged): return true
+    case (.endDetected(let l), .endDetected(let r)):
         if r.count != l.count { return false }
         for i in 0..<l.count {
             if !epe(l: l[i], r: r[i]) { return false }
@@ -89,7 +89,7 @@ public protocol MKSessionClassifierDelegate {
     /// - parameter trigger: trigger that caused the classifier to "think" that there may be an exercise
     /// - returns: the updated session state
     ///
-    func sessionClassifierDidSetupExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State?
+    func sessionClassifierDidSetupExercise(_ session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State?
 
     ///
     /// Called when the session classification estimates that an exercise has started
@@ -98,7 +98,7 @@ public protocol MKSessionClassifierDelegate {
     /// - parameter trigger: trigger that caused the classifier to "think" that there may be an exercise
     /// - returns: the updated session state
     ///
-    func sessionClassifierDidStartExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State?
+    func sessionClassifierDidStartExercise(_ session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State?
 
     ///
     /// Called when the session classification estimates the exercise that has ended
@@ -107,7 +107,7 @@ public protocol MKSessionClassifierDelegate {
     /// - parameter trigger: trigger that caused the classifier to "think" that there may no longer be an exercise
     /// - returns: the updated session state
     ///
-    func sessionClassifierDidEndExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State?
+    func sessionClassifierDidEndExercise(_ session: MKExerciseSession, trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State?
 
     ///
     /// The session has ended
@@ -115,14 +115,14 @@ public protocol MKSessionClassifierDelegate {
     /// - parameter session: the session that has just ended
     /// - parameter sensorData: the sensor data from the entire session
     ///
-    func sessionClassifierDidEndSession(session: MKExerciseSession, sensorData: MKSensorData?)
+    func sessionClassifierDidEndSession(_ session: MKExerciseSession, sensorData: MKSensorData?)
 
     ///
     /// Called when the session starts
     ///
     /// - parameter session: the session that has just started
     ///
-    func sessionClassifierDidStartSession(session: MKExerciseSession)
+    func sessionClassifierDidStartSession(_ session: MKExerciseSession)
     
     ///
     /// Called every second after calculating the total reps of the whole exercise
@@ -130,6 +130,6 @@ public protocol MKSessionClassifierDelegate {
     /// - parameter session: the session that has just started
     /// - parameter resp: the number of reps for the current exercise
     ///
-    func repsCountFeed(session: MKExerciseSession, reps: Int, start: NSDate, end: NSDate)
+    func repsCountFeed(_ session: MKExerciseSession, reps: Int, start: Date, end: Date)
 
 }

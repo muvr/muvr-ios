@@ -3,38 +3,38 @@
 ///
 public enum MKMuscle {
 
-    case Biceps
-    case Triceps
-    case Deltoid
-    case Pectoralis
-    case Abs
-    case Obliques
-    case Lats
-    case Trapezius
-    case ErectorSpinae
-    case Quadriceps
-    case Hamstrings
-    case Glutes
-    case Calves
+    case biceps
+    case triceps
+    case deltoid
+    case pectoralis
+    case abs
+    case obliques
+    case lats
+    case trapezius
+    case erectorSpinae
+    case quadriceps
+    case hamstrings
+    case glutes
+    case calves
     
     ///
     /// The string identity of the muscle
     ///
     var id: String {
         switch self {
-        case .Biceps: return "biceps"
-        case .Triceps: return "triceps"
-        case .Deltoid: return "deltoid"
-        case .Pectoralis: return "pectoralis"
-        case .Abs: return "abs"
-        case .Obliques: return "obliques"
-        case .Lats: return "lats"
-        case .Trapezius: return "trapezius"
-        case .ErectorSpinae: return "erector-spinae"
-        case .Quadriceps: return "quadriceps"
-        case .Hamstrings: return "hamstrings"
-        case .Glutes: return "glutes"
-        case .Calves: return "calves"
+        case .biceps: return "biceps"
+        case .triceps: return "triceps"
+        case .deltoid: return "deltoid"
+        case .pectoralis: return "pectoralis"
+        case .abs: return "abs"
+        case .obliques: return "obliques"
+        case .lats: return "lats"
+        case .trapezius: return "trapezius"
+        case .erectorSpinae: return "erector-spinae"
+        case .quadriceps: return "quadriceps"
+        case .hamstrings: return "hamstrings"
+        case .glutes: return "glutes"
+        case .calves: return "calves"
         }
     }
     
@@ -43,12 +43,12 @@ public enum MKMuscle {
     ///
     var muscleGroup: MKMuscleGroup {
         switch self {
-        case .Biceps, .Triceps: return .Arms
-        case .Deltoid: return .Shoulders
-        case .Pectoralis: return .Chest
-        case .Abs, .Obliques: return .Core
-        case .Lats, .Trapezius, .ErectorSpinae: return .Back
-        case .Quadriceps, .Hamstrings, .Glutes, .Calves: return .Legs
+        case .biceps, .triceps: return .arms
+        case .deltoid: return .shoulders
+        case .pectoralis: return .chest
+        case .abs, .obliques: return .core
+        case .lats, .trapezius, .erectorSpinae: return .back
+        case .quadriceps, .hamstrings, .glutes, .calves: return .legs
         }
     }
     
@@ -58,19 +58,19 @@ public enum MKMuscle {
     ///
     public init?(id: String) {
         switch id {
-        case "biceps": self = .Biceps
-        case "triceps": self = .Triceps
-        case "deltoid": self = .Deltoid
-        case "pectoralis": self = .Pectoralis
-        case "abs": self = .Abs
-        case "obliques": self = .Obliques
-        case "lats": self = .Lats
-        case "trapezius": self = .Trapezius
-        case "erector-spinae": self = .ErectorSpinae
-        case "quadriceps": self = .Quadriceps
-        case "hamstrings": self = .Hamstrings
-        case "glutes": self = .Glutes
-        case "calves": self = .Calves
+        case "biceps": self = .biceps
+        case "triceps": self = .triceps
+        case "deltoid": self = .deltoid
+        case "pectoralis": self = .pectoralis
+        case "abs": self = .abs
+        case "obliques": self = .obliques
+        case "lats": self = .lats
+        case "trapezius": self = .trapezius
+        case "erector-spinae": self = .erectorSpinae
+        case "quadriceps": self = .quadriceps
+        case "hamstrings": self = .hamstrings
+        case "glutes": self = .glutes
+        case "calves": self = .calves
         default: return nil
         }
     }
@@ -84,12 +84,12 @@ public extension MKMuscleGroup {
     ///
     var muscles: [MKMuscle] {
         switch self {
-        case .Arms: return [.Biceps, .Triceps]
-        case .Back: return [.Lats, .Trapezius, .ErectorSpinae]
-        case .Chest: return [.Pectoralis]
-        case .Core: return [.Abs, .Obliques]
-        case .Legs: return [.Glutes, .Quadriceps, .Hamstrings, .Calves]
-        case .Shoulders: return [.Deltoid]
+        case .arms: return [.biceps, .triceps]
+        case .back: return [.lats, .trapezius, .erectorSpinae]
+        case .chest: return [.pectoralis]
+        case .core: return [.abs, .obliques]
+        case .legs: return [.glutes, .quadriceps, .hamstrings, .calves]
+        case .shoulders: return [.deltoid]
         }
     }
     

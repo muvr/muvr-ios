@@ -28,9 +28,9 @@ class MRManagedExerciseSession: NSManagedObject {
         return MRAppDelegate.sharedDelegate().exerciseDetailsForExerciseIds(plan.next, favouringType: exerciseType)
     }
     
-    func sessionClassifierDidSetupExercise(trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State {
+    func sessionClassifierDidSetupExercise(_ trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State {
         if MRAppDelegate.sharedDelegate().deviceSteadyAndLevel {
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidStartExercise.rawValue, object: objectID)
+            NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.SessionDidStartExercise.rawValue), object: objectID)
             return .SetupExercise(exerciseId: "")
         }
         return .NotExercising
@@ -42,9 +42,9 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - parameter trigger: the trigger
     /// - returns: the new session state
     ///
-    func sessionClassifierDidStartExercise(trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State {
+    func sessionClassifierDidStartExercise(_ trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State {
         if MRAppDelegate.sharedDelegate().deviceSteadyAndLevel {
-            NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidStartExercise.rawValue, object: objectID)
+            NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.SessionDidStartExercise.rawValue), object: objectID)
             return .Exercising(exerciseId: "")
         }
         return .NotExercising
@@ -56,12 +56,12 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - parameter trigger: the trigger
     /// - returns: the new session state
     ///
-    func sessionClassifierDidEndExercise(trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State {
-        NSNotificationCenter.defaultCenter().postNotificationName(MRNotifications.SessionDidEndExercise.rawValue, object: objectID)
+    func sessionClassifierDidEndExercise(_ trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State {
+        NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.SessionDidEndExercise.rawValue), object: objectID)
         return .NotExercising
     }
 
-    private func defaultDurationForExerciseDetail(exerciseDetail: MKExerciseDetail) -> NSTimeInterval {
+    private func defaultDurationForExerciseDetail(_ exerciseDetail: MKExerciseDetail) -> TimeInterval {
         for property in exerciseDetail.properties {
             switch property {
             case .TypicalDuration(let duration): return duration
@@ -81,7 +81,7 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - returns: Tuple containing the predicted labels (may be empty) in one-hand 
     ///            and the "not predicted" labels (with some sensible value) in the other
     ///
-    func predictExerciseLabelsForExerciseDetail(exerciseDetail: MKExerciseDetail) -> (MKExerciseLabelsWithDuration, MKExerciseLabelsWithDuration) {
+    func predictExerciseLabelsForExerciseDetail(_ exerciseDetail: MKExerciseDetail) -> (MKExerciseLabelsWithDuration, MKExerciseLabelsWithDuration) {
         let n = exerciseIdCounts[exerciseDetail.id] ?? 0
         
         func defaultWeight() -> Double {
@@ -108,10 +108,10 @@ class MRManagedExerciseSession: NSManagedObject {
             case .Intensity: return intensity ?? .Intensity(intensity: 0.5)
             }
         }
-        var missingDuration: NSTimeInterval? = nil
+        var missingDuration: TimeInterval? = nil
         if allPredictions.1 == nil { missingDuration = defaultDurationForExerciseDetail(exerciseDetail) }
         
-        var missingRest: NSTimeInterval? = nil
+        var missingRest: TimeInterval? = nil
         if allPredictions.2 == nil { missingRest = 60 }
         
         return ((predictions, allPredictions.1, allPredictions.2) , (missing, missingDuration, missingRest))
@@ -124,9 +124,9 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - parameter exerciseDetail: the exercise detail
     /// - parameter labels: the predicted labels
     ///
-    func setClassificationHint(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel]) {
+    func setClassificationHint(_ exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel]) {
         correctLabelsForLastExercise()
-        classificationHints = [.ExplicitExercise(start: NSDate().timeIntervalSinceDate(start), duration: nil, expectedExercises: [(exerciseDetail, labels)])]
+        classificationHints = [.ExplicitExercise(start: Date().timeIntervalSinceDate(start), duration: nil, expectedExercises: [(exerciseDetail, labels)])]
     }
     
     ///
@@ -135,8 +135,8 @@ class MRManagedExerciseSession: NSManagedObject {
     ///
     private func correctLabelsForLastExercise() {
         if let (lastExercise, lastLabels, start) = lastExercise, let duration = lastLabels.1 {
-            let endDate = NSDate(timeInterval: duration, sinceDate: start)
-            let rest = NSDate().timeIntervalSinceDate(endDate)
+            let endDate = Date(timeInterval: duration, sinceDate: start)
+            let rest = Date().timeIntervalSinceDate(endDate)
             labelsPredictor.correctLabelsForExercise(lastExercise, labels: (lastLabels.0, lastLabels.1, rest))
         }
         lastExercise = nil
@@ -157,8 +157,8 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - parameter start: the start date
     /// - parameter duration: the duration
     ///
-    func addExerciseDetail(exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: NSDate, duration: NSTimeInterval) {
-        let offset = start.timeIntervalSinceDate(self.start)
+    func addExerciseDetail(_ exerciseDetail: MKExerciseDetail, labels: [MKExerciseLabel], start: Date, duration: TimeInterval) {
+        let offset = start.timeIntervalSince(self.start as Date)
         exerciseWithLabels.append((exerciseDetail.id, exerciseDetail.type, offset, duration, labels))
         
         // add to the plan

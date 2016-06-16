@@ -17,13 +17,13 @@ extension MRManagedExerciseSession {
     /// indicates if all sensor data are received
     @NSManaged var completed: Bool
     /// the session's end date
-    @NSManaged var end: NSDate?
+    @NSManaged var end: Date?
     /// the session's id
     @NSManaged var id: String?
     /// the sensor data for this session
-    @NSManaged var sensorData: NSData?
+    @NSManaged var sensorData: Data?
     /// the session's start date
-    @NSManaged var start: NSDate
+    @NSManaged var start: Date
     /// indicates if the session data is uploaded to cloud storage
     @NSManaged var uploaded: Bool
     /// the exercises performed in this session

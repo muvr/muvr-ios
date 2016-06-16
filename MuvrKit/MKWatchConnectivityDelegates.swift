@@ -9,7 +9,7 @@ public protocol MKExerciseSessionConnectivityDelegate {
     // TODO: send the exercise types here: the phone drives the ordering
     // func metadataConnectivityDidReceiveExerciseModelMetadata(modelMetadata: [MKExerciseModelMetadata])
     
-    func sessionStarted(session: (MKExerciseSession, MKExerciseSessionProperties))
-    func sessionEnded(session: (MKExerciseSession, MKExerciseSessionProperties))
+    func sessionStarted(_ session: (MKExerciseSession, MKExerciseSessionProperties))
+    func sessionEnded(_ session: (MKExerciseSession, MKExerciseSessionProperties))
     
 }

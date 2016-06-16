@@ -9,7 +9,7 @@ class MRExerciseTypeController: NSObject {
     var exerciseType: MKExerciseType!
     var mainController: MRMainController!
     
-    func setExerciseType(exerciseType: MKExerciseType, mainController: MRMainController) {
+    func setExerciseType(_ exerciseType: MKExerciseType, mainController: MRMainController) {
         self.exerciseType = exerciseType
         startExerciseType.setTitle(exerciseType.title)
         self.mainController = mainController
@@ -23,7 +23,7 @@ class MRExerciseTypeController: NSObject {
 class MRExerciseRow: NSObject {
     @IBOutlet weak var textLabel: WKInterfaceLabel!
     
-    func setExercise(exercise: (String, String)) {
+    func setExercise(_ exercise: (String, String)) {
         textLabel.setText(exercise.1)
     }
 }
@@ -58,8 +58,8 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     
     override func willActivate() {
         super.willActivate()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRMainController.sessionDidStart(_:)), name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRMainController.sessionDidEnd(_:)), name: MRNotifications.CurrentSessionDidEnd.rawValue, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(MRMainController.sessionDidStart(_:)), name: MRNotifications.CurrentSessionDidStart.rawValue, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(MRMainController.sessionDidEnd(_:)), name: MRNotifications.CurrentSessionDidEnd.rawValue, object: nil)
         activate()
     }
     
@@ -79,7 +79,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     override func didDeactivate() {
         renderer?.deactivate()
         renderer = nil
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default().removeObserver(self)
         super.didDeactivate()
     }
     
@@ -91,13 +91,13 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
         
         exerciseTypeTable.setNumberOfRows(exerciseType.count, withRowType: "MRExerciseTypeController")
         (0..<exerciseTypeTable.numberOfRows).forEach { i in
-            let row = exerciseTypeTable.rowControllerAtIndex(i) as! MRExerciseTypeController
+            let row = exerciseTypeTable.rowController(at: i) as! MRExerciseTypeController
             row.setExerciseType(exerciseType[i], mainController: self)
         }
         
         if active {
-            addMenuItemWithItemIcon(WKMenuItemIcon.Pause, title: "Pause", action: #selector(MRMainController.pause))
-            addMenuItemWithItemIcon(WKMenuItemIcon.Trash, title: "Stop",  action: #selector(MRMainController.stop))
+            addMenuItem(with: WKMenuItemIcon.pause, title: "Pause", action: #selector(MRMainController.pause))
+            addMenuItem(with: WKMenuItemIcon.trash, title: "Stop",  action: #selector(MRMainController.stop))
 
             // TODO: real session will probably want to display plan or something
             exercisesTable.setNumberOfRows(0, withRowType: "exercise")
@@ -110,7 +110,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
         startGroup.setHidden(active)
     }
     
-    override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
+    override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
     }
     
     func pause() {
@@ -126,19 +126,19 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
     ///
     /// Called when the user clicks the session start button
     ///
-    func beginSession(exerciseType: MKExerciseType) {
+    func beginSession(_ exerciseType: MKExerciseType) {
         renderer?.reset()
         MRExtensionDelegate.sharedDelegate().startSession(exerciseType)
         updateUI()
     }
     
     /// callback function invoked when session is started/ended on the phone
-    internal func sessionDidStart(notification: NSNotification) {
+    internal func sessionDidStart(_ notification: Notification) {
         updateUI()
         renderer?.update()
     }
     
-    internal func sessionDidEnd(notification: NSNotification) {
+    internal func sessionDidEnd(_ notification: Notification) {
         updateUI(withEndedSession: notification.object as? String)
         renderer?.update()
     }
@@ -147,7 +147,7 @@ class MRMainController: WKInterfaceController, MRSessionProgressRing, MRSessionH
 
 extension WKPickerItem {
     
-    static func withTitle(title: String) -> WKPickerItem {
+    static func withTitle(_ title: String) -> WKPickerItem {
         let i = WKPickerItem()
         i.title = title
         return i

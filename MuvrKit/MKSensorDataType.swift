@@ -2,16 +2,16 @@
 /// The sensor data type
 ///
 public enum MKSensorDataType : Equatable {
-    case Accelerometer(location: Location)
-    case Gyroscope(location: Location)
-    case HeartRate
+    case accelerometer(location: Location)
+    case gyroscope(location: Location)
+    case heartRate
     
     /// The enumeration of where a sensor data is coming from
     public enum Location : Equatable {
         /// the left wrist
-        case LeftWrist
+        case leftWrist
         /// the right wrist
-        case RightWrist
+        case rightWrist
     }
     
     ///
@@ -19,26 +19,26 @@ public enum MKSensorDataType : Equatable {
     ///
     var dimension: Int {
         switch self {
-        case .Accelerometer(_): return 3
-        case .Gyroscope(_): return 3
-        case .HeartRate: return 1
+        case .accelerometer(_): return 3
+        case .gyroscope(_): return 3
+        case .heartRate: return 1
         }
     }
 }
 
 public func ==(lhs: MKSensorDataType, rhs: MKSensorDataType) -> Bool {
     switch (lhs, rhs) {
-    case (.Accelerometer(let ll), .Accelerometer(let rl)): return ll == rl
-    case (.Gyroscope(let ll), .Gyroscope(let rl)): return ll == rl
-    case (.HeartRate, .HeartRate): return true
+    case (.accelerometer(let ll), .accelerometer(let rl)): return ll == rl
+    case (.gyroscope(let ll), .gyroscope(let rl)): return ll == rl
+    case (.heartRate, .heartRate): return true
     default: return false
     }
 }
 
 public func ==(lhs: MKSensorDataType.Location, rhs: MKSensorDataType.Location) -> Bool {
     switch (lhs, rhs) {
-    case (.LeftWrist, .LeftWrist): return true
-    case (.RightWrist, .RightWrist): return true
+    case (.leftWrist, .leftWrist): return true
+    case (.rightWrist, .rightWrist): return true
     default: return false
     }
 }

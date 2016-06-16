@@ -7,7 +7,7 @@ class MKExerciseTypePlusExerciseIdTests : XCTestCase {
     
     
     func testConversion() {
-        func go(l: MKExerciseType) {
+        func go(_ l: MKExerciseType) {
             let r = MKExerciseType(exerciseId: l.exerciseIdPrefix)!
             XCTAssertEqual(l, r)
         }

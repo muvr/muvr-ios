@@ -4,8 +4,8 @@ import MuvrKit
 
 extension MRManagedExerciseSession {
     
-    static func insert(id: String, plan: MRManagedExercisePlan, start: NSDate, location: MRManagedLocation?, inManagedObjectContext  managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession {
-        let e = NSEntityDescription.insertNewObjectForEntityForName("MRManagedExerciseSession", inManagedObjectContext: managedObjectContext) as! MRManagedExerciseSession
+    static func insert(_ id: String, plan: MRManagedExercisePlan, start: Date, location: MRManagedLocation?, inManagedObjectContext  managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession {
+        let e = NSEntityDescription.insertNewObject(forEntityName: "MRManagedExerciseSession", into: managedObjectContext) as! MRManagedExerciseSession
         
         e.id = id
         e.plan = plan
@@ -22,10 +22,10 @@ extension MRManagedExerciseSession {
     ///
     static func fetchSession(withId id: String, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedExerciseSession? {
         let request = NSFetchRequest()
-        request.entity = NSEntityDescription.entityForName("MRManagedExerciseSession", inManagedObjectContext: managedObjectContext)
-        request.predicate = NSPredicate(format: "id == %@", id)
+        request.entity = NSEntityDescription.entity(forEntityName: "MRManagedExerciseSession", in: managedObjectContext)
+        request.predicate = Predicate(format: "id == %@", id)
         
-        let result = try? managedObjectContext.executeFetchRequest(request) as! [MRManagedExerciseSession]
+        let result = try? managedObjectContext.fetch(request) as! [MRManagedExerciseSession]
         return result?.first
     }
     
@@ -33,11 +33,11 @@ extension MRManagedExerciseSession {
     ///
     /// Check for existing sessions on a given date
     ///
-    static func hasSessionsOnDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> Bool {
+    static func hasSessionsOnDate(_ date: Date, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
         let midnightToday = date.dateOnly
         let midnightTomorrow = midnightToday.addDays(1)
-        fetchRequest.predicate = NSPredicate(format: "(start >= %@ AND start < %@)", midnightToday, midnightTomorrow)
+        fetchRequest.predicate = Predicate(format: "(start >= %@ AND start < %@)", midnightToday, midnightTomorrow)
         fetchRequest.fetchLimit = 1
         
         return managedObjectContext.countForFetchRequest(fetchRequest).map { count in count > 0 } ?? false
@@ -46,14 +46,14 @@ extension MRManagedExerciseSession {
     ///
     /// Fetch the sessions on a given date
     ///
-    static func fetchSessionsOnDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
+    static func fetchSessionsOnDate(_ date: Date, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
         let midnightToday = date.dateOnly
         let midnightTomorrow = midnightToday.addDays(1)
-        fetchRequest.predicate = NSPredicate(format: "(start >= %@ AND start < %@)", midnightToday, midnightTomorrow)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "start", ascending: false)]
+        fetchRequest.predicate = Predicate(format: "(start >= %@ AND start < %@)", midnightToday, midnightTomorrow)
+        fetchRequest.sortDescriptors = [SortDescriptor(key: "start", ascending: false)]
         
-        return (try? managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]) ?? []
+        return (try? managedObjectContext.fetch(fetchRequest) as! [MRManagedExerciseSession]) ?? []
     }
     
     ///
@@ -65,19 +65,19 @@ extension MRManagedExerciseSession {
     /// - parameter inManagedObjectContext: the MOC to use for the request
     /// - returns a list of all the similar ended session (including this session if ended)
     ///
-    func fetchSimilarSessionsSinceDate(date: NSDate, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
+    func fetchSimilarSessionsSinceDate(_ date: Date, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [MRManagedExerciseSession] {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedExerciseSession")
         let from = date.dateOnly
-        var predicates = [NSPredicate(format: "start >= %@", from), NSPredicate(format: "end != nil")]
+        var predicates = [Predicate(format: "start >= %@", from), Predicate(format: "end != nil")]
         if let templateId = plan.templateId {
-            predicates.append(NSPredicate(format: "plan.templateId = %@", templateId))
+            predicates.append(Predicate(format: "plan.templateId = %@", templateId))
         } else {
-            predicates.append(NSPredicate(format: "plan.id = %@", plan.id))
+            predicates.append(Predicate(format: "plan.id = %@", plan.id))
         }
-        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "start", ascending: false)]
+        fetchRequest.predicate = CompoundPredicate(andPredicateWithSubpredicates: predicates)
+        fetchRequest.sortDescriptors = [SortDescriptor(key: "start", ascending: false)]
         
-        return (try? managedObjectContext.executeFetchRequest(fetchRequest) as! [MRManagedExerciseSession]) ?? []
+        return (try? managedObjectContext.fetch(fetchRequest) as! [MRManagedExerciseSession]) ?? []
     }
 
 }

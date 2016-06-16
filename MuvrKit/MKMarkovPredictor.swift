@@ -40,7 +40,7 @@ public class MKMarkovPredictor<E : Hashable> {
     ///
     /// - parameter state: the state to add
     ///
-    public func insert(state: E) {
+    public func insert(_ state: E) {
         chain.addTransition(states, next: state)
         states.addState(state)
         states.trim(statesCount)
@@ -53,11 +53,11 @@ public class MKMarkovPredictor<E : Hashable> {
     public var next: [E] {
         // makes sure latest state is included in the predictions
         let last = states.states.last.map { [$0] } ?? []
-        return uniq(chain.transitionProbabilities(states).sort { l, r in l.1 > r.1 }.map { $0.0 } + last)
+        return uniq(chain.transitionProbabilities(states).sorted { l, r in l.1 > r.1 }.map { $0.0 } + last)
     }
     
     // Unique filter, keeping order
-    private func uniq<S: SequenceType, E: Hashable where E == S.Generator.Element>(source: S) -> [E] {
+    private func uniq<S: Sequence, E: Hashable where E == S.Iterator.Element>(_ source: S) -> [E] {
         var seen = [E: Bool]()
         return source.filter { seen.updateValue(true, forKey: $0) == nil }
     }

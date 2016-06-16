@@ -1,7 +1,7 @@
 ///
 /// Tuple of (labels, duration, rest duration)
 ///
-public typealias MKExerciseLabelsWithDuration = ([MKExerciseLabel], NSTimeInterval?, NSTimeInterval?)
+public typealias MKExerciseLabelsWithDuration = ([MKExerciseLabel], TimeInterval?, TimeInterval?)
 
 ///
 /// The interface implemented by label predictor.
@@ -16,24 +16,24 @@ public protocol MKLabelsPredictor {
     /// - parameter exerciseDetail: the upcoming exercise detail
     /// - returns: the predicted labels and duration
     ///
-    func predictLabelsForExercise(exerciseDetail: MKExerciseDetail) -> MKExerciseLabelsWithDuration?
+    func predictLabelsForExercise(_ exerciseDetail: MKExerciseDetail) -> MKExerciseLabelsWithDuration?
     
     ///
     /// Corrects the labels and duration for the finished exercise
     /// - parameter exerciseDetail: the finished exercise detail
     /// - parameter labels: the actual labels and duration of the finished exercise
     ///
-    func correctLabelsForExercise(exerciseDetail: MKExerciseDetail, labels: MKExerciseLabelsWithDuration)
+    func correctLabelsForExercise(_ exerciseDetail: MKExerciseDetail, labels: MKExerciseLabelsWithDuration)
     
     ///
     /// Load a predefined plan in order to predict values according to the given plan
     /// - parameter plan: the predefined plan to load
     ///
-    func loadPredefinedPlan(plan: MKExercisePlan)
+    func loadPredefinedPlan(_ plan: MKExercisePlan)
     
     ///
     ///  The JSON representation of the predictor
     ///
-    var json: NSData { get }
+    var json: Data { get }
     
 }

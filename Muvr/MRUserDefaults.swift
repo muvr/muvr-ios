@@ -11,9 +11,9 @@ struct MRUserDefaults {
     /// Returns ``true`` if the application is being launched to run tests
     ///
     static var isRunningTests: Bool {
-        let environment = NSProcessInfo.processInfo().environment
+        let environment = ProcessInfo.processInfo().environment
         if let injectBundle = environment["XCInjectBundle"] as String? {
-            return NSURL(fileURLWithPath: injectBundle).pathExtension ?? "" == "xctest"
+            return URL(fileURLWithPath: injectBundle).pathExtension ?? "" == "xctest"
         }
         return false
     }

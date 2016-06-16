@@ -13,17 +13,17 @@ extension MRManagedLabelsPredictor {
     /// - parameter managedObjectContext: the MOC
     /// - returns: the matching MRManagedLabelsPredictor
     ///
-    static func exactPredictorFor(location location: MRLocationCoordinate2D?, sessionExerciseType: MKExerciseType?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedLabelsPredictor? {
+    static func exactPredictorFor(location: MRLocationCoordinate2D?, sessionExerciseType: MKExerciseType?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedLabelsPredictor? {
         let fetchRequest = NSFetchRequest(entityName: "MRManagedLabelsPredictor")
-        var predicates: [NSPredicate] = []
+        var predicates: [Predicate] = []
         if let location = location {
-            predicates.append(NSPredicate(location: location))
+            predicates.append(Predicate(location: location))
         }
         if let sessionExerciseType = sessionExerciseType {
-            predicates.append(NSPredicate(exerciseType: sessionExerciseType))
+            predicates.append(Predicate(exerciseType: sessionExerciseType))
         }
         if !predicates.isEmpty {
-            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+            fetchRequest.predicate = CompoundPredicate(andPredicateWithSubpredicates: predicates)
         }
         fetchRequest.fetchLimit = 1
         
@@ -37,7 +37,7 @@ extension MRManagedLabelsPredictor {
     /// - parameter managedObjectContext: the MOC
     /// - returns: the matching MRManagedLabelsPredictor
     ///
-    static func predictorFor(location location: MRLocationCoordinate2D?, sessionExerciseType: MKExerciseType?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedLabelsPredictor? {
+    static func predictorFor(location: MRLocationCoordinate2D?, sessionExerciseType: MKExerciseType?, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> MRManagedLabelsPredictor? {
         if let exact = exactPredictorFor(location: location, sessionExerciseType: sessionExerciseType, inManagedObjectContext: managedObjectContext) {
             return exact
         } else if location != nil {
@@ -55,11 +55,11 @@ extension MRManagedLabelsPredictor {
     /// - parameter data: the data
     /// - parameter managedObjectContext: the MOC
     ///
-    static func upsertPredictor(location location: MRLocationCoordinate2D?, sessionExerciseType: MKExerciseType, data: NSData, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
+    static func upsertPredictor(location: MRLocationCoordinate2D?, sessionExerciseType: MKExerciseType, data: Data, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
         if let existing = exactPredictorFor(location: location, sessionExerciseType: sessionExerciseType, inManagedObjectContext: managedObjectContext) {
             existing.data = data
         } else {
-            var mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedLabelsPredictor", inManagedObjectContext: managedObjectContext) as! MRManagedLabelsPredictor
+            var mo = NSEntityDescription.insertNewObject(forEntityName: "MRManagedLabelsPredictor", into: managedObjectContext) as! MRManagedLabelsPredictor
             mo.data = data
             mo.latitude = location?.latitude
             mo.longitude = location?.longitude

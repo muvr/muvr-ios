@@ -10,6 +10,6 @@ public protocol MKExercisePropertySource {
     /// - parameter exerciseId: the exercise identity
     /// - returns: the exercise details, nil if none available
     ///
-    func exerciseDetailForExerciseId(exerciseId: MKExercise.Id) -> MKExerciseDetail?
+    func exerciseDetailForExerciseId(_ exerciseId: MKExercise.Id) -> MKExerciseDetail?
     
 }

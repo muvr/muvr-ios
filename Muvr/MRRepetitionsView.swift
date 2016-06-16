@@ -16,13 +16,13 @@ class MRRepetitionsView: UIView {
         get { return _value }
         set(v) {
             _value = v.map { max(0, $0) }
-            label.text = v.map { NSNumberFormatter().stringFromNumber($0) } ?? nil
+            label.text = v.map { NumberFormatter().string(from: $0) } ?? nil
         }
     }
     
     var _value: Int? = nil
     
-    var font: UIFont = UIFont.systemFontOfSize(17) {
+    var font: UIFont = UIFont.systemFont(ofSize: 17) {
         didSet {
             label.font = font
         }
@@ -32,10 +32,10 @@ class MRRepetitionsView: UIView {
         guard let text = label.text else { return label.font.pointSize }
         let font = label.font
         var fontSize = frame.height / 2.5
-        var size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
+        var size = text.size(attributes: [NSFontAttributeName: (font?.withSize(fontSize))!])
         while (size.width > bounds.width - 8 * lineWidth) {
             fontSize -= 1
-            size = text.sizeWithAttributes([NSFontAttributeName: font.fontWithSize(fontSize)])
+            size = text.size(attributes: [NSFontAttributeName: (font?.withSize(fontSize))!])
         }
         return fontSize
     }
@@ -52,16 +52,16 @@ class MRRepetitionsView: UIView {
     
     private func createUI() {
         image.image = UIImage(named: "repetitions")
-        image.contentMode = .ScaleAspectFit
+        image.contentMode = .scaleAspectFit
         addSubview(image)
         addSubview(label)
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         label.frame = self.bounds
-        label.textAlignment = .Center
+        label.textAlignment = .center
         label.textColor = MRColor.black
-        label.font = label.font.fontWithSize(fontSize)
+        label.font = label.font.withSize(fontSize)
         image.frame = self.bounds
     }
     

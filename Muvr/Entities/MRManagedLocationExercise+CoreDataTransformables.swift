@@ -8,7 +8,7 @@ extension MRManagedLocationExercise {
     /// to the expected type ``[MKExerciseProperty]?``
     var properties: [MKExerciseProperty] {
         get {
-            if let raw = valueForKey("properties") as? [AnyObject] {
+            if let raw = value(forKey: "properties") as? [AnyObject] {
                 return raw.flatMap { MKExerciseProperty(jsonObject: $0) }
             }
             return []

@@ -21,17 +21,17 @@ extension MKExerciseSession {
     ///
     init?(metadata: [String: AnyObject]) {
         guard let id = metadata["id"] as? String,
-            let start = metadata["start"] as? NSTimeInterval,
+            let start = metadata["start"] as? TimeInterval,
             let completed = metadata["completed"] as? Bool,
             let exerciseTypeMetadata = metadata["exerciseType"] as? [String: AnyObject],
             let exerciseType = MKExerciseType(metadata: exerciseTypeMetadata)
             else { return nil }
         
-        let end = metadata["end"] as? NSTimeInterval
+        let end = metadata["end"] as? TimeInterval
         self.init(
             id: id,
-            start: NSDate(timeIntervalSinceReferenceDate: start),
-            end: end.map { NSDate(timeIntervalSinceReferenceDate: $0) },
+            start: Date(timeIntervalSinceReferenceDate: start),
+            end: end.map { Date(timeIntervalSinceReferenceDate: $0) },
             completed: completed,
             exerciseType: exerciseType
         )

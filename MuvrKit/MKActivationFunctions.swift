@@ -6,15 +6,15 @@ import Accelerate
 ///
 public enum MKActivationFunction {
     /// f(x) = x
-    case Identity
+    case identity
     /// f(x) = 1/(1 + e^-x)
-    case Sigmoid
+    case sigmoid
     /// f(x) = tanh(x)
-    case Tanh
+    case tanh
     /// f(x) = max(0, x)
-    case ReLU
+    case relu
     /// f(x) = e^x_k / sum_i(e^x_i)
-    case Softmax
+    case softmax
 }
 
 ///
@@ -28,22 +28,22 @@ extension MKActivationFunction {
     /// - parameter offset: the offset in the vector
     /// - parameter length: the number of elements to process
     ///
-    func applyOn(inout input: [Float], offset: Int, length: Int) {
+    func applyOn(_ input: inout [Float], offset: Int, length: Int) {
         var one: Float = 1.0
         var minusOne: Float = -1.0
         var threshold: Float = 0.0
-        let inputPointer: UnsafeMutablePointer<Float> = UnsafeMutablePointer(input).advancedBy(offset)
+        let inputPointer: UnsafeMutablePointer<Float> = UnsafeMutablePointer(input).advanced(by: offset)
 
         switch self {
-        case .Identity:
+        case .identity:
             /* noop */
             return
-        case .Sigmoid:
+        case .sigmoid:
             vDSP_vneg(inputPointer, vDSP_Stride(1), inputPointer, vDSP_Stride(1), vDSP_Length(length))
             vvexpf(inputPointer, inputPointer, [Int32(length)])
             vDSP_vsadd(inputPointer, vDSP_Stride(1), &one, inputPointer, vDSP_Stride(1), vDSP_Length(length))
             vvpowsf(inputPointer, &minusOne, inputPointer, [Int32(length)])
-        case .Softmax:
+        case .softmax:
             var max: Float = 0
             vDSP_maxv(inputPointer, vDSP_Stride(1), &max, vDSP_Length(length))
             max = -max
@@ -52,9 +52,9 @@ extension MKActivationFunction {
             var sum: Float = 0
             vDSP_sve(inputPointer, vDSP_Stride(1), &sum, vDSP_Length(length))
             vDSP_vsdiv(inputPointer, vDSP_Stride(1), &sum, inputPointer, vDSP_Stride(1), vDSP_Length(length))
-        case .ReLU:
+        case .relu:
             vDSP_vthres(inputPointer, vDSP_Stride(1), &threshold, inputPointer, vDSP_Stride(1), vDSP_Length(length))
-        case .Tanh:
+        case .tanh:
             vvtanhf(inputPointer, inputPointer, [Int32(length)])
         }
     }

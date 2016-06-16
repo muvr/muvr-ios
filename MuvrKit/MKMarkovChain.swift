@@ -27,7 +27,7 @@ struct MKMarkovChain<State where State : Hashable> {
     /// - parameter previous: the prior state
     /// - parameter next: the next state
     ///
-    mutating func addTransition(previous: State, next: State) {
+    mutating func addTransition(_ previous: State, next: State) {
         addTransition(MKStateChain(state: previous), next: next)
     }
     
@@ -36,7 +36,7 @@ struct MKMarkovChain<State where State : Hashable> {
     /// - parameter previous: the prior state chain
     /// - parameter next: the next state
     ///
-    mutating func addTransition(previous: MKStateChain<State>, next: State) {
+    mutating func addTransition(_ previous: MKStateChain<State>, next: State) {
         for p in previous.slices {
             var transitions = transitionMap[p] ?? MKMarkovTransitionSet()
             transitionMap[p] = transitions.addTransition(next)
@@ -49,7 +49,7 @@ struct MKMarkovChain<State where State : Hashable> {
     /// - parameter state2: the to state
     /// - returns: the probability 0..1
     ///
-    func transitionProbability(state1: State, state2: State) -> Double {
+    func transitionProbability(_ state1: State, state2: State) -> Double {
         return transitionProbability(MKStateChain(state: state1), state2: state2)
     }
     
@@ -59,7 +59,7 @@ struct MKMarkovChain<State where State : Hashable> {
     /// - parameter state2: the to state
     /// - returns: the probability 0..1
     ///
-    func transitionProbability(state1: MKStateChain<State>, state2: State) -> Double {
+    func transitionProbability(_ state1: MKStateChain<State>, state2: State) -> Double {
         return transitionMap[state1].map { $0.probabilityFor(state2) } ?? 0
     }
 
@@ -69,7 +69,7 @@ struct MKMarkovChain<State where State : Hashable> {
     /// - parameter from: the completed state chain
     /// - returns: non-ordered array of (state -> score)
     ///
-    func transitionProbabilities(from: MKStateChain<State>) -> [(State, Double)] {
+    func transitionProbabilities(_ from: MKStateChain<State>) -> [(State, Double)] {
         let states = Array(Set(transitionMap.keys.flatMap { $0.states }))
         
         return from.slices.flatMap { fromSlice in
@@ -114,9 +114,9 @@ struct MKStateChain<State where State : Hashable> : Hashable {
     /// Trims this chain by keeping the last ``maximumCount`` entries
     /// - parameter maximumCount: the maximum number of entries to keep
     ///
-    mutating func trim(maximumCount: Int) {
+    mutating func trim(_ maximumCount: Int) {
         if states.count > maximumCount {
-            states.removeRange(0..<states.count - maximumCount)
+            states.removeSubrange(0..<states.count - maximumCount)
         }
     }
     
@@ -124,7 +124,7 @@ struct MKStateChain<State where State : Hashable> : Hashable {
     /// Adds a new state
     /// - parameter state: the next state
     ///
-    mutating func addState(state: State) {
+    mutating func addState(_ state: State) {
         states.append(state)
     }
     
@@ -163,7 +163,7 @@ func ==<State where State : Equatable>(lhs: MKStateChain<State>, rhs: MKStateCha
     if lhs.states.count != rhs.states.count {
         return false
     }
-    for (i, ls) in lhs.states.enumerate() {
+    for (i, ls) in lhs.states.enumerated() {
         if rhs.states[i] != ls {
             return false
         }
@@ -177,7 +177,7 @@ func ==<State where State : Equatable>(lhs: MKStateChain<State>, rhs: MKStateCha
 struct MKMarkovTransitionSet<State where State : Hashable> {
     private(set) internal var transitionCounter: [State : Int] = [:]
     
-    func countFor(state: State) -> Int {
+    func countFor(_ state: State) -> Int {
         return transitionCounter[state] ?? 0
     }
     
@@ -185,11 +185,11 @@ struct MKMarkovTransitionSet<State where State : Hashable> {
         return transitionCounter.values.reduce(0) { $0 + $1 }
     }
     
-    func probabilityFor(state: State) -> Double {
+    func probabilityFor(_ state: State) -> Double {
         return Double(countFor(state)) / Double(totalCount)
     }
     
-    mutating func addTransition(state: State) -> MKMarkovTransitionSet<State> {
+    mutating func addTransition(_ state: State) -> MKMarkovTransitionSet<State> {
         transitionCounter[state] = countFor(state) + 1
         return self
     }

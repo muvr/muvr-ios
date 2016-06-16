@@ -11,10 +11,10 @@ public extension MKSensorData {
     /// - returns: the loaded ``MKSensorData``
     /// - throws: one of ``MKSensorDataIOError``
     ///
-    public static func sensorData(types types: [MKSensorDataType], samplesPerSecond: UInt, loading resourceName: String) throws -> MKSensorData {
-        let contents = try NSString(contentsOfFile: resourceName, encoding: NSASCIIStringEncoding)
+    public static func sensorData(types: [MKSensorDataType], samplesPerSecond: UInt, loading resourceName: String) throws -> MKSensorData {
+        let contents = try NSString(contentsOfFile: resourceName, encoding: String.Encoding.ascii.rawValue)
         
-        let nums = contents.componentsSeparatedByString(",").map { x in return Float(x.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))! }
+        let nums = contents.components(separatedBy: ",").map { x in return Float(x.trimmingCharacters(in: CharacterSet.whitespaces))! }
         return try MKSensorData(types: types, start: 0, samplesPerSecond: samplesPerSecond, samples: nums)
     }
     
@@ -24,16 +24,16 @@ public extension MKSensorData {
     public enum Value {
         /// A specified constant
         /// - parameter value: the constant value
-        case Constant(value: Float)
+        case constant(value: Float)
         
         /// A slope
         /// - parameter start: the start value
         /// - parameter inc: the increment
-        case Slope(start: Float, inc: Float)
+        case slope(start: Float, inc: Float)
         
         /// A sine wave with the given period, and 1.0 amplitude
         /// - parameter period: the period in samples
-        case Sin1(period: Int)
+        case sin1(period: Int)
     }
     
     ///
@@ -46,12 +46,12 @@ public extension MKSensorData {
     /// - parameter value: the value to be set to every row
     /// - returns: the generated ``MKSensorData``
     ///
-    public static func sensorData(types types: [MKSensorDataType], samplesPerSecond: UInt, generating numRows: Int, withValue value: Value) -> MKSensorData {
-        func generateValue(value: Value, index: Int) -> Float {
+    public static func sensorData(types: [MKSensorDataType], samplesPerSecond: UInt, generating numRows: Int, withValue value: Value) -> MKSensorData {
+        func generateValue(_ value: Value, index: Int) -> Float {
             switch value {
-            case .Constant(let x): return x
-            case .Slope(let start, let inc): return start + Float(index) * inc
-            case .Sin1(let p): return sinf(Float(index) / Float(p))
+            case .constant(let x): return x
+            case .slope(let start, let inc): return start + Float(index) * inc
+            case .sin1(let p): return sinf(Float(index) / Float(p))
             }
         }
         

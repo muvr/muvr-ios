@@ -8,7 +8,7 @@ class MRLibraryInfoButton: UIButton {
 
 class MRLibaryWorkoutCell: UITableViewCell {
 
-    @IBOutlet private weak var infoButton: MRLibraryInfoButton!
+    private weak var infoButton: MRLibraryInfoButton!
     
 }
 
@@ -27,15 +27,15 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
     private var selectedWorkout: MRSessionType? = nil
     
     // MARK: - UITableViewDataSource
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return workouts.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! MRLibaryWorkoutCell
         cell.textLabel?.text = workouts[indexPath.row].name
         cell.textLabel?.backgroundColor = .clearColor()
@@ -43,7 +43,7 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // first, deselect all other cells in all other sections
         clearSelection()
         tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
@@ -66,7 +66,7 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
     ///
     /// Starts the selected workout
     ///
-    @IBAction func startWorkout(sender: UIButton) {
+    @IBAction func startWorkout(_ sender: UIButton) {
         guard let workout = selectedWorkout else { return }
         try! MRAppDelegate.sharedDelegate().startSession(workout)
     }
@@ -75,7 +75,7 @@ class MRLibraryViewController: UIViewController, UITableViewDataSource {
     /// Shows the workout description
     /// (workout descriptions are stored as HTML files)
     ///
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepareForSegue(_ segue: UIStoryboardSegue, sender: AnyObject?) {
         guard let webView = segue.destinationViewController.view as? UIWebView,
               let button = sender as? MRLibraryInfoButton,
               let workout = button.workout,

@@ -13,10 +13,10 @@ extension UIViewController {
         if let navFrame = navigationController?.navigationBar.frame {
             let height = navFrame.height - 4
             let width = height * 1.6
-            let frame = CGRectMake((navFrame.width - width) / 2, 2, width, height)
+            let frame = CGRect(x: (navFrame.width - width) / 2, y: 2, width: width, height: height)
             let view = UIImageView(frame: frame)
             view.image = UIImage(named: imageName)
-            view.contentMode = .ScaleAspectFit
+            view.contentMode = .scaleAspectFit
             navigationItem.titleView = view
         }
     }

@@ -11,17 +11,17 @@ public enum MKExerciseProperty {
     /// - parameter step: the step
     /// - parameter maximum: the maximum weight
     ///
-    case WeightProgression(minimum: Double, step: Double, maximum: Double?)
+    case weightProgression(minimum: Double, step: Double, maximum: Double?)
     
     ///
     /// A typical duration for an entire exercise
     ///
-    case TypicalDuration(duration: NSTimeInterval)
+    case typicalDuration(duration: TimeInterval)
     
     ///
     /// A typical duration for one repetition
     ///
-    case OneRepetitionDuration(duration: NSTimeInterval)
+    case oneRepetitionDuration(duration: TimeInterval)
     
     // A special sequence of weights
     // case WeightSequence(weights: [Float])

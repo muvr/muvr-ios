@@ -28,7 +28,7 @@ extension MRManagedExercisePlan : MRManagedExerciseType {
     @NSManaged var latitude: NSNumber?
     @NSManaged var longitude: NSNumber?
     /// the markov chain of exercise ids
-    @NSManaged private var managedPlan: NSData?
+    @NSManaged private var managedPlan: Data?
     /// the sessions running this plan
     @NSManaged var sessions: NSSet?
 
@@ -78,7 +78,7 @@ extension MRManagedExercisePlan {
     /// It doesn't update the serialised JSON data (for performance reason)
     /// ``save()`` must be called for this purpose.
     ///
-    func insert(exerciseId: MKExercise.Id) {
+    func insert(_ exerciseId: MKExercise.Id) {
         plan.insert(exerciseId)
     }
     

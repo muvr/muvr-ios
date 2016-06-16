@@ -13,7 +13,7 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
         startButton.delegate = self
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         let app = MRAppDelegate.sharedDelegate()
         upcomingSessions = app.sessionTypes.map { ($0, app.achievementsForSessionType($0)) }
         displayWorkouts()
@@ -25,9 +25,9 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
     override func viewDidLayoutSubviews() {
         let buttonWidth = scrollView.frame.width / 3
         let buttonPadding: CGFloat = 5
-        scrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(scrollView.subviews.count), scrollView.frame.height)
-        for (index, button) in scrollView.subviews.enumerate() {
-            button.frame = CGRectMake(CGFloat(index) * buttonWidth + (buttonPadding / 2), buttonPadding, buttonWidth - buttonPadding, buttonWidth - buttonPadding)
+        scrollView.contentSize = CGSize(width: buttonWidth * CGFloat(scrollView.subviews.count), height: scrollView.frame.height)
+        for (index, button) in scrollView.subviews.enumerated() {
+            button.frame = CGRect(x: CGFloat(index) * buttonWidth + (buttonPadding / 2), y: buttonPadding, width: buttonWidth - buttonPadding, height: buttonWidth - buttonPadding)
         }
         startButton.sessionType = selectedSession
     }
@@ -41,33 +41,33 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
         scrollView.subviews.forEach { $0.removeFromSuperview() }
         
         let buttonWidth = scrollView.frame.width / 3
-        scrollView.contentSize = CGSizeMake(buttonWidth * CGFloat(upcomingSessions.count), scrollView.frame.height)
+        scrollView.contentSize = CGSize(width: buttonWidth * CGFloat(upcomingSessions.count), height: scrollView.frame.height)
         
         if upcomingSessions.count > 1 {
             for sessionType in upcomingSessions {
-                let button = MRAlternativeWorkoutButton(type: UIButtonType.System)
+                let button = MRAlternativeWorkoutButton(type: UIButtonType.system)
                 button.lineWidth = 2
                 button.color = MRColor.gray
                 button.sessionType = sessionType.0
                 button.achievement = sessionType.1.first // display only 1st achievement
-                button.setTitleColor(MRColor.black, forState: .Normal)
-                button.addTarget(self, action: #selector(MRStartWorkoutViewController.changeWorkout(_:)), forControlEvents: [.TouchUpInside])
+                button.setTitleColor(MRColor.black, for: UIControlState())
+                button.addTarget(self, action: #selector(MRStartWorkoutViewController.changeWorkout(_:)), for: [.touchUpInside])
                 scrollView.addSubview(button)
             }
         }
         
         // add "Start another workout" button
-        let button = MRAlternativeWorkoutButton(type: UIButtonType.System)
+        let button = MRAlternativeWorkoutButton(type: UIButtonType.system)
         button.color = MRColor.orange
         button.backgroundColor = MRColor.orange
-        button.setTitleColor(.whiteColor(), forState: .Normal)
-        button.setTitle("Start another workout".localized(), forState: .Normal)
-        button.addTarget(self, action: #selector(MRStartWorkoutViewController.selectAnotherWorkout), forControlEvents: [.TouchUpInside])
+        button.setTitleColor(.white(), for: UIControlState())
+        button.setTitle("Start another workout".localized(), for: UIControlState())
+        button.addTarget(self, action: #selector(MRStartWorkoutViewController.selectAnotherWorkout), for: [.touchUpInside])
         scrollView.addSubview(button)
         
     }
     
-    private func displayMainWorkout(sessionType: MRSessionType) {
+    private func displayMainWorkout(_ sessionType: MRSessionType) {
         selectedSession = sessionType
         startButton.sessionType = sessionType
         startButton.headerTitle = "Start".localized()
@@ -84,10 +84,10 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
         let backButton = UIBarButtonItem()
         backButton.title = ""
         navigationItem.backBarButtonItem = backButton
-        performSegueWithIdentifier("manual", sender: nil)
+        performSegue(withIdentifier: "manual", sender: nil)
     }
     
-    @objc private func changeWorkout(sender: MRAlternativeWorkoutButton) {
+    @objc private func changeWorkout(_ sender: MRAlternativeWorkoutButton) {
         if let sessionType = sender.sessionType {
             displayMainWorkout(sessionType)
         }
@@ -95,7 +95,7 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
     
     /// MARK: MRCircleViewDelegate
     
-    func circleViewTapped(circleView: MRCircleView) {
+    func circleViewTapped(_ circleView: MRCircleView) {
         if let sessionType = selectedSession {
             try! MRAppDelegate.sharedDelegate().startSession(sessionType)
         }

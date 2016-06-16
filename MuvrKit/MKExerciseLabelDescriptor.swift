@@ -6,22 +6,22 @@ import Foundation
 public enum MKExerciseLabelDescriptor {
     
     /// Weight (for resistance exercises)
-    case Weight
+    case weight
     
     /// Number of repetitions (typically for resistance exercises)
-    case Repetitions
+    case repetitions
     
     /// Intensity (for all exercises)
-    case Intensity
+    case intensity
     
     ///
     /// The identity of the descriptor
     ///
     public var id: String {
         switch self {
-        case .Weight: return "weight"
-        case .Repetitions: return "repetitions"
-        case .Intensity: return "intensity"
+        case .weight: return "weight"
+        case .repetitions: return "repetitions"
+        case .intensity: return "intensity"
         }
     }
     
@@ -30,9 +30,9 @@ public enum MKExerciseLabelDescriptor {
     ///
     public init?(id: String) {
         switch id {
-        case "weight": self = .Weight
-        case "repetitions": self = .Repetitions
-        case "intensity": self = .Intensity
+        case "weight": self = .weight
+        case "repetitions": self = .repetitions
+        case "intensity": self = .intensity
         default: return nil
         }
     }

@@ -20,14 +20,14 @@ class MRBarsView: UIView {
     }
     
     @IBInspectable
-    var barColor: UIColor = UIColor.blackColor() {
+    var barColor: UIColor = UIColor.black() {
         didSet {
             setNeedsDisplay()
         }
     }
     
     @IBInspectable
-    var emptyBarColor: UIColor = UIColor.clearColor() {
+    var emptyBarColor: UIColor = UIColor.clear() {
         didSet {
             setNeedsDisplay()
         }
@@ -41,7 +41,7 @@ class MRBarsView: UIView {
     
     private var barsPath: UIBezierPath? {
         guard let path = barsLayer.path else { return nil }
-        return UIBezierPath(CGPath: path)
+        return UIBezierPath(cgPath: path)
     }
     
     override init(frame: CGRect) {
@@ -55,22 +55,22 @@ class MRBarsView: UIView {
     }
     
     private func createUI() {
-        barsLayer.opaque = false
-        barsLayer.fillColor = UIColor.clearColor().CGColor
+        barsLayer.isOpaque = false
+        barsLayer.fillColor = UIColor.clear().cgColor
         layer.addSublayer(barsLayer)
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         let path = UIBezierPath()
         path.lineWidth = lineWidth
-        path.lineCapStyle = .Round
+        path.lineCapStyle = .round
         
         func drawBar(atIndex index: Int) {
             let x = 2 * lineWidth * CGFloat(index)
             let bottom = frame.height - lineWidth / 2
             let top = lineWidth / 2 + (frame.height - lineWidth) * CGFloat(bars - index) / CGFloat(bars)
-            path.moveToPoint(CGPoint(x: x, y: top))
-            path.addLineToPoint(CGPoint(x: x, y: bottom))
+            path.move(to: CGPoint(x: x, y: top))
+            path.addLine(to: CGPoint(x: x, y: bottom))
         }
         
         let barsToDisplay = Int(Double(bars) * (value ?? 0))
@@ -80,8 +80,8 @@ class MRBarsView: UIView {
             }
         }
         
-        barsLayer.strokeColor = barColor.CGColor
-        barsLayer.path = path.CGPath
+        barsLayer.strokeColor = barColor.cgColor
+        barsLayer.path = path.cgPath
         path.stroke()
     }
     

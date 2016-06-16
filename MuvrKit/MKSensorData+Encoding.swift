@@ -26,12 +26,12 @@ public extension MKSensorData {
     ///
     /// - returns: the compressed data that can be passed to ``MKSensorData.decode`` to get the same instance
     ///
-    public func encode() -> NSData {
+    public func encode() -> Data {
         let data = NSMutableData()
         let encoder = MKSensorDataEncoder(target: MKMutableDataEncoderTarget(data: data), types: self.types, samplesPerSecond: self.samplesPerSecond)
-        encoder.append(self.samples, sampleDate: NSDate(timeIntervalSinceReferenceDate: self.start))
+        encoder.append(self.samples, sampleDate: Date(timeIntervalSinceReferenceDate: self.start))
         encoder.close()
-        return data
+        return data as Data
     }
     
 }

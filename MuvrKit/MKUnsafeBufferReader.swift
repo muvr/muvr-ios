@@ -13,23 +13,23 @@ class MKUnsafeBufferReader {
     }
     */
     
-    init(data: NSData) {
-        self.bytes = UnsafePointer<UInt8>(data.bytes)
-        self.totalLength = data.length
+    init(data: Data) {
+        self.bytes = UnsafePointer<UInt8>((data as NSData).bytes)
+        self.totalLength = data.count
         self.offset = 0
     }
     
-    func expect(value: UInt8, throwing e: ErrorType) throws {
+    func expect(_ value: UInt8, throwing e: ErrorProtocol) throws {
         if try next() != value {
             throw e
         }
     }
     
     func next<A>() throws -> A {
-        return try nexts(1).memory
+        return try nexts(1).pointee
     }
     
-    func nexts<A>(count: Int) throws -> UnsafePointer<A> {
+    func nexts<A>(_ count: Int) throws -> UnsafePointer<A> {
         // 32 bit architecture check: Int overflows for suitably big ``count`` and ``sizeof(A)``        
         #if !(arch(x86_64) || arch(arm64))
         
@@ -42,11 +42,11 @@ class MKUnsafeBufferReader {
         
         let countBytes: Int = sizeof(A) * count
         if offset + countBytes - 1 < totalLength {
-            let ptr = UnsafePointer<A>(bytes.advancedBy(offset))
+            let ptr = UnsafePointer<A>(bytes.advanced(by: offset))
             offset += countBytes
             return ptr
         }
-        throw MKCodecError.NotEnoughInput
+        throw MKCodecError.notEnoughInput
     }
         
     /// The readable length

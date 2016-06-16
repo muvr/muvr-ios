@@ -4,14 +4,14 @@ import MuvrKit
 
 extension MRManagedLocationExercise {
     
-    static func insertNewObjectFromJSON(json: NSDictionary, location: MRManagedLocation, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
+    static func insertNewObjectFromJSON(_ json: NSDictionary, location: MRManagedLocation, inManagedObjectContext managedObjectContext: NSManagedObjectContext) {
         guard let station = json["station"] as? String?,
             let stationProximityUUID = json["stationProximityUUID"] as? String?,
             let id = json["id"] as? MKExercise.Id,
             let properties = json["properties"] as? [AnyObject]?
             else { return }
         
-        let mo = NSEntityDescription.insertNewObjectForEntityForName("MRManagedLocationExercise", inManagedObjectContext: managedObjectContext) as! MRManagedLocationExercise
+        let mo = NSEntityDescription.insertNewObject(forEntityName: "MRManagedLocationExercise", into: managedObjectContext) as! MRManagedLocationExercise
         mo.station = station
         mo.id = id
         mo.stationProximityUUID = stationProximityUUID

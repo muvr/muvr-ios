@@ -33,7 +33,7 @@ public struct MKExerciseDetail {
     /// - parameter exerciseDetail: the other exercise detail to compare
     /// - returns true if both exercises are "similar"
     ///
-    public func isAlternativeOf(exerciseDetail: MKExerciseDetail) -> Bool {
+    public func isAlternativeOf(_ exerciseDetail: MKExerciseDetail) -> Bool {
         switch type {
         case .IndoorsCardio, .ResistanceWholeBody: return type == exerciseDetail.type
         case .ResistanceTargeted: return muscle == exerciseDetail.muscle

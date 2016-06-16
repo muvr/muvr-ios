@@ -4,15 +4,15 @@ import Accelerate
 ///
 /// Polynomial fitting errors
 ///
-enum MKPolynomialFitError : ErrorType {
+enum MKPolynomialFitError : ErrorProtocol {
     /// The requested order ``k`` is greater than the ``maximum`` order
-    case BadPolynomialOrder(k: Int, maximum: Int)
+    case badPolynomialOrder(k: Int, maximum: Int)
     /// The x and y inputs have mismatched number of elements
-    case InputCountsMismatched
+    case inputCountsMismatched
     /// The x or y inputs are empty
-    case InputEmpty
+    case inputEmpty
     /// The fitting failed
-    case ComputationFailed
+    case computationFailed
 }
 
 ///
@@ -31,19 +31,19 @@ struct MKPolynomialFitter {
     /// - parameter degree: the polynomial degree > 0
     /// - returns: the coefficients
     ///
-    static func fit(x x: [Float], y: [Float], degree: Int) throws -> [Float] {
+    static func fit(x: [Float], y: [Float], degree: Int) throws -> [Float] {
         if x.count != y.count {
-            throw MKPolynomialFitError.InputCountsMismatched
+            throw MKPolynomialFitError.inputCountsMismatched
         }
         if x.isEmpty || y.isEmpty {
-            throw MKPolynomialFitError.InputEmpty
+            throw MKPolynomialFitError.inputEmpty
         }
         
         // here on in, x and y are non-empty arrays
         let n = x.count
         let k = Int(degree - 1)
         if k > n - 1 {
-            throw MKPolynomialFitError.BadPolynomialOrder(k: k, maximum: n)
+            throw MKPolynomialFitError.badPolynomialOrder(k: k, maximum: n)
         }
         
         // trivial case
@@ -55,7 +55,7 @@ struct MKPolynomialFitter {
         //  [ Σ(i=1->N) xi^2,   Σ(i=1->N) xi^3,     Σ(i=1->N) xi^4, ...     Σ(i=1->N) xi^k+2 ],
         //  [ ...,              ...,                ...            , ...     ... ],
         //  [ Σ(i=1->N) xi^k,   Σ(i=1->N) xi^k+1,   Σ(i=1->N) xi^k+2, ...   Σ(i=1->N) xi^2k ]
-        var MData = [Float](count: Int(degree * degree), repeatedValue: 0)
+        var MData = [Float](repeating: 0, count: Int(degree * degree))
         for row in 0..<degree {
             for col in 0..<degree {
                 let isFinalRow = row == degree - 1
@@ -85,7 +85,7 @@ struct MKPolynomialFitter {
         let M = la_matrix_from_float_buffer(MData, la_count_t(degree), la_count_t(degree), la_count_t(degree),
             la_hint_t(LA_FEATURE_SYMMETRIC), la_attribute_t(LA_DEFAULT_ATTRIBUTES))
         
-        var bData = [Float](count: degree, repeatedValue: 0)
+        var bData = [Float](repeating: 0, count: degree)
         //  Σ(i=1->N) yi * xi^0,
         //  Σ(i=1->N) yi * xi^1,
         //  Σ(i=1->N) yi * xi^2,
@@ -101,9 +101,9 @@ struct MKPolynomialFitter {
         let b = la_matrix_from_float_buffer(bData, la_count_t(1), la_count_t(bData.count), la_count_t(bData.count), 0, 0)
 
         let a = la_solve(M, b)
-        var aData = [Float](count: degree, repeatedValue: 0)
+        var aData = [Float](repeating: 0, count: degree)
         if la_vector_to_float_buffer(&aData, 1, a) != la_status_t(LA_SUCCESS) {
-            throw MKPolynomialFitError.ComputationFailed
+            throw MKPolynomialFitError.computationFailed
         }
         
         return aData

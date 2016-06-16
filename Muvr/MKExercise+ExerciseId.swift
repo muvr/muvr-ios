@@ -19,7 +19,7 @@ extension MKExercise {
     ///
     /// Computes a title for the given exercise id
     ///
-    static func title(exerciseId: Id) -> String {
+    static func title(_ exerciseId: Id) -> String {
         let (_, e, _) = componentsFromExerciseId(exerciseId)!
         return NSLocalizedString(e.last!, comment: "\(e.last!) exercise").localizedCapitalizedString
     }
@@ -30,7 +30,7 @@ extension MKExercise {
     /// - parameter exerciseId: the Muvr formatted exercise id
     /// - returns: (exercise-type, [(muscle-group-1, muscle-group-2, ...], exercise-id, station?))
     ///
-    static func componentsFromExerciseId(exerciseId: MKExercise.Id) -> (String, [String], String?)? {
+    static func componentsFromExerciseId(_ exerciseId: MKExercise.Id) -> (String, [String], String?)? {
         let components = exerciseId.componentsSeparatedByString(":")
         if components.count == 2 {
             let restComponents = components[1].componentsSeparatedByString("/")

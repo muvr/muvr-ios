@@ -11,7 +11,7 @@ extension MKMarkovPredictor {
     /// - parameter stateTransform: the function to turn ``E`` into its ``String`` representation
     /// - returns: the JSON object representation
     ///
-    internal func jsonObject(stateTransform: E -> String) -> AnyObject {
+    internal func jsonObject(_ stateTransform: (E) -> String) -> AnyObject {
         return [
             "chain": chain.jsonObject(stateTransform),
             "states": states.jsonObject(stateTransform)
@@ -23,8 +23,8 @@ extension MKMarkovPredictor {
     /// - parameter stateTransform: the function to turn ``E`` into its ``String`` representation
     /// - returns: the JSON representation
     ///
-    public func json(stateTransform: E -> String) -> NSData {
-        return try! NSJSONSerialization.dataWithJSONObject(jsonObject(stateTransform), options: [])
+    public func json(_ stateTransform: (E) -> String) -> Data {
+        return try! JSONSerialization.data(withJSONObject: jsonObject(stateTransform), options: [])
     }
     
     ///
@@ -32,7 +32,7 @@ extension MKMarkovPredictor {
     /// - parameter json: the JSON object
     /// - parameter stateTransform: the function to turn ``AnyObject`` into its ``E`` representation
     ///
-    internal convenience init?(jsonObject: AnyObject, stateTransform: AnyObject -> E?) {
+    internal convenience init?(jsonObject: AnyObject, stateTransform: (AnyObject) -> E?) {
         guard let dict = jsonObject as? [String : AnyObject],
             let chain = dict["chain"],
             let states = dict["states"],
@@ -48,8 +48,8 @@ extension MKMarkovPredictor {
     /// - parameter json: the JSON data
     /// - parameter stateTransform: the function to turn ``AnyObject`` into its ``E`` representation
     ///
-    public convenience init?(json: NSData, stateTransform: AnyObject -> E?) {
-        guard let jsonObject = try? NSJSONSerialization.JSONObjectWithData(json, options: NSJSONReadingOptions.AllowFragments)
+    public convenience init?(json: Data, stateTransform: (AnyObject) -> E?) {
+        guard let jsonObject = try? JSONSerialization.jsonObject(with: json, options: JSONSerialization.ReadingOptions.allowFragments)
         else { return nil }
         
         self.init(jsonObject: jsonObject, stateTransform: stateTransform)

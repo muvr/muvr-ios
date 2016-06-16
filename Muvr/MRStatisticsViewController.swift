@@ -10,7 +10,7 @@ extension MRAggregate {
     /// Indicates whether there is a previous step to go to
     var hasPrevious: Bool {
         switch self {
-        case .Types: return false
+        case .types: return false
         default: return true
         }
     }
@@ -18,7 +18,7 @@ extension MRAggregate {
     /// Indicates whether it is possible to start a session for this aggregate
     var isStartable: Bool {
         switch self {
-        case .Types: return false
+        case .types: return false
         default: return true
         }
     }
@@ -26,8 +26,8 @@ extension MRAggregate {
     /// Goes to the previous i.e. more general state
     var previous: MRAggregate {
         switch self {
-        case .Types: return .Types
-        case .MuscleGroups(_): return .Types
+        case .types: return .types
+        case .MuscleGroups(_): return .types
         case .Exercises(_): return .MuscleGroups(inType: .ResistanceTargeted)
         }
     }
@@ -47,13 +47,13 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     /// The averages computed for the given ``aggregate``. Keep these two in sync!
     private var averages: [(MRAggregateKey, MRAverage)] = []
     /// The aggregate to compute the ``averages`` for. Keep these two in sync!
-    private var aggregate: MRAggregate = .Types
+    private var aggregate: MRAggregate = .types
     
     /// A transform function to pull values out from an MRAverage instance
-    private var transform: MRAverage -> Double = { Double($0.count) }
+    private var transform: (MRAverage) -> Double = { Double($0.count) }
     
     // The number formatter used to display values on the pie chart
-    private let formatter = NSNumberFormatter()
+    private let formatter = NumberFormatter()
     
     // The label descriptors for the current aggregate
     private var labels: [MKExerciseLabelDescriptor] {
@@ -65,7 +65,7 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     override func viewDidLoad() {
         setTitleImage(named: "muvr_logo_white")
         
-        pieChartBackButton.hidden = true
+        pieChartBackButton.isHidden = true
         
         pieChartView.delegate = self
         pieChartView.holeColor = nil
@@ -82,21 +82,21 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
         pieChartView.legend.enabled = false
         
         if let image = UIImage(named: "UIButtonBarArrowLeft") {
-            image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-            pieChartBackButton.setImage(image, forState: UIControlState.Normal)
+            image.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+            pieChartBackButton.setImage(image, for: UIControlState())
         }
         
-        startButton.hidden = true
+        startButton.isHidden = true
     }
     
     // On appearance, show all .Types
-    override func viewDidAppear(animated: Bool) {
-        reloadAverages(.Types)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MRStatisticsViewController.persistedDataDidChange(_:)), name: NSManagedObjectContextDidSaveNotification, object: nil)
+    override func viewDidAppear(_ animated: Bool) {
+        reloadAverages(.types)
+        NotificationCenter.default().addObserver(self, selector: #selector(MRStatisticsViewController.persistedDataDidChange(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default().removeObserver(self)
     }
     
     // Goes one step back
@@ -116,9 +116,9 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     }
     
     // The user has tapped on the toolbar, wanting to see a different field from the averages
-    @IBAction func transformSelected(sender: UISegmentedControl) {
+    @IBAction func transformSelected(_ sender: UISegmentedControl) {
         formatter.maximumFractionDigits = 0
-        formatter.numberStyle = .NoStyle
+        formatter.numberStyle = .none
         // # W R I D
         switch sender.selectedSegmentIndex {
         case 0: /* # */ transform = { Double($0.count) }
@@ -128,10 +128,10 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
             transform = { $0.averages[label] ?? 0 }
             switch label {
             case .Weight:
-                formatter.numberStyle = .DecimalStyle
+                formatter.numberStyle = .decimal
                 formatter.maximumFractionDigits = 2
             case .Intensity:
-                formatter.numberStyle = .PercentStyle
+                formatter.numberStyle = .percent
             default: break
             }
         }
@@ -139,7 +139,7 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     }
     
     // The user has selected one of the pies on the chart. Drill down to it, if possible.
-    func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight) {
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight) {
         let (key, _) = averages[entry.xIndex]
         switch key {
         case .ExerciseType(let exerciseType): reloadAverages(.MuscleGroups(inType: exerciseType))
@@ -154,19 +154,19 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     /// displays the latest on the chart.
     /// - parameter aggregate: the new aggregate
     ///
-    private func reloadAverages(aggregate: MRAggregate) {
+    private func reloadAverages(_ aggregate: MRAggregate) {
         self.aggregate = aggregate
         // Without this, the ``setTitle:forState:`` animation appears awkwardly 
         UIView.performWithoutAnimation {
-            self.pieChartBackButton.setTitle(aggregate.title, forState: UIControlState.Normal)
+            self.pieChartBackButton.setTitle(aggregate.title, for: UIControlState())
             self.pieChartBackButton.layoutIfNeeded()
             if aggregate.isStartable {
-                self.startButton.setTitle("Start %@ session".localized(aggregate.title).localizedCapitalizedString, forState: UIControlState.Normal)
+                self.startButton.setTitle("Start %@ session".localized(aggregate.title).localizedCapitalizedString, for: UIControlState())
             }
         }
         segmentedControl.removeAllSegments()
-        segmentedControl.insertSegmentWithTitle("stats.count".localized().localizedCapitalizedString, atIndex: 0, animated: true)
-        segmentedControl.insertSegmentWithTitle("stats.duration".localized().localizedCapitalizedString, atIndex: 1, animated: true)
+        segmentedControl.insertSegment(withTitle: "stats.count".localized().localizedCapitalizedString, at: 0, animated: true)
+        segmentedControl.insertSegment(withTitle: "stats.duration".localized().localizedCapitalizedString, at: 1, animated: true)
         labels.forEach { label in
             let title = "stats.\(label.id)".localized().localizedCapitalizedString
             segmentedControl.insertSegmentWithTitle(title, atIndex: segmentedControl.numberOfSegments, animated: true)
@@ -174,8 +174,8 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
         segmentedControl.selectedSegmentIndex = 0
         transform = { Double($0.count) }
         
-        pieChartBackButton.hidden = !aggregate.hasPrevious
-        startButton.hidden = !aggregate.isStartable
+        pieChartBackButton.isHidden = !aggregate.hasPrevious
+        startButton.isHidden = !aggregate.isStartable
         averages = MRManagedExerciseScalarLabel.averages(inManagedObjectContext: try! MRAppDelegate.superEvilMegacorpSharedDelegate().mainManagedObjectContext(), aggregate: aggregate)
         reloadAveragesChart()
     }
@@ -186,7 +186,7 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     private func reloadAveragesChart() {
         var ys: [BarChartDataEntry] = []
         var xs: [String] = []
-        for (index, (key, average)) in averages.enumerate() {
+        for (index, (key, average)) in averages.enumerated() {
             ys.append(BarChartDataEntry(value: transform(average), xIndex: index, data: nil))
             xs.append(key.title)
         }
@@ -202,7 +202,7 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
     }
     
     /// called when there is a change in persisted data
-    internal func persistedDataDidChange(notif: NSNotification) {
+    internal func persistedDataDidChange(_ notif: Notification) {
         reloadAverages(self.aggregate)
     }
     

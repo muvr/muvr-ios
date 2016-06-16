@@ -2,9 +2,9 @@ import CoreData
 
 extension NSManagedObjectContext {
 
-    func countForFetchRequest(request: NSFetchRequest) -> Int? {
+    func countForFetchRequest(_ request: NSFetchRequest<AnyObject>) -> Int? {
         var error: NSError?
-        let count = countForFetchRequest(request, error: &error)
+        let count = self.count(for: request, error: &error)
         
         if error == nil { return count }
         else { return nil }

@@ -23,7 +23,7 @@ public enum MKExerciseType : Equatable, Hashable {
     /// - parameter that: the other ET
     /// - returns: true if self is contained within that
     ///
-    public func isContainedWithin(that: MKExerciseType) -> Bool {
+    public func isContainedWithin(_ that: MKExerciseType) -> Bool {
         switch (self, that) {
         case (.ResistanceTargeted(let lmgs), .ResistanceTargeted(let rmgs)):
             return lmgs.reduce(true) { result, lmg in
@@ -51,9 +51,9 @@ public enum MKExerciseType : Equatable, Hashable {
     ///
     public var labelDescriptors: [MKExerciseLabelDescriptor] {
         switch self {
-        case .IndoorsCardio: return [.Intensity]
-        case .ResistanceTargeted: return [.Repetitions, .Weight, .Intensity]
-        case .ResistanceWholeBody: return [.Repetitions, .Weight, .Intensity]
+        case .IndoorsCardio: return [.intensity]
+        case .ResistanceTargeted: return [.repetitions, .weight, .intensity]
+        case .ResistanceWholeBody: return [.repetitions, .weight, .intensity]
         }
     }
     

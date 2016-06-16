@@ -2,26 +2,26 @@ import Foundation
 
 private extension NSMutableData {
 
-    func appendASCIIString(s: String) {
-        appendData(s.dataUsingEncoding(NSASCIIStringEncoding)!)
+    func appendASCIIString(_ s: String) {
+        append(s.data(using: String.Encoding.ascii)!)
     }
 
 }
 
 public extension MKSensorData {
-    typealias ExerciseRow = (MKExercise.Id, MKExerciseType, NSTimeInterval, NSTimeInterval, [MKExerciseLabel])
+    typealias ExerciseRow = (MKExercise.Id, MKExerciseType, TimeInterval, TimeInterval, [MKExerciseLabel])
 
-    public func encodeAsCsv(exercisesWithLabels: [ExerciseRow]) -> NSData {
+    public func encodeAsCsv(_ exercisesWithLabels: [ExerciseRow]) -> Data {
         // export data in CSV format: alwx,alwy,alwz,...,hr,...[,L,I,W,R]
         // alw: Accelerometer left wrist x, y, z
         // L: label
 
-        let setupDuration: NSTimeInterval = 5.0
+        let setupDuration: TimeInterval = 5.0
 
-        func findLabel(row: Int) -> String? {
+        func findLabel(_ row: Int) -> String? {
             let now = (Double(row) / Double(samplesPerSecond)) + self.delay!
 
-            func sampleBelongsTo(offset: NSTimeInterval, duration: NSTimeInterval) -> Bool {
+            func sampleBelongsTo(_ offset: TimeInterval, duration: TimeInterval) -> Bool {
                 let end = offset + duration
                 return offset <= now && now < end
             }
@@ -38,15 +38,15 @@ public extension MKSensorData {
             return nil
         }
 
-        func expandLabels(labels: [MKExerciseLabel]) -> (Double, Int, Double) {
+        func expandLabels(_ labels: [MKExerciseLabel]) -> (Double, Int, Double) {
             var weight: Double = 0
             var repetitions: Int = 0
             var intensity: Double = 0
             labels.forEach { label in
                 switch label {
-                case .Weight(let value): weight = value
-                case .Repetitions(let value): repetitions = value
-                case .Intensity(let value): intensity = value
+                case .weight(let value): weight = value
+                case .repetitions(let value): repetitions = value
+                case .intensity(let value): intensity = value
                 }
             }
             return (weight, repetitions, intensity)
@@ -66,7 +66,7 @@ public extension MKSensorData {
             }
             result.appendASCIIString("\n")
         }
-        return result
+        return result as Data
     }
 
 }

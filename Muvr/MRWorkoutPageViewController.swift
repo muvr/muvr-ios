@@ -7,8 +7,8 @@ import UIKit
 class MRWorkoutPageViewController: UIPageViewController {
 
     private enum SelectedControl: Int {
-        case Library = 0
-        case Custom = 1
+        case library = 0
+        case custom = 1
     }
     
     ///
@@ -28,20 +28,20 @@ class MRWorkoutPageViewController: UIPageViewController {
     
     override func viewDidLoad() {
         // instanciates the view controllers
-        customViewController = storyboard?.instantiateViewControllerWithIdentifier("manual") as! MRManualViewController
-        libraryViewController = storyboard?.instantiateViewControllerWithIdentifier("library") as! MRLibraryViewController
+        customViewController = storyboard?.instantiateViewController(withIdentifier: "manual") as! MRManualViewController
+        libraryViewController = storyboard?.instantiateViewController(withIdentifier: "library") as! MRLibraryViewController
         
         // display the "library" view controller by default
         setViewControllers([libraryViewController], direction: .Forward, animated: false, completion: nil)
         
         // register callback
-        segmentedControl.addTarget(self, action: #selector(MRWorkoutPageViewController.changePage(_:)), forControlEvents: .ValueChanged)
+        segmentedControl.addTarget(self, action: #selector(MRWorkoutPageViewController.changePage(_:)), for: .valueChanged)
         
         // setup segmented control
         guard let frame = navigationController?.navigationBar.frame else { return }
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.clipsToBounds = true
-        segmentedControl.frame = CGRectMake(frame.origin.x + 5, frame.origin.y + 2, frame.width - 7, frame.height - 8)
+        segmentedControl.frame = CGRect(x: frame.origin.x + 5, y: frame.origin.y + 2, width: frame.width - 7, height: frame.height - 8)
         segmentedControl.accessibilityIdentifier = "Workout control"
         navigationItem.titleView = segmentedControl
     }
@@ -50,11 +50,11 @@ class MRWorkoutPageViewController: UIPageViewController {
     /// Called when the selection of the segmented control changes.
     /// Dislays the view controller corresponding to the selected option (custom or library)
     ///
-    func changePage(sender: UISegmentedControl) {
+    func changePage(_ sender: UISegmentedControl) {
         guard let selected = SelectedControl(rawValue: sender.selectedSegmentIndex) else { return }
         switch selected {
-        case .Custom: setViewControllers([customViewController], direction: .Forward, animated: true, completion: nil)
-        case .Library: setViewControllers([libraryViewController], direction: .Reverse, animated: true, completion: nil)
+        case .custom: setViewControllers([customViewController], direction: .forward, animated: true, completion: nil)
+        case .library: setViewControllers([libraryViewController], direction: .Reverse, animated: true, completion: nil)
         }
     }
     

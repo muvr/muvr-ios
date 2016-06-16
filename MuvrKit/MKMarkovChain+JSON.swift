@@ -10,7 +10,7 @@ extension MKMarkovTransitionSet {
     /// - parameter stateTransform: a function that converts the generic ``State`` to its ``String`` representaion
     /// - returns: the JSON representation
     ///
-    func jsonObject(stateTransform: State -> String) -> AnyObject {
+    func jsonObject(_ stateTransform: (State) -> String) -> AnyObject {
         var result: [String : AnyObject] = [:]
         for (k, v) in transitionCounter {
             result[stateTransform(k)] = v
@@ -24,13 +24,13 @@ extension MKMarkovTransitionSet {
     /// - parameter stateTransform: the function to convert each state JSON object to ``State``
     /// - returns: the transition set
     ///
-    init?(jsonObject: AnyObject, stateTransform: AnyObject -> State?) {
+    init?(jsonObject: AnyObject, stateTransform: (AnyObject) -> State?) {
         guard let transitions = jsonObject as? [String : AnyObject] else { return nil }
         
         var transitionCounter: [State : Int] = [:]
         for (k, v) in transitions {
             guard let v = v as? NSNumber, let s = stateTransform(k) else { return nil }
-            transitionCounter[s] = v.integerValue
+            transitionCounter[s] = v.intValue
         }
         self.init(transitionCounter: transitionCounter)
     }
@@ -47,7 +47,7 @@ extension MKStateChain {
     /// - parameter stateTransform: a function that converts the generic ``State`` to its ``String`` representaion
     /// - returns: the JSON representation
     ///
-    func jsonObject(stateTransform: State -> String) -> AnyObject {
+    func jsonObject(_ stateTransform: (State) -> String) -> AnyObject {
         return states.map(stateTransform)
     }
     
@@ -57,7 +57,7 @@ extension MKStateChain {
     /// - parameter stateTransform: the function to convert each state JSON object to ``State``
     /// - returns: the state chain
     ///
-    init?(jsonObject: AnyObject, stateTransform: AnyObject -> State?) {
+    init?(jsonObject: AnyObject, stateTransform: (AnyObject) -> State?) {
         guard let jsonObjects = jsonObject as? [AnyObject] else { return nil }
         
         let states = jsonObjects.flatMap(stateTransform)
@@ -79,7 +79,7 @@ extension MKMarkovChain {
     /// - parameter stateTransform: a function that converts the generic ``State`` to its ``String`` representaion
     /// - returns: the JSON representation
     ///
-    func jsonObject(stateTransform: State -> String) -> AnyObject {
+    func jsonObject(_ stateTransform: (State) -> String) -> AnyObject {
         return transitionMap.map { [ "stateChain": $0.jsonObject(stateTransform), "transitionSet" : $1.jsonObject(stateTransform) ] }
     }
     
@@ -89,7 +89,7 @@ extension MKMarkovChain {
     /// - parameter stateTransform: the function to convert each state JSON object to ``State``
     /// - returns: the chain
     ///
-    init?(jsonObject: AnyObject, stateTransform: AnyObject -> State?) {
+    init?(jsonObject: AnyObject, stateTransform: (AnyObject) -> State?) {
         guard let jsonObjects = jsonObject as? [[String : AnyObject]] else { return nil }
         
         var transitionMap: [MKStateChain<State> : MKMarkovTransitionSet<State>] = [:]
