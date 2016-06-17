@@ -8,7 +8,7 @@ class MRLibraryInfoButton: UIButton {
 
 class MRLibaryWorkoutCell: UITableViewCell {
 
-    private weak var infoButton: MRLibraryInfoButton!
+    @IBOutlet private weak var infoButton: MRLibraryInfoButton!
     
 }
 
