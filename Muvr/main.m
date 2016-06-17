@@ -7,6 +7,7 @@ int main(int argc, char * argv[]) {
         } @catch (NSException *ex) {
             NSLog(@"%@", ex);
             NSLog(@"%@", ex.description);
+            @throw ex;
         }
     }
 }
