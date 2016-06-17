@@ -64,7 +64,7 @@ class MRCircleView : UIView {
     
     var title: String? {
         didSet {
-            button.setTitle(title, for: UIControlState())
+            button.setTitle(title, for: [])
             UIView.performWithoutAnimation(updateUI)
         }
     }
@@ -157,7 +157,7 @@ class MRCircleView : UIView {
         backgroundColor = UIColor.clear()
         
         headerLabel.text = ""
-        button.setTitle("", for: UIControlState())
+        button.setTitle("", for: [])
         
         addSubview(view)
         updateUI()

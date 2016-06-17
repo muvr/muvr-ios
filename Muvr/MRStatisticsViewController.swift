@@ -158,10 +158,10 @@ class MRStatisticsViewController : UIViewController, ChartViewDelegate {
         self.aggregate = aggregate
         // Without this, the ``setTitle:forState:`` animation appears awkwardly 
         UIView.performWithoutAnimation {
-            self.pieChartBackButton.setTitle(aggregate.title, for: UIControlState())
+            self.pieChartBackButton.setTitle(aggregate.title, for: [])
             self.pieChartBackButton.layoutIfNeeded()
             if aggregate.isStartable {
-                self.startButton.setTitle("Start %@ session".localized(aggregate.title).localizedCapitalizedString, for: UIControlState())
+                self.startButton.setTitle("Start %@ session".localized(aggregate.title).localizedCapitalizedString, for: [])
             }
         }
         segmentedControl.removeAllSegments()

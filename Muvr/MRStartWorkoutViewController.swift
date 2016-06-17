@@ -61,7 +61,7 @@ class MRStartWorkoutViewController: UIViewController, MRCircleViewDelegate  {
         button.color = MRColor.orange
         button.backgroundColor = MRColor.orange
         button.setTitleColor(.white(), for: UIControlState())
-        button.setTitle("Start another workout".localized(), for: UIControlState())
+        button.setTitle("Start another workout".localized(), for: [])
         button.addTarget(self, action: #selector(MRStartWorkoutViewController.selectAnotherWorkout), for: [.touchUpInside])
         scrollView.addSubview(button)
         

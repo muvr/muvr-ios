@@ -28,7 +28,8 @@ class MRAlternativeButton: UIButton {
         titleLabel?.lineBreakMode = .byWordWrapping
         titleLabel?.textAlignment = .center
         titleLabel?.adjustsFontSizeToFitWidth = true
-        titleLabel?.font = titleLabel?.font.withSize(min(4.2 * radius16, 28))
+        // FIXME: this is broken in iOS10: it sets the font to be far too small
+//        titleLabel?.font = titleLabel?.font.withSize(min(4.2 * radius16, 28))
         
         if imageView?.image != nil {
             let top = 0.7 * frame.height

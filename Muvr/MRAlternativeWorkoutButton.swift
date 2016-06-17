@@ -12,7 +12,7 @@ class MRAlternativeWorkoutButton: MRAlternativeButton {
             let title = sessionType?.name
             accessibilityLabel = title
             accessibilityHint = "Workout".localized()
-            setTitle(title, for: UIControlState())
+            setTitle(title, for: [])
         }
     }
     
