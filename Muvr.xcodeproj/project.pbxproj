@@ -28,6 +28,8 @@
 		5421AEC61C40422F009CB4FA /* MRAggregateKey+Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5421AEC51C40422F009CB4FA /* MRAggregateKey+Localisation.swift */; };
 		5421AECB1C40489B009CB4FA /* MKExerciseTypeDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5421AEC91C40485F009CB4FA /* MKExerciseTypeDescriptor.swift */; };
 		5421AECC1C40489E009CB4FA /* MKExerciseTypeDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5421AEC91C40485F009CB4FA /* MKExerciseTypeDescriptor.swift */; };
+		542618181D199F1500C4A68B /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 542618161D199F1500C4A68B /* Charts.framework */; };
+		542618191D199F1500C4A68B /* JTCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 542618171D199F1500C4A68B /* JTCalendar.framework */; };
 		54266B141BB92F16007A8A8A /* MKSensorData+Decoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B131BB92F16007A8A8A /* MKSensorData+Decoding.swift */; };
 		54266B171BB92F98007A8A8A /* MKSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54266B161BB92F98007A8A8A /* MKSensorData.swift */; };
 		5430FD6E1C4839D3006780CF /* MRProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5430FD6D1C4839D3006780CF /* MRProfileViewController.swift */; };
@@ -382,6 +384,8 @@
 		5421AEC21C404039009CB4FA /* MKMuscleGroup+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMuscleGroup+Localisation.swift"; sourceTree = "<group>"; };
 		5421AEC51C40422F009CB4FA /* MRAggregateKey+Localisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRAggregateKey+Localisation.swift"; sourceTree = "<group>"; };
 		5421AEC91C40485F009CB4FA /* MKExerciseTypeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKExerciseTypeDescriptor.swift; sourceTree = "<group>"; };
+		542618161D199F1500C4A68B /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = "../../Library/Developer/Xcode/DerivedData/Muvr-cmqwfzthscacamblbtlpwoobjbhe/Build/Products/Debug-iphoneos/Charts/Charts.framework"; sourceTree = "<group>"; };
+		542618171D199F1500C4A68B /* JTCalendar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JTCalendar.framework; path = "../../Library/Developer/Xcode/DerivedData/Muvr-cmqwfzthscacamblbtlpwoobjbhe/Build/Products/Debug-iphoneos/JTCalendar/JTCalendar.framework"; sourceTree = "<group>"; };
 		54266B111BB92ECC007A8A8A /* MKSensorData+Encoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Encoding.swift"; sourceTree = "<group>"; };
 		54266B131BB92F16007A8A8A /* MKSensorData+Decoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKSensorData+Decoding.swift"; sourceTree = "<group>"; };
 		54266B161BB92F98007A8A8A /* MKSensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSensorData.swift; sourceTree = "<group>"; };
@@ -635,6 +639,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				542618181D199F1500C4A68B /* Charts.framework in Frameworks */,
+				542618191D199F1500C4A68B /* JTCalendar.framework in Frameworks */,
 				5473C48A1C3A75F100C3AC7B /* CoreLocation.framework in Frameworks */,
 				547F92831BA8BA1700A69295 /* WatchConnectivity.framework in Frameworks */,
 				54430EC51BC2CFD300541979 /* HealthKit.framework in Frameworks */,
@@ -702,6 +708,8 @@
 		288CCE5D5AB7F6FBE827B7C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				542618161D199F1500C4A68B /* Charts.framework */,
+				542618171D199F1500C4A68B /* JTCalendar.framework */,
 				64D5159B1CB3F1B200F7CCFA /* Charts.framework */,
 				9D13D5E21C50E8A50034D7CD /* PebbleKit.framework */,
 				540C00131C4EE1360028FA22 /* CloudKit.framework */,
@@ -1268,14 +1276,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 541ABBBD1AC577E00056A81B /* Build configuration list for PBXNativeTarget "Muvr" */;
 			buildPhases = (
-				04E2D3964C0F265C56901A47 /* 📦 Check Pods Manifest.lock */,
+				04E2D3964C0F265C56901A47 /* [CP] Check Pods Manifest.lock */,
 				541ABB9A1AC577E00056A81B /* Sources */,
 				541ABB9B1AC577E00056A81B /* Frameworks */,
 				541ABB9C1AC577E00056A81B /* Resources */,
 				54A48AE31BA474F300F4A81B /* Embed Watch Content */,
 				54DE15E91BAD72A500F0752B /* Embed Frameworks */,
-				5FD0FE51C0D466587D01AE69 /* 📦 Embed Pods Frameworks */,
-				13ACCA6B7403560F40447AA8 /* 📦 Copy Pods Resources */,
+				5FD0FE51C0D466587D01AE69 /* [CP] Embed Pods Frameworks */,
+				13ACCA6B7403560F40447AA8 /* [CP] Copy Pods Resources */,
 				CFFBA127EEF7DBC011AD2615 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -1293,11 +1301,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5450C2A71BC3FFF100B257E7 /* Build configuration list for PBXNativeTarget "MuvrUITests" */;
 			buildPhases = (
-				BE3AC07AAFEB450029A09DFF /* 📦 Check Pods Manifest.lock */,
+				BE3AC07AAFEB450029A09DFF /* [CP] Check Pods Manifest.lock */,
 				5450C29A1BC3FFF100B257E7 /* Sources */,
 				5450C29B1BC3FFF100B257E7 /* Frameworks */,
 				5450C29C1BC3FFF100B257E7 /* Resources */,
-				43607E8284525D81B32A0E5B /* 📦 Copy Pods Resources */,
+				43607E8284525D81B32A0E5B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1313,12 +1321,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 546E68611BB98D0800DC0FEF /* Build configuration list for PBXNativeTarget "MuvrKitTests" */;
 			buildPhases = (
-				53D61C7A13304757BA05C37C /* 📦 Check Pods Manifest.lock */,
+				53D61C7A13304757BA05C37C /* [CP] Check Pods Manifest.lock */,
 				546E68551BB98D0800DC0FEF /* Sources */,
 				546E68561BB98D0800DC0FEF /* Frameworks */,
 				546E68571BB98D0800DC0FEF /* Resources */,
-				E4F5980E7FDAA03682E4FD15 /* 📦 Embed Pods Frameworks */,
-				DF774598F4036CF3A4E5AB3F /* 📦 Copy Pods Resources */,
+				E4F5980E7FDAA03682E4FD15 /* [CP] Embed Pods Frameworks */,
+				DF774598F4036CF3A4E5AB3F /* [CP] Copy Pods Resources */,
 				62A297F01E70F22B1978466E /* Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -1372,12 +1380,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 54A776111BB81467001586DD /* Build configuration list for PBXNativeTarget "MuvrKit iOS" */;
 			buildPhases = (
-				1680ACE6BCCEB06E396478AC /* 📦 Check Pods Manifest.lock */,
+				1680ACE6BCCEB06E396478AC /* [CP] Check Pods Manifest.lock */,
 				54A775F11BB81467001586DD /* Sources */,
 				54A775F21BB81467001586DD /* Frameworks */,
 				54A775F31BB81467001586DD /* Headers */,
 				54A775F41BB81467001586DD /* Resources */,
-				EBEE74F440E21E0861561BDB /* 📦 Copy Pods Resources */,
+				EBEE74F440E21E0861561BDB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1410,12 +1418,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 642363611C18A20F00ABF4CA /* Build configuration list for PBXNativeTarget "MuvrTests" */;
 			buildPhases = (
-				5FB7C6EB19BF9B5BC74159D6 /* 📦 Check Pods Manifest.lock */,
+				5FB7C6EB19BF9B5BC74159D6 /* [CP] Check Pods Manifest.lock */,
 				642363561C18A20E00ABF4CA /* Sources */,
 				642363571C18A20E00ABF4CA /* Frameworks */,
 				642363581C18A20E00ABF4CA /* Resources */,
-				2D4ED1A510DEF38207C25771 /* 📦 Embed Pods Frameworks */,
-				F4DBCF6CE4C72EEB0CEBA83A /* 📦 Copy Pods Resources */,
+				2D4ED1A510DEF38207C25771 /* [CP] Embed Pods Frameworks */,
+				F4DBCF6CE4C72EEB0CEBA83A /* [CP] Copy Pods Resources */,
 				2E5F82FAEE6DADE74A410554 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -1597,14 +1605,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		04E2D3964C0F265C56901A47 /* 📦 Check Pods Manifest.lock */ = {
+		04E2D3964C0F265C56901A47 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1612,14 +1620,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		13ACCA6B7403560F40447AA8 /* 📦 Copy Pods Resources */ = {
+		13ACCA6B7403560F40447AA8 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1627,14 +1635,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Muvr/Pods-Muvr-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1680ACE6BCCEB06E396478AC /* 📦 Check Pods Manifest.lock */ = {
+		1680ACE6BCCEB06E396478AC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1642,14 +1650,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		2D4ED1A510DEF38207C25771 /* 📦 Embed Pods Frameworks */ = {
+		2D4ED1A510DEF38207C25771 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1672,14 +1680,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MuvrTests/Pods-MuvrTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		43607E8284525D81B32A0E5B /* 📦 Copy Pods Resources */ = {
+		43607E8284525D81B32A0E5B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1687,14 +1695,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MuvrUITests/Pods-MuvrUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		53D61C7A13304757BA05C37C /* 📦 Check Pods Manifest.lock */ = {
+		53D61C7A13304757BA05C37C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1702,14 +1710,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		5FB7C6EB19BF9B5BC74159D6 /* 📦 Check Pods Manifest.lock */ = {
+		5FB7C6EB19BF9B5BC74159D6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1717,14 +1725,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		5FD0FE51C0D466587D01AE69 /* 📦 Embed Pods Frameworks */ = {
+		5FD0FE51C0D466587D01AE69 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1747,14 +1755,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MuvrKitTests/Pods-MuvrKitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BE3AC07AAFEB450029A09DFF /* 📦 Check Pods Manifest.lock */ = {
+		BE3AC07AAFEB450029A09DFF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1777,14 +1785,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Muvr/Pods-Muvr-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DF774598F4036CF3A4E5AB3F /* 📦 Copy Pods Resources */ = {
+		DF774598F4036CF3A4E5AB3F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1792,14 +1800,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MuvrKitTests/Pods-MuvrKitTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E4F5980E7FDAA03682E4FD15 /* 📦 Embed Pods Frameworks */ = {
+		E4F5980E7FDAA03682E4FD15 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1807,14 +1815,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MuvrKitTests/Pods-MuvrKitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EBEE74F440E21E0861561BDB /* 📦 Copy Pods Resources */ = {
+		EBEE74F440E21E0861561BDB /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1822,14 +1830,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MuvrKit iOS/Pods-MuvrKit iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F4DBCF6CE4C72EEB0CEBA83A /* 📦 Copy Pods Resources */ = {
+		F4DBCF6CE4C72EEB0CEBA83A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2404,7 +2412,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MuvrUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-D\" \"PEBBLE\"";
 				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.MuvrUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2429,7 +2437,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MuvrUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-D\" \"PEBBLE\"";
 				PRODUCT_BUNDLE_IDENTIFIER = io.muvr.MuvrUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

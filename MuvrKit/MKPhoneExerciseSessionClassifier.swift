@@ -170,8 +170,9 @@ public final class MKSessionClassifier : MKExerciseConnectivitySessionDelegate, 
     }
 
     private func detectSetupMovement(accumulated: MKSensorData, new: MKSensorData, session: MKExerciseConnectivitySession, setupWindow: NSTimeInterval) -> [MKExerciseProbability] {
+        guard let realStart = session.realStart else { return [] }
         let now = NSDate()
-        let accumlatedInterval = now.timeIntervalSinceDate(session.realStart!)
+        let accumlatedInterval = now.timeIntervalSinceDate(realStart)
         if accumlatedInterval < setupWindow {
             return [MKExerciseProbability]()
         }

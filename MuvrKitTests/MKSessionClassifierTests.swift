@@ -45,9 +45,24 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
             return .Exercising(exerciseId: "")
         }
         
+        func sessionClassifierDidSetupExercise(session: MKExerciseSession, trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State? {
+            if case .SetupDetected(let ep) = trigger where !ep.isEmpty {
+                return MKExerciseSession.State.Exercising(exerciseId: ep.first!.0)
+            }
+            return nil
+        }
+        
+        func repsCountFeed(session: MKExerciseSession, reps: Int, start: NSDate, end: NSDate) {
+            
+        }
+        
     }
     
     let classificationHints: [MKClassificationHint]? = nil
+    
+    func exerciseModelForExerciseSetup() throws -> MKExerciseModel {
+        return try exerciseModelForExerciseType(MKExerciseType.ResistanceTargeted(muscleGroups: [.Arms]))
+    }
     
     func exerciseModelForExerciseType(exerciseType: MKExerciseType) throws -> MKExerciseModel {
         let modelPath = NSBundle(forClass: MKClassifierTests.self).pathForResource("model-3", ofType: "raw")!
@@ -99,7 +114,8 @@ class MKSessionClassifierTests : XCTestCase, MKExerciseModelSource, MKClassifica
         }
         let movement   = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: samples)
         let noMovement = try! MKSensorData(types: [.Accelerometer(location: .LeftWrist)], start: 0, samplesPerSecond: 50, samples: [Float](count: 1200, repeatedValue: 0.3))
-        let session = MKExerciseConnectivitySession(id: "1234", start: NSDate(), end: nil, last: false, exerciseType: .ResistanceWholeBody)
+        var session = MKExerciseConnectivitySession(id: "1234", start: NSDate(), end: nil, last: false, exerciseType: .ResistanceWholeBody)
+        session.realStart = NSDate()
         
         let delegate = Delegate(startExpectation: nil, endExpectation: nil, startExerciseExpectation: see, endExerciseExpectation: eee)
         let splitter = MKSensorDataSplitter(exerciseModelSource: self, hintSource: self)
