@@ -95,7 +95,7 @@ public final class MKAppleWatchConnectivity : NSObject, WCSessionDelegate, MKDev
         let fileUrl = try! URL(fileURLWithPath: documentsUrl).appendingPathComponent("sensordata-\(timestamp).raw")
         
         do {
-            try FileManager.default().moveItem(at: file.fileURL, to: fileUrl)
+            try FileManager.default.moveItem(at: file.fileURL, to: fileUrl)
             let data = try! Data(contentsOf: fileUrl)
             let new = try MKSensorData(decoding: data)
             if connectivitySession.sensorData != nil {

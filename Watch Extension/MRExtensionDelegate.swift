@@ -84,13 +84,13 @@ class MRExtensionDelegate : NSObject, WKExtensionDelegate, MKExerciseSessionConn
     func sessionStarted(_ session: (MKExerciseSession, MKExerciseSessionProperties)) {
         let (s, p) = session
         workoutDelegate.startSession(start: p.start, exerciseType: s.exerciseType)
-        NotificationCenter.default().post(name: MRNotifications.currentSessionDidStart, object: s.id)
+        NotificationCenter.default.post(name: MRNotifications.currentSessionDidStart, object: s.id)
     }
     
     func sessionEnded(_ session: (MKExerciseSession, MKExerciseSessionProperties)) {
         let (s, p) = session
         workoutDelegate.stopSession(end: p.end ?? Date())
-        NotificationCenter.default().post(name: MRNotifications.currentSessionDidEnd, object: s.id)
+        NotificationCenter.default.post(name: MRNotifications.currentSessionDidEnd, object: s.id)
     }
     
 }

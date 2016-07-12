@@ -40,7 +40,7 @@ class MKUnsafeBufferReader {
         
         #endif
         
-        let countBytes: Int = sizeof(A) * count
+        let countBytes: Int = sizeof(A.self) * count
         if offset + countBytes - 1 < totalLength {
             let ptr = UnsafePointer<A>(bytes.advanced(by: offset))
             offset += countBytes

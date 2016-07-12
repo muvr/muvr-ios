@@ -123,7 +123,7 @@ struct MKConnectivitySessions {
     }
     
     private static func loadSessions() -> [MKExerciseSession: MKExerciseSessionProperties] {
-        if let fileContent = FileManager.default().contents(atPath: MKConnectivitySessions.fileUrl) {
+        if let fileContent = FileManager.default.contents(atPath: MKConnectivitySessions.fileUrl) {
             let loadedSessions = deserializeSessions(fileContent)
             NSLog("Found \(loadedSessions.count) sessions to load on app start")
             return loadedSessions
@@ -341,7 +341,7 @@ public final class MKConnectivity : NSObject, WCSessionDelegate {
             }
 
             do {
-                try FileManager.default().removeItem(at: fileUrl)
+                try FileManager.default.removeItem(at: fileUrl)
             } catch {
                 // Possible failure expected
             }

@@ -47,7 +47,7 @@ extension MKExerciseModel {
         
         // load the weights
         let weightsData = try! Data(contentsOf: URL(fileURLWithPath: weightsPath))
-        let weightsCount = weightsData.count / sizeof(Float)
+        let weightsCount = weightsData.count / sizeof(Float.self)
         var weights = [Float](repeating: 0, count: weightsCount)
         (weightsData as NSData).getBytes(&weights, length: weightsData.count)
         
@@ -65,7 +65,7 @@ extension MKExerciseModel {
     
     internal static func loadWeightsFromFile(_ path: String) -> [Float] {
         let data = try! Data(contentsOf: URL(fileURLWithPath: path))
-        let count = data.count / sizeof(Float)
+        let count = data.count / sizeof(Float.self)
         // create array of appropriate length:
         var weights = [Float](repeating: 0, count: count)
         // copy bytes into array

@@ -105,7 +105,7 @@ public final class MKSensorDataEncoder {
         
         func appendSample(_ sample: [Float]) {
             sampleCount += UInt32(sample.count / dimension)
-            let d = NSData(bytes: sample, length: sizeof(Float) * sample.count)
+            let d = NSData(bytes: sample, length: sizeof(Float.self) * sample.count)
             target.writeData(d as Data, offset: nil)
         }
         
@@ -176,13 +176,13 @@ public final class MKSensorDataEncoder {
             }
         }
         
-        headerData.append(&header,  length: sizeof(UInt8))           // 1
-        headerData.append(&version, length: sizeof(UInt8))           // 2
-        headerData.append(&typesCount, length: sizeof(UInt8))        // 3
-        headerData.append(&samplesPerSecond, length: sizeof(UInt8))  // 4
-        headerData.append(&start, length: sizeof(Double))            // 12
-        headerData.append(&sampleCount, length: sizeof(UInt32))      // 16
-        headerData.append(&types, length: types.count)               // 16 + 4 * |types|
+        headerData.append(&header,  length: sizeof(UInt8.self))           // 1
+        headerData.append(&version, length: sizeof(UInt8.self))           // 2
+        headerData.append(&typesCount, length: sizeof(UInt8.self))        // 3
+        headerData.append(&samplesPerSecond, length: sizeof(UInt8.self))  // 4
+        headerData.append(&start, length: sizeof(Double.self))            // 12
+        headerData.append(&sampleCount, length: sizeof(UInt32.self))      // 16
+        headerData.append(&types, length: types.count)                    // 16 + 4 * |types|
 
         target.writeData(headerData as Data, offset: 0)
         target.close()
