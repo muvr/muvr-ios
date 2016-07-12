@@ -15,7 +15,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     var currentRepsCount: Int = 0
     var repsCounterAccumulator: Int = 0
     
-    let defaults = UserDefaults.standard()
+    let defaults = UserDefaults.standard
 
     /// Wait before acepting new detected exercises to avoid too quick view switch
     private var lastUpdatedTime = Date()
@@ -189,7 +189,7 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
         setTitleImage(named: "muvr_logo_white")
         navigationItem.setHidesBackButton(true, animated: false)
         
-        UIView.whenContained(inInstancesOfClasses: [MRSessionViewController.self]).tintColor = MRColor.black
+        UIView.appearance(whenContainedInInstancesOf: [MRSessionViewController.self]).tintColor = MRColor.black
         
         comingUpViewController = storyboard!.instantiateViewController(withIdentifier: "ComingUpViewController") as! MRSessionComingUpViewController
         readyViewController = storyboard!.instantiateViewController(withIdentifier: "ReadyViewController")
@@ -200,13 +200,13 @@ class MRSessionViewController : UIViewController, MRCircleViewDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        NotificationCenter.default().addObserver(self, selector: #selector(MRSessionViewController.sessionDidStartExercise), name: MRNotifications.SessionDidStartExercise.rawValue, object: nil)
-        NotificationCenter.default().addObserver(self, selector: #selector(MRSessionViewController.sessionDidEndExercise), name: MRNotifications.SessionDidEndExercise.rawValue, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MRSessionViewController.sessionDidStartExercise), name: MRNotifications.SessionDidStartExercise, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MRSessionViewController.sessionDidEndExercise), name: MRNotifications.SessionDidEndExercise, object: nil)
         refreshViewsForState(state)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     ///

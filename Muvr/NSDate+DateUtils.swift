@@ -6,29 +6,29 @@ extension Date {
     /// Computes date only components from an instance that (may) also contains time
     ///
     var dateOnly: Date {
-        let components = Calendar.current().components([Calendar.Unit.year, Calendar.Unit.month, Calendar.Unit.day], from: self)
-        return Calendar.current().date(from: components)!
+        let components = Calendar.current.components([Calendar.Unit.year, Calendar.Unit.month, Calendar.Unit.day], from: self)
+        return Calendar.current.date(from: components)!
     }
     
     ///
     /// Adds the specified number of days to this NSDate
     ///
     func addDays(_ days: Int) -> Date {
-        return Calendar.current().date(byAdding: Calendar.Unit.day, value: days, to: self, options: Calendar.Options.matchFirst)!
+        return Calendar.current.date(byAdding: Calendar.Unit.day, value: days, to: self, options: Calendar.Options.matchFirst)!
     }
     
     ///
     /// Adds the specified number of hours to this NSDate
     ///
     func addHours(_ hours: Int) -> Date {
-        return Calendar.current().date(byAdding: Calendar.Unit.hour, value: hours, to: self, options: Calendar.Options.matchFirst)!
+        return Calendar.current.date(byAdding: Calendar.Unit.hour, value: hours, to: self, options: Calendar.Options.matchFirst)!
     }
     
     ///
     /// Adds the specified number of seconds to this NSDate
     ///
     func addSeconds(_ seconds: Int) -> Date {
-        return Calendar.current().date(byAdding: Calendar.Unit.second, value: seconds, to: self, options: Calendar.Options.matchFirst)!
+        return Calendar.current.date(byAdding: Calendar.Unit.second, value: seconds, to: self, options: Calendar.Options.matchFirst)!
     }
     
     ///

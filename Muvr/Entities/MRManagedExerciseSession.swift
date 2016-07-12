@@ -30,7 +30,7 @@ class MRManagedExerciseSession: NSManagedObject {
     
     func sessionClassifierDidSetupExercise(_ trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State {
         if MRAppDelegate.sharedDelegate().deviceSteadyAndLevel {
-            NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.SessionDidStartExercise.rawValue), object: objectID)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: MRNotifications.SessionDidStartExercise.rawValue), object: objectID)
             return .setupExercise(exerciseId: "")
         }
         return .notExercising
@@ -44,7 +44,7 @@ class MRManagedExerciseSession: NSManagedObject {
     ///
     func sessionClassifierDidStartExercise(_ trigger: MKSessionClassifierDelegateStartTrigger) -> MKExerciseSession.State {
         if MRAppDelegate.sharedDelegate().deviceSteadyAndLevel {
-            NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.SessionDidStartExercise.rawValue), object: objectID)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: MRNotifications.SessionDidStartExercise.rawValue), object: objectID)
             return .exercising(exerciseId: "")
         }
         return .notExercising
@@ -57,7 +57,7 @@ class MRManagedExerciseSession: NSManagedObject {
     /// - returns: the new session state
     ///
     func sessionClassifierDidEndExercise(_ trigger: MKSessionClassifierDelegateEndTrigger) -> MKExerciseSession.State {
-        NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.SessionDidEndExercise.rawValue), object: objectID)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: MRNotifications.SessionDidEndExercise.rawValue), object: objectID)
         return .notExercising
     }
 

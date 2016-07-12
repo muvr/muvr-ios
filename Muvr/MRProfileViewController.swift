@@ -62,7 +62,7 @@ class MRProfileViewController : UIViewController, UITableViewDataSource, JTCalen
         let today = Date()
         
         // today as the day of week, where 1 is the first day of week (e.g. Monday in UK, Sunday in US, etc.)
-        let weekDay = Calendar.current().components(.weekday, from: today).weekday!
+        let weekDay = Calendar.current.components(.weekday, from: today).weekday!
         // the end of the week where ``today`` falls into
         let dateAtEndOfWeek = today.addDays(8 - weekDay)
         
@@ -95,8 +95,8 @@ class MRProfileViewController : UIViewController, UITableViewDataSource, JTCalen
         } else {
             let session = sessionsOnDate[(indexPath as NSIndexPath).row]
             let format = DateFormatter()
-            format.dateStyle = .noStyle
-            format.timeStyle = .shortStyle
+            format.dateStyle = .none
+            format.timeStyle = .short
             cell.textLabel?.text = "\(format.string(from: session.start as Date)) \(session.name)"
         }
         return cell

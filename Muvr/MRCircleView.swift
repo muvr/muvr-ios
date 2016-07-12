@@ -32,7 +32,7 @@ import MuvrKit
 /// to done exercising.
 ///
 @IBDesignable
-class MRCircleView : UIView {
+class MRCircleView : UIView, CAAnimationDelegate {
     
     var view: UIView!
     var delegate: MRCircleViewDelegate?
@@ -121,7 +121,7 @@ class MRCircleView : UIView {
         createProgressCircle()
     }
     
-    override func animationDidStart(_ anim: CAAnimation) {
+    func animationDidStart(_ anim: CAAnimation) {
         if isCircleAnimation(anim) {
             circleLayer.strokeColor = progressFullColor.cgColor
             isAnimating = true
@@ -135,7 +135,7 @@ class MRCircleView : UIView {
         }
     }
     
-    override func animationDidStop(_ anim: CAAnimation, finished: Bool) {
+    func animationDidStop(_ anim: CAAnimation, finished: Bool) {
         isAnimating = false
         if finished {
             if fireCircleDidComplete { delegate?.circleViewCircleDidComplete?(self) }

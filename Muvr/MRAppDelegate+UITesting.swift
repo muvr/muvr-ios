@@ -15,7 +15,7 @@ extension MRAppDelegate  {
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         if Process.argc > 0 && Process.arguments.contains("--reset-container") {
             NSLog("Reset container.")
-            let fileManager = FileManager.default()
+            let fileManager = FileManager.default
             [FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDirectory.applicationSupportDirectory].forEach { directory  in
                 if let docs = NSSearchPathForDirectoriesInDomains(directory, FileManager.SearchPathDomainMask.userDomainMask, true).first {
                     (try? fileManager.contentsOfDirectory(atPath: docs))?.forEach { file in

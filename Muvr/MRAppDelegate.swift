@@ -15,19 +15,20 @@ enum ConnectedWatch {
 /// The notifications: when creating a new notification, be sure to add it only here
 /// and never use notification key constants anywhere else.
 ///
-enum MRNotifications : String {
-    case SessionDidEnd = "MRNotificationsCurrentSessionDidEnd"
-    case SessionDidStart = "MRNotificationsCurrentSessionDidStart"
-    case SessionDidStartExercise = "MRNotificationSessionDidStartExercise"
-    case SessionDidEndExercise = "MRNotificationSessionDidEndExercise"
+struct MRNotifications {
     
-    case LocationDidObtain = "MRNotificationLocationDidObtain"
+    static let SessionDidEnd = "MRNotificationsCurrentSessionDidEnd" as NSNotification.Name
+    static let SessionDidStart = "MRNotificationsCurrentSessionDidStart" as NSNotification.Name
+    static let SessionDidStartExercise = "MRNotificationSessionDidStartExercise" as NSNotification.Name
+    static let SessionDidEndExercise = "MRNotificationSessionDidEndExercise" as NSNotification.Name
     
-    case DownloadingModels = "MRNotificationDownloadingModels"
-    case ModelsDownloaded = "MRNotificationModelsDownloaded"
+    static let LocationDidObtain = "MRNotificationLocationDidObtain" as NSNotification.Name
     
-    case UploadingSessions = "MRNotificationUploadingSessions"
-    case SessionsUploaded = "MRNotificationSessionsUploaded"
+    static let DownloadingModels = "MRNotificationDownloadingModels" as NSNotification.Name
+    static let ModelsDownloaded = "MRNotificationModelsDownloaded" as NSNotification.Name
+    
+    static let UploadingSessions = "MRNotificationUploadingSessions" as NSNotification.Name
+    static let SessionsUploaded = "MRNotificationSessionsUploaded" as NSNotification.Name
 }
 
 ///
@@ -231,7 +232,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         }
 
         // Load base configuration
-        let baseConfigurationPath = Bundle.main().pathForResource("BaseConfiguration", ofType: "bundle")!
+        let baseConfigurationPath = Bundle.main.pathForResource("BaseConfiguration", ofType: "bundle")!
         let baseConfiguration = Bundle(path: baseConfigurationPath)!
         let data = try! Data(contentsOf: URL(fileURLWithPath: baseConfiguration.pathForResource("exercises", ofType: "json")!))
         if let allExercises = try! JSONSerialization.jsonObject(with: data, options: []) as? [[String:AnyObject]] {
@@ -275,8 +276,8 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         UINavigationBar.appearance().tintColor = UIColor.white()
         UINavigationBar.appearance().backgroundColor = MRColor.darkBlue
         UIView.appearance().tintColor = MRColor.darkBlue
-        UIView.whenContained(inInstancesOfClasses: [UINavigationBar.self]).tintColor = .white()
-        UIView.whenContained(inInstancesOfClasses: [MRCircleView.self]).tintColor = MRColor.black
+        UIView.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .white()
+        UIView.appearance(whenContainedInInstancesOf: [MRCircleView.self]).tintColor = MRColor.black
         
         let pageControlAppearance = UIPageControl.appearance()
         pageControlAppearance.pageIndicatorTintColor = UIColor.lightGray()
@@ -367,7 +368,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse {
             locationManager.requestWhenInUseAuthorization()
         }
-        motionManager.startDeviceMotionUpdates(to: OperationQueue.main(), withHandler: deviceMotionUpdate)
+        motionManager.startDeviceMotionUpdates(to: OperationQueue.main, withHandler: deviceMotionUpdate)
         application.isIdleTimerDisabled = currentSession != nil
         locationManager.requestLocation()
     }
@@ -386,14 +387,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     // MARK: - Exercise model source
     
     func exerciseModelForExerciseType(_ exerciseType: MKExerciseType) throws -> MKExerciseModel {
-        let path = Bundle.main().pathForResource("Models", ofType: "bundle")!
+        let path = Bundle.main.pathForResource("Models", ofType: "bundle")!
         let modelsBundle = Bundle(path: path)!
         return try MKExerciseModel(fromBundle: modelsBundle, id: "default", labelExtractor: exerciseIdToLabel)
     }
     
     func exerciseModelForExerciseSetup() throws -> MKExerciseModel {
         if setupExerciseModel == nil {
-            let path = Bundle.main().pathForResource("Models", ofType: "bundle")!
+            let path = Bundle.main.pathForResource("Models", ofType: "bundle")!
             let modelsBundle = Bundle(path: path)!
             try setupExerciseModel = MKExerciseModel(fromBundle: modelsBundle, id: "setup", labelExtractor: exerciseIdToLabel)
         }
@@ -451,14 +452,14 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             return
         }
         let csvData: Data = sensorData!.encodeAsCsv(session.exerciseWithLabels)
-        let now = Date(timeIntervalSinceNow: Double(TimeZone.local().secondsFromGMT))
+        let now = Date(timeIntervalSinceNow: Double(TimeZone.local.secondsFromGMT))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd'T'HH-mm-ss'Z'"
         dateFormatter.timeZone = TimeZone(forSecondsFromGMT: 0)
         let filename = dateFormatter.string(from: now)
         let exportFilePath = NSTemporaryDirectory() + "\(filename).csv"
         let exportFileURL = URL(fileURLWithPath: exportFilePath)
-        FileManager.default().createFile(atPath: exportFilePath, contents: Data(), attributes: nil)
+        FileManager.default.createFile(atPath: exportFilePath, contents: Data(), attributes: nil)
 
         do {
             let fileHandle = try FileHandle(forWritingTo: exportFileURL)
@@ -585,7 +586,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         // keep application active while in-session
         UIApplication.shared().isIdleTimerDisabled = true
         
-        NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.SessionDidStart.rawValue), object: session.objectID)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: MRNotifications.SessionDidStart.rawValue), object: session.objectID)
     }
     
     
@@ -610,7 +611,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
         session.plan.save()
         MRManagedLabelsPredictor.upsertPredictor(location: currentLocation, sessionExerciseType: session.exerciseType, data: session.labelsPredictor.json, inManagedObjectContext: managedObjectContext)
         
-        NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.SessionDidEnd.rawValue), object: session.objectID)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: MRNotifications.SessionDidEnd.rawValue), object: session.objectID)
         
         // add workout to healthkit
         addSessionToHealthKit(session)
@@ -803,7 +804,7 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
             exerciseDetails = baseExerciseDetails
         }
         
-        NotificationCenter.default().post(name: Notification.Name(rawValue: MRNotifications.LocationDidObtain.rawValue), object: locationName)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: MRNotifications.LocationDidObtain.rawValue), object: locationName)
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -825,13 +826,13 @@ class MRAppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelega
     
     lazy var applicationDocumentsDirectory: URL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "io.muvr.CDemo" in the application's documents Application Support directory.
-        let urls = FileManager.default().urlsForDirectory(.documentDirectory, inDomains: .userDomainMask)
+        let urls = FileManager.default.urlsForDirectory(.documentDirectory, inDomains: .userDomainMask)
         return urls.first!
     }()
     
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-        let modelURL = Bundle.main().urlForResource("Muvr", withExtension: "momd")!
+        let modelURL = Bundle.main.urlForResource("Muvr", withExtension: "momd")!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
