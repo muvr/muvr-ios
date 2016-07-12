@@ -129,7 +129,7 @@ class MRSessionsRealDataTests : XCTestCase {
         let bundle = Bundle(path: bundlePath)!
         return bundle.pathsForResources(ofType: nil, inDirectory: nil).filter {
             var isDirectory: ObjCBool = false
-            FileManager.default().fileExists(atPath: $0, isDirectory: &isDirectory)
+            FileManager.default.fileExists(atPath: $0, isDirectory: &isDirectory)
             return isDirectory.boolValue
         }.map {
             NSString(string: $0).lastPathComponent

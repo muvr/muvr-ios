@@ -6,7 +6,7 @@ import XCTest
 class MRCoreDataTestCase: XCTestCase {
     
     lazy var managedObjectModel: NSManagedObjectModel = {
-        let modelURL = Bundle.main().urlForResource("Muvr", withExtension: "momd")!
+        let modelURL = Bundle.main.urlForResource("Muvr", withExtension: "momd")!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
